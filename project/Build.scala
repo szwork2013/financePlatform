@@ -7,7 +7,7 @@ object FinancePlatformBuild extends Build {
     .dependsOn(common)
     .dependsOn(trade)
     .dependsOn(core)
-    .aggregate(common, trade, core)
+    .aggregate(common, trade, core, customer, account)
     .settings(scalaVersion := "2.10.0")
     .enablePlugins(PlayJava)
 
@@ -20,6 +20,14 @@ object FinancePlatformBuild extends Build {
     .dependsOn(common).enablePlugins(PlayJava)
 
   lazy val core = Project(id="core", base= file("core"))
+    .settings(scalaVersion := "2.10.0")
+    .dependsOn(common).enablePlugins(PlayJava)
+
+  lazy val customer = Project(id="customer", base= file("customer"))
+    .settings(scalaVersion := "2.10.0")
+    .dependsOn(common).enablePlugins(PlayJava)
+
+  lazy val account = Project(id="account", base= file("account"))
     .settings(scalaVersion := "2.10.0")
     .dependsOn(common).enablePlugins(PlayJava)
 }

@@ -13,3 +13,6 @@
 5. 安装好git
 6. git clone git@EARTH:sunlights/financeplatform.git
 7. 导入项目到intellij IDEA.
+
+#模块的依赖关系
+====================================
