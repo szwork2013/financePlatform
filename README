@@ -1,4 +1,12 @@
-This is your new Play application
-=================================
-
-This file will be packaged with your application, when using `activator dist`.
+# 如何配置开发环境
+===========================================
+1. 安装好JDK1.6以上的版本，设置好JAVA_HOME环境变量
+2. 下载activator-1.2.10， 解压，然后把路径添加到path环境变量，如D:\activator-1.2.10
+1. 安装好intellij IDEA , 安装好play2 和 scala 插件
+2. 到用户目录下，例如：C:\Users\Administrator\.sbt， 下面去创建文件repositories，把下面的内容放到文件里
+  [repositories]
+    local
+    sunlights nexus:http://saturn:8081/nexus/content/groups/public/
+    typesafe-ivy-releases: http://repo.typesafe.com/typesafe/releases/, [organization]/[module]/[revision]/[type]s/[artifact](-[classifier]).[ext]
+    maven-central
+    sonatype-snapshots: https://oss.sonatype.org/content/repositories/snapshots
