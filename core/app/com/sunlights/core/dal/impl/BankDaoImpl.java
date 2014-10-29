@@ -1,6 +1,7 @@
-package com.sunlights.core.dal;
+package com.sunlights.core.dal.impl;
 
 import com.sunlights.common.db.EntityBaseDao;
+import com.sunlights.core.dal.BankDao;
 import com.sunlights.core.models.Bank;
 import org.springframework.stereotype.Repository;
 

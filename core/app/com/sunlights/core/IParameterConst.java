@@ -1,4 +1,4 @@
-package com.sunlights.core.models.enums;
+package com.sunlights.core;
 
 /**
  * Created by Administrator on 2014/9/15.

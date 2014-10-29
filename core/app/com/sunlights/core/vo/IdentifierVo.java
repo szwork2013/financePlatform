@@ -1,4 +1,4 @@
-package com.sunlights.core.models.vo;
+package com.sunlights.core.vo;
 
 /**
  * Created by Administrator on 2014/9/19.

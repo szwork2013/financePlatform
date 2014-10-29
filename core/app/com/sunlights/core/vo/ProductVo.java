@@ -1,4 +1,4 @@
-package com.sunlights.core.models.vo;
+package com.sunlights.core.vo;
 
 /**
  * <p>Project: fsp</p>
