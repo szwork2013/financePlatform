@@ -1,6 +1,6 @@
 package com.sunlights.core.models;
 
-import com.sunlights.common.models.IdEntity;
+import com.sunlights.common.dal.IdEntity;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -18,7 +18,7 @@ import java.sql.Timestamp;
  */
 @Entity
 @Table(name = "c_bank")
-public class Bank extends IdEntity {
+public class Bank extends IdEntity{
     @Column(length = 40,name = "bank_code")
     private String bankCode;
     @Column(length = 50,name = "bank_name")

@@ -17,7 +17,6 @@ public class SmsSendActor extends UntypedActor {
     public void onReceive(Object message) throws Exception {
         if (message instanceof SmsMessage) {
             SmsMessage sm = (SmsMessage) message;
-            // TODO: send message.
 //            SmsMessageClient.sendSms(sm);
         } else {
             unhandled(message);

@@ -1,13 +1,12 @@
 package com.sunlights.common.page;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.Query;
 
 import org.springframework.stereotype.Repository;
 
-import com.sunlights.common.db.EntityBaseDao;
+import com.sunlights.common.dal.EntityBaseDao;
 
 @Repository("pageDao")
 public class PageDaoImpl extends EntityBaseDao implements PageDao {

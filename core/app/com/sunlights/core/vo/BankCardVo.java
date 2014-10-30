@@ -1,8 +1,8 @@
 package com.sunlights.core.vo;
 
-
 import com.sunlights.core.models.Bank;
 import com.sunlights.core.models.BankCard;
+
 
 /**
  * Created by Yuan on 2014/9/15.

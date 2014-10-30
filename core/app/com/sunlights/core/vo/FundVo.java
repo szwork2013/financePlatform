@@ -1,9 +1,9 @@
 package com.sunlights.core.vo;
 
 
-import com.sunlights.common.util.ArithUtil;
 import com.sunlights.core.models.Fund;
 import com.sunlights.core.models.Product;
+import com.sunlights.common.utils.ArithUtil;
 
 /**
  * Created by Yuan on 2014/9/1.

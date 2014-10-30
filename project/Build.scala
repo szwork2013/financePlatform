@@ -11,6 +11,7 @@ object FinancePlatformBuild extends Build {
   lazy val trade = Project(id="trade", base= file("trade"))
     .settings(scalaVersion := "2.10.0")
     .dependsOn(account)
+    .dependsOn(customer)
     .dependsOn(common).enablePlugins(PlayJava)
 
   lazy val core = Project(id="core", base= file("core"))
@@ -24,6 +25,7 @@ object FinancePlatformBuild extends Build {
 
   lazy val account = Project(id="account", base= file("account"))
     .settings(scalaVersion := "2.10.0")
+    .dependsOn(customer)
     .dependsOn(common).enablePlugins(PlayJava)
 
   lazy val financePlatform = Project(id = "financePlatform", base = file("."))

@@ -1,7 +1,7 @@
 package com.sunlights.core.vo;
 
-import com.sunlights.common.util.DateUtils;
 import com.sunlights.core.models.OpenAccountPact;
+import com.sunlights.common.utils.DateUtils;
 
 import java.util.Date;
 

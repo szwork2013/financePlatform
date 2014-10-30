@@ -1,6 +1,6 @@
 package com.sunlights.core.models;
 
-import com.sunlights.common.models.BaseEntity;
+import com.sunlights.common.dal.BaseEntity;
 
 import javax.persistence.*;
 import java.math.BigDecimal;

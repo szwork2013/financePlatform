@@ -1,6 +1,5 @@
 package com.sunlights.core.dal;
 
-
 import com.sunlights.core.models.Bank;
 
 /**
