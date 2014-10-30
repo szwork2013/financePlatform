@@ -24,14 +24,10 @@ public class DataConfig {
         vendorAdapter.setShowSql(true);
         vendorAdapter.setGenerateDdl(true);
         LocalContainerEntityManagerFactoryBean entityManagerFactory = new LocalContainerEntityManagerFactoryBean();
-        //List<String> modelPackages = new ArrayList<String>();
-        //modelPackages.add("models");
-        //modelPackages.add("com.sunlights.bsp.models");
-        entityManagerFactory.setPackagesToScan("models","com.sunlights.bsp.models","com.sunlights.cap.models");
+        entityManagerFactory.setPackagesToScan("models","com.sunlights.core.models","com.sunlights.account.models");
         entityManagerFactory.setJpaVendorAdapter(vendorAdapter);
         entityManagerFactory.setDataSource(dataSource());
         entityManagerFactory.setJpaPropertyMap(new HashMap<String, String>() {{
-//            put("hibernate.hbm2ddl.auto", "create-drop");
             put("hibernate.dialect", "org.hibernate.dialect.PostgreSQLDialect");
         }});
         entityManagerFactory.afterPropertiesSet();
