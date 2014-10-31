@@ -3,6 +3,7 @@ package com.sunlights.common.utils;
 import com.sunlights.common.MsgCode;
 import com.sunlights.common.exceptions.BusinessRuntimeException;
 import com.sunlights.common.utils.msg.Message;
+import org.apache.commons.lang.*;
 
 import java.text.MessageFormat;
 
@@ -31,8 +32,8 @@ public class CommonUtil {
      */
     public void validateParams(String... params){
         for (String param : params) {
-            if (param == null || "".equals(param.trim())) {
-                throw errorBusinessException(MsgCode.ACCESS_FAIL, params);
+            if (org.apache.commons.lang.StringUtils.isEmpty(param)) {
+                throw errorBusinessException(MsgCode.ACCESS_FAIL, param);
             }
         }
     }
