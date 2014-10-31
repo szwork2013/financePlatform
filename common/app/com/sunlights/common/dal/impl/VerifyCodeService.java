@@ -1,11 +1,16 @@
-package com.sunlights.common;
+package com.sunlights.common.dal.impl;
 
+import com.sunlights.common.AppConst;
+import com.sunlights.common.IParameterConst;
+import com.sunlights.common.MsgCode;
 import com.sunlights.common.dal.CustomerVerifyCodeDao;
+import com.sunlights.common.dal.impl.ParameterService;
 import com.sunlights.common.utils.CommonUtil;
 import com.sunlights.common.utils.DateUtils;
 import com.sunlights.common.utils.msg.Message;
 import com.sunlights.common.utils.msg.MessageUtil;
-import com.sunlights.common.dal.CustomerVerifyCode;
+import com.sunlights.common.models.CustomerVerifyCode;
+import com.sunlights.common.vo.CustomerVerifyCodeVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import play.Logger;

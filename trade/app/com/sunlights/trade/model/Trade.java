@@ -1,6 +1,6 @@
 package com.sunlights.trade.model;
 
-import com.sunlights.common.dal.IdEntity;
+import com.sunlights.common.models.IdEntity;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;

@@ -1,5 +1,7 @@
-package com.sunlights.common.dal;
+package com.sunlights.common.models;
 
+
+import com.sunlights.common.models.IdEntity;
 
 import javax.persistence.*;
 import java.util.Date;

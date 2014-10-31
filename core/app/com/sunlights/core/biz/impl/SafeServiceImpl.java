@@ -3,7 +3,7 @@ package com.sunlights.core.biz.impl;
 import akka.actor.ActorRef;
 import com.sunlights.common.AppConst;
 import com.sunlights.core.actor.Actors;
-import com.sunlights.common.ParameterService;
+import com.sunlights.common.dal.impl.ParameterService;
 import com.sunlights.core.dal.SmsMessageDao;
 import com.sunlights.core.models.SmsMessage;
 import com.sunlights.common.IParameterConst;

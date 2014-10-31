@@ -24,7 +24,11 @@ public class DataConfig {
         vendorAdapter.setShowSql(true);
         vendorAdapter.setGenerateDdl(true);
         LocalContainerEntityManagerFactoryBean entityManagerFactory = new LocalContainerEntityManagerFactoryBean();
-        entityManagerFactory.setPackagesToScan("models","com.sunlights.core.models","com.sunlights.account.models");
+        entityManagerFactory.setPackagesToScan("models","com.sunlights.core.models",
+                "com.sunlights.account.models",
+                "com.sunlights.common.models",
+                "com.sunlights.trade.models",
+                "com.sunlights.customer.models");
         entityManagerFactory.setJpaVendorAdapter(vendorAdapter);
         entityManagerFactory.setDataSource(dataSource());
         entityManagerFactory.setJpaPropertyMap(new HashMap<String, String>() {{

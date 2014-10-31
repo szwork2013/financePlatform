@@ -7,7 +7,7 @@ import javax.persistence.Entity;
 import javax.persistence.Table;
 
 import com.sunlights.common.AppConst;
-import com.sunlights.common.dal.IdEntity;
+import com.sunlights.common.models.IdEntity;
 
 /**
  * Created by Administrator on 2014/9/10.

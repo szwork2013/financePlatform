@@ -4,7 +4,6 @@ import com.sunlights.common.MsgCode;
 import com.sunlights.core.biz.BankCardService;
 import com.sunlights.core.biz.BankService;
 import com.sunlights.core.dal.BankCardDao;
-import com.sunlights.core.integration.CommonClient;
 import com.sunlights.core.models.Bank;
 import com.sunlights.core.models.BankCard;
 import com.sunlights.core.vo.BankCardVo;
@@ -13,6 +12,8 @@ import com.sunlights.common.page.Pager;
 import com.sunlights.common.utils.StringUtils;
 import com.sunlights.common.utils.msg.Message;
 import com.sunlights.common.utils.msg.MessageUtil;
+import com.sunlights.customer.biz.impl.CustomerService;
+import com.sunlights.customer.models.Customer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -35,7 +36,7 @@ public class BankCardServiceImpl implements BankCardService {
     @Autowired
     private BankCardDao bankCardDao;
     @Autowired
-    private CommonClient commonClient;
+    private CustomerService customerService;
     @Autowired
     private PageService pageService;
     @Autowired
@@ -47,7 +48,8 @@ public class BankCardServiceImpl implements BankCardService {
             MessageUtil.getInstance().addMessage(new Message(Message.SEVERITY_ERROR, MsgCode.LOGIN_TIMEOUT));
             return null;
         }
-        String customerId = commonClient.findCustomerIdByToken(token);
+        Customer customer = customerService.getCustomerByToken(token);
+        String customerId = customer.getCustomerId();
         if (StringUtils.isBlankOrNull(customerId)) {
             MessageUtil.getInstance().addMessage(new Message(Message.SEVERITY_ERROR, MsgCode.LOGIN_TIMEOUT));
             return null;
@@ -78,7 +80,7 @@ public class BankCardServiceImpl implements BankCardService {
             MessageUtil.getInstance().addMessage(new Message(Message.SEVERITY_ERROR, MsgCode.LOGIN_TIMEOUT));
             return null;
         }
-        String customerId = commonClient.findCustomerIdByToken(token);
+        String customerId = customerService.getCustomerByToken(token).getCustomerId();
         if (StringUtils.isBlankOrNull(customerId)) {
             MessageUtil.getInstance().addMessage(new Message(Message.SEVERITY_ERROR, MsgCode.LOGIN_TIMEOUT));
             return null;
@@ -114,7 +116,7 @@ public class BankCardServiceImpl implements BankCardService {
             MessageUtil.getInstance().addMessage(new Message(Message.SEVERITY_ERROR,  MsgCode.LOGIN_TIMEOUT));
             return false;
         }
-        String customerId = commonClient.findCustomerIdByToken(token);
+        String customerId = customerService.getCustomerByToken(token).getCustomerId();
         if (StringUtils.isBlankOrNull(customerId)) {
             MessageUtil.getInstance().addMessage(new Message(Message.SEVERITY_ERROR, MsgCode.LOGIN_TIMEOUT));
             return false;

@@ -1,6 +1,6 @@
 package com.sunlights.core.web;
 
-import com.sunlights.common.VerifyCodeService;
+import com.sunlights.common.dal.impl.VerifyCodeService;
 import com.sunlights.customer.vo.CustomerFormVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;

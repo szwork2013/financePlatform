@@ -1,7 +1,6 @@
-package com.sunlights.common.dal;
+package com.sunlights.common.models;
 
 import com.sunlights.common.AppConst;
-import com.sunlights.common.dal.IdEntity;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;

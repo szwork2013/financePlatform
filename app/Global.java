@@ -2,7 +2,7 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.sunlights.common.exceptions.BusinessRuntimeException;
 import configs.AppConfig;
 import configs.DataConfig;
-import com.sunlights.common.ParameterService;
+import com.sunlights.common.dal.impl.ParameterService;
 import com.sunlights.common.utils.msg.Message;
 import com.sunlights.common.utils.msg.MessageUtil;
 import org.springframework.context.ApplicationContext;
@@ -27,9 +27,6 @@ public class Global extends GlobalSettings {
     @Override
     public void onStart(Application app) {
         ctx = new AnnotationConfigApplicationContext(AppConfig.class, DataConfig.class);
-        // persistence.xml
-//        ctx = new AnnotationConfigApplicationContext(AppConfig.class, SpringDataJpaConfiguration.class);
-
         ParameterService service = (ParameterService) ctx.getBean(ParameterService.class);
         service.loadAllParameter();
     }

@@ -1,6 +1,6 @@
 package com.sunlights.common.dal;
 
-import com.sunlights.common.Parameter;
+import com.sunlights.common.models.Parameter;
 
 import java.util.List;
 

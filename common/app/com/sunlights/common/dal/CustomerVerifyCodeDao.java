@@ -1,5 +1,7 @@
 package com.sunlights.common.dal;
 
+import com.sunlights.common.models.CustomerVerifyCode;
+
 /**
  * <p>Project: fsp</p>
  * <p>Title: CustomerVerifyCodeDao.java</p>

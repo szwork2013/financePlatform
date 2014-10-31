@@ -1,7 +1,7 @@
 package com.sunlights.account.biz;
 
 import com.sunlights.account.models.BaseAccount;
-import com.sunlights.common.CustomerVerifyCodeVo;
+import com.sunlights.common.vo.CustomerVerifyCodeVo;
 import com.sunlights.customer.vo.CustomerFormVo;
 
 import java.math.BigDecimal;

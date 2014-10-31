@@ -4,7 +4,6 @@ import com.sunlights.common.MsgCode;
 import com.sunlights.core.biz.BankService;
 import com.sunlights.core.dal.BankDao;
 import com.sunlights.core.integration.BankClient;
-import com.sunlights.core.integration.CommonClient;
 import com.sunlights.core.models.Bank;
 import com.sunlights.core.vo.BankCardVo;
 import com.sunlights.core.vo.BankVo;
@@ -13,6 +12,7 @@ import com.sunlights.common.page.Pager;
 import com.sunlights.common.utils.StringUtils;
 import com.sunlights.common.utils.msg.Message;
 import com.sunlights.common.utils.msg.MessageUtil;
+import com.sunlights.customer.biz.impl.CustomerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -39,7 +39,7 @@ public class BankServiceImpl implements BankService {
     private BankClient bankClient;
 
     @Autowired
-    private CommonClient commonClient;
+    private CustomerService customerService;
 
     @Override
     public List<BankVo> findBanksBy(Pager pager) {
@@ -71,7 +71,7 @@ public class BankServiceImpl implements BankService {
             MessageUtil.getInstance().addMessage(new Message(Message.SEVERITY_ERROR, MsgCode.LOGIN_TIMEOUT));
             return false;
         }
-        String idCardNo = commonClient.findIdCardNoByToken(token);
+        String idCardNo = customerService.getCustomerByToken(token).getIdentityNumber();
         if (StringUtils.isBlankOrNull(idCardNo)) {
             MessageUtil.getInstance().addMessage(new Message(Message.SEVERITY_ERROR, MsgCode.BANK_NAME_CERTIFY_FAIL));
             return false;

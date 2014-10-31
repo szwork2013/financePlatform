@@ -1,8 +1,8 @@
 package com.sunlights.core.web;
 
 import com.sunlights.common.MsgCode;
-import com.sunlights.common.ParameterService;
-import com.sunlights.common.Parameter;
+import com.sunlights.common.dal.impl.ParameterService;
+import com.sunlights.common.models.Parameter;
 import com.sunlights.common.utils.msg.Message;
 import com.sunlights.common.utils.msg.MessageUtil;
 import org.springframework.beans.factory.annotation.Autowired;

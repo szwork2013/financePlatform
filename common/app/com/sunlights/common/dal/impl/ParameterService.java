@@ -1,6 +1,8 @@
-package com.sunlights.common;
+package com.sunlights.common.dal.impl;
 
+import com.sunlights.common.MsgCode;
 import com.sunlights.common.exceptions.BusinessRuntimeException;
+import com.sunlights.common.models.Parameter;
 import com.sunlights.common.utils.CommonUtil;
 import com.sunlights.common.dal.ParameterDao;
 import com.sunlights.common.utils.DateUtils;

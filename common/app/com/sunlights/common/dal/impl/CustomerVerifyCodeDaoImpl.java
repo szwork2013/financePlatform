@@ -1,5 +1,8 @@
-package com.sunlights.common.dal;
+package com.sunlights.common.dal.impl;
 
+import com.sunlights.common.dal.CustomerVerifyCodeDao;
+import com.sunlights.common.dal.EntityBaseDao;
+import com.sunlights.common.models.CustomerVerifyCode;
 import org.springframework.stereotype.Service;
 
 import javax.persistence.Query;
@@ -15,7 +18,7 @@ import java.util.List;
  * @author <a href="mailto:jiaming.wang@sunlights.cc">wangJiaMing</a>
  */
 @Service
-public class CustomerVerifyCodeDaoImpl extends EntityBaseDao implements CustomerVerifyCodeDao{
+public class CustomerVerifyCodeDaoImpl extends EntityBaseDao implements CustomerVerifyCodeDao {
 
     //CustomerVerifyCode
     @Override

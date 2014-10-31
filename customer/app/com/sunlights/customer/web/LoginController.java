@@ -2,7 +2,7 @@ package com.sunlights.customer.web;
 
 import com.sunlights.common.AppConst;
 import com.sunlights.common.MsgCode;
-import com.sunlights.common.VerifyCodeService;
+import com.sunlights.common.dal.impl.VerifyCodeService;
 import com.sunlights.customer.biz.LoginService;
 import com.sunlights.customer.biz.impl.CustomerService;
 import com.sunlights.customer.vo.CustomerFormVo;

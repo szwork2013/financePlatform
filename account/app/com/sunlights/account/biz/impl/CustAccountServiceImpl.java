@@ -5,7 +5,7 @@ import com.sunlights.account.biz.AccountService;
 import com.sunlights.account.dal.BaseAccountDao;
 import com.sunlights.account.models.BaseAccount;
 import com.sunlights.common.AppConst;
-import com.sunlights.common.CustomerVerifyCodeVo;
+import com.sunlights.common.vo.CustomerVerifyCodeVo;
 import com.sunlights.common.MsgCode;
 import com.sunlights.common.utils.CommonUtil;
 import com.sunlights.common.utils.DateUtils;

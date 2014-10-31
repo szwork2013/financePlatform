@@ -1,4 +1,4 @@
-package com.sunlights.common.dal;
+package com.sunlights.common.models;
 
 import javax.persistence.*;
 
