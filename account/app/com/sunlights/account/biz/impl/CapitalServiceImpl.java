@@ -6,8 +6,8 @@ import java.util.List;
 
 import com.sunlights.account.biz.CapitalService;
 import com.sunlights.account.dal.CapitalDao;
-import com.sunlights.account.facade.model.Capital4Product;
-import com.sunlights.account.facade.model.TotalCapitalInfo;
+import com.sunlights.account.vo.Capital4Product;
+import com.sunlights.account.vo.TotalCapitalInfo;
 import com.sunlights.account.models.HoldCapital;
 import com.sunlights.common.utils.ArithUtil;
 

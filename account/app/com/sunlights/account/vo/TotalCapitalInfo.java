@@ -1,4 +1,4 @@
-package com.sunlights.account.facade.model;
+package com.sunlights.account.vo;
 
 import java.io.Serializable;
 import java.util.List;

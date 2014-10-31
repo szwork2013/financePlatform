@@ -1,8 +1,8 @@
 package com.sunlights.account.web;
 
-import com.sunlights.account.facade.CapitalFacade;
-import com.sunlights.account.facade.model.Capital4Product;
-import com.sunlights.account.facade.model.TotalCapitalInfo;
+import com.sunlights.account.biz.CapitalService;
+import com.sunlights.account.vo.Capital4Product;
+import com.sunlights.account.vo.TotalCapitalInfo;
 import com.sunlights.common.MsgCode;
 import com.sunlights.common.utils.msg.Message;
 import com.sunlights.common.utils.msg.MessageUtil;
@@ -26,7 +26,7 @@ public class CapitalController {
     private static final play.Logger.ALogger LOG = Logger.of("customer");
 
 	@Autowired
-	private CapitalFacade capitalFacade;
+	private CapitalService capitalService;
     private final Message operateSuccessMsg = new Message(MsgCode.OPERATE_SUCCESS);
 
     /**
@@ -38,8 +38,8 @@ public class CapitalController {
 		String mobile = form.data().get("mobile");
 
         LOG.info("mobile = === " + mobile);
-		TotalCapitalInfo totalCapitalInfo = capitalFacade.getTotalCapital(mobile, false);
-		MessageUtil.getInstance().addMessage(operateSuccessMsg, totalCapitalInfo);
+        TotalCapitalInfo totalCapitalInfo = capitalService.getTotalCapital(mobile, false);
+        MessageUtil.getInstance().addMessage(operateSuccessMsg, totalCapitalInfo);
 		return play.mvc.Controller.ok(MessageUtil.getInstance().toJson());
 	}
 	
@@ -51,7 +51,7 @@ public class CapitalController {
 		Form<String> form = Form.form(String.class).bindFromRequest();
 		String mobile = form.data().get("mobile");
 
-        List<Capital4Product> capital4Products = capitalFacade.getAllCapital4Product(mobile);
+        List<Capital4Product> capital4Products = capitalService.getAllCapital4Product(mobile);
 		MessageUtil.getInstance().addMessage(operateSuccessMsg, capital4Products);
 		return play.mvc.Controller.ok(MessageUtil.getInstance().toJson());
 	}
@@ -65,7 +65,7 @@ public class CapitalController {
 		String mobile = form.data().get("mobile");
 		System.out.println("mobile = " + mobile);
 		
-		TotalCapitalInfo totalCapitalInfo = capitalFacade.getTotalCapital(mobile, true);
+		TotalCapitalInfo totalCapitalInfo = capitalService.getTotalCapital(mobile, true);
 		MessageUtil.getInstance().addMessage(operateSuccessMsg, totalCapitalInfo);
 		return play.mvc.Controller.ok(MessageUtil.getInstance().toJson());
 	}
