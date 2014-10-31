@@ -4,7 +4,7 @@ import com.sunlights.core.service.OpenAccountPactService;
 import com.sunlights.core.dal.OpenAccountPactDao;
 import com.sunlights.core.models.OpenAccountPact;
 import com.sunlights.core.vo.AgreementVo;
-import com.sunlights.common.utils.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -24,7 +24,7 @@ public class OpenAccountPactServiceImpl implements OpenAccountPactService {
 
     @Override
     public AgreementVo findAgreementVoByAgreementNo(String agreementNo) {
-        if (StringUtils.isBlankOrNull(agreementNo)) {
+        if (StringUtils.isEmpty(agreementNo)) {
             return null;
         }
         OpenAccountPact openAccountPact = openAccountPactDao.findOpenAccountPactByAgreementNo(agreementNo);

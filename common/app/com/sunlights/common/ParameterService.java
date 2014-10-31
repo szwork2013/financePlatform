@@ -1,11 +1,10 @@
 package com.sunlights.common;
 
-import com.sunlights.common.MsgCode;
 import com.sunlights.common.exceptions.BusinessRuntimeException;
 import com.sunlights.common.models.Parameter;
 import com.sunlights.common.utils.CommonUtil;
 import com.sunlights.common.dal.ParameterDao;
-import com.sunlights.common.utils.DateUtils;
+import com.sunlights.common.utils.DBHelper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -77,13 +76,14 @@ public class ParameterService {
             throw CommonUtil.getInstance().errorBusinessException(MsgCode.ACCESS_FAIL);
         }
 
-        Timestamp currentTime = DateUtils.getCurrentTime();
+        Timestamp currentTime = DBHelper.getCurrentTime();
         Parameter parameter = new Parameter();
         parameter.setName(name);
         parameter.setValue(value);
         parameter.setDescription(description);
         parameter.setCreatedDatetime(currentTime);
         parameter.setUpdatedDatetime(currentTime);
+
         parameterDao.addParameter(parameter);
 
         return parameter;

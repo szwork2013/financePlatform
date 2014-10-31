@@ -1,10 +1,10 @@
 package com.sunlights.core.integration;
 
 import com.sunlights.common.ParameterService;
+import com.sunlights.common.utils.DBHelper;
 import com.sunlights.core.dal.SmsMessageDao;
 import com.sunlights.core.models.SmsMessage;
 import com.sunlights.common.IParameterConst;
-import com.sunlights.common.utils.DateUtils;
 import com.sunlights.common.utils.MD5Helper;
 
 import org.apache.commons.httpclient.HttpClient;
@@ -70,7 +70,7 @@ public class SmsMessageClient {
         }
 
         smsMessage.setReturnMsg(result);
-        smsMessage.setUpdatedDatetime(DateUtils.getCurrentTime());
+        smsMessage.setUpdatedDatetime(DBHelper.getCurrentTime());
         smsMessageDao.updateSmsMessage(smsMessage);
 
         return result;

@@ -9,11 +9,11 @@ import com.sunlights.core.models.BankCard;
 import com.sunlights.core.vo.BankCardVo;
 import com.sunlights.common.page.PageService;
 import com.sunlights.common.page.Pager;
-import com.sunlights.common.utils.StringUtils;
 import com.sunlights.common.utils.msg.Message;
 import com.sunlights.common.utils.msg.MessageUtil;
 import com.sunlights.customer.service.impl.CustomerService;
 import com.sunlights.customer.models.Customer;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -44,13 +44,13 @@ public class BankCardServiceImpl implements BankCardService {
 
     @Override
     public List<BankCardVo> findBankCardsByToken(String token, Pager pager) {
-        if (StringUtils.isBlankOrNull(token)) {
+        if (StringUtils.isNotEmpty(token)) {
             MessageUtil.getInstance().addMessage(new Message(Message.SEVERITY_ERROR, MsgCode.LOGIN_TIMEOUT));
             return null;
         }
         Customer customer = customerService.getCustomerByToken(token);
         String customerId = customer.getCustomerId();
-        if (StringUtils.isBlankOrNull(customerId)) {
+        if (StringUtils.isNotEmpty(customerId)) {
             MessageUtil.getInstance().addMessage(new Message(Message.SEVERITY_ERROR, MsgCode.LOGIN_TIMEOUT));
             return null;
         }
@@ -76,18 +76,18 @@ public class BankCardServiceImpl implements BankCardService {
     @Transactional
     @Override
     public BankCard createBankCard(String token, BankCardVo bankCardVo) {
-        if (StringUtils.isBlankOrNull(token)) {
+        if (StringUtils.isNotEmpty(token)) {
             MessageUtil.getInstance().addMessage(new Message(Message.SEVERITY_ERROR, MsgCode.LOGIN_TIMEOUT));
             return null;
         }
         String customerId = customerService.getCustomerByToken(token).getCustomerId();
-        if (StringUtils.isBlankOrNull(customerId)) {
+        if (StringUtils.isNotEmpty(customerId)) {
             MessageUtil.getInstance().addMessage(new Message(Message.SEVERITY_ERROR, MsgCode.LOGIN_TIMEOUT));
             return null;
         }
         BankCard bankCard = new BankCard();
         bankCard.setCustomerId(customerId);
-        if (StringUtils.isBlankOrNull(bankCardVo.getBankCode())) {
+        if (StringUtils.isNotEmpty(bankCardVo.getBankCode())) {
             MessageUtil.getInstance().addMessage(new Message(Message.SEVERITY_ERROR,  MsgCode.BIND_CARD_FAIL_EMPTY_BANK));
             return null;
         }
@@ -112,12 +112,12 @@ public class BankCardServiceImpl implements BankCardService {
     @Transactional
     @Override
     public boolean deleteBankCard(String token, BankCardVo bankCardVo) {
-        if (StringUtils.isBlankOrNull(token)) {
+        if (StringUtils.isNotEmpty(token)) {
             MessageUtil.getInstance().addMessage(new Message(Message.SEVERITY_ERROR,  MsgCode.LOGIN_TIMEOUT));
             return false;
         }
         String customerId = customerService.getCustomerByToken(token).getCustomerId();
-        if (StringUtils.isBlankOrNull(customerId)) {
+        if (StringUtils.isNotEmpty(customerId)) {
             MessageUtil.getInstance().addMessage(new Message(Message.SEVERITY_ERROR, MsgCode.LOGIN_TIMEOUT));
             return false;
         }

@@ -2,12 +2,12 @@ package com.sunlights.core.service.impl;
 
 import akka.actor.ActorRef;
 import com.sunlights.common.AppConst;
+import com.sunlights.common.utils.DBHelper;
 import com.sunlights.core.actor.Actors;
 import com.sunlights.common.ParameterService;
 import com.sunlights.core.dal.SmsMessageDao;
 import com.sunlights.core.models.SmsMessage;
 import com.sunlights.common.IParameterConst;
-import com.sunlights.common.utils.DateUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -57,7 +57,7 @@ public class SafeServiceImpl {
         String content = MessageFormat.format("您的{0}的验证码为： " +
                 "{1}（{2}分钟内有效）【艺岳投资】", typeStr, verifyCode, expriyTimes);
 
-        Timestamp currentTime = DateUtils.getCurrentTime();
+        Timestamp currentTime = DBHelper.getCurrentTime();
         SmsMessage smsMessage = new SmsMessage();
         smsMessage.setMobile(mobilePhoneNo);
         smsMessage.setSmsId(getSmsId());
@@ -70,6 +70,6 @@ public class SafeServiceImpl {
     }
     private static String getSmsId() {
         SimpleDateFormat formatter = new SimpleDateFormat("yyyyMMddHHmmssSSS");
-        return formatter.format(DateUtils.getCurrentTime());
+        return formatter.format(DBHelper.getCurrentTime());
     }
 }

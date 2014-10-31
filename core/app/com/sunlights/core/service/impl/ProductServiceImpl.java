@@ -1,12 +1,12 @@
 package com.sunlights.core.service.impl;
 
-import com.sunlights.core.service.ProductService;
-import com.sunlights.core.models.Fund;
-import com.sunlights.core.vo.FundVo;
-import com.sunlights.common.page.Pager;
 import com.sunlights.common.page.PageService;
+import com.sunlights.common.page.Pager;
 import com.sunlights.common.utils.ArithUtil;
-import com.sunlights.common.utils.DateUtils;
+import com.sunlights.common.utils.CommonUtil;
+import com.sunlights.core.models.Fund;
+import com.sunlights.core.service.ProductService;
+import com.sunlights.core.vo.FundVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -42,9 +42,9 @@ public class ProductServiceImpl implements ProductService {
         sql.append(" join p_product_recommend r on r.product_id = f.id");
         sql.append(" and r.recommend_type = '0'");
         sql.append(" and r.defunct_ind = 'N'");
-        sql.append(" and r.begin_date <= '" + DateUtils.dateToString(date, DateUtils.PATTEN_DATE_FORMAT_DATETIME) + "'");
-        sql.append(" and r.end_date > '" + DateUtils.dateToString(date, DateUtils.PATTEN_DATE_FORMAT_DATETIME) + "'");
-        sql.append(" and r.temp_stop_date > '" + DateUtils.dateToString(date, DateUtils.PATTEN_DATE_FORMAT_DATETIME) + "'");
+        sql.append(" and r.begin_date <= '" + CommonUtil.dateToString(date, CommonUtil.PATTEN_DATE_FORMAT_DATETIME) + "'");
+        sql.append(" and r.end_date > '" + CommonUtil.dateToString(date, CommonUtil.PATTEN_DATE_FORMAT_DATETIME) + "'");
+        sql.append(" and r.temp_stop_date > '" + CommonUtil.dateToString(date, CommonUtil.PATTEN_DATE_FORMAT_DATETIME) + "'");
         sql.append(" where 1=1");
         sql.append(" and f.defunct_ind = 'N'");
         sql.append(" order by r.priority_level");

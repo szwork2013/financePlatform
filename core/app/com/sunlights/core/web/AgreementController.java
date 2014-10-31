@@ -3,9 +3,9 @@ package com.sunlights.core.web;
 import com.sunlights.common.MsgCode;
 import com.sunlights.core.service.OpenAccountPactService;
 import com.sunlights.core.vo.AgreementVo;
-import com.sunlights.common.utils.StringUtils;
 import com.sunlights.common.utils.msg.Message;
 import com.sunlights.common.utils.msg.MessageUtil;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import play.data.Form;
 import play.mvc.Http;
@@ -37,7 +37,7 @@ public class AgreementController {
         if (body.asFormUrlEncoded() != null) {
             agreementVo = agreementVoForm.bindFromRequest().get();
         }
-        if (StringUtils.isBlankOrNull(agreementVo.getCode())) {
+        if (StringUtils.isNotEmpty(agreementVo.getCode())) {
             messageUtil.addMessage(new Message(Message.SEVERITY_ERROR, MsgCode.SEARCH_FAIL_EMPTY_PROTOCOL_NO));
             return ok(messageUtil.toJson());
         }

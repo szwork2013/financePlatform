@@ -1,21 +1,21 @@
 package com.sunlights.common.utils;
 
+import com.sunlights.common.utils.PropertyFilter.LikeMatchPatten;
+import com.sunlights.common.utils.PropertyFilter.MatchType;
+import com.sunlights.common.utils.PropertyFilter.PropertyType;
+import org.apache.commons.collections.CollectionUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.math.NumberUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import javax.persistence.criteria.*;
+import javax.persistence.metamodel.EntityType;
 import java.text.Format;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-
-import com.sunlights.common.utils.PropertyFilter.LikeMatchPatten;
-import com.sunlights.common.utils.PropertyFilter.MatchType;
-import com.sunlights.common.utils.PropertyFilter.PropertyType;
-
-import javax.persistence.criteria.*;
-import javax.persistence.metamodel.EntityType;
 
 
 /**
@@ -106,7 +106,7 @@ public class PersistenceUtils {
     public static String buildQueryStringWithNamedParams(final boolean isCount, final Class<?> clazz,
                                                          final Map<String, ?> params) {
         StringBuilder queryBuilder = buildQueryString(clazz, isCount);
-        if (!CollectionUtils.isEmpty(params)) {
+        if (!params.isEmpty()) {
             queryBuilder.append(DBHelper.HQL_KEYWORD_WHERE);
             for (Map.Entry<String, ?> entry : params.entrySet()) {
                 queryBuilder.append(DBHelper.HQL_ALIAS_OBJECT.trim() + ".").append(entry.getKey())
@@ -261,7 +261,6 @@ public class PersistenceUtils {
                                                          final CriteriaQuery<?> criteriaQuery, final Root entity, EntityType<?> entityType, final boolean isDistinct,
                                                          final String propertyName, final Object propertyValue, final MatchType matchType,
                                                          final LikeMatchPatten likeMatchPatten) {
-        Validate.hasText(propertyName, "propertyName cannot be null!");
         Predicate predicate = null;
         Expression expression = (Expression) entity.get(entityType.getSingularAttribute(propertyName));
         try {

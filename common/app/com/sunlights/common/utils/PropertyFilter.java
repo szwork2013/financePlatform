@@ -8,6 +8,9 @@
 package com.sunlights.common.utils;
 
 
+import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.Validate;
+
 import java.util.Date;
 
 
@@ -18,6 +21,7 @@ import java.util.Date;
  */
 public class PropertyFilter {
     public static final String OR_SEPARATOR = "_OR_";
+    public static final String PARAM_PREFIX = "_";
 
     /**
      * GT: Greater Than , >
@@ -82,12 +86,12 @@ public class PropertyFilter {
         String propertyTypeCode;
 
         if (filterName.contains("LIKE") && filterName.charAt(0) != 'L') {
-            matchTypeStr = StringUtils.substringBefore(filterName, "_");
+            matchTypeStr = StringUtils.substringBefore(filterName, PARAM_PREFIX);
             matchPattenCode = StringUtils.substring(matchTypeStr, 0, 1);
             matchTypeCode = StringUtils.substring(matchTypeStr, 1, matchTypeStr.length() - 1);
             propertyTypeCode = StringUtils.substring(matchTypeStr, matchTypeStr.length() - 1, matchTypeStr.length());
         } else {
-            matchTypeStr = StringUtils.substringBefore(filterName, "_");
+            matchTypeStr = StringUtils.substringBefore(filterName, PARAM_PREFIX);
             matchTypeCode = StringUtils.substring(matchTypeStr, 0, matchTypeStr.length() - 1);
             propertyTypeCode = StringUtils.substring(matchTypeStr, matchTypeStr.length() - 1, matchTypeStr.length());
         }
@@ -109,12 +113,11 @@ public class PropertyFilter {
         }
 
 
-        String propertyNameStr = StringUtils.substringAfter(filterName, "_");
-        propertyNames = StringUtils.splitWithApacheStringUtils(propertyNameStr, PropertyFilter.OR_SEPARATOR);
+        String propertyNameStr = StringUtils.substringAfter(filterName, PARAM_PREFIX);
+        propertyNames = StringUtils.split(propertyNameStr, PropertyFilter.OR_SEPARATOR);
 
         Validate.isTrue(propertyNames.length > 0, "filter name: " + filterName
                 + "Not prepared in accordance with the rules, property names can not be.");
-
 
         this.propertyValue = ReflectionUtils.convertStringToObject(value, propertyType);
     }

@@ -1,3 +1,4 @@
+import org.apache.commons.lang3.Validate;
 import org.junit.*;
 
 import play.mvc.*;
@@ -23,6 +24,12 @@ public class IntegrationTest {
                 assertThat(browser.pageSource()).contains("Your new application is ready.");
             }
         });
+    }
+
+    @Test
+    public void testValidate(){
+        String a = "";
+        Validate.notEmpty(a, "aaaa");
     }
 
 }

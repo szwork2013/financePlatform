@@ -3,6 +3,8 @@ package com.sunlights.common.utils;
 import org.apache.commons.beanutils.ConvertUtils;
 import org.apache.commons.beanutils.PropertyUtils;
 import org.apache.commons.beanutils.converters.DateConverter;
+import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.Validate;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -138,7 +140,6 @@ public class ReflectionUtils {
      */
     protected static Field getDeclaredField(final Object object, final String fieldName) {
         Validate.notNull(object, "object can not be null!");
-        Validate.hasText(fieldName, "fieldName");
         for (Class<?> superClass = object.getClass(); superClass != Object.class; superClass = superClass
                 .getSuperclass()) {
             try {

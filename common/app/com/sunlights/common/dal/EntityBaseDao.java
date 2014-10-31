@@ -5,6 +5,8 @@ import com.google.common.collect.Maps;
 import javacommon.xsqlbuilder.XsqlBuilder;
 import com.sunlights.common.utils.*;
 import org.apache.commons.lang3.ArrayUtils;
+import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.Validate;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -147,7 +149,7 @@ public class EntityBaseDao {
      * 按属性查找对象列表, 匹配方式为相等.
      */
     public <T> List<T> findBy(Class<T> entityClass, final String propertyName, final Object value) {
-        Validate.hasText(propertyName, "propertyName不能为空");
+        Validate.notEmpty(propertyName, "propertyName不能为空");
 
         CriteriaBuilder builder = entityManager.getCriteriaBuilder();
         CriteriaQuery<T> criteriaQuery = builder.createQuery(entityClass);
@@ -163,7 +165,7 @@ public class EntityBaseDao {
      * 按属性查找唯一对象, 匹配方式为相等.
      */
     public <T> T findUniqueBy(Class<T> entityClass, final String propertyName, final Object value) {
-        Validate.hasText(propertyName, "propertyName不能为空");
+        Validate.notEmpty(propertyName, "propertyName不能为空");
         CriteriaBuilder builder = entityManager.getCriteriaBuilder();
         CriteriaQuery<T> criteriaQuery = builder.createQuery(entityClass);
 
@@ -183,7 +185,7 @@ public class EntityBaseDao {
      * @return
      */
     public <T> List<T> findBy(Class<T> entityClass, final String propertyName, final Object value, final PropertyFilter.MatchType matchType) {
-        Validate.hasText(propertyName, "propertyName不能为空");
+        Validate.notEmpty(propertyName, "propertyName不能为空");
         CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
         CriteriaQuery<T> criteriaQuery = criteriaBuilder.createQuery(entityClass);
 
@@ -349,7 +351,7 @@ public class EntityBaseDao {
      */
 
     public <X> List<X> findByMap(final String xsql, final Map<String, Object> filterMap) {
-        Validate.hasText(xsql, "xsql不能为空");
+        Validate.notEmpty(xsql, "xsql不能为空");
         Query q = createQueryByMap(xsql, filterMap);
 
         return q.getResultList();
@@ -478,7 +480,7 @@ public class EntityBaseDao {
      */
 
     public Query createQuery(final String queryString, final Object... values) {
-        Validate.hasText(queryString, "queryString不能为空");
+        Validate.notEmpty(queryString, "queryString不能为空");
         Query query = entityManager.createQuery(queryString);
         if (values != null) {
             for (int i = 1; i <= values.length; i++) {
@@ -501,7 +503,7 @@ public class EntityBaseDao {
      * @return
      */
     public Query createLocalQuery(final String queryString, final Object... values) {
-        Validate.hasText(queryString, "queryString不能为空");
+        Validate.notEmpty(queryString, "queryString不能为空");
         Query query = entityManager.createNativeQuery(queryString);
         if (values != null) {
             for (int i = 1; i <= values.length; i++) {
@@ -524,7 +526,7 @@ public class EntityBaseDao {
      * @return
      */
     public <X> List<X> createNativeQuery(final String queryString, final Object... values) {
-        Validate.hasText(queryString, "queryString不能为空");
+        Validate.notEmpty(queryString, "queryString不能为空");
         Query query = entityManager.createNativeQuery(queryString);
         if (values != null) {
             for (int i = 1; i <= values.length; i++) {
@@ -535,7 +537,7 @@ public class EntityBaseDao {
     }
 
     public Query createNativeQuery(final String queryString, final Map<String, ?> values) {
-        Validate.hasText(queryString, "queryString不能为空");
+        Validate.notEmpty(queryString, "queryString不能为空");
         Query query = entityManager.createNativeQuery(queryString);
         for (Map.Entry<String, ?> kv : values.entrySet()) {
             query.setParameter(Integer.valueOf(kv.getKey()), kv.getValue());
@@ -551,7 +553,7 @@ public class EntityBaseDao {
      * @return 返回 javax.persistence.Query 对象.
      */
     public Query createQuery(final String queryString, final Map<String, ?> values) {
-        Validate.hasText(queryString, "queryString不能为空");
+        Validate.notEmpty(queryString, "queryString不能为空");
         Query query = entityManager.createQuery(queryString);
         for (Map.Entry<String, ?> kv : values.entrySet()) {
             query.setParameter(kv.getKey(), kv.getValue());

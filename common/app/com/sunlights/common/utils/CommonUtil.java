@@ -3,9 +3,12 @@ package com.sunlights.common.utils;
 import com.sunlights.common.MsgCode;
 import com.sunlights.common.exceptions.BusinessRuntimeException;
 import com.sunlights.common.utils.msg.Message;
-import org.apache.commons.lang.*;
+import org.apache.commons.lang3.StringUtils;
 
+import java.text.DateFormat;
 import java.text.MessageFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 /**
  * <p>Project: fsp</p>
@@ -53,5 +56,26 @@ public class CommonUtil {
     public BusinessRuntimeException fatalBusinessException(MsgCode msgCode, Object... params) {
         String detail = getDetail(msgCode, params);
         return new BusinessRuntimeException(Message.SEVERITY_FATAL, msgCode.getCode(), msgCode.getMessage(), detail);
+    }
+
+    public static final String PATTEN_DATE_FORMAT_DEFAULT = "yyyy-MM-dd";
+
+    public static final String PATTEN_DATE_FORMAT_SLASH = "yyyy/MM/dd";
+
+    public static final String PATTEN_DATE_FORMAT_DATETIME = "yyyy-MM-dd HH:mm:ss";
+
+    public static final String PATTEN_DATE_FORMAT_DATETIME_PLUS = "yyyy-MM-dd HH:mm:ss:SSS";
+
+    private static final DateFormat DATE_FORMAT = new SimpleDateFormat(PATTEN_DATE_FORMAT_DEFAULT);
+    public static String dateToString(Date date, String... format) {
+        if (date == null){
+            return "";
+        }
+
+        if(format != null) {
+            return new SimpleDateFormat(format[0]).format(date);
+        }else{
+           return DATE_FORMAT.format(date);
+        }
     }
 }

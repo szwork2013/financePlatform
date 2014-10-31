@@ -1,5 +1,10 @@
 package com.sunlights.common.utils;
 
+import java.sql.Timestamp;
+import java.util.Calendar;
+import java.util.Locale;
+import java.util.concurrent.TimeUnit;
+
 /**
  * <p>Project: fsp</p>
  * <p>Title: Constants.java</p>
@@ -47,4 +52,21 @@ public class DBHelper {
 
     // Define Prefix placeholder 'filter_'.
     public static final String PREFIX_PLACEHOLDER_FILTER = "filter_";
+
+    public static Timestamp getCurrentTime() {
+        long time = Calendar.getInstance(Locale.CANADA).getTime().getTime();
+        return new Timestamp(time);
+    }
+
+    private static final long ONE_MINUTE = 60000;
+
+    public static Timestamp afterMinutes(Timestamp date, long min) {
+        long fTime = date.getTime() + min * ONE_MINUTE;
+        return new Timestamp(fTime);
+    }
+
+    public static Timestamp beforeMinutes(Timestamp date, long min) {
+        long fTime = date.getTime() - min * ONE_MINUTE;
+        return new Timestamp(fTime);
+    }
 }

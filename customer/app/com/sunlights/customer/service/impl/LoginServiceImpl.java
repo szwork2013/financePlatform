@@ -6,7 +6,7 @@ import com.sunlights.common.dal.impl.VerifyCodeService;
 import com.sunlights.common.exceptions.BusinessRuntimeException;
 import com.sunlights.common.utils.ArithUtil;
 import com.sunlights.common.utils.CommonUtil;
-import com.sunlights.common.utils.DateUtils;
+import com.sunlights.common.utils.DBHelper;
 import com.sunlights.common.utils.MD5Helper;
 import com.sunlights.common.utils.msg.Message;
 import com.sunlights.common.utils.msg.MessageUtil;
@@ -120,7 +120,7 @@ public class LoginServiceImpl implements LoginService {
         	long PWD_MAX = parameterService.getParameterNumeric(IParameterConst.PWD_MAX);// 登录失败的最大次数
     		if (loginHistory.getLogNum() % PWD_MAX == 0) {// 此次为PWD_MAX * n次    手势删除，若为登录状态则登出
     			customerGesture.setStatus(AppConst.VERIFY_CODE_STATUS_VALID);
-    			customerGesture.setUpdatedDatetime(DateUtils.getCurrentTime());
+    			customerGesture.setUpdatedDatetime(DBHelper.getCurrentTime());
                 customerDao.updateCustomerGesture(customerGesture);
     			logout(customer.getMobile(), deviceNo, token);
     		}
@@ -164,7 +164,7 @@ public class LoginServiceImpl implements LoginService {
             return null;
         }
 
-        Timestamp currentTime = DateUtils.getCurrentTime();
+        Timestamp currentTime = DBHelper.getCurrentTime();
 		Customer customer = new Customer();
         customer.setLoginId(mobilePhoneNo);
 		customer.setNickName(nickName);
@@ -235,7 +235,7 @@ public class LoginServiceImpl implements LoginService {
 		if (customer == null) {
 			throw CommonUtil.getInstance().errorBusinessException(MsgCode.PHONE_NUMBER_NOT_REGISTRY);
 		}
-		Timestamp currentTime = DateUtils.getCurrentTime();
+		Timestamp currentTime = DBHelper.getCurrentTime();
         customer.setLoginPassWord(new MD5Helper().encrypt(passWord));
         customer.setUpdatedDatetime(currentTime);
         customerService.updateCustomer(customer);
@@ -267,7 +267,7 @@ public class LoginServiceImpl implements LoginService {
         }else{
             customerSession = customerDao.findCustomerSessionByCustomer(customer.getCustomerId(), deviceNo);
         }
-        Timestamp currentTime = DateUtils.getCurrentTime();
+        Timestamp currentTime = DBHelper.getCurrentTime();
         if (customerSession != null) {//清除
             customerService.removeCache(token);
             customerSession.setStatus(AppConst.VERIFY_CODE_STATUS_VALID);
@@ -321,7 +321,7 @@ public class LoginServiceImpl implements LoginService {
 		if (customer == null) {
 			throw CommonUtil.getInstance().errorBusinessException(MsgCode.PHONE_NUMBER_NOT_REGISTRY);
 		}
-		Timestamp currentTime = DateUtils.getCurrentTime();
+		Timestamp currentTime = DBHelper.getCurrentTime();
 		CustomerGesture customerGesture = customerDao.findCustomerGestureByDeviceNo(customer.getCustomerId(), deviceNo);
 		if (customerGesture != null && !AppConst.VALID_CERTIFY.equals(gestureOpened)) {// 关闭手势密码
 			customerGesture.setUpdatedDatetime(currentTime);
@@ -345,7 +345,7 @@ public class LoginServiceImpl implements LoginService {
 	}
 
     public void saveLoginHistory(Customer customer, String deviceNo){
-        Timestamp currentTime = DateUtils.getCurrentTime();
+        Timestamp currentTime = DBHelper.getCurrentTime();
         LoginHistory loginHistory = new LoginHistory();
         loginHistory.setCustomerId(customer.getCustomerId());
         loginHistory.setDeviceNo(deviceNo);
@@ -390,7 +390,7 @@ public class LoginServiceImpl implements LoginService {
     private void validateLoginTime(Customer customer, String deviceNo){
         LoginHistory oldHistory = loginDao.findByCustomerPwdInd(customer.getCustomerId(), deviceNo);
         if (oldHistory != null) {
-            Timestamp currentTime = DateUtils.getCurrentTime();
+            Timestamp currentTime = DBHelper.getCurrentTime();
             long logNum = oldHistory.getLogNum();
             long PWD_MAX = parameterService.getParameterNumeric(IParameterConst.PWD_MAX);
             if (logNum != 0 && logNum % PWD_MAX == 0) {//上一次为PWD_MAX * n次
@@ -404,7 +404,7 @@ public class LoginServiceImpl implements LoginService {
     }
 
     private LoginHistory saveLoginFail(Customer customer, String deviceNo, boolean isGestureLogin){
-        Timestamp currentTime = DateUtils.getCurrentTime();
+        Timestamp currentTime = DBHelper.getCurrentTime();
         long oldNum = 0;
         long PWD_MAX = parameterService.getParameterNumeric(IParameterConst.PWD_MAX);//登录失败的最大次数
         LoginHistory oldHistory = null;

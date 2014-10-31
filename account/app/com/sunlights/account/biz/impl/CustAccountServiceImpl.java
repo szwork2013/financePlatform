@@ -5,10 +5,10 @@ import com.sunlights.account.biz.AccountService;
 import com.sunlights.account.dal.BaseAccountDao;
 import com.sunlights.account.models.BaseAccount;
 import com.sunlights.common.AppConst;
+import com.sunlights.common.utils.DBHelper;
 import com.sunlights.common.vo.CustomerVerifyCodeVo;
 import com.sunlights.common.MsgCode;
 import com.sunlights.common.utils.CommonUtil;
-import com.sunlights.common.utils.DateUtils;
 import com.sunlights.common.utils.MD5Helper;
 import com.sunlights.customer.service.impl.CustomerService;
 import com.sunlights.customer.models.Customer;
@@ -103,7 +103,7 @@ public class CustAccountServiceImpl implements AccountService {
         if (customerSession == null) {//为非法客户
             throw CommonUtil.getInstance().errorBusinessException(MsgCode.LOGIN_TIMEOUT);
         }else{
-            Timestamp currentTime = DateUtils.getCurrentTime();
+            Timestamp currentTime = DBHelper.getCurrentTime();
             if (mobilePhoneNo == null || "".equals(mobilePhoneNo.trim())) {//为首次购买的未注册的 客户
                 Customer customer = customerService.getCustomerByCustomerId(customerSession.getCustomerId());
                 //登录密码为交易密码

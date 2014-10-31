@@ -5,7 +5,7 @@ import com.sunlights.common.IParameterConst;
 import com.sunlights.common.MsgCode;
 import com.sunlights.common.ParameterService;
 import com.sunlights.common.utils.CommonUtil;
-import com.sunlights.common.utils.DateUtils;
+import com.sunlights.common.utils.DBHelper;
 import com.sunlights.common.utils.MD5Helper;
 import com.sunlights.common.utils.msg.Message;
 import com.sunlights.common.utils.msg.MessageUtil;
@@ -96,7 +96,7 @@ public class CustomerService {
      * @return
      */
     public CustomerSession createCustomerSession(Customer customer, String clientAddress) {
-        Timestamp currentTime = DateUtils.getCurrentTime();
+        Timestamp currentTime = DBHelper.getCurrentTime();
         CustomerSession customerSession = new CustomerSession();
         customerSession.setCustomerId(customer.getCustomerId());
         customerSession.setToken(new MD5Helper().encrypt(customer.getMobile() + customer.getDeviceNo() + currentTime));
@@ -121,10 +121,9 @@ public class CustomerService {
             return customerSession;
         }
         // 再从数据库中获取，判断有效期
-        Timestamp currentTime = DateUtils.getCurrentTime();
+        Timestamp currentTime = DBHelper.getCurrentTime();
         int sessionTime = (int) parameterService.getParameterNumeric(IParameterConst.SESSION_EXPIRY);
-        Timestamp nMin = DateUtils.getNMin(currentTime, -sessionTime);
-
+        Timestamp nMin = DBHelper.beforeMinutes(currentTime, sessionTime);
         customerSession = customerDao.findCustomerSessionByToken(token, nMin);
         // 写入缓存
         if (customerSession != null) {
@@ -189,7 +188,7 @@ public class CustomerService {
 
     private String generateCustomerId(String property) {
         SimpleDateFormat formatter = new SimpleDateFormat("yyyyMMddHHmmss");
-        String customerId = formatter.format(DateUtils.getCurrentTime());
+        String customerId = formatter.format(DBHelper.getCurrentTime());
         if (AppConst.CUSTOMER_BUYER.equals(property)) {
             customerId += "01";
         }else{
@@ -230,7 +229,7 @@ public class CustomerService {
                 customer.setRealName(userName);
                 customer.setIdentityTyper(AppConst.ID_CARD);
                 customer.setIdentityNumber(idCardNo);
-                customer.setUpdatedDatetime(DateUtils.getCurrentTime());
+                customer.setUpdatedDatetime(DBHelper.getCurrentTime());
                 updateCustomer(customer);
 
                 MessageUtil.getInstance().addMessage(new Message(MsgCode.CERTIFY_SUCCESS),
@@ -269,7 +268,7 @@ public class CustomerService {
     }
 
     private Customer saveCustomer(String mobilePhoneNo, String realName,String idCardNo, String deviceNo){
-        Timestamp currentTime = DateUtils.getCurrentTime();
+        Timestamp currentTime = DBHelper.getCurrentTime();
         Customer customer = new Customer();
         customer.setLoginId(mobilePhoneNo);
         customer.setMobile(mobilePhoneNo);

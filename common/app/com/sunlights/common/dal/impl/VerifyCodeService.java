@@ -3,18 +3,17 @@ package com.sunlights.common.dal.impl;
 import com.sunlights.common.AppConst;
 import com.sunlights.common.IParameterConst;
 import com.sunlights.common.MsgCode;
-import com.sunlights.common.dal.CustomerVerifyCodeDao;
 import com.sunlights.common.ParameterService;
+import com.sunlights.common.dal.CustomerVerifyCodeDao;
+import com.sunlights.common.models.CustomerVerifyCode;
 import com.sunlights.common.utils.CommonUtil;
-import com.sunlights.common.utils.DateUtils;
+import com.sunlights.common.utils.DBHelper;
 import com.sunlights.common.utils.msg.Message;
 import com.sunlights.common.utils.msg.MessageUtil;
-import com.sunlights.common.models.CustomerVerifyCode;
 import com.sunlights.common.vo.CustomerVerifyCodeVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import play.Logger;
-import sun.rmi.runtime.Log;
 
 import java.sql.Timestamp;
 import java.util.Random;
@@ -37,19 +36,20 @@ public class VerifyCodeService {
         CommonUtil.getInstance().validateParams(mobilePhoneNo, type);
         checkValidVerifyCode(type);
 
-        Timestamp currentTime = DateUtils.getCurrentTime();
+
         String verifyCode = null;
+        Timestamp currentTimestamp = DBHelper.getCurrentTime();
         CustomerVerifyCode preCustomerVerifyCode = customerVerifyCodeDao.findVerifyCodeByType(mobilePhoneNo, type);
         if (preCustomerVerifyCode != null) {
             //未失效返回以前的
             long VERIFYCODE_EXPIRY = parameterService.getParameterNumeric(IParameterConst.VERIFYCODE_EXPIRY);//验证码在失效时间
-            if (currentTime.getTime() - preCustomerVerifyCode.getCreatedDatetime().getTime() <= VERIFYCODE_EXPIRY * AppConst.ONE_MINUTE) {
+            if (currentTimestamp.getTime() - preCustomerVerifyCode.getCreatedDatetime().getTime() <= VERIFYCODE_EXPIRY * AppConst.ONE_MINUTE) {
                 verifyCode = preCustomerVerifyCode.getVerifyCode();
                 Logger.info("===========verifyCode:" + verifyCode);
                 return verifyCode;
             }else{
                 preCustomerVerifyCode.setStatus(AppConst.VERIFY_CODE_STATUS_VALID);
-                preCustomerVerifyCode.setUpdatedDatetime(currentTime);
+                preCustomerVerifyCode.setUpdatedDatetime(currentTimestamp);
                 customerVerifyCodeDao.updateCustomerVerifyCode(preCustomerVerifyCode);
             }
         }
@@ -59,8 +59,8 @@ public class VerifyCodeService {
         newUserVefiryCode.setVerifyType(type);
         newUserVefiryCode.setMobile(mobilePhoneNo);
         newUserVefiryCode.setVerifyCode(verifyCode);
-        newUserVefiryCode.setCreatedDatetime(currentTime);
-        newUserVefiryCode.setUpdatedDatetime(currentTime);
+        newUserVefiryCode.setCreatedDatetime(currentTimestamp);
+        newUserVefiryCode.setUpdatedDatetime(currentTimestamp);
         newUserVefiryCode.setDeviceNo(deviceNo);
         customerVerifyCodeDao.saveCustomerVerifyCode(newUserVefiryCode);
 
@@ -102,7 +102,7 @@ public class VerifyCodeService {
             MessageUtil.getInstance().addMessage(new Message(Message.SEVERITY_ERROR, MsgCode.CERTIFY_ERROR));
             return false;
         }
-        Timestamp currentTime = DateUtils.getCurrentTime();
+        Timestamp currentTime = DBHelper.getCurrentTime();
         long verifyCodeExpiry = parameterService.getParameterNumeric(IParameterConst.VERIFYCODE_EXPIRY);
         if (currentTime.getTime() - customerVerifyCode.getCreatedDatetime().getTime() >= verifyCodeExpiry * AppConst.ONE_MINUTE) {// 验证码有效时间超时
             customerVerifyCode.setStatus(AppConst.VERIFY_CODE_STATUS_VALID);

@@ -1,7 +1,7 @@
 package com.sunlights.core.vo;
 
+import com.sunlights.common.utils.CommonUtil;
 import com.sunlights.core.models.OpenAccountPact;
-import com.sunlights.common.utils.DateUtils;
 
 import java.util.Date;
 
@@ -32,7 +32,7 @@ public class AgreementVo {
         this.title = openAccountPact.getAgreementName();
         this.link = openAccountPact.getFilePath() + openAccountPact.getFileName();
         if (openAccountPact.getUpdateDate() != null) {
-            this.updatedAt = DateUtils.dateToString(new Date(openAccountPact.getUpdateDate().getTime()), DateUtils.PATTEN_DATE_FORMAT_DATETIME);
+            this.updatedAt = CommonUtil.dateToString(new Date(openAccountPact.getUpdateDate().getTime()), CommonUtil.PATTEN_DATE_FORMAT_DATETIME);
         }
     }
 
