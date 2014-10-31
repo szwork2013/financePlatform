@@ -13,7 +13,7 @@ package com.sunlights.common;
 public enum MsgCode {
 
     OPERATE_SUCCESS("0000", "操作成功",""),
-    ACCESS_FAIL("2001", "访问失败", "传入参数不能为空"),
+    ACCESS_FAIL("2001", "访问失败", "传入参数'{0}'不能为空"),
     LOGIN_TIMEOUT("2002","登录超时", "请重新登录"),
     MISSING_PARAM_CONFIG("2003", "参数未配置", "参数编码：{0}"),
     PARAM_IS_NOT_NUMBER("2004", "参数不是数字类型", "参数编码：{0}"),

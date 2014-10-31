@@ -5,7 +5,7 @@ import com.sunlights.common.AppConst;
 import com.sunlights.common.MsgCode;
 import com.sunlights.common.utils.msg.Message;
 import com.sunlights.common.utils.msg.MessageUtil;
-import com.sunlights.trade.biz.TradeService;
+import com.sunlights.trade.service.TradeService;
 import com.sunlights.trade.vo.TradeVo;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

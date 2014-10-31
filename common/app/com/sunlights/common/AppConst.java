@@ -1,13 +1,26 @@
 package com.sunlights.common;
 
+import java.util.HashSet;
+import java.util.Set;
+
 /**
  * Created by Administrator on 2014/9/10.
  */
-public interface AppConst {
+public final class AppConst {
+
+    private AppConst(){}
+
     //---- core ---
-    public static String VERIFY_CODE_REGISTER = "VERIFY_CODE_REGISTER";
-    public static String VERIFY_CODE_RESETPWD = "VERIFY_CODE_RESETPWD";
-    public static String VERIFY_CODE_RESET_ACCOUNT = "VERIFY_CODE_RESET_ACCOUNT";
+    public static String VERIFY_CODE_REGISTER = "REGISTER";
+    public static String VERIFY_CODE_RESETPWD = "RESETPWD";
+    public static String VERIFY_CODE_RESET_ACCOUNT = "RESETACCOUNT";
+
+    public static Set<String> VALID_VERIFY_CODES = new HashSet<>();
+    static{
+        VALID_VERIFY_CODES.add(VERIFY_CODE_REGISTER);
+        VALID_VERIFY_CODES.add(VERIFY_CODE_RESETPWD);
+        VALID_VERIFY_CODES.add(VERIFY_CODE_RESET_ACCOUNT);
+    }
 
     // ----- customer ---
     public static String VERIFY_CODE_STATUS_VALID = "Y";

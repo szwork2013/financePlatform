@@ -10,7 +10,7 @@ import com.sunlights.common.MsgCode;
 import com.sunlights.common.utils.CommonUtil;
 import com.sunlights.common.utils.DateUtils;
 import com.sunlights.common.utils.MD5Helper;
-import com.sunlights.customer.biz.impl.CustomerService;
+import com.sunlights.customer.service.impl.CustomerService;
 import com.sunlights.customer.models.Customer;
 import com.sunlights.customer.models.CustomerSession;
 import com.sunlights.customer.vo.CustomerFormVo;

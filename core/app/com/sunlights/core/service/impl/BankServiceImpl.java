@@ -1,7 +1,7 @@
-package com.sunlights.core.biz.impl;
+package com.sunlights.core.service.impl;
 
 import com.sunlights.common.MsgCode;
-import com.sunlights.core.biz.BankService;
+import com.sunlights.core.service.BankService;
 import com.sunlights.core.dal.BankDao;
 import com.sunlights.core.integration.BankClient;
 import com.sunlights.core.models.Bank;
@@ -12,7 +12,7 @@ import com.sunlights.common.page.Pager;
 import com.sunlights.common.utils.StringUtils;
 import com.sunlights.common.utils.msg.Message;
 import com.sunlights.common.utils.msg.MessageUtil;
-import com.sunlights.customer.biz.impl.CustomerService;
+import com.sunlights.customer.service.impl.CustomerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

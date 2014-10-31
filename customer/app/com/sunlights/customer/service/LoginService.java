@@ -1,4 +1,4 @@
-package com.sunlights.customer.biz;
+package com.sunlights.customer.service;
 
 import com.sunlights.common.exceptions.BusinessRuntimeException;
 import com.sunlights.customer.vo.CustomerFormVo;

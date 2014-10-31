@@ -1,6 +1,6 @@
-package com.sunlights.core.biz.impl;
+package com.sunlights.core.service.impl;
 
-import com.sunlights.core.biz.OpenAccountPactService;
+import com.sunlights.core.service.OpenAccountPactService;
 import com.sunlights.core.dal.OpenAccountPactDao;
 import com.sunlights.core.models.OpenAccountPact;
 import com.sunlights.core.vo.AgreementVo;

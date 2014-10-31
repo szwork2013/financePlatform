@@ -1,7 +1,7 @@
-package com.sunlights.customer.biz.impl;
+package com.sunlights.customer.service.impl;
 
 import com.sunlights.common.*;
-import com.sunlights.common.dal.impl.ParameterService;
+import com.sunlights.common.ParameterService;
 import com.sunlights.common.dal.impl.VerifyCodeService;
 import com.sunlights.common.exceptions.BusinessRuntimeException;
 import com.sunlights.common.utils.ArithUtil;
@@ -11,7 +11,7 @@ import com.sunlights.common.utils.MD5Helper;
 import com.sunlights.common.utils.msg.Message;
 import com.sunlights.common.utils.msg.MessageUtil;
 import com.sunlights.common.vo.CustomerVerifyCodeVo;
-import com.sunlights.customer.biz.LoginService;
+import com.sunlights.customer.service.LoginService;
 import com.sunlights.customer.dal.CustomerDao;
 import com.sunlights.customer.dal.LoginDao;
 import com.sunlights.customer.models.Customer;

@@ -1,6 +1,6 @@
-package com.sunlights.core.biz.impl;
+package com.sunlights.core.service.impl;
 
-import com.sunlights.core.biz.ProductService;
+import com.sunlights.core.service.ProductService;
 import com.sunlights.core.models.Fund;
 import com.sunlights.core.vo.FundVo;
 import com.sunlights.common.page.Pager;

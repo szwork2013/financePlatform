@@ -1,20 +1,18 @@
 package com.sunlights.customer.web;
 
+import com.fasterxml.jackson.databind.JsonNode;
 import com.sunlights.common.AppConst;
 import com.sunlights.common.MsgCode;
 import com.sunlights.common.dal.impl.VerifyCodeService;
-import com.sunlights.customer.biz.LoginService;
-import com.sunlights.customer.biz.impl.CustomerService;
-import com.sunlights.customer.vo.CustomerFormVo;
-import com.sunlights.customer.vo.CustomerVo;
-import com.sunlights.customer.models.Customer;
-import com.sunlights.customer.models.CustomerSession;
 import com.sunlights.common.utils.msg.Message;
 import com.sunlights.common.utils.msg.MessageUtil;
-
+import com.sunlights.customer.service.LoginService;
+import com.sunlights.customer.service.impl.CustomerService;
+import com.sunlights.customer.models.Customer;
+import com.sunlights.customer.models.CustomerSession;
+import com.sunlights.customer.vo.CustomerFormVo;
+import com.sunlights.customer.vo.CustomerVo;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.transaction.annotation.Transactional;
-
 import play.Logger;
 import play.data.Form;
 import play.libs.Json;
@@ -22,14 +20,11 @@ import play.mvc.Controller;
 import play.mvc.Http;
 import play.mvc.Result;
 
-import com.fasterxml.jackson.databind.JsonNode;
-
 /**
  * Created by Administrator on 2014/9/4.
  */
 @org.springframework.stereotype.Controller
-@Transactional
-public class LoginController {
+public class LoginController extends Controller{
 	private Form<CustomerFormVo> customerForm = Form.form(CustomerFormVo.class);
 
     @Autowired

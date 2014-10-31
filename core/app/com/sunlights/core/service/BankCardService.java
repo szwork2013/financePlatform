@@ -1,4 +1,4 @@
-package com.sunlights.core.biz;
+package com.sunlights.core.service;
 
 import com.sunlights.core.models.BankCard;
 import com.sunlights.core.vo.BankCardVo;

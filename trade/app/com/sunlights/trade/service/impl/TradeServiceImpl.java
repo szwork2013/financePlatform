@@ -1,9 +1,9 @@
-package com.sunlights.trade.biz.impl;
+package com.sunlights.trade.service.impl;
 
 import com.sunlights.common.utils.ArithUtil;
-import com.sunlights.customer.biz.impl.CustomerService;
+import com.sunlights.customer.service.impl.CustomerService;
 import com.sunlights.customer.models.CustomerSession;
-import com.sunlights.trade.biz.TradeService;
+import com.sunlights.trade.service.TradeService;
 import com.sunlights.trade.dal.TradeDao;
 import com.sunlights.trade.vo.TradeInfoVo;
 import com.sunlights.trade.vo.TradeVo;

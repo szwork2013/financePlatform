@@ -1,7 +1,7 @@
 package com.sunlights.core.web;
 
 import com.sunlights.common.MsgCode;
-import com.sunlights.core.biz.OpenAccountPactService;
+import com.sunlights.core.service.OpenAccountPactService;
 import com.sunlights.core.vo.AgreementVo;
 import com.sunlights.common.utils.StringUtils;
 import com.sunlights.common.utils.msg.Message;

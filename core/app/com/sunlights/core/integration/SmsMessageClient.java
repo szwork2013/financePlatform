@@ -1,6 +1,6 @@
 package com.sunlights.core.integration;
 
-import com.sunlights.common.dal.impl.ParameterService;
+import com.sunlights.common.ParameterService;
 import com.sunlights.core.dal.SmsMessageDao;
 import com.sunlights.core.models.SmsMessage;
 import com.sunlights.common.IParameterConst;

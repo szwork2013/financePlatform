@@ -1,4 +1,4 @@
-package com.sunlights.trade.biz;
+package com.sunlights.trade.service;
 
 import com.sunlights.trade.vo.TradeVo;
 

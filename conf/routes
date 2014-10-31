@@ -2,8 +2,17 @@
 # This file defines all application routes (Higher priority routes first)
 # ~~~~
 
-# Home page
-GET        /                    controllers.Application.index()
-
 # Map static resources from the /public folder to the /assets URL path
 GET        /assets/*file        controllers.Assets.at(path="/public", file)
+
+POST        /customer/login/login                     @com.sunlights.customer.web.LoginController.login
+POST        /customer/login/verificationcode          @com.sunlights.customer.web.LoginController.genVerificationCode
+POST        /customer/login/certify                   @com.sunlights.customer.web.LoginController.certify
+POST        /customer/login/loginbyges                @com.sunlights.customer.web.LoginController.loginByges
+POST        /customer/login/register                  @com.sunlights.customer.web.LoginController.register
+POST        /customer/login/resetpwdcertify           @com.sunlights.customer.web.LoginController.resetpwdCertify
+POST        /customer/login/resetpwd                  @com.sunlights.customer.web.LoginController.resetpwd
+POST        /customer/login/confirmpwd                @com.sunlights.customer.web.LoginController.confirmPwd
+POST        /customer/login/savegespwd                @com.sunlights.customer.web.LoginController.saveGesturePwd
+POST        /customer/login/getusermstr               @com.sunlights.customer.web.LoginController.getCustomerByMobilePhoneNo
+POST        /customer/login/logout                    @com.sunlights.customer.web.LoginController.logout

@@ -32,7 +32,7 @@ public class CommonUtil {
     public void validateParams(String... params){
         for (String param : params) {
             if (param == null || "".equals(param.trim())) {
-                throw errorBusinessException(MsgCode.ACCESS_FAIL);
+                throw errorBusinessException(MsgCode.ACCESS_FAIL, params);
             }
         }
     }

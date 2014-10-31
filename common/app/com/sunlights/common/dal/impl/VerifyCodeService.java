@@ -4,7 +4,7 @@ import com.sunlights.common.AppConst;
 import com.sunlights.common.IParameterConst;
 import com.sunlights.common.MsgCode;
 import com.sunlights.common.dal.CustomerVerifyCodeDao;
-import com.sunlights.common.dal.impl.ParameterService;
+import com.sunlights.common.ParameterService;
 import com.sunlights.common.utils.CommonUtil;
 import com.sunlights.common.utils.DateUtils;
 import com.sunlights.common.utils.msg.Message;
@@ -14,6 +14,7 @@ import com.sunlights.common.vo.CustomerVerifyCodeVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import play.Logger;
+import sun.rmi.runtime.Log;
 
 import java.sql.Timestamp;
 import java.util.Random;
@@ -33,12 +34,8 @@ public class VerifyCodeService {
      * @return
      */
     public String genVerificationCode(String mobilePhoneNo, String type, String deviceNo) {
-        Logger.info("========mobilePhoneNo:" + mobilePhoneNo);
-        Logger.info("========type:" + type);
         CommonUtil.getInstance().validateParams(mobilePhoneNo, type);
-        if (!(AppConst.VERIFY_CODE_REGISTER.equals(type) || AppConst.VERIFY_CODE_RESETPWD.equals(type) || AppConst.VERIFY_CODE_RESET_ACCOUNT.equals(type))) {
-            throw CommonUtil.getInstance().errorBusinessException(MsgCode.ACCESS_FAIL);
-        }
+        checkValidVerifyCode(type);
 
         Timestamp currentTime = DateUtils.getCurrentTime();
         String verifyCode = null;
@@ -71,6 +68,12 @@ public class VerifyCodeService {
         Logger.info("===========verifyCode:" + verifyCode);
 
         return verifyCode;
+    }
+
+    private void checkValidVerifyCode(String type) {
+        if (!AppConst.VALID_VERIFY_CODES.contains(type)){
+            throw CommonUtil.getInstance().errorBusinessException(MsgCode.ACCESS_FAIL);
+        }
     }
 
 

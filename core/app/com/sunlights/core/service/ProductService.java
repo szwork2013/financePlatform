@@ -1,4 +1,4 @@
-package com.sunlights.core.biz;
+package com.sunlights.core.service;
 
 import com.sunlights.core.vo.FundVo;
 import com.sunlights.common.page.Pager;

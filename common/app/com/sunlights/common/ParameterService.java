@@ -1,4 +1,4 @@
-package com.sunlights.common.dal.impl;
+package com.sunlights.common;
 
 import com.sunlights.common.MsgCode;
 import com.sunlights.common.exceptions.BusinessRuntimeException;
@@ -25,7 +25,6 @@ import java.util.Map;
  */
 
 @Service
-@Transactional
 public class ParameterService {
     public Map<String, String> params = new HashMap<String, String>();
 
@@ -72,6 +71,7 @@ public class ParameterService {
         return returnValue;
     }
 
+    @Transactional
     public Parameter addParameter(String name, String value, String description){
         if(name == null || "".equals(name.trim())){
             throw CommonUtil.getInstance().errorBusinessException(MsgCode.ACCESS_FAIL);
@@ -89,6 +89,7 @@ public class ParameterService {
         return parameter;
     }
 
+    @Transactional
     public Parameter updateParameter(Parameter parameter){
         return parameterDao.updateParameter(parameter);
     }

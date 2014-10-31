@@ -1,7 +1,7 @@
 package com.sunlights.core.web;
 
 import com.sunlights.common.MsgCode;
-import com.sunlights.core.biz.ProductService;
+import com.sunlights.core.service.ProductService;
 import com.sunlights.core.vo.ProductParameter;
 import com.sunlights.common.page.Pager;
 import com.sunlights.common.page.PageVo;

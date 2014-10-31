@@ -9,7 +9,7 @@ import com.sunlights.common.MsgCode;
 import com.sunlights.common.dal.impl.VerifyCodeService;
 import com.sunlights.common.utils.msg.Message;
 import com.sunlights.common.utils.msg.MessageUtil;
-import com.sunlights.customer.biz.impl.CustomerService;
+import com.sunlights.customer.service.impl.CustomerService;
 import com.sunlights.customer.vo.CustomerFormVo;
 import com.sunlights.customer.vo.CustomerVo;
 import org.springframework.beans.factory.annotation.Autowired;
