@@ -5,8 +5,6 @@ import com.sunlights.common.AppConst;
 import com.sunlights.core.actor.Actors;
 import com.sunlights.common.ParameterService;
 import com.sunlights.core.dal.SmsMessageDao;
-import com.sunlights.core.integration.CustomerClient;
-import com.sunlights.customer.biz.impl.IdentityService;
 import com.sunlights.core.models.SmsMessage;
 import com.sunlights.common.IParameterConst;
 import com.sunlights.common.utils.DateUtils;
@@ -35,10 +33,6 @@ public class SafeServiceImpl {
     private ParameterService parameterService;
     @Autowired
     private SmsMessageDao smsMessageDao;
-    @Autowired
-    private CustomerClient customerClient;
-
-
 
     /**
      * 发送手机短信

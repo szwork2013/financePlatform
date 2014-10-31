@@ -112,7 +112,6 @@ public class MD5Helper {
 		state[1] = 0xefcdab89L;
 		state[2] = 0x98badcfeL;
 		state[3] = 0x10325476L;
-		return;
 	}
 
 	/*
@@ -328,7 +327,6 @@ public class MD5Helper {
 		for (i = 0, j = 0; j < len; i++, j += 4)
 			output[i] = b2iu(input[j]) | (b2iu(input[j + 1]) << 8)
 					| (b2iu(input[j + 2]) << 16) | (b2iu(input[j + 3]) << 24);
-		return;
 	}
 
 	/*

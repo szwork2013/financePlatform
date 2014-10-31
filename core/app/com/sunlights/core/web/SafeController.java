@@ -1,18 +1,10 @@
 package com.sunlights.core.web;
 
-import com.sunlights.common.MsgCode;
-import com.sunlights.common.ParameterService;
 import com.sunlights.common.VerifyCodeService;
-import com.sunlights.common.utils.msg.Message;
-import com.sunlights.common.utils.msg.MessageUtil;
-import com.sunlights.core.integration.CustomerClient;
 import com.sunlights.customer.vo.CustomerFormVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
-import play.Logger;
 import play.data.Form;
-import play.mvc.Controller;
-import play.mvc.Result;
 
 /**
 * <p>Project: fsp</p>

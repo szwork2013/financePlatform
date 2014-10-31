@@ -1,10 +1,10 @@
 package com.sunlights.trade.biz.impl;
 
 import com.sunlights.common.utils.ArithUtil;
+import com.sunlights.customer.biz.impl.CustomerService;
 import com.sunlights.customer.models.CustomerSession;
 import com.sunlights.trade.biz.TradeService;
 import com.sunlights.trade.dal.TradeDao;
-import com.sunlights.trade.integration.CustomerClient;
 import com.sunlights.trade.vo.TradeInfoVo;
 import com.sunlights.trade.vo.TradeVo;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,8 +26,9 @@ import java.util.List;
 public class TradeServiceImpl implements TradeService{
     @Autowired
     private TradeDao tradeDao;
+
     @Autowired
-    private CustomerClient customerClient;
+    private CustomerService customerService;
 
     @Override
     public List<TradeVo> getTradeListByCustomerId(String customerId, String productType) {
@@ -43,7 +44,7 @@ public class TradeServiceImpl implements TradeService{
 
     @Override
     public List<TradeVo> getTradeListByToken(String token, String productType) {
-        CustomerSession customerSession = customerClient.getCustomerSession(token);
+        CustomerSession customerSession = customerService.getCustomerSession(token);
         if (customerSession == null) {
             return null;
         }
