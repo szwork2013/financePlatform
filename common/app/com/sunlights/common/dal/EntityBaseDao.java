@@ -4,11 +4,13 @@ import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import javacommon.xsqlbuilder.XsqlBuilder;
 import com.sunlights.common.utils.*;
+import org.apache.commons.beanutils.ConvertUtils;
 import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.Validate;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.util.ReflectionUtils;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -700,7 +702,7 @@ public class EntityBaseDao {
             if (kv.getValue().getClass().equals(propertyType)) {
                 paramMap.put(propertyName, kv.getValue());
             } else {
-                Object propertyValue = ReflectionUtils.convertStringToObject(kv.getValue().toString(), propertyType);
+                Object propertyValue = ConvertUtils.convert(kv.getValue().toString(), propertyType);
                 paramMap.put(propertyName, propertyValue);
             }
         }

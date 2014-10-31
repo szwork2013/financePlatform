@@ -8,6 +8,7 @@
 package com.sunlights.common.utils;
 
 
+import org.apache.commons.beanutils.ConvertUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.Validate;
 
@@ -19,7 +20,7 @@ import java.util.Date;
  *
  * @author calvin
  */
-public class PropertyFilter {
+public final class PropertyFilter {
     public static final String OR_SEPARATOR = "_OR_";
     public static final String PARAM_PREFIX = "_";
 
@@ -58,21 +59,11 @@ public class PropertyFilter {
 
 
     private String[] propertyNames = null;
-
-
     private Class<?> propertyType = null;
-
-
     private Object propertyValue = null;
-
-
     private MatchType matchType = null;
 
     private LikeMatchPatten likeMatchPatten = null;
-
-    public PropertyFilter() {
-    }
-
 
     /**
      * @param filterName
@@ -119,7 +110,7 @@ public class PropertyFilter {
         Validate.isTrue(propertyNames.length > 0, "filter name: " + filterName
                 + "Not prepared in accordance with the rules, property names can not be.");
 
-        this.propertyValue = ReflectionUtils.convertStringToObject(value, propertyType);
+        this.propertyValue = ConvertUtils.convert(value, propertyType);
     }
 
     public boolean isMultiProperty() {
