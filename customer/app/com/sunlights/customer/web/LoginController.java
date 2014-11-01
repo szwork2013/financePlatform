@@ -160,9 +160,8 @@ public class LoginController extends Controller {
         String deviceNo = customerFormVo.getDeviceNo();
 		loginService.logout(mobilePhoneNo, deviceNo, token);
 
-        JsonNode json = MessageUtil.getInstance().msgToJson(new Message(MsgCode.LOGOUT_SUCCESS));
-		Logger.info("========logout返回信息:" + json.toString());
-		return Controller.ok(json);
+        MessageVo messageVo = new MessageVo(new Message(MsgCode.LOGOUT_SUCCESS));
+		return Controller.ok(messageVo.toJson());
 	}
 
 	/**
@@ -202,8 +201,9 @@ public class LoginController extends Controller {
         String passWord = customerFormVo.getPassWord();
 		loginService.confirmPwd(mobilePhoneNo, passWord);
 
-        JsonNode json = MessageUtil.getInstance().msgToJson(new Message(MsgCode.OPERATE_SUCCESS));
-        return Controller.ok(json);
+
+        Message message = new Message(MsgCode.OPERATE_SUCCESS);
+        return Controller.ok(new MessageVo(message).toJson());
 	}
 
 	/**
@@ -214,10 +214,8 @@ public class LoginController extends Controller {
         Logger.info("========saveGesturePwd================");
         customerService.validateCustomerSession(Controller.request(), Controller.session(), Controller.response());
         CustomerFormVo vo = customerForm.bindFromRequest().get();
-        Customer customer = loginService.saveGesturePwd(vo);
-        JsonNode json = MessageUtil.getInstance().toJson();
-        Logger.info("========saveGesturePwd返回信息：" + json.toString());
-		return Controller.ok(json);
+        MessageVo<CustomerVo> response = loginService.saveGesturePwd(vo);
+		return Controller.ok(response.toJson());
 	}
 
     /**

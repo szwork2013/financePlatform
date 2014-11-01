@@ -11,7 +11,6 @@ import com.sunlights.common.utils.CommonUtil;
 import com.sunlights.common.utils.DBHelper;
 import com.sunlights.common.utils.MD5Helper;
 import com.sunlights.common.vo.Message;
-import com.sunlights.common.vo.MessageUtil;
 import com.sunlights.common.vo.CustomerVerifyCodeVo;
 import com.sunlights.common.vo.MessageVo;
 import com.sunlights.customer.dal.CustomerDao;
@@ -232,7 +231,7 @@ public class LoginServiceImpl implements LoginService {
 	 * 重置密码
 	 * @return
 	 */
-	public MessageVo<Customer> resetpwd(String mobilePhoneNo, String passWord, String deviceNo) {
+	public MessageVo<CustomerVo> resetpwd(String mobilePhoneNo, String passWord, String deviceNo) {
         CommonUtil.getInstance().validateParams(mobilePhoneNo, passWord);
 		Customer customer = getCustomerByMobilePhoneNo(mobilePhoneNo);
 		if (customer == null) {
@@ -243,11 +242,11 @@ public class LoginServiceImpl implements LoginService {
         customer.setUpdatedDatetime(currentTime);
         customerService.updateCustomer(customer);
 
-        MessageUtil.getInstance().addMessage(
-                new Message(MsgCode.PASSWORD_CHANGE_SUCCESS),
-                customerService.getCustomerVoByPhoneNo(mobilePhoneNo, deviceNo));
-
-        return customer;
+        Message message = new Message(MsgCode.PASSWORD_CHANGE_SUCCESS);
+        CustomerVo customerVoByPhoneNo = customerService.getCustomerVoByPhoneNo(mobilePhoneNo, deviceNo);
+        MessageVo<CustomerVo> messageVo = new MessageVo<>(message);
+        messageVo.setValue(customerVoByPhoneNo);
+        return messageVo;
 	}
     /**
      * 退出
@@ -307,7 +306,7 @@ public class LoginServiceImpl implements LoginService {
 	 * 
 	 * @return
 	 */
-	public Customer saveGesturePwd(CustomerFormVo vo) {
+	public MessageVo<CustomerVo> saveGesturePwd(CustomerFormVo vo) {
         String mobilePhoneNo = vo.getMobilePhoneNo();
         String gesturePassWord = vo.getGesturePassWord();
         String gestureOpened = vo.getGestureOpened();
@@ -340,11 +339,13 @@ public class LoginServiceImpl implements LoginService {
             customerDao.saveCustomerGesture(customerGesture);
 		}
 
-        MessageUtil.getInstance().addMessage(
-                new Message(MsgCode.GESTURE_PASSWORD_SUCCESS),
-                customerService.getCustomerVoByPhoneNo(mobilePhoneNo, deviceNo));
 
-		return customer;
+        Message message = new Message(MsgCode.GESTURE_PASSWORD_SUCCESS);
+        CustomerVo customerVoByPhoneNo = customerService.getCustomerVoByPhoneNo(mobilePhoneNo, deviceNo);
+        MessageVo<CustomerVo> messageVo = new MessageVo<>(message);
+        messageVo.setValue(customerVoByPhoneNo);
+
+        return messageVo;
 	}
 
     public void saveLoginHistory(Customer customer, String deviceNo){
@@ -391,7 +392,7 @@ public class LoginServiceImpl implements LoginService {
      * @param deviceNo
      */
     private void validateLoginTime(Customer customer, String deviceNo){
-        LoginHistory oldHistory = loginDao.findByCustomerPwdInd(customer.getCustomerId(), deviceNo);
+        LoginHistory oldHistory = loginDao.findByPwd(customer.getCustomerId(), deviceNo);
         if (oldHistory != null) {
             Timestamp currentTime = DBHelper.getCurrentTime();
             long logNum = oldHistory.getLogNum();
@@ -412,9 +413,9 @@ public class LoginServiceImpl implements LoginService {
         long PWD_MAX = parameterService.getParameterNumeric(IParameterConst.PWD_MAX);//登录失败的最大次数
         LoginHistory oldHistory = null;
         if (isGestureLogin) {
-            oldHistory = loginDao.findByCustomerQusPwdInd(customer.getCustomerId(), deviceNo);
+            oldHistory = loginDao.findByGesturePwd(customer.getCustomerId(), deviceNo);
         }else{
-            oldHistory = loginDao.findByCustomerPwdInd(customer.getCustomerId(), deviceNo);
+            oldHistory = loginDao.findByPwd(customer.getCustomerId(), deviceNo);
         }
 
         if (oldHistory != null) {

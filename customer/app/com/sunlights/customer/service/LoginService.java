@@ -40,7 +40,7 @@ public interface LoginService {
      * 保存手势密码
      * @return
      */
-    public Customer saveGesturePwd(CustomerFormVo vo);
+    public MessageVo<CustomerVo> saveGesturePwd(CustomerFormVo vo);
 
     public void confirmPwd(String mobilePhoneNo, String password);
 

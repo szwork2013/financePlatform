@@ -14,7 +14,7 @@ import com.sunlights.customer.models.LoginHistory;
 public interface LoginDao {
     public LoginHistory saveLoginHistory(LoginHistory loginHistory);
     public LoginHistory updateLoginHistory(LoginHistory loginHistory);
-    public LoginHistory findByCustomerPwdInd(String customerId, String deviceNo);
-    public LoginHistory findByCustomerQusPwdInd(String customerId, String deviceNo);
+    public LoginHistory findByPwd(String customerId, String deviceNo);
+    public LoginHistory findByGesturePwd(String customerId, String deviceNo);
     public LoginHistory findByLoginCustomer(String customerId, String deviceNo);
 }

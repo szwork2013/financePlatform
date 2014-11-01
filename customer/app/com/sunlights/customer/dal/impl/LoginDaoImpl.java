@@ -28,7 +28,7 @@ public class LoginDaoImpl extends EntityBaseDao implements LoginDao {
         return update(loginHistory);
     }
 
-    public LoginHistory findByCustomerPwdInd(String customerId, String deviceNo){
+    public LoginHistory findByPwd(String customerId, String deviceNo){
         Query query = em.createNativeQuery("select c.* FROM login_history c where c.customer_id = ?0 " +
                 "and c.device_no = ?1 and c.pwd_ind = 'Y'" +
                 "order by created_datetime desc", LoginHistory.class);
@@ -40,7 +40,7 @@ public class LoginDaoImpl extends EntityBaseDao implements LoginDao {
         }
         return null;
     }
-    public LoginHistory findByCustomerQusPwdInd(String customerId, String deviceNo){
+    public LoginHistory findByGesturePwd(String customerId, String deviceNo){
         Query query = em.createNativeQuery("select c.* FROM login_history c where c.customer_id = ?0 " +
                 "and c.device_no = ?1 and c.gesture_Ind = 'Y'" +
                 "order by created_datetime desc", LoginHistory.class);
