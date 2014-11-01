@@ -26,7 +26,7 @@ import play.libs.Json;
 
 public class IdentityService {
 
-    private ParameterService parameterService;
+    private ParameterService parameterService = new ParameterService();
 
     public void identity(String idCardNo, String userName){
         ObjectNode CheckRequest = Json.newObject();

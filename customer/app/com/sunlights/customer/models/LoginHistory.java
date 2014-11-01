@@ -12,7 +12,7 @@ import java.sql.Timestamp;
  * Created by Administrator on 2014/9/5.
  */
 @Entity
-@Table(name = "login_history")
+@Table(name = "LOGIN_HISTORY")
 public class LoginHistory extends IdEntity{
     @Column(length = 30,name = "CUSTOMER_ID")
     private String customerId;
