@@ -21,8 +21,8 @@ import java.util.Random;
  */
 public class VerifyCodeService {
 
-    private CustomerVerifyCodeDao customerVerifyCodeDao;
-    private ParameterService parameterService;
+    private CustomerVerifyCodeDao customerVerifyCodeDao = new CustomerVerifyCodeDaoImpl();
+    private ParameterService parameterService = new ParameterService();
     /**
      * <P>Description: 获取验证码</p>
      * @return

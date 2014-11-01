@@ -2,8 +2,6 @@ name := "common"
 
 version := "1.0"
 
-val springVersion = "4.1.1.RELEASE"
-
 libraryDependencies ++= Seq(
   javaCore,
   javaJdbc,

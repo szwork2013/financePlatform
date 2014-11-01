@@ -11,9 +11,9 @@ import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.Validate;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import play.db.jpa.JPA;
 
 import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 import javax.persistence.TypedQuery;
 import javax.persistence.criteria.CriteriaBuilder;
@@ -39,8 +39,7 @@ import java.util.regex.Pattern;
 public class EntityBaseDao {
     final Logger logger = LoggerFactory.getLogger(getClass());
 
-    @PersistenceContext
-    protected EntityManager entityManager;
+    protected EntityManager entityManager = JPA.em();
 
     public EntityBaseDao() {
     }

@@ -9,6 +9,7 @@ import com.sunlights.core.service.ProductService;
 import com.sunlights.core.vo.ProductParameter;
 import play.data.Form;
 import play.libs.Json;
+import play.mvc.Controller;
 import play.mvc.Http;
 import play.mvc.Result;
 
@@ -25,7 +26,7 @@ import static play.mvc.Results.ok;
  * @author <a href="mailto:zhencai.yuan@sunlights.cc">yuanzhencai</a>
  */
 
-public class ProductController extends Controller{
+public class ProductController extends Controller {
     private Form<ProductParameter> productParameterForm = Form.form(ProductParameter.class);
     private MessageUtil messageUtil = MessageUtil.getInstance();
 

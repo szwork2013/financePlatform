@@ -3,6 +3,7 @@ package com.sunlights.core.web;
 import com.sunlights.common.dal.impl.VerifyCodeService;
 import com.sunlights.customer.vo.CustomerFormVo;
 import play.data.Form;
+import play.mvc.Controller;
 
 /**
 * <p>Project: fsp</p>
@@ -16,7 +17,7 @@ import play.data.Form;
 
 
 
-public class SafeController extends Controller{
+public class SafeController extends Controller {
     private static Form<CustomerFormVo> customerForm = Form.form(CustomerFormVo.class);
 
 

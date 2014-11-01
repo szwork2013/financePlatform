@@ -1,4 +1,4 @@
-package com.sunlights.trade.dal.dal;
+package com.sunlights.trade.dal;
 
 import com.sunlights.common.dal.EntityBaseDao;
 import com.sunlights.trade.dal.TradeDao;

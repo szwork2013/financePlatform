@@ -18,7 +18,6 @@ import java.util.List;
  */
 public class CustomerVerifyCodeDaoImpl extends EntityBaseDao implements CustomerVerifyCodeDao {
 
-    //CustomerVerifyCode
     @Override
     public CustomerVerifyCode saveCustomerVerifyCode(CustomerVerifyCode customerVerifyCode) {
         return create(customerVerifyCode);

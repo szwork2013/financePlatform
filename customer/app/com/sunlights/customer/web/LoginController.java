@@ -10,6 +10,7 @@ import com.sunlights.customer.models.Customer;
 import com.sunlights.customer.models.CustomerSession;
 import com.sunlights.customer.service.LoginService;
 import com.sunlights.customer.service.impl.CustomerService;
+import com.sunlights.customer.service.impl.LoginServiceImpl;
 import com.sunlights.customer.vo.CustomerFormVo;
 import com.sunlights.customer.vo.CustomerVo;
 import play.Logger;
@@ -23,15 +24,14 @@ import play.mvc.Result;
  * Created by Administrator on 2014/9/4.
  */
 
-public class LoginController extends Controller{
+public class LoginController extends Controller {
 	private Form<CustomerFormVo> customerForm = Form.form(CustomerFormVo.class);
 
+    private LoginService loginService = new LoginServiceImpl();
 
-    private LoginService loginService;
+    private CustomerService customerService = new CustomerService();
 
-    private CustomerService customerService;
-
-    private VerifyCodeService verifyCodeService;
+    private VerifyCodeService verifyCodeService = new VerifyCodeService();
 
     /**
      * 查询手机号是否已注册
