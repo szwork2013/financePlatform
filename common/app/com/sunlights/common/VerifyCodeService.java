@@ -1,10 +1,11 @@
-package com.sunlights.common.dal.impl;
+package com.sunlights.common;
 
 import com.sunlights.common.AppConst;
 import com.sunlights.common.IParameterConst;
 import com.sunlights.common.MsgCode;
 import com.sunlights.common.ParameterService;
 import com.sunlights.common.dal.CustomerVerifyCodeDao;
+import com.sunlights.common.dal.impl.CustomerVerifyCodeDaoImpl;
 import com.sunlights.common.models.CustomerVerifyCode;
 import com.sunlights.common.utils.CommonUtil;
 import com.sunlights.common.utils.DBHelper;

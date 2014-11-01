@@ -21,8 +21,6 @@ import java.util.Map;
  * <p>All Rights Reserved.</p>
  * @author <a href="mailto:jiaming.wang@sunlights.cc">wangJiaMing</a>
  */
-
-@Transactional
 public class ParameterService {
     private static Map<String, String> params = new HashMap<String, String>();
 

@@ -4,7 +4,7 @@ import com.sunlights.common.AppConst;
 import com.sunlights.common.IParameterConst;
 import com.sunlights.common.MsgCode;
 import com.sunlights.common.ParameterService;
-import com.sunlights.common.dal.impl.VerifyCodeService;
+import com.sunlights.common.VerifyCodeService;
 import com.sunlights.common.exceptions.BusinessRuntimeException;
 import com.sunlights.common.utils.ArithUtil;
 import com.sunlights.common.utils.CommonUtil;
