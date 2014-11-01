@@ -22,8 +22,6 @@ import play.Logger;
 import java.math.BigDecimal;
 import java.sql.Timestamp;
 
-
-@Service("custAccountService")
 public class CustAccountServiceImpl implements AccountService {
 	
 	@Autowired

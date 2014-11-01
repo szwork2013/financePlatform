@@ -24,7 +24,7 @@ import play.mvc.Result;
  * Created by Administrator on 2014/9/4.
  */
 @org.springframework.stereotype.Controller
-public class LoginController extends Controller{
+public class LoginController {
 	private Form<CustomerFormVo> customerForm = Form.form(CustomerFormVo.class);
 
     @Autowired

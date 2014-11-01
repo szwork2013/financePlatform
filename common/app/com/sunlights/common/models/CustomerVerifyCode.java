@@ -11,7 +11,7 @@ import java.sql.Timestamp;
  * Created by Administrator on 2014/9/4.
  */
 @Entity
-@Table(name = "c_customer_verify_code")
+@Table(name = "C_CUSTOMER_VERIFY_CODE")
 public class CustomerVerifyCode extends IdEntity {
     @Column(length = 40,name = "VERIFY_CODE")
     private String verifyCode; // 验证码
@@ -25,7 +25,7 @@ public class CustomerVerifyCode extends IdEntity {
     private Timestamp updatedDatetime;
     @Column(name = "CREATED_DATETIME")
     private Timestamp createdDatetime;
-    @Column(name = "status", length = 1)
+    @Column(name = "STATUS", length = 1)
     private String status = AppConst.VERIFY_CODE_STATUS_INVALID;
 
     public CustomerVerifyCode() {

@@ -13,8 +13,6 @@ import org.springframework.stereotype.Repository;
  * @author tangweiqun 2014/10/22
  *
  */
-
-@Repository("capitalDao")
 public class CapitalDaoImpl extends EntityBaseDao implements CapitalDao {
 	
 	@Override

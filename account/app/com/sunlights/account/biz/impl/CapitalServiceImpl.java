@@ -19,7 +19,6 @@ import org.springframework.stereotype.Service;
  * @author tangweiqun 2014/10/22
  *
  */
-@Service("modelCapitalService")
 public class CapitalServiceImpl implements CapitalService {
 	
 	@Autowired

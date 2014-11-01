@@ -1,10 +1,7 @@
 import com.fasterxml.jackson.databind.JsonNode;
 import com.sunlights.common.exceptions.BusinessRuntimeException;
-import configs.DataConfig;
 import com.sunlights.common.utils.msg.Message;
 import com.sunlights.common.utils.msg.MessageUtil;
-import org.springframework.context.annotation.AnnotationConfigApplicationContext;
-import play.Application;
 import play.GlobalSettings;
 import play.Logger;
 import play.libs.F;
@@ -19,19 +16,6 @@ import static play.mvc.Results.ok;
 
 public class Global extends GlobalSettings {
     private static final String PATH_APP = "/.*";
-    private AnnotationConfigApplicationContext ctx;
-
-    @Override
-    public void onStart(Application app) {
-        ctx = new AnnotationConfigApplicationContext(DataConfig.class);
-        ctx.scan("com.sunlights");
-    }
-
-    @Override
-    public <A> A getControllerInstance(Class<A> clazz) {
-        return ctx.getBean(clazz);
-    }
-
 
     @Override
     public F.Promise<Result> onError(Http.RequestHeader reqHeader, Throwable reqthrow) {
