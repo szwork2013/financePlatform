@@ -256,9 +256,11 @@ public class LoginController extends Controller {
         String verifyType = vo.getType();
         String deviceNo = vo.getDeviceNo();
 
-        String verifyCode = verifyCodeService.genVerificationCode(mobilePhoneNo, verifyType, deviceNo);
+        verifyCodeService.genVerificationCode(mobilePhoneNo, verifyType, deviceNo);
 
-        return Controller.ok(MessageUtil.getInstance().msgToJson(new Message(MsgCode.OPERATE_SUCCESS)));
+        Message message = new Message(MsgCode.OPERATE_SUCCESS);
+        MessageVo messageVo = new MessageVo(message);
+        return Controller.ok(Json.toJson(messageVo));
     }
 
 

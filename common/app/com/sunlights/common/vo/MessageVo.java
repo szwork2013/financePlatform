@@ -19,6 +19,14 @@ public class MessageVo<V> {
         this.message = message;
     }
 
+    public Message getMessage() {
+        return message;
+    }
+
+    public void setMessage(Message message) {
+        this.message = message;
+    }
+
     public void setValue(V value){
         this.value = value;
     }
