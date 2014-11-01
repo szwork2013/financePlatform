@@ -30,7 +30,7 @@ public abstract class BaseEntity extends IdEntity {
     @Column(name = "UPDATED_BY", length = 30)
     private String updatedBy;
 
-    @Column(name = "DELETE_FLAG", length = 1)//"CHAR(1)"?
+    @Column(name = "DEFUNCT_IND", length = 1)//"CHAR(1)"?
     private String defunctInd;//String "Y" or "N" ?
 
     public Date getCreatedDatetime() {

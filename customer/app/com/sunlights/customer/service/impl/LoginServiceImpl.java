@@ -15,6 +15,8 @@ import com.sunlights.common.utils.msg.MessageUtil;
 import com.sunlights.common.vo.CustomerVerifyCodeVo;
 import com.sunlights.customer.dal.CustomerDao;
 import com.sunlights.customer.dal.LoginDao;
+import com.sunlights.customer.dal.impl.CustomerDaoImpl;
+import com.sunlights.customer.dal.impl.LoginDaoImpl;
 import com.sunlights.customer.models.Customer;
 import com.sunlights.customer.models.CustomerGesture;
 import com.sunlights.customer.models.CustomerSession;
@@ -36,16 +38,16 @@ import java.sql.Timestamp;
 public class LoginServiceImpl implements LoginService {
 
 
-    private LoginDao loginDao;
+    private LoginDao loginDao = new LoginDaoImpl();
 
-    private ParameterService parameterService;
+    private ParameterService parameterService=new ParameterService();
 
-    private CustomerDao customerDao;
+    private CustomerDao customerDao=new CustomerDaoImpl();
 
-    private CustomerService customerService;
+    private CustomerService customerService=new CustomerService();
 
 
-    VerifyCodeService verifyCodeService;
+    private VerifyCodeService verifyCodeService=new VerifyCodeService();
 
 	/**
 	 * 登录

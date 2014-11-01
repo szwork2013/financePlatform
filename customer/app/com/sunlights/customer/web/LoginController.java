@@ -3,6 +3,7 @@ package com.sunlights.customer.web;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.sunlights.common.AppConst;
 import com.sunlights.common.MsgCode;
+import com.sunlights.common.ParameterService;
 import com.sunlights.common.dal.impl.VerifyCodeService;
 import com.sunlights.common.utils.msg.Message;
 import com.sunlights.common.utils.msg.MessageUtil;
@@ -62,6 +63,9 @@ public class LoginController extends Controller {
 	 */
 	public Result register() {
         Logger.info("==========register====================");
+        ParameterService parameterService = new ParameterService();
+        parameterService.loadAllParameter();
+
         CustomerFormVo customerFormVo = customerForm.bindFromRequest().get();
 		Customer customer = loginService.register(customerFormVo);
 

@@ -1,10 +1,12 @@
 package com.sunlights.common;
 
 import com.sunlights.common.dal.ParameterDao;
+import com.sunlights.common.dal.impl.ParameterDaoImpl;
 import com.sunlights.common.exceptions.BusinessRuntimeException;
 import com.sunlights.common.models.Parameter;
 import com.sunlights.common.utils.CommonUtil;
 import com.sunlights.common.utils.DBHelper;
+import play.db.jpa.Transactional;
 
 import java.sql.Timestamp;
 import java.util.HashMap;
@@ -20,12 +22,11 @@ import java.util.Map;
  * @author <a href="mailto:jiaming.wang@sunlights.cc">wangJiaMing</a>
  */
 
-
+@Transactional
 public class ParameterService {
     public Map<String, String> params = new HashMap<String, String>();
 
-
-    private ParameterDao parameterDao;
+    private ParameterDao parameterDao = new ParameterDaoImpl();
 
     public void loadAllParameter() {
         List<Parameter> list = parameterDao.loadAllParameter();

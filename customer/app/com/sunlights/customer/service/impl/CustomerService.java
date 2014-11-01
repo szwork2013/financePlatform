@@ -10,6 +10,7 @@ import com.sunlights.common.utils.MD5Helper;
 import com.sunlights.common.utils.msg.Message;
 import com.sunlights.common.utils.msg.MessageUtil;
 import com.sunlights.customer.dal.CustomerDao;
+import com.sunlights.customer.dal.impl.CustomerDaoImpl;
 import com.sunlights.customer.models.Customer;
 import com.sunlights.customer.models.CustomerSession;
 import com.sunlights.customer.vo.CustomerFormVo;
@@ -34,12 +35,12 @@ import java.text.SimpleDateFormat;
 
 public class CustomerService {
 
-    private CustomerDao customerDao;
+    private CustomerDao customerDao = new CustomerDaoImpl();
 
-    private ParameterService parameterService;
+    private ParameterService parameterService = new ParameterService();
 
 
-    private IdentityService identityService;
+    private IdentityService identityService = new IdentityService();
 
     public CustomerInfoVo getCustomerInfoVoByPhoneNo(String mobilePhoneNo, String deviceNo) {
         return customerDao.getCustomerInfoVoByPhoneNo(mobilePhoneNo, deviceNo);

@@ -5,6 +5,7 @@ import com.sunlights.common.AppConst;
 import com.sunlights.common.dal.EntityBaseDao;
 import com.sunlights.common.dal.ParameterDao;
 import com.sunlights.common.models.Parameter;
+import play.db.jpa.Transactional;
 
 import java.util.List;
 
@@ -17,7 +18,6 @@ import java.util.List;
  *
  * @author <a href="mailto:jiaming.wang@sunlights.cc">wangJiaMing</a>
  */
-
 public class ParameterDaoImpl extends EntityBaseDao implements ParameterDao {
 
     public List<Parameter> loadAllParameter(){

@@ -6,7 +6,9 @@
     <persistence-unit name="default" transaction-type="RESOURCE_LOCAL">
         <provider>org.hibernate.jpa.HibernatePersistenceProvider</provider>
         <non-jta-data-source>DefaultDS</non-jta-data-source>
-        <class>com.sunlights.common.models.CustomerVerifyCode</class>
+        <!--<class>com.sunlights.common.models.CustomerVerifyCode</class>-->
+        <!--<class>com.sunlights.common.models.Parameter</class>-->
+        <!--<class>com.sunlights.customer.models.Customer</class>-->
 
         <properties>
             <property name="hibernate.dialect" value="org.hibernate.dialect.PostgreSQL9Dialect"/>
