@@ -27,7 +27,7 @@ import play.mvc.Result;
  *
  * @author <a href="mailto:jiaming.wang@sunlights.cc">wangJiaMing</a>
  */
-public class AccountController {
+public class AccountController extends Controller{
     private Form<CustomerFormVo> customerForm = Form.form(CustomerFormVo.class);
 
     private AccountService accountService;
