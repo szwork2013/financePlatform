@@ -14,7 +14,6 @@ import com.sunlights.core.vo.BankCardVo;
 import com.sunlights.customer.models.Customer;
 import com.sunlights.customer.service.impl.CustomerService;
 import org.apache.commons.lang3.StringUtils;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.sql.Timestamp;
 import java.util.Date;

@@ -14,7 +14,6 @@ import com.sunlights.customer.models.Customer;
 import com.sunlights.customer.models.CustomerSession;
 import com.sunlights.customer.service.impl.CustomerService;
 import com.sunlights.customer.vo.CustomerFormVo;
-import org.springframework.transaction.annotation.Transactional;
 import play.Logger;
 
 import java.math.BigDecimal;

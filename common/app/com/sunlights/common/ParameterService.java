@@ -5,7 +5,6 @@ import com.sunlights.common.exceptions.BusinessRuntimeException;
 import com.sunlights.common.models.Parameter;
 import com.sunlights.common.utils.CommonUtil;
 import com.sunlights.common.utils.DBHelper;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.sql.Timestamp;
 import java.util.HashMap;
