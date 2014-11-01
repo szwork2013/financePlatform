@@ -23,7 +23,7 @@ import java.util.List;
 
 public class CustomerDaoImpl extends EntityBaseDao implements CustomerDao {
     public String getCustomerIdSeq(){
-        Query query = entityManager.createNativeQuery("SELECT nextval('cust_seq')");
+        Query query = em.createNativeQuery("SELECT nextval('cust_seq')");
         String cust_seq = query.getSingleResult().toString();
         String zero = "";
         for (int i = 0; i < 10 - cust_seq.length(); i++){
@@ -60,7 +60,7 @@ public class CustomerDaoImpl extends EntityBaseDao implements CustomerDao {
     }
 
     public CustomerInfoVo getCustomerInfoVoByPhoneNo(String mobilePhoneNo, String deviceNo){
-        Query query = entityManager.createQuery(com.sunlights.customer.dal.sqlmap.txt.customerVo.render("CustomerDao.getCustomerInfoVoByPhoneNo", null).body(), CustomerInfoVo.class);
+        Query query = em.createQuery(com.sunlights.customer.dal.sqlmap.txt.customerVo.render("CustomerDao.getCustomerInfoVoByPhoneNo", null).body(), CustomerInfoVo.class);
         query.setParameter("mobilePhoneNo", mobilePhoneNo);
         query.setParameter("deviceNo", deviceNo);
         List list = query.getResultList();
@@ -80,7 +80,7 @@ public class CustomerDaoImpl extends EntityBaseDao implements CustomerDao {
     }
 
     public CustomerInfoVo getCustomerInfoVoByIdCardNo(String idCardNo, String userName){
-        Query query = entityManager.createQuery(com.sunlights.customer.dal.sqlmap.txt.customerVo.render("CustomerDao.getCustomerInfoVoByIdCardNo", null).body(), CustomerInfoVo.class);
+        Query query = em.createQuery(com.sunlights.customer.dal.sqlmap.txt.customerVo.render("CustomerDao.getCustomerInfoVoByIdCardNo", null).body(), CustomerInfoVo.class);
         query.setParameter("idCardNo", idCardNo);
         query.setParameter("userName", userName);
         List list = query.getResultList();
@@ -109,7 +109,7 @@ public class CustomerDaoImpl extends EntityBaseDao implements CustomerDao {
         if (nMin != null) {
             sb.append(" and c.updatedDatetime >= :nMin");
         }
-        Query query = entityManager.createQuery(sb.toString(), CustomerSession.class);
+        Query query = em.createQuery(sb.toString(), CustomerSession.class);
         query.setParameter("token", token);
         if (nMin != null) {
             query.setParameter("nMin", nMin);
@@ -130,7 +130,7 @@ public class CustomerDaoImpl extends EntityBaseDao implements CustomerDao {
     }
 
     public CustomerSession findCustomerSessionByCustomer(String customerId, String deviceNo){
-        Query query = entityManager.createNativeQuery("select c.* FROM c_customer_session c where c.customer_id = ?0 and c.deviceNo = ?1 and c.status = 'N' order by create_datetime desc", CustomerSession.class);
+        Query query = em.createNativeQuery("select c.* FROM c_customer_session c where c.customer_id = ?0 and c.deviceNo = ?1 and c.status = 'N' order by create_datetime desc", CustomerSession.class);
         query.setParameter(0, customerId);
         query.setParameter(1, deviceNo);
         List<CustomerSession> list = query.getResultList();
@@ -152,7 +152,7 @@ public class CustomerDaoImpl extends EntityBaseDao implements CustomerDao {
         return update(customerGesture);
     }
     public CustomerGesture findCustomerGestureByDeviceNo(String customerId, String deviceNo){
-        Query query = entityManager.createNativeQuery("select cg.* FROM c_customer_gesture cg where cg.customer_id = ?0 and cg.device_no = ?1 and cg.status = 'N'", CustomerGesture.class);
+        Query query = em.createNativeQuery("select cg.* FROM c_customer_gesture cg where cg.customer_id = ?0 and cg.device_no = ?1 and cg.status = 'N'", CustomerGesture.class);
         query.setParameter(0, customerId);
         query.setParameter(1, deviceNo);
         List<CustomerGesture> list = query.getResultList();

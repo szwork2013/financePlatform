@@ -1,7 +1,6 @@
 package com.sunlights.trade.dal;
 
 import com.sunlights.common.dal.EntityBaseDao;
-import com.sunlights.trade.dal.TradeDao;
 import com.sunlights.trade.vo.TradeInfoVo;
 
 import javax.persistence.Query;
@@ -25,7 +24,7 @@ public class TradeDaoImpl extends EntityBaseDao implements TradeDao{
         Map<String, Object> params = new HashMap<String, Object>();
         params.put("productType", productType);
         
-        Query query = entityManager.createQuery(com.sunlights.trade.dal.sqlmap.txt.tradeVo.render("TradeDao.getTradeListByCustomerId", params).body(), TradeInfoVo.class);
+        Query query = em.createQuery(com.sunlights.trade.dal.sqlmap.txt.tradeVo.render("TradeDao.getTradeListByCustomerId", params).body(), TradeInfoVo.class);
         query.setParameter("customerId", customerId);
         List<TradeInfoVo> list = query.getResultList();
 

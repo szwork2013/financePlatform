@@ -5,7 +5,7 @@ version := "1.0"
 libraryDependencies ++= Seq(
   javaCore,
   javaJdbc,
-  javaJpa,
+  javaJpa.exclude("org.hibernate.javax.persistence", "hibernate-jpa-2.0-api"),
   cache,
   javaWs,
   "org.hibernate" % "hibernate-entitymanager" % "4.3.6.Final",

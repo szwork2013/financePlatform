@@ -29,8 +29,6 @@ import static play.mvc.Results.ok;
 public class ProductController extends Controller {
     private Form<ProductParameter> productParameterForm = Form.form(ProductParameter.class);
     private MessageUtil messageUtil = MessageUtil.getInstance();
-
-
     private ProductService productService;
 
     public Result findProductsByType() {

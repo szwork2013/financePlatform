@@ -39,7 +39,7 @@ import java.util.regex.Pattern;
 public class EntityBaseDao {
     final Logger logger = LoggerFactory.getLogger(getClass());
 
-    protected EntityManager entityManager = JPA.em();
+    protected EntityManager em = JPA.em();
 
     public EntityBaseDao() {
     }
@@ -51,20 +51,20 @@ public class EntityBaseDao {
      */
     public <T> T create(final T entity) {
         Validate.notNull(entity, "entity不能为空");
-        entityManager.persist(entity);
+        em.persist(entity);
         logger.debug("create-create entity: {}", entity);
         return entity;
     }
 
     public <T> T detach(final T entity) {
         Validate.notNull(entity, "entity不能为空");
-        entityManager.detach(entity);
+        em.detach(entity);
         logger.debug("create-create entity: {}", entity);
         return entity;
     }
 
     public boolean isManaged(Object entity) {
-        return entityManager.contains(entity);
+        return em.contains(entity);
     }
 
     /**
@@ -72,7 +72,8 @@ public class EntityBaseDao {
      */
     public <T> T update(final T entity) {
         Validate.notNull(entity, "entity不能为空");
-        entityManager.merge(entity);
+        em.merge(entity);
+        em.flush();
         logger.debug("update entity: {}", entity);
         return entity;
     }
@@ -84,7 +85,8 @@ public class EntityBaseDao {
      */
     public <T> void delete(final T entity) {
         Validate.notNull(entity, "entity不能为空");
-        entityManager.remove(entity);
+        em.remove(entity);
+        em.flush();
         logger.debug("delete entity: {}", entity);
     }
 
@@ -104,7 +106,7 @@ public class EntityBaseDao {
 
     public <T> T find(Class<T> entityClass, final Serializable id) {
         Validate.notNull(id, "id不能为空");
-        return (T) entityManager.find(entityClass, id);
+        return (T) em.find(entityClass, id);
     }
 
     /**
@@ -128,7 +130,7 @@ public class EntityBaseDao {
      * @return
      */
     public <T> List<T> findAll(Class<T> entityClass, String orderByProperty, Boolean isAsc) {
-        CriteriaBuilder builder = entityManager.getCriteriaBuilder();
+        CriteriaBuilder builder = em.getCriteriaBuilder();
         CriteriaQuery<T> criteriaQuery = builder.createQuery(entityClass);
         Root<T> entityRoot = criteriaQuery.from(entityClass);
         criteriaQuery.select(entityRoot);
@@ -141,7 +143,7 @@ public class EntityBaseDao {
             }
         }
 
-        return entityManager.createQuery(criteriaQuery).getResultList();
+        return em.createQuery(criteriaQuery).getResultList();
     }
 
     // --------------------------------- 条件查询方法 -----------------------------------//
@@ -152,14 +154,14 @@ public class EntityBaseDao {
     public <T> List<T> findBy(Class<T> entityClass, final String propertyName, final Object value) {
         Validate.notEmpty(propertyName, "propertyName不能为空");
 
-        CriteriaBuilder builder = entityManager.getCriteriaBuilder();
+        CriteriaBuilder builder = em.getCriteriaBuilder();
         CriteriaQuery<T> criteriaQuery = builder.createQuery(entityClass);
 
         Root<T> entityRoot = criteriaQuery.from(entityClass);
         criteriaQuery.select(entityRoot);
         criteriaQuery.where(builder.equal(entityRoot.get(propertyName), value));
 
-        return entityManager.createQuery(criteriaQuery).getResultList();
+        return em.createQuery(criteriaQuery).getResultList();
     }
 
     /**
@@ -167,13 +169,13 @@ public class EntityBaseDao {
      */
     public <T> T findUniqueBy(Class<T> entityClass, final String propertyName, final Object value) {
         Validate.notEmpty(propertyName, "propertyName不能为空");
-        CriteriaBuilder builder = entityManager.getCriteriaBuilder();
+        CriteriaBuilder builder = em.getCriteriaBuilder();
         CriteriaQuery<T> criteriaQuery = builder.createQuery(entityClass);
 
         Root<T> entityRoot = criteriaQuery.from(entityClass);
         criteriaQuery.select(entityRoot);
         criteriaQuery.where(builder.equal(entityRoot.get(propertyName), value));
-        return entityManager.createQuery(criteriaQuery).getSingleResult();
+        return em.createQuery(criteriaQuery).getSingleResult();
     }
 
     /**
@@ -187,7 +189,7 @@ public class EntityBaseDao {
      */
     public <T> List<T> findBy(Class<T> entityClass, final String propertyName, final Object value, final PropertyFilter.MatchType matchType) {
         Validate.notEmpty(propertyName, "propertyName不能为空");
-        CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
+        CriteriaBuilder criteriaBuilder = em.getCriteriaBuilder();
         CriteriaQuery<T> criteriaQuery = criteriaBuilder.createQuery(entityClass);
 
         Root<T> entity = criteriaQuery.from(entityClass);
@@ -202,7 +204,7 @@ public class EntityBaseDao {
 
         criteriaQuery.where(predicate);
 
-        return entityManager.createQuery(criteriaQuery).getResultList();
+        return em.createQuery(criteriaQuery).getResultList();
     }
 
     /**
@@ -272,15 +274,15 @@ public class EntityBaseDao {
      * Flush当前Session.
      */
     public void flush() {
-        entityManager.flush();
+        em.flush();
     }
 
     public void refresh(Object entity) {
-        entityManager.refresh(entity);
+        em.refresh(entity);
     }
 
     public EntityManager getEm() {
-        return entityManager;
+        return em;
     }
 
     // ----------------------------------- List 查询 --------------------------------------//
@@ -305,7 +307,7 @@ public class EntityBaseDao {
      * @return
      */
     public <T> List<T> find(final Class<T> targetClass, final List<PropertyFilter> filters, final boolean isDistinct) {
-        CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
+        CriteriaBuilder criteriaBuilder = em.getCriteriaBuilder();
         CriteriaQuery<T> criteriaQuery = criteriaBuilder.createQuery(targetClass);
 
         Root<T> entity = criteriaQuery.from(targetClass);
@@ -323,7 +325,7 @@ public class EntityBaseDao {
             criteriaQuery.where(criteriaBuilder.conjunction());
         }
 
-        TypedQuery<T> finalCriteriaQuery = entityManager.createQuery(criteriaQuery);
+        TypedQuery<T> finalCriteriaQuery = em.createQuery(criteriaQuery);
         return (List<T>) finalCriteriaQuery.getResultList();
     }
 
@@ -408,7 +410,7 @@ public class EntityBaseDao {
 
     protected <T> int countByPropertyFilter(final Class<T> targetClass, final List<PropertyFilter> filters) {
         String countOfQuery = PersistenceUtils.buildQueryStringWithPropertyFilters(true, targetClass, filters);
-        Query query = entityManager.createQuery(countOfQuery);
+        Query query = em.createQuery(countOfQuery);
         return Integer.valueOf(String.valueOf(query.getSingleResult()));
     }
 
@@ -482,7 +484,7 @@ public class EntityBaseDao {
 
     public Query createQuery(final String queryString, final Object... values) {
         Validate.notEmpty(queryString, "queryString不能为空");
-        Query query = entityManager.createQuery(queryString);
+        Query query = em.createQuery(queryString);
         if (values != null) {
             for (int i = 1; i <= values.length; i++) {
                 Object value = values[i - 1];
@@ -505,7 +507,7 @@ public class EntityBaseDao {
      */
     public Query createLocalQuery(final String queryString, final Object... values) {
         Validate.notEmpty(queryString, "queryString不能为空");
-        Query query = entityManager.createNativeQuery(queryString);
+        Query query = em.createNativeQuery(queryString);
         if (values != null) {
             for (int i = 1; i <= values.length; i++) {
                 Object value = values[i - 1];
@@ -528,7 +530,7 @@ public class EntityBaseDao {
      */
     public <X> List<X> createNativeQuery(final String queryString, final Object... values) {
         Validate.notEmpty(queryString, "queryString不能为空");
-        Query query = entityManager.createNativeQuery(queryString);
+        Query query = em.createNativeQuery(queryString);
         if (values != null) {
             for (int i = 1; i <= values.length; i++) {
                 query.setParameter(i, values[i - 1]);
@@ -539,7 +541,7 @@ public class EntityBaseDao {
 
     public Query createNativeQuery(final String queryString, final Map<String, ?> values) {
         Validate.notEmpty(queryString, "queryString不能为空");
-        Query query = entityManager.createNativeQuery(queryString);
+        Query query = em.createNativeQuery(queryString);
         for (Map.Entry<String, ?> kv : values.entrySet()) {
             query.setParameter(Integer.valueOf(kv.getKey()), kv.getValue());
         }
@@ -555,7 +557,7 @@ public class EntityBaseDao {
      */
     public Query createQuery(final String queryString, final Map<String, ?> values) {
         Validate.notEmpty(queryString, "queryString不能为空");
-        Query query = entityManager.createQuery(queryString);
+        Query query = em.createQuery(queryString);
         for (Map.Entry<String, ?> kv : values.entrySet()) {
             query.setParameter(kv.getKey(), kv.getValue());
         }
