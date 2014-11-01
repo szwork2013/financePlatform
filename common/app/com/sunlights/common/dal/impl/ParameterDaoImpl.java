@@ -5,7 +5,6 @@ import com.sunlights.common.AppConst;
 import com.sunlights.common.dal.EntityBaseDao;
 import com.sunlights.common.dal.ParameterDao;
 import com.sunlights.common.models.Parameter;
-import org.springframework.stereotype.Service;
 
 import java.util.List;
 

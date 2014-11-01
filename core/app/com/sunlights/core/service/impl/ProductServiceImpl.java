@@ -7,8 +7,6 @@ import com.sunlights.common.utils.CommonUtil;
 import com.sunlights.core.models.Fund;
 import com.sunlights.core.service.ProductService;
 import com.sunlights.core.vo.FundVo;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;

@@ -1,9 +1,9 @@
 package com.sunlights.customer.service;
 
 import com.sunlights.common.exceptions.BusinessRuntimeException;
-import com.sunlights.customer.vo.CustomerFormVo;
 import com.sunlights.customer.models.Customer;
 import com.sunlights.customer.models.CustomerSession;
+import com.sunlights.customer.vo.CustomerFormVo;
 
 /**
  * <p>Project: fsp</p>

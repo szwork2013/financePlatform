@@ -1,8 +1,6 @@
 package com.sunlights.core.vo;
 
 
-import com.sunlights.core.vo.BankCardVo;
-
 /**
  * <p>Project: fsp</p>
  * <p>Title: BankCardFormVo.java</p>

@@ -1,22 +1,17 @@
 package com.sunlights.customer.service.impl;
 
-import com.sunlights.common.AppConst;
-import com.sunlights.common.MsgCode;
-import com.sunlights.common.utils.CommonUtil;
-import com.sunlights.common.ParameterService;
-import com.sunlights.common.IParameterConst;
-import com.sunlights.customer.vo.IdentifierVo;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-
-import play.Logger;
-import play.libs.Json;
 import cn.com.nciic.www.SimpleCheckByJson;
 import cn.com.nciic.www.SimpleCheckByJsonResponse;
 import cn.com.nciic.www.service.IdentifierServiceStub;
-
 import com.fasterxml.jackson.databind.node.ObjectNode;
+import com.sunlights.common.AppConst;
+import com.sunlights.common.IParameterConst;
+import com.sunlights.common.MsgCode;
+import com.sunlights.common.ParameterService;
+import com.sunlights.common.utils.CommonUtil;
+import com.sunlights.customer.vo.IdentifierVo;
+import play.Logger;
+import play.libs.Json;
 
 /**
  * <p>Project: fsp</p>

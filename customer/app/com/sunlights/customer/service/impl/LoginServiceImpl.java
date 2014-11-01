@@ -1,6 +1,8 @@
 package com.sunlights.customer.service.impl;
 
-import com.sunlights.common.*;
+import com.sunlights.common.AppConst;
+import com.sunlights.common.IParameterConst;
+import com.sunlights.common.MsgCode;
 import com.sunlights.common.ParameterService;
 import com.sunlights.common.dal.impl.VerifyCodeService;
 import com.sunlights.common.exceptions.BusinessRuntimeException;
@@ -11,17 +13,15 @@ import com.sunlights.common.utils.MD5Helper;
 import com.sunlights.common.utils.msg.Message;
 import com.sunlights.common.utils.msg.MessageUtil;
 import com.sunlights.common.vo.CustomerVerifyCodeVo;
-import com.sunlights.customer.service.LoginService;
 import com.sunlights.customer.dal.CustomerDao;
 import com.sunlights.customer.dal.LoginDao;
 import com.sunlights.customer.models.Customer;
 import com.sunlights.customer.models.CustomerGesture;
 import com.sunlights.customer.models.CustomerSession;
 import com.sunlights.customer.models.LoginHistory;
+import com.sunlights.customer.service.LoginService;
 import com.sunlights.customer.vo.CustomerFormVo;
 import com.sunlights.customer.vo.CustomerVo;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
 import play.Logger;
 
 import java.math.BigDecimal;

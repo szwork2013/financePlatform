@@ -1,9 +1,9 @@
 package com.sunlights.account.vo;
 
+import com.sunlights.account.AccountConstant;
+
 import java.io.Serializable;
 import java.util.List;
-
-import com.sunlights.account.AccountConstant;
 
 /**
  * 我的资产页面需要的数据信息

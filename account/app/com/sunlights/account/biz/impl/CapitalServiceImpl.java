@@ -1,18 +1,15 @@
 package com.sunlights.account.biz.impl;
 
+import com.sunlights.account.biz.CapitalService;
+import com.sunlights.account.dal.CapitalDao;
+import com.sunlights.account.models.HoldCapital;
+import com.sunlights.account.vo.Capital4Product;
+import com.sunlights.account.vo.TotalCapitalInfo;
+import com.sunlights.common.utils.ArithUtil;
+
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
-
-import com.sunlights.account.biz.CapitalService;
-import com.sunlights.account.dal.CapitalDao;
-import com.sunlights.account.vo.Capital4Product;
-import com.sunlights.account.vo.TotalCapitalInfo;
-import com.sunlights.account.models.HoldCapital;
-import com.sunlights.common.utils.ArithUtil;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
 
 /**
  * 

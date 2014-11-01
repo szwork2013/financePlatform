@@ -1,20 +1,18 @@
 package com.sunlights.core.service.impl;
 
 import com.sunlights.common.MsgCode;
-import com.sunlights.core.service.BankService;
-import com.sunlights.core.dal.BankDao;
-import com.sunlights.core.integration.BankClient;
-import com.sunlights.core.models.Bank;
-import com.sunlights.core.vo.BankCardVo;
-import com.sunlights.core.vo.BankVo;
 import com.sunlights.common.page.PageService;
 import com.sunlights.common.page.Pager;
 import com.sunlights.common.utils.msg.Message;
 import com.sunlights.common.utils.msg.MessageUtil;
+import com.sunlights.core.dal.BankDao;
+import com.sunlights.core.integration.BankClient;
+import com.sunlights.core.models.Bank;
+import com.sunlights.core.service.BankService;
+import com.sunlights.core.vo.BankCardVo;
+import com.sunlights.core.vo.BankVo;
 import com.sunlights.customer.service.impl.CustomerService;
 import org.apache.commons.lang3.StringUtils;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
 
 import java.util.List;
 

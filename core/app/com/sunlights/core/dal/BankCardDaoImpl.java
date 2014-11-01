@@ -1,7 +1,7 @@
 package com.sunlights.core.dal;
 
-import com.sunlights.core.models.BankCard;
 import com.sunlights.common.dal.EntityBaseDao;
+import com.sunlights.core.models.BankCard;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;

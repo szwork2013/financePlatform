@@ -1,9 +1,8 @@
 package com.sunlights.core.dal.impl;
 
+import com.sunlights.common.dal.EntityBaseDao;
 import com.sunlights.core.dal.SmsMessageDao;
 import com.sunlights.core.models.SmsMessage;
-import com.sunlights.common.dal.EntityBaseDao;
-import org.springframework.stereotype.Service;
 
 /**
  * <p>Project: fsp</p>

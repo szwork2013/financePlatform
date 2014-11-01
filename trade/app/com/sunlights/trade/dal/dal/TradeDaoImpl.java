@@ -3,7 +3,6 @@ package com.sunlights.trade.dal.dal;
 import com.sunlights.common.dal.EntityBaseDao;
 import com.sunlights.trade.dal.TradeDao;
 import com.sunlights.trade.vo.TradeInfoVo;
-import org.springframework.stereotype.Service;
 
 import javax.persistence.Query;
 import java.util.HashMap;

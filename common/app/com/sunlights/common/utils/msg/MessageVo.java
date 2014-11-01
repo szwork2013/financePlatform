@@ -1,9 +1,9 @@
 package com.sunlights.common.utils.msg;
 
+import play.i18n.Messages;
+
 import java.util.HashMap;
 import java.util.Map;
-
-import play.i18n.Messages;
 
 /**
  * Created by yuan on 9/22/14.

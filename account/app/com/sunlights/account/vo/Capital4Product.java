@@ -1,8 +1,8 @@
 package com.sunlights.account.vo;
 
-import java.io.Serializable;
-
 import com.sunlights.account.AccountConstant;
+
+import java.io.Serializable;
 
 public class Capital4Product implements Serializable {
 	private static final long serialVersionUID = 8471977226403621283L;

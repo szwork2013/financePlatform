@@ -1,12 +1,11 @@
 package com.sunlights.customer.dal.impl;
 
+import com.sunlights.common.dal.EntityBaseDao;
 import com.sunlights.customer.dal.CustomerDao;
-import com.sunlights.customer.vo.CustomerInfoVo;
 import com.sunlights.customer.models.Customer;
 import com.sunlights.customer.models.CustomerGesture;
 import com.sunlights.customer.models.CustomerSession;
-import com.sunlights.common.dal.EntityBaseDao;
-import org.springframework.stereotype.Service;
+import com.sunlights.customer.vo.CustomerInfoVo;
 
 import javax.persistence.Query;
 import java.sql.Timestamp;

@@ -1,7 +1,5 @@
 package com.sunlights.common.page;
 
-import com.sunlights.common.page.Pager;
-
 import java.util.ArrayList;
 import java.util.List;
 

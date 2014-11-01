@@ -4,8 +4,6 @@ import com.sunlights.account.dal.BaseAccountDao;
 import com.sunlights.account.models.BaseAccount;
 import com.sunlights.common.dal.EntityBaseDao;
 
-import org.springframework.stereotype.Repository;
-
 public class BaseAccountDaoImpl extends EntityBaseDao implements BaseAccountDao {
 
 	@Override

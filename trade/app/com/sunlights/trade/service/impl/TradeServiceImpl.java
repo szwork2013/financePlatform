@@ -1,14 +1,12 @@
 package com.sunlights.trade.service.impl;
 
 import com.sunlights.common.utils.ArithUtil;
-import com.sunlights.customer.service.impl.CustomerService;
 import com.sunlights.customer.models.CustomerSession;
-import com.sunlights.trade.service.TradeService;
+import com.sunlights.customer.service.impl.CustomerService;
 import com.sunlights.trade.dal.TradeDao;
+import com.sunlights.trade.service.TradeService;
 import com.sunlights.trade.vo.TradeInfoVo;
 import com.sunlights.trade.vo.TradeVo;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;

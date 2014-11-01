@@ -1,13 +1,12 @@
 package com.sunlights.core.web;
 
 import com.sunlights.common.MsgCode;
-import com.sunlights.core.service.ProductService;
-import com.sunlights.core.vo.ProductParameter;
-import com.sunlights.common.page.Pager;
 import com.sunlights.common.page.PageVo;
+import com.sunlights.common.page.Pager;
 import com.sunlights.common.utils.msg.Message;
 import com.sunlights.common.utils.msg.MessageUtil;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.sunlights.core.service.ProductService;
+import com.sunlights.core.vo.ProductParameter;
 import play.data.Form;
 import play.libs.Json;
 import play.mvc.Http;

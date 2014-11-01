@@ -1,19 +1,15 @@
 package com.sunlights.core.integration;
 
+import com.sunlights.common.IParameterConst;
 import com.sunlights.common.ParameterService;
 import com.sunlights.common.utils.DBHelper;
+import com.sunlights.common.utils.MD5Helper;
 import com.sunlights.core.dal.SmsMessageDao;
 import com.sunlights.core.models.SmsMessage;
-import com.sunlights.common.IParameterConst;
-import com.sunlights.common.utils.MD5Helper;
-
 import org.apache.commons.httpclient.HttpClient;
 import org.apache.commons.httpclient.HttpStatus;
 import org.apache.commons.httpclient.NameValuePair;
 import org.apache.commons.httpclient.methods.PostMethod;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-
 import play.Logger;
 
 /**

@@ -1,12 +1,11 @@
 package com.sunlights.core.web;
 
 import com.sunlights.common.MsgCode;
-import com.sunlights.core.service.OpenAccountPactService;
-import com.sunlights.core.vo.AgreementVo;
 import com.sunlights.common.utils.msg.Message;
 import com.sunlights.common.utils.msg.MessageUtil;
+import com.sunlights.core.service.OpenAccountPactService;
+import com.sunlights.core.vo.AgreementVo;
 import org.apache.commons.lang3.StringUtils;
-import org.springframework.beans.factory.annotation.Autowired;
 import play.data.Form;
 import play.mvc.Http;
 import play.mvc.Result;

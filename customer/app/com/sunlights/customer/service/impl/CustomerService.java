@@ -15,8 +15,6 @@ import com.sunlights.customer.models.CustomerSession;
 import com.sunlights.customer.vo.CustomerFormVo;
 import com.sunlights.customer.vo.CustomerInfoVo;
 import com.sunlights.customer.vo.CustomerVo;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
 import play.Logger;
 import play.cache.Cache;
 import play.mvc.Http;

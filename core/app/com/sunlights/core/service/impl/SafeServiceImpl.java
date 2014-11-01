@@ -2,14 +2,12 @@ package com.sunlights.core.service.impl;
 
 import akka.actor.ActorRef;
 import com.sunlights.common.AppConst;
+import com.sunlights.common.IParameterConst;
+import com.sunlights.common.ParameterService;
 import com.sunlights.common.utils.DBHelper;
 import com.sunlights.core.actor.Actors;
-import com.sunlights.common.ParameterService;
 import com.sunlights.core.dal.SmsMessageDao;
 import com.sunlights.core.models.SmsMessage;
-import com.sunlights.common.IParameterConst;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.sql.Timestamp;

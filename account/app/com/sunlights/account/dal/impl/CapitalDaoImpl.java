@@ -1,12 +1,10 @@
 package com.sunlights.account.dal.impl;
 
-import java.util.List;
-
 import com.sunlights.account.dal.CapitalDao;
 import com.sunlights.account.models.HoldCapital;
 import com.sunlights.common.dal.EntityBaseDao;
 
-import org.springframework.stereotype.Repository;
+import java.util.List;
 
 /**
  * 资产Dao实现

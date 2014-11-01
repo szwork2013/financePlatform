@@ -1,11 +1,10 @@
 package com.sunlights.common.utils.msg;
 
-import java.util.HashMap;
-import java.util.Map;
-
+import com.fasterxml.jackson.databind.JsonNode;
 import play.libs.Json;
 
-import com.fasterxml.jackson.databind.JsonNode;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Created by yuan on 9/22/14.

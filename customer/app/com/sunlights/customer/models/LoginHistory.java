@@ -1,13 +1,12 @@
 package com.sunlights.customer.models;
 
-import java.sql.Timestamp;
+import com.sunlights.common.AppConst;
+import com.sunlights.common.models.IdEntity;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Table;
-
-import com.sunlights.common.AppConst;
-import com.sunlights.common.models.IdEntity;
+import java.sql.Timestamp;
 
 /**
  * Created by Administrator on 2014/9/5.

@@ -1,8 +1,8 @@
 package com.sunlights.core.dal.impl;
 
+import com.sunlights.common.dal.EntityBaseDao;
 import com.sunlights.core.dal.OpenAccountPactDao;
 import com.sunlights.core.models.OpenAccountPact;
-import com.sunlights.common.dal.EntityBaseDao;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
