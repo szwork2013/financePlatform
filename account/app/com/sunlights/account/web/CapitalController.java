@@ -25,7 +25,7 @@ public class CapitalController {
 
     private static final play.Logger.ALogger LOG = Logger.of("customer");
 
-	@Autowired
+
 	private CapitalService capitalService;
     private final Message operateSuccessMsg = new Message(MsgCode.OPERATE_SUCCESS);
 

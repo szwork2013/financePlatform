@@ -24,11 +24,11 @@ import play.Logger;
 * <p>All Rights Reserved.</p>
 * @author <a href="mailto:jiaming.wang@sunlights.cc">wangJiaMing</a>
 */
-@Service
+
 public class SmsMessageClient {
-    @Autowired
+
     private ParameterService parameterService;
-    @Autowired
+
     private SmsMessageDao smsMessageDao;
 
     public String sendSms(SmsMessage smsMessage){

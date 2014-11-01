@@ -27,7 +27,7 @@ import static play.mvc.Results.ok;
 public class AgreementController {
     private static MessageUtil messageUtil = MessageUtil.getInstance();
     private static Form<AgreementVo> agreementVoForm = Form.form(AgreementVo.class);
-    @Autowired
+
     private OpenAccountPactService openAccountPactService;
 
 

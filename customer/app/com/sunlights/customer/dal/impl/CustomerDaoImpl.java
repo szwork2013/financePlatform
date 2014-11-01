@@ -21,7 +21,7 @@ import java.util.List;
  *
  * @author <a href="mailto:jiaming.wang@sunlights.cc">wangJiaMing</a>
  */
-@Service
+
 public class CustomerDaoImpl extends EntityBaseDao implements CustomerDao {
     public String getCustomerIdSeq(){
         Query query = entityManager.createNativeQuery("SELECT nextval('cust_seq')");

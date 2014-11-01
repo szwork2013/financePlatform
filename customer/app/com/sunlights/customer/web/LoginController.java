@@ -27,11 +27,11 @@ import play.mvc.Result;
 public class LoginController {
 	private Form<CustomerFormVo> customerForm = Form.form(CustomerFormVo.class);
 
-    @Autowired
+
     private LoginService loginService;
-    @Autowired
+
     private CustomerService customerService;
-    @Autowired
+
     private VerifyCodeService verifyCodeService;
 
     /**

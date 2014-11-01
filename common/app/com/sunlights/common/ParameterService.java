@@ -23,11 +23,11 @@ import java.util.Map;
  * @author <a href="mailto:jiaming.wang@sunlights.cc">wangJiaMing</a>
  */
 
-@Service
+
 public class ParameterService {
     public Map<String, String> params = new HashMap<String, String>();
 
-    @Autowired
+
     private ParameterDao parameterDao;
 
     public void loadAllParameter() {

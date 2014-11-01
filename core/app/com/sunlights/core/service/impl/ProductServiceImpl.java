@@ -24,10 +24,10 @@ import java.util.List;
  *
  * @author <a href="mailto:zhencai.yuan@sunlights.cc">yuanzhencai</a>
  */
-@Service
+
 public class ProductServiceImpl implements ProductService {
 
-    @Autowired
+
     private PageService pageService;
 
     @Override

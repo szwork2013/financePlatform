@@ -17,7 +17,6 @@ import java.util.List;
  *
  * @author <a href="mailto:jiaming.wang@sunlights.cc">wangJiaMing</a>
  */
-@Service
 public class CustomerVerifyCodeDaoImpl extends EntityBaseDao implements CustomerVerifyCodeDao {
 
     //CustomerVerifyCode

@@ -21,7 +21,7 @@ import org.springframework.stereotype.Service;
  */
 public class CapitalServiceImpl implements CapitalService {
 	
-	@Autowired
+
 	private CapitalDao capitalDao;
 	
 	@Override

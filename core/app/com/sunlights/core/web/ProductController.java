@@ -30,7 +30,7 @@ public class ProductController {
     private Form<ProductParameter> productParameterForm = Form.form(ProductParameter.class);
     private MessageUtil messageUtil = MessageUtil.getInstance();
 
-    @Autowired
+
     private ProductService productService;
 
     public Result findProductsByType() {

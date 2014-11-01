@@ -27,18 +27,18 @@ import java.util.List;
  *
  * @author <a href="mailto:zhencai.yuan@sunlights.cc">yuanzhencai</a>
  */
-@Service
+
 public class BankServiceImpl implements BankService {
-    @Autowired
+
     private BankDao bankDao;
 
-    @Autowired
+
     private PageService pageService;
 
-    @Autowired
+
     private BankClient bankClient;
 
-    @Autowired
+
     private CustomerService customerService;
 
     @Override

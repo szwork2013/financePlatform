@@ -33,7 +33,7 @@ import java.util.Map;
 public class TradeController {
     private Logger logger = LoggerFactory.getLogger(TradeController.class);
 
-    @Autowired
+
     private TradeService tradeService;
 
     public Result getTradeList(){

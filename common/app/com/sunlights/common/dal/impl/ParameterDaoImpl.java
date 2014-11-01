@@ -19,7 +19,6 @@ import java.util.List;
  * @author <a href="mailto:jiaming.wang@sunlights.cc">wangJiaMing</a>
  */
 
-@Service
 public class ParameterDaoImpl extends EntityBaseDao implements ParameterDao {
 
     public List<Parameter> loadAllParameter(){

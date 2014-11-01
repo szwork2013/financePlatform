@@ -28,9 +28,9 @@ import com.fasterxml.jackson.databind.node.ObjectNode;
  * @author <a href="mailto:jiaming.wang@sunlights.cc">wangJiaMing</a>
  */
 
-@Service
+
 public class IdentityService {
-    @Autowired
+
     private ParameterService parameterService;
 
     public void identity(String idCardNo, String userName){

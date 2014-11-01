@@ -32,12 +32,12 @@ import play.mvc.Result;
 public class AccountController {
     private Form<CustomerFormVo> customerForm = Form.form(CustomerFormVo.class);
 
-    @Autowired
+
     private AccountService accountService;
-    @Autowired
+
     private CustomerService customerService;
 
-    @Autowired
+
     private VerifyCodeService verifyCodeService;
     
     /**

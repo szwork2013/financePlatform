@@ -17,9 +17,9 @@ import org.springframework.stereotype.Service;
  *
  * @author <a href="mailto:zhencai.yuan@sunlights.cc">yuanzhencai</a>
  */
-@Service
+
 public class OpenAccountPactServiceImpl implements OpenAccountPactService {
-    @Autowired
+
     private OpenAccountPactDao openAccountPactDao;
 
     @Override

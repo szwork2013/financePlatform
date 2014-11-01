@@ -11,8 +11,6 @@ import com.sunlights.common.utils.DBHelper;
 import com.sunlights.common.utils.msg.Message;
 import com.sunlights.common.utils.msg.MessageUtil;
 import com.sunlights.common.vo.CustomerVerifyCodeVo;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
 import play.Logger;
 
 import java.sql.Timestamp;
@@ -21,12 +19,9 @@ import java.util.Random;
 /**
  * Created by Administrator on 2014/10/30.
  */
-@Service
 public class VerifyCodeService {
 
-    @Autowired
     private CustomerVerifyCodeDao customerVerifyCodeDao;
-    @Autowired
     private ParameterService parameterService;
     /**
      * <P>Description: 获取验证码</p>

@@ -21,7 +21,7 @@ import play.data.Form;
 public class SafeController {
     private static Form<CustomerFormVo> customerForm = Form.form(CustomerFormVo.class);
 
-    @Autowired
+
     private VerifyCodeService verifyCodeService;
 
 

@@ -17,7 +17,7 @@ import java.util.List;
  *
  * @author <a href="mailto:jiaming.wang@sunlights.cc">wangJiaMing</a>
  */
-@Service
+
 public class LoginDaoImpl extends EntityBaseDao implements LoginDao {
     @Override
     public LoginHistory saveLoginHistory(LoginHistory loginHistory) {

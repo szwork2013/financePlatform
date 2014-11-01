@@ -19,7 +19,7 @@ import java.util.Map;
  *
  * @author <a href="mailto:jiaming.wang@sunlights.cc">wangJiaMing</a>
  */
-@Service
+
 public class TradeDaoImpl extends EntityBaseDao implements TradeDao{
     @Override
     public List<TradeInfoVo> getTradeListByCustomerId(String customerId, String productType) {

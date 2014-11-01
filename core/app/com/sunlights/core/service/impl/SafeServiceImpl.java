@@ -25,13 +25,13 @@ import java.text.SimpleDateFormat;
 *
 * @author <a href="mailto:jiaming.wang@sunlights.cc">wangJiaMing</a>
 */
-@Service
+
 @Transactional
 public class SafeServiceImpl {
 
-    @Autowired
+
     private ParameterService parameterService;
-    @Autowired
+
     private SmsMessageDao smsMessageDao;
 
     /**

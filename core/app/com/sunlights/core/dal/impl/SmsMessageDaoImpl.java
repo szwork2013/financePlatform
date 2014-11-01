@@ -14,7 +14,7 @@ import org.springframework.stereotype.Service;
  *
  * @author <a href="mailto:jiaming.wang@sunlights.cc">wangJiaMing</a>
  */
-@Service
+
 public class SmsMessageDaoImpl extends EntityBaseDao implements SmsMessageDao {
     @Override
     public SmsMessage saveSmsMessage(SmsMessage smsMessage) {

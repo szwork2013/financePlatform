@@ -15,10 +15,10 @@ import org.springframework.stereotype.Service;
  *
  * @author <a href="mailto:zhencai.yuan@sunlights.cc">yuanzhencai</a>
  */
-@Service
+
 public class PageServiceImpl implements PageService {
 
-    @Autowired
+
     private PageDao pageDao;
 
 

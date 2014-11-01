@@ -6,7 +6,6 @@ import com.sunlights.common.utils.msg.Message;
 import java.io.PrintWriter;
 import java.io.StringWriter;
 
-
 public class BusinessRuntimeException extends RuntimeException {
 	private String errorCode;
     private Message.Severity severity;

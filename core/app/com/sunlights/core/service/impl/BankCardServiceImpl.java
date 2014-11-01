@@ -31,15 +31,15 @@ import java.util.List;
  *
  * @author <a href="mailto:zhencai.yuan@sunlights.cc">yuanzhencai</a>
  */
-@Service
+
 public class BankCardServiceImpl implements BankCardService {
-    @Autowired
+
     private BankCardDao bankCardDao;
-    @Autowired
+
     private CustomerService customerService;
-    @Autowired
+
     private PageService pageService;
-    @Autowired
+
     private BankService bankService;
 
     @Override

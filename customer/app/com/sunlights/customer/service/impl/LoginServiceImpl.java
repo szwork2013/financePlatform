@@ -32,19 +32,19 @@ import java.sql.Timestamp;
  * @author Administrator
  * 
  */
-@Service
+
 public class LoginServiceImpl implements LoginService {
 
-    @Autowired
+
     private LoginDao loginDao;
-    @Autowired
+
     private ParameterService parameterService;
-    @Autowired
+
     private CustomerDao customerDao;
-    @Autowired
+
     private CustomerService customerService;
 
-    @Autowired
+
     VerifyCodeService verifyCodeService;
 
 	/**

@@ -24,9 +24,9 @@ import java.sql.Timestamp;
 
 public class CustAccountServiceImpl implements AccountService {
 	
-	@Autowired
+
 	private BaseAccountDao baseAccountDao;
-    @Autowired
+
     private CustomerService customerService;
 
 	@Transactional

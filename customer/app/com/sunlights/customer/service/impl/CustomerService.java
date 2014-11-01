@@ -33,14 +33,14 @@ import java.text.SimpleDateFormat;
  *
  * @author <a href="mailto:jiaming.wang@sunlights.cc">wangJiaMing</a>
  */
-@Service
+
 public class CustomerService {
-    @Autowired
+
     private CustomerDao customerDao;
-    @Autowired
+
     private ParameterService parameterService;
 
-    @Autowired
+
     private IdentityService identityService;
 
     public CustomerInfoVo getCustomerInfoVoByPhoneNo(String mobilePhoneNo, String deviceNo) {

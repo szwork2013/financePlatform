@@ -36,9 +36,9 @@ public class BankController {
     private Form<Pager> pagerForm = Form.form(Pager.class);
     private Form<BankCardFormVo> bankCardForm = Form.form(BankCardFormVo.class);
 
-    @Autowired
+
     private BankService bankService;
-    @Autowired
+
     private BankCardService bankCardService;
 
     public Result createBankCard() {
