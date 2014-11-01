@@ -63,9 +63,6 @@ public class LoginController extends Controller {
 	 */
 	public Result register() {
         Logger.info("==========register====================");
-        ParameterService parameterService = new ParameterService();
-        parameterService.loadAllParameter();
-
         CustomerFormVo customerFormVo = customerForm.bindFromRequest().get();
 		Customer customer = loginService.register(customerFormVo);
 

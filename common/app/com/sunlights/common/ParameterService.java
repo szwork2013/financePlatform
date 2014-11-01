@@ -24,17 +24,19 @@ import java.util.Map;
 
 @Transactional
 public class ParameterService {
-    public Map<String, String> params = new HashMap<String, String>();
+    private static Map<String, String> params = new HashMap<String, String>();
 
     private ParameterDao parameterDao = new ParameterDaoImpl();
 
-    public void loadAllParameter() {
-        List<Parameter> list = parameterDao.loadAllParameter();
-		if (list != null && list.size() != 0) {
-			for (Parameter parameter : list) {
-				params.put(parameter.getName(), parameter.getValue());
-			}
-		}
+    private void loadAllParameter() {
+        if(params.isEmpty()) {
+            List<Parameter> list = parameterDao.loadAllParameter();
+            if (list != null && list.size() != 0) {
+                for (Parameter parameter : list) {
+                    params.put(parameter.getName(), parameter.getValue());
+                }
+            }
+        }
     }
 
     public void clearAll(){
@@ -42,6 +44,7 @@ public class ParameterService {
     }
 
     public String getParameterByName(String name){
+        loadAllParameter();
         String value = params.get(name);
         if (value == null || "".equals(value.trim())) {
             return null;
@@ -55,6 +58,7 @@ public class ParameterService {
      * @return
      */
     public long getParameterNumeric(String name) throws BusinessRuntimeException {
+        loadAllParameter();
         String value = params.get(name);
         if (value == null || "".equals(value.trim())) {
             throw CommonUtil.getInstance().errorBusinessException(MsgCode.MISSING_PARAM_CONFIG, name);
@@ -69,7 +73,7 @@ public class ParameterService {
     }
 
 
-    public Parameter addParameter(String name, String value, String description){
+    public Parameter saveParameter(String name, String value, String description){
         if(name == null || "".equals(name.trim())){
             throw CommonUtil.getInstance().errorBusinessException(MsgCode.ACCESS_FAIL);
         }
