@@ -18,10 +18,11 @@ import com.sunlights.customer.vo.CustomerVo;
  */
 public interface LoginService {
     
-    public MessageVo<CustomerVo> register(CustomerFormVo customerFormVo) throws BusinessRuntimeException;
+    public Customer register(CustomerFormVo customerFormVo);
 
-    public CustomerSession login(CustomerFormVo vo, String token, String clientAddress) throws BusinessRuntimeException;
-    public CustomerSession loginByges(CustomerFormVo vo, String token, String clientAddress) throws BusinessRuntimeException;
+    public CustomerSession login(CustomerFormVo vo, String token, String clientAddress);
+
+    public CustomerSession loginByGesture(CustomerFormVo vo, String token, String clientAddress);
 
     public void logout(String mobilePhoneNo, String deviceNo, String token);
 
@@ -29,18 +30,19 @@ public interface LoginService {
      * 忘记密码验证码校对
      * @return
      */
-    public MessageVo resetpwdCertify(CustomerFormVo vo);
+    public boolean resetpwdCertify(CustomerFormVo vo);
+
     /**
      * 重置密码
      * @return
      */
-    public MessageVo resetpwd(String mobilePhoneNo, String passWord, String deviceNo);
+    public Customer resetpwd(String mobilePhoneNo, String passWord, String deviceNo);
 
     /**
      * 保存手势密码
      * @return
      */
-    public MessageVo<CustomerVo> saveGesturePwd(CustomerFormVo vo);
+    public CustomerVo saveGesturePwd(CustomerFormVo vo);
 
     public void confirmPwd(String mobilePhoneNo, String password);
 

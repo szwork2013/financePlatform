@@ -2,9 +2,9 @@ package com.sunlights.core.service.impl;
 
 import com.sunlights.common.MsgCode;
 import com.sunlights.common.service.PageService;
+import com.sunlights.common.utils.MessageUtil;
 import com.sunlights.common.vo.PageVo;
 import com.sunlights.common.vo.Message;
-import com.sunlights.common.vo.MessageUtil;
 import com.sunlights.core.dal.BankDao;
 import com.sunlights.core.integration.BankClient;
 import com.sunlights.core.models.Bank;

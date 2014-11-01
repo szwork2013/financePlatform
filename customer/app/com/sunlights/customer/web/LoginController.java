@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.sunlights.common.AppConst;
 import com.sunlights.common.MsgCode;
 import com.sunlights.common.service.VerifyCodeService;
+import com.sunlights.common.utils.MessageUtil;
 import com.sunlights.common.vo.Message;
 import com.sunlights.common.vo.MessageVo;
 import com.sunlights.customer.models.Customer;
@@ -169,7 +170,7 @@ public class LoginController extends Controller {
 	 * @return
 	 */
 	public Result loginByges() {
-		Logger.info("==========loginByges====================");
+		Logger.info("==========loginByGesture====================");
 		CustomerFormVo customerFormVo = customerForm.bindFromRequest().get();
         String mobilePhoneNo = customerFormVo.getMobilePhoneNo();
         String deviceNo = customerFormVo.getDeviceNo();
@@ -177,7 +178,7 @@ public class LoginController extends Controller {
  		Http.Cookie cookie = Controller.request().cookie(AppConst.TOKEN);
  		String token = cookie == null ? null : cookie.value();
 
- 		CustomerSession customerSession = loginService.loginByges(customerFormVo, token, Controller.request().remoteAddress());
+ 		CustomerSession customerSession = loginService.loginByGesture(customerFormVo, token, Controller.request().remoteAddress());
 
 		if (customerSession != null) {
             Message message = new Message(MsgCode.LOGIN_SUCCESS);
@@ -185,6 +186,7 @@ public class LoginController extends Controller {
             MessageUtil.getInstance().addMessage(message, customerVo);
             customerService.sessionLoginSessionId(Controller.session(), Controller.response(), customerSession);
         }
+
 		JsonNode json = MessageUtil.getInstance().toJson();
 		Logger.info("==========loginByges返回：" + json.toString());
 		
@@ -214,8 +216,10 @@ public class LoginController extends Controller {
         Logger.info("========saveGesturePwd================");
         customerService.validateCustomerSession(Controller.request(), Controller.session(), Controller.response());
         CustomerFormVo vo = customerForm.bindFromRequest().get();
-        MessageVo<CustomerVo> response = loginService.saveGesturePwd(vo);
-		return Controller.ok(response.toJson());
+        CustomerVo customerVo = loginService.saveGesturePwd(vo);
+        MessageVo<CustomerVo> messageVo = new MessageVo<>(new Message(MsgCode.GESTURE_PASSWORD_SUCCESS));
+        messageVo.setValue(customerVo);
+        return Controller.ok(messageVo.toJson());
 	}
 
     /**

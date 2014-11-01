@@ -2,9 +2,9 @@ package com.sunlights.core.web;
 
 import com.sunlights.common.AppConst;
 import com.sunlights.common.MsgCode;
+import com.sunlights.common.utils.MessageUtil;
 import com.sunlights.common.vo.PageVo;
 import com.sunlights.common.vo.Message;
-import com.sunlights.common.vo.MessageUtil;
 import com.sunlights.core.service.BankCardService;
 import com.sunlights.core.service.BankService;
 import com.sunlights.core.vo.BankCardFormVo;

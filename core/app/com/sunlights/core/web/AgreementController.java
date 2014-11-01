@@ -1,8 +1,8 @@
 package com.sunlights.core.web;
 
 import com.sunlights.common.MsgCode;
+import com.sunlights.common.utils.MessageUtil;
 import com.sunlights.common.vo.Message;
-import com.sunlights.common.vo.MessageUtil;
 import com.sunlights.core.service.OpenAccountPactService;
 import com.sunlights.core.vo.AgreementVo;
 import org.apache.commons.lang3.StringUtils;

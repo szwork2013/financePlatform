@@ -6,10 +6,7 @@ import com.sunlights.common.MsgCode;
 import com.sunlights.common.service.ParameterService;
 import com.sunlights.common.service.VerifyCodeService;
 import com.sunlights.common.exceptions.BusinessRuntimeException;
-import com.sunlights.common.utils.ArithUtil;
-import com.sunlights.common.utils.CommonUtil;
-import com.sunlights.common.utils.DBHelper;
-import com.sunlights.common.utils.MD5Helper;
+import com.sunlights.common.utils.*;
 import com.sunlights.common.vo.Message;
 import com.sunlights.common.vo.CustomerVerifyCodeVo;
 import com.sunlights.common.vo.MessageVo;
@@ -88,7 +85,7 @@ public class LoginServiceImpl implements LoginService {
 	 * 
 	 * @return
 	 */
-	public CustomerSession loginByges(CustomerFormVo vo, String token, String clientAddress) {
+	public CustomerSession loginByGesture(CustomerFormVo vo, String token, String clientAddress) {
         String mobilePhoneNo = vo.getMobilePhoneNo();
         String gesturePassWord = vo.getGesturePassWord();
         String deviceNo = vo.getDeviceNo();
@@ -140,7 +137,7 @@ public class LoginServiceImpl implements LoginService {
 	 * 注册
 	 * @return
 	 */
-	public MessageVo<CustomerVo> register(CustomerFormVo vo) throws BusinessRuntimeException {
+	public Customer register(CustomerFormVo vo) {
 		String mobilePhoneNo = vo.getMobilePhoneNo();
 		String passWord = vo.getPassWord();
 		String verifyCode = vo.getVerifyCode();
@@ -164,8 +161,7 @@ public class LoginServiceImpl implements LoginService {
         MsgCode msgCode = verifyCodeService.validateVerifyCode(customerVerifyCodeVo);
         if(msgCode != MsgCode.OPERATE_SUCCESS){
             Message message = new Message(msgCode);
-            MessageVo<CustomerVo> result = new MessageVo<>(message);
-            return result;
+            MessageUtil.getInstance().addMessage(message);
         }
 
         Timestamp currentTime = DBHelper.getCurrentTime();
@@ -188,9 +184,9 @@ public class LoginServiceImpl implements LoginService {
 
         Message message = new Message(MsgCode.REGISTRY_SUCCESS);
         CustomerVo customerVo = customerService.getCustomerVoByPhoneNo(customer.getMobile(), deviceNo);
-        MessageVo<CustomerVo> result = new MessageVo<>(message);
-        result.setValue(customerVo);
-        return result;
+        MessageUtil.getInstance().addMessage(message, customerVo);
+
+        return customer;
 	}
 	
 	/**
@@ -198,7 +194,7 @@ public class LoginServiceImpl implements LoginService {
 	 * 
 	 * @return
 	 */
-	public MessageVo resetpwdCertify(CustomerFormVo vo) {
+	public boolean resetpwdCertify(CustomerFormVo vo) {
         String mobilePhoneNo = vo.getMobilePhoneNo();
         String verifyCode = vo.getVerifyCode();
         String userName = vo.getUserName();
@@ -224,14 +220,14 @@ public class LoginServiceImpl implements LoginService {
         customerVerifyCodeVo.setDeviceNo(deviceNo);
         customerVerifyCodeVo.setVerifyCode(verifyCode);
         MsgCode msgCode = verifyCodeService.validateVerifyCode(customerVerifyCodeVo);
-        MessageVo messageVo = new MessageVo(new Message(msgCode));
-        return messageVo;
+        MessageUtil.getInstance().addMessage(new Message(msgCode));
+        return true;
 	}
 	/**
 	 * 重置密码
 	 * @return
 	 */
-	public MessageVo<CustomerVo> resetpwd(String mobilePhoneNo, String passWord, String deviceNo) {
+	public Customer resetpwd(String mobilePhoneNo, String passWord, String deviceNo) {
         CommonUtil.getInstance().validateParams(mobilePhoneNo, passWord);
 		Customer customer = getCustomerByMobilePhoneNo(mobilePhoneNo);
 		if (customer == null) {
@@ -246,7 +242,7 @@ public class LoginServiceImpl implements LoginService {
         CustomerVo customerVoByPhoneNo = customerService.getCustomerVoByPhoneNo(mobilePhoneNo, deviceNo);
         MessageVo<CustomerVo> messageVo = new MessageVo<>(message);
         messageVo.setValue(customerVoByPhoneNo);
-        return messageVo;
+        return customer;
 	}
     /**
      * 退出
@@ -306,47 +302,55 @@ public class LoginServiceImpl implements LoginService {
 	 * 
 	 * @return
 	 */
-	public MessageVo<CustomerVo> saveGesturePwd(CustomerFormVo vo) {
+	public CustomerVo saveGesturePwd(CustomerFormVo vo) {
         String mobilePhoneNo = vo.getMobilePhoneNo();
         String gesturePassWord = vo.getGesturePassWord();
         String gestureOpened = vo.getGestureOpened();
         String deviceNo = vo.getDeviceNo();
 
 		Logger.info("=====gestureOpened:" + gestureOpened);
-
-		if (mobilePhoneNo == null
-				|| gestureOpened == null
-				|| (AppConst.VALID_CERTIFY.equals(gestureOpened) && gesturePassWord == null)) {
-			throw CommonUtil.getInstance().errorBusinessException(MsgCode.MISSING_PARAM_CONFIG);
-		}
-		Customer customer = getCustomerByMobilePhoneNo(mobilePhoneNo);
-		if (customer == null) {
-			throw CommonUtil.getInstance().errorBusinessException(MsgCode.PHONE_NUMBER_NOT_REGISTRY);
-		}
+        Customer customer = checkFormVo(mobilePhoneNo, gesturePassWord, gestureOpened);
 		Timestamp currentTime = DBHelper.getCurrentTime();
 		CustomerGesture customerGesture = customerDao.findCustomerGestureByDeviceNo(customer.getCustomerId(), deviceNo);
 		if (customerGesture != null && !AppConst.VALID_CERTIFY.equals(gestureOpened)) {// 关闭手势密码
-			customerGesture.setUpdatedDatetime(currentTime);
-			customerGesture.setStatus(AppConst.VERIFY_CODE_STATUS_VALID);
-            customerDao.updateCustomerGesture(customerGesture);
+            closeGesture(currentTime, customerGesture);
 		} else if (AppConst.VALID_CERTIFY.equals(gestureOpened)) {// 开启
-			customerGesture = new CustomerGesture();
-			customerGesture.setGesturePassword(new MD5Helper().encrypt(gesturePassWord));
-			customerGesture.setCreatedDatetime(currentTime);
-			customerGesture.setUpdatedDatetime(currentTime);
-			customerGesture.setDeviceNo(deviceNo);
-			customerGesture.setCustomerId(customer.getCustomerId());
-            customerDao.saveCustomerGesture(customerGesture);
+            openGesture(gesturePassWord, deviceNo, customer, currentTime);
 		}
 
-
-        Message message = new Message(MsgCode.GESTURE_PASSWORD_SUCCESS);
         CustomerVo customerVoByPhoneNo = customerService.getCustomerVoByPhoneNo(mobilePhoneNo, deviceNo);
-        MessageVo<CustomerVo> messageVo = new MessageVo<>(message);
-        messageVo.setValue(customerVoByPhoneNo);
-
-        return messageVo;
+        return customerVoByPhoneNo;
 	}
+
+    private Customer checkFormVo(String mobilePhoneNo, String gesturePassWord, String gestureOpened) {
+        if (mobilePhoneNo == null
+                || gestureOpened == null
+                || (AppConst.VALID_CERTIFY.equals(gestureOpened) && gesturePassWord == null)) {
+            throw CommonUtil.getInstance().errorBusinessException(MsgCode.MISSING_PARAM_CONFIG);
+        }
+        Customer customer = getCustomerByMobilePhoneNo(mobilePhoneNo);
+        if (customer == null) {
+            throw CommonUtil.getInstance().errorBusinessException(MsgCode.PHONE_NUMBER_NOT_REGISTRY);
+        }
+        return customer;
+    }
+
+    private void closeGesture(Timestamp currentTime, CustomerGesture customerGesture) {
+        customerGesture.setUpdatedDatetime(currentTime);
+        customerGesture.setStatus(AppConst.VERIFY_CODE_STATUS_VALID);
+        customerDao.updateCustomerGesture(customerGesture);
+    }
+
+    private void openGesture(String gesturePassWord, String deviceNo, Customer customer, Timestamp currentTime) {
+        CustomerGesture customerGesture;
+        customerGesture = new CustomerGesture();
+        customerGesture.setGesturePassword(new MD5Helper().encrypt(gesturePassWord));
+        customerGesture.setCreatedDatetime(currentTime);
+        customerGesture.setUpdatedDatetime(currentTime);
+        customerGesture.setDeviceNo(deviceNo);
+        customerGesture.setCustomerId(customer.getCustomerId());
+        customerDao.saveCustomerGesture(customerGesture);
+    }
 
     public void saveLoginHistory(Customer customer, String deviceNo){
         Timestamp currentTime = DBHelper.getCurrentTime();
@@ -378,6 +382,7 @@ public class LoginServiceImpl implements LoginService {
         long returnTime = times * RELIEVE_SUSLOCK_PERIOD;
         return returnTime;
     }
+
     /**
      * 用户查询
      * @return
@@ -467,6 +472,7 @@ public class LoginServiceImpl implements LoginService {
                 message = new Message(Message.SEVERITY_ERROR, MsgCode.PASSWORD_ERROR_OVER_COUNT, getTotalMinute(loginHistory.getLogNum(), PWD_MAX));
             }
         }
+
         MessageUtil.getInstance().addMessage(message);
     }
 
