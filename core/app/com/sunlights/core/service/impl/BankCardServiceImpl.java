@@ -71,7 +71,7 @@ public class BankCardServiceImpl implements BankCardService {
         return bankCardVos;
     }
 
-    @Transactional
+
     @Override
     public BankCard createBankCard(String token, BankCardVo bankCardVo) {
         if (StringUtils.isNotEmpty(token)) {
@@ -107,7 +107,7 @@ public class BankCardServiceImpl implements BankCardService {
         return card;
     }
 
-    @Transactional
+
     @Override
     public boolean deleteBankCard(String token, BankCardVo bankCardVo) {
         if (StringUtils.isNotEmpty(token)) {

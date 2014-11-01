@@ -16,7 +16,7 @@ import play.data.Form;
 */
 
 
-@Transactional
+
 public class SafeController {
     private static Form<CustomerFormVo> customerForm = Form.form(CustomerFormVo.class);
 

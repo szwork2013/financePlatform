@@ -28,7 +28,7 @@ import java.util.Map;
  * @author <a href="mailto:jiaming.wang@sunlights.cc">wangJiaMing</a>
  */
 
-@Transactional
+
 public class TradeController {
     private Logger logger = LoggerFactory.getLogger(TradeController.class);
 

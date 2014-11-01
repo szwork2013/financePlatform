@@ -1,6 +1,6 @@
 import play.PlayJava
+import sbt.Keys._
 import sbt._
-import Keys._
 
 object FinancePlatformBuild extends Build {
 

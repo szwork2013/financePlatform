@@ -8,7 +8,6 @@ import com.sunlights.common.utils.DBHelper;
 import com.sunlights.core.actor.Actors;
 import com.sunlights.core.dal.SmsMessageDao;
 import com.sunlights.core.models.SmsMessage;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.sql.Timestamp;
 import java.text.MessageFormat;
@@ -24,7 +23,7 @@ import java.text.SimpleDateFormat;
 * @author <a href="mailto:jiaming.wang@sunlights.cc">wangJiaMing</a>
 */
 
-@Transactional
+
 public class SafeServiceImpl {
 
 

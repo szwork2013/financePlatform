@@ -27,7 +27,6 @@ public class CustAccountServiceImpl implements AccountService {
 
     private CustomerService customerService;
 
-	@Transactional
 	@Override
 	public boolean registerBaseAccount(String custId, String tradePassword) {
 		BaseAccount baseAccount = new BaseAccount();

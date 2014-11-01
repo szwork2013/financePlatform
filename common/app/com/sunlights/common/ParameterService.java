@@ -68,7 +68,7 @@ public class ParameterService {
         return returnValue;
     }
 
-    @Transactional
+
     public Parameter addParameter(String name, String value, String description){
         if(name == null || "".equals(name.trim())){
             throw CommonUtil.getInstance().errorBusinessException(MsgCode.ACCESS_FAIL);
@@ -87,7 +87,7 @@ public class ParameterService {
         return parameter;
     }
 
-    @Transactional
+
     public Parameter updateParameter(Parameter parameter){
         return parameterDao.updateParameter(parameter);
     }
