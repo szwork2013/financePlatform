@@ -1,7 +1,7 @@
 import com.fasterxml.jackson.databind.JsonNode;
 import com.sunlights.common.exceptions.BusinessRuntimeException;
-import com.sunlights.common.utils.msg.Message;
-import com.sunlights.common.utils.msg.MessageUtil;
+import com.sunlights.common.vo.Message;
+import com.sunlights.common.vo.MessageUtil;
 import play.Application;
 import play.GlobalSettings;
 import play.Logger;

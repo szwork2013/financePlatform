@@ -4,8 +4,8 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.sunlights.common.AppConst;
 import com.sunlights.common.MsgCode;
 import com.sunlights.common.service.VerifyCodeService;
-import com.sunlights.common.utils.msg.Message;
-import com.sunlights.common.utils.msg.MessageUtil;
+import com.sunlights.common.vo.Message;
+import com.sunlights.common.vo.MessageVo;
 import com.sunlights.customer.models.Customer;
 import com.sunlights.customer.models.CustomerSession;
 import com.sunlights.customer.service.LoginService;
@@ -46,13 +46,13 @@ public class LoginController extends Controller {
         String deviceNo = customerFormVo.getDeviceNo();
 
         CustomerVo customerVo = customerService.getCustomerVoByPhoneNo(mobilePhoneNo, deviceNo);
-        Message message = null;
+        Message message = new Message(MsgCode.OPERATE_SUCCESS);
         if (customerVo == null) {
             message = new Message(Message.SEVERITY_INFO, MsgCode.PHONE_NUMBER_NOT_REGISTRY);
-        }else{
-            message = new Message(MsgCode.OPERATE_SUCCESS);
         }
-        return Controller.ok(MessageUtil.getInstance().msgToJson(message, customerVo));
+
+        MessageVo<CustomerVo> messageVo = new MessageVo<>(message);
+        return Controller.ok(messageVo.toJson());
     }
 
 	/**

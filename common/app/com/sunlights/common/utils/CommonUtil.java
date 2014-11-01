@@ -2,7 +2,8 @@ package com.sunlights.common.utils;
 
 import com.sunlights.common.MsgCode;
 import com.sunlights.common.exceptions.BusinessRuntimeException;
-import com.sunlights.common.utils.msg.Message;
+import com.sunlights.common.vo.Message;
+import play.libs.Json;
 
 import java.text.DateFormat;
 import java.text.MessageFormat;

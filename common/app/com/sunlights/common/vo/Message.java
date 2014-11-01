@@ -1,4 +1,4 @@
-package com.sunlights.common.utils.msg;
+package com.sunlights.common.vo;
 
 import com.sunlights.common.MsgCode;
 

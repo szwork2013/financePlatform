@@ -1,9 +1,11 @@
 package com.sunlights.customer.service;
 
 import com.sunlights.common.exceptions.BusinessRuntimeException;
+import com.sunlights.common.vo.MessageVo;
 import com.sunlights.customer.models.Customer;
 import com.sunlights.customer.models.CustomerSession;
 import com.sunlights.customer.vo.CustomerFormVo;
+import com.sunlights.customer.vo.CustomerVo;
 
 /**
  * <p>Project: fsp</p>
@@ -16,7 +18,7 @@ import com.sunlights.customer.vo.CustomerFormVo;
  */
 public interface LoginService {
     
-    public Customer register(CustomerFormVo customerFormVo) throws BusinessRuntimeException;
+    public MessageVo<CustomerVo> register(CustomerFormVo customerFormVo) throws BusinessRuntimeException;
 
     public CustomerSession login(CustomerFormVo vo, String token, String clientAddress) throws BusinessRuntimeException;
     public CustomerSession loginByges(CustomerFormVo vo, String token, String clientAddress) throws BusinessRuntimeException;
@@ -27,12 +29,12 @@ public interface LoginService {
      * 忘记密码验证码校对
      * @return
      */
-    public boolean resetpwdCertify(CustomerFormVo vo);
+    public MessageVo resetpwdCertify(CustomerFormVo vo);
     /**
      * 重置密码
      * @return
      */
-    public Customer resetpwd(String mobilePhoneNo, String passWord, String deviceNo);
+    public MessageVo resetpwd(String mobilePhoneNo, String passWord, String deviceNo);
 
     /**
      * 保存手势密码

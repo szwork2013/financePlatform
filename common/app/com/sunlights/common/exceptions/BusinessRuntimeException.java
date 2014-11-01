@@ -1,7 +1,7 @@
 package com.sunlights.common.exceptions;
 
 
-import com.sunlights.common.utils.msg.Message;
+import com.sunlights.common.vo.Message;
 
 import java.io.PrintWriter;
 import java.io.StringWriter;

@@ -1,7 +1,8 @@
 package com.sunlights.common.vo;
 
-import com.sunlights.common.utils.msg.Message;
+import com.fasterxml.jackson.databind.JsonNode;
 import play.i18n.Messages;
+import play.libs.Json;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -9,29 +10,25 @@ import java.util.Map;
 /**
  * Created by yuan on 9/22/14.
  */
-public class MessageVo {
-    public int severity = 0;
-    public String code = null;
-    public String summary = null;
-    public String detail = null;
-    public Map<String, String> fields = new HashMap<String, String>();
+public class MessageVo<V> {
 
-    public MessageVo() {
-        super();
-    }
+    private Message message;
+    private V value;
 
     public MessageVo(Message message) {
-        inMessageVo(message);
+        this.message = message;
     }
 
-    private void inMessageVo(Message message) {
-        this.severity = message.getSeverity().getOrdinal();
-        this.code = message.getCode();
-        this.summary = Messages.get(message.getSummary());
-        this.detail = Messages.get(message.getDetail());
-        Map<String, String> filedMap = message.getFields();
-        for (String key : filedMap.keySet()) {
-            fields.put(key, Messages.get(filedMap.get(key)));
-        }
+    public void setValue(V value){
+        this.value = value;
     }
+
+    public V getValue(){
+        return this.value;
+    }
+
+    public JsonNode toJson(){
+        return Json.toJson(this);
+    }
+
 }

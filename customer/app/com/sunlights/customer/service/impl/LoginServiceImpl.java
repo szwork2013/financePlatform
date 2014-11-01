@@ -10,9 +10,10 @@ import com.sunlights.common.utils.ArithUtil;
 import com.sunlights.common.utils.CommonUtil;
 import com.sunlights.common.utils.DBHelper;
 import com.sunlights.common.utils.MD5Helper;
-import com.sunlights.common.utils.msg.Message;
-import com.sunlights.common.utils.msg.MessageUtil;
+import com.sunlights.common.vo.Message;
+import com.sunlights.common.vo.MessageUtil;
 import com.sunlights.common.vo.CustomerVerifyCodeVo;
+import com.sunlights.common.vo.MessageVo;
 import com.sunlights.customer.dal.CustomerDao;
 import com.sunlights.customer.dal.LoginDao;
 import com.sunlights.customer.dal.impl.CustomerDaoImpl;
@@ -140,7 +141,7 @@ public class LoginServiceImpl implements LoginService {
 	 * 注册
 	 * @return
 	 */
-	public Customer register(CustomerFormVo vo) throws BusinessRuntimeException {
+	public MessageVo<CustomerVo> register(CustomerFormVo vo) throws BusinessRuntimeException {
 		String mobilePhoneNo = vo.getMobilePhoneNo();
 		String passWord = vo.getPassWord();
 		String verifyCode = vo.getVerifyCode();
@@ -161,9 +162,11 @@ public class LoginServiceImpl implements LoginService {
         customerVerifyCodeVo.setVerifyType(AppConst.VERIFY_CODE_REGISTER);
         customerVerifyCodeVo.setDeviceNo(deviceNo);
         customerVerifyCodeVo.setVerifyCode(verifyCode);
-        boolean verifyCodeFlag = verifyCodeService.validateVerifyCode(customerVerifyCodeVo);
-        if (!verifyCodeFlag) {
-            return null;
+        MsgCode msgCode = verifyCodeService.validateVerifyCode(customerVerifyCodeVo);
+        if(msgCode != MsgCode.OPERATE_SUCCESS){
+            Message message = new Message(msgCode);
+            MessageVo<CustomerVo> result = new MessageVo<>(message);
+            return result;
         }
 
         Timestamp currentTime = DBHelper.getCurrentTime();
@@ -186,9 +189,9 @@ public class LoginServiceImpl implements LoginService {
 
         Message message = new Message(MsgCode.REGISTRY_SUCCESS);
         CustomerVo customerVo = customerService.getCustomerVoByPhoneNo(customer.getMobile(), deviceNo);
-        MessageUtil.getInstance().addMessage(message, customerVo);
-      
-        return customer;
+        MessageVo<CustomerVo> result = new MessageVo<>(message);
+        result.setValue(customerVo);
+        return result;
 	}
 	
 	/**
@@ -196,7 +199,7 @@ public class LoginServiceImpl implements LoginService {
 	 * 
 	 * @return
 	 */
-	public boolean resetpwdCertify(CustomerFormVo vo) {
+	public MessageVo resetpwdCertify(CustomerFormVo vo) {
         String mobilePhoneNo = vo.getMobilePhoneNo();
         String verifyCode = vo.getVerifyCode();
         String userName = vo.getUserName();
@@ -221,17 +224,15 @@ public class LoginServiceImpl implements LoginService {
         customerVerifyCodeVo.setVerifyType(AppConst.VERIFY_CODE_RESETPWD);
         customerVerifyCodeVo.setDeviceNo(deviceNo);
         customerVerifyCodeVo.setVerifyCode(verifyCode);
-        boolean verifyCodeFlag = verifyCodeService.validateVerifyCode(customerVerifyCodeVo);
-        if (!verifyCodeFlag) {
-            return false;
-        }
-        return true;
+        MsgCode msgCode = verifyCodeService.validateVerifyCode(customerVerifyCodeVo);
+        MessageVo messageVo = new MessageVo(new Message(msgCode));
+        return messageVo;
 	}
 	/**
 	 * 重置密码
 	 * @return
 	 */
-	public Customer resetpwd(String mobilePhoneNo, String passWord, String deviceNo) {
+	public MessageVo<Customer> resetpwd(String mobilePhoneNo, String passWord, String deviceNo) {
         CommonUtil.getInstance().validateParams(mobilePhoneNo, passWord);
 		Customer customer = getCustomerByMobilePhoneNo(mobilePhoneNo);
 		if (customer == null) {
