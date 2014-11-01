@@ -6,7 +6,9 @@ import com.sunlights.common.utils.MessageUtil;
 import com.sunlights.common.vo.PageVo;
 import com.sunlights.common.vo.Message;
 import com.sunlights.core.dal.BankDao;
+import com.sunlights.core.dal.BankDaoImpl;
 import com.sunlights.core.integration.BankClient;
+import com.sunlights.core.integration.BankClientImpl;
 import com.sunlights.core.models.Bank;
 import com.sunlights.core.service.BankService;
 import com.sunlights.core.vo.BankCardVo;
@@ -28,16 +30,13 @@ import java.util.List;
 
 public class BankServiceImpl implements BankService {
 
-    private BankDao bankDao;
+    private BankDao bankDao = new BankDaoImpl();
 
+    private BankClient bankClient = new BankClientImpl();
 
-    private PageService pageService;
+    private PageService pageService = new PageService();
 
-
-    private BankClient bankClient;
-
-
-    private CustomerService customerService;
+    private CustomerService customerService = new CustomerService();
 
     @Override
     public List<BankVo> findBanksBy(PageVo pager) {

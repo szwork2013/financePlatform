@@ -12,7 +12,6 @@ import org.springframework.stereotype.Component;
  *
  * @author <a href="mailto:zhencai.yuan@sunlights.cc">yuanzhencai</a>
  */
-@Component
 public class BankClientImpl implements BankClient {
     @Override
     public BankVo findBankByBankCardNo(String bankCardNo) {
