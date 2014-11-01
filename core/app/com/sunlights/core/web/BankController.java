@@ -17,9 +17,6 @@ import play.mvc.Result;
 
 import java.util.List;
 
-import static play.mvc.Controller.request;
-import static play.mvc.Results.ok;
-
 /**
  * <p>Project: fsp</p>
  * <p>Title: BankService.java</p>
@@ -30,7 +27,7 @@ import static play.mvc.Results.ok;
  * @author <a href="mailto:zhencai.yuan@sunlights.cc">yuanzhencai</a>
  */
 
-public class BankController {
+public class BankController extends Controller{
 
     private Form<Pager> pagerForm = Form.form(Pager.class);
     private Form<BankCardFormVo> bankCardForm = Form.form(BankCardFormVo.class);

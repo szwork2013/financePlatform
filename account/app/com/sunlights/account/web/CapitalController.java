@@ -8,6 +8,7 @@ import com.sunlights.common.utils.msg.Message;
 import com.sunlights.common.utils.msg.MessageUtil;
 import play.Logger;
 import play.data.Form;
+import play.mvc.Controller;
 import play.mvc.Result;
 
 import java.util.List;
@@ -20,7 +21,7 @@ import java.util.List;
  *
  */
 
-public class CapitalController {
+public class CapitalController extends Controller {
 
     private static final play.Logger.ALogger LOG = Logger.of("customer");
 

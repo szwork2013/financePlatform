@@ -25,7 +25,7 @@ import static play.mvc.Results.ok;
  * @author <a href="mailto:zhencai.yuan@sunlights.cc">yuanzhencai</a>
  */
 
-public class ProductController {
+public class ProductController extends Controller{
     private Form<ProductParameter> productParameterForm = Form.form(ProductParameter.class);
     private MessageUtil messageUtil = MessageUtil.getInstance();
 

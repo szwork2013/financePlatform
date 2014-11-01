@@ -28,7 +28,7 @@ import java.util.Map;
  */
 
 
-public class TradeController {
+public class TradeController extends Controller{
     private Logger logger = LoggerFactory.getLogger(TradeController.class);
 
 

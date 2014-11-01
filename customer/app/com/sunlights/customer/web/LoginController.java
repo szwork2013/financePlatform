@@ -23,7 +23,7 @@ import play.mvc.Result;
  * Created by Administrator on 2014/9/4.
  */
 
-public class LoginController {
+public class LoginController extends Controller{
 	private Form<CustomerFormVo> customerForm = Form.form(CustomerFormVo.class);
 
 
