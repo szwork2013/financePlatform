@@ -94,7 +94,7 @@ public class LoginController extends Controller {
 		if (customerSession != null) {
             Message message = new Message(MsgCode.LOGIN_SUCCESS);
             CustomerVo customerVo = customerService.getCustomerVoByPhoneNo(mobilePhoneNo, deviceNo);
-            MessageUtil.getInstance().addMessage(message, customerVo);
+            MessageUtil.getInstance().setMessage(message, customerVo);
             customerService.sessionLoginSessionId(Controller.session(), Controller.response(), customerSession);
         }
 		JsonNode json = MessageUtil.getInstance().toJson();
@@ -111,7 +111,7 @@ public class LoginController extends Controller {
         Logger.info("==============resetpwdCertify开始==========");
         CustomerFormVo customerFormVo = customerForm.bindFromRequest().get();
         if (loginService.resetpwdCertify(customerFormVo)) {
-            MessageUtil.getInstance().addMessage(new Message(MsgCode.OPERATE_SUCCESS));
+            MessageUtil.getInstance().setMessage(new Message(MsgCode.OPERATE_SUCCESS));
         }
         Logger.info("==============resetpwdCertify结束==========");
         return Controller.ok(MessageUtil.getInstance().toJson());
@@ -183,7 +183,7 @@ public class LoginController extends Controller {
 		if (customerSession != null) {
             Message message = new Message(MsgCode.LOGIN_SUCCESS);
             CustomerVo customerVo =  customerService.getCustomerVoByPhoneNo(mobilePhoneNo, deviceNo);
-            MessageUtil.getInstance().addMessage(message, customerVo);
+            MessageUtil.getInstance().setMessage(message, customerVo);
             customerService.sessionLoginSessionId(Controller.session(), Controller.response(), customerSession);
         }
 

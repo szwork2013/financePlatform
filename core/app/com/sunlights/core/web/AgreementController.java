@@ -37,14 +37,14 @@ public class AgreementController extends Controller {
             agreementVo = agreementVoForm.bindFromRequest().get();
         }
         if (StringUtils.isNotEmpty(agreementVo.getCode())) {
-            messageUtil.addMessage(new Message(Message.SEVERITY_ERROR, MsgCode.SEARCH_FAIL_EMPTY_PROTOCOL_NO));
+            messageUtil.setMessage(new Message(Message.SEVERITY_ERROR, MsgCode.SEARCH_FAIL_EMPTY_PROTOCOL_NO));
             return ok(messageUtil.toJson());
         }
         AgreementVo av = openAccountPactService.findAgreementVoByAgreementNo(agreementVo.getCode());
         if(av == null) {
-            messageUtil.addMessage(new Message(Message.SEVERITY_ERROR, MsgCode.SEARCH_FAIL_PROTOCOL_NONE));
+            messageUtil.setMessage(new Message(Message.SEVERITY_ERROR, MsgCode.SEARCH_FAIL_PROTOCOL_NONE));
         } else {
-            messageUtil.addMessage(new Message(Message.SEVERITY_INFO, MsgCode.OPERATE_SUCCESS), av);
+            messageUtil.setMessage(new Message(Message.SEVERITY_INFO, MsgCode.OPERATE_SUCCESS), av);
         }
         return ok(messageUtil.toJson());
     }

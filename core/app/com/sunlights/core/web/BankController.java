@@ -84,9 +84,9 @@ public class BankController extends Controller{
         String token = cookie == null ? null : cookie.value();
         boolean validated = bankService.validateBankCard(token, bankCardVo);
         if (validated) {
-            MessageUtil.getInstance().addMessage(new Message(MsgCode.OPERATE_SUCCESS), true);
+            MessageUtil.getInstance().setMessage(new Message(MsgCode.OPERATE_SUCCESS), true);
         } else {
-            MessageUtil.getInstance().addMessage(new Message(MsgCode.BANK_CARD_CERTIFY_FAIL), true);
+            MessageUtil.getInstance().setMessage(new Message(MsgCode.BANK_CARD_CERTIFY_FAIL), true);
         }
         return ok(MessageUtil.getInstance().toJson());
     }
@@ -109,7 +109,7 @@ public class BankController extends Controller{
     public Result findBankByBankCardNo() {
         String bankCardNo = null;
         BankVo bankVo = bankService.findBankByBankCardNo(bankCardNo);
-        MessageUtil.getInstance().addMessage(new Message(Message.SEVERITY_INFO, MsgCode.OPERATE_SUCCESS), bankVo);
+        MessageUtil.getInstance().setMessage(new Message(Message.SEVERITY_INFO, MsgCode.OPERATE_SUCCESS), bankVo);
         return ok(MessageUtil.getInstance().toJson());
     }
 
@@ -125,7 +125,7 @@ public class BankController extends Controller{
         }
         play.Logger.info("[pager]" + Json.toJson(pager));
         List<BankVo> bankVos = bankService.findBanksBy(pager);
-        MessageUtil.getInstance().addMessage(new Message(Message.SEVERITY_INFO, MsgCode.OPERATE_SUCCESS), bankVos);
+        MessageUtil.getInstance().setMessage(new Message(Message.SEVERITY_INFO, MsgCode.OPERATE_SUCCESS), bankVos);
         return ok(MessageUtil.getInstance().toJson());
     }
 }

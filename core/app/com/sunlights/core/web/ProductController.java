@@ -50,9 +50,9 @@ public class ProductController extends Controller {
             if ("1".equals(productParameter.type)) {
                 productService.findProductRecommends(pager);
             }
-            messageUtil.addMessage(new Message(Message.SEVERITY_INFO, MsgCode.OPERATE_SUCCESS), pager);
+            messageUtil.setMessage(new Message(Message.SEVERITY_INFO, MsgCode.OPERATE_SUCCESS), pager);
         } else {
-            messageUtil.addMessage(new Message(Message.SEVERITY_ERROR, MsgCode.SEARCH_FAIL_TYPE_EMPTY), pager);
+            messageUtil.setMessage(new Message(Message.SEVERITY_ERROR, MsgCode.SEARCH_FAIL_TYPE_EMPTY), pager);
         }
 
 

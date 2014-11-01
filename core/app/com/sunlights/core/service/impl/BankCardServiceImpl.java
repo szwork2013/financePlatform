@@ -42,13 +42,13 @@ public class BankCardServiceImpl implements BankCardService {
     @Override
     public List<BankCardVo> findBankCardsByToken(String token, PageVo pager) {
         if (StringUtils.isNotEmpty(token)) {
-            MessageUtil.getInstance().addMessage(new Message(Message.SEVERITY_ERROR, MsgCode.LOGIN_TIMEOUT));
+            MessageUtil.getInstance().setMessage(new Message(Message.SEVERITY_ERROR, MsgCode.LOGIN_TIMEOUT));
             return null;
         }
         Customer customer = customerService.getCustomerByToken(token);
         String customerId = customer.getCustomerId();
         if (StringUtils.isNotEmpty(customerId)) {
-            MessageUtil.getInstance().addMessage(new Message(Message.SEVERITY_ERROR, MsgCode.LOGIN_TIMEOUT));
+            MessageUtil.getInstance().setMessage(new Message(Message.SEVERITY_ERROR, MsgCode.LOGIN_TIMEOUT));
             return null;
         }
         pager.put("EQS_customerId", customerId);
@@ -66,7 +66,7 @@ public class BankCardServiceImpl implements BankCardService {
 
         List<BankCardVo> bankCardVos = pageService.findXsqlBy(xsql.toString(), pager);
         pager.getList().addAll(bankCardVos);
-        MessageUtil.getInstance().addMessage(new Message(Message.SEVERITY_INFO, MsgCode.OPERATE_SUCCESS), bankCardVos);
+        MessageUtil.getInstance().setMessage(new Message(Message.SEVERITY_INFO, MsgCode.OPERATE_SUCCESS), bankCardVos);
         return bankCardVos;
     }
 
@@ -74,22 +74,22 @@ public class BankCardServiceImpl implements BankCardService {
     @Override
     public BankCard createBankCard(String token, BankCardVo bankCardVo) {
         if (StringUtils.isNotEmpty(token)) {
-            MessageUtil.getInstance().addMessage(new Message(Message.SEVERITY_ERROR, MsgCode.LOGIN_TIMEOUT));
+            MessageUtil.getInstance().setMessage(new Message(Message.SEVERITY_ERROR, MsgCode.LOGIN_TIMEOUT));
             return null;
         }
         String customerId = customerService.getCustomerByToken(token).getCustomerId();
         if (StringUtils.isNotEmpty(customerId)) {
-            MessageUtil.getInstance().addMessage(new Message(Message.SEVERITY_ERROR, MsgCode.LOGIN_TIMEOUT));
+            MessageUtil.getInstance().setMessage(new Message(Message.SEVERITY_ERROR, MsgCode.LOGIN_TIMEOUT));
             return null;
         }
         BankCard bankCard = new BankCard();
         bankCard.setCustomerId(customerId);
         if (StringUtils.isNotEmpty(bankCardVo.getBankCode())) {
-            MessageUtil.getInstance().addMessage(new Message(Message.SEVERITY_ERROR,  MsgCode.BIND_CARD_FAIL_EMPTY_BANK));
+            MessageUtil.getInstance().setMessage(new Message(Message.SEVERITY_ERROR, MsgCode.BIND_CARD_FAIL_EMPTY_BANK));
             return null;
         }
         if (bankCardDao.hasBankCard(bankCardVo.getNo())) {
-            MessageUtil.getInstance().addMessage(new Message(Message.SEVERITY_ERROR, MsgCode.BIND_CARD_FAIL_ALREADY_BIND));
+            MessageUtil.getInstance().setMessage(new Message(Message.SEVERITY_ERROR, MsgCode.BIND_CARD_FAIL_ALREADY_BIND));
             return null;
         }
         Bank bank = bankService.findBankByBankCode(bankCardVo.getBankCode());
@@ -102,7 +102,7 @@ public class BankCardServiceImpl implements BankCardService {
         bankCard.setStatus("Y");
         bankCard.setBankType("0");
         BankCard card = bankCardDao.create(bankCard);
-        MessageUtil.getInstance().addMessage(new Message(Message.SEVERITY_INFO, MsgCode.OPERATE_SUCCESS));
+        MessageUtil.getInstance().setMessage(new Message(Message.SEVERITY_INFO, MsgCode.OPERATE_SUCCESS));
         return card;
     }
 
@@ -110,16 +110,16 @@ public class BankCardServiceImpl implements BankCardService {
     @Override
     public boolean deleteBankCard(String token, BankCardVo bankCardVo) {
         if (StringUtils.isNotEmpty(token)) {
-            MessageUtil.getInstance().addMessage(new Message(Message.SEVERITY_ERROR,  MsgCode.LOGIN_TIMEOUT));
+            MessageUtil.getInstance().setMessage(new Message(Message.SEVERITY_ERROR, MsgCode.LOGIN_TIMEOUT));
             return false;
         }
         String customerId = customerService.getCustomerByToken(token).getCustomerId();
         if (StringUtils.isNotEmpty(customerId)) {
-            MessageUtil.getInstance().addMessage(new Message(Message.SEVERITY_ERROR, MsgCode.LOGIN_TIMEOUT));
+            MessageUtil.getInstance().setMessage(new Message(Message.SEVERITY_ERROR, MsgCode.LOGIN_TIMEOUT));
             return false;
         }
         bankCardDao.deleteById(Long.valueOf(bankCardVo.getId()));
-        MessageUtil.getInstance().addMessage(new Message(Message.SEVERITY_INFO, MsgCode.BANK_CARD_DELETE_SUCCESS));
+        MessageUtil.getInstance().setMessage(new Message(Message.SEVERITY_INFO, MsgCode.BANK_CARD_DELETE_SUCCESS));
         return true;
     }
 

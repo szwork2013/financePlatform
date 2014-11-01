@@ -14,7 +14,7 @@ import com.fasterxml.jackson.databind.JsonNode;
  */
 public class MessageUtil {
 
-    private Map<String, Object> messageMap = new HashMap<String, Object>();
+    private MessageVo mesageVo;
 
     private MessageUtil() {
         super();
@@ -30,34 +30,27 @@ public class MessageUtil {
         return instance.get();
     }
 
-    public void addMessage(Message message) {
-        messageMap.put("message", new MessageVo(message));
-        messageMap.put("value", null);
+    public void setMessage(Message message) {
+        mesageVo = new MessageVo(message);
     }
 
-    public void addMessage(Message message, Object value) {
-        messageMap.put("message", new MessageVo(message));
-        messageMap.put("value", value);
-    }
-
-    public void clear() {
-        messageMap.clear();
+    public void setMessage(Message message, Object value) {
+        setMessage(message);
+        mesageVo.setValue(value);
     }
 
     public JsonNode toJson() {
-        return Json.toJson(messageMap);
+        return Json.toJson(mesageVo);
     }
 
     public JsonNode msgToJson(Message message, Object value) {
-        messageMap.put("message", new MessageVo(message));
-        messageMap.put("value", value);
-        return Json.toJson(messageMap);
+        setMessage(message, value);
+        return toJson();
     }
 
     public JsonNode msgToJson(Message message) {
-        messageMap.put("message", new MessageVo(message));
-        messageMap.put("value", null);
-        return Json.toJson(messageMap);
+        setMessage(message);
+        return toJson();
     }
 
 }

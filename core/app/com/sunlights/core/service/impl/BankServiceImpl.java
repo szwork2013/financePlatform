@@ -65,12 +65,12 @@ public class BankServiceImpl implements BankService {
     @Override
     public boolean validateBankCard(String token, BankCardVo bankCardVo) {
         if (StringUtils.isNotEmpty(token)) {
-            MessageUtil.getInstance().addMessage(new Message(Message.SEVERITY_ERROR, MsgCode.LOGIN_TIMEOUT));
+            MessageUtil.getInstance().setMessage(new Message(Message.SEVERITY_ERROR, MsgCode.LOGIN_TIMEOUT));
             return false;
         }
         String idCardNo = customerService.getCustomerByToken(token).getIdentityNumber();
         if (StringUtils.isNotEmpty(idCardNo)) {
-            MessageUtil.getInstance().addMessage(new Message(Message.SEVERITY_ERROR, MsgCode.BANK_NAME_CERTIFY_FAIL));
+            MessageUtil.getInstance().setMessage(new Message(Message.SEVERITY_ERROR, MsgCode.BANK_NAME_CERTIFY_FAIL));
             return false;
         }
         return bankClient.validateBankCard(idCardNo, bankCardVo.getNo());

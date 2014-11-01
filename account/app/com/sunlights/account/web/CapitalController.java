@@ -39,7 +39,7 @@ public class CapitalController extends Controller {
 
         LOG.info("mobile = === " + mobile);
         TotalCapitalInfo totalCapitalInfo = capitalService.getTotalCapital(mobile, false);
-        MessageUtil.getInstance().addMessage(operateSuccessMsg, totalCapitalInfo);
+        MessageUtil.getInstance().setMessage(operateSuccessMsg, totalCapitalInfo);
 		return play.mvc.Controller.ok(MessageUtil.getInstance().toJson());
 	}
 	
@@ -52,7 +52,7 @@ public class CapitalController extends Controller {
 		String mobile = form.data().get("mobile");
 
         List<Capital4Product> capital4Products = capitalService.getAllCapital4Product(mobile);
-		MessageUtil.getInstance().addMessage(operateSuccessMsg, capital4Products);
+		MessageUtil.getInstance().setMessage(operateSuccessMsg, capital4Products);
 		return play.mvc.Controller.ok(MessageUtil.getInstance().toJson());
 	}
 	
@@ -66,7 +66,7 @@ public class CapitalController extends Controller {
 		System.out.println("mobile = " + mobile);
 		
 		TotalCapitalInfo totalCapitalInfo = capitalService.getTotalCapital(mobile, true);
-		MessageUtil.getInstance().addMessage(operateSuccessMsg, totalCapitalInfo);
+		MessageUtil.getInstance().setMessage(operateSuccessMsg, totalCapitalInfo);
 		return play.mvc.Controller.ok(MessageUtil.getInstance().toJson());
 	}
 }

@@ -161,7 +161,7 @@ public class LoginServiceImpl implements LoginService {
         MsgCode msgCode = verifyCodeService.validateVerifyCode(customerVerifyCodeVo);
         if(msgCode != MsgCode.OPERATE_SUCCESS){
             Message message = new Message(msgCode);
-            MessageUtil.getInstance().addMessage(message);
+            MessageUtil.getInstance().setMessage(message);
         }
 
         Timestamp currentTime = DBHelper.getCurrentTime();
@@ -184,7 +184,7 @@ public class LoginServiceImpl implements LoginService {
 
         Message message = new Message(MsgCode.REGISTRY_SUCCESS);
         CustomerVo customerVo = customerService.getCustomerVoByPhoneNo(customer.getMobile(), deviceNo);
-        MessageUtil.getInstance().addMessage(message, customerVo);
+        MessageUtil.getInstance().setMessage(message, customerVo);
 
         return customer;
 	}
@@ -220,7 +220,7 @@ public class LoginServiceImpl implements LoginService {
         customerVerifyCodeVo.setDeviceNo(deviceNo);
         customerVerifyCodeVo.setVerifyCode(verifyCode);
         MsgCode msgCode = verifyCodeService.validateVerifyCode(customerVerifyCodeVo);
-        MessageUtil.getInstance().addMessage(new Message(msgCode));
+        MessageUtil.getInstance().setMessage(new Message(msgCode));
         return true;
 	}
 	/**
@@ -473,7 +473,7 @@ public class LoginServiceImpl implements LoginService {
             }
         }
 
-        MessageUtil.getInstance().addMessage(message);
+        MessageUtil.getInstance().setMessage(message);
     }
 
 }

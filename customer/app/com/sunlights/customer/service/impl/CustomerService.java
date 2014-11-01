@@ -220,7 +220,7 @@ public class CustomerService {
             if (mobilePhoneNo == null || "".equals(mobilePhoneNo.trim())) {//做过实名认证，取消后续动作重新进入，token还有效的，
                 // 根据token查询当前客户操作到哪步
                 CustomerVo customerVo = getCustomerVoByIdCardNo(customer.getIdentityNumber(), customer.getRealName());
-                MessageUtil.getInstance().addMessage(new Message(MsgCode.OPERATE_SUCCESS),customerVo);
+                MessageUtil.getInstance().setMessage(new Message(MsgCode.OPERATE_SUCCESS), customerVo);
             }else{//注册后，登录后，再做实名认证的
                 CommonUtil.getInstance().validateParams(userName, idCardNo, deviceNo);
                 identityService.identity(idCardNo, userName);  //真正调用实名认证
@@ -231,7 +231,7 @@ public class CustomerService {
                 customer.setUpdatedDatetime(DBHelper.getCurrentTime());
                 updateCustomer(customer);
 
-                MessageUtil.getInstance().addMessage(new Message(MsgCode.CERTIFY_SUCCESS),
+                MessageUtil.getInstance().setMessage(new Message(MsgCode.CERTIFY_SUCCESS),
                         getCustomerVoByPhoneNo(mobilePhoneNo, deviceNo));
             }
         }else{//未登录首次申购做实名认证
@@ -241,7 +241,7 @@ public class CustomerService {
             CustomerInfoVo customerInfoVo = getCustomerInfoVoByIdCardNo(idCardNo, userName);
 
             if (customerInfoVo != null && AppConst.VALID_CERTIFY.equals(customerInfoVo.getCertify())) {
-                MessageUtil.getInstance().addMessage(new Message(MsgCode.OPERATE_SUCCESS),customerInfoVo.getCustomerVo());
+                MessageUtil.getInstance().setMessage(new Message(MsgCode.OPERATE_SUCCESS), customerInfoVo.getCustomerVo());
                 customer = getCustomerByCustomerId(customerInfoVo.getCustomerId());
             }else{
                 identityService.identity(idCardNo, userName);//真正调用实名认证
@@ -257,7 +257,7 @@ public class CustomerService {
                 customerVo.setCertify("1");
                 customerVo.setIdCardNo(idCardNo.substring(0, 6) + "******" + idCardNo.substring(14));
                 customerVo.setUserName("*" + userName.substring(1));
-                MessageUtil.getInstance().addMessage(new Message(MsgCode.CERTIFY_SUCCESS),customerVo);
+                MessageUtil.getInstance().setMessage(new Message(MsgCode.CERTIFY_SUCCESS), customerVo);
             }
 
             customerSession = createCustomerSession(customer, remoteAddress);
