@@ -1,6 +1,7 @@
 package com.sunlights.common.utils.msg;
 
 import com.fasterxml.jackson.databind.JsonNode;
+import com.sunlights.common.vo.MessageVo;
 import play.libs.Json;
 
 import java.util.HashMap;

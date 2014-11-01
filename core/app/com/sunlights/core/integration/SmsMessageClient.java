@@ -1,7 +1,7 @@
 package com.sunlights.core.integration;
 
 import com.sunlights.common.IParameterConst;
-import com.sunlights.common.ParameterService;
+import com.sunlights.common.service.ParameterService;
 import com.sunlights.common.utils.DBHelper;
 import com.sunlights.common.utils.MD5Helper;
 import com.sunlights.core.dal.SmsMessageDao;

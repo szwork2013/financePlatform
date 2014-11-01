@@ -1,6 +1,6 @@
 package com.sunlights.core.service;
 
-import com.sunlights.common.page.Pager;
+import com.sunlights.common.vo.PageVo;
 import com.sunlights.core.models.Bank;
 import com.sunlights.core.vo.BankCardVo;
 import com.sunlights.core.vo.BankVo;
@@ -17,7 +17,7 @@ import java.util.List;
  * @author <a href="mailto:zhencai.yuan@sunlights.cc">yuanzhencai</a>
  */
 public interface BankService {
-    public List<BankVo> findBanksBy(Pager pager);
+    public List<BankVo> findBanksBy(PageVo pager);
 
     public BankVo findBankByBankCardNo(String bankCardNo);
     public Bank findBankByBankCode(String bankCode);

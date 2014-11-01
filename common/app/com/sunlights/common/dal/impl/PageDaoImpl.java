@@ -1,6 +1,8 @@
-package com.sunlights.common.page;
+package com.sunlights.common.dal.impl;
 
 import com.sunlights.common.dal.EntityBaseDao;
+import com.sunlights.common.dal.PageDao;
+import com.sunlights.common.vo.PageVo;
 import org.springframework.stereotype.Repository;
 
 import javax.persistence.Query;
@@ -10,7 +12,7 @@ import java.util.List;
 public class PageDaoImpl extends EntityBaseDao implements PageDao {
 
     @Override
-    public <X> List<X> findBy(String queryString, Pager pager) {
+    public <X> List<X> findBy(String queryString, PageVo pager) {
         Query query = createQuery(queryString, pager.getFilter());
         int count = countHqlResult(queryString, pager.getFilter());
         int first = pager.getIndex();
@@ -27,7 +29,7 @@ public class PageDaoImpl extends EntityBaseDao implements PageDao {
     }
 
     @Override
-    public <X> List<X> findNativeBy(String queryString, Pager pager) {
+    public <X> List<X> findNativeBy(String queryString, PageVo pager) {
         Query nativeQuery = createNativeQuery(queryString, pager.getFilter());
         int count = countSqlResult(queryString, pager.getFilter());
         int first = pager.getIndex();
@@ -44,7 +46,7 @@ public class PageDaoImpl extends EntityBaseDao implements PageDao {
     }
 
     @Override
-    public <X> List<X> findXsqlBy(String xsql, Pager pager) {
+    public <X> List<X> findXsqlBy(String xsql, PageVo pager) {
         String countHql = prepareCountHql(xsql);
         Query countQuery = createQueryByMap(countHql, pager.getFilter());
         Query query = createQueryByMap(xsql, pager.getFilter());
@@ -63,7 +65,7 @@ public class PageDaoImpl extends EntityBaseDao implements PageDao {
     }
 
     @Override
-    public <X> List<X> findNativeXsqlBy(String xsql, Pager pager) {
+    public <X> List<X> findNativeXsqlBy(String xsql, PageVo pager) {
         String countHql = prepareCountHql(xsql);
         Query countNativeQuery = createNativeQueryByMap(countHql, pager.getFilter());
         Query nativeQuery = createQueryByMap(xsql, pager.getFilter());

@@ -1,8 +1,8 @@
 package com.sunlights.core.service.impl;
 
 import com.sunlights.common.MsgCode;
-import com.sunlights.common.page.PageService;
-import com.sunlights.common.page.Pager;
+import com.sunlights.common.service.PageService;
+import com.sunlights.common.vo.PageVo;
 import com.sunlights.common.utils.msg.Message;
 import com.sunlights.common.utils.msg.MessageUtil;
 import com.sunlights.core.dal.BankCardDao;
@@ -40,7 +40,7 @@ public class BankCardServiceImpl implements BankCardService {
     private BankService bankService;
 
     @Override
-    public List<BankCardVo> findBankCardsByToken(String token, Pager pager) {
+    public List<BankCardVo> findBankCardsByToken(String token, PageVo pager) {
         if (StringUtils.isNotEmpty(token)) {
             MessageUtil.getInstance().addMessage(new Message(Message.SEVERITY_ERROR, MsgCode.LOGIN_TIMEOUT));
             return null;

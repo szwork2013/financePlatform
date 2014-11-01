@@ -1,8 +1,7 @@
 package com.sunlights.core.web;
 
 import com.sunlights.common.MsgCode;
-import com.sunlights.common.page.PageVo;
-import com.sunlights.common.page.Pager;
+import com.sunlights.common.vo.PageVo;
 import com.sunlights.common.utils.msg.Message;
 import com.sunlights.common.utils.msg.MessageUtil;
 import com.sunlights.core.service.ProductService;
@@ -13,7 +12,6 @@ import play.mvc.Controller;
 import play.mvc.Http;
 import play.mvc.Result;
 
-import static play.mvc.Controller.request;
 import static play.mvc.Results.ok;
 
 /**
@@ -32,7 +30,7 @@ public class ProductController extends Controller {
     private ProductService productService;
 
     public Result findProductsByType() {
-        Pager pager = new Pager();
+        PageVo pager = new PageVo();
         ProductParameter productParameter = null;
         Http.RequestBody body = request().body();
         if (body.asJson() != null) {
@@ -52,9 +50,9 @@ public class ProductController extends Controller {
             if ("1".equals(productParameter.type)) {
                 productService.findProductRecommends(pager);
             }
-            messageUtil.addMessage(new Message(Message.SEVERITY_INFO, MsgCode.OPERATE_SUCCESS), new PageVo(pager));
+            messageUtil.addMessage(new Message(Message.SEVERITY_INFO, MsgCode.OPERATE_SUCCESS), pager);
         } else {
-            messageUtil.addMessage(new Message(Message.SEVERITY_ERROR, MsgCode.SEARCH_FAIL_TYPE_EMPTY), new PageVo(pager));
+            messageUtil.addMessage(new Message(Message.SEVERITY_ERROR, MsgCode.SEARCH_FAIL_TYPE_EMPTY), pager);
         }
 
 

@@ -2,7 +2,7 @@ package com.sunlights.core.web;
 
 import com.sunlights.common.AppConst;
 import com.sunlights.common.MsgCode;
-import com.sunlights.common.page.Pager;
+import com.sunlights.common.vo.PageVo;
 import com.sunlights.common.utils.msg.Message;
 import com.sunlights.common.utils.msg.MessageUtil;
 import com.sunlights.core.service.BankCardService;
@@ -29,7 +29,7 @@ import java.util.List;
 
 public class BankController extends Controller{
 
-    private Form<Pager> pagerForm = Form.form(Pager.class);
+    private Form<PageVo> pagerForm = Form.form(PageVo.class);
     private Form<BankCardFormVo> bankCardForm = Form.form(BankCardFormVo.class);
 
 
@@ -92,10 +92,10 @@ public class BankController extends Controller{
     }
 
     public Result findBankCards() {
-        Pager pager = new Pager();
+        PageVo pager = new PageVo();
         Http.RequestBody body = request().body();
         if (body.asJson() != null) {
-            pager = Json.fromJson(body.asJson(), Pager.class);
+            pager = Json.fromJson(body.asJson(), PageVo.class);
         }
         if (body.asFormUrlEncoded() != null) {
             pager = pagerForm.bindFromRequest().get();
@@ -114,11 +114,11 @@ public class BankController extends Controller{
     }
 
     public Result findBanks() {
-        Pager pager = new Pager();
+        PageVo pager = new PageVo();
         Http.RequestBody body = request().body();
 
         if (body.asJson() != null) {
-            pager = Json.fromJson(body.asJson(), Pager.class);
+            pager = Json.fromJson(body.asJson(), PageVo.class);
         }
         if (body.asFormUrlEncoded() != null) {
             pager = pagerForm.bindFromRequest().get();

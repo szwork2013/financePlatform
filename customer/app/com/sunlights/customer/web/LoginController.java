@@ -3,7 +3,7 @@ package com.sunlights.customer.web;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.sunlights.common.AppConst;
 import com.sunlights.common.MsgCode;
-import com.sunlights.common.VerifyCodeService;
+import com.sunlights.common.service.VerifyCodeService;
 import com.sunlights.common.utils.msg.Message;
 import com.sunlights.common.utils.msg.MessageUtil;
 import com.sunlights.customer.models.Customer;

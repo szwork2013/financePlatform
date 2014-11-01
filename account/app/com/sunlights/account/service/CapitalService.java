@@ -1,4 +1,4 @@
-package com.sunlights.account.biz;
+package com.sunlights.account.service;
 
 import com.sunlights.account.vo.Capital4Product;
 import com.sunlights.account.vo.TotalCapitalInfo;

@@ -1,7 +1,7 @@
-package com.sunlights.account.biz.impl;
+package com.sunlights.account.service.impl;
 
 import com.sunlights.account.AccountConstant;
-import com.sunlights.account.biz.AccountService;
+import com.sunlights.account.service.AccountService;
 import com.sunlights.account.dal.BaseAccountDao;
 import com.sunlights.account.models.BaseAccount;
 import com.sunlights.common.AppConst;

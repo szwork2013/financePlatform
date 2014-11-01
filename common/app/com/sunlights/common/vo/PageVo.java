@@ -1,4 +1,4 @@
-package com.sunlights.common.page;
+package com.sunlights.common.vo;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -14,7 +14,7 @@ import java.util.Map;
  *
  * @author <a href="mailto:zhencai.yuan@sunlights.cc">yuanzhencai</a>
  */
-public class Pager {
+public class PageVo {
     private int index = 0;
     private int pageSize = 0;
     private int count = 0;

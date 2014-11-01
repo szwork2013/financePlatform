@@ -1,6 +1,6 @@
 package com.sunlights.core.service;
 
-import com.sunlights.common.page.Pager;
+import com.sunlights.common.vo.PageVo;
 import com.sunlights.core.vo.FundVo;
 
 import java.util.List;
@@ -15,6 +15,6 @@ import java.util.List;
  * @author <a href="mailto:zhencai.yuan@sunlights.cc">yuanzhencai</a>
  */
 public interface ProductService {
-    public List<FundVo> findProductRecommends(Pager page);
-    public List<FundVo> findFunds(Pager page);
+    public List<FundVo> findProductRecommends(PageVo page);
+    public List<FundVo> findFunds(PageVo page);
 }

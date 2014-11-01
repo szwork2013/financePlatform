@@ -3,7 +3,7 @@ package com.sunlights.customer.service.impl;
 import com.sunlights.common.AppConst;
 import com.sunlights.common.IParameterConst;
 import com.sunlights.common.MsgCode;
-import com.sunlights.common.ParameterService;
+import com.sunlights.common.service.ParameterService;
 import com.sunlights.common.utils.CommonUtil;
 import com.sunlights.common.utils.DBHelper;
 import com.sunlights.common.utils.MD5Helper;

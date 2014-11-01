@@ -1,6 +1,6 @@
 package com.sunlights.core.web;
 
-import com.sunlights.common.VerifyCodeService;
+import com.sunlights.common.service.VerifyCodeService;
 import com.sunlights.customer.vo.CustomerFormVo;
 import play.data.Form;
 import play.mvc.Controller;

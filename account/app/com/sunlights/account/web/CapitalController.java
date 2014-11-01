@@ -1,6 +1,6 @@
 package com.sunlights.account.web;
 
-import com.sunlights.account.biz.CapitalService;
+import com.sunlights.account.service.CapitalService;
 import com.sunlights.account.vo.Capital4Product;
 import com.sunlights.account.vo.TotalCapitalInfo;
 import com.sunlights.common.MsgCode;

@@ -1,5 +1,6 @@
-package com.sunlights.common.utils.msg;
+package com.sunlights.common.vo;
 
+import com.sunlights.common.utils.msg.Message;
 import play.i18n.Messages;
 
 import java.util.HashMap;

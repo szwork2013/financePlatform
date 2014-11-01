@@ -1,12 +1,10 @@
 import com.fasterxml.jackson.databind.JsonNode;
-import com.sunlights.common.ParameterService;
 import com.sunlights.common.exceptions.BusinessRuntimeException;
 import com.sunlights.common.utils.msg.Message;
 import com.sunlights.common.utils.msg.MessageUtil;
 import play.Application;
 import play.GlobalSettings;
 import play.Logger;
-import play.db.jpa.Transactional;
 import play.libs.F;
 import play.mvc.Http;
 import play.mvc.Result;

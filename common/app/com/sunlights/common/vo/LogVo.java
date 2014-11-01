@@ -1,4 +1,4 @@
-package com.sunlights.common.utils.log.logback.ext;
+package com.sunlights.common.vo;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -75,7 +75,7 @@ public class LogVo {
     }
 
     public static class LogType implements Comparable {
-        String logTypeName = null;
+        private String logTypeName = null;
 
         private LogType(String logTypeName) {
             this.logTypeName = logTypeName;
@@ -93,6 +93,9 @@ public class LogVo {
             return (this.ordinal);
         }
 
+        public String getLogTypeName(){
+            return this.logTypeName;
+        }
         public String toString() {
             if (null == logTypeName) {
                 return (String.valueOf(this.ordinal));

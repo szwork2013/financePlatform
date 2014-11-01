@@ -1,4 +1,4 @@
-package com.sunlights.account.biz;
+package com.sunlights.account.service;
 
 import com.sunlights.account.models.BaseAccount;
 import com.sunlights.common.vo.CustomerVerifyCodeVo;

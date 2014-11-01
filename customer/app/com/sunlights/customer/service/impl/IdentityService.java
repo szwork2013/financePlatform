@@ -7,7 +7,7 @@ import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.sunlights.common.AppConst;
 import com.sunlights.common.IParameterConst;
 import com.sunlights.common.MsgCode;
-import com.sunlights.common.ParameterService;
+import com.sunlights.common.service.ParameterService;
 import com.sunlights.common.utils.CommonUtil;
 import com.sunlights.customer.vo.IdentifierVo;
 import play.Logger;

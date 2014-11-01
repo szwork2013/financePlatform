@@ -1,6 +1,6 @@
 package com.sunlights.core.service;
 
-import com.sunlights.common.page.Pager;
+import com.sunlights.common.vo.PageVo;
 import com.sunlights.core.models.BankCard;
 import com.sunlights.core.vo.BankCardVo;
 
@@ -16,7 +16,7 @@ import java.util.List;
  * @author <a href="mailto:zhencai.yuan@sunlights.cc">yuanzhencai</a>
  */
 public interface BankCardService {
-    public List<BankCardVo> findBankCardsByToken(String token, Pager pager);
+    public List<BankCardVo> findBankCardsByToken(String token, PageVo pager);
 
     public BankCard createBankCard(String token, BankCardVo bankCardVo);
 

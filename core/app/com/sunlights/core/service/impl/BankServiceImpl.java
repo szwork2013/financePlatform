@@ -1,8 +1,8 @@
 package com.sunlights.core.service.impl;
 
 import com.sunlights.common.MsgCode;
-import com.sunlights.common.page.PageService;
-import com.sunlights.common.page.Pager;
+import com.sunlights.common.service.PageService;
+import com.sunlights.common.vo.PageVo;
 import com.sunlights.common.utils.msg.Message;
 import com.sunlights.common.utils.msg.MessageUtil;
 import com.sunlights.core.dal.BankDao;
@@ -40,7 +40,7 @@ public class BankServiceImpl implements BankService {
     private CustomerService customerService;
 
     @Override
-    public List<BankVo> findBanksBy(Pager pager) {
+    public List<BankVo> findBanksBy(PageVo pager) {
         StringBuilder xsql = new StringBuilder();
         xsql.append(" select new com.sunlights.bsp.models.vo.BankVo(b)");
         xsql.append(" from Bank b");

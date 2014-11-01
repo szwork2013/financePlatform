@@ -1,7 +1,7 @@
 package com.sunlights.core.service.impl;
 
-import com.sunlights.common.page.PageService;
-import com.sunlights.common.page.Pager;
+import com.sunlights.common.service.PageService;
+import com.sunlights.common.vo.PageVo;
 import com.sunlights.common.utils.ArithUtil;
 import com.sunlights.common.utils.CommonUtil;
 import com.sunlights.core.models.Fund;
@@ -29,7 +29,7 @@ public class ProductServiceImpl implements ProductService {
     private PageService pageService;
 
     @Override
-    public List<FundVo> findProductRecommends(Pager pager) {
+    public List<FundVo> findProductRecommends(PageVo pager) {
         Date date = new Date();
         StringBuilder sql = new StringBuilder();
         sql.append(" select f.*");
@@ -69,7 +69,7 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public List<FundVo> findFunds(Pager pager) {
+    public List<FundVo> findFunds(PageVo pager) {
         StringBuffer jpql = new StringBuffer();
         jpql.append(" select f from Fund f");
 //        jpql.append(" join fetch f.product");

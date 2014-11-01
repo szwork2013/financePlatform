@@ -1,5 +1,8 @@
-package com.sunlights.common.page;
+package com.sunlights.common.service;
 
+
+import com.sunlights.common.dal.PageDao;
+import com.sunlights.common.vo.PageVo;
 
 import java.util.List;
 
@@ -13,29 +16,25 @@ import java.util.List;
  * @author <a href="mailto:zhencai.yuan@sunlights.cc">yuanzhencai</a>
  */
 
-public class PageServiceImpl implements PageService {
+public class PageService {
 
 
     private PageDao pageDao;
 
 
-    @Override
-    public <X> List<X> findBy(String queryString, Pager pager) {
+    public <X> List<X> findBy(String queryString, PageVo pager) {
         return pageDao.findBy(queryString, pager);
     }
 
-    @Override
-    public <X> List<X> findNativeBy(String queryString, Pager pager) {
+    public <X> List<X> findNativeBy(String queryString, PageVo pager) {
         return pageDao.findNativeBy(queryString, pager);
     }
 
-    @Override
-    public <X> List<X> findXsqlBy(String xsql, Pager pager) {
+    public <X> List<X> findXsqlBy(String xsql, PageVo pager) {
         return pageDao.findXsqlBy(xsql, pager);
     }
 
-    @Override
-    public <X> List<X> findNativeXsqlBy(String xsql, Pager pager) {
+    public <X> List<X> findNativeXsqlBy(String xsql, PageVo pager) {
         return pageDao.findNativeXsqlBy(xsql, pager);
     }
 }

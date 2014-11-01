@@ -6,6 +6,7 @@ import ch.qos.logback.classic.db.names.DefaultDBNameResolver;
 import ch.qos.logback.classic.spi.*;
 import ch.qos.logback.core.CoreConstants;
 import ch.qos.logback.core.db.DBAppenderBase;
+import com.sunlights.common.vo.LogVo;
 
 import java.lang.reflect.Method;
 import java.sql.Connection;
@@ -187,7 +188,7 @@ public class CommonDBAppender extends DBAppenderBase<ILoggingEvent> {
             if (args[0] instanceof LogVo) {
                 LogVo logVo = (LogVo) args[0];
                 logVoMap.putAll(logVo.getProperties());
-                logVoMap.put("type", logVo.getType().logTypeName);
+                logVoMap.put("type", logVo.getType().getLogTypeName());
                 logVoMap.put("userId", logVo.getUserId());
                 logVoMap.put("deviceNo", logVo.getDeviceNo());
             }

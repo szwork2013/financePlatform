@@ -1,5 +1,6 @@
-package com.sunlights.common;
+package com.sunlights.common.service;
 
+import com.sunlights.common.MsgCode;
 import com.sunlights.common.dal.ParameterDao;
 import com.sunlights.common.dal.impl.ParameterDaoImpl;
 import com.sunlights.common.exceptions.BusinessRuntimeException;

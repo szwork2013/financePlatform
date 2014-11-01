@@ -1,6 +1,6 @@
-package com.sunlights.account.biz.impl;
+package com.sunlights.account.service.impl;
 
-import com.sunlights.account.biz.CapitalService;
+import com.sunlights.account.service.CapitalService;
 import com.sunlights.account.dal.CapitalDao;
 import com.sunlights.account.models.HoldCapital;
 import com.sunlights.account.vo.Capital4Product;
