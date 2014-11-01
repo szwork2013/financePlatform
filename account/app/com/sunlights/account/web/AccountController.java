@@ -27,10 +27,8 @@ import play.mvc.Result;
  *
  * @author <a href="mailto:jiaming.wang@sunlights.cc">wangJiaMing</a>
  */
-@org.springframework.stereotype.Controller
 public class AccountController {
     private Form<CustomerFormVo> customerForm = Form.form(CustomerFormVo.class);
-
 
     private AccountService accountService;
 

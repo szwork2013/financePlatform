@@ -29,7 +29,7 @@ import static play.mvc.Results.ok;
  *
  * @author <a href="mailto:zhencai.yuan@sunlights.cc">yuanzhencai</a>
  */
-@org.springframework.stereotype.Controller
+
 public class BankController {
 
     private Form<Pager> pagerForm = Form.form(Pager.class);

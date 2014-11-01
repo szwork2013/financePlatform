@@ -27,7 +27,7 @@ import java.util.Map;
  *
  * @author <a href="mailto:jiaming.wang@sunlights.cc">wangJiaMing</a>
  */
-@org.springframework.stereotype.Controller
+
 @Transactional
 public class TradeController {
     private Logger logger = LoggerFactory.getLogger(TradeController.class);

@@ -24,7 +24,7 @@ import static play.mvc.Results.ok;
  *
  * @author <a href="mailto:zhencai.yuan@sunlights.cc">yuanzhencai</a>
  */
-@org.springframework.stereotype.Controller
+
 public class ProductController {
     private Form<ProductParameter> productParameterForm = Form.form(ProductParameter.class);
     private MessageUtil messageUtil = MessageUtil.getInstance();

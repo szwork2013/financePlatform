@@ -15,7 +15,7 @@ import play.data.Form;
 * @author <a href="mailto:jiaming.wang@sunlights.cc">wangJiaMing</a>
 */
 
-@org.springframework.stereotype.Controller
+
 @Transactional
 public class SafeController {
     private static Form<CustomerFormVo> customerForm = Form.form(CustomerFormVo.class);

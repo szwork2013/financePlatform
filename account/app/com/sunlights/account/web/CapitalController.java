@@ -19,7 +19,7 @@ import java.util.List;
  * @author tangweiqun	2014/10/22
  *
  */
-@org.springframework.stereotype.Controller
+
 public class CapitalController {
 
     private static final play.Logger.ALogger LOG = Logger.of("customer");

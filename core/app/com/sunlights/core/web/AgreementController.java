@@ -22,7 +22,7 @@ import static play.mvc.Results.ok;
  *
  * @author <a href="mailto:zhencai.yuan@sunlights.cc">yuanzhencai</a>
  */
-@org.springframework.stereotype.Controller
+
 public class AgreementController {
     private static MessageUtil messageUtil = MessageUtil.getInstance();
     private static Form<AgreementVo> agreementVoForm = Form.form(AgreementVo.class);
