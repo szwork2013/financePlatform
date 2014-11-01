@@ -15,6 +15,7 @@ import com.sunlights.customer.vo.CustomerFormVo;
 import com.sunlights.customer.vo.CustomerVo;
 import play.Logger;
 import play.data.Form;
+import play.db.jpa.Transactional;
 import play.libs.Json;
 import play.mvc.Controller;
 import play.mvc.Http;
@@ -23,7 +24,7 @@ import play.mvc.Result;
 /**
  * Created by Administrator on 2014/9/4.
  */
-
+@Transactional
 public class LoginController extends Controller {
 	private Form<CustomerFormVo> customerForm = Form.form(CustomerFormVo.class);
 
