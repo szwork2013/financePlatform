@@ -2,11 +2,11 @@ package com.sunlights.account.models;
 
 import com.sunlights.common.models.IdEntity;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Table;
+import javax.persistence.*;
 import java.math.BigDecimal;
 import java.sql.Timestamp;
+import java.util.Date;
+
 
 /**
  * 基本model
@@ -28,13 +28,16 @@ public class BaseAccount extends IdEntity {
 	private BigDecimal balance;
 	@Column(name="TRADE_PASSWORD")
 	private String tradePassword;
+    @Temporal(TemporalType.TIMESTAMP)
 	@Column(name="CREATE_TIME")
-	private Timestamp createTime;
-	@Column(name="UPDATE_TIME")
-	private Timestamp updateTime;
-	@Column(name="DELETE_TIME")
-	private Timestamp deleteTime;
-	
+	private Date createTime;
+    @Temporal(TemporalType.TIMESTAMP)
+    @Column(name="UPDATE_TIME")
+    private Date updateTime;
+    @Temporal(TemporalType.TIMESTAMP)
+    @Column(name="DELETE_TIME")
+	private Date deleteTime;
+
 	public String getCustId() {
 		return custId;
 	}
@@ -65,19 +68,19 @@ public class BaseAccount extends IdEntity {
 	public void setTradePassword(String tradePassword) {
 		this.tradePassword = tradePassword;
 	}
-	public Timestamp getCreateTime() {
+	public Date getCreateTime() {
 		return createTime;
 	}
 	public void setCreateTime(Timestamp createTime) {
 		this.createTime = createTime;
 	}
-	public Timestamp getUpdateTime() {
+	public Date getUpdateTime() {
 		return updateTime;
 	}
 	public void setUpdateTime(Timestamp updateTime) {
 		this.updateTime = updateTime;
 	}
-	public Timestamp getDeleteTime() {
+	public Date getDeleteTime() {
 		return deleteTime;
 	}
 	public void setDeleteTime(Timestamp deleteTime) {

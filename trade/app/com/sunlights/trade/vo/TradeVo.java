@@ -15,12 +15,11 @@ public class TradeVo implements Serializable{
     private String productName;//产品名称
     private String tradeAmount;//交易金额
     private String tradeTime;//交易时间
-    private String tradeType;//交易类型   1:申购 2:赎回 3:分红
-    private String tradeTypeDesc;
-    private String tradeStatus;//交易状态
-    private String tradeStatusDesc;
-    private String tradeNo;//交易单号
-    private String paymentTypeDesc;//付款方式及金额
+    private String tradeTypeDesc;//交易类型   1:申购 2:赎回 3:分红
+    private String tradeStatusDesc;//交易状态
+
+//    private String tradeNo;//交易单号
+//    private String paymentTypeDesc;//付款方式及金额
 
     public TradeVo() {
     }
@@ -63,37 +62,5 @@ public class TradeVo implements Serializable{
 
     public void setTradeStatusDesc(String tradeStatusDesc) {
         this.tradeStatusDesc = tradeStatusDesc;
-    }
-
-    public String getTradeNo() {
-        return tradeNo;
-    }
-
-    public void setTradeNo(String tradeNo) {
-        this.tradeNo = tradeNo;
-    }
-
-    public String getTradeType() {
-        return tradeType;
-    }
-
-    public void setTradeType(String tradeType) {
-        this.tradeType = tradeType;
-    }
-
-    public String getTradeStatus() {
-        return tradeStatus;
-    }
-
-    public void setTradeStatus(String tradeStatus) {
-        this.tradeStatus = tradeStatus;
-    }
-
-    public String getPaymentTypeDesc() {
-        return paymentTypeDesc;
-    }
-
-    public void setPaymentTypeDesc(String paymentTypeDesc) {
-        this.paymentTypeDesc = paymentTypeDesc;
     }
 }

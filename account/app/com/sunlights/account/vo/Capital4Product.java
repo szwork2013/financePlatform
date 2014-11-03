@@ -14,25 +14,30 @@ public class Capital4Product implements Serializable {
 	private String totalProfit = AccountConstant.DEFAULT_MONEY;
 	
 	private String marketValue = AccountConstant.DEFAULT_MONEY;
+    
+
+    public Capital4Product(){
+
+    }
 
 
-	public String getPrdCode() {
-		return prdCode;
-	}
+    public String getPrdCode() {
+        return prdCode;
+    }
 
-	public void setPrdCode(String prdCode) {
-		this.prdCode = prdCode;
-	}
+    public void setPrdCode(String prdCode) {
+        this.prdCode = prdCode;
+    }
 
-	public String getPrdName() {
-		return prdName;
-	}
+    public String getPrdName() {
+        return prdName;
+    }
 
-	public void setPrdName(String prdName) {
-		this.prdName = prdName;
-	}
+    public void setPrdName(String prdName) {
+        this.prdName = prdName;
+    }
 
-	public String getTotalProfit() {
+    public String getTotalProfit() {
 		return totalProfit;
 	}
 

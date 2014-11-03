@@ -2,12 +2,11 @@ package com.sunlights.account.models;
 
 import com.sunlights.common.models.IdEntity;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Table;
+import javax.persistence.*;
 import java.math.BigDecimal;
-import java.sql.Date;
 import java.sql.Timestamp;
+import java.util.Date;
+
 
 /**
  * 持有资产model
@@ -15,33 +14,41 @@ import java.sql.Timestamp;
  *
  */
 @Entity
-@Table(name = "T_HOLDCAPITAL")
-public class HoldCapital extends IdEntity{
+@Table(name = "F_HOLDCAPITAL")
+public class HoldCapital extends IdEntity {
 	private static final long serialVersionUID = 3408103055932941065L;
 	
 	@Column(name="CUST_ID")
-	private String custId;
-	@Column(name="TRADE_NO")
-	private String tradeNo;
-	@Column(name="PRD_CODE")
-	private String prdCode;
-	@Column(name="TRADE_CAPITAL")
-	private BigDecimal subCapital;
+	private String custId;//客户号
+    @Column(name="PRODUCT_CODE",length = 8)
+    private String productCode;
+    @Column(name="PRODUCT_NAME", length = 100)
+    private String productName;
+    @Column(name="PRODUCT_TYPE", length = 50)
+    private String productType;
+    @Column(name="TRADE_AMOUNT", length = 100)
+    private BigDecimal tradeAmount;//申赎资产
 	@Column(name="HOLD_CAPITAL")
-	private BigDecimal holdCapital;
-	@Column(name="YESTERDAY_PROFIT")
-	private BigDecimal yesterdayProfit;
-	@Column(name="TOTAL_PROFIT")
-	private BigDecimal totalProfit;
-	@Column(name="B_DATE")
-	private Date bDate;
-	
-	@Column(name="CREATE_TIME")
-	private Timestamp createTime;
-	@Column(name="UPDATE_TIME")
-	private Timestamp updateTime;
-	@Column(name="DELETE_TIME")
-	private Timestamp deleteTime;
+	private BigDecimal holdCapital;//持有资产
+	@Column(name="YESTERDAY_PROFIT", precision = 18,scale = 4)
+	private BigDecimal yesterdayProfit;//昨天收益
+	@Column(name="TOTAL_PROFIT", precision = 18,scale = 4)
+	private BigDecimal totalProfit;//累计收益
+    @Column(name="STATUS", length = 1)
+    private String status;
+    @Temporal(TemporalType.TIMESTAMP)
+	@Column(name="SETTLE_DATE")
+	private Date settleDate;
+    @Temporal(TemporalType.TIMESTAMP)
+    @Column(name="CREATE_TIME")
+    private Date createTime;
+    @Temporal(TemporalType.TIMESTAMP)
+    @Column(name="UPDATE_TIME")
+	private Date updateTime;
+    @Temporal(TemporalType.TIMESTAMP)
+    @Column(name="DELETE_TIME")
+	private Date deleteTime;
+
 
 	public String getCustId() {
 		return custId;
@@ -51,29 +58,6 @@ public class HoldCapital extends IdEntity{
 		this.custId = custId;
 	}
 
-	public String getTradeNo() {
-		return tradeNo;
-	}
-
-	public void setTradeNo(String tradeNo) {
-		this.tradeNo = tradeNo;
-	}
-
-	public String getPrdCode() {
-		return prdCode;
-	}
-
-	public void setPrdCode(String prdCode) {
-		this.prdCode = prdCode;
-	}
-
-	public BigDecimal getSubCapital() {
-		return subCapital;
-	}
-
-	public void setSubCapital(BigDecimal subCapital) {
-		this.subCapital = subCapital;
-	}
 
 	public BigDecimal getHoldCapital() {
 		return holdCapital;
@@ -99,15 +83,7 @@ public class HoldCapital extends IdEntity{
 		this.totalProfit = totalProfit;
 	}
 
-	public Date getbDate() {
-		return bDate;
-	}
-
-	public void setbDate(Date bDate) {
-		this.bDate = bDate;
-	}
-
-	public Timestamp getCreateTime() {
+	public Date getCreateTime() {
 		return createTime;
 	}
 
@@ -115,7 +91,7 @@ public class HoldCapital extends IdEntity{
 		this.createTime = createTime;
 	}
 
-	public Timestamp getUpdateTime() {
+	public Date getUpdateTime() {
 		return updateTime;
 	}
 
@@ -123,11 +99,59 @@ public class HoldCapital extends IdEntity{
 		this.updateTime = updateTime;
 	}
 
-	public Timestamp getDeleteTime() {
+	public Date getDeleteTime() {
 		return deleteTime;
 	}
 
 	public void setDeleteTime(Timestamp deleteTime) {
 		this.deleteTime = deleteTime;
 	}
+
+    public String getProductCode() {
+        return productCode;
+    }
+
+    public void setProductCode(String productCode) {
+        this.productCode = productCode;
+    }
+
+    public String getProductName() {
+        return productName;
+    }
+
+    public void setProductName(String productName) {
+        this.productName = productName;
+    }
+
+    public BigDecimal getTradeAmount() {
+        return tradeAmount;
+    }
+
+    public void setTradeAmount(BigDecimal tradeAmount) {
+        this.tradeAmount = tradeAmount;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
+
+    public Date getSettleDate() {
+        return settleDate;
+    }
+
+    public void setSettleDate(Timestamp settleDate) {
+        this.settleDate = settleDate;
+    }
+
+    public String getProductType() {
+        return productType;
+    }
+
+    public void setProductType(String productType) {
+        this.productType = productType;
+    }
 }

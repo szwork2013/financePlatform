@@ -1,13 +1,20 @@
 package com.sunlights.account.web;
 
+import com.fasterxml.jackson.databind.JsonNode;
 import com.sunlights.account.service.CapitalService;
+import com.sunlights.account.service.impl.CapitalServiceImpl;
 import com.sunlights.account.vo.Capital4Product;
+import com.sunlights.account.vo.CapitalFormVo;
+import com.sunlights.account.vo.HoldCapitalVo;
 import com.sunlights.account.vo.TotalCapitalInfo;
 import com.sunlights.common.MsgCode;
 import com.sunlights.common.utils.MessageUtil;
 import com.sunlights.common.vo.Message;
-import play.Logger;
+import com.sunlights.common.vo.PageVo;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import play.data.Form;
+import play.db.jpa.Transactional;
 import play.mvc.Controller;
 import play.mvc.Result;
 
@@ -20,27 +27,26 @@ import java.util.List;
  * @author tangweiqun	2014/10/22
  *
  */
-
-public class CapitalController extends Controller {
-
-    private static final play.Logger.ALogger LOG = Logger.of("customer");
-
-
-	private CapitalService capitalService;
-    private final Message operateSuccessMsg = new Message(MsgCode.OPERATE_SUCCESS);
-
-    /**
+@Transactional
+public class CapitalController extends Controller{
+	
+	private static Logger logger = LoggerFactory.getLogger(CapitalController.class);
+	
+	private CapitalService capitalService = new CapitalServiceImpl();
+	
+	/**
 	 * 获取客户的总资产信息
 	 * @return
 	 */
 	public Result getTotalCapitalInfo() {
 		Form<String> form = Form.form(String.class).bindFromRequest();
 		String mobile = form.data().get("mobile");
-
-        LOG.info("mobile = === " + mobile);
-        TotalCapitalInfo totalCapitalInfo = capitalService.getTotalCapital(mobile, false);
-        MessageUtil.getInstance().setMessage(operateSuccessMsg, totalCapitalInfo);
-		return play.mvc.Controller.ok(MessageUtil.getInstance().toJson());
+		System.out.println("mobile = " + mobile);
+		
+		logger.info("mobile = === " + mobile);
+		TotalCapitalInfo totalCapitalInfo = capitalService.getTotalCapital(mobile, false);
+		MessageUtil.getInstance().setMessage(new Message(MsgCode.OPERATE_SUCCESS), totalCapitalInfo);
+		return ok(MessageUtil.getInstance().toJson());
 	}
 	
 	/**
@@ -50,10 +56,12 @@ public class CapitalController extends Controller {
 	public Result getAllCapital4Prd() {
 		Form<String> form = Form.form(String.class).bindFromRequest();
 		String mobile = form.data().get("mobile");
+		System.out.println("mobile = " + mobile);
+		
+		List<Capital4Product> capital4Products = capitalService.getAllCapital4Product(mobile);
 
-        List<Capital4Product> capital4Products = capitalService.getAllCapital4Product(mobile);
-		MessageUtil.getInstance().setMessage(operateSuccessMsg, capital4Products);
-		return play.mvc.Controller.ok(MessageUtil.getInstance().toJson());
+        MessageUtil.getInstance().setMessage(new Message(MsgCode.OPERATE_SUCCESS), capital4Products);
+        return ok(MessageUtil.getInstance().toJson());
 	}
 	
 	/**
@@ -66,7 +74,46 @@ public class CapitalController extends Controller {
 		System.out.println("mobile = " + mobile);
 		
 		TotalCapitalInfo totalCapitalInfo = capitalService.getTotalCapital(mobile, true);
-		MessageUtil.getInstance().setMessage(operateSuccessMsg, totalCapitalInfo);
-		return play.mvc.Controller.ok(MessageUtil.getInstance().toJson());
+
+        Message message = new Message(MsgCode.OPERATE_SUCCESS);
+        JsonNode json = MessageUtil.getInstance().msgToJson(message, totalCapitalInfo);
+		return ok(json);
+
 	}
+
+    /**
+     * 累计收益查询
+     * @return
+     */
+    public Result findTotalProfitList(){
+        Form<CapitalFormVo> form = Form.form(CapitalFormVo.class).bindFromRequest();
+        CapitalFormVo capitalFormVo = form.get();
+
+        List<HoldCapitalVo> list = capitalService.findTotalProfitList(capitalFormVo);
+
+        PageVo pageVo = new PageVo();
+        pageVo.setIndex(capitalFormVo.getIndex());
+        pageVo.setCount(list.size());
+        pageVo.setPageSize(capitalFormVo.getPageSize());
+        pageVo.setList(list);
+
+        Message message = new Message(MsgCode.OPERATE_SUCCESS);
+        JsonNode json = MessageUtil.getInstance().msgToJson(message, pageVo);
+        return ok(json);
+    }
+
+    /**
+     * 累计收益明细查询
+     * @return
+     */
+    public Result findTotalProfitDetail(){
+        Form<CapitalFormVo> form = Form.form(CapitalFormVo.class).bindFromRequest();
+        CapitalFormVo capitalFormVo = form.get();
+
+        HoldCapitalVo holdCapitalVo = capitalService.findTotalProfitDetail(capitalFormVo.getId());
+
+        Message message = new Message(MsgCode.OPERATE_SUCCESS);
+        JsonNode json = MessageUtil.getInstance().msgToJson(message, holdCapitalVo);
+        return ok(json);
+    }
 }

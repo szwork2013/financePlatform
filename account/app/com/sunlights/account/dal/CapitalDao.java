@@ -1,6 +1,8 @@
 package com.sunlights.account.dal;
 
 import com.sunlights.account.models.HoldCapital;
+import com.sunlights.account.vo.CapitalFormVo;
+import com.sunlights.account.vo.HoldCapitalVo;
 
 import java.util.List;
 
@@ -11,6 +13,19 @@ import java.util.List;
  */
 public interface CapitalDao {
 	
-	public List<HoldCapital> getHoldCapitalsByCustId(String custId);
+	public List<HoldCapital> findHoldCapitalsByCustId(String custId);
+
+    public HoldCapital findHoldCapitalsById(Long id);
+
+    /**
+     * 累计收益查询
+     * @return
+     */
+    public List<HoldCapital> findHoldCapitalsByProductCode(String customerId, CapitalFormVo capitalFormVo);
+    /**
+     * 累计收益明细查询
+     * @return
+     */
+    public HoldCapitalVo findTotalProfitDetail(String type, HoldCapitalVo holdCapitalVo);
 	
 }

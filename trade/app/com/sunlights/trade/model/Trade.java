@@ -2,11 +2,11 @@ package com.sunlights.trade.model;
 
 import com.sunlights.common.models.IdEntity;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Table;
+import javax.persistence.*;
 import java.math.BigDecimal;
 import java.sql.Timestamp;
+import java.util.Date;
+
 
 /**
  * <p>Project: fsp</p>
@@ -19,41 +19,47 @@ import java.sql.Timestamp;
  */
 @Entity
 @Table(name = "T_TRADE")
-public class Trade extends IdEntity{
-    @Column(length = 30, name = "CUST_ID")
+public class Trade extends IdEntity {
+    @Column(length = 30, name = "cust_id")
     private String custId;//客户号
-    @Column(length = 20, name = "TRADE_NO")
+    @Column(length = 20, name = "trade_no")
     private String tradeNo;//交易流水号
-    @Column(precision = 18,scale = 4,name = "PRD_PRICR")
-    private BigDecimal prdPrice;//产品单价
-    @Column(length = 8,name = "PRD_CODE")
-    private String prdCode;//产品编码
-    @Column(name = "HOLDCAPITAL_ID")
-    private Long holdCapitalId;//持有资产号
-    @Column(name = "AMOUNT")
-    private int amount;//成交数量
-    @Column(precision = 18,scale = 4,name = "FEE")
+    @Column(precision = 18,scale = 4,name = "product_price")
+    private BigDecimal productPrice;//产品单价
+    @Column(length = 8,name = "product_code")
+    private String productCode;//产品编码
+    @Column(length = 100,name = "product_name")
+    private String productName;//产品名称
+    @Column(name = "quantity")
+    private int quantity;//成交数量
+    @Column(precision = 18,scale = 4, name = "trade_amount")
+    private BigDecimal tradeAmount;//交易金额
+    @Column(precision = 18,scale = 4,name = "fee")
     private BigDecimal fee;//手续费
-    @Column(name = "TYPE", length = 1)
+    @Column(name = "type", length = 1)
     private String type;//1:申购 2:赎回 3:分红
-    @Column(name = "TRADE_STATUS", length = 1)
+    @Column(name = "trade_status", length = 1)
     private String tradeStatus;//1：存/取钱中、2：存/取钱成功、3：存/取失败【失败原因】
-    @Column(name = "PAY_STATU", length = 1)
+    @Column(name = "pay_status", length = 1)
     private String payStatus;//'交易付款标志 0-不需付款；1-未付款；2-付款成功；3-付款失败；4-付款中；
-    @Column(name = "CONFIRM_STATUS", length = 1)
+    @Column(name = "confirm_status", length = 1)
     private String confirmStatus;//'0-不需发送；1-待确认；2-待确认；3-部分确认；4-确认完成；5-确认失败
     @Column(name = "bank_name", length = 50)
     private String bankName;
     @Column(name = "bank_card_no", length = 40)
     private String bankCardNo;
-    @Column(name = "TRADE_TIME")
-    private Timestamp tradeTime;//'下单时间';
-    @Column(name = "CREATE_TIME")
-    private Timestamp createTime;//'创建时间';
-    @Column(name = "UPDATE_TIME")
-    private Timestamp updateTime;//'修改时间';
-    @Column(name = "DELETE_TIME")
-    private Timestamp deleteTime;//'删除时间';
+    @Temporal(TemporalType.TIMESTAMP)
+    @Column(name = "trade_time")
+    private Date tradeTime;//'下单时间';
+    @Temporal(TemporalType.TIMESTAMP)
+    @Column(name = "create_time")
+    private Date createTime;//'创建时间';
+    @Temporal(TemporalType.TIMESTAMP)
+    @Column(name = "update_time")
+    private Date updateTime;//'修改时间';
+    @Temporal(TemporalType.TIMESTAMP)
+    @Column(name = "delete_time")
+    private Date deleteTime;//'删除时间';
 
     public Trade() {
     }
@@ -72,38 +78,6 @@ public class Trade extends IdEntity{
 
     public void setTradeNo(String tradeNo) {
         this.tradeNo = tradeNo;
-    }
-
-    public BigDecimal getPrdPrice() {
-        return prdPrice;
-    }
-
-    public void setPrdPrice(BigDecimal prdPrice) {
-        this.prdPrice = prdPrice;
-    }
-
-    public String getPrdCode() {
-        return prdCode;
-    }
-
-    public void setPrdCode(String prdCode) {
-        this.prdCode = prdCode;
-    }
-
-    public Long getHoldCapitalId() {
-        return holdCapitalId;
-    }
-
-    public void setHoldCapitalId(Long holdCapitalId) {
-        this.holdCapitalId = holdCapitalId;
-    }
-
-    public int getAmount() {
-        return amount;
-    }
-
-    public void setAmount(int amount) {
-        this.amount = amount;
     }
 
     public BigDecimal getFee() {
@@ -146,7 +120,7 @@ public class Trade extends IdEntity{
         this.confirmStatus = confirmStatus;
     }
 
-    public Timestamp getTradeTime() {
+    public Date getTradeTime() {
         return tradeTime;
     }
 
@@ -154,7 +128,7 @@ public class Trade extends IdEntity{
         this.tradeTime = tradeTime;
     }
 
-    public Timestamp getCreateTime() {
+    public Date getCreateTime() {
         return createTime;
     }
 
@@ -162,7 +136,7 @@ public class Trade extends IdEntity{
         this.createTime = createTime;
     }
 
-    public Timestamp getUpdateTime() {
+    public Date getUpdateTime() {
         return updateTime;
     }
 
@@ -170,11 +144,67 @@ public class Trade extends IdEntity{
         this.updateTime = updateTime;
     }
 
-    public Timestamp getDeleteTime() {
+    public Date getDeleteTime() {
         return deleteTime;
     }
 
     public void setDeleteTime(Timestamp deleteTime) {
         this.deleteTime = deleteTime;
+    }
+
+    public BigDecimal getTradeAmount() {
+        return tradeAmount;
+    }
+
+    public void setTradeAmount(BigDecimal tradeAmount) {
+        this.tradeAmount = tradeAmount;
+    }
+
+    public String getBankName() {
+        return bankName;
+    }
+
+    public void setBankName(String bankName) {
+        this.bankName = bankName;
+    }
+
+    public String getBankCardNo() {
+        return bankCardNo;
+    }
+
+    public void setBankCardNo(String bankCardNo) {
+        this.bankCardNo = bankCardNo;
+    }
+
+    public BigDecimal getProductPrice() {
+        return productPrice;
+    }
+
+    public void setProductPrice(BigDecimal productPrice) {
+        this.productPrice = productPrice;
+    }
+
+    public String getProductCode() {
+        return productCode;
+    }
+
+    public void setProductCode(String productCode) {
+        this.productCode = productCode;
+    }
+
+    public String getProductName() {
+        return productName;
+    }
+
+    public void setProductName(String productName) {
+        this.productName = productName;
+    }
+
+    public int getQuantity() {
+        return quantity;
+    }
+
+    public void setQuantity(int quantity) {
+        this.quantity = quantity;
     }
 }

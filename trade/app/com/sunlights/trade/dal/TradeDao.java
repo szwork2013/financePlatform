@@ -1,6 +1,6 @@
 package com.sunlights.trade.dal;
 
-import com.sunlights.trade.vo.TradeInfoVo;
+import com.sunlights.trade.model.Trade;
 
 import java.util.List;
 
@@ -20,6 +20,6 @@ public interface TradeDao {
      * @param productType 产品类型，过滤条件 0全部 1基金
      * @return
      */
-    public List<TradeInfoVo> getTradeListByCustomerId(String customerId, String productType);
+    public List<Trade> getTradeListByCustomerId(String customerId, String productType);
 
 }

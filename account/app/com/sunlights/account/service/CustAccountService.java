@@ -1,7 +1,6 @@
 package com.sunlights.account.service;
 
 import com.sunlights.account.models.BaseAccount;
-import com.sunlights.common.vo.CustomerVerifyCodeVo;
 import com.sunlights.customer.vo.CustomerFormVo;
 
 import java.math.BigDecimal;
@@ -11,7 +10,7 @@ import java.math.BigDecimal;
  * @author tangweiqun 2014/10/23
  *
  */
-public interface AccountService {
+public interface CustAccountService {
 	/**
 	 * 客户注册基本账户
 	 * 
@@ -21,6 +20,8 @@ public interface AccountService {
 	 */
 	public boolean registerBaseAccount(String custId, String tradePassword);
 
+
+	
 	/**
 	 * 注册子账户
 	 * @param custId	客户号
@@ -38,18 +39,27 @@ public interface AccountService {
 	 * @param tradeType	交易类型
 	 * @param amount	变动金额
 	 */
-	public void tally(String custId, String prdCode, String tradeNo, String tradeType, BigDecimal amount);
+	public void dealAccount(String custId, String prdCode, String tradeNo, String tradeType, BigDecimal amount);
 
     /**
      * 修改交易密码验证
      * @param vo
      * @return
      */
-    public CustomerVerifyCodeVo resetTradePwdCertify(CustomerFormVo vo);
+    public void resetTradePwdCertify(CustomerFormVo vo);
 
     /**
-     * 重置交易密码
+     * 修改交易密码
      * @return
      */
     public BaseAccount resetTradePwd(CustomerFormVo customerFormVo, String token);
+
+    /**
+     * 实名验证和交易密码设置
+     * @param customerFormVo
+     * @param token
+     * @param remoteAddress
+     * @return
+     */
+    public void certifyAndResetTradePwd(CustomerFormVo customerFormVo, String token, String remoteAddress);
 }

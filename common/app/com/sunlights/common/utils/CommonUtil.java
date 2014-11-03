@@ -4,7 +4,6 @@ import com.sunlights.common.MsgCode;
 import com.sunlights.common.Severity;
 import com.sunlights.common.exceptions.BusinessRuntimeException;
 import com.sunlights.common.vo.Message;
-import play.libs.Json;
 
 import java.text.DateFormat;
 import java.text.MessageFormat;
@@ -59,15 +58,15 @@ public class CommonUtil {
         return new BusinessRuntimeException(Severity.FATAL, msgCode.getCode(), msgCode.getMessage(), detail);
     }
 
-    public static final String PATTEN_DATE_FORMAT_DEFAULT = "yyyy-MM-dd";
+    public static final String PATTEN_SHORT_DATE_FORMAT_DEFAULT = "yyyy-MM-dd";
 
-    public static final String PATTEN_DATE_FORMAT_SLASH = "yyyy/MM/dd";
+    public static final String PATTEN_MIDDLE_DATE_FORMAT_DATETIME = "yyyy-MM-dd HH:mm";
 
-    public static final String PATTEN_DATE_FORMAT_DATETIME = "yyyy-MM-dd HH:mm:ss";
+    public static final String PATTEN_LONG_DATE_FORMAT_DATETIME = "yyyy-MM-dd HH:mm:ss";
 
     public static final String PATTEN_DATE_FORMAT_DATETIME_PLUS = "yyyy-MM-dd HH:mm:ss:SSS";
 
-    private static final DateFormat DATE_FORMAT = new SimpleDateFormat(PATTEN_DATE_FORMAT_DEFAULT);
+    private static final DateFormat DATE_FORMAT = new SimpleDateFormat(PATTEN_SHORT_DATE_FORMAT_DEFAULT);
     public static String dateToString(Date date, String... format) {
         if (date == null){
             return "";

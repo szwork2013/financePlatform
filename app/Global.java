@@ -44,13 +44,11 @@ public class Global extends GlobalSettings {
             String detailMsg = null;
 
             Throwable cause = reqthrow.getCause();
-            if (cause != null) {
-                if (cause instanceof BusinessRuntimeException) {
-                    errorCode = ((BusinessRuntimeException) cause).getErrorCode();
-                    errorMessage = cause.getMessage();
-                    severity = ((BusinessRuntimeException) cause).getSeverity();
-                    detailMsg = ((BusinessRuntimeException) cause).getDetailMsg();
-                }
+            if (cause != null && cause instanceof BusinessRuntimeException) {
+                errorCode = ((BusinessRuntimeException) cause).getErrorCode();
+                errorMessage = cause.getMessage();
+                severity = ((BusinessRuntimeException) cause).getSeverity();
+                detailMsg = ((BusinessRuntimeException) cause).getDetailMsg();
                 json = MessageUtil.getInstance().msgToJson(new Message(severity, errorCode, errorMessage, detailMsg));
             } else {
                 errorCode = "fatal";

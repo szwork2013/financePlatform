@@ -2,7 +2,10 @@ package com.sunlights.account.dal.impl;
 
 import com.sunlights.account.dal.BaseAccountDao;
 import com.sunlights.account.models.BaseAccount;
+import com.sunlights.account.models.SubAccount;
 import com.sunlights.common.dal.EntityBaseDao;
+
+import java.util.List;
 
 public class BaseAccountDaoImpl extends EntityBaseDao implements BaseAccountDao {
 
@@ -20,5 +23,9 @@ public class BaseAccountDaoImpl extends EntityBaseDao implements BaseAccountDao 
 	public BaseAccount getBaseAccount(String custId) {
 		return super.findUniqueBy(BaseAccount.class, "custId", custId);
 	}
+
+    public List<SubAccount> findSubAccountList(String customerId){
+        return super.findBy(SubAccount.class, "custId", customerId);
+    }
 
 }

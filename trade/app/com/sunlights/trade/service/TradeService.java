@@ -1,5 +1,6 @@
 package com.sunlights.trade.service;
 
+import com.sunlights.common.exceptions.BusinessRuntimeException;
 import com.sunlights.trade.vo.TradeVo;
 
 import java.util.List;
@@ -21,5 +22,5 @@ public interface TradeService {
      * @return
      */
     public List<TradeVo> getTradeListByCustomerId(String customerId, String productType);
-    public List<TradeVo> getTradeListByToken(String token, String productType);
+    public List<TradeVo> getTradeListByToken(String token, String productType) throws BusinessRuntimeException;
 }

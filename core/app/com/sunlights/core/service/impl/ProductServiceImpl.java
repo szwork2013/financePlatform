@@ -40,9 +40,9 @@ public class ProductServiceImpl implements ProductService {
         sql.append(" join p_product_recommend r on r.product_id = f.id");
         sql.append(" and r.recommend_type = '0'");
         sql.append(" and r.defunct_ind = 'N'");
-        sql.append(" and r.begin_date <= '" + CommonUtil.dateToString(date, CommonUtil.PATTEN_DATE_FORMAT_DATETIME) + "'");
-        sql.append(" and r.end_date > '" + CommonUtil.dateToString(date, CommonUtil.PATTEN_DATE_FORMAT_DATETIME) + "'");
-        sql.append(" and r.temp_stop_date > '" + CommonUtil.dateToString(date, CommonUtil.PATTEN_DATE_FORMAT_DATETIME) + "'");
+        sql.append(" and r.begin_date <= '" + CommonUtil.dateToString(date, CommonUtil.PATTEN_LONG_DATE_FORMAT_DATETIME) + "'");
+        sql.append(" and r.end_date > '" + CommonUtil.dateToString(date, CommonUtil.PATTEN_LONG_DATE_FORMAT_DATETIME) + "'");
+        sql.append(" and r.temp_stop_date > '" + CommonUtil.dateToString(date, CommonUtil.PATTEN_LONG_DATE_FORMAT_DATETIME) + "'");
         sql.append(" where 1=1");
         sql.append(" and f.defunct_ind = 'N'");
         sql.append(" order by r.priority_level");

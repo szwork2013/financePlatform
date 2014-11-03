@@ -6,10 +6,11 @@ import com.sunlights.common.MsgCode;
 import com.sunlights.common.utils.MessageUtil;
 import com.sunlights.common.vo.Message;
 import com.sunlights.trade.service.TradeService;
+import com.sunlights.trade.service.impl.TradeServiceImpl;
 import com.sunlights.trade.vo.TradeVo;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import play.Logger;
 import play.data.Form;
+import play.db.jpa.Transactional;
 import play.mvc.Controller;
 import play.mvc.Http;
 import play.mvc.Result;
@@ -26,16 +27,13 @@ import java.util.Map;
  *
  * @author <a href="mailto:jiaming.wang@sunlights.cc">wangJiaMing</a>
  */
-
-
+@Transactional
 public class TradeController extends Controller{
-    private Logger logger = LoggerFactory.getLogger(TradeController.class);
 
-
-    private TradeService tradeService;
+    private TradeService tradeService = new TradeServiceImpl();
 
     public Result getTradeList(){
-        logger.info("----------getTradeList start ------------");
+        Logger.info("----------getTradeList start ------------");
         Http.Cookie cookie = Controller.request().cookie(AppConst.TOKEN);
         String token = cookie == null ? null : cookie.value();
 
@@ -44,9 +42,10 @@ public class TradeController extends Controller{
 
         List<TradeVo> list = tradeService.getTradeListByToken(token, productType);
 
-        JsonNode json = MessageUtil.getInstance().msgToJson(new Message(MsgCode.OPERATE_SUCCESS), list);
-        logger.info("----------getTradeList end" + json);
-        return Controller.ok(json);
+        Message message = new Message(MsgCode.OPERATE_SUCCESS);
+        JsonNode json = MessageUtil.getInstance().msgToJson(message, list);
+        Logger.info("----------getTradeList end" + json);
+        return ok(json);
     }
 
 
