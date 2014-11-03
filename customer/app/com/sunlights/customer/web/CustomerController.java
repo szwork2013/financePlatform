@@ -15,6 +15,8 @@ import com.sunlights.customer.service.impl.LoginServiceImpl;
 import com.sunlights.customer.vo.CustomerFormVo;
 import com.sunlights.customer.vo.CustomerVo;
 import play.Logger;
+import play.api.libs.ws.WS;
+import play.api.mvc.Request;
 import play.data.Form;
 import play.db.jpa.Transactional;
 import play.libs.Json;
@@ -69,9 +71,26 @@ public class CustomerController extends Controller {
     }
 
     /**
-     * 注册
+     * 注册客户
      *
-     * @return
+     * 请求URL： /customer/register
+     * 请求方法： POST
+     * <pre>
+     * 输入参数：mobilePhoneNo、nickName 、passWord、idCardNo、verifyCode、deviceNo
+     * 输出参数：
+     * 成功：{"message":{"severity":0,"code":"0100","summary":"注册成功","detail":"","fileds":{}},"value":{"userName":null,"nickName":null,"mobilePhoneNo":"15811111175","mobileDisplayNo":"1581****1175","email":null,"gestureOpened":"0","certify":"0","idCardNo":null,"bankCardCount":"0","tradePwdFlag":"0"}}
+     * 失败：{"message":{"severity":2,"code":"2103","summary":"验证码不正确","detail":"请重新输入","fileds":{}},"value":null}
+     *
+     * severity	code	summary	                detail
+     * 0100	            注册成功
+     * 2001	            访问失败	          参数为空
+     * 2101	            该手机号已注册
+     * 2103	            验证码不正确	      请重新输入
+     * 2104	            验证码失效	         请重新获取
+     * 2105	            未获取验证码	      请获取验证码
+     * 2102	            验证码超过最大次数
+     *
+     * </pre>
      */
     public Result register() {
         Logger.info("==========register====================");

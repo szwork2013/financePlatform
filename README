@@ -22,4 +22,4 @@
 ========================================
 1. 把现在代码移动到finacePlatform
 2. 完善单元测试用例
-3.
+3. 为controller接口添加JavaDoc， 参考CustomerController里的方式

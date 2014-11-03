@@ -42,7 +42,7 @@ public class BaseAccountController extends Controller {
 
     private VerifyCodeService verifyCodeService = new VerifyCodeService();
 
-    public Result registerBaseAccount(){
+    public Result createBaseAccount(){
         Map<String, String> params = Form.form().bindFromRequest().data();
 
         String custId = params.get("custId");

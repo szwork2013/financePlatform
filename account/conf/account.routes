@@ -12,12 +12,7 @@ POST        /accountital/findtotalprofits             @com.sunlights.account.web
 POST        /accountital/findtotalprofitdetail        @com.sunlights.account.web.CapitalController.findTotalProfitDetail
 
 #Account
-POST        /registerbaseAcc                          @com.sunlights.account.web.BaseAccountController.registerBaseAccount
+POST        /createBaseAccount                        @com.sunlights.account.web.BaseAccountController.createBaseAccount
 POST        /resetaccpwdcertify                       @com.sunlights.account.web.BaseAccountController.resetAccountPwdCertify
 POST        /resetaccpwd                              @com.sunlights.account.web.BaseAccountController.resetAccountPwd
 POST        /certp                                    @com.sunlights.account.web.BaseAccountController.certifyAndResetTradePwd
-
-
-
-# Map static resources from the /public folder to the /assets URL path
-GET        /assets/*file        controllers.Assets.at(path="/public", file)
