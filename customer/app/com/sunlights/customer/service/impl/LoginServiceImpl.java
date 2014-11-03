@@ -2,6 +2,7 @@ package com.sunlights.customer.service.impl;
 
 import com.sunlights.common.AppConst;
 import com.sunlights.common.MsgCode;
+import com.sunlights.common.Severity;
 import com.sunlights.common.service.ParameterService;
 import com.sunlights.common.service.VerifyCodeService;
 import com.sunlights.common.exceptions.BusinessRuntimeException;
@@ -99,7 +100,7 @@ public class LoginServiceImpl implements LoginService {
         }
         CustomerGesture customerGesture = customerDao.findCustomerGestureByDeviceNo(customer.getCustomerId(), deviceNo);
         if (customerGesture == null) {
-            throw new BusinessRuntimeException(new Message(Message.SEVERITY_ERROR, MsgCode.GESTURE_NONE));
+            throw new BusinessRuntimeException(new Message(Severity.ERROR, MsgCode.GESTURE_NONE));
         }
 
         //若为登录状态
@@ -210,7 +211,7 @@ public class LoginServiceImpl implements LoginService {
 
         if (AppConst.ID_CARD.equals(customer.getIdentityTyper())) { //若为实名验证过的用户，判断真实姓名和身份证号是否和数据库中一致，
             if (!idCardNo.equals(customer.getIdentityNumber()) || !userName.equals(customer.getRealName())) {
-                throw new BusinessRuntimeException(new Message(Message.SEVERITY_ERROR, MsgCode.NAME_OR_ID_ERROR));
+                throw new BusinessRuntimeException(new Message(Severity.ERROR, MsgCode.NAME_OR_ID_ERROR));
             }
         }
         CustomerVerifyCodeVo customerVerifyCodeVo = new CustomerVerifyCodeVo();
@@ -292,7 +293,7 @@ public class LoginServiceImpl implements LoginService {
 			throw CommonUtil.getInstance().errorBusinessException(MsgCode.PHONE_NUMBER_NOT_REGISTRY);
 		}
 		if (!new MD5Helper().encrypt(password).equals(userMstr.getLoginPassWord())) {
-            throw new BusinessRuntimeException(new Message(Message.SEVERITY_ERROR, MsgCode.PASSWORD_CONFIRM_ERROR));
+            throw new BusinessRuntimeException(new Message(Severity.ERROR, MsgCode.PASSWORD_CONFIRM_ERROR));
 		}
 	}
 	
@@ -459,16 +460,16 @@ public class LoginServiceImpl implements LoginService {
         if (isGestureLogin){
             if (loginHistory.getLogNum() % PWD_MAX != 0) {
                 long times = PWD_MAX - loginHistory.getLogNum() % PWD_MAX;
-                message = new Message(Message.SEVERITY_ERROR, MsgCode.GESTURE_PASSWORD_ERROR, times);
+                message = new Message(Severity.ERROR, MsgCode.GESTURE_PASSWORD_ERROR, times);
             } else {// 此次为PWD_MAX * n次    做清除操作，若为登录状态则登出
-                message = new Message(Message.SEVERITY_ERROR, MsgCode.GESTURE_LOGIN_ERROR_OVER_COUNT);
+                message = new Message(Severity.ERROR, MsgCode.GESTURE_LOGIN_ERROR_OVER_COUNT);
             }
         }else{
             if (loginHistory.getLogNum() % PWD_MAX != 0) {
                 long times = PWD_MAX - loginHistory.getLogNum() % PWD_MAX;
-                message = new Message(Message.SEVERITY_ERROR, MsgCode.PASSWORD_ERROR, times);
+                message = new Message(Severity.ERROR, MsgCode.PASSWORD_ERROR, times);
             } else {// 此次为PWD_MAX * n次
-                message = new Message(Message.SEVERITY_ERROR, MsgCode.PASSWORD_ERROR_OVER_COUNT, getTotalMinute(loginHistory.getLogNum(), PWD_MAX));
+                message = new Message(Severity.ERROR, MsgCode.PASSWORD_ERROR_OVER_COUNT, getTotalMinute(loginHistory.getLogNum(), PWD_MAX));
             }
         }
 

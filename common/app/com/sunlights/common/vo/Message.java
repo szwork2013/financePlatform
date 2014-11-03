@@ -1,6 +1,7 @@
 package com.sunlights.common.vo;
 
 import com.sunlights.common.MsgCode;
+import com.sunlights.common.Severity;
 
 import java.text.MessageFormat;
 import java.util.HashMap;
@@ -10,20 +11,7 @@ import java.util.Map;
  * Created by yuan on 9/22/14.
  */
 public class Message {
-
-    private static final String SEVERITY_INFO_NAME = "INFO";
-    public static final Severity SEVERITY_INFO = new Severity(SEVERITY_INFO_NAME);
-
-    private static final String SEVERITY_WARN_NAME = "WARN";
-    public static final Severity SEVERITY_WARN = new Severity(SEVERITY_WARN_NAME);
-
-    private static final String SEVERITY_ERROR_NAME = "ERROR";
-    public static final Severity SEVERITY_ERROR = new Severity(SEVERITY_ERROR_NAME);
-
-    private static final String SEVERITY_FATAL_NAME = "FATAL";
-    public static final Severity SEVERITY_FATAL = new Severity(SEVERITY_FATAL_NAME);
-
-    private Severity severity = Message.SEVERITY_INFO;
+    private Severity severity = Severity.INFO;
     private String code = null;
     private String summary = null;
     private String detail = null;
@@ -97,34 +85,5 @@ public class Message {
 
     public void setCode(String code) {
         this.code = code;
-    }
-
-    public static class Severity implements Comparable {
-
-        private Severity(String newSeverityName) {
-            severityName = newSeverityName;
-        }
-
-        private final int ordinal = nextOrdinal++;
-
-        String severityName = null;
-
-        public int compareTo(Object other) {
-            return this.ordinal - ((Severity) other).ordinal;
-        }
-
-        public int getOrdinal() {
-            return (this.ordinal);
-        }
-
-        public String toString() {
-            if (null == severityName) {
-                return (String.valueOf(this.ordinal));
-            }
-            return (String.valueOf(this.severityName) + ' ' + this.ordinal);
-        }
-
-        private static int nextOrdinal = 0;
-
     }
 }

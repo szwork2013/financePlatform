@@ -1,6 +1,7 @@
 package com.sunlights.core.service.impl;
 
 import com.sunlights.common.MsgCode;
+import com.sunlights.common.Severity;
 import com.sunlights.common.service.PageService;
 import com.sunlights.common.utils.MessageUtil;
 import com.sunlights.common.vo.PageVo;
@@ -65,12 +66,12 @@ public class BankServiceImpl implements BankService {
     @Override
     public boolean validateBankCard(String token, BankCardVo bankCardVo) {
         if (StringUtils.isNotEmpty(token)) {
-            MessageUtil.getInstance().setMessage(new Message(Message.SEVERITY_ERROR, MsgCode.LOGIN_TIMEOUT));
+            MessageUtil.getInstance().setMessage(new Message(Severity.ERROR, MsgCode.LOGIN_TIMEOUT));
             return false;
         }
         String idCardNo = customerService.getCustomerByToken(token).getIdentityNumber();
         if (StringUtils.isNotEmpty(idCardNo)) {
-            MessageUtil.getInstance().setMessage(new Message(Message.SEVERITY_ERROR, MsgCode.BANK_NAME_CERTIFY_FAIL));
+            MessageUtil.getInstance().setMessage(new Message(Severity.ERROR, MsgCode.BANK_NAME_CERTIFY_FAIL));
             return false;
         }
         return bankClient.validateBankCard(idCardNo, bankCardVo.getNo());

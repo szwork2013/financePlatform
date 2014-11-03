@@ -1,6 +1,7 @@
 package com.sunlights.common.exceptions;
 
 
+import com.sunlights.common.Severity;
 import com.sunlights.common.vo.Message;
 
 import java.io.PrintWriter;
@@ -8,7 +9,7 @@ import java.io.StringWriter;
 
 public class BusinessRuntimeException extends RuntimeException {
 	private String errorCode;
-    private Message.Severity severity;
+    private Severity severity;
     private String detailMsg;
 
 	public BusinessRuntimeException() {
@@ -58,14 +59,14 @@ public class BusinessRuntimeException extends RuntimeException {
         this.detailMsg = message.getDetail();
     }
 
-    public BusinessRuntimeException(Message.Severity severity, String code, String summary, String detail){
+    public BusinessRuntimeException(Severity severity, String code, String summary, String detail){
         super(summary);
         this.errorCode = code;
         this.severity = severity;
         this.detailMsg = detail;
     }
 
-    public Message.Severity getSeverity(){
+    public Severity getSeverity(){
         return severity;
     }
     public String getDetailMsg(){

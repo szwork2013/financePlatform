@@ -1,6 +1,7 @@
 package com.sunlights.core.web;
 
 import com.sunlights.common.MsgCode;
+import com.sunlights.common.Severity;
 import com.sunlights.common.utils.MessageUtil;
 import com.sunlights.common.vo.Message;
 import com.sunlights.core.service.OpenAccountPactService;
@@ -37,14 +38,14 @@ public class AgreementController extends Controller {
             agreementVo = agreementVoForm.bindFromRequest().get();
         }
         if (StringUtils.isNotEmpty(agreementVo.getCode())) {
-            messageUtil.setMessage(new Message(Message.SEVERITY_ERROR, MsgCode.SEARCH_FAIL_EMPTY_PROTOCOL_NO));
+            messageUtil.setMessage(new Message(Severity.ERROR, MsgCode.SEARCH_FAIL_EMPTY_PROTOCOL_NO));
             return ok(messageUtil.toJson());
         }
         AgreementVo av = openAccountPactService.findAgreementVoByAgreementNo(agreementVo.getCode());
         if(av == null) {
-            messageUtil.setMessage(new Message(Message.SEVERITY_ERROR, MsgCode.SEARCH_FAIL_PROTOCOL_NONE));
+            messageUtil.setMessage(new Message(Severity.ERROR, MsgCode.SEARCH_FAIL_PROTOCOL_NONE));
         } else {
-            messageUtil.setMessage(new Message(Message.SEVERITY_INFO, MsgCode.OPERATE_SUCCESS), av);
+            messageUtil.setMessage(new Message(MsgCode.OPERATE_SUCCESS), av);
         }
         return ok(messageUtil.toJson());
     }

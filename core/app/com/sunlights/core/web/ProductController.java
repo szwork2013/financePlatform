@@ -1,6 +1,7 @@
 package com.sunlights.core.web;
 
 import com.sunlights.common.MsgCode;
+import com.sunlights.common.Severity;
 import com.sunlights.common.utils.MessageUtil;
 import com.sunlights.common.vo.PageVo;
 import com.sunlights.common.vo.Message;
@@ -50,9 +51,9 @@ public class ProductController extends Controller {
             if ("1".equals(productParameter.type)) {
                 productService.findProductRecommends(pager);
             }
-            messageUtil.setMessage(new Message(Message.SEVERITY_INFO, MsgCode.OPERATE_SUCCESS), pager);
+            messageUtil.setMessage(new Message(MsgCode.OPERATE_SUCCESS), pager);
         } else {
-            messageUtil.setMessage(new Message(Message.SEVERITY_ERROR, MsgCode.SEARCH_FAIL_TYPE_EMPTY), pager);
+            messageUtil.setMessage(new Message(Severity.ERROR, MsgCode.SEARCH_FAIL_TYPE_EMPTY), pager);
         }
 
 

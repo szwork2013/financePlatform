@@ -109,7 +109,7 @@ public class BankController extends Controller{
     public Result findBankByBankCardNo() {
         String bankCardNo = null;
         BankVo bankVo = bankService.findBankByBankCardNo(bankCardNo);
-        MessageUtil.getInstance().setMessage(new Message(Message.SEVERITY_INFO, MsgCode.OPERATE_SUCCESS), bankVo);
+        MessageUtil.getInstance().setMessage(new Message(MsgCode.OPERATE_SUCCESS), bankVo);
         return ok(MessageUtil.getInstance().toJson());
     }
 
@@ -125,7 +125,7 @@ public class BankController extends Controller{
         }
         play.Logger.info("[pager]" + Json.toJson(pager));
         List<BankVo> bankVos = bankService.findBanksBy(pager);
-        MessageUtil.getInstance().setMessage(new Message(Message.SEVERITY_INFO, MsgCode.OPERATE_SUCCESS), bankVos);
+        MessageUtil.getInstance().setMessage(new Message( MsgCode.OPERATE_SUCCESS), bankVos);
         return ok(MessageUtil.getInstance().toJson());
     }
 }

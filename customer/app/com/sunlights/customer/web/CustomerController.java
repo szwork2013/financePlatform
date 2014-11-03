@@ -26,7 +26,7 @@ import play.mvc.Result;
  * Created by Administrator on 2014/9/4.
  */
 @Transactional
-public class LoginController extends Controller {
+public class CustomerController extends Controller {
 	private Form<CustomerFormVo> customerForm = Form.form(CustomerFormVo.class);
 
     private LoginService loginService = new LoginServiceImpl();
@@ -49,7 +49,7 @@ public class LoginController extends Controller {
         CustomerVo customerVo = customerService.getCustomerVoByPhoneNo(mobilePhoneNo, deviceNo);
         Message message = new Message(MsgCode.OPERATE_SUCCESS);
         if (customerVo == null) {
-            message = new Message(Message.SEVERITY_INFO, MsgCode.PHONE_NUMBER_NOT_REGISTRY);
+            message = new Message(MsgCode.PHONE_NUMBER_NOT_REGISTRY);
         }
 
         MessageVo<CustomerVo> messageVo = new MessageVo<>(message);

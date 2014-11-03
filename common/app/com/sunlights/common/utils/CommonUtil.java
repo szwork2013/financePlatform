@@ -1,6 +1,7 @@
 package com.sunlights.common.utils;
 
 import com.sunlights.common.MsgCode;
+import com.sunlights.common.Severity;
 import com.sunlights.common.exceptions.BusinessRuntimeException;
 import com.sunlights.common.vo.Message;
 import play.libs.Json;
@@ -42,7 +43,7 @@ public class CommonUtil {
     }
     public BusinessRuntimeException errorBusinessException(MsgCode msgCode, Object... params) {
         String detail = getDetail(msgCode, params);
-        return new BusinessRuntimeException(Message.SEVERITY_ERROR, msgCode.getCode(), msgCode.getMessage(), detail);
+        return new BusinessRuntimeException(Severity.ERROR, msgCode.getCode(), msgCode.getMessage(), detail);
     }
 
     private String getDetail(MsgCode msgCode, Object[] params) {
@@ -55,7 +56,7 @@ public class CommonUtil {
 
     public BusinessRuntimeException fatalBusinessException(MsgCode msgCode, Object... params) {
         String detail = getDetail(msgCode, params);
-        return new BusinessRuntimeException(Message.SEVERITY_FATAL, msgCode.getCode(), msgCode.getMessage(), detail);
+        return new BusinessRuntimeException(Severity.FATAL, msgCode.getCode(), msgCode.getMessage(), detail);
     }
 
     public static final String PATTEN_DATE_FORMAT_DEFAULT = "yyyy-MM-dd";
