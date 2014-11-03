@@ -4,8 +4,7 @@ package com.sunlights.common.dal.impl;
 import com.sunlights.common.AppConst;
 import com.sunlights.common.dal.EntityBaseDao;
 import com.sunlights.common.dal.ParameterDao;
-import com.sunlights.common.models.Parameter;
-import play.db.jpa.Transactional;
+import models.Parameter;
 
 import java.util.List;
 

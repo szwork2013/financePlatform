@@ -1,6 +1,4 @@
-package com.sunlights.core.models;
-
-import com.sunlights.common.models.BaseEntity;
+package models;
 
 import javax.persistence.*;
 import java.math.BigDecimal;

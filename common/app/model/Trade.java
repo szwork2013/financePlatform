@@ -1,6 +1,6 @@
-package com.sunlights.trade.model;
+package model;
 
-import com.sunlights.common.models.IdEntity;
+import models.IdEntity;
 
 import javax.persistence.*;
 import java.math.BigDecimal;

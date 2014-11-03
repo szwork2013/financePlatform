@@ -7,12 +7,12 @@ import com.sunlights.common.utils.MessageUtil;
 import com.sunlights.common.vo.PageVo;
 import com.sunlights.common.vo.Message;
 import com.sunlights.core.dal.BankCardDao;
-import com.sunlights.core.models.Bank;
-import com.sunlights.core.models.BankCard;
+import models.Bank;
+import models.BankCard;
 import com.sunlights.core.service.BankCardService;
 import com.sunlights.core.service.BankService;
 import com.sunlights.core.vo.BankCardVo;
-import com.sunlights.customer.models.Customer;
+import models.Customer;
 import com.sunlights.customer.service.impl.CustomerService;
 import org.apache.commons.lang3.StringUtils;
 

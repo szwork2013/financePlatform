@@ -22,8 +22,6 @@ libraryDependencies ++= Seq(
   "commons-httpclient" % "commons-httpclient" % "3.1",
   "commons-logging" % "commons-logging" % "1.1.3",
   "org.apache.httpcomponents" % "httpcore" % "4.3.2",
-  "jdom" % "jdom" % "1.1",
-  "javax.mail" % "mail" % "1.4",
   "org.apache.neethi" % "neethi" % "3.0.3",
   "wsdl4j" % "wsdl4j" % "1.6.2",
   "org.apache.ws.commons.schema" % "XmlSchema" % "1.4.2",

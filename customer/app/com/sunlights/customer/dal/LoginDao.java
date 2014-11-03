@@ -1,6 +1,6 @@
 package com.sunlights.customer.dal;
 
-import com.sunlights.customer.models.LoginHistory;
+import models.LoginHistory;
 
 /**
  * <p>Project: fsp</p>

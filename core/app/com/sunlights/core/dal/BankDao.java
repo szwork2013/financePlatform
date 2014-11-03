@@ -1,6 +1,6 @@
 package com.sunlights.core.dal;
 
-import com.sunlights.core.models.Bank;
+import models.Bank;
 
 /**
  * <p>Project: fsp</p>

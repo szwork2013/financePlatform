@@ -5,11 +5,11 @@ import com.sunlights.common.Severity;
 import com.sunlights.common.exceptions.BusinessRuntimeException;
 import com.sunlights.common.utils.ArithUtil;
 import com.sunlights.common.vo.Message;
-import com.sunlights.customer.models.CustomerSession;
+import models.CustomerSession;
 import com.sunlights.customer.service.impl.CustomerService;
 import com.sunlights.trade.dal.TradeDao;
 import com.sunlights.trade.dal.impl.TradeDaoImpl;
-import com.sunlights.trade.model.Trade;
+import model.Trade;
 import com.sunlights.trade.service.TradeService;
 import com.sunlights.trade.vo.TradeVo;
 

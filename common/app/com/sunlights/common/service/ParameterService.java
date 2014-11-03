@@ -4,10 +4,9 @@ import com.sunlights.common.MsgCode;
 import com.sunlights.common.dal.ParameterDao;
 import com.sunlights.common.dal.impl.ParameterDaoImpl;
 import com.sunlights.common.exceptions.BusinessRuntimeException;
-import com.sunlights.common.models.Parameter;
+import models.Parameter;
 import com.sunlights.common.utils.CommonUtil;
 import com.sunlights.common.utils.DBHelper;
-import play.db.jpa.Transactional;
 
 import java.sql.Timestamp;
 import java.util.HashMap;

@@ -7,21 +7,6 @@
         <provider>org.hibernate.jpa.HibernatePersistenceProvider</provider>
         <non-jta-data-source>DefaultDS</non-jta-data-source>
 
-        <class>com.sunlights.common.models.CustomerVerifyCode</class>
-        <class>com.sunlights.common.models.Parameter</class>
-
-        <class>com.sunlights.customer.models.Customer</class>
-        <class>com.sunlights.customer.models.CustomerGesture</class>
-        <class>com.sunlights.customer.models.CustomerSession</class>
-        <class>com.sunlights.customer.models.LoginHistory</class>
-
-        <class>com.sunlights.account.models.BaseAccount</class>
-        <class>com.sunlights.account.models.HoldCapital</class>
-        <class>com.sunlights.account.models.SubAccount</class>
-        <class>com.sunlights.account.models.PrdAccountConfig</class>
-
-        <class>com.sunlights.trade.model.Trade</class>
-
         <properties>
             <property name="hibernate.dialect" value="org.hibernate.dialect.PostgreSQL9Dialect"/>
         </properties>

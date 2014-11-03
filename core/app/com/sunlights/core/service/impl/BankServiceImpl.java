@@ -10,7 +10,7 @@ import com.sunlights.core.dal.BankDao;
 import com.sunlights.core.dal.BankDaoImpl;
 import com.sunlights.core.integration.BankClient;
 import com.sunlights.core.integration.BankClientImpl;
-import com.sunlights.core.models.Bank;
+import models.Bank;
 import com.sunlights.core.service.BankService;
 import com.sunlights.core.vo.BankCardVo;
 import com.sunlights.core.vo.BankVo;

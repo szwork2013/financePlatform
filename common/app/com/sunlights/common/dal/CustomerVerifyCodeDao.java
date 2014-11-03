@@ -1,6 +1,6 @@
 package com.sunlights.common.dal;
 
-import com.sunlights.common.models.CustomerVerifyCode;
+import models.CustomerVerifyCode;
 
 /**
  * <p>Project: fsp</p>

@@ -2,7 +2,7 @@ package com.sunlights.customer.dal.impl;
 
 import com.sunlights.common.dal.EntityBaseDao;
 import com.sunlights.customer.dal.LoginDao;
-import com.sunlights.customer.models.LoginHistory;
+import models.LoginHistory;
 
 import javax.persistence.Query;
 import java.util.List;

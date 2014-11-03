@@ -1,7 +1,7 @@
 package com.sunlights.core.actor;
 
 import akka.actor.UntypedActor;
-import com.sunlights.core.models.SmsMessage;
+import models.SmsMessage;
 
 /**
  * <p>Project: tradingsystem</p>

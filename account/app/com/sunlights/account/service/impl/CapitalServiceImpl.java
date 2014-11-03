@@ -14,7 +14,7 @@ import com.sunlights.account.vo.HoldCapitalVo;
 import com.sunlights.account.vo.TotalCapitalInfo;
 import com.sunlights.common.utils.ArithUtil;
 import com.sunlights.common.utils.CommonUtil;
-import com.sunlights.customer.models.Customer;
+import models.Customer;
 import com.sunlights.customer.service.impl.CustomerService;
 
 import java.math.BigDecimal;

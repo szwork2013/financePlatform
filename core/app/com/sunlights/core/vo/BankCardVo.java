@@ -1,7 +1,7 @@
 package com.sunlights.core.vo;
 
-import com.sunlights.core.models.Bank;
-import com.sunlights.core.models.BankCard;
+import models.Bank;
+import models.BankCard;
 
 
 /**

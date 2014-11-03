@@ -2,7 +2,7 @@ package com.sunlights.common.dal.impl;
 
 import com.sunlights.common.dal.CustomerVerifyCodeDao;
 import com.sunlights.common.dal.EntityBaseDao;
-import com.sunlights.common.models.CustomerVerifyCode;
+import models.CustomerVerifyCode;
 
 import javax.persistence.Query;
 import java.util.List;

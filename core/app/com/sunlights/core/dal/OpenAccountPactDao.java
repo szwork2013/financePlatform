@@ -1,6 +1,6 @@
 package com.sunlights.core.dal;
 
-import com.sunlights.core.models.OpenAccountPact;
+import models.OpenAccountPact;
 
 /**
  * <p>Project: fsp</p>

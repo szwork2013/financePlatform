@@ -1,7 +1,7 @@
 package com.sunlights.core.service;
 
 import com.sunlights.common.vo.PageVo;
-import com.sunlights.core.models.Bank;
+import models.Bank;
 import com.sunlights.core.vo.BankCardVo;
 import com.sunlights.core.vo.BankVo;
 

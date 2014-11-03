@@ -4,7 +4,7 @@ import com.sunlights.common.AppConst;
 import com.sunlights.common.MsgCode;
 import com.sunlights.common.dal.CustomerVerifyCodeDao;
 import com.sunlights.common.dal.impl.CustomerVerifyCodeDaoImpl;
-import com.sunlights.common.models.CustomerVerifyCode;
+import models.CustomerVerifyCode;
 import com.sunlights.common.utils.CommonUtil;
 import com.sunlights.common.utils.DBHelper;
 import com.sunlights.common.vo.CustomerVerifyCodeVo;

@@ -1,6 +1,6 @@
 package com.sunlights.core.dal;
 
-import com.sunlights.core.models.SmsMessage;
+import models.SmsMessage;
 
 /**
  * <p>Project: fsp</p>

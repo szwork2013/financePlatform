@@ -2,7 +2,7 @@ package com.sunlights.core.dal.impl;
 
 import com.sunlights.common.dal.EntityBaseDao;
 import com.sunlights.core.dal.SmsMessageDao;
-import com.sunlights.core.models.SmsMessage;
+import models.SmsMessage;
 
 /**
  * <p>Project: fsp</p>

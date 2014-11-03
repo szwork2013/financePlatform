@@ -4,7 +4,7 @@ import akka.actor.ActorRef;
 import akka.actor.Props;
 import akka.actor.UntypedActor;
 import akka.routing.RoundRobinPool;
-import com.sunlights.core.models.SmsMessage;
+import models.SmsMessage;
 
 /**
  * <p>Project: tradingsystem</p>

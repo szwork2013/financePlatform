@@ -1,9 +1,7 @@
 package com.sunlights.customer.service;
 
-import com.sunlights.common.exceptions.BusinessRuntimeException;
-import com.sunlights.common.vo.MessageVo;
-import com.sunlights.customer.models.Customer;
-import com.sunlights.customer.models.CustomerSession;
+import models.Customer;
+import models.CustomerSession;
 import com.sunlights.customer.vo.CustomerFormVo;
 import com.sunlights.customer.vo.CustomerVo;
 

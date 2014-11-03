@@ -1,7 +1,7 @@
 package com.sunlights.core.service;
 
 import com.sunlights.common.vo.PageVo;
-import com.sunlights.core.models.BankCard;
+import models.BankCard;
 import com.sunlights.core.vo.BankCardVo;
 
 import java.util.List;

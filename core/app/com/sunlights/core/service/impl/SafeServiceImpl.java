@@ -6,7 +6,7 @@ import com.sunlights.common.service.ParameterService;
 import com.sunlights.common.utils.DBHelper;
 import com.sunlights.core.actor.Actors;
 import com.sunlights.core.dal.SmsMessageDao;
-import com.sunlights.core.models.SmsMessage;
+import models.SmsMessage;
 
 import java.sql.Timestamp;
 import java.text.MessageFormat;

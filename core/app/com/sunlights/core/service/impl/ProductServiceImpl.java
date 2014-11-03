@@ -4,7 +4,7 @@ import com.sunlights.common.service.PageService;
 import com.sunlights.common.vo.PageVo;
 import com.sunlights.common.utils.ArithUtil;
 import com.sunlights.common.utils.CommonUtil;
-import com.sunlights.core.models.Fund;
+import models.Fund;
 import com.sunlights.core.service.ProductService;
 import com.sunlights.core.vo.FundVo;
 

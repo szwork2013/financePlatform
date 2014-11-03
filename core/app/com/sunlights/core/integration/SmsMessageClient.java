@@ -5,7 +5,7 @@ import com.sunlights.common.service.ParameterService;
 import com.sunlights.common.utils.DBHelper;
 import com.sunlights.common.utils.MD5Helper;
 import com.sunlights.core.dal.SmsMessageDao;
-import com.sunlights.core.models.SmsMessage;
+import models.SmsMessage;
 import org.apache.commons.httpclient.HttpClient;
 import org.apache.commons.httpclient.HttpStatus;
 import org.apache.commons.httpclient.NameValuePair;

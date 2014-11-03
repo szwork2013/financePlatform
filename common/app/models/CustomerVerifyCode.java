@@ -1,7 +1,6 @@
-package com.sunlights.customer.models;
+package models;
 
 import com.sunlights.common.AppConst;
-import com.sunlights.common.models.IdEntity;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -9,17 +8,19 @@ import javax.persistence.Table;
 import java.sql.Timestamp;
 
 /**
- * Created by Administrator on 2014/9/18.
+ * Created by Administrator on 2014/9/4.
  */
 @Entity
-@Table(name = "C_CUSTOMER_GESTURE")
-public class CustomerGesture extends IdEntity {
-    @Column(length = 30,name = "CUSTOMER_ID")
-    private String customerId;
+@Table(name = "C_CUSTOMER_VERIFY_CODE")
+public class CustomerVerifyCode extends IdEntity {
+    @Column(length = 40,name = "VERIFY_CODE")
+    private String verifyCode; // 验证码
+    @Column(length = 11,name = "MOBILE")
+    private String mobile;//电话
     @Column(length = 40,name = "DEVICE_NO")
     private String deviceNo;//设备号
-    @Column(length = 40,name = "GESTURE_PASSWORD")
-    private String gesturePassword;//手势密码
+    @Column(length = 20,name = "VERIFY_TYPE")
+    private String verifyType;//验证码类型
     @Column(name = "UPDATED_DATETIME")
     private Timestamp updatedDatetime;
     @Column(name = "CREATED_DATETIME")
@@ -27,7 +28,7 @@ public class CustomerGesture extends IdEntity {
     @Column(name = "STATUS", length = 1)
     private String status = AppConst.VERIFY_CODE_STATUS_INVALID;
 
-    public CustomerGesture() {
+    public CustomerVerifyCode() {
     }
 
     public Timestamp getUpdatedDatetime() {
@@ -54,12 +55,20 @@ public class CustomerGesture extends IdEntity {
         this.status = status;
     }
 
-    public String getCustomerId() {
-        return customerId;
+    public String getVerifyCode() {
+        return verifyCode;
     }
 
-    public void setCustomerId(String customerId) {
-        this.customerId = customerId;
+    public void setVerifyCode(String verifyCode) {
+        this.verifyCode = verifyCode;
+    }
+
+    public String getMobile() {
+        return mobile;
+    }
+
+    public void setMobile(String mobile) {
+        this.mobile = mobile;
     }
 
     public String getDeviceNo() {
@@ -70,11 +79,11 @@ public class CustomerGesture extends IdEntity {
         this.deviceNo = deviceNo;
     }
 
-    public String getGesturePassword() {
-        return gesturePassword;
+    public String getVerifyType() {
+        return verifyType;
     }
 
-    public void setGesturePassword(String gesturePassword) {
-        this.gesturePassword = gesturePassword;
+    public void setVerifyType(String verifyType) {
+        this.verifyType = verifyType;
     }
 }

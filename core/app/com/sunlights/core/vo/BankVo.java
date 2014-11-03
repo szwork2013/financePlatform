@@ -1,7 +1,7 @@
 package com.sunlights.core.vo;
 
 
-import com.sunlights.core.models.Bank;
+import models.Bank;
 
 /**
  * Created by Administrator on 2014/9/15.

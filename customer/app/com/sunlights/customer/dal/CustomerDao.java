@@ -1,8 +1,8 @@
 package com.sunlights.customer.dal;
 
-import com.sunlights.customer.models.Customer;
-import com.sunlights.customer.models.CustomerGesture;
-import com.sunlights.customer.models.CustomerSession;
+import models.Customer;
+import models.CustomerGesture;
+import models.CustomerSession;
 import com.sunlights.customer.vo.CustomerInfoVo;
 
 import java.sql.Timestamp;

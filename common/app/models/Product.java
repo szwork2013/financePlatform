@@ -1,6 +1,6 @@
-package com.sunlights.core.models;
+package models;
 
-import com.sunlights.common.models.BaseEntity;
+import models.BaseEntity;
 
 import javax.persistence.*;
 import java.util.Date;
