@@ -1,5 +1,6 @@
 package com.sunlights.common.vo;
 
+import com.fasterxml.jackson.annotation.JsonGetter;
 import com.sunlights.common.MsgCode;
 import com.sunlights.common.Severity;
 
@@ -59,10 +60,14 @@ public class Message {
         this.detail = detail;
     }
 
-    public Severity getSeverity() {
+
+    public Severity currentSeverity() {
         return severity;
     }
 
+    public int getSeverity(){
+        return severity.getLevel();
+    }
 
     public Map<String, String> getFields() {
 		return fields;

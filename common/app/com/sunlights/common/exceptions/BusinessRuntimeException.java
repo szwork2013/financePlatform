@@ -54,7 +54,7 @@ public class BusinessRuntimeException extends RuntimeException {
 
     public BusinessRuntimeException(Message message){
         super(message.getSummary());
-        this.severity = message.getSeverity();
+        this.severity = message.currentSeverity();
         this.errorCode = message.getCode();
         this.detailMsg = message.getDetail();
     }

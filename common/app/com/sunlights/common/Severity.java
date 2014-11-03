@@ -15,8 +15,11 @@ public enum Severity {
 
     @Override
     public String toString() {
-        return ""+level;
+        return "" + level;
     }
 
 
+    public int getLevel() {
+        return level;
+    }
 }
