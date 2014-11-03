@@ -1,0 +1,24 @@
+# Routes
+# This file defines all application routes (Higher priority routes first)
+# ~~~~
+
+
+# product
+POST        /products                        @com.sunlights.core.web.ProductController.findProductsByType
+POST        /product/detail                  @com.sunlights.core.web.ProductController.findProductDetail
+POST        /product/chart                   @com.sunlights.core.web.ProductController.findChartBy
+
+#bank
+POST        /banks                           @com.sunlights.core.web.BankController.findBanks
+POST        /bank/findbybankcard             @com.sunlights.core.web.BankController.findBankByBankCardNo
+POST        /bank/bankcards                  @com.sunlights.core.web.BankController.findBankCards
+POST        /bank/bankcard/create            @com.sunlights.core.web.BankController.createBankCard
+POST        /bank/bankcard/delete            @com.sunlights.core.web.BankController.deleteBankCards
+POST        /bank/bankcard/validate          @com.sunlights.core.web.BankController.validateBankCard
+
+#agree
+POST        /agreement/findlinkbycode        @com.sunlights.core.web.AgreementController.findAgreementVoByAgreementNo
+
+
+# Map static resources from the /public folder to the /assets URL path
+GET         /assets/*file                    controllers.Assets.at(path="/public", file)
