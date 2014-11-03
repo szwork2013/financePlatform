@@ -4,6 +4,7 @@ import com.sunlights.common.MsgCode;
 import com.sunlights.common.Severity;
 import com.sunlights.common.exceptions.BusinessRuntimeException;
 import com.sunlights.common.vo.Message;
+import org.apache.commons.lang3.StringUtils;
 
 import java.text.DateFormat;
 import java.text.MessageFormat;
@@ -35,7 +36,7 @@ public class CommonUtil {
      */
     public void validateParams(String... params){
         for (String param : params) {
-            if (org.apache.commons.lang.StringUtils.isEmpty(param)) {
+            if (StringUtils.isEmpty(param)) {
                 throw errorBusinessException(MsgCode.ACCESS_FAIL, param);
             }
         }

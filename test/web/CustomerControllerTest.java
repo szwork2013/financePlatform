@@ -1,4 +1,4 @@
-package com.sunlights.customer.web;
+package web;
 
 import org.junit.Test;
 import play.mvc.Result;
