@@ -1,14 +1,12 @@
 package com.sunlights.common.service;
 
 import com.sunlights.common.AppConst;
-import com.sunlights.common.IParameterConst;
 import com.sunlights.common.MsgCode;
 import com.sunlights.common.dal.CustomerVerifyCodeDao;
 import com.sunlights.common.dal.impl.CustomerVerifyCodeDaoImpl;
 import com.sunlights.common.models.CustomerVerifyCode;
 import com.sunlights.common.utils.CommonUtil;
 import com.sunlights.common.utils.DBHelper;
-import com.sunlights.common.vo.Message;
 import com.sunlights.common.vo.CustomerVerifyCodeVo;
 import play.Logger;
 
@@ -36,7 +34,7 @@ public class VerifyCodeService {
         CustomerVerifyCode preCustomerVerifyCode = customerVerifyCodeDao.findVerifyCodeByType(mobilePhoneNo, type);
         if (preCustomerVerifyCode != null) {
             //未失效返回以前的
-            long VERIFYCODE_EXPIRY = parameterService.getParameterNumeric(IParameterConst.VERIFYCODE_EXPIRY);//验证码在失效时间
+            long VERIFYCODE_EXPIRY = parameterService.getParameterNumeric(AppConst.VERIFYCODE_EXPIRY);//验证码在失效时间
             if (currentTimestamp.getTime() - preCustomerVerifyCode.getCreatedDatetime().getTime() <= VERIFYCODE_EXPIRY * AppConst.ONE_MINUTE) {
                 verifyCode = preCustomerVerifyCode.getVerifyCode();
                 Logger.info("===========verifyCode:" + verifyCode);
@@ -93,7 +91,7 @@ public class VerifyCodeService {
         }
 
         Timestamp currentTime = DBHelper.getCurrentTime();
-        long verifyCodeExpiry = parameterService.getParameterNumeric(IParameterConst.VERIFYCODE_EXPIRY);
+        long verifyCodeExpiry = parameterService.getParameterNumeric(AppConst.VERIFYCODE_EXPIRY);
         if (currentTime.getTime() - customerVerifyCode.getCreatedDatetime().getTime() >= verifyCodeExpiry * AppConst.ONE_MINUTE) {// 验证码有效时间超时
             customerVerifyCode.setStatus(AppConst.VERIFY_CODE_STATUS_VALID);
             customerVerifyCode.setUpdatedDatetime(currentTime);

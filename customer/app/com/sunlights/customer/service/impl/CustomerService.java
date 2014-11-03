@@ -1,7 +1,6 @@
 package com.sunlights.customer.service.impl;
 
 import com.sunlights.common.AppConst;
-import com.sunlights.common.IParameterConst;
 import com.sunlights.common.MsgCode;
 import com.sunlights.common.service.ParameterService;
 import com.sunlights.common.utils.CommonUtil;
@@ -121,7 +120,7 @@ public class CustomerService {
         }
         // 再从数据库中获取，判断有效期
         Timestamp currentTime = DBHelper.getCurrentTime();
-        int sessionTime = (int) parameterService.getParameterNumeric(IParameterConst.SESSION_EXPIRY);
+        int sessionTime = (int) parameterService.getParameterNumeric(AppConst.SESSION_EXPIRY);
         Timestamp nMin = DBHelper.beforeMinutes(currentTime, sessionTime);
         customerSession = customerDao.findCustomerSessionByToken(token, nMin);
         // 写入缓存
@@ -141,7 +140,7 @@ public class CustomerService {
         Logger.info("====sessionLoginSessionId====token:" + token);
         if (token != null) {
             session.put(key, token);
-            int cookieExpiry = (int) parameterService.getParameterNumeric(IParameterConst.COOKIE_EXPIRY);
+            int cookieExpiry = (int) parameterService.getParameterNumeric(AppConst.COOKIE_EXPIRY);
             response.setCookie(key, token, cookieExpiry * 60, "/");
         } else {
             session.remove(key);
@@ -157,7 +156,7 @@ public class CustomerService {
      * @param customerSession
      */
     public void cacheSession(String key, CustomerSession customerSession) {
-        long cacheTime = parameterService.getParameterNumeric(IParameterConst.CACHE_EXPIRY);
+        long cacheTime = parameterService.getParameterNumeric(AppConst.CACHE_EXPIRY);
         Cache.set(key, customerSession, (int) cacheTime * 60);
     }
 

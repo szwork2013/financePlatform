@@ -5,7 +5,6 @@ import cn.com.nciic.www.SimpleCheckByJsonResponse;
 import cn.com.nciic.www.service.IdentifierServiceStub;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.sunlights.common.AppConst;
-import com.sunlights.common.IParameterConst;
 import com.sunlights.common.MsgCode;
 import com.sunlights.common.service.ParameterService;
 import com.sunlights.common.utils.CommonUtil;
@@ -36,13 +35,13 @@ public class IdentityService {
         Logger.info("================CheckRequest:" + req);
 
         ObjectNode Credential = Json.newObject();
-        Credential.put("UserName", parameterService.getParameterByName(IParameterConst.CERTIFY_USERNAME));
-        Credential.put("Password", parameterService.getParameterByName(IParameterConst.CERTIFY_PASSWORD));
+        Credential.put("UserName", parameterService.getParameterByName(AppConst.CERTIFY_USERNAME));
+        Credential.put("Password", parameterService.getParameterByName(AppConst.CERTIFY_PASSWORD));
         String cred = Json.toJson(Credential).toString();
         Logger.info("================Credential:" + cred);
 
-        String url = parameterService.getParameterByName(IParameterConst.CERTIFY_URL);
-        String testMode = parameterService.getParameterByName(IParameterConst.CERTIFY_TEST);
+        String url = parameterService.getParameterByName(AppConst.CERTIFY_URL);
+        String testMode = parameterService.getParameterByName(AppConst.CERTIFY_TEST);
         String returnStr = null;
         if (AppConst.VERIFY_CODE_STATUS_INVALID.equals(testMode)) {
             Logger.info("================实名认证==============");
