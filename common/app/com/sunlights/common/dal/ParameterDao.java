@@ -15,6 +15,8 @@ import java.util.List;
  */
 public interface ParameterDao {
     public List<Parameter> loadAllParameter();
+
     public Parameter addParameter(Parameter parameter);
+
     public Parameter updateParameter(Parameter parameter);
 }
