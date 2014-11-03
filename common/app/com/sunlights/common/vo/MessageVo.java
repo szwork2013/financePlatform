@@ -15,6 +15,8 @@ public class MessageVo<V> {
     private Message message;
     private V value;
 
+    public MessageVo(){}
+
     public MessageVo(Message message) {
         this.message = message;
     }

@@ -1,7 +1,7 @@
 package com.sunlights.account.dal;
 
-import com.sunlights.account.models.BaseAccount;
-import com.sunlights.account.models.SubAccount;
+import models.BaseAccount;
+import models.SubAccount;
 
 import java.util.List;
 

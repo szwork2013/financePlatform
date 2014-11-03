@@ -1,6 +1,6 @@
 package com.sunlights.account.dal;
 
-import com.sunlights.account.models.HoldCapital;
+import models.HoldCapital;
 import com.sunlights.account.vo.CapitalFormVo;
 import com.sunlights.account.vo.HoldCapitalVo;
 

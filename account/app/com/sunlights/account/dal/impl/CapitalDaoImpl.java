@@ -1,7 +1,7 @@
 package com.sunlights.account.dal.impl;
 
 import com.sunlights.account.dal.CapitalDao;
-import com.sunlights.account.models.HoldCapital;
+import models.HoldCapital;
 import com.sunlights.account.vo.CapitalFormVo;
 import com.sunlights.account.vo.HoldCapitalVo;
 import com.sunlights.common.dal.EntityBaseDao;

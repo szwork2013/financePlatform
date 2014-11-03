@@ -18,6 +18,8 @@ public class Message {
     private String detail = null;
     private Map<String, String> fields = new HashMap<String, String>();
 
+    public Message(){}
+
     public Message(MsgCode msgCode, Object... params) {
         this.code = msgCode.getCode();
         this.summary = msgCode.getMessage();
@@ -90,5 +92,13 @@ public class Message {
 
     public void setCode(String code) {
         this.code = code;
+    }
+
+    public void setSeverity(Severity severity) {
+        this.severity = severity;
+    }
+
+    public void setFields(Map<String, String> fields) {
+        this.fields = fields;
     }
 }

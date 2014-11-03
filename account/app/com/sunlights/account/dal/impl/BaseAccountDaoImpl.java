@@ -1,8 +1,8 @@
 package com.sunlights.account.dal.impl;
 
 import com.sunlights.account.dal.BaseAccountDao;
-import com.sunlights.account.models.BaseAccount;
-import com.sunlights.account.models.SubAccount;
+import models.BaseAccount;
+import models.SubAccount;
 import com.sunlights.common.dal.EntityBaseDao;
 
 import java.util.List;

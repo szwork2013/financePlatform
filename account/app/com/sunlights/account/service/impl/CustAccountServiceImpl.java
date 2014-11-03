@@ -3,7 +3,7 @@ package com.sunlights.account.service.impl;
 import com.sunlights.account.AccountConstant;
 import com.sunlights.account.dal.BaseAccountDao;
 import com.sunlights.account.dal.impl.BaseAccountDaoImpl;
-import com.sunlights.account.models.BaseAccount;
+import models.BaseAccount;
 import com.sunlights.account.service.CustAccountService;
 import com.sunlights.common.AppConst;
 import com.sunlights.common.MsgCode;

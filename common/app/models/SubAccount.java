@@ -1,4 +1,4 @@
-package com.sunlights.account.models;
+package models;
 
 import models.IdEntity;
 

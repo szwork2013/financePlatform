@@ -1,6 +1,6 @@
 package com.sunlights.account.service;
 
-import com.sunlights.account.models.BaseAccount;
+import models.BaseAccount;
 import com.sunlights.customer.vo.CustomerFormVo;
 
 import java.math.BigDecimal;
