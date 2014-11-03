@@ -9,7 +9,7 @@ import models.CustomerSession;
 import com.sunlights.customer.service.impl.CustomerService;
 import com.sunlights.trade.dal.TradeDao;
 import com.sunlights.trade.dal.impl.TradeDaoImpl;
-import model.Trade;
+import models.Trade;
 import com.sunlights.trade.service.TradeService;
 import com.sunlights.trade.vo.TradeVo;
 

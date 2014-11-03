@@ -2,7 +2,7 @@ package com.sunlights.trade.dal.impl;
 
 import com.sunlights.common.dal.EntityBaseDao;
 import com.sunlights.trade.dal.TradeDao;
-import com.sunlights.trade.model.Trade;
+import models.Trade;
 
 import javax.persistence.Query;
 import java.util.List;

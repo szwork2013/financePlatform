@@ -1,6 +1,6 @@
 package com.sunlights.trade.dal;
 
-import model.Trade;
+import models.Trade;
 
 import java.util.List;
 
