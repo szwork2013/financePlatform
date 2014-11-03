@@ -1,7 +1,7 @@
 package com.sunlights.core.dal;
 
-import com.sunlights.core.models.FundHistory;
 import models.Fund;
+import models.FundHistory;
 
 import java.util.List;
 

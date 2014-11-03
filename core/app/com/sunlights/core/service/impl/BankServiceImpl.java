@@ -14,8 +14,8 @@ import models.Bank;
 import com.sunlights.core.service.BankService;
 import com.sunlights.core.vo.BankCardVo;
 import com.sunlights.core.vo.BankVo;
-import com.sunlights.customer.models.Customer;
 import com.sunlights.customer.service.impl.CustomerService;
+import models.Customer;
 import org.apache.commons.lang3.StringUtils;
 
 import java.util.List;

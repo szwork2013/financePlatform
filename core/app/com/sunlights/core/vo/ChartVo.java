@@ -1,6 +1,5 @@
 package com.sunlights.core.vo;
 
-import com.sunlights.core.models.FundHistory;
 
 import java.util.ArrayList;
 import java.util.List;

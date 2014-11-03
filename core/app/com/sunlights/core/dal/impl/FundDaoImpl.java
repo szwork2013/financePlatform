@@ -2,8 +2,8 @@ package com.sunlights.core.dal.impl;
 
 import com.sunlights.common.dal.EntityBaseDao;
 import com.sunlights.core.dal.FundDao;
-import com.sunlights.core.models.Fund;
-import com.sunlights.core.models.FundHistory;
+import models.Fund;
+import models.FundHistory;
 
 import javax.persistence.Query;
 import java.util.List;

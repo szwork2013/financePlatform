@@ -8,9 +8,9 @@ import com.sunlights.common.vo.PageVo;
 import com.sunlights.core.CodeConst;
 import com.sunlights.core.dal.FundDao;
 import com.sunlights.core.dal.impl.FundDaoImpl;
-import com.sunlights.core.models.FundHistory;
 import com.sunlights.core.service.ProductService;
 import com.sunlights.core.vo.*;
+import models.FundHistory;
 
 import java.util.ArrayList;
 import java.util.Date;
