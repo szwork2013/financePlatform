@@ -16,6 +16,7 @@ import com.sunlights.common.utils.ArithUtil;
 import com.sunlights.common.utils.CommonUtil;
 import models.Customer;
 import com.sunlights.customer.service.impl.CustomerService;
+import play.db.jpa.Transactional;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
@@ -26,13 +27,14 @@ import java.util.List;
  * @author tangweiqun 2014/10/22
  *
  */
+
 public class CapitalServiceImpl implements CapitalService {
 	
 	private CapitalDao capitalDao = new CapitalDaoImpl();
     private BaseAccountDao baseAccountDao = new BaseAccountDaoImpl();
     private CustomerService customerService = new CustomerService();
 	
-	@Override
+	@Transactional
 	public TotalCapitalInfo getTotalCapital(String mobile, boolean takeCapital4Prd) {
         Customer customer = customerService.getCustomerByMobile(mobile);
 		BigDecimal totalYesterdayProfit = BigDecimal.ZERO;

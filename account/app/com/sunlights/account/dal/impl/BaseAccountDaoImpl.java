@@ -6,7 +6,6 @@ import models.SubAccount;
 import com.sunlights.common.dal.EntityBaseDao;
 
 import java.util.List;
-
 public class BaseAccountDaoImpl extends EntityBaseDao implements BaseAccountDao {
 
 	@Override

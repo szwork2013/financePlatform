@@ -15,7 +15,7 @@ public class CustomerInfoVo implements Serializable {
     private String customerId;
 
     public CustomerInfoVo(){
-
+        customerVo = new CustomerVo();
     }
 
     public CustomerInfoVo(CustomerVo customerVo, String customerId) {

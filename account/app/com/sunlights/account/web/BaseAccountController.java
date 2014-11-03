@@ -20,6 +20,8 @@ import play.mvc.Controller;
 import play.mvc.Http;
 import play.mvc.Result;
 
+import java.util.Map;
+
 
 /**
  * <p>Project: fsp</p>
@@ -39,6 +41,17 @@ public class BaseAccountController extends Controller {
     private CustomerService customerService = new CustomerService();
 
     private VerifyCodeService verifyCodeService = new VerifyCodeService();
+
+    public Result registerBaseAccount(){
+        Map<String, String> params = Form.form().bindFromRequest().data();
+
+        String custId = params.get("custId");
+        String tradePassword = params.get("tradePassword");
+        custAccountService.registerBaseAccount(custId, tradePassword);
+
+        MessageVo<CustomerVo> messageVo = new MessageVo<>(new Message(MsgCode.TRAD_PASSWORD_RESET_SUCCESS));
+        return ok(Json.toJson(messageVo));
+    }
 
     /**
      * 验证交易密码设置/修改

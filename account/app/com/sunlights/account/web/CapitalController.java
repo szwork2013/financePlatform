@@ -38,6 +38,7 @@ public class CapitalController extends Controller{
 	 * 获取客户的总资产信息
 	 * @return
 	 */
+    @Transactional
 	public Result getTotalCapitalInfo() {
 		Form<String> form = Form.form(String.class).bindFromRequest();
 		String mobile = form.data().get("mobile");

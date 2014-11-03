@@ -19,11 +19,12 @@ import models.CustomerSession;
 import com.sunlights.customer.service.impl.CustomerService;
 import com.sunlights.customer.vo.CustomerFormVo;
 import play.Logger;
+import play.db.jpa.Transactional;
 
 import java.math.BigDecimal;
 import java.sql.Timestamp;
 
-
+@Transactional
 public class CustAccountServiceImpl implements CustAccountService {
 	
 	private BaseAccountDao baseAccountDao = new BaseAccountDaoImpl();

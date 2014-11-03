@@ -60,35 +60,69 @@ public class CustomerDaoImpl extends EntityBaseDao implements CustomerDao {
     }
 
     public CustomerInfoVo getCustomerInfoVoByPhoneNo(String mobilePhoneNo, String deviceNo){
-        Query query = em.createQuery(com.sunlights.customer.dal.sqlmap.txt.customerVo.render("CustomerDao.getCustomerInfoVoByPhoneNo", null).body(), CustomerInfoVo.class);
-        query.setParameter("mobilePhoneNo", mobilePhoneNo);
-        query.setParameter("deviceNo", deviceNo);
-        List list = query.getResultList();
-        if (list == null || list.size() == 0) {
-            return null;
-        }
+        String sql = "select c.mobile,c.real_name,c.nick_name,c.email,c.identity_number," +
+                "case when EXISTS (select 1 from c_customer_gesture cg where cg.customer_id = c.customer_id and cg.status = 'N' and cg.device_no = :deviceNo) THEN '1' ELSE '0' END as gestureOpened," +
+                "case when c.identity_typer = 'I' and c.identity_number is not null THEN '1' ELSE '0' END as certify," +
+                "case when a.trade_password is null THEN '0' ELSE '1' END as tradePwdFlag," +
+                "(select count(1) from c_bank_card bc where bc.customer_id = c.customer_id) as bankCardCount " +
+                ",c.customer_id " +
+                "from   c_customer c,f_basic_account a " +
+                "where  c.customer_id = a.cust_id " +
+                "and  c.mobile = :mobilePhoneNo ";
 
-        CustomerInfoVo customerInfoVo = (CustomerInfoVo)list.get(0);
-        customerInfoVo.setMobilePhoneNo(mobilePhoneNo);
-        customerInfoVo.setMobileDisplayNo(mobilePhoneNo.substring(0, 3) + "****" + mobilePhoneNo.substring(7));
-        if ("1".equals(customerInfoVo.getCertify())) {
-            customerInfoVo.setIdCardNo(customerInfoVo.getIdCardNo().substring(0, 6) + "******" + customerInfoVo.getIdCardNo().substring(14));
-            customerInfoVo.setUserName("*" + customerInfoVo.getUserName().substring(1));
-        }
+
+        Query query = em.createNativeQuery(sql);
+        query.setParameter("deviceNo", deviceNo);
+        query.setParameter("mobilePhoneNo", mobilePhoneNo);
+        List<Object[]> list = query.getResultList();
+
+        CustomerInfoVo customerInfoVo = transCustomerInfoVo(list);
 
         return customerInfoVo;
     }
 
     public CustomerInfoVo getCustomerInfoVoByIdCardNo(String idCardNo, String userName){
-        Query query = em.createQuery(com.sunlights.customer.dal.sqlmap.txt.customerVo.render("CustomerDao.getCustomerInfoVoByIdCardNo", null).body(), CustomerInfoVo.class);
+        String sql = " select c.mobile,c.real_name,c.nick_name,c.email,c.identity_number," +
+                "  '0' as gestureOpened," +
+                "   case when c.identity_typer = 'I' and c.identity_number is not null THEN '1' ELSE '0' END as certify," +
+                " case when a.trade_password is null THEN '0' ELSE '1' END as tradePwdFlag," +
+                " (select count(1) from c_bank_card bc where bc.customer_id = c.customer_id) as bankCardCount, " +
+                "  c.customer_id" +
+                "   from    c_customer c,f_basic_account a" +
+                "   where   c.customer_id = a.cust_id" +
+                "   and     c.real_name = :userName" +
+                "   and     c.identity_typer = 'I'" +
+                "   and     c.identity_number = :idCardNo";
+
+        Query query = em.createNativeQuery(sql);
         query.setParameter("idCardNo", idCardNo);
         query.setParameter("userName", userName);
         List list = query.getResultList();
+
+        CustomerInfoVo customerInfoVo = transCustomerInfoVo(list);
+
+        return customerInfoVo;
+    }
+
+    private CustomerInfoVo transCustomerInfoVo(List<Object[]> list) {
         if (list == null || list.size() == 0) {
             return null;
         }
 
-        CustomerInfoVo customerInfoVo = (CustomerInfoVo)list.get(0);
+        CustomerInfoVo customerInfoVo = new CustomerInfoVo();
+        for (Object[] column : list) {
+            customerInfoVo.setMobilePhoneNo(column[0] == null ? null : column[0].toString());
+            customerInfoVo.setUserName(column[1] == null ? null : column[1].toString());
+            customerInfoVo.setNickName(column[2] == null ? null : column[2].toString());
+            customerInfoVo.setEmail(column[3] == null ? null : column[3].toString());
+            customerInfoVo.setIdCardNo(column[4] == null ? null : column[4].toString());
+            customerInfoVo.setGestureOpened(column[5] == null ? null : column[5].toString());
+            customerInfoVo.setCertify(column[6] == null ? null : column[6].toString());
+            customerInfoVo.setTradePwdFlag(column[7] == null ? null : column[7].toString());
+            customerInfoVo.setBankCardCount(column[8] == null ? null : column[8].toString());
+            customerInfoVo.setCustomerId(column[9] == null ? null : column[9].toString());
+        }
+
         if (customerInfoVo.getMobilePhoneNo() != null) {
             customerInfoVo.setMobileDisplayNo(customerInfoVo.getMobilePhoneNo().substring(0, 3) + "****" + customerInfoVo.getMobilePhoneNo().substring(7));
         }
@@ -96,7 +130,6 @@ public class CustomerDaoImpl extends EntityBaseDao implements CustomerDao {
             customerInfoVo.setIdCardNo(customerInfoVo.getIdCardNo().substring(0, 6) + "******" + customerInfoVo.getIdCardNo().substring(14));
             customerInfoVo.setUserName("*" + customerInfoVo.getUserName().substring(1));
         }
-
         return customerInfoVo;
     }
 
