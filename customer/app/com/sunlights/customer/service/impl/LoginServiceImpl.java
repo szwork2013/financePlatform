@@ -1,7 +1,6 @@
 package com.sunlights.customer.service.impl;
 
 import com.sunlights.common.AppConst;
-import com.sunlights.common.IParameterConst;
 import com.sunlights.common.MsgCode;
 import com.sunlights.common.service.ParameterService;
 import com.sunlights.common.service.VerifyCodeService;
@@ -116,7 +115,7 @@ public class LoginServiceImpl implements LoginService {
         //
         if (!new MD5Helper().encrypt(gesturePassWord).equals(customerGesture.getGesturePassword())) {
             LoginHistory loginHistory = saveLoginFail(customer, deviceNo, true);
-        	long PWD_MAX = parameterService.getParameterNumeric(IParameterConst.PWD_MAX);// 登录失败的最大次数
+        	long PWD_MAX = parameterService.getParameterNumeric(AppConst.PWD_MAX);// 登录失败的最大次数
     		if (loginHistory.getLogNum() % PWD_MAX == 0) {// 此次为PWD_MAX * n次    手势删除，若为登录状态则登出
     			customerGesture.setStatus(AppConst.VERIFY_CODE_STATUS_VALID);
     			customerGesture.setUpdatedDatetime(DBHelper.getCurrentTime());
@@ -376,7 +375,7 @@ public class LoginServiceImpl implements LoginService {
      * @return
      */
     private long getTotalMinute(long oldTimes, long PWD_MAX){
-        long RELIEVE_SUSLOCK_PERIOD = parameterService.getParameterNumeric(IParameterConst.RELIEVE_SUSLOCK_PERIOD);
+        long RELIEVE_SUSLOCK_PERIOD = parameterService.getParameterNumeric(AppConst.RELIEVE_SUSLOCK_PERIOD);
         BigDecimal failTimes = ArithUtil.bigUpScale0(new BigDecimal((double) oldTimes / PWD_MAX));
         long times = (long)Math.pow(2, failTimes.subtract(BigDecimal.ONE).doubleValue());
         long returnTime = times * RELIEVE_SUSLOCK_PERIOD;
@@ -401,7 +400,7 @@ public class LoginServiceImpl implements LoginService {
         if (oldHistory != null) {
             Timestamp currentTime = DBHelper.getCurrentTime();
             long logNum = oldHistory.getLogNum();
-            long PWD_MAX = parameterService.getParameterNumeric(IParameterConst.PWD_MAX);
+            long PWD_MAX = parameterService.getParameterNumeric(AppConst.PWD_MAX);
             if (logNum != 0 && logNum % PWD_MAX == 0) {//上一次为PWD_MAX * n次
                 long balanceMin = getTotalMinute(logNum, PWD_MAX) * AppConst.ONE_MINUTE - (currentTime.getTime() - oldHistory.getCreatedDatetime().getTime());
                 if (balanceMin > 0) {
@@ -415,7 +414,7 @@ public class LoginServiceImpl implements LoginService {
     private LoginHistory saveLoginFail(Customer customer, String deviceNo, boolean isGestureLogin){
         Timestamp currentTime = DBHelper.getCurrentTime();
         long oldNum = 0;
-        long PWD_MAX = parameterService.getParameterNumeric(IParameterConst.PWD_MAX);//登录失败的最大次数
+        long PWD_MAX = parameterService.getParameterNumeric(AppConst.PWD_MAX);//登录失败的最大次数
         LoginHistory oldHistory = null;
         if (isGestureLogin) {
             oldHistory = loginDao.findByGesturePwd(customer.getCustomerId(), deviceNo);
@@ -427,7 +426,7 @@ public class LoginServiceImpl implements LoginService {
             oldNum = oldHistory.getLogNum();
             if (!AppConst.VERIFY_CODE_STATUS_VALID.equals(oldHistory.getSuccessInd())) {// 成功为0，以下重计算失败的次数
                 //登录失败但没到最大次数，隔LOGIN_PERIOD时间恢复重新计数登录次数
-                long LOGIN_PERIOD = parameterService.getParameterNumeric(IParameterConst.LOGIN_PERIOD);
+                long LOGIN_PERIOD = parameterService.getParameterNumeric(AppConst.LOGIN_PERIOD);
                 if (oldNum < PWD_MAX && (currentTime.getTime() - oldHistory.getCreatedDatetime().getTime() > LOGIN_PERIOD * AppConst.ONE_MINUTE)) {
                     oldNum = 0;
                 }
@@ -455,7 +454,7 @@ public class LoginServiceImpl implements LoginService {
     }
 
     private void addFailMessage(LoginHistory loginHistory, boolean isGestureLogin){
-        long PWD_MAX = parameterService.getParameterNumeric(IParameterConst.PWD_MAX);//登录失败的最大次数
+        long PWD_MAX = parameterService.getParameterNumeric(AppConst.PWD_MAX);//登录失败的最大次数
         Message message = null;
         if (isGestureLogin){
             if (loginHistory.getLogNum() % PWD_MAX != 0) {

@@ -1,6 +1,6 @@
 package com.sunlights.core.integration;
 
-import com.sunlights.common.IParameterConst;
+import com.sunlights.common.AppConst;
 import com.sunlights.common.service.ParameterService;
 import com.sunlights.common.utils.DBHelper;
 import com.sunlights.common.utils.MD5Helper;
@@ -32,11 +32,11 @@ public class SmsMessageClient {
         String result = null;
 
         try {
-            String url = parameterService.getParameterByName(IParameterConst.SMS_URL);
-            String account = parameterService.getParameterByName(IParameterConst.SMS_ACCOUNT);
-            String password = parameterService.getParameterByName(IParameterConst.SMS_PASSWORD);
-            String channel = parameterService.getParameterByName(IParameterConst.SMS_CHANNEL);
-            String warrantyCode = parameterService.getParameterByName(IParameterConst.SMS_WARRANTYCODE);
+            String url = parameterService.getParameterByName(AppConst.SMS_URL);
+            String account = parameterService.getParameterByName(AppConst.SMS_ACCOUNT);
+            String password = parameterService.getParameterByName(AppConst.SMS_PASSWORD);
+            String channel = parameterService.getParameterByName(AppConst.SMS_CHANNEL);
+            String warrantyCode = parameterService.getParameterByName(AppConst.SMS_WARRANTYCODE);
             PostMethod postMethod = new PostMethod(url);
             postMethod.addRequestHeader("Content-Type", "application/x-www-form-urlencoded;charset=gbk");// 在头文件中设置转码
 
