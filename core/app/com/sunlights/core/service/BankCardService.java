@@ -16,7 +16,7 @@ import java.util.List;
  * @author <a href="mailto:zhencai.yuan@sunlights.cc">yuanzhencai</a>
  */
 public interface BankCardService {
-    public List<BankCardVo> findBankCardsByToken(String token, PageVo pager);
+    public List<BankCardVo> findBankCardsByToken(String token, PageVo pageVo);
 
     public BankCard createBankCard(String token, BankCardVo bankCardVo);
 

@@ -1,11 +1,8 @@
 package models;
 
-import models.IdEntity;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Table;
-import java.sql.Timestamp;
+import javax.persistence.*;
+import java.util.Date;
 
 /**
  * <p>Project: fsp</p>
@@ -17,24 +14,28 @@ import java.sql.Timestamp;
  * @author <a href="mailto:jiaming.wang@sunlights.cc">wangJiaMing</a>
  */
 @Entity
-@Table(name = "c_bank_card")
+@Table(name = "C_BANK_CARD")
 public class BankCard extends IdEntity {
-    @Column(name = "customer_id", length = 30)
+    @Column(name = "CUSTOMER_ID", length = 30)
     private String customerId;
-    @Column(length = 40, name = "bank_code")
+    @Column(length = 40, name = "BANK_CODE")
     private String bankCode;
-    @Column(length = 40, name = "bank_card_no")
+    @Column(length = 40, name = "BANK_CARD_NO")
     private String bankCardNo;
-    @Column(length = 1, name = "bank_type")
+    @Column(length = 1, name = "BANK_TYPE")
     private String bankType;
-    @Column(length = 40, name = "bank_id")
+    @Column(length = 40, name = "BANK_ID")
     private Long bankId;
     @Column(length = 1)
     private String status;
-    @Column(name = "created_datetime")
-    private Timestamp createdDatetime;
-    @Column(name = "update_datetime")
-    private Timestamp updateDatetime;
+
+    @Temporal(TemporalType.TIMESTAMP)
+    @Column(name = "CREATED_DATETIME")
+    private Date createdDatetime;
+
+    @Temporal(TemporalType.TIMESTAMP)
+    @Column(name = "UPDATE_DATETIME")
+    private Date updateDatetime;
 
     public BankCard() {
     }
@@ -79,18 +80,6 @@ public class BankCard extends IdEntity {
         this.bankId = bankId;
     }
 
-    public Timestamp getCreatedDatetime() {
-        return createdDatetime;
-    }
-
-    public void setCreatedDatetime(Timestamp createdDatetime) {
-        this.createdDatetime = createdDatetime;
-    }
-
-    public Timestamp getUpdateDatetime() {
-        return updateDatetime;
-    }
-
     public String getStatus() {
         return status;
     }
@@ -99,7 +88,19 @@ public class BankCard extends IdEntity {
         this.status = status;
     }
 
-    public void setUpdateDatetime(Timestamp updateDatetime) {
+    public Date getCreatedDatetime() {
+        return createdDatetime;
+    }
+
+    public void setCreatedDatetime(Date createdDatetime) {
+        this.createdDatetime = createdDatetime;
+    }
+
+    public Date getUpdateDatetime() {
+        return updateDatetime;
+    }
+
+    public void setUpdateDatetime(Date updateDatetime) {
         this.updateDatetime = updateDatetime;
     }
 }

@@ -1,11 +1,8 @@
 package models;
 
-import models.BaseEntity;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Table;
-import java.sql.Timestamp;
+import javax.persistence.*;
+import java.util.Date;
 
 /**
  * <p>Project: fsp</p>
@@ -18,35 +15,31 @@ import java.sql.Timestamp;
  */
 @Entity
 @Table(name = "P_PRODUCT_RECOMMEND")
-public class ProductRecommend extends BaseEntity {
-
-    @Column(name = "PRODUCT_ID")
-    private Long productId;
-
+public class ProductRecommend extends IdEntity {
     @Column(name = "RECOMMEND_TYPE")
     private String recommendType;//推荐类型
     @Column(name = "PRODUCT_CODE")
     private String productCode;//产品代码
+
+    @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "BEGIN_DATE")
-    private Timestamp beginDate;//推荐起始日期
+    private Date beginDate;//推荐起始日期
+
+    @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "END_DATE")
-    private Timestamp endDate;//推荐结束日期
+    private Date endDate;//推荐结束日期
+
+    @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "TEMP_STOP_DATE")
-    private Timestamp tempStopDate;//临时终止日期
+    private Date tempStopDate;//临时终止日期
+
     @Column(name = "PRIORITY_LEVEL")
     private int priorityLevel;//推荐优先级
     @Column(name = "RECOMMEND_FLAG")
-    private int recommendFlag;//推荐标志
+    private String recommendFlag;//推荐标志
     @Column(name = "RECOMMEND_DESC")
     private String recommendDesc;//推荐说明
 
-    public Long getProductId() {
-        return productId;
-    }
-
-    public void setProductId(Long productId) {
-        this.productId = productId;
-    }
 
     public String getRecommendType() {
         return recommendType;
@@ -64,27 +57,27 @@ public class ProductRecommend extends BaseEntity {
         this.productCode = productCode;
     }
 
-    public Timestamp getBeginDate() {
+    public Date getBeginDate() {
         return beginDate;
     }
 
-    public void setBeginDate(Timestamp beginDate) {
+    public void setBeginDate(Date beginDate) {
         this.beginDate = beginDate;
     }
 
-    public Timestamp getEndDate() {
+    public Date getEndDate() {
         return endDate;
     }
 
-    public void setEndDate(Timestamp endDate) {
+    public void setEndDate(Date endDate) {
         this.endDate = endDate;
     }
 
-    public Timestamp getTempStopDate() {
+    public Date getTempStopDate() {
         return tempStopDate;
     }
 
-    public void setTempStopDate(Timestamp tempStopDate) {
+    public void setTempStopDate(Date tempStopDate) {
         this.tempStopDate = tempStopDate;
     }
 
@@ -96,11 +89,11 @@ public class ProductRecommend extends BaseEntity {
         this.priorityLevel = priorityLevel;
     }
 
-    public int getRecommendFlag() {
+    public String getRecommendFlag() {
         return recommendFlag;
     }
 
-    public void setRecommendFlag(int recommendFlag) {
+    public void setRecommendFlag(String recommendFlag) {
         this.recommendFlag = recommendFlag;
     }
 

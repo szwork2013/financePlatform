@@ -3,7 +3,6 @@ package com.sunlights.core.dal.impl;
 import com.sunlights.common.dal.EntityBaseDao;
 import com.sunlights.core.dal.OpenAccountPactDao;
 import models.OpenAccountPact;
-import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
@@ -16,7 +15,6 @@ import java.util.List;
  *
  * @author <a href="mailto:zhencai.yuan@sunlights.cc">yuanzhencai</a>
  */
-@Repository
 public class OpenAccountPactDaoImpl extends EntityBaseDao implements OpenAccountPactDao {
     @Override
     public OpenAccountPact findOpenAccountPactByAgreementNo(String agreementNo) {

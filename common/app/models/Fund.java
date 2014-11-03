@@ -1,47 +1,91 @@
 package models;
 
+
 import javax.persistence.*;
 import java.math.BigDecimal;
 import java.sql.Timestamp;
+import java.util.Date;
 
 /**
- * Created by Yuan on 2014/9/1.
+ * <p>Project: fsp</p>
+ * <p>Title: Fund.java</p>
+ * <p>Description: </p>
+ * <p>Copyright (c) 2014 Sunlights.cc</p>
+ * <p>All Rights Reserved.</p>
+ *
+ * @author <a href="mailto:zhencai.yuan@sunlights.cc">yuanzhencai</a>
  */
 @Entity
 @Table(name = "P_FUND")
-public class Fund extends BaseEntity {
-    @Column(name = "FUND_CODE", length = 8, nullable = false)
-    private String fundCode;//基金代码
-    @Column(name = "MIN_APPLY_AMOUNT", precision = 18, scale = 4, nullable = false)
-    private BigDecimal minApplyAmount;//最低申购金额
-    @Column(name = "LOWEST_REDEMPTION", nullable = false)
-    private long lowestRedemption;//最低赎回份额
-    @Column(name = "ONE_YEAR_PROFIT", precision = 18, scale = 4, nullable = false)
-    private BigDecimal oneYearProfit;//银行一年期收益
-    @Column(name = "MILLION_OF_PROFIT", precision = 18, scale = 4, nullable = false)
+public class Fund extends IdEntity {
+
+    @Column(name = "MIN_APPLY_AMOUNT", precision = 18, scale = 4)
+    private BigDecimal minApplyAmount;//最小申购额度
+    @Column(name = "LOWEST_REDEMPTION")
+    private int lowestRedemption;//最低赎回份额
+    @Column(name = "ONE_YEAR_PROFIT", precision = 18, scale = 4)
+    private BigDecimal oneYearProfit;//年化收益
+    @Column(name = "MILLION_OF_PROFIT", precision = 18, scale = 4)
     private BigDecimal millionOfProfit;//万份收益
-    @Column(name = "ONE_WEEK_PROFIT", precision = 18, scale = 4, nullable = false)
-    private BigDecimal oneWeekProfit;//七日年化
-    @Column(name = "NAV_DATE", nullable = false)
+    @Column(name = "ONE_WEEK_PROFIT", precision = 18, scale = 4)
+    private BigDecimal oneWeekProfit;//一周年化收益
+    @Column(name = "NAV_DATE")
     private Timestamp navDate;//净值日期
-    @Column(name = "IS_APPLY", nullable = false)
-    private int isApply;//	0:可申购;1:不可以申购
-    @Column(name = "IS_REDEMPTION", nullable = false)
-    private int isRedemption;//	0:可赎回;1:不可以赎回
-    @Column(name = "PRODUCT_STATUS", nullable = false)
-    private int productStatus;//	1:最新，0：产品历史
+    @Column(name = "IS_APPLY")
+    private String isApply;//可否申购
+    @Column(name = "IS_REDEMPTION")
+    private String isRedemption;//可否赎回
+    @Column(name = "PRODUCT_STATUS")
+    private String productStatus;//基金状态
 
-    @OneToOne
-    @JoinColumn(name = "PRODUCT_ID")
-    private Product product;
 
-    public String getFundCode() {
-        return fundCode;
-    }
+    @Column(name = "COMPANY_NAME", length = 10)
+    private String companyName;//基金公司名称
+    @Column(name = "FUND_CODE", length = 10)
+    private String fundCode;//基金代码
+    @Column(name = "CHI_NAME", length = 100)
+    private String chiName;//中文名称
+    @Column(name = "CHI_NAME_ABBR", length = 50)
+    private String chiNameAbbr;//中文名称简称
+    @Column(name = "ENG_NAME", length = 100)
+    private String engName;//英文名称
+    @Column(name = "ENG_NAME_ABBR", length = 50)
+    private String engNameAbbr;//英文名称简称
+    @Column(name = "SECU_ABBR", length = 20)
+    private String secuAbbr;//证券简称
+    @Column(name = "FUND_SCALE", precision = 18, scale = 4)
+    private BigDecimal fundScale;//基金规模
+    @Column(name = "FUND_TYPE")
+    private String fundType;//基金类型
+    @Column(name = "INVEST_PERIOD")
+    private String investPeriod;//投资期限
+    @Column(name = "CHARGE", precision = 18, scale = 4)
+    private BigDecimal charge;//手续费
+    @Column(name = "SUPPILER_ID")
+    private Long supplierId;//供应商ID
+    @Column(name = "RISK_LEVEL")
+    private String riskLevel;//风险等级
+    @Column(name = "TO_ACCOUNT_TYPE")
+    private String toAccountType;//到帐方式
+    @Column(name = "INIT_BUYED_COUNT")
+    private Long initBuyedCount;
+    @Column(name = "ONE_MONTH_BUYED_COUNT")
+    private Long oneMonthBuyedCount;
 
-    public void setFundCode(String fundCode) {
-        this.fundCode = fundCode;
-    }
+    @Temporal(TemporalType.TIMESTAMP)
+    @Column(name = "CREATE_TIME")
+    private Date createTime;
+
+    @Column(name = "CREATE_BY", length = 30)
+    private String createBy;
+
+    @Temporal(TemporalType.TIMESTAMP)
+    @Column(name = "UPDATE_TIME")
+    private Date updateTime;
+
+    @Column(name = "UPDATE_BY", length = 30)
+    private String updateBy;
+
 
     public BigDecimal getMinApplyAmount() {
         return minApplyAmount;
@@ -51,11 +95,11 @@ public class Fund extends BaseEntity {
         this.minApplyAmount = minApplyAmount;
     }
 
-    public long getLowestRedemption() {
+    public int getLowestRedemption() {
         return lowestRedemption;
     }
 
-    public void setLowestRedemption(long lowestRedemption) {
+    public void setLowestRedemption(int lowestRedemption) {
         this.lowestRedemption = lowestRedemption;
     }
 
@@ -91,35 +135,187 @@ public class Fund extends BaseEntity {
         this.navDate = navDate;
     }
 
-    public int getIsApply() {
+    public String getIsApply() {
         return isApply;
     }
 
-    public void setIsApply(int isApply) {
+    public void setIsApply(String isApply) {
         this.isApply = isApply;
     }
 
-    public int getIsRedemption() {
+    public String getIsRedemption() {
         return isRedemption;
     }
 
-    public void setIsRedemption(int isRedemption) {
+    public void setIsRedemption(String isRedemption) {
         this.isRedemption = isRedemption;
     }
 
-    public int getProductStatus() {
+    public String getProductStatus() {
         return productStatus;
     }
 
-    public void setProductStatus(int productStatus) {
+    public void setProductStatus(String productStatus) {
         this.productStatus = productStatus;
     }
 
-    public Product getProduct() {
-        return product;
+    public String getCompanyName() {
+        return companyName;
     }
 
-    public void setProduct(Product product) {
-        this.product = product;
+    public void setCompanyName(String companyName) {
+        this.companyName = companyName;
+    }
+
+    public String getFundCode() {
+        return fundCode;
+    }
+
+    public void setFundCode(String fundCode) {
+        this.fundCode = fundCode;
+    }
+
+    public String getChiName() {
+        return chiName;
+    }
+
+    public void setChiName(String chiName) {
+        this.chiName = chiName;
+    }
+
+    public String getChiNameAbbr() {
+        return chiNameAbbr;
+    }
+
+    public void setChiNameAbbr(String chiNameAbbr) {
+        this.chiNameAbbr = chiNameAbbr;
+    }
+
+    public String getEngName() {
+        return engName;
+    }
+
+    public void setEngName(String engName) {
+        this.engName = engName;
+    }
+
+    public String getEngNameAbbr() {
+        return engNameAbbr;
+    }
+
+    public void setEngNameAbbr(String engNameAbbr) {
+        this.engNameAbbr = engNameAbbr;
+    }
+
+    public String getSecuAbbr() {
+        return secuAbbr;
+    }
+
+    public void setSecuAbbr(String secuAbbr) {
+        this.secuAbbr = secuAbbr;
+    }
+
+    public BigDecimal getFundScale() {
+        return fundScale;
+    }
+
+    public void setFundScale(BigDecimal fundScale) {
+        this.fundScale = fundScale;
+    }
+
+    public String getFundType() {
+        return fundType;
+    }
+
+    public void setFundType(String fundType) {
+        this.fundType = fundType;
+    }
+
+    public String getInvestPeriod() {
+        return investPeriod;
+    }
+
+    public void setInvestPeriod(String investPeriod) {
+        this.investPeriod = investPeriod;
+    }
+
+    public BigDecimal getCharge() {
+        return charge;
+    }
+
+    public void setCharge(BigDecimal charge) {
+        this.charge = charge;
+    }
+
+    public Long getSupplierId() {
+        return supplierId;
+    }
+
+    public void setSupplierId(Long supplierId) {
+        this.supplierId = supplierId;
+    }
+
+    public String getRiskLevel() {
+        return riskLevel;
+    }
+
+    public void setRiskLevel(String riskLevel) {
+        this.riskLevel = riskLevel;
+    }
+
+    public String getToAccountType() {
+        return toAccountType;
+    }
+
+    public void setToAccountType(String toAccountType) {
+        this.toAccountType = toAccountType;
+    }
+
+    public Long getInitBuyedCount() {
+        return initBuyedCount;
+    }
+
+    public void setInitBuyedCount(Long initBuyedCount) {
+        this.initBuyedCount = initBuyedCount;
+    }
+
+    public Long getOneMonthBuyedCount() {
+        return oneMonthBuyedCount;
+    }
+
+    public void setOneMonthBuyedCount(Long oneMonthBuyedCount) {
+        this.oneMonthBuyedCount = oneMonthBuyedCount;
+    }
+
+    public Date getCreateTime() {
+        return createTime;
+    }
+
+    public void setCreateTime(Date createTime) {
+        this.createTime = createTime;
+    }
+
+    public String getCreateBy() {
+        return createBy;
+    }
+
+    public void setCreateBy(String createBy) {
+        this.createBy = createBy;
+    }
+
+    public Date getUpdateTime() {
+        return updateTime;
+    }
+
+    public void setUpdateTime(Date updateTime) {
+        this.updateTime = updateTime;
+    }
+
+    public String getUpdateBy() {
+        return updateBy;
+    }
+
+    public void setUpdateBy(String updateBy) {
+        this.updateBy = updateBy;
     }
 }

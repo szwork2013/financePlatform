@@ -5,6 +5,7 @@ import models.OpenAccountPact;
 import com.sunlights.core.service.OpenAccountPactService;
 import com.sunlights.core.vo.AgreementVo;
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 
 /**
  * <p>Project: fsp</p>
@@ -15,9 +16,8 @@ import org.apache.commons.lang3.StringUtils;
  *
  * @author <a href="mailto:zhencai.yuan@sunlights.cc">yuanzhencai</a>
  */
-
 public class OpenAccountPactServiceImpl implements OpenAccountPactService {
-
+    @Autowired
     private OpenAccountPactDao openAccountPactDao;
 
     @Override

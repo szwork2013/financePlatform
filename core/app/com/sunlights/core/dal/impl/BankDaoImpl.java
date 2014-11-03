@@ -1,8 +1,8 @@
-package com.sunlights.core.dal;
+package com.sunlights.core.dal.impl;
 
 import com.sunlights.common.dal.EntityBaseDao;
 import models.Bank;
-import org.springframework.stereotype.Repository;
+import com.sunlights.core.dal.BankDao;
 
 /**
  * <p>Project: fsp</p>
@@ -13,7 +13,6 @@ import org.springframework.stereotype.Repository;
  *
  * @author <a href="mailto:zhencai.yuan@sunlights.cc">yuanzhencai</a>
  */
-@Repository
 public class BankDaoImpl extends EntityBaseDao implements BankDao {
 
     @Override

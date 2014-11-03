@@ -1,11 +1,7 @@
 package models;
 
-import models.IdEntity;
-
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Table;
-import java.sql.Timestamp;
+import javax.persistence.*;
+import java.util.Date;
 
 /**
  * <p>Project: fsp</p>
@@ -17,20 +13,24 @@ import java.sql.Timestamp;
  * @author <a href="mailto:jiaming.wang@sunlights.cc">wangJiaMing</a>
  */
 @Entity
-@Table(name = "c_bank")
-public class Bank extends IdEntity{
-    @Column(length = 40,name = "bank_code")
+@Table(name = "C_BANK")
+public class Bank extends IdEntity {
+    @Column(length = 40, name = "BANK_CODE")
     private String bankCode;
-    @Column(length = 50,name = "bank_name")
+    @Column(length = 50, name = "BANK_NAME")
     private String bankName;
-    @Column(length = 50,name = "en_name")
+    @Column(length = 50, name = "EN_NAME")
     private String enName;
-    @Column(length = 1,name = "status")
+    @Column(length = 1, name = "STATUS")
     private String status;
-    @Column(name = "created_datetime")
-    private Timestamp createdDatetime;
-    @Column(name = "update_datetime")
-    private Timestamp updateDatetime;
+
+    @Temporal(TemporalType.TIMESTAMP)
+    @Column(name = "CREATED_DATETIME")
+    private Date createdDatetime;
+
+    @Temporal(TemporalType.TIMESTAMP)
+    @Column(name = "UPDATE_DATETIME")
+    private Date updateDatetime;
 
     public Bank() {
     }
@@ -67,19 +67,19 @@ public class Bank extends IdEntity{
         this.status = status;
     }
 
-    public Timestamp getCreatedDatetime() {
+    public Date getCreatedDatetime() {
         return createdDatetime;
     }
 
-    public void setCreatedDatetime(Timestamp createdDatetime) {
+    public void setCreatedDatetime(Date createdDatetime) {
         this.createdDatetime = createdDatetime;
     }
 
-    public Timestamp getUpdateDatetime() {
+    public Date getUpdateDatetime() {
         return updateDatetime;
     }
 
-    public void setUpdateDatetime(Timestamp updateDatetime) {
+    public void setUpdateDatetime(Date updateDatetime) {
         this.updateDatetime = updateDatetime;
     }
 }

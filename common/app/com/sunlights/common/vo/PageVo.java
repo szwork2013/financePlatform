@@ -1,5 +1,7 @@
 package com.sunlights.common.vo;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -20,6 +22,7 @@ public class PageVo {
     private int count = 0;
     private List list = new ArrayList();
 
+    @JsonIgnore
     private Map<String, Object> filter = new HashMap<String, Object>();
 
     public void put(String key, Object value) {

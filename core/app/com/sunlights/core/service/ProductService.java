@@ -1,7 +1,9 @@
 package com.sunlights.core.service;
 
 import com.sunlights.common.vo.PageVo;
+import com.sunlights.core.vo.ChartVo;
 import com.sunlights.core.vo.FundVo;
+import com.sunlights.core.vo.ProductVo;
 
 import java.util.List;
 
@@ -15,6 +17,13 @@ import java.util.List;
  * @author <a href="mailto:zhencai.yuan@sunlights.cc">yuanzhencai</a>
  */
 public interface ProductService {
-    public List<FundVo> findProductRecommends(PageVo page);
-    public List<FundVo> findFunds(PageVo page);
+    public List<ProductVo> findProductRecommends(PageVo pageVo);
+
+    public List<FundVo> findFunds(PageVo pageVo);
+
+    public ProductVo findProductDetailBy(String productCode, String type);
+
+    public ChartVo findOneWeekProfitsByDays(String fundCode, int days);
+
+    public ChartVo findMillionOfProfitsByDays(String fundCode, int days);
 }

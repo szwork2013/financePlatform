@@ -2,11 +2,14 @@ package com.sunlights.core.web;
 
 import com.sunlights.common.AppConst;
 import com.sunlights.common.MsgCode;
+import com.sunlights.common.Severity;
 import com.sunlights.common.utils.MessageUtil;
-import com.sunlights.common.vo.PageVo;
 import com.sunlights.common.vo.Message;
+import com.sunlights.common.vo.PageVo;
 import com.sunlights.core.service.BankCardService;
 import com.sunlights.core.service.BankService;
+import com.sunlights.core.service.impl.BankCardServiceImpl;
+import com.sunlights.core.service.impl.BankServiceImpl;
 import com.sunlights.core.vo.BankCardFormVo;
 import com.sunlights.core.vo.BankVo;
 import play.data.Form;
@@ -17,6 +20,8 @@ import play.mvc.Result;
 
 import java.util.List;
 
+import static play.mvc.Controller.request;
+
 /**
  * <p>Project: fsp</p>
  * <p>Title: BankService.java</p>
@@ -26,16 +31,13 @@ import java.util.List;
  *
  * @author <a href="mailto:zhencai.yuan@sunlights.cc">yuanzhencai</a>
  */
-
-public class BankController extends Controller{
+public class BankController extends Controller {
 
     private Form<PageVo> pagerForm = Form.form(PageVo.class);
     private Form<BankCardFormVo> bankCardForm = Form.form(BankCardFormVo.class);
 
-
-    private BankService bankService;
-
-    private BankCardService bankCardService;
+    private BankService bankService = new BankServiceImpl();
+    private BankCardService bankCardService = new BankCardServiceImpl();
 
     public Result createBankCard() {
         BankCardFormVo bankCardVo = null;
@@ -84,48 +86,48 @@ public class BankController extends Controller{
         String token = cookie == null ? null : cookie.value();
         boolean validated = bankService.validateBankCard(token, bankCardVo);
         if (validated) {
-            MessageUtil.getInstance().setMessage(new Message(MsgCode.OPERATE_SUCCESS), true);
+            MessageUtil.getInstance().setMessage(new Message(Severity.INFO, MsgCode.OPERATE_SUCCESS), true);
         } else {
-            MessageUtil.getInstance().setMessage(new Message(MsgCode.BANK_CARD_CERTIFY_FAIL), true);
+            MessageUtil.getInstance().setMessage(new Message(Severity.INFO, MsgCode.BANK_CARD_CERTIFY_FAIL), false);
         }
         return ok(MessageUtil.getInstance().toJson());
     }
 
     public Result findBankCards() {
-        PageVo pager = new PageVo();
+        PageVo pageVo = new PageVo();
         Http.RequestBody body = request().body();
         if (body.asJson() != null) {
-            pager = Json.fromJson(body.asJson(), PageVo.class);
+            pageVo = Json.fromJson(body.asJson(), PageVo.class);
         }
         if (body.asFormUrlEncoded() != null) {
-            pager = pagerForm.bindFromRequest().get();
+            pageVo = pagerForm.bindFromRequest().get();
         }
         Http.Cookie cookie = Controller.request().cookie(AppConst.TOKEN);
         String token = cookie == null ? null : cookie.value();
-        bankCardService.findBankCardsByToken(token, pager);
+        bankCardService.findBankCardsByToken(token, pageVo);
         return ok(MessageUtil.getInstance().toJson());
     }
 
     public Result findBankByBankCardNo() {
         String bankCardNo = null;
         BankVo bankVo = bankService.findBankByBankCardNo(bankCardNo);
-        MessageUtil.getInstance().setMessage(new Message(MsgCode.OPERATE_SUCCESS), bankVo);
+        MessageUtil.getInstance().setMessage(new Message(Severity.INFO, MsgCode.OPERATE_SUCCESS), bankVo);
         return ok(MessageUtil.getInstance().toJson());
     }
 
     public Result findBanks() {
-        PageVo pager = new PageVo();
+        PageVo pageVo = new PageVo();
         Http.RequestBody body = request().body();
 
         if (body.asJson() != null) {
-            pager = Json.fromJson(body.asJson(), PageVo.class);
+            pageVo = Json.fromJson(body.asJson(), PageVo.class);
         }
         if (body.asFormUrlEncoded() != null) {
-            pager = pagerForm.bindFromRequest().get();
+            pageVo = pagerForm.bindFromRequest().get();
         }
-        play.Logger.info("[pager]" + Json.toJson(pager));
-        List<BankVo> bankVos = bankService.findBanksBy(pager);
-        MessageUtil.getInstance().setMessage(new Message( MsgCode.OPERATE_SUCCESS), bankVos);
+        play.Logger.info("[pager]" + Json.toJson(pageVo));
+        List<BankVo> bankVos = bankService.findBanksBy(pageVo);
+        MessageUtil.getInstance().setMessage(new Message(Severity.INFO, MsgCode.OPERATE_SUCCESS), bankVos);
         return ok(MessageUtil.getInstance().toJson());
     }
 }

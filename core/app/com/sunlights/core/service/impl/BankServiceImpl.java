@@ -4,16 +4,17 @@ import com.sunlights.common.MsgCode;
 import com.sunlights.common.Severity;
 import com.sunlights.common.service.PageService;
 import com.sunlights.common.utils.MessageUtil;
-import com.sunlights.common.vo.PageVo;
 import com.sunlights.common.vo.Message;
+import com.sunlights.common.vo.PageVo;
 import com.sunlights.core.dal.BankDao;
-import com.sunlights.core.dal.BankDaoImpl;
+import com.sunlights.core.dal.impl.BankDaoImpl;
 import com.sunlights.core.integration.BankClient;
 import com.sunlights.core.integration.BankClientImpl;
 import models.Bank;
 import com.sunlights.core.service.BankService;
 import com.sunlights.core.vo.BankCardVo;
 import com.sunlights.core.vo.BankVo;
+import com.sunlights.customer.models.Customer;
 import com.sunlights.customer.service.impl.CustomerService;
 import org.apache.commons.lang3.StringUtils;
 
@@ -28,28 +29,26 @@ import java.util.List;
  *
  * @author <a href="mailto:zhencai.yuan@sunlights.cc">yuanzhencai</a>
  */
-
 public class BankServiceImpl implements BankService {
-
     private BankDao bankDao = new BankDaoImpl();
 
-    private BankClient bankClient = new BankClientImpl();
-
     private PageService pageService = new PageService();
+
+    private BankClient bankClient = new BankClientImpl();
 
     private CustomerService customerService = new CustomerService();
 
     @Override
-    public List<BankVo> findBanksBy(PageVo pager) {
+    public List<BankVo> findBanksBy(PageVo pageVo) {
         StringBuilder xsql = new StringBuilder();
-        xsql.append(" select new com.sunlights.bsp.models.vo.BankVo(b)");
+        xsql.append(" select new com.sunlights.core.vo.BankVo(b)");
         xsql.append(" from Bank b");
         xsql.append(" where 1=1");
         xsql.append(" /~ and b.bankName like {bankName} ~/ ");
         xsql.append(" /~ and b.bankCode like {bankCode} ~/ ");
         xsql.append(" /~ and b.status = {status} ~/ ");
-        List<BankVo> bankVos = pageService.findXsqlBy(xsql.toString(), pager);
-        pager.getList().addAll(bankVos);
+        List<BankVo> bankVos = pageService.findXsqlBy(xsql.toString(), pageVo);
+        pageVo.getList().addAll(bankVos);
         return bankVos;
     }
 
@@ -65,15 +64,15 @@ public class BankServiceImpl implements BankService {
 
     @Override
     public boolean validateBankCard(String token, BankCardVo bankCardVo) {
-        if (StringUtils.isNotEmpty(token)) {
-            MessageUtil.getInstance().setMessage(new Message(Severity.ERROR, MsgCode.LOGIN_TIMEOUT));
+        if (StringUtils.isEmpty(token)) {
+            MessageUtil.getInstance().setMessage(new Message(Severity.INFO, MsgCode.LOGIN_TIMEOUT));
             return false;
         }
-        String idCardNo = customerService.getCustomerByToken(token).getIdentityNumber();
-        if (StringUtils.isNotEmpty(idCardNo)) {
-            MessageUtil.getInstance().setMessage(new Message(Severity.ERROR, MsgCode.BANK_NAME_CERTIFY_FAIL));
+        Customer customer = customerService.getCustomerByToken(token);
+        if (customer == null || StringUtils.isEmpty(customer.getIdentityNumber())) {
+            MessageUtil.getInstance().setMessage(new Message(Severity.ERROR, MsgCode.BANK_NAME_CERTIFY_FAIL, "验证失败", "请先实名认证。"));
             return false;
         }
-        return bankClient.validateBankCard(idCardNo, bankCardVo.getNo());
+        return bankClient.validateBankCard(customer.getIdentityNumber(), bankCardVo.getNo());
     }
 }

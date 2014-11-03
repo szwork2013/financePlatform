@@ -1,8 +1,8 @@
-package com.sunlights.core.dal;
+package com.sunlights.core.dal.impl;
 
 import com.sunlights.common.dal.EntityBaseDao;
+import com.sunlights.core.dal.BankCardDao;
 import models.BankCard;
-import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
@@ -15,7 +15,6 @@ import java.util.List;
  *
  * @author <a href="mailto:zhencai.yuan@sunlights.cc">yuanzhencai</a>
  */
-@Repository
 public class BankCardDaoImpl extends EntityBaseDao implements BankCardDao {
     @Override
     public BankCard create(BankCard bankCard) {
