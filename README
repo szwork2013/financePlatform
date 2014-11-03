@@ -16,7 +16,12 @@
 
 #模块的依赖关系
 ====================================
+common: 实现了jpa entitiy model和一些基础的工具类
+core: 实现了安全，注册，短信，产品，
 
+core->customer->common
+core->account->common
+trade->core
 
 #代码重构
 ========================================
