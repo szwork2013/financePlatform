@@ -13,6 +13,7 @@ import com.sunlights.core.service.impl.BankServiceImpl;
 import com.sunlights.core.vo.BankCardFormVo;
 import com.sunlights.core.vo.BankVo;
 import play.data.Form;
+import play.db.jpa.Transactional;
 import play.libs.Json;
 import play.mvc.Controller;
 import play.mvc.Http;
@@ -31,6 +32,7 @@ import static play.mvc.Controller.request;
  *
  * @author <a href="mailto:zhencai.yuan@sunlights.cc">yuanzhencai</a>
  */
+@Transactional
 public class BankController extends Controller {
 
     private Form<PageVo> pagerForm = Form.form(PageVo.class);

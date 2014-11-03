@@ -9,6 +9,7 @@ import com.sunlights.core.service.impl.OpenAccountPactServiceImpl;
 import com.sunlights.core.vo.AgreementVo;
 import org.apache.commons.lang3.StringUtils;
 import play.data.Form;
+import play.db.jpa.Transactional;
 import play.mvc.Controller;
 import play.mvc.Http;
 import play.mvc.Result;
@@ -24,6 +25,7 @@ import static play.mvc.Controller.request;
  *
  * @author <a href="mailto:zhencai.yuan@sunlights.cc">yuanzhencai</a>
  */
+@Transactional
 public class AgreementController extends Controller {
     private static MessageUtil messageUtil = MessageUtil.getInstance();
     private static Form<AgreementVo> agreementVoForm = Form.form(AgreementVo.class);

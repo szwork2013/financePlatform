@@ -3,6 +3,7 @@ package com.sunlights.core.web;
 import com.sunlights.common.service.VerifyCodeService;
 import com.sunlights.customer.vo.CustomerFormVo;
 import play.data.Form;
+import play.db.jpa.Transactional;
 import play.mvc.Controller;
 
 /**
@@ -16,7 +17,7 @@ import play.mvc.Controller;
 */
 
 
-
+@Transactional
 public class SafeController extends Controller {
     private static Form<CustomerFormVo> customerForm = Form.form(CustomerFormVo.class);
 
