@@ -2,10 +2,10 @@ package com.sunlights.core.service.impl;
 
 import com.sunlights.core.dal.OpenAccountPactDao;
 import models.OpenAccountPact;
+import com.sunlights.core.dal.impl.OpenAccountPactDaoImpl;
 import com.sunlights.core.service.OpenAccountPactService;
 import com.sunlights.core.vo.AgreementVo;
 import org.apache.commons.lang3.StringUtils;
-import org.springframework.beans.factory.annotation.Autowired;
 
 /**
  * <p>Project: fsp</p>
@@ -17,8 +17,7 @@ import org.springframework.beans.factory.annotation.Autowired;
  * @author <a href="mailto:zhencai.yuan@sunlights.cc">yuanzhencai</a>
  */
 public class OpenAccountPactServiceImpl implements OpenAccountPactService {
-    @Autowired
-    private OpenAccountPactDao openAccountPactDao;
+    private OpenAccountPactDao openAccountPactDao = new OpenAccountPactDaoImpl();
 
     @Override
     public AgreementVo findAgreementVoByAgreementNo(String agreementNo) {

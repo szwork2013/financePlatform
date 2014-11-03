@@ -49,7 +49,6 @@ public class ProductController extends Controller {
         if (body.asFormUrlEncoded() != null) {
             productParameter = productParameterForm.bindFromRequest().get();
         }
-        System.out.println("[productParameter]" + Json.toJson(productParameter));
 
         ChartVo chartVo = null;
         if ("1".equals(productParameter.getChartType())) {
