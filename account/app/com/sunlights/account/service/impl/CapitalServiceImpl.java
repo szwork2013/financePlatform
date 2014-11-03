@@ -113,7 +113,7 @@ public class CapitalServiceImpl implements CapitalService {
         holdCapitalVo.setPrdName(capital.getProductName());
         holdCapitalVo.setTotalProfit(ArithUtil.bigToScale2(capital.getTotalProfit()));
         holdCapitalVo.setYesterdayProfit(ArithUtil.bigToScale2(capital.getYesterdayProfit()));
-        holdCapitalVo.setProfitDateTime(CommonUtil.dateToString(capital.getCreateTime(), CommonUtil.PATTEN_MIDDLE_DATE_FORMAT_DATETIME));
+        holdCapitalVo.setProfitDateTime(CommonUtil.dateToString(capital.getCreateTime(), CommonUtil.DATE_FORMAT_YYYY_MM_DD_HH_MM));
         holdCapitalVo.setPrincipal(ArithUtil.bigToScale2(capital.getHoldCapital().subtract(capital.getTotalProfit())));//本金
 
         return holdCapitalVo;

@@ -9,8 +9,7 @@ import org.apache.commons.beanutils.ConvertUtils;
 import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.Validate;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import play.Logger;
 import play.db.jpa.JPA;
 
 import javax.persistence.EntityManager;
@@ -37,8 +36,6 @@ import java.util.regex.Pattern;
  * @author <a href="mailto:zhencai.yuan@sunlights.cc">yuanzhencai</a>
  */
 public class EntityBaseDao {
-    final Logger logger = LoggerFactory.getLogger(getClass());
-
     protected EntityManager em = JPA.em();
 
     public EntityBaseDao() {
@@ -52,14 +49,14 @@ public class EntityBaseDao {
     public <T> T create(final T entity) {
         Validate.notNull(entity, "entity不能为空");
         em.persist(entity);
-        logger.debug("create-create entity: {}", entity);
+        play.Logger.debug("create-create entity: {}", entity);
         return entity;
     }
 
     public <T> T detach(final T entity) {
         Validate.notNull(entity, "entity不能为空");
         em.detach(entity);
-        logger.debug("create-create entity: {}", entity);
+        Logger.debug("create-create entity: {}", entity);
         return entity;
     }
 
@@ -74,7 +71,7 @@ public class EntityBaseDao {
         Validate.notNull(entity, "entity不能为空");
         em.merge(entity);
         em.flush();
-        logger.debug("update entity: {}", entity);
+        Logger.debug("update entity: {}", entity);
         return entity;
     }
 
@@ -87,7 +84,7 @@ public class EntityBaseDao {
         Validate.notNull(entity, "entity不能为空");
         em.remove(entity);
         em.flush();
-        logger.debug("delete entity: {}", entity);
+        Logger.debug("delete entity: {}", entity);
     }
 
     /**
@@ -97,7 +94,7 @@ public class EntityBaseDao {
     public void delete(Class<?> entityClass, final Serializable id) {
         Validate.notNull(id, "id不能为空");
         delete(find(entityClass, id));
-        logger.debug("delete entity {},id is {}", entityClass.getSimpleName(), id);
+        Logger.debug("delete entity {},id is {}", entityClass.getSimpleName(), id);
     }
 
     /**

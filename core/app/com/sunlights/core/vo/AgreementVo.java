@@ -32,7 +32,7 @@ public class AgreementVo {
         this.title = openAccountPact.getAgreementName();
         this.link = openAccountPact.getFilePath() + openAccountPact.getFileName();
         if (openAccountPact.getUpdateDate() != null) {
-            this.updatedAt = CommonUtil.dateToString(new Date(openAccountPact.getUpdateDate().getTime()), CommonUtil.PATTEN_LONG_DATE_FORMAT_DATETIME);
+            this.updatedAt = CommonUtil.dateToString(new Date(openAccountPact.getUpdateDate().getTime()), CommonUtil.DATE_FORMAT_LONG);
         }
     }
 
