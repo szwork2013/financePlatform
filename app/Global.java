@@ -1,4 +1,5 @@
 import com.fasterxml.jackson.databind.JsonNode;
+import com.sunlights.common.Severity;
 import com.sunlights.common.exceptions.BusinessRuntimeException;
 import com.sunlights.common.utils.MessageUtil;
 import com.sunlights.common.vo.Message;
@@ -39,7 +40,7 @@ public class Global extends GlobalSettings {
             JsonNode json = null;
             String errorCode = null;
             String errorMessage = null;
-            Message.Severity severity = null;
+            Severity severity = null;
             String detailMsg = null;
 
             Throwable cause = reqthrow.getCause();
@@ -71,7 +72,7 @@ public class Global extends GlobalSettings {
                     e.printStackTrace();
                 }
                 cause.printStackTrace();
-                json = MessageUtil.getInstance().msgToJson(new Message(Message.SEVERITY_FATAL, errorCode, errorMessage, errorDetail));
+                json = MessageUtil.getInstance().msgToJson(new Message(Severity.FATAL, errorCode, errorMessage, errorDetail));
             }
 
             Result result = ok(json);
