@@ -1,11 +1,16 @@
 package com.sunlights.core.web;
 
+import com.fasterxml.jackson.databind.JsonNode;
 import com.sunlights.common.dal.EntityBaseDao;
+import com.sunlights.common.vo.MessageVo;
 import com.sunlights.common.vo.PageVo;
 import com.sunlights.core.CodeConst;
 import com.sunlights.core.vo.AgreementVo;
+import com.sunlights.core.vo.FundVo;
 import com.sunlights.core.vo.ProductParameter;
+import models.Fund;
 import models.FundHistory;
+import org.apache.commons.lang3.StringUtils;
 import org.junit.Test;
 import play.Logger;
 import play.data.Form;
@@ -14,6 +19,7 @@ import play.db.jpa.Transactional;
 import play.libs.Json;
 import play.test.FakeRequest;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -45,11 +51,11 @@ public class ProductControllerTest {
                     }
                 });
 
-                FakeRequest banksRequest = fakeRequest(POST, "/core/product/chart");
+                FakeRequest chartRequest = fakeRequest(POST, "/core/product/chart");
                 // form request
                 Map<String, String> paramMap = parameterForm.bind(Json.toJson(parameter)).data();
                 Logger.info("[paramMap]" + paramMap);
-                FakeRequest formRequest = banksRequest.withHeader("Content-Type", "application/x-www-form-urlencoded").withFormUrlEncodedBody(paramMap);
+                FakeRequest formRequest = chartRequest.withHeader("Content-Type", "application/x-www-form-urlencoded").withFormUrlEncodedBody(paramMap);
                 play.mvc.Result result = route(formRequest);
                 Logger.info("result is " + contentAsString(result));
                 assertThat(contentAsString(result)).contains("0000");
@@ -61,32 +67,48 @@ public class ProductControllerTest {
 
 
     @Test
-    public void testFindProductDetail() throws Exception {
-
-    }
-
-    @Test
-    public void testFindProductsByType() throws Exception {
+    public void testFindProductsByTypeAndDetail() throws Exception {
         running(fakeApplication(inMemoryDatabase("test")), new Runnable() {
 
             public void run() {
 
                 ProductParameter parameter = new ProductParameter();
 
-                parameter.setType(CodeConst.PRODUCT_FUND);
+                parameter.setCategory(CodeConst.PRODUCT_FUND);
                 parameter.setIndex(0);
                 parameter.setPageSize(10);
-                FakeRequest banksRequest = fakeRequest(POST, "/core/products");
+
+                // Products Request
+                FakeRequest productsRequest = fakeRequest(POST, "/core/products");
                 // form request
                 Map<String, String> paramMap = parameterForm.bind(Json.toJson(parameter)).data();
                 Logger.info("[paramMap]" + paramMap);
 
-                FakeRequest formRequest = banksRequest.withHeader("Content-Type", "application/x-www-form-urlencoded").withFormUrlEncodedBody(paramMap);
-                play.mvc.Result result = route(formRequest);
+                FakeRequest formProductsRequest = productsRequest.withHeader("Content-Type", "application/x-www-form-urlencoded").withFormUrlEncodedBody(paramMap);
+                play.mvc.Result result = route(formProductsRequest);
 
-                Logger.info("result is " + contentAsString(result));
+                String contentAsString = contentAsString(result);
+                Logger.info("result is " + contentAsString);
 
-                assertThat(contentAsString(result)).contains("0000");
+                assertThat(contentAsString).contains("0000");
+
+                // Product Detail Request
+                JsonNode jsonNode = Json.parse(contentAsString);
+                JsonNode value = jsonNode.findValue("value");
+                JsonNode code = value.findValue("code");
+                JsonNode type = value.findValue("type");
+                if (StringUtils.isNotEmpty(code.asText())) {
+                    parameter.setCode(code.asText());
+                    parameter.setType(type.asText());
+                    paramMap = parameterForm.bind(Json.toJson(parameter)).data();
+
+                    FakeRequest productDetailRequest = fakeRequest(POST, "/core/product/detail");
+                    FakeRequest formProductDetailRequest = productDetailRequest.withHeader("Content-Type", "application/x-www-form-urlencoded").withFormUrlEncodedBody(paramMap);
+                    result = route(formProductDetailRequest);
+                    contentAsString = contentAsString(result);
+                    Logger.info("result is " + contentAsString);
+                    assertThat(contentAsString).contains("0000");
+                }
 
             }
 
