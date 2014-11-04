@@ -18,3 +18,7 @@ libraryDependencies ++= Seq(
   javaWs,
   "cn.com.nciic" % "sfxxrz" %"1.0"
 )
+
+sources in (Compile,doc) := Seq.empty
+
+publishArtifact in (Compile, packageDoc) := false

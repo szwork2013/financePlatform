@@ -9,3 +9,7 @@ libraryDependencies ++= Seq(
   cache,
   javaWs
 )
+
+sources in (Compile,doc) := Seq.empty
+
+publishArtifact in (Compile, packageDoc) := false
