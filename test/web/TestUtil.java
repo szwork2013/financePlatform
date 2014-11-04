@@ -10,9 +10,11 @@ import static play.test.Helpers.contentAsString;
 /**
  * Created by Administrator on 2014/11/3.
  */
-public class BaseTest {
+public class TestUtil {
 
-    protected MessageVo toMessageVo(Result result) {
+    public static final String APPLICATION_X_WWW_FORM_URLENCODED = "application/x-www-form-urlencoded";
+
+    public static MessageVo toMessageVo(Result result) {
         String content = contentAsString(result);
         JsonNode jsonNode = Json.parse(content);
         return Json.fromJson(jsonNode, MessageVo.class);

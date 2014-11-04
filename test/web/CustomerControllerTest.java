@@ -1,10 +1,7 @@
 package web;
 
-import com.fasterxml.jackson.databind.JsonNode;
 import com.sunlights.common.vo.MessageVo;
 import org.junit.Test;
-import play.libs.Json;
-import play.mvc.Result;
 import play.test.FakeRequest;
 
 import java.util.HashMap;
@@ -14,7 +11,7 @@ import static org.fest.assertions.Assertions.*;
 import static play.test.Helpers.*;
 import static play.test.Helpers.route;
 
-public class CustomerControllerTest extends BaseTest{
+public class CustomerControllerTest {
 
     @Test
     public void testGenVerificationCode() throws Exception {
@@ -28,7 +25,7 @@ public class CustomerControllerTest extends BaseTest{
                 FakeRequest formRequest = fakeRequest(POST, "/customer/verificationcode").withFormUrlEncodedBody(formParams);
                 play.mvc.Result result = route(formRequest);
                 assertThat(status(result)).isEqualTo(OK);
-                MessageVo message = toMessageVo(result);
+                MessageVo message = TestUtil.toMessageVo(result);
                 assertThat(message.getMessage().getCode()).isEqualTo("0000");
                 assertThat(message.getMessage().getSummary()).isEqualTo("操作成功");
             }

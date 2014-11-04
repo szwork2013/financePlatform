@@ -1,4 +1,4 @@
-package com.sunlights.core.web;
+package web;
 
 import com.sunlights.common.AppConst;
 import com.sunlights.common.MsgCode;
@@ -26,8 +26,6 @@ import static org.fest.assertions.Assertions.assertThat;
 import static play.test.Helpers.*;
 
 public class BankControllerTest {
-
-    final String[] token = {null};
 
     private static Form<PageVo> pagerForm = Form.form(PageVo.class);
     private static Form<BankCardFormVo> bankCardForm = Form.form(BankCardFormVo.class);
@@ -59,19 +57,13 @@ public class BankControllerTest {
                 FakeRequest bankCardCreateRequest = fakeRequest(POST, "/core/bank/bankcard/create");
                 Map<String, String> paramMap = bankCardForm.bind(Json.toJson(bankCardVo)).data();
 
-                // create bank card
-                FakeRequest formBankCardCreateRequest = bankCardCreateRequest.withHeader("Content-Type", "application/x-www-form-urlencoded").withFormUrlEncodedBody(paramMap);
-                formBankCardCreateRequest.withCookies(new Http.Cookie(AppConst.TOKEN, token[0], null, null, null, false, false));
-                result = route(formBankCardCreateRequest);
-
-                Logger.info("result is " + contentAsString(result));
-                assertThat(contentAsString(result)).contains(MsgCode.BANK_CARD_ADD_SUCCESS.getCode());
+                createBankCard(token[0], bankCardCreateRequest, paramMap);
 
                 // delete bank card
                 FakeRequest bankCardDeleteRequest = fakeRequest(POST, "/core/bank/bankcard/delete");
                 paramMap = bankCardForm.bind(Json.toJson(bankCardVo)).data();
 
-                FakeRequest formBankCardDeleteRequest = bankCardDeleteRequest.withHeader("Content-Type", "application/x-www-form-urlencoded").withFormUrlEncodedBody(paramMap);
+                FakeRequest formBankCardDeleteRequest = bankCardDeleteRequest.withHeader("Content-Type",  TestUtil.APPLICATION_X_WWW_FORM_URLENCODED).withFormUrlEncodedBody(paramMap);
                 formBankCardDeleteRequest.withCookies(new Http.Cookie(AppConst.TOKEN, token[0], null, null, null, false, false));
                 result = route(formBankCardDeleteRequest);
 
@@ -81,6 +73,16 @@ public class BankControllerTest {
             }
         });
 
+    }
+
+    private void createBankCard(String s, FakeRequest bankCardCreateRequest, Map<String, String> paramMap) {
+        play.mvc.Result result;
+        FakeRequest formBankCardCreateRequest = bankCardCreateRequest.withHeader("Content-Type", TestUtil.APPLICATION_X_WWW_FORM_URLENCODED).withFormUrlEncodedBody(paramMap);
+        formBankCardCreateRequest.withCookies(new Http.Cookie(AppConst.TOKEN, s, null, null, null, false, false));
+        result = route(formBankCardCreateRequest);
+
+        Logger.info("result is " + contentAsString(result));
+        assertThat(contentAsString(result)).contains(MsgCode.BANK_CARD_ADD_SUCCESS.getCode());
     }
 
     @Test
@@ -107,7 +109,7 @@ public class BankControllerTest {
                 FakeRequest bankCardValidateRequest = fakeRequest(POST, "/core/bank/bankcard/validate");
                 Map<String, String> paramMap = bankCardForm.bind(Json.toJson(bankCardVo)).data();
 
-                FakeRequest formRequest = bankCardValidateRequest.withHeader("Content-Type", "application/x-www-form-urlencoded").withFormUrlEncodedBody(paramMap);
+                FakeRequest formRequest = bankCardValidateRequest.withHeader("Content-Type",  TestUtil.APPLICATION_X_WWW_FORM_URLENCODED).withFormUrlEncodedBody(paramMap);
                 formRequest.withCookies(new Http.Cookie(AppConst.TOKEN, token[0], null, null, null, false, false));
                 result = route(formRequest);
 
@@ -115,8 +117,6 @@ public class BankControllerTest {
                 assertThat(contentAsString(result)).contains(MsgCode.OPERATE_SUCCESS.getCode());
             }
         });
-
-
     }
 
     @Test
@@ -141,7 +141,7 @@ public class BankControllerTest {
                 Map<String, String> paramMap = pagerForm.bind(Json.toJson(pageVo)).data();
                 Logger.info("[paramMap]" + paramMap);
 
-                FakeRequest formRequest = findBankCards.withHeader("Content-Type", "application/x-www-form-urlencoded").withFormUrlEncodedBody(paramMap);
+                FakeRequest formRequest = findBankCards.withHeader("Content-Type", TestUtil.APPLICATION_X_WWW_FORM_URLENCODED).withFormUrlEncodedBody(paramMap);
                 System.out.println("[token]" + token[0]);
                 formRequest.withCookies(new Http.Cookie(AppConst.TOKEN, token[0], null, null, null, false, false));
                 result = route(formRequest);
@@ -164,7 +164,7 @@ public class BankControllerTest {
                 // form request
                 Map<String, String> paramMap = bankCardForm.bind(Json.toJson(bankCardVo)).data();
                 Logger.info("[paramMap]" + paramMap);
-                FakeRequest formRequest = findBankRequest.withHeader("Content-Type", "application/x-www-form-urlencoded").withFormUrlEncodedBody(paramMap);
+                FakeRequest formRequest = findBankRequest.withHeader("Content-Type",  TestUtil.APPLICATION_X_WWW_FORM_URLENCODED).withFormUrlEncodedBody(paramMap);
                 result = route(formRequest);
                 Logger.info("result is " + contentAsString(result));
                 assertThat(contentAsString(result)).contains(MsgCode.OPERATE_SUCCESS.getCode());
@@ -182,7 +182,7 @@ public class BankControllerTest {
                 // form request
                 Map<String, String> paramMap = pagerForm.bind(Json.toJson(pageVo)).data();
                 Logger.info("[paramMap]" + paramMap);
-                FakeRequest formRequest = banksRequest.withHeader("Content-Type", "application/x-www-form-urlencoded").withFormUrlEncodedBody(paramMap);
+                FakeRequest formRequest = banksRequest.withHeader("Content-Type", TestUtil.APPLICATION_X_WWW_FORM_URLENCODED).withFormUrlEncodedBody(paramMap);
                 result = route(formRequest);
                 Logger.info("result is " + contentAsString(result));
                 assertThat(contentAsString(result)).contains("0000");

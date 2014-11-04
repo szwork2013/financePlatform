@@ -1,4 +1,4 @@
-package com.sunlights.core.web;
+package web;
 
 import com.sunlights.core.vo.AgreementVo;
 import org.junit.Test;
@@ -13,7 +13,6 @@ import static org.fest.assertions.Assertions.assertThat;
 import static play.test.Helpers.*;
 
 public class AgreementControllerTest {
-
     private static Form<AgreementVo> agreeForm = Form.form(AgreementVo.class);
 
     @Test
@@ -30,7 +29,7 @@ public class AgreementControllerTest {
                 Map<String, String> paramMap = agreeForm.bind(Json.toJson(agreementVo)).data();
                 Logger.info("[paramMap]" + paramMap);
 
-                FakeRequest formRequest = banksRequest.withHeader("Content-Type", "application/x-www-form-urlencoded").withFormUrlEncodedBody(paramMap);
+                FakeRequest formRequest = banksRequest.withHeader("Content-Type", TestUtil.APPLICATION_X_WWW_FORM_URLENCODED).withFormUrlEncodedBody(paramMap);
                 play.mvc.Result result = route(formRequest);
 
                 Logger.info("result is " + contentAsString(result));
