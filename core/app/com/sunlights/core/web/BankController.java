@@ -111,8 +111,16 @@ public class BankController extends Controller {
     }
 
     public Result findBankByBankCardNo() {
-        String bankCardNo = null;
-        BankVo bankVo = bankService.findBankByBankCardNo(bankCardNo);
+        BankCardFormVo bankCardVo = null;
+        Http.RequestBody body = request().body();
+        if (body.asJson() != null) {
+            bankCardVo = Json.fromJson(body.asJson(), BankCardFormVo.class);
+        }
+        if (body.asFormUrlEncoded() != null) {
+            bankCardVo = bankCardForm.bindFromRequest().get();
+        }
+        play.Logger.info("[bankCardVo]" + Json.toJson(bankCardVo));
+        BankVo bankVo = bankService.findBankByBankCardNo(bankCardVo.getNo());
         MessageUtil.getInstance().setMessage(new Message(Severity.INFO, MsgCode.OPERATE_SUCCESS), bankVo);
         return ok(MessageUtil.getInstance().toJson());
     }

@@ -12,5 +12,13 @@ package com.sunlights.core.vo;
  */
 public class BankCardFormVo extends BankCardVo {
     // 银行卡号
-    public String bankCardPassword;
+    private String bankCardPassword;
+
+    public String getBankCardPassword() {
+        return bankCardPassword;
+    }
+
+    public void setBankCardPassword(String bankCardPassword) {
+        this.bankCardPassword = bankCardPassword;
+    }
 }

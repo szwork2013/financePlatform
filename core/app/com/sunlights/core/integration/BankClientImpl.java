@@ -15,7 +15,11 @@ import org.springframework.stereotype.Component;
 public class BankClientImpl implements BankClient {
     @Override
     public BankVo findBankByBankCardNo(String bankCardNo) {
-        return new BankVo();
+        BankVo bankVo = new BankVo();
+        if ("6225885105574736".equals(bankCardNo)) {
+            bankVo.bankCode = "CCB";
+        }
+        return bankVo;
     }
 
     @Override

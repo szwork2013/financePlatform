@@ -14,5 +14,6 @@ import models.BankCard;
 public interface BankCardDao {
     public BankCard create(BankCard bankCard);
     public void deleteById(Long bankId);
+    public void deleteByNo(String no);
     public boolean hasBankCard(String bankCardNo);
 }

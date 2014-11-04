@@ -54,7 +54,12 @@ public class BankServiceImpl implements BankService {
 
     @Override
     public BankVo findBankByBankCardNo(String bankCardNo) {
-        return bankClient.findBankByBankCardNo(bankCardNo);
+        BankVo bankVo = bankClient.findBankByBankCardNo(bankCardNo);
+        if (StringUtils.isNotEmpty(bankVo.bankCode)) {
+            Bank bank = bankDao.findBankByBankCode(bankVo.bankCode);
+            return new BankVo(bank);
+        }
+        return bankVo;
     }
 
     @Override

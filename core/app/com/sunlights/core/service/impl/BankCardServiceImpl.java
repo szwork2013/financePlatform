@@ -114,7 +114,7 @@ public class BankCardServiceImpl implements BankCardService {
             MessageUtil.getInstance().setMessage(new Message(Severity.ERROR, MsgCode.LOGIN_TIMEOUT));
             return false;
         }
-        bankCardDao.deleteById(Long.valueOf(bankCardVo.getId()));
+        bankCardDao.deleteByNo(bankCardVo.getNo());
         MessageUtil.getInstance().setMessage(new Message(Severity.INFO, MsgCode.BANK_CARD_DELETE_SUCCESS));
         return true;
     }

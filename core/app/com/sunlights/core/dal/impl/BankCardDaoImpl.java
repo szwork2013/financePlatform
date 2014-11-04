@@ -28,6 +28,14 @@ public class BankCardDaoImpl extends EntityBaseDao implements BankCardDao {
     }
 
     @Override
+    public void deleteByNo(String no) {
+        List<BankCard> bankCards = super.findBy(BankCard.class, "bankCardNo", no);
+        if (!bankCards.isEmpty()) {
+            super.delete(bankCards.get(0));
+        }
+    }
+
+    @Override
     public boolean hasBankCard(String bankCardNo) {
         List<BankCard> bankCards = super.findBy(BankCard.class, "bankCardNo", bankCardNo);
         return !bankCards.isEmpty();

@@ -166,6 +166,7 @@ public class CustomerService {
 
     public Customer getCustomerByToken(String token){
         CustomerSession customerSession = getCustomerSession(token);
+        if(customerSession == null) return null;
         return getCustomerByCustomerId(customerSession.getCustomerId());
     }
 
