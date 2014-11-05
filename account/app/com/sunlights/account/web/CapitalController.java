@@ -64,14 +64,14 @@ public class CapitalController extends Controller{
 		List<Capital4Product> capital4Products = capitalService.getAllCapital4Product(mobile, pageVo);
         pageVo.setList(capital4Products);
 
-        MessageUtil.getInstance().setMessage(new Message(MsgCode.OPERATE_SUCCESS), pageVo);
-        return ok(MessageUtil.getInstance().toJson());
-	}
-	
-	/**
-	 * 获取我的资产所有信息
-	 * @return
-	 */
+    MessageUtil.getInstance().setMessage(new Message(MsgCode.OPERATE_SUCCESS), pageVo);
+    return ok(MessageUtil.getInstance().toJson());
+}
+
+    /**
+     * 获取我的资产所有信息
+     * @return
+     */
 	public Result getMyCapital() {
 		Form<String> form = Form.form(String.class).bindFromRequest();
 		String mobile = form.data().get("mobile");

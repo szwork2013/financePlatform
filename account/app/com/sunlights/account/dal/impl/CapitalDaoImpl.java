@@ -37,8 +37,12 @@ public class CapitalDaoImpl extends EntityBaseDao implements CapitalDao {
         Query query = em.createNativeQuery(sql);
         query.setParameter("custId", custId);
         query.setParameter("status", "N");
-        query.setFirstResult(pageVo.getIndex());
-        query.setMaxResults(pageVo.getPageSize());
+        if (pageVo.getIndex() > 0) {
+            query.setFirstResult(pageVo.getIndex());
+        }
+        if (pageVo.getPageSize() > 0){
+            query.setMaxResults(pageVo.getPageSize());
+        }
 
         List<Object[]> list = query.getResultList();
         
@@ -68,7 +72,7 @@ public class CapitalDaoImpl extends EntityBaseDao implements CapitalDao {
                 capital4Product.setMarketValue(ArithUtil.bigToScale2(marketValue));
             }
             capital4Product.setPrdType(row[4] == null ? null : row[4].toString());
-//            capital4Product.setPrdTypeDesc();//TODO
+            capital4Product.setPrdTypeDesc("基金");//TODO
             capital4ProductList.add(capital4Product);
         }
         return capital4ProductList;
