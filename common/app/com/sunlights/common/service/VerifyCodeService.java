@@ -9,7 +9,6 @@ import com.sunlights.common.utils.DBHelper;
 import com.sunlights.common.vo.CustomerVerifyCodeVo;
 import models.CustomerVerifyCode;
 import play.Logger;
-import play.db.jpa.Transactional;
 
 import java.sql.Timestamp;
 import java.util.Random;
@@ -21,11 +20,11 @@ public class VerifyCodeService {
 
     private CustomerVerifyCodeDao customerVerifyCodeDao = new CustomerVerifyCodeDaoImpl();
     private ParameterService parameterService = new ParameterService();
+    
     /**
      * <P>Description: 获取验证码</p>
      * @return
      */
-    @Transactional
     public String genVerificationCode(String mobilePhoneNo, String type, String deviceNo) {
         CommonUtil.getInstance().validateParams(mobilePhoneNo, type);
         checkValidVerifyCode(type);

@@ -1,7 +1,10 @@
 package com.sunlights.core.actor;
 
 import akka.actor.UntypedActor;
+import com.sunlights.core.service.impl.SmsMessageService;
 import models.SmsMessage;
+import play.db.jpa.JPA;
+import play.libs.F;
 
 /**
  * <p>Project: tradingsystem</p>
@@ -16,8 +19,14 @@ public class SmsSendActor extends UntypedActor {
     @Override
     public void onReceive(Object message) throws Exception {
         if (message instanceof SmsMessage) {
-            SmsMessage sm = (SmsMessage) message;
-//            SmsMessageClient.sendSms(sm);
+            final SmsMessage sm = (SmsMessage) message;
+            JPA.withTransaction(new F.Callback0() {
+                @Override
+                public void invoke() throws Throwable {
+                    SmsMessageService smsMessageService = new SmsMessageService();
+                    smsMessageService.sendSms(sm);
+                }
+            });
         } else {
             unhandled(message);
         }

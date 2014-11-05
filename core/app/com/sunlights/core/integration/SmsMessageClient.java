@@ -2,9 +2,7 @@ package com.sunlights.core.integration;
 
 import com.sunlights.common.AppConst;
 import com.sunlights.common.service.ParameterService;
-import com.sunlights.common.utils.DBHelper;
 import com.sunlights.common.utils.MD5Helper;
-import com.sunlights.core.dal.SmsMessageDao;
 import models.SmsMessage;
 import org.apache.commons.httpclient.HttpClient;
 import org.apache.commons.httpclient.HttpStatus;
@@ -23,9 +21,7 @@ import play.Logger;
 
 public class SmsMessageClient {
 
-    private ParameterService parameterService;
-
-    private SmsMessageDao smsMessageDao;
+    private ParameterService parameterService = new ParameterService();
 
     public String sendSms(SmsMessage smsMessage){
         HttpClient httpClient = new HttpClient();
@@ -64,10 +60,6 @@ public class SmsMessageClient {
             e.printStackTrace();
             Logger.info(e.getMessage());
         }
-
-        smsMessage.setReturnMsg(result);
-        smsMessage.setUpdatedDatetime(DBHelper.getCurrentTime());
-        smsMessageDao.updateSmsMessage(smsMessage);
 
         return result;
     }

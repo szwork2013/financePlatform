@@ -6,6 +6,8 @@ import com.sunlights.common.service.ParameterService;
 import com.sunlights.common.utils.DBHelper;
 import com.sunlights.core.actor.Actors;
 import com.sunlights.core.dal.SmsMessageDao;
+import com.sunlights.core.dal.impl.SmsMessageDaoImpl;
+import com.sunlights.core.integration.SmsMessageClient;
 import models.SmsMessage;
 
 import java.sql.Timestamp;
@@ -22,13 +24,11 @@ import java.text.SimpleDateFormat;
 * @author <a href="mailto:jiaming.wang@sunlights.cc">wangJiaMing</a>
 */
 
+public class SmsMessageService {
 
-public class SafeServiceImpl {
-
-
-    private ParameterService parameterService;
-
-    private SmsMessageDao smsMessageDao;
+    private ParameterService parameterService = new ParameterService();
+    private SmsMessageDao smsMessageDao = new SmsMessageDaoImpl();
+    private SmsMessageClient smsMessageClient = new SmsMessageClient();
 
     /**
      * 发送手机短信
@@ -36,10 +36,19 @@ public class SafeServiceImpl {
      * @param verifyCode
      * @param type
      */
-    public void sendMsg(String mobilePhoneNo, String verifyCode, String type){
+    public void tellActor(String mobilePhoneNo, String verifyCode, String type){
         SmsMessage smsMessage = createSmsMessage(mobilePhoneNo, verifyCode, type);
         Actors.smsMasterActor.tell(smsMessage, ActorRef.noSender());
     }
+    
+    public void sendSms(SmsMessage smsMessage){
+        String result = smsMessageClient.sendSms(smsMessage);
+        smsMessage.setReturnMsg(result);
+        smsMessage.setUpdatedDatetime(DBHelper.getCurrentTime());
+        smsMessageDao.updateSmsMessage(smsMessage);
+    }
+
+
     private SmsMessage createSmsMessage(String mobilePhoneNo, String verifyCode, String type){
         String typeStr = "";
         if (AppConst.VERIFY_CODE_REGISTER.equals(type)) {

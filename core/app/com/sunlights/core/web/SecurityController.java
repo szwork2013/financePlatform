@@ -5,11 +5,13 @@ import com.sunlights.account.service.AccountService;
 import com.sunlights.account.service.impl.AccountServiceImpl;
 import com.sunlights.common.AppConst;
 import com.sunlights.common.MsgCode;
+import com.sunlights.common.service.ParameterService;
 import com.sunlights.common.service.VerifyCodeService;
 import com.sunlights.common.utils.MessageUtil;
 import com.sunlights.common.vo.Message;
 import com.sunlights.common.vo.MessageVo;
 import com.sunlights.core.service.impl.IdentityService;
+import com.sunlights.core.service.impl.SmsMessageService;
 import com.sunlights.customer.service.impl.CustomerService;
 import com.sunlights.customer.vo.CustomerFormVo;
 import com.sunlights.customer.vo.CustomerVo;
@@ -37,10 +39,13 @@ import play.mvc.Result;
 public class SecurityController extends Controller {
     private static Form<CustomerFormVo> customerForm = Form.form(CustomerFormVo.class);
 
-    private VerifyCodeService verifyCodeService = new VerifyCodeService();
     private CustomerService customerService = new CustomerService();
-    private IdentityService identityService = new IdentityService();
     private AccountService accountService = new AccountServiceImpl();
+    private ParameterService parameterService = new ParameterService();
+
+    private VerifyCodeService verifyCodeService = new VerifyCodeService();
+    private IdentityService identityService = new IdentityService();
+    private SmsMessageService smsMessageService = new SmsMessageService();
 
     /**
      * <p>
@@ -57,7 +62,11 @@ public class SecurityController extends Controller {
         String verifyType = vo.getType();
         String deviceNo = vo.getDeviceNo();
 
-        verifyCodeService.genVerificationCode(mobilePhoneNo, verifyType, deviceNo);
+        String verifyCode = verifyCodeService.genVerificationCode(mobilePhoneNo, verifyType, deviceNo);
+
+        if (AppConst.VERIFY_CODE_STATUS_INVALID.equals(parameterService.getParameterByName(AppConst.SMS_TEST))) {
+            smsMessageService.tellActor(mobilePhoneNo, verifyCode, verifyType);
+        }
 
         Message message = new Message(MsgCode.OPERATE_SUCCESS);
         MessageVo messageVo = new MessageVo(message);
