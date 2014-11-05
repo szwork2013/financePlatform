@@ -1,5 +1,8 @@
 package com.sunlights.core.web;
 
+import com.sunlights.common.MsgCode;
+import com.sunlights.common.vo.Message;
+import com.sunlights.customer.vo.CustomerVo;
 import models.Customer;
 import models.CustomerSession;
 import play.Logger;
@@ -64,8 +67,10 @@ public class RegisterController extends Controller{
         if (customer != null) {
             CustomerSession customerSession = customerService.createCustomerSession(customer, Controller.request().remoteAddress());
             customerService.sessionLoginSessionId(Controller.session(), Controller.response(), customerSession);
-
             accountService.createBaseAccount(customer.getCustomerId(), null);
+            Message message = new Message(MsgCode.REGISTRY_SUCCESS);
+            CustomerVo customerVo = customerService.getCustomerVoByPhoneNo(customer.getMobile(), customerFormVo.getDeviceNo());
+            MessageUtil.getInstance().setMessage(message, customerVo);
         }
 
         JsonNode json = MessageUtil.getInstance().toJson();
