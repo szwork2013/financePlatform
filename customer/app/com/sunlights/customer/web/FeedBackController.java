@@ -34,7 +34,7 @@ public class FeedBackController extends Controller {
 
         String mobile = params.get("mobile");
         String deviceNo = params.get("deviceNo");
-        String content = params.get("feedBack");
+        String content = params.get("feedback");
         
         feedBackService.saveFeedBack(mobile, deviceNo, content);
 

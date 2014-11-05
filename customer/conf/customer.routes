@@ -9,4 +9,4 @@ POST        /getusermstr             @com.sunlights.customer.web.CustomerControl
 POST        /logout                  @com.sunlights.customer.web.CustomerController.logout
 
 #feedBack
-POST        /feedback                @com.sunlights.customer.web.FeedBackController.saveFeedBack
+POST        /addfeedback             @com.sunlights.customer.web.FeedBackController.saveFeedBack

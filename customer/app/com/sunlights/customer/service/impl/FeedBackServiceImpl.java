@@ -30,7 +30,7 @@ public class FeedBackServiceImpl implements FeedBackService {
         feedBack.setMobile(mobile);
 
         Customer customer = customerService.getCustomerByMobile(mobile);
-        if (content != null) {
+        if (customer != null) {
             feedBack.setCustomerId(customer.getCustomerId());
         }
         feedBack.setDeviceNo(deviceNo);
