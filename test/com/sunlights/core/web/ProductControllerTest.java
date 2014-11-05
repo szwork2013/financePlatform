@@ -1,4 +1,4 @@
-package web;
+package com.sunlights.core.web;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.sunlights.common.dal.EntityBaseDao;
