@@ -40,7 +40,7 @@ public class CapitalServiceImpl implements CapitalService {
 
         BaseAccount baseAccount = baseAccountDao.getBaseAccount(customer.getCustomerId());
         BigDecimal totalCapital = baseAccount.getBalance() == null ? BigDecimal.ZERO : baseAccount.getBalance();
-        List<SubAccount> subAccountList = baseAccountDao.findSubAccountList(customer.getCustomerId());//TODO
+        List<SubAccount> subAccountList = baseAccountDao.findSubAccountList(customer.getCustomerId());
         for (SubAccount subAccount : subAccountList) {
             totalYesterdayProfit = totalYesterdayProfit.add(subAccount.getYesterdayProfit());
             totalProfit = totalProfit.add(subAccount.getProfit());
@@ -54,10 +54,10 @@ public class CapitalServiceImpl implements CapitalService {
 
         if (takeCapital4Prd) {
             PageVo pageVo = new PageVo();
-            pageVo.setPageSize(3);
-            List<com.sunlights.account.vo.Capital4Product> capital4Products = findCapital4ProductList(customer.getCustomerId(), pageVo);
+//            pageVo.setPageSize(3);
+            List<Capital4Product> capital4Products = findCapital4ProductList(customer.getCustomerId(), pageVo);
             totalCapitalInfo.setCapital4Products(capital4Products);
-            totalCapitalInfo.setCount(pageVo.getCount() + "");
+//            totalCapitalInfo.setCount(pageVo.getCount() + "");
         }
 
 		return totalCapitalInfo;

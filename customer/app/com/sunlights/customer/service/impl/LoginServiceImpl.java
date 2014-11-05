@@ -410,7 +410,7 @@ public class LoginServiceImpl implements LoginService {
                 long balanceMin = getTotalMinute(logNum, PWD_MAX) * AppConst.ONE_MINUTE - (currentTime.getTime() - oldHistory.getCreatedDatetime().getTime());
                 if (balanceMin > 0) {
                     BigDecimal min = ArithUtil.bigUpScale0(new BigDecimal((double) balanceMin / AppConst.ONE_MINUTE));
-                    throw CommonUtil.getInstance().errorBusinessException(MsgCode.PASSWORD_ERROR, min);
+                    throw CommonUtil.getInstance().errorBusinessException(MsgCode.PASSWORD_ERROR_OVER_COUNT, min);
                 }
             }
         }
