@@ -4,19 +4,18 @@ import com.sunlights.account.dal.BaseAccountDao;
 import com.sunlights.account.dal.CapitalDao;
 import com.sunlights.account.dal.impl.BaseAccountDaoImpl;
 import com.sunlights.account.dal.impl.CapitalDaoImpl;
-import models.BaseAccount;
-import models.HoldCapital;
-import models.SubAccount;
 import com.sunlights.account.service.CapitalService;
 import com.sunlights.account.vo.Capital4Product;
 import com.sunlights.account.vo.CapitalFormVo;
 import com.sunlights.account.vo.HoldCapitalVo;
 import com.sunlights.account.vo.TotalCapitalInfo;
 import com.sunlights.common.utils.ArithUtil;
-import com.sunlights.common.utils.CommonUtil;
-import models.Customer;
+import com.sunlights.common.vo.PageVo;
 import com.sunlights.customer.service.impl.CustomerService;
-import play.db.jpa.Transactional;
+import models.BaseAccount;
+import models.Customer;
+import models.HoldCapital;
+import models.SubAccount;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
@@ -34,7 +33,6 @@ public class CapitalServiceImpl implements CapitalService {
     private BaseAccountDao baseAccountDao = new BaseAccountDaoImpl();
     private CustomerService customerService = new CustomerService();
 	
-	@Transactional
 	public TotalCapitalInfo getTotalCapital(String mobile, boolean takeCapital4Prd) {
         Customer customer = customerService.getCustomerByMobile(mobile);
 		BigDecimal totalYesterdayProfit = BigDecimal.ZERO;
@@ -55,28 +53,30 @@ public class CapitalServiceImpl implements CapitalService {
         totalCapitalInfo.setYesterdayProfit(ArithUtil.bigToScale2(totalYesterdayProfit));
 
         if (takeCapital4Prd) {
-            List<Capital4Product> capital4Products = findCapital4ProductList(customer.getCustomerId());
+            PageVo pageVo = new PageVo();
+            pageVo.setPageSize(3);
+            List<com.sunlights.account.vo.Capital4Product> capital4Products = findCapital4ProductList(customer.getCustomerId(), pageVo);
             totalCapitalInfo.setCapital4Products(capital4Products);
+            totalCapitalInfo.setCount(pageVo.getCount() + "");
         }
 
 		return totalCapitalInfo;
 	}
 
 	@Override
-	public List<Capital4Product> getAllCapital4Product(String mobile) {
+	public List<Capital4Product> getAllCapital4Product(String mobile, PageVo pageVo) {
         Customer customer = customerService.getCustomerByMobile(mobile);
-        return findCapital4ProductList(customer.getCustomerId());
+        return findCapital4ProductList(customer.getCustomerId(), pageVo);
 	}
 
-    private List<Capital4Product> findCapital4ProductList(String customerId){
-        List<HoldCapital> list = capitalDao.findHoldCapitalsByCustId(customerId);
-        List<Capital4Product> capital4Products = new ArrayList<Capital4Product>();
-        Capital4Product capital4Product = null;
-        for(HoldCapital capital : list) {
-            capital4Product = transfer(capital);
-            capital4Products.add(capital4Product);
-        }
-        return capital4Products;
+    @Override
+    public HoldCapitalVo findCapitalProductDetail(String prdType, String prdCode) {
+        return capitalDao.findCapitalProductDetail(prdType, prdCode);
+    }
+
+    private List<Capital4Product> findCapital4ProductList(String customerId, PageVo pageVo){
+        List<Capital4Product> list = capitalDao.findHoldCapitalsByCustId(customerId, pageVo);
+        return list;
     }
 
     public List<HoldCapitalVo> findTotalProfitList(CapitalFormVo capitalFormVo) {
@@ -85,39 +85,13 @@ public class CapitalServiceImpl implements CapitalService {
         List<HoldCapitalVo> holdCapitalVos = new ArrayList<HoldCapitalVo>();
         HoldCapitalVo holdCapitalVo = null;
         for(HoldCapital capital : list) {
-            holdCapitalVo = transferTotalCapitalVo(capital);
+//            holdCapitalVo = transferTotalCapitalVo(capital);//TODO
             holdCapitalVos.add(holdCapitalVo);
         }
         return holdCapitalVos;
     }
-    public HoldCapitalVo findTotalProfitDetail(String id){
-        HoldCapital holdCapital = capitalDao.findHoldCapitalsById(Long.valueOf(id));
-        HoldCapitalVo holdCapitalVo = transferTotalCapitalVo(holdCapital);
-        return capitalDao.findTotalProfitDetail(holdCapital.getProductType(), holdCapitalVo);
-    }
 
-    private Capital4Product transfer(HoldCapital capital) {
-		Capital4Product capital4Product = new Capital4Product();
-		capital4Product.setPrdCode(capital.getProductCode());
-        capital4Product.setPrdName(capital.getProductName());
-		capital4Product.setTotalProfit(ArithUtil.bigToScale2(capital.getTotalProfit()));
-		capital4Product.setMarketValue(ArithUtil.bigToScale2(capital.getHoldCapital()));
 
-		return capital4Product;
-	}
-
-    private HoldCapitalVo transferTotalCapitalVo(HoldCapital capital) {
-        HoldCapitalVo holdCapitalVo = new HoldCapitalVo();
-        holdCapitalVo.setId(capital.getId().toString());
-        holdCapitalVo.setPrdCode(capital.getProductCode());
-        holdCapitalVo.setPrdName(capital.getProductName());
-        holdCapitalVo.setTotalProfit(ArithUtil.bigToScale2(capital.getTotalProfit()));
-        holdCapitalVo.setYesterdayProfit(ArithUtil.bigToScale2(capital.getYesterdayProfit()));
-        holdCapitalVo.setProfitDateTime(CommonUtil.dateToString(capital.getCreateTime(), CommonUtil.DATE_FORMAT_YYYY_MM_DD_HH_MM));
-        holdCapitalVo.setPrincipal(ArithUtil.bigToScale2(capital.getHoldCapital().subtract(capital.getTotalProfit())));//本金
-
-        return holdCapitalVo;
-    }
 
 
 }

@@ -15,8 +15,7 @@ libraryDependencies ++= Seq(
   javaJdbc,
   javaJpa.exclude("org.hibernate.javax.persistence", "hibernate-jpa-2.0-api"),
   cache,
-  javaWs,
-  "cn.com.nciic" % "sfxxrz" %"1.0"
+  javaWs
 )
 
 sources in (Compile,doc) := Seq.empty

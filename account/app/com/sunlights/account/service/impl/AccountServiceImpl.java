@@ -3,8 +3,7 @@ package com.sunlights.account.service.impl;
 import com.sunlights.account.AccountConstant;
 import com.sunlights.account.dal.BaseAccountDao;
 import com.sunlights.account.dal.impl.BaseAccountDaoImpl;
-import models.BaseAccount;
-import com.sunlights.account.service.CustAccountService;
+import com.sunlights.account.service.AccountService;
 import com.sunlights.common.AppConst;
 import com.sunlights.common.MsgCode;
 import com.sunlights.common.Severity;
@@ -14,24 +13,23 @@ import com.sunlights.common.utils.CommonUtil;
 import com.sunlights.common.utils.DBHelper;
 import com.sunlights.common.utils.MD5Helper;
 import com.sunlights.common.vo.Message;
-import models.Customer;
-import models.CustomerSession;
 import com.sunlights.customer.service.impl.CustomerService;
 import com.sunlights.customer.vo.CustomerFormVo;
+import models.BaseAccount;
+import models.Customer;
+import models.CustomerSession;
 import play.Logger;
-import play.db.jpa.Transactional;
 
 import java.math.BigDecimal;
 import java.sql.Timestamp;
 
-@Transactional
-public class CustAccountServiceImpl implements CustAccountService {
+public class AccountServiceImpl implements AccountService {
 	
 	private BaseAccountDao baseAccountDao = new BaseAccountDaoImpl();
     private CustomerService customerService = new CustomerService();
     private VerifyCodeService verifyCodeService = new VerifyCodeService();
 
-	public boolean registerBaseAccount(String custId, String tradePassword) {
+	public boolean createBaseAccount(String custId, String tradePassword) {
 		BaseAccount baseAccount = new BaseAccount();
 		baseAccount.setCustId(custId);
 		baseAccount.setTradePassword(tradePassword);

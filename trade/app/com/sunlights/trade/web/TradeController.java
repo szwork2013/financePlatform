@@ -5,8 +5,11 @@ import com.sunlights.common.AppConst;
 import com.sunlights.common.MsgCode;
 import com.sunlights.common.utils.MessageUtil;
 import com.sunlights.common.vo.Message;
+import com.sunlights.common.vo.PageVo;
 import com.sunlights.trade.service.TradeService;
 import com.sunlights.trade.service.impl.TradeServiceImpl;
+import com.sunlights.trade.vo.CapitalProductTradeVo;
+import com.sunlights.trade.vo.TradeFormVo;
 import com.sunlights.trade.vo.TradeVo;
 import play.Logger;
 import play.data.Form;
@@ -16,7 +19,6 @@ import play.mvc.Http;
 import play.mvc.Result;
 
 import java.util.List;
-import java.util.Map;
 
 /**
  * <p>Project: fsp</p>
@@ -29,6 +31,7 @@ import java.util.Map;
  */
 @Transactional
 public class TradeController extends Controller{
+    private Form<TradeFormVo> tradeFormVoForm = Form.form(TradeFormVo.class);
 
     private TradeService tradeService = new TradeServiceImpl();
 
@@ -37,14 +40,33 @@ public class TradeController extends Controller{
         Http.Cookie cookie = Controller.request().cookie(AppConst.TOKEN);
         String token = cookie == null ? null : cookie.value();
 
-        Map<String, String> params = Form.form().bindFromRequest().data();
-        String productType = params.get("productType");
+        TradeFormVo tradeFormVo = tradeFormVoForm.bindFromRequest().get();
+        PageVo pageVo = new PageVo();
+        pageVo.setIndex(tradeFormVo.getIndex());
+        pageVo.setPageSize(tradeFormVo.getPageSize());
 
-        List<TradeVo> list = tradeService.getTradeListByToken(token, productType);
+        List<TradeVo> list = tradeService.getTradeListByToken(token, tradeFormVo, pageVo);
+        pageVo.setList(list);
+        pageVo.getFilter().clear();
 
         Message message = new Message(MsgCode.OPERATE_SUCCESS);
-        JsonNode json = MessageUtil.getInstance().msgToJson(message, list);
+        JsonNode json = MessageUtil.getInstance().msgToJson(message, pageVo);
         Logger.info("----------getTradeList end" + json);
+        return ok(json);
+    }
+
+    public Result findCapitalProductDetailTrade(){
+        Logger.info("----------findCapitalProductDetailTrade start ------------");
+        Http.Cookie cookie = Controller.request().cookie(AppConst.TOKEN);
+        String token = cookie == null ? null : cookie.value();
+
+        TradeFormVo tradeFormVo = tradeFormVoForm.bindFromRequest().get();
+
+        CapitalProductTradeVo capitalProductTradeVo = tradeService.findCapitalProductDetailTrade(token, tradeFormVo);
+
+        Message message = new Message(MsgCode.OPERATE_SUCCESS);
+        JsonNode json = MessageUtil.getInstance().msgToJson(message, capitalProductTradeVo);
+        Logger.info("----------findCapitalProductDetailTrade end" + json);
         return ok(json);
     }
 

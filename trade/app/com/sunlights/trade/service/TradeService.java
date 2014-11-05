@@ -1,6 +1,9 @@
 package com.sunlights.trade.service;
 
 import com.sunlights.common.exceptions.BusinessRuntimeException;
+import com.sunlights.common.vo.PageVo;
+import com.sunlights.trade.vo.CapitalProductTradeVo;
+import com.sunlights.trade.vo.TradeFormVo;
 import com.sunlights.trade.vo.TradeVo;
 
 import java.util.List;
@@ -17,10 +20,17 @@ import java.util.List;
 public interface TradeService {
     /**
      * 获取交易记录
-     * @param customerId 客户号
-     * @param productType 产品类型，过滤条件 0全部 1基金
+     * @param token 客户号
+     * @param tradeFormVo
      * @return
      */
-    public List<TradeVo> getTradeListByCustomerId(String customerId, String productType);
-    public List<TradeVo> getTradeListByToken(String token, String productType) throws BusinessRuntimeException;
+    public List<TradeVo> getTradeListByToken(String token, TradeFormVo tradeFormVo,PageVo pageVo) throws BusinessRuntimeException;
+
+    /**
+     * 产品详情及记录
+     * @param token
+     * @param tradeFormVo
+     * @return
+     */
+    public CapitalProductTradeVo findCapitalProductDetailTrade(String token, TradeFormVo tradeFormVo);
 }

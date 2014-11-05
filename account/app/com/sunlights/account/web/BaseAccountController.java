@@ -1,8 +1,8 @@
 package com.sunlights.account.web;
 
 
-import com.sunlights.account.service.CustAccountService;
-import com.sunlights.account.service.impl.CustAccountServiceImpl;
+import com.sunlights.account.service.AccountService;
+import com.sunlights.account.service.impl.AccountServiceImpl;
 import com.sunlights.common.AppConst;
 import com.sunlights.common.MsgCode;
 import com.sunlights.common.service.VerifyCodeService;
@@ -20,8 +20,6 @@ import play.mvc.Controller;
 import play.mvc.Http;
 import play.mvc.Result;
 
-import java.util.Map;
-
 
 /**
  * <p>Project: fsp</p>
@@ -36,22 +34,11 @@ import java.util.Map;
 public class BaseAccountController extends Controller {
     private Form<CustomerFormVo> customerFormVo = Form.form(CustomerFormVo.class);
 
-    private CustAccountService custAccountService = new CustAccountServiceImpl();
+    private AccountService accountService = new AccountServiceImpl();
 
     private CustomerService customerService = new CustomerService();
 
     private VerifyCodeService verifyCodeService = new VerifyCodeService();
-
-    public Result createBaseAccount(){
-        Map<String, String> params = Form.form().bindFromRequest().data();
-
-        String custId = params.get("custId");
-        String tradePassword = params.get("tradePassword");
-        custAccountService.registerBaseAccount(custId, tradePassword);
-
-        MessageVo<CustomerVo> messageVo = new MessageVo<>(new Message(MsgCode.TRAD_PASSWORD_RESET_SUCCESS));
-        return ok(Json.toJson(messageVo));
-    }
 
     /**
      * 验证交易密码设置/修改
@@ -61,7 +48,7 @@ public class BaseAccountController extends Controller {
     public Result resetAccountPwdCertify() {
         Logger.info("=================resetTradePwdCertify==========");
         CustomerFormVo customerFormVo = this.customerFormVo.bindFromRequest().get();
-        custAccountService.resetTradePwdCertify(customerFormVo);
+        accountService.resetTradePwdCertify(customerFormVo);
 
         CustomerVerifyCodeVo customerVerifyCodeVo = new CustomerVerifyCodeVo();
         customerVerifyCodeVo.setMobile(customerFormVo.getMobilePhoneNo());
@@ -86,7 +73,7 @@ public class BaseAccountController extends Controller {
         Logger.info("=========token:" + token);
 
         CustomerFormVo customerFormVo = this.customerFormVo.bindFromRequest().get();
-        custAccountService.resetTradePwd(customerFormVo, token);
+        accountService.resetTradePwd(customerFormVo, token);
 
         CustomerVo customerVo = customerService.getCustomerVoByPhoneNo(customerFormVo.getMobilePhoneNo(), customerFormVo.getDeviceNo());
         MessageVo<CustomerVo> messageVo = new MessageVo<>(new Message(MsgCode.TRAD_PASSWORD_RESET_SUCCESS));
@@ -95,26 +82,6 @@ public class BaseAccountController extends Controller {
         return ok(Json.toJson(messageVo));
     }
 
-    /**
-     * 身份实名认证和设置交易密码
-     *
-     * @return
-     */
-    public Result certifyAndResetTradePwd() {
-        Logger.info("===========certifyAndResetTradePwd start=====");
-        Http.Request request = Controller.request();
-        Http.Cookie cookie = request.cookie(AppConst.TOKEN);
-        String token = cookie == null ? null : cookie.value();
-        Logger.info("=========token:" + token);
-        CustomerFormVo customerFormVo = this.customerFormVo.bindFromRequest().get();
 
-        customerService.certify(customerFormVo, token, request.remoteAddress());//TODO
-        custAccountService.resetTradePwd(customerFormVo, token);
-
-        CustomerVo customerVo = customerService.getCustomerVoByIdCardNo(customerFormVo.getIdCardNo(), customerFormVo.getUserName());
-        MessageVo<CustomerVo> messageVo = new MessageVo<>(new Message(MsgCode.OPERATE_SUCCESS));
-        messageVo.setValue(customerVo);
-        return ok(Json.toJson(messageVo));
-    }
 
 }

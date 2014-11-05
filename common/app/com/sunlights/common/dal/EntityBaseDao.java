@@ -36,6 +36,7 @@ import java.util.regex.Pattern;
  * @author <a href="mailto:zhencai.yuan@sunlights.cc">yuanzhencai</a>
  */
 public class EntityBaseDao {
+
     protected EntityManager em = JPA.em();
 
     public EntityBaseDao() {

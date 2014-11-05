@@ -6,6 +6,7 @@ import models.Customer;
 import models.CustomerGesture;
 import models.CustomerSession;
 import com.sunlights.customer.vo.CustomerInfoVo;
+import play.Logger;
 
 import javax.persistence.Query;
 import java.sql.Timestamp;
@@ -83,17 +84,17 @@ public class CustomerDaoImpl extends EntityBaseDao implements CustomerDao {
 
     public CustomerInfoVo getCustomerInfoVoByIdCardNo(String idCardNo, String userName){
         String sql = " select c.mobile,c.real_name,c.nick_name,c.email,c.identity_number," +
-                "  '0' as gestureOpened," +
-                "   case when c.identity_typer = 'I' and c.identity_number is not null THEN '1' ELSE '0' END as certify," +
+                " 0 || '' as gestureOpened," +
+                " case when c.identity_typer = 'I' and c.identity_number is not null THEN '1' ELSE '0' END as certify," +
                 " case when a.trade_password is null THEN '0' ELSE '1' END as tradePwdFlag," +
                 " (select count(1) from c_bank_card bc where bc.customer_id = c.customer_id) as bankCardCount, " +
                 "  c.customer_id" +
                 "   from    c_customer c,f_basic_account a" +
-                "   where   c.customer_id = a.cust_id" +
-                "   and     c.real_name = :userName" +
+                "   where   c.real_name = :userName" +
                 "   and     c.identity_typer = 'I'" +
                 "   and     c.identity_number = :idCardNo";
 
+        Logger.info(sql);
         Query query = em.createNativeQuery(sql);
         query.setParameter("idCardNo", idCardNo);
         query.setParameter("userName", userName);

@@ -1,8 +1,5 @@
 POST        /login                   @com.sunlights.customer.web.CustomerController.login
-POST        /verificationcode        @com.sunlights.customer.web.CustomerController.genVerificationCode
-POST        /certify                 @com.sunlights.customer.web.CustomerController.certify
 POST        /loginbyges              @com.sunlights.customer.web.CustomerController.loginByges
-POST        /register                @com.sunlights.customer.web.CustomerController.register
 POST        /resetpwdcertify         @com.sunlights.customer.web.CustomerController.resetpwdCertify
 POST        /resetpwd                @com.sunlights.customer.web.CustomerController.resetpwd
 POST        /confirmpwd              @com.sunlights.customer.web.CustomerController.confirmPwd

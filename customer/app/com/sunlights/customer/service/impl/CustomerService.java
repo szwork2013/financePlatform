@@ -6,15 +6,12 @@ import com.sunlights.common.service.ParameterService;
 import com.sunlights.common.utils.CommonUtil;
 import com.sunlights.common.utils.DBHelper;
 import com.sunlights.common.utils.MD5Helper;
-import com.sunlights.common.utils.MessageUtil;
-import com.sunlights.common.vo.Message;
 import com.sunlights.customer.dal.CustomerDao;
 import com.sunlights.customer.dal.impl.CustomerDaoImpl;
-import models.Customer;
-import models.CustomerSession;
-import com.sunlights.customer.vo.CustomerFormVo;
 import com.sunlights.customer.vo.CustomerInfoVo;
 import com.sunlights.customer.vo.CustomerVo;
+import models.Customer;
+import models.CustomerSession;
 import play.Logger;
 import play.cache.Cache;
 import play.mvc.Http;
@@ -35,11 +32,7 @@ import java.text.SimpleDateFormat;
 public class CustomerService {
 
     private CustomerDao customerDao = new CustomerDaoImpl();
-
     private ParameterService parameterService = new ParameterService();
-
-
-    private IdentityService identityService = new IdentityService();
 
     public CustomerInfoVo getCustomerInfoVoByPhoneNo(String mobilePhoneNo, String deviceNo) {
         return customerDao.getCustomerInfoVoByPhoneNo(mobilePhoneNo, deviceNo);
@@ -197,92 +190,5 @@ public class CustomerService {
         return customerId;
     }
 
-    /**
-     * 实名认证
-     * @param vo
-     * @param token
-     * @return
-     */
-    public CustomerSession certify(CustomerFormVo vo, String token, String remoteAddress) {
-        String mobilePhoneNo = vo.getMobilePhoneNo();
-        String userName = vo.getUserName();
-        String idCardNo = vo.getIdCardNo();
-        String deviceNo = vo.getDeviceNo();
 
-        Logger.info("==userName:" + userName);
-        Logger.info("==idCardNo:" + idCardNo);
-        Logger.info("==token:" + token);
-
-        Customer customer = null;
-        CustomerSession customerSession = getCustomerSession(token);
-        if (customerSession != null) {//若为登录后再实名认证
-            customer = getCustomerByCustomerId(customerSession.getCustomerId());
-            if (mobilePhoneNo == null || "".equals(mobilePhoneNo.trim())) {//做过实名认证，取消后续动作重新进入，token还有效的，
-                // 根据token查询当前客户操作到哪步
-                CustomerVo customerVo = getCustomerVoByIdCardNo(customer.getIdentityNumber(), customer.getRealName());
-                MessageUtil.getInstance().setMessage(new Message(MsgCode.OPERATE_SUCCESS), customerVo);
-            }else{//注册后，登录后，再做实名认证的
-                CommonUtil.getInstance().validateParams(userName, idCardNo, deviceNo);
-                identityService.identity(idCardNo, userName);  //真正调用实名认证
-
-                customer.setRealName(userName);
-                customer.setIdentityTyper(AppConst.ID_CARD);
-                customer.setIdentityNumber(idCardNo);
-                customer.setUpdatedDatetime(DBHelper.getCurrentTime());
-                updateCustomer(customer);
-
-                MessageUtil.getInstance().setMessage(new Message(MsgCode.CERTIFY_SUCCESS),
-                        getCustomerVoByPhoneNo(mobilePhoneNo, deviceNo));
-            }
-        }else{//未登录首次申购做实名认证
-            CommonUtil.getInstance().validateParams(userName, idCardNo);
-            //判断是否已做过实名认证
-
-            CustomerInfoVo customerInfoVo = getCustomerInfoVoByIdCardNo(idCardNo, userName);
-
-            if (customerInfoVo != null && AppConst.VALID_CERTIFY.equals(customerInfoVo.getCertify())) {
-                MessageUtil.getInstance().setMessage(new Message(MsgCode.OPERATE_SUCCESS), customerInfoVo.getCustomerVo());
-                customer = getCustomerByCustomerId(customerInfoVo.getCustomerId());
-            }else{
-                identityService.identity(idCardNo, userName);//真正调用实名认证
-                customer = saveCustomer(mobilePhoneNo, userName, idCardNo, deviceNo);
-
-                CustomerVo customerVo = null;
-                if (customerInfoVo != null) {
-                    customerVo = customerInfoVo.getCustomerVo();
-                }
-                if (customerVo == null) {
-                    customerVo = new CustomerVo();
-                }
-                customerVo.setCertify("1");
-                customerVo.setIdCardNo(idCardNo.substring(0, 6) + "******" + idCardNo.substring(14));
-                customerVo.setUserName("*" + userName.substring(1));
-                MessageUtil.getInstance().setMessage(new Message(MsgCode.CERTIFY_SUCCESS), customerVo);
-            }
-
-            customerSession = createCustomerSession(customer, remoteAddress);
-        }
-
-        return customerSession;
-    }
-
-    private Customer saveCustomer(String mobilePhoneNo, String realName,String idCardNo, String deviceNo){
-        Timestamp currentTime = DBHelper.getCurrentTime();
-        Customer customer = new Customer();
-        customer.setLoginId(mobilePhoneNo);
-        customer.setMobile(mobilePhoneNo);
-        customer.setRealName(realName);
-        customer.setIdentityTyper(AppConst.ID_CARD);
-        customer.setIdentityNumber(idCardNo);
-        customer.setRegChannel(AppConst.REGISTER_CHANNEL_MOBILE);
-        customer.setRegWay(AppConst.REGISTER_CHANNEL_MOBILE);
-        customer.setCustomerType(AppConst.CUSTOMER_TYPE_PERSON);
-        customer.setProperty(AppConst.CUSTOMER_BUYER);
-        customer.setDeviceNo(deviceNo);
-        customer.setStatus(AppConst.CUSTOMER_STATUS_NORMAL);
-        customer.setCreatedDatetime(currentTime);
-        customer.setUpdatedDatetime(currentTime);
-        saveCustomer(customer);
-        return customer;
-    }
 }

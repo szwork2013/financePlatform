@@ -10,7 +10,7 @@ import java.math.BigDecimal;
  * @author tangweiqun 2014/10/23
  *
  */
-public interface CustAccountService {
+public interface AccountService {
 	/**
 	 * 客户注册基本账户
 	 * 
@@ -18,7 +18,7 @@ public interface CustAccountService {
 	 * @param tradePassword	交易密码
 	 * @return	true 表示注册成功    false表示注册失败
 	 */
-	public boolean registerBaseAccount(String custId, String tradePassword);
+	public boolean createBaseAccount(String custId, String tradePassword);
 
 
 	

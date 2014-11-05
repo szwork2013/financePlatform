@@ -18,6 +18,7 @@ object FinancePlatformBuild extends Build {
 
   lazy val core = Project(id="core", base= file("core"))
     .settings(scalaVersion := compileVersion)
+    .dependsOn(account)
     .dependsOn(customer)
     .dependsOn(common).enablePlugins(PlayJava)
 

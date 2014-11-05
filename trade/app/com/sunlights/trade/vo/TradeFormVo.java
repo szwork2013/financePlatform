@@ -1,24 +1,23 @@
-package com.sunlights.account.vo;
+package com.sunlights.trade.vo;
 
 import java.io.Serializable;
 
 /**
- * <p>Project: fsp</p>
- * <p>Title: CapitalFormVo.java</p>
+ * <p>Project: financeplatform</p>
+ * <p>Title: TradeFormVo.java</p>
  * <p>Description: </p>
  * <p>Copyright (c) 2014 Sunlights.cc</p>
  * <p>All Rights Reserved.</p>
  *
  * @author <a href="mailto:jiaming.wang@sunlights.cc">wangJiaMing</a>
  */
-public class CapitalFormVo implements Serializable{
+public class TradeFormVo implements Serializable{
     private int index = 0;
     private int pageSize = 0;
     private int count = 0;
-    private String mobile;
-    private String prdCode;
-    private String id;
 
+    private String prdCode;
+    private String prdType;
 
     public int getIndex() {
         return index;
@@ -36,6 +35,14 @@ public class CapitalFormVo implements Serializable{
         this.pageSize = pageSize;
     }
 
+    public int getCount() {
+        return count;
+    }
+
+    public void setCount(int count) {
+        this.count = count;
+    }
+
     public String getPrdCode() {
         return prdCode;
     }
@@ -44,19 +51,11 @@ public class CapitalFormVo implements Serializable{
         this.prdCode = prdCode;
     }
 
-    public String getMobile() {
-        return mobile;
+    public String getPrdType() {
+        return prdType;
     }
 
-    public void setMobile(String mobile) {
-        this.mobile = mobile;
-    }
-
-    public String getId() {
-        return id;
-    }
-
-    public void setId(String id) {
-        this.id = id;
+    public void setPrdType(String prdType) {
+        this.prdType = prdType;
     }
 }

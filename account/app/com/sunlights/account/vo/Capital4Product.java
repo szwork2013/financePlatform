@@ -14,6 +14,9 @@ public class Capital4Product implements Serializable {
 	private String totalProfit = AccountConstant.DEFAULT_MONEY;
 	
 	private String marketValue = AccountConstant.DEFAULT_MONEY;
+
+    private String prdType;
+    private String prdTypeDesc;
     
 
     public Capital4Product(){
@@ -53,4 +56,19 @@ public class Capital4Product implements Serializable {
 		this.marketValue = marketValue;
 	}
 
+    public String getPrdTypeDesc() {
+        return prdTypeDesc;
+    }
+
+    public void setPrdTypeDesc(String prdTypeDesc) {
+        this.prdTypeDesc = prdTypeDesc;
+    }
+
+    public String getPrdType() {
+        return prdType;
+    }
+
+    public void setPrdType(String prdType) {
+        this.prdType = prdType;
+    }
 }

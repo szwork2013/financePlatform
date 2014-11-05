@@ -12,24 +12,32 @@ import java.io.Serializable;
  * @author <a href="mailto:jiaming.wang@sunlights.cc">wangJiaMing</a>
  */
 public class TradeVo implements Serializable{
-    private String productName;//产品名称
+    private String prdCode;
+    private String prdName;//产品名称
     private String tradeAmount;//交易金额
     private String tradeTime;//交易时间
-    private String tradeTypeDesc;//交易类型   1:申购 2:赎回 3:分红
-    private String tradeStatusDesc;//交易状态
+    private String tradeNo;
+    private String tradeStatus;//1：中、2：成功、3：失败【失败原因】
+    private String tradeType;//1:申购 2:赎回 3:分红
 
-//    private String tradeNo;//交易单号
-//    private String paymentTypeDesc;//付款方式及金额
 
     public TradeVo() {
     }
 
-    public String getProductName() {
-        return productName;
+    public String getPrdCode() {
+        return prdCode;
     }
 
-    public void setProductName(String productName) {
-        this.productName = productName;
+    public void setPrdCode(String prdCode) {
+        this.prdCode = prdCode;
+    }
+
+    public String getPrdName() {
+        return prdName;
+    }
+
+    public void setPrdName(String prdName) {
+        this.prdName = prdName;
     }
 
     public String getTradeAmount() {
@@ -48,19 +56,27 @@ public class TradeVo implements Serializable{
         this.tradeTime = tradeTime;
     }
 
-    public String getTradeTypeDesc() {
-        return tradeTypeDesc;
+    public String getTradeNo() {
+        return tradeNo;
     }
 
-    public void setTradeTypeDesc(String tradeTypeDesc) {
-        this.tradeTypeDesc = tradeTypeDesc;
+    public void setTradeNo(String tradeNo) {
+        this.tradeNo = tradeNo;
     }
 
-    public String getTradeStatusDesc() {
-        return tradeStatusDesc;
+    public String getTradeStatus() {
+        return tradeStatus;
     }
 
-    public void setTradeStatusDesc(String tradeStatusDesc) {
-        this.tradeStatusDesc = tradeStatusDesc;
+    public void setTradeStatus(String tradeStatus) {
+        this.tradeStatus = tradeStatus;
+    }
+
+    public String getTradeType() {
+        return tradeType;
+    }
+
+    public void setTradeType(String tradeType) {
+        this.tradeType = tradeType;
     }
 }

@@ -1,5 +1,7 @@
 package com.sunlights.account.vo;
 
+import com.sunlights.account.AccountConstant;
+
 import java.io.Serializable;
 
 /**
@@ -12,14 +14,19 @@ import java.io.Serializable;
  * @author <a href="mailto:jiaming.wang@sunlights.cc">wangJiaMing</a>
  */
 public class HoldCapitalVo implements Serializable{
-    private String id;
     private String prdCode;
     private String prdName;
-    private String totalProfit;
-    private String yesterdayProfit;
-    private String profitDateTime;
-    private String profitRate;
-    private String principal;//本金
+    private String marketValue = AccountConstant.DEFAULT_MONEY;
+    private String totalProfit = AccountConstant.DEFAULT_MONEY;
+    private String bankCardNo = "0000";//TODO
+    private String millionOfProfit;//万份收益
+    private String oneWeekProfit;//七日年化
+    private String holdQuotient = "0";//持有份额//TODO
+    private String availableQuotient = "0";//可用份额 //TODO
+    private String profitLatestTime;
+
+    public HoldCapitalVo() {
+    }
 
     public String getPrdCode() {
         return prdCode;
@@ -37,6 +44,14 @@ public class HoldCapitalVo implements Serializable{
         this.prdName = prdName;
     }
 
+    public String getMarketValue() {
+        return marketValue;
+    }
+
+    public void setMarketValue(String marketValue) {
+        this.marketValue = marketValue;
+    }
+
     public String getTotalProfit() {
         return totalProfit;
     }
@@ -45,43 +60,51 @@ public class HoldCapitalVo implements Serializable{
         this.totalProfit = totalProfit;
     }
 
-    public String getYesterdayProfit() {
-        return yesterdayProfit;
+    public String getBankCardNo() {
+        return bankCardNo;
     }
 
-    public void setYesterdayProfit(String yesterdayProfit) {
-        this.yesterdayProfit = yesterdayProfit;
+    public void setBankCardNo(String bankCardNo) {
+        this.bankCardNo = bankCardNo;
     }
 
-    public String getProfitDateTime() {
-        return profitDateTime;
+    public String getMillionOfProfit() {
+        return millionOfProfit;
     }
 
-    public void setProfitDateTime(String profitDateTime) {
-        this.profitDateTime = profitDateTime;
+    public void setMillionOfProfit(String millionOfProfit) {
+        this.millionOfProfit = millionOfProfit;
     }
 
-    public String getProfitRate() {
-        return profitRate;
+    public String getOneWeekProfit() {
+        return oneWeekProfit;
     }
 
-    public void setProfitRate(String profitRate) {
-        this.profitRate = profitRate;
+    public void setOneWeekProfit(String oneWeekProfit) {
+        this.oneWeekProfit = oneWeekProfit;
     }
 
-    public String getPrincipal() {
-        return principal;
+    public String getHoldQuotient() {
+        return holdQuotient;
     }
 
-    public void setPrincipal(String principal) {
-        this.principal = principal;
+    public void setHoldQuotient(String holdQuotient) {
+        this.holdQuotient = holdQuotient;
     }
 
-    public String getId() {
-        return id;
+    public String getAvailableQuotient() {
+        return availableQuotient;
     }
 
-    public void setId(String id) {
-        this.id = id;
+    public void setAvailableQuotient(String availableQuotient) {
+        this.availableQuotient = availableQuotient;
+    }
+
+    public String getProfitLatestTime() {
+        return profitLatestTime;
+    }
+
+    public void setProfitLatestTime(String profitLatestTime) {
+        this.profitLatestTime = profitLatestTime;
     }
 }

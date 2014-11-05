@@ -11,8 +11,7 @@ import com.sunlights.common.MsgCode;
 import com.sunlights.common.utils.MessageUtil;
 import com.sunlights.common.vo.Message;
 import com.sunlights.common.vo.PageVo;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import play.Logger;
 import play.data.Form;
 import play.db.jpa.Transactional;
 import play.mvc.Controller;
@@ -29,8 +28,7 @@ import java.util.List;
  */
 @Transactional
 public class CapitalController extends Controller{
-	
-	private static Logger logger = LoggerFactory.getLogger(CapitalController.class);
+	private Form<CapitalFormVo> capitalFormVoForm = Form.form(CapitalFormVo.class);
 	
 	private CapitalService capitalService = new CapitalServiceImpl();
 	
@@ -44,7 +42,7 @@ public class CapitalController extends Controller{
 		String mobile = form.data().get("mobile");
 		System.out.println("mobile = " + mobile);
 		
-		logger.info("mobile = === " + mobile);
+		Logger.info("mobile = === " + mobile);
 		TotalCapitalInfo totalCapitalInfo = capitalService.getTotalCapital(mobile, false);
 		MessageUtil.getInstance().setMessage(new Message(MsgCode.OPERATE_SUCCESS), totalCapitalInfo);
 		return ok(MessageUtil.getInstance().toJson());
@@ -58,10 +56,15 @@ public class CapitalController extends Controller{
 		Form<String> form = Form.form(String.class).bindFromRequest();
 		String mobile = form.data().get("mobile");
 		System.out.println("mobile = " + mobile);
-		
-		List<Capital4Product> capital4Products = capitalService.getAllCapital4Product(mobile);
+        CapitalFormVo capitalFormVo = capitalFormVoForm.bindFromRequest().get();
+        PageVo pageVo = new PageVo();
+        pageVo.setIndex(capitalFormVo.getIndex());
+        pageVo.setPageSize(capitalFormVo.getPageSize());
 
-        MessageUtil.getInstance().setMessage(new Message(MsgCode.OPERATE_SUCCESS), capital4Products);
+		List<Capital4Product> capital4Products = capitalService.getAllCapital4Product(mobile, pageVo);
+        pageVo.setList(capital4Products);
+
+        MessageUtil.getInstance().setMessage(new Message(MsgCode.OPERATE_SUCCESS), pageVo);
         return ok(MessageUtil.getInstance().toJson());
 	}
 	
@@ -103,18 +106,4 @@ public class CapitalController extends Controller{
         return ok(json);
     }
 
-    /**
-     * 累计收益明细查询
-     * @return
-     */
-    public Result findTotalProfitDetail(){
-        Form<CapitalFormVo> form = Form.form(CapitalFormVo.class).bindFromRequest();
-        CapitalFormVo capitalFormVo = form.get();
-
-        HoldCapitalVo holdCapitalVo = capitalService.findTotalProfitDetail(capitalFormVo.getId());
-
-        Message message = new Message(MsgCode.OPERATE_SUCCESS);
-        JsonNode json = MessageUtil.getInstance().msgToJson(message, holdCapitalVo);
-        return ok(json);
-    }
 }

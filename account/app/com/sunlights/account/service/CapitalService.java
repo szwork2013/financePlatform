@@ -4,6 +4,7 @@ import com.sunlights.account.vo.Capital4Product;
 import com.sunlights.account.vo.CapitalFormVo;
 import com.sunlights.account.vo.HoldCapitalVo;
 import com.sunlights.account.vo.TotalCapitalInfo;
+import com.sunlights.common.vo.PageVo;
 
 import java.util.List;
 
@@ -26,8 +27,14 @@ public interface CapitalService {
      * @param mobile
      * @return
      */
-	public List<Capital4Product> getAllCapital4Product(String mobile);
-
+	public List<Capital4Product> getAllCapital4Product(String mobile, PageVo pageVo);
+    /**
+     * 产品详情
+     * @param prdType
+     * @param prdCode
+     * @return
+     */
+    public HoldCapitalVo findCapitalProductDetail(String prdType, String prdCode);
 
     /**
      * 累计收益查询
@@ -35,11 +42,5 @@ public interface CapitalService {
      */
     public List<HoldCapitalVo> findTotalProfitList(CapitalFormVo capitalFormVo);
 
-    /**
-     * 累计收益明细
-     * @param  id  HoldCapital
-     * @return
-     */
-    public HoldCapitalVo findTotalProfitDetail(String id);
-	
+
 }

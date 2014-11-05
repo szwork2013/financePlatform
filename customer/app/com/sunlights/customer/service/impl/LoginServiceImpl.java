@@ -3,24 +3,23 @@ package com.sunlights.customer.service.impl;
 import com.sunlights.common.AppConst;
 import com.sunlights.common.MsgCode;
 import com.sunlights.common.Severity;
+import com.sunlights.common.exceptions.BusinessRuntimeException;
 import com.sunlights.common.service.ParameterService;
 import com.sunlights.common.service.VerifyCodeService;
-import com.sunlights.common.exceptions.BusinessRuntimeException;
 import com.sunlights.common.utils.*;
-import com.sunlights.common.vo.Message;
 import com.sunlights.common.vo.CustomerVerifyCodeVo;
-import com.sunlights.common.vo.MessageVo;
+import com.sunlights.common.vo.Message;
 import com.sunlights.customer.dal.CustomerDao;
 import com.sunlights.customer.dal.LoginDao;
 import com.sunlights.customer.dal.impl.CustomerDaoImpl;
 import com.sunlights.customer.dal.impl.LoginDaoImpl;
+import com.sunlights.customer.service.LoginService;
+import com.sunlights.customer.vo.CustomerFormVo;
+import com.sunlights.customer.vo.CustomerVo;
 import models.Customer;
 import models.CustomerGesture;
 import models.CustomerSession;
 import models.LoginHistory;
-import com.sunlights.customer.service.LoginService;
-import com.sunlights.customer.vo.CustomerFormVo;
-import com.sunlights.customer.vo.CustomerVo;
 import play.Logger;
 
 import java.math.BigDecimal;
@@ -164,21 +163,7 @@ public class LoginServiceImpl implements LoginService {
             MessageUtil.getInstance().setMessage(message);
         }
 
-        Timestamp currentTime = DBHelper.getCurrentTime();
-		Customer customer = new Customer();
-        customer.setLoginId(mobilePhoneNo);
-		customer.setNickName(nickName);
-		customer.setMobile(mobilePhoneNo);
-		customer.setLoginPassWord(new MD5Helper().encrypt(passWord));
-        customer.setRegChannel(AppConst.REGISTER_CHANNEL_MOBILE);
-        customer.setRegWay(AppConst.REGISTER_CHANNEL_MOBILE);
-        customer.setCustomerType(AppConst.CUSTOMER_TYPE_PERSON);
-        customer.setProperty(AppConst.CUSTOMER_BUYER);
-        customer.setDeviceNo(deviceNo);
-        customer.setStatus(AppConst.CUSTOMER_STATUS_NORMAL);
-		customer.setCreatedDatetime(currentTime);
-		customer.setUpdatedDatetime(currentTime);
-        customerService.saveCustomer(customer);
+        Customer customer = saveCustomer(mobilePhoneNo, passWord, nickName, deviceNo);
 
         saveLoginHistory(customer, deviceNo);
 
@@ -188,8 +173,27 @@ public class LoginServiceImpl implements LoginService {
 
         return customer;
 	}
-	
-	/**
+
+    private Customer saveCustomer(String mobilePhoneNo, String passWord, String nickName, String deviceNo) {
+        Timestamp currentTime = DBHelper.getCurrentTime();
+        Customer customer = new Customer();
+        customer.setLoginId(mobilePhoneNo);
+        customer.setNickName(nickName);
+        customer.setMobile(mobilePhoneNo);
+        customer.setLoginPassWord(new MD5Helper().encrypt(passWord));
+        customer.setRegChannel(AppConst.REGISTER_CHANNEL_MOBILE);
+        customer.setRegWay(AppConst.REGISTER_CHANNEL_MOBILE);
+        customer.setCustomerType(AppConst.CUSTOMER_TYPE_PERSON);
+        customer.setProperty(AppConst.CUSTOMER_BUYER);
+        customer.setDeviceNo(deviceNo);
+        customer.setStatus(AppConst.CUSTOMER_STATUS_NORMAL);
+        customer.setCreatedDatetime(currentTime);
+        customer.setUpdatedDatetime(currentTime);
+        customerService.saveCustomer(customer);
+        return customer;
+    }
+
+    /**
 	 * 忘记密码验证码校对
 	 * 
 	 * @return
@@ -240,8 +244,8 @@ public class LoginServiceImpl implements LoginService {
 
         Message message = new Message(MsgCode.PASSWORD_CHANGE_SUCCESS);
         CustomerVo customerVoByPhoneNo = customerService.getCustomerVoByPhoneNo(mobilePhoneNo, deviceNo);
-        MessageVo<CustomerVo> messageVo = new MessageVo<>(message);
-        messageVo.setValue(customerVoByPhoneNo);
+        MessageUtil.getInstance().setMessage(message, customerVoByPhoneNo);
+
         return customer;
 	}
     /**

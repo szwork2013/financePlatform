@@ -4,11 +4,12 @@ import com.sunlights.common.AppConst;
 import com.sunlights.common.MsgCode;
 import com.sunlights.common.dal.CustomerVerifyCodeDao;
 import com.sunlights.common.dal.impl.CustomerVerifyCodeDaoImpl;
-import models.CustomerVerifyCode;
 import com.sunlights.common.utils.CommonUtil;
 import com.sunlights.common.utils.DBHelper;
 import com.sunlights.common.vo.CustomerVerifyCodeVo;
+import models.CustomerVerifyCode;
 import play.Logger;
+import play.db.jpa.Transactional;
 
 import java.sql.Timestamp;
 import java.util.Random;
@@ -24,6 +25,7 @@ public class VerifyCodeService {
      * <P>Description: 获取验证码</p>
      * @return
      */
+    @Transactional
     public String genVerificationCode(String mobilePhoneNo, String type, String deviceNo) {
         CommonUtil.getInstance().validateParams(mobilePhoneNo, type);
         checkValidVerifyCode(type);

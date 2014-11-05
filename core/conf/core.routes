@@ -19,6 +19,14 @@ POST        /bank/bankcard/validate          @com.sunlights.core.web.BankControl
 #agree
 POST        /agreement/findlinkbycode        @com.sunlights.core.web.AgreementController.findAgreementVoByAgreementNo
 
+#
+POST        /register                        @com.sunlights.core.web.RegisterController.register
+#security
+POST        /verificationcode                @com.sunlights.core.web.SecurityController.genVerificationCode
+POST        /certify                         @com.sunlights.core.web.SecurityController.certify
+POST        /certifytradepwd                 @com.sunlights.core.web.SecurityController.certifyAndResetTradePwd
+
 
 # Map static resources from the /public folder to the /assets URL path
 GET         /assets/*file                    controllers.Assets.at(path="/public", file)
+

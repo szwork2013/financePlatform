@@ -24,6 +24,9 @@ public class TotalCapitalInfo implements Serializable {
 	
 	private List<Capital4Product> capital4Products;
 
+    private String count;//产品条数
+
+
 	public String getYesterdayProfit() {
 		return yesterdayProfit;
 	}
@@ -60,7 +63,15 @@ public class TotalCapitalInfo implements Serializable {
 		return capital4Products;
 	}
 
-	public void setCapital4Products(List<Capital4Product> capital4Products) {
+    public String getCount() {
+        return count;
+    }
+
+    public void setCount(String count) {
+        this.count = count;
+    }
+
+    public void setCapital4Products(List<Capital4Product> capital4Products) {
 		this.capital4Products = capital4Products;
 	}
 }
