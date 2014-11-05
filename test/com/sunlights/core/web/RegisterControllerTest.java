@@ -8,14 +8,18 @@ import play.Logger;
 import play.db.jpa.JPA;
 import play.libs.F;
 import play.test.FakeRequest;
+import web.TestUtil;
 
 import javax.persistence.Query;
 import java.util.HashMap;
 import java.util.Map;
 
+import static web.TestUtil.*;
+
 import static org.fest.assertions.Assertions.assertThat;
 import static play.test.Helpers.*;
 
+//TODO: 测试完后需要clean up数据
 public class RegisterControllerTest extends BaseTest {
 
     @Test
@@ -32,8 +36,9 @@ public class RegisterControllerTest extends BaseTest {
                 formParams.put("type", type);
                 formParams.put("passWord", "1");
 
-                FakeRequest formRequest = fakeRequest(POST, "/core/verificationcode").withHeader("Content-Type", "application/x-www-form-urlencoded").withFormUrlEncodedBody(formParams);
+                FakeRequest formRequest = fakeRequest(POST, "/core/verificationcode").withHeader(CONTENT_TYPE, APPLICATION_X_WWW_FORM_URLENCODED).withFormUrlEncodedBody(formParams);
                 play.mvc.Result result = route(formRequest);
+
                 assertThat(status(result)).isEqualTo(OK);
                 MessageVo message = toMessageVo(result);
                 assertThat(message.getMessage().getCode()).isEqualTo("0000");
@@ -50,14 +55,17 @@ public class RegisterControllerTest extends BaseTest {
                     }
                 });
 
-                formRequest = fakeRequest(POST, "/core/register").withHeader("Content-Type", "application/x-www-form-urlencoded").withFormUrlEncodedBody(formParams);
+                formRequest = fakeRequest(POST, "/core/register").withHeader(CONTENT_TYPE, APPLICATION_X_WWW_FORM_URLENCODED).withFormUrlEncodedBody(formParams);
                 result = route(formRequest);
                 Logger.info(result.toString());
                 assertThat(status(result)).isEqualTo(OK);
+
                 message = toMessageVo(result);
                 assertThat(message.getMessage().getCode()).isEqualTo("0100");
                 assertThat(message.getMessage().getSummary()).isEqualTo("注册成功");
             }
         });
     }
+
+
 }
