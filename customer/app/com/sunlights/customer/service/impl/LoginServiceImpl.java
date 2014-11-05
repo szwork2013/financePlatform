@@ -161,15 +161,12 @@ public class LoginServiceImpl implements LoginService {
         if(msgCode != MsgCode.OPERATE_SUCCESS){
             Message message = new Message(msgCode);
             MessageUtil.getInstance().setMessage(message);
+            return null;
         }
 
         Customer customer = saveCustomer(mobilePhoneNo, passWord, nickName, deviceNo);
 
         saveLoginHistory(customer, deviceNo);
-
-        Message message = new Message(MsgCode.REGISTRY_SUCCESS);
-        CustomerVo customerVo = customerService.getCustomerVoByPhoneNo(customer.getMobile(), deviceNo);
-        MessageUtil.getInstance().setMessage(message, customerVo);
 
         return customer;
 	}

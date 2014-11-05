@@ -87,8 +87,11 @@ public class VerifyCodeService {
      */
     public MsgCode validateVerifyCode(CustomerVerifyCodeVo customerVerifyCodeVo){
         CustomerVerifyCode customerVerifyCode = customerVerifyCodeDao.findVerifyCodeByType(customerVerifyCodeVo.getMobile(), customerVerifyCodeVo.getVerifyType());
-        if (customerVerifyCode == null || !customerVerifyCode.getVerifyCode().equals(customerVerifyCodeVo.getVerifyCode())) {
+        if (customerVerifyCode == null) {
             return MsgCode.CERTIFY_NONE;
+        }
+        if (!customerVerifyCode.getVerifyCode().equals(customerVerifyCodeVo.getVerifyCode())){
+            return MsgCode.CERTIFY_ERROR;
         }
 
         Timestamp currentTime = DBHelper.getCurrentTime();
