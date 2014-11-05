@@ -1,4 +1,4 @@
-package web;
+package com.sunlights.core.web;
 
 import com.sunlights.common.AppConst;
 import com.sunlights.common.MsgCode;
@@ -17,6 +17,7 @@ import play.libs.Json;
 import play.mvc.Http;
 import play.test.FakeApplication;
 import play.test.FakeRequest;
+import web.TestUtil;
 
 import java.util.HashMap;
 import java.util.List;

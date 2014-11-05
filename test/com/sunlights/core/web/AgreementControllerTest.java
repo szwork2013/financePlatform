@@ -1,4 +1,4 @@
-package web;
+package com.sunlights.core.web;
 
 import com.sunlights.core.vo.AgreementVo;
 import org.junit.Test;
@@ -6,6 +6,7 @@ import play.Logger;
 import play.data.Form;
 import play.libs.Json;
 import play.test.FakeRequest;
+import web.TestUtil;
 
 import java.util.Map;
 
