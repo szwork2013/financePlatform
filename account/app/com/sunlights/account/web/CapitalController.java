@@ -64,8 +64,8 @@ public class CapitalController extends Controller{
 		List<Capital4Product> capital4Products = capitalService.getAllCapital4Product(mobile, pageVo);
         pageVo.setList(capital4Products);
 
-    MessageUtil.getInstance().setMessage(new Message(MsgCode.OPERATE_SUCCESS), pageVo);
-    return ok(MessageUtil.getInstance().toJson());
+        MessageUtil.getInstance().setMessage(new Message(MsgCode.OPERATE_SUCCESS), capital4Products);
+        return ok(MessageUtil.getInstance().toJson());
 }
 
     /**

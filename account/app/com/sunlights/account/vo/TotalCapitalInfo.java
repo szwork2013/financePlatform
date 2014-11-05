@@ -1,5 +1,6 @@
 package com.sunlights.account.vo;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.sunlights.account.AccountConstant;
 
 import java.io.Serializable;
@@ -21,7 +22,8 @@ public class TotalCapitalInfo implements Serializable {
 	private String rewardProfit = AccountConstant.DEFAULT_MONEY;
 	
 	private String totalCapital = AccountConstant.DEFAULT_MONEY;
-	
+
+    @JsonIgnore
 	private List<Capital4Product> capital4Products;
 
 
