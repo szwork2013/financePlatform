@@ -18,6 +18,7 @@ import play.db.jpa.JPA;
 import play.db.jpa.Transactional;
 import play.libs.Json;
 import play.test.FakeRequest;
+import web.TestUtil;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -84,7 +85,7 @@ public class ProductControllerTest {
                 Map<String, String> paramMap = parameterForm.bind(Json.toJson(parameter)).data();
                 Logger.info("[paramMap]" + paramMap);
 
-                FakeRequest formProductsRequest = productsRequest.withHeader("Content-Type", "application/x-www-form-urlencoded").withFormUrlEncodedBody(paramMap);
+                FakeRequest formProductsRequest = productsRequest.withHeader(CONTENT_TYPE, TestUtil.APPLICATION_X_WWW_FORM_URLENCODED).withFormUrlEncodedBody(paramMap);
                 play.mvc.Result result = route(formProductsRequest);
 
                 String contentAsString = contentAsString(result);

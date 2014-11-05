@@ -15,8 +15,7 @@ WITH (
   OIDS=FALSE
 );
 
-COMMENT ON TABLE f_basic_account
-  IS '基本账户';
+COMMENT ON TABLE f_basic_account IS '基本账户';
 COMMENT ON COLUMN f_basic_account.id IS '基本账户Id';
 COMMENT ON COLUMN f_basic_account.account_no IS '基本账户号';
 COMMENT ON COLUMN f_basic_account.status IS 'N表示正常';
