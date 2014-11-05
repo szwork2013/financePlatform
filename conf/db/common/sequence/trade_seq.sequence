@@ -1,0 +1,14 @@
+  -- Sequence: trade_seq
+
+  -- DROP SEQUENCE trade_seq;
+
+  CREATE SEQUENCE trade_seq
+    INCREMENT 1
+    MINVALUE 1
+    MAXVALUE 9999
+    START 1
+    CACHE 1
+    CYCLE;
+
+  COMMENT ON SEQUENCE trade_seq
+    IS '交易流水号';
