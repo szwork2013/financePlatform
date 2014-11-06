@@ -1,12 +1,12 @@
 #login
-POST        /login                   @com.sunlights.customer.web.CustomerController.login
-POST        /loginbyges              @com.sunlights.customer.web.CustomerController.loginByges
-POST        /resetpwdcertify         @com.sunlights.customer.web.CustomerController.resetpwdCertify
-POST        /resetpwd                @com.sunlights.customer.web.CustomerController.resetpwd
-POST        /confirmpwd              @com.sunlights.customer.web.CustomerController.confirmPwd
-POST        /savegespwd              @com.sunlights.customer.web.CustomerController.saveGesturePwd
-POST        /getusermstr             @com.sunlights.customer.web.CustomerController.getCustomerByMobilePhoneNo
-POST        /logout                  @com.sunlights.customer.web.CustomerController.logout
+POST        /login                  @com.sunlights.customer.web.CustomerController.login
+POST        /loginbyges             @com.sunlights.customer.web.CustomerController.loginByges
+POST        /resetpwdcertify        @com.sunlights.customer.web.CustomerController.resetpwdCertify
+POST        /resetpwd               @com.sunlights.customer.web.CustomerController.resetpwd
+POST        /confirmpwd             @com.sunlights.customer.web.CustomerController.confirmPwd
+POST        /savegespwd             @com.sunlights.customer.web.CustomerController.saveGesturePwd
+POST        /getusermstr            @com.sunlights.customer.web.CustomerController.getCustomerByMobilePhoneNo
+POST        /logout                 @com.sunlights.customer.web.CustomerController.logout
 
 #feedBack
-POST        /addfeedback             @com.sunlights.customer.web.FeedBackController.saveFeedBack
+POST        /addfeedback            @com.sunlights.customer.web.FeedBackController.saveFeedBack

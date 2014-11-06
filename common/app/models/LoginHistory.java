@@ -13,117 +13,118 @@ import java.sql.Timestamp;
  */
 @Entity
 @Table(name = "LOGIN_HISTORY")
-public class LoginHistory extends IdEntity{
-    @Column(length = 30,name = "CUSTOMER_ID")
-    private String customerId;
-    @Column(length = 40,name = "DEVICE_NO")
-    private String deviceNo;//设备号
-    @Column(length = 1,name = "SUCCESS_IND")
-    private String successInd = AppConst.VERIFY_CODE_STATUS_INVALID;
-    @Column(length = 1,name = "PWD_IND")
-    private String pwdInd = AppConst.VERIFY_CODE_STATUS_INVALID;
-    @Column(length = 1,name = "GESTURE_IND")
-    private String gestureInd = AppConst.VERIFY_CODE_STATUS_INVALID;
-    @Column(length = 1,name = "SOCIAL_IND")
-    private String socialInd = AppConst.VERIFY_CODE_STATUS_INVALID;
-    @Column(name = "LOGIN_DATETIME")
-    private Timestamp loginDatetime;
-    @Column(name = "LOGOUT_DATETIME")
-    private Timestamp logoutDatetime;
-    @Column(length = 3,name = "LOG_NUM")
-    private long logNum = 0;
-    @Column(name = "UPDATED_DATETIME")
-    private Timestamp updatedDatetime;
-    @Column(name = "CREATED_DATETIME")
-    private Timestamp createdDatetime;
-    public LoginHistory() {
-    }
+public class LoginHistory extends IdEntity {
+  @Column(length = 30, name = "CUSTOMER_ID")
+  private String customerId;
+  @Column(length = 40, name = "DEVICE_NO")
+  private String deviceNo;//设备号
+  @Column(length = 1, name = "SUCCESS_IND")
+  private String successInd = AppConst.VERIFY_CODE_STATUS_INVALID;
+  @Column(length = 1, name = "PWD_IND")
+  private String pwdInd = AppConst.VERIFY_CODE_STATUS_INVALID;
+  @Column(length = 1, name = "GESTURE_IND")
+  private String gestureInd = AppConst.VERIFY_CODE_STATUS_INVALID;
+  @Column(length = 1, name = "SOCIAL_IND")
+  private String socialInd = AppConst.VERIFY_CODE_STATUS_INVALID;
+  @Column(name = "LOGIN_DATETIME")
+  private Timestamp loginDatetime;
+  @Column(name = "LOGOUT_DATETIME")
+  private Timestamp logoutDatetime;
+  @Column(length = 3, name = "LOG_NUM")
+  private long logNum = 0;
+  @Column(name = "UPDATED_DATETIME")
+  private Timestamp updatedDatetime;
+  @Column(name = "CREATED_DATETIME")
+  private Timestamp createdDatetime;
 
-    public Timestamp getUpdatedDatetime() {
-        return updatedDatetime;
-    }
+  public LoginHistory() {
+  }
 
-    public void setUpdatedDatetime(Timestamp updatedDatetime) {
-        this.updatedDatetime = updatedDatetime;
-    }
+  public Timestamp getUpdatedDatetime() {
+    return updatedDatetime;
+  }
 
-    public Timestamp getCreatedDatetime() {
-        return createdDatetime;
-    }
+  public void setUpdatedDatetime(Timestamp updatedDatetime) {
+    this.updatedDatetime = updatedDatetime;
+  }
 
-    public void setCreatedDatetime(Timestamp createdDatetime) {
-        this.createdDatetime = createdDatetime;
-    }
+  public Timestamp getCreatedDatetime() {
+    return createdDatetime;
+  }
 
-    public String getCustomerId() {
-        return customerId;
-    }
+  public void setCreatedDatetime(Timestamp createdDatetime) {
+    this.createdDatetime = createdDatetime;
+  }
 
-    public void setCustomerId(String customerId) {
-        this.customerId = customerId;
-    }
+  public String getCustomerId() {
+    return customerId;
+  }
 
-    public String getDeviceNo() {
-        return deviceNo;
-    }
+  public void setCustomerId(String customerId) {
+    this.customerId = customerId;
+  }
 
-    public void setDeviceNo(String deviceNo) {
-        this.deviceNo = deviceNo;
-    }
+  public String getDeviceNo() {
+    return deviceNo;
+  }
 
-    public String getSuccessInd() {
-        return successInd;
-    }
+  public void setDeviceNo(String deviceNo) {
+    this.deviceNo = deviceNo;
+  }
 
-    public void setSuccessInd(String successInd) {
-        this.successInd = successInd;
-    }
+  public String getSuccessInd() {
+    return successInd;
+  }
 
-    public String getPwdInd() {
-        return pwdInd;
-    }
+  public void setSuccessInd(String successInd) {
+    this.successInd = successInd;
+  }
 
-    public void setPwdInd(String pwdInd) {
-        this.pwdInd = pwdInd;
-    }
+  public String getPwdInd() {
+    return pwdInd;
+  }
 
-    public String getGestureInd() {
-        return gestureInd;
-    }
+  public void setPwdInd(String pwdInd) {
+    this.pwdInd = pwdInd;
+  }
 
-    public void setGestureInd(String gestureInd) {
-        this.gestureInd = gestureInd;
-    }
+  public String getGestureInd() {
+    return gestureInd;
+  }
 
-    public String getSocialInd() {
-        return socialInd;
-    }
+  public void setGestureInd(String gestureInd) {
+    this.gestureInd = gestureInd;
+  }
 
-    public void setSocialInd(String socialInd) {
-        this.socialInd = socialInd;
-    }
+  public String getSocialInd() {
+    return socialInd;
+  }
 
-    public Timestamp getLoginDatetime() {
-        return loginDatetime;
-    }
+  public void setSocialInd(String socialInd) {
+    this.socialInd = socialInd;
+  }
 
-    public void setLoginDatetime(Timestamp loginDatetime) {
-        this.loginDatetime = loginDatetime;
-    }
+  public Timestamp getLoginDatetime() {
+    return loginDatetime;
+  }
 
-    public Timestamp getLogoutDatetime() {
-        return logoutDatetime;
-    }
+  public void setLoginDatetime(Timestamp loginDatetime) {
+    this.loginDatetime = loginDatetime;
+  }
 
-    public void setLogoutDatetime(Timestamp logoutDatetime) {
-        this.logoutDatetime = logoutDatetime;
-    }
+  public Timestamp getLogoutDatetime() {
+    return logoutDatetime;
+  }
 
-    public long getLogNum() {
-        return logNum;
-    }
+  public void setLogoutDatetime(Timestamp logoutDatetime) {
+    this.logoutDatetime = logoutDatetime;
+  }
 
-    public void setLogNum(long logNum) {
-        this.logNum = logNum;
-    }
+  public long getLogNum() {
+    return logNum;
+  }
+
+  public void setLogNum(long logNum) {
+    this.logNum = logNum;
+  }
 }

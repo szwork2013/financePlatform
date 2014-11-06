@@ -12,8 +12,11 @@ import models.BankCard;
  * @author <a href="mailto:zhencai.yuan@sunlights.cc">yuanzhencai</a>
  */
 public interface BankCardDao {
-    public BankCard create(BankCard bankCard);
-    public void deleteById(Long bankId);
-    public void deleteByNo(String no);
-    public boolean hasBankCard(String bankCardNo);
+  public BankCard create(BankCard bankCard);
+
+  public void deleteById(Long bankId);
+
+  public void deleteByNo(String no);
+
+  public boolean hasBankCard(String bankCardNo);
 }

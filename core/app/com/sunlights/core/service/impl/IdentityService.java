@@ -27,88 +27,89 @@ import java.sql.Timestamp;
  * @author <a href="mailto:jiaming.wang@sunlights.cc">wangJiaMing</a>
  */
 public class IdentityService {
-    private CustomerService customerService = new CustomerService();
-    private AccountService accountService = new AccountServiceImpl();
-    private IdentityClient identityClient = new IdentityClient();
+  private CustomerService customerService = new CustomerService();
+  private AccountService accountService = new AccountServiceImpl();
+  private IdentityClient identityClient = new IdentityClient();
 
-    /**
-     * 实名认证
-     * @param vo
-     * @param token
-     * @return
-     */
-    public CustomerSession certify(CustomerFormVo vo, String token, String remoteAddress) {
-        String mobilePhoneNo = vo.getMobilePhoneNo();
-        String userName = vo.getUserName();
-        String idCardNo = vo.getIdCardNo();
-        String deviceNo = vo.getDeviceNo();
+  /**
+   * 实名认证
+   *
+   * @param vo
+   * @param token
+   * @return
+   */
+  public CustomerSession certify(CustomerFormVo vo, String token, String remoteAddress) {
+    String mobilePhoneNo = vo.getMobilePhoneNo();
+    String userName = vo.getUserName();
+    String idCardNo = vo.getIdCardNo();
+    String deviceNo = vo.getDeviceNo();
 
-        Customer customer = null;
-        CustomerSession customerSession = customerService.getCustomerSession(token);
-        if (customerSession != null) {//若为登录后再实名认证
-            customer = customerService.getCustomerByCustomerId(customerSession.getCustomerId());
-            if (AppConst.ID_CARD.equals(customer.getIdentityTyper()) && customer.getIdentityNumber() != null) {
-                //做过实名认证，取消后续动作重新进入，token还有效的，根据token查询当前客户操作到哪步
-                CustomerVo customerVo = customerService.getCustomerVoByIdCardNo(customer.getIdentityNumber(), customer.getRealName());
-                MessageUtil.getInstance().setMessage(new Message(MsgCode.OPERATE_SUCCESS), customerVo);
-            }else{//注册后，登录后，再做实名认证的
-                CommonUtil.getInstance().validateParams(userName, idCardNo, deviceNo);
-                identityClient.identity(idCardNo, userName);  //真正调用实名认证
+    Customer customer = null;
+    CustomerSession customerSession = customerService.getCustomerSession(token);
+    if (customerSession != null) {//若为登录后再实名认证
+      customer = customerService.getCustomerByCustomerId(customerSession.getCustomerId());
+      if (AppConst.ID_CARD.equals(customer.getIdentityTyper()) && customer.getIdentityNumber() != null) {
+        //做过实名认证，取消后续动作重新进入，token还有效的，根据token查询当前客户操作到哪步
+        CustomerVo customerVo = customerService.getCustomerVoByIdCardNo(customer.getIdentityNumber(), customer.getRealName());
+        MessageUtil.getInstance().setMessage(new Message(MsgCode.OPERATE_SUCCESS), customerVo);
+      } else {//注册后，登录后，再做实名认证的
+        CommonUtil.getInstance().validateParams(userName, idCardNo, deviceNo);
+        identityClient.identity(idCardNo, userName);  //真正调用实名认证
 
-                customer.setRealName(userName);
-                customer.setIdentityTyper(AppConst.ID_CARD);
-                customer.setIdentityNumber(idCardNo);
-                customer.setUpdatedDatetime(DBHelper.getCurrentTime());
-                customerService.updateCustomer(customer);
-
-                MessageUtil.getInstance().setMessage(new Message(MsgCode.CERTIFY_SUCCESS), customerService.getCustomerVoByPhoneNo(mobilePhoneNo, deviceNo));
-            }
-        }else{//未登录首次申购做实名认证
-            CommonUtil.getInstance().validateParams(userName, idCardNo);
-            //判断是否已做过实名认证
-
-            CustomerVo customerVo = customerService.getCustomerVoByIdCardNo(idCardNo, userName);
-
-            if (customerVo != null && AppConst.VALID_CERTIFY.equals(customerVo.getCertify())) {
-                MessageUtil.getInstance().setMessage(new Message(MsgCode.OPERATE_SUCCESS), customerVo);
-                customer = customerService.getCustomerByCustomerId(customerVo.getCustomerId());
-            }else{
-                identityClient.identity(idCardNo, userName);//真正调用实名认证
-                customer = saveCustomer(mobilePhoneNo, userName, idCardNo, deviceNo);
-                accountService.createBaseAccount(customer.getCustomerId(), null);
-
-                if (customerVo == null) {
-                    customerVo = new CustomerVo();
-                }
-                customerVo.setCertify("1");
-                customerVo.setIdCardNo(idCardNo.substring(0, 6) + "******" + idCardNo.substring(14));
-                customerVo.setUserName("*" + userName.substring(1));
-                MessageUtil.getInstance().setMessage(new Message(MsgCode.CERTIFY_SUCCESS), customerVo);
-            }
-
-            customerSession = customerService.createCustomerSession(customer, remoteAddress);
-        }
-
-        return customerSession;
-    }
-
-    private Customer saveCustomer(String mobilePhoneNo, String realName,String idCardNo, String deviceNo){
-        Timestamp currentTime = DBHelper.getCurrentTime();
-        Customer customer = new Customer();
-        customer.setLoginId(mobilePhoneNo);
-        customer.setMobile(mobilePhoneNo);
-        customer.setRealName(realName);
+        customer.setRealName(userName);
         customer.setIdentityTyper(AppConst.ID_CARD);
         customer.setIdentityNumber(idCardNo);
-        customer.setRegChannel(AppConst.REGISTER_CHANNEL_MOBILE);
-        customer.setRegWay(AppConst.REGISTER_CHANNEL_MOBILE);
-        customer.setCustomerType(AppConst.CUSTOMER_TYPE_PERSON);
-        customer.setProperty(AppConst.CUSTOMER_BUYER);
-        customer.setDeviceNo(deviceNo);
-        customer.setStatus(AppConst.CUSTOMER_STATUS_NORMAL);
-        customer.setCreatedDatetime(currentTime);
-        customer.setUpdatedDatetime(currentTime);
-        customerService.saveCustomer(customer);
-        return customer;
+        customer.setUpdatedDatetime(DBHelper.getCurrentTime());
+        customerService.updateCustomer(customer);
+
+        MessageUtil.getInstance().setMessage(new Message(MsgCode.CERTIFY_SUCCESS), customerService.getCustomerVoByPhoneNo(mobilePhoneNo, deviceNo));
+      }
+    } else {//未登录首次申购做实名认证
+      CommonUtil.getInstance().validateParams(userName, idCardNo);
+      //判断是否已做过实名认证
+
+      CustomerVo customerVo = customerService.getCustomerVoByIdCardNo(idCardNo, userName);
+
+      if (customerVo != null && AppConst.VALID_CERTIFY.equals(customerVo.getCertify())) {
+        MessageUtil.getInstance().setMessage(new Message(MsgCode.OPERATE_SUCCESS), customerVo);
+        customer = customerService.getCustomerByCustomerId(customerVo.getCustomerId());
+      } else {
+        identityClient.identity(idCardNo, userName);//真正调用实名认证
+        customer = saveCustomer(mobilePhoneNo, userName, idCardNo, deviceNo);
+        accountService.createBaseAccount(customer.getCustomerId(), null);
+
+        if (customerVo == null) {
+          customerVo = new CustomerVo();
+        }
+        customerVo.setCertify("1");
+        customerVo.setIdCardNo(idCardNo.substring(0, 6) + "******" + idCardNo.substring(14));
+        customerVo.setUserName("*" + userName.substring(1));
+        MessageUtil.getInstance().setMessage(new Message(MsgCode.CERTIFY_SUCCESS), customerVo);
+      }
+
+      customerSession = customerService.createCustomerSession(customer, remoteAddress);
     }
+
+    return customerSession;
+  }
+
+  private Customer saveCustomer(String mobilePhoneNo, String realName, String idCardNo, String deviceNo) {
+    Timestamp currentTime = DBHelper.getCurrentTime();
+    Customer customer = new Customer();
+    customer.setLoginId(mobilePhoneNo);
+    customer.setMobile(mobilePhoneNo);
+    customer.setRealName(realName);
+    customer.setIdentityTyper(AppConst.ID_CARD);
+    customer.setIdentityNumber(idCardNo);
+    customer.setRegChannel(AppConst.REGISTER_CHANNEL_MOBILE);
+    customer.setRegWay(AppConst.REGISTER_CHANNEL_MOBILE);
+    customer.setCustomerType(AppConst.CUSTOMER_TYPE_PERSON);
+    customer.setProperty(AppConst.CUSTOMER_BUYER);
+    customer.setDeviceNo(deviceNo);
+    customer.setStatus(AppConst.CUSTOMER_STATUS_NORMAL);
+    customer.setCreatedDatetime(currentTime);
+    customer.setUpdatedDatetime(currentTime);
+    customerService.saveCustomer(customer);
+    return customer;
+  }
 }

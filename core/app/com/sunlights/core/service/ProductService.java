@@ -18,15 +18,15 @@ import java.util.List;
  * @author <a href="mailto:zhencai.yuan@sunlights.cc">yuanzhencai</a>
  */
 public interface ProductService {
-    public List<ProductVo> findProductRecommends(PageVo pageVo);
+  public List<ProductVo> findProductRecommends(PageVo pageVo);
 
-    public List<FundVo> findFunds(PageVo pageVo);
+  public List<FundVo> findFunds(PageVo pageVo);
 
-    public ProductVo findProductDetailBy(String productCode, String type);
+  public ProductVo findProductDetailBy(String productCode, String type);
 
-    public Fund findFundByCode(String productCode);
+  public Fund findFundByCode(String productCode);
 
-    public ChartVo findOneWeekProfitsByDays(String fundCode, int days);
+  public ChartVo findOneWeekProfitsByDays(String fundCode, int days);
 
-    public ChartVo findMillionOfProfitsByDays(String fundCode, int days);
+  public ChartVo findMillionOfProfitsByDays(String fundCode, int days);
 }

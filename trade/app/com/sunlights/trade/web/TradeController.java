@@ -30,54 +30,54 @@ import java.util.List;
  * @author <a href="mailto:jiaming.wang@sunlights.cc">wangJiaMing</a>
  */
 @Transactional
-public class TradeController extends Controller{
-    private Form<TradeSearchFormVo> tradeFormVoForm = Form.form(TradeSearchFormVo.class);
+public class TradeController extends Controller {
+  private Form<TradeSearchFormVo> tradeFormVoForm = Form.form(TradeSearchFormVo.class);
 
-    private TradeService tradeService = new TradeServiceImpl();
+  private TradeService tradeService = new TradeServiceImpl();
 
-    public Result getTradeList(){
-        Logger.info("----------getTradeList start ------------");
-        Http.Cookie cookie = Controller.request().cookie(AppConst.TOKEN);
-        String token = cookie == null ? null : cookie.value();
+  public Result getTradeList() {
+    Logger.info("----------getTradeList start ------------");
+    Http.Cookie cookie = Controller.request().cookie(AppConst.TOKEN);
+    String token = cookie == null ? null : cookie.value();
 
-        TradeSearchFormVo tradeSearchFormVo = tradeFormVoForm.bindFromRequest().get();
-        PageVo pageVo = new PageVo();
-        pageVo.setIndex(tradeSearchFormVo.getIndex());
-        pageVo.setPageSize(tradeSearchFormVo.getPageSize());
+    TradeSearchFormVo tradeSearchFormVo = tradeFormVoForm.bindFromRequest().get();
+    PageVo pageVo = new PageVo();
+    pageVo.setIndex(tradeSearchFormVo.getIndex());
+    pageVo.setPageSize(tradeSearchFormVo.getPageSize());
 
-        List<TradeVo> list = tradeService.getTradeListByToken(token, tradeSearchFormVo, pageVo);
-        pageVo.setList(list);
-        pageVo.getFilter().clear();
+    List<TradeVo> list = tradeService.getTradeListByToken(token, tradeSearchFormVo, pageVo);
+    pageVo.setList(list);
+    pageVo.getFilter().clear();
 
-        Message message = new Message(MsgCode.OPERATE_SUCCESS);
-        JsonNode json = MessageUtil.getInstance().msgToJson(message, pageVo);
-        Logger.info("----------getTradeList end" + json);
-        return ok(json);
-    }
+    Message message = new Message(MsgCode.OPERATE_SUCCESS);
+    JsonNode json = MessageUtil.getInstance().msgToJson(message, pageVo);
+    Logger.info("----------getTradeList end" + json);
+    return ok(json);
+  }
 
-    public Result findCapitalProductDetailTrade(){
-        Logger.info("----------findCapitalProductDetailTrade start ------------");
-        Http.Cookie cookie = Controller.request().cookie(AppConst.TOKEN);
-        String token = cookie == null ? null : cookie.value();
+  public Result findCapitalProductDetailTrade() {
+    Logger.info("----------findCapitalProductDetailTrade start ------------");
+    Http.Cookie cookie = Controller.request().cookie(AppConst.TOKEN);
+    String token = cookie == null ? null : cookie.value();
 
-        TradeSearchFormVo tradeSearchFormVo = tradeFormVoForm.bindFromRequest().get();
+    TradeSearchFormVo tradeSearchFormVo = tradeFormVoForm.bindFromRequest().get();
 
-        CapitalProductTradeVo capitalProductTradeVo = tradeService.findCapitalProductDetailTrade(token, tradeSearchFormVo);
+    CapitalProductTradeVo capitalProductTradeVo = tradeService.findCapitalProductDetailTrade(token, tradeSearchFormVo);
 
-        Message message = new Message(MsgCode.OPERATE_SUCCESS);
-        JsonNode json = MessageUtil.getInstance().msgToJson(message, capitalProductTradeVo);
-        Logger.info("----------findCapitalProductDetailTrade end" + json);
-        return ok(json);
-    }
+    Message message = new Message(MsgCode.OPERATE_SUCCESS);
+    JsonNode json = MessageUtil.getInstance().msgToJson(message, capitalProductTradeVo);
+    Logger.info("----------findCapitalProductDetailTrade end" + json);
+    return ok(json);
+  }
 
-    public Result tradeOrders(){
-        Logger.info("----------findCapitalProductDetailTrade start ------------");
-        Http.Cookie cookie = Controller.request().cookie(AppConst.TOKEN);
-        String token = cookie == null ? null : cookie.value();
+  public Result tradeOrders() {
+    Logger.info("----------findCapitalProductDetailTrade start ------------");
+    Http.Cookie cookie = Controller.request().cookie(AppConst.TOKEN);
+    String token = cookie == null ? null : cookie.value();
 
 
-        return ok();
-    }
+    return ok();
+  }
 
 
 }

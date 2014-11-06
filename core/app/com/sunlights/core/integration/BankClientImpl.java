@@ -13,17 +13,17 @@ import org.springframework.stereotype.Component;
  * @author <a href="mailto:zhencai.yuan@sunlights.cc">yuanzhencai</a>
  */
 public class BankClientImpl implements BankClient {
-    @Override
-    public BankVo findBankByBankCardNo(String bankCardNo) {
-        BankVo bankVo = new BankVo();
-        if ("6225885105574736".equals(bankCardNo)) {
-            bankVo.bankCode = "CCB";
-        }
-        return bankVo;
+  @Override
+  public BankVo findBankByBankCardNo(String bankCardNo) {
+    BankVo bankVo = new BankVo();
+    if ("6225885105574736".equals(bankCardNo)) {
+      bankVo.bankCode = "CCB";
     }
+    return bankVo;
+  }
 
-    @Override
-    public boolean validateBankCard(String idCardNo, String bankCardNo) {
-        return true;
-    }
+  @Override
+  public boolean validateBankCard(String idCardNo, String bankCardNo) {
+    return true;
+  }
 }

@@ -13,98 +13,98 @@ import java.io.Serializable;
  *
  * @author <a href="mailto:jiaming.wang@sunlights.cc">wangJiaMing</a>
  */
-public class HoldCapitalVo implements Serializable{
-    private String prdCode;
-    private String prdName;
-    private String marketValue = AccountConstant.DEFAULT_MONEY;
-    private String totalProfit = AccountConstant.DEFAULT_MONEY;
-    private String bankCardNo = "0000";//TODO
-    private String millionOfProfit;//万份收益
-    private String oneWeekProfit;//七日年化
-    private String holdQuotient = "0";//持有份额//TODO
-    private String availableQuotient = "0";//可用份额 //TODO
-    private String profitLatestTime;
+public class HoldCapitalVo implements Serializable {
+  private String prdCode;
+  private String prdName;
+  private String marketValue = AccountConstant.DEFAULT_MONEY;
+  private String totalProfit = AccountConstant.DEFAULT_MONEY;
+  private String bankCardNo = "0000";//TODO
+  private String millionOfProfit;//万份收益
+  private String oneWeekProfit;//七日年化
+  private String holdQuotient = "0";//持有份额//TODO
+  private String availableQuotient = "0";//可用份额 //TODO
+  private String profitLatestTime;
 
-    public HoldCapitalVo() {
-    }
+  public HoldCapitalVo() {
+  }
 
-    public String getPrdCode() {
-        return prdCode;
-    }
+  public String getPrdCode() {
+    return prdCode;
+  }
 
-    public void setPrdCode(String prdCode) {
-        this.prdCode = prdCode;
-    }
+  public void setPrdCode(String prdCode) {
+    this.prdCode = prdCode;
+  }
 
-    public String getPrdName() {
-        return prdName;
-    }
+  public String getPrdName() {
+    return prdName;
+  }
 
-    public void setPrdName(String prdName) {
-        this.prdName = prdName;
-    }
+  public void setPrdName(String prdName) {
+    this.prdName = prdName;
+  }
 
-    public String getMarketValue() {
-        return marketValue;
-    }
+  public String getMarketValue() {
+    return marketValue;
+  }
 
-    public void setMarketValue(String marketValue) {
-        this.marketValue = marketValue;
-    }
+  public void setMarketValue(String marketValue) {
+    this.marketValue = marketValue;
+  }
 
-    public String getTotalProfit() {
-        return totalProfit;
-    }
+  public String getTotalProfit() {
+    return totalProfit;
+  }
 
-    public void setTotalProfit(String totalProfit) {
-        this.totalProfit = totalProfit;
-    }
+  public void setTotalProfit(String totalProfit) {
+    this.totalProfit = totalProfit;
+  }
 
-    public String getBankCardNo() {
-        return bankCardNo;
-    }
+  public String getBankCardNo() {
+    return bankCardNo;
+  }
 
-    public void setBankCardNo(String bankCardNo) {
-        this.bankCardNo = bankCardNo;
-    }
+  public void setBankCardNo(String bankCardNo) {
+    this.bankCardNo = bankCardNo;
+  }
 
-    public String getMillionOfProfit() {
-        return millionOfProfit;
-    }
+  public String getMillionOfProfit() {
+    return millionOfProfit;
+  }
 
-    public void setMillionOfProfit(String millionOfProfit) {
-        this.millionOfProfit = millionOfProfit;
-    }
+  public void setMillionOfProfit(String millionOfProfit) {
+    this.millionOfProfit = millionOfProfit;
+  }
 
-    public String getOneWeekProfit() {
-        return oneWeekProfit;
-    }
+  public String getOneWeekProfit() {
+    return oneWeekProfit;
+  }
 
-    public void setOneWeekProfit(String oneWeekProfit) {
-        this.oneWeekProfit = oneWeekProfit;
-    }
+  public void setOneWeekProfit(String oneWeekProfit) {
+    this.oneWeekProfit = oneWeekProfit;
+  }
 
-    public String getHoldQuotient() {
-        return holdQuotient;
-    }
+  public String getHoldQuotient() {
+    return holdQuotient;
+  }
 
-    public void setHoldQuotient(String holdQuotient) {
-        this.holdQuotient = holdQuotient;
-    }
+  public void setHoldQuotient(String holdQuotient) {
+    this.holdQuotient = holdQuotient;
+  }
 
-    public String getAvailableQuotient() {
-        return availableQuotient;
-    }
+  public String getAvailableQuotient() {
+    return availableQuotient;
+  }
 
-    public void setAvailableQuotient(String availableQuotient) {
-        this.availableQuotient = availableQuotient;
-    }
+  public void setAvailableQuotient(String availableQuotient) {
+    this.availableQuotient = availableQuotient;
+  }
 
-    public String getProfitLatestTime() {
-        return profitLatestTime;
-    }
+  public String getProfitLatestTime() {
+    return profitLatestTime;
+  }
 
-    public void setProfitLatestTime(String profitLatestTime) {
-        this.profitLatestTime = profitLatestTime;
-    }
+  public void setProfitLatestTime(String profitLatestTime) {
+    this.profitLatestTime = profitLatestTime;
+  }
 }

@@ -20,28 +20,28 @@ import java.sql.Timestamp;
  */
 public class FeedBackServiceImpl implements FeedBackService {
 
-    private CustomerService customerService = new CustomerService();
-    private FeedBackDao feedBackDao = new FeedBackDaoImpl();
-    
-    public FeedBack saveFeedBack(String mobile, String content, String deviceNo){
-        Timestamp currentTime = DBHelper.getCurrentTime();
-        
-        FeedBack feedBack = new FeedBack();
-        feedBack.setMobile(mobile);
+  private CustomerService customerService = new CustomerService();
+  private FeedBackDao feedBackDao = new FeedBackDaoImpl();
 
-        Customer customer = customerService.getCustomerByMobile(mobile);
-        if (customer != null) {
-            feedBack.setCustomerId(customer.getCustomerId());
-        }
-        feedBack.setDeviceNo(deviceNo);
-        feedBack.setContext(content);
-        
-        feedBack.setCreateTime(currentTime);
-        feedBack.setUpdateTime(currentTime);
+  public FeedBack saveFeedBack(String mobile, String content, String deviceNo) {
+    Timestamp currentTime = DBHelper.getCurrentTime();
 
-        feedBackDao.saveFeedBack(feedBack);
+    FeedBack feedBack = new FeedBack();
+    feedBack.setMobile(mobile);
 
-        return feedBack;
+    Customer customer = customerService.getCustomerByMobile(mobile);
+    if (customer != null) {
+      feedBack.setCustomerId(customer.getCustomerId());
     }
+    feedBack.setDeviceNo(deviceNo);
+    feedBack.setContext(content);
+
+    feedBack.setCreateTime(currentTime);
+    feedBack.setUpdateTime(currentTime);
+
+    feedBackDao.saveFeedBack(feedBack);
+
+    return feedBack;
+  }
 
 }

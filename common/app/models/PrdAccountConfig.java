@@ -19,60 +19,60 @@ import java.util.Date;
 @Entity
 @Table(name = "PRD_ACCOUNT_CONFIG")
 public class PrdAccountConfig extends IdEntity {
-    @Column(name = "PRD_TYPE_CODE",length = 8)
-    private String prdTypeCode;
-    @Column(name = "SUB_ACCOUNT",length = 10)
-    private String subAccount;
-    @Temporal(TemporalType.TIMESTAMP)
-    @Column(name = "CREATE_TIME")
-    private Date createTime;
-    @Temporal(TemporalType.TIMESTAMP)
-    @Column(name = "UPDATE_TIME")
-    private Date updateTime;
-    @Temporal(TemporalType.TIMESTAMP)
-    @Column(name = "DELETE_TIME")
-    private Date deleteTime;
+  @Column(name = "PRD_TYPE_CODE", length = 8)
+  private String prdTypeCode;
+  @Column(name = "SUB_ACCOUNT", length = 10)
+  private String subAccount;
+  @Temporal(TemporalType.TIMESTAMP)
+  @Column(name = "CREATE_TIME")
+  private Date createTime;
+  @Temporal(TemporalType.TIMESTAMP)
+  @Column(name = "UPDATE_TIME")
+  private Date updateTime;
+  @Temporal(TemporalType.TIMESTAMP)
+  @Column(name = "DELETE_TIME")
+  private Date deleteTime;
 
-    public PrdAccountConfig() {
-    }
+  public PrdAccountConfig() {
+  }
 
-    public String getPrdTypeCode() {
-        return prdTypeCode;
-    }
+  public String getPrdTypeCode() {
+    return prdTypeCode;
+  }
 
-    public void setPrdTypeCode(String prdTypeCode) {
-        this.prdTypeCode = prdTypeCode;
-    }
+  public void setPrdTypeCode(String prdTypeCode) {
+    this.prdTypeCode = prdTypeCode;
+  }
 
-    public String getSubAccount() {
-        return subAccount;
-    }
+  public String getSubAccount() {
+    return subAccount;
+  }
 
-    public void setSubAccount(String subAccount) {
-        this.subAccount = subAccount;
-    }
+  public void setSubAccount(String subAccount) {
+    this.subAccount = subAccount;
+  }
 
-    public Date getCreateTime() {
-        return createTime;
-    }
+  public Date getCreateTime() {
+    return createTime;
+  }
 
-    public void setCreateTime(Timestamp createTime) {
-        this.createTime = createTime;
-    }
+  public void setCreateTime(Timestamp createTime) {
+    this.createTime = createTime;
+  }
 
-    public Date getUpdateTime() {
-        return updateTime;
-    }
+  public Date getUpdateTime() {
+    return updateTime;
+  }
 
-    public void setUpdateTime(Timestamp updateTime) {
-        this.updateTime = updateTime;
-    }
+  public void setUpdateTime(Timestamp updateTime) {
+    this.updateTime = updateTime;
+  }
 
-    public Date getDeleteTime() {
-        return deleteTime;
-    }
+  public Date getDeleteTime() {
+    return deleteTime;
+  }
 
-    public void setDeleteTime(Timestamp deleteTime) {
-        this.deleteTime = deleteTime;
-    }
+  public void setDeleteTime(Timestamp deleteTime) {
+    this.deleteTime = deleteTime;
+  }
 }

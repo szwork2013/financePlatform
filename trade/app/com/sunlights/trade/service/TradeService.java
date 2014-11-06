@@ -19,22 +19,24 @@ import java.util.List;
  * @author <a href="mailto:jiaming.wang@sunlights.cc">wangJiaMing</a>
  */
 public interface TradeService {
-    /**
-     * 获取交易记录
-     * @param token 客户号
-     * @param tradeSearchFormVo
-     * @return
-     */
-    public List<TradeVo> getTradeListByToken(String token, TradeSearchFormVo tradeSearchFormVo,PageVo pageVo) throws BusinessRuntimeException;
+  /**
+   * 获取交易记录
+   *
+   * @param token             客户号
+   * @param tradeSearchFormVo
+   * @return
+   */
+  public List<TradeVo> getTradeListByToken(String token, TradeSearchFormVo tradeSearchFormVo, PageVo pageVo) throws BusinessRuntimeException;
 
-    /**
-     * 产品详情及记录
-     * @param token
-     * @param tradeSearchFormVo
-     * @return
-     */
-    public CapitalProductTradeVo findCapitalProductDetailTrade(String token, TradeSearchFormVo tradeSearchFormVo);
+  /**
+   * 产品详情及记录
+   *
+   * @param token
+   * @param tradeSearchFormVo
+   * @return
+   */
+  public CapitalProductTradeVo findCapitalProductDetailTrade(String token, TradeSearchFormVo tradeSearchFormVo);
 
 
-    public Trade createTrade();
+  public Trade createTrade();
 }

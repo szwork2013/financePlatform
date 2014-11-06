@@ -4,22 +4,21 @@ package com.sunlights.common;
  * Created by Administrator on 2014/11/3.
  */
 public enum Severity {
-    INFO(0), WARN(1), ERROR(2), FATAL(3)
-    ;
+  INFO(0), WARN(1), ERROR(2), FATAL(3);
 
-    private int level;
+  private int level;
 
-    Severity(int level) {
-        this.level = level;
-    }
+  Severity(int level) {
+    this.level = level;
+  }
 
-    @Override
-    public String toString() {
-        return "" + level;
-    }
+  @Override
+  public String toString() {
+    return "" + level;
+  }
 
 
-    public int getLevel() {
-        return level;
-    }
+  public int getLevel() {
+    return level;
+  }
 }

@@ -17,10 +17,11 @@ import java.util.List;
  * @author <a href="mailto:zhencai.yuan@sunlights.cc">yuanzhencai</a>
  */
 public interface BankService {
-    public List<BankVo> findBanksBy(PageVo pageVo);
+  public List<BankVo> findBanksBy(PageVo pageVo);
 
-    public BankVo findBankByBankCardNo(String bankCardNo);
-    public Bank findBankByBankCode(String bankCode);
+  public BankVo findBankByBankCardNo(String bankCardNo);
 
-    public boolean validateBankCard(String token, BankCardVo bankCardVo);
+  public Bank findBankByBankCode(String bankCode);
+
+  public boolean validateBankCard(String token, BankCardVo bankCardVo);
 }

@@ -14,87 +14,87 @@ import java.sql.Timestamp;
 @Entity
 @Table(name = "C_CUSTOMER_SESSION")
 public class CustomerSession extends IdEntity {
-    @Column(length = 30,name = "CUSTOMER_ID")
-    private String customerId;
-    @Column(length = 400)
-    private String token;
-    @Column(length = 40,name = "DEVICE_NO")
-    private String deviceNo; // 设备号
-    @Column(length = 40,name = "DEVICE_NAME")
-    private String deviceName; // 设备名称
-    @Column(length = 40,name = "CLIENT_ADDRESS")
-    private String clientAddress; // 客户端IP地址
-    @Column(name = "UPDATED_DATETIME")
-    private Timestamp updatedDatetime;
-    @Column(name = "CREATED_DATETIME")
-    private Timestamp createdDatetime;
-    @Column(name = "STATUS", length = 1)
-    private String status = AppConst.VERIFY_CODE_STATUS_INVALID;
+  @Column(length = 30, name = "CUSTOMER_ID")
+  private String customerId;
+  @Column(length = 400)
+  private String token;
+  @Column(length = 40, name = "DEVICE_NO")
+  private String deviceNo; // 设备号
+  @Column(length = 40, name = "DEVICE_NAME")
+  private String deviceName; // 设备名称
+  @Column(length = 40, name = "CLIENT_ADDRESS")
+  private String clientAddress; // 客户端IP地址
+  @Column(name = "UPDATED_DATETIME")
+  private Timestamp updatedDatetime;
+  @Column(name = "CREATED_DATETIME")
+  private Timestamp createdDatetime;
+  @Column(name = "STATUS", length = 1)
+  private String status = AppConst.VERIFY_CODE_STATUS_INVALID;
 
-    public CustomerSession() {
-    }
+  public CustomerSession() {
+  }
 
-    public Timestamp getUpdatedDatetime() {
-        return updatedDatetime;
-    }
+  public Timestamp getUpdatedDatetime() {
+    return updatedDatetime;
+  }
 
-    public void setUpdatedDatetime(Timestamp updatedDatetime) {
-        this.updatedDatetime = updatedDatetime;
-    }
+  public void setUpdatedDatetime(Timestamp updatedDatetime) {
+    this.updatedDatetime = updatedDatetime;
+  }
 
-    public Timestamp getCreatedDatetime() {
-        return createdDatetime;
-    }
+  public Timestamp getCreatedDatetime() {
+    return createdDatetime;
+  }
 
-    public String getStatus() {
-        return status;
-    }
+  public String getStatus() {
+    return status;
+  }
 
-    public void setStatus(String status) {
-        this.status = status;
-    }
+  public void setStatus(String status) {
+    this.status = status;
+  }
 
-    public void setCreatedDatetime(Timestamp createdDatetime) {
-        this.createdDatetime = createdDatetime;
-    }
+  public void setCreatedDatetime(Timestamp createdDatetime) {
+    this.createdDatetime = createdDatetime;
+  }
 
-    public String getCustomerId() {
-        return customerId;
-    }
+  public String getCustomerId() {
+    return customerId;
+  }
 
-    public void setCustomerId(String customerId) {
-        this.customerId = customerId;
-    }
+  public void setCustomerId(String customerId) {
+    this.customerId = customerId;
+  }
 
-    public String getToken() {
-        return token;
-    }
+  public String getToken() {
+    return token;
+  }
 
-    public void setToken(String token) {
-        this.token = token;
-    }
+  public void setToken(String token) {
+    this.token = token;
+  }
 
-    public String getDeviceNo() {
-        return deviceNo;
-    }
+  public String getDeviceNo() {
+    return deviceNo;
+  }
 
-    public void setDeviceNo(String deviceNo) {
-        this.deviceNo = deviceNo;
-    }
+  public void setDeviceNo(String deviceNo) {
+    this.deviceNo = deviceNo;
+  }
 
-    public String getDeviceName() {
-        return deviceName;
-    }
+  public String getDeviceName() {
+    return deviceName;
+  }
 
-    public void setDeviceName(String deviceName) {
-        this.deviceName = deviceName;
-    }
+  public void setDeviceName(String deviceName) {
+    this.deviceName = deviceName;
+  }
 
-    public String getClientAddress() {
-        return clientAddress;
-    }
+  public String getClientAddress() {
+    return clientAddress;
+  }
 
-    public void setClientAddress(String clientAddress) {
-        this.clientAddress = clientAddress;
-    }
+  public void setClientAddress(String clientAddress) {
+    this.clientAddress = clientAddress;
+  }
 }

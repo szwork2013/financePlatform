@@ -11,42 +11,42 @@ import java.io.Serializable;
  *
  * @author <a href="mailto:jiaming.wang@sunlights.cc">wangJiaMing</a>
  */
-public class TradeFormVo implements Serializable{
-    private String tradeAmount;
-    private String quantity;
-    private String prdCode;
-    private String bankCardNo;
+public class TradeFormVo implements Serializable {
+  private String tradeAmount;
+  private String quantity;
+  private String prdCode;
+  private String bankCardNo;
 
 
-    public String getTradeAmount() {
-        return tradeAmount;
-    }
+  public String getTradeAmount() {
+    return tradeAmount;
+  }
 
-    public void setTradeAmount(String tradeAmount) {
-        this.tradeAmount = tradeAmount;
-    }
+  public void setTradeAmount(String tradeAmount) {
+    this.tradeAmount = tradeAmount;
+  }
 
-    public String getQuantity() {
-        return quantity;
-    }
+  public String getQuantity() {
+    return quantity;
+  }
 
-    public void setQuantity(String quantity) {
-        this.quantity = quantity;
-    }
+  public void setQuantity(String quantity) {
+    this.quantity = quantity;
+  }
 
-    public String getPrdCode() {
-        return prdCode;
-    }
+  public String getPrdCode() {
+    return prdCode;
+  }
 
-    public void setPrdCode(String prdCode) {
-        this.prdCode = prdCode;
-    }
+  public void setPrdCode(String prdCode) {
+    this.prdCode = prdCode;
+  }
 
-    public String getBankCardNo() {
-        return bankCardNo;
-    }
+  public String getBankCardNo() {
+    return bankCardNo;
+  }
 
-    public void setBankCardNo(String bankCardNo) {
-        this.bankCardNo = bankCardNo;
-    }
+  public void setBankCardNo(String bankCardNo) {
+    this.bankCardNo = bankCardNo;
+  }
 }

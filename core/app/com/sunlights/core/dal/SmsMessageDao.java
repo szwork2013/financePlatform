@@ -12,6 +12,7 @@ import models.SmsMessage;
  * @author <a href="mailto:jiaming.wang@sunlights.cc">wangJiaMing</a>
  */
 public interface SmsMessageDao {
-    public SmsMessage saveSmsMessage(SmsMessage smsMessage);
-    public SmsMessage updateSmsMessage(SmsMessage smsMessage);
+  public SmsMessage saveSmsMessage(SmsMessage smsMessage);
+
+  public SmsMessage updateSmsMessage(SmsMessage smsMessage);
 }

@@ -14,32 +14,32 @@ import java.util.List;
  *
  * @author <a href="mailto:jiaming.wang@sunlights.cc">wangJiaMing</a>
  */
-public class CapitalProductTradeVo implements Serializable{
-    private HoldCapitalVo holdCapitalVo;
-    private List list;
-    private int tradeCount;
+public class CapitalProductTradeVo implements Serializable {
+  private HoldCapitalVo holdCapitalVo;
+  private List list;
+  private int tradeCount;
 
-    public HoldCapitalVo getHoldCapitalVo() {
-        return holdCapitalVo;
-    }
+  public HoldCapitalVo getHoldCapitalVo() {
+    return holdCapitalVo;
+  }
 
-    public void setHoldCapitalVo(HoldCapitalVo holdCapitalVo) {
-        this.holdCapitalVo = holdCapitalVo;
-    }
+  public void setHoldCapitalVo(HoldCapitalVo holdCapitalVo) {
+    this.holdCapitalVo = holdCapitalVo;
+  }
 
-    public List getList() {
-        return list;
-    }
+  public List getList() {
+    return list;
+  }
 
-    public void setList(List list) {
-        this.list = list;
-    }
+  public void setList(List list) {
+    this.list = list;
+  }
 
-    public int getTradeCount() {
-        return tradeCount;
-    }
+  public int getTradeCount() {
+    return tradeCount;
+  }
 
-    public void setTradeCount(int tradeCount) {
-        this.tradeCount = tradeCount;
-    }
+  public void setTradeCount(int tradeCount) {
+    this.tradeCount = tradeCount;
+  }
 }

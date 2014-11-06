@@ -47,128 +47,127 @@ import java.util.List;
  * @author <a href="mailto:jiaming.wang@sunlights.cc">wangJiaMing</a>
  */
 public class TradeServiceImpl implements TradeService {
-    private TradeDao tradeDao = new TradeDaoImpl();
-    private CustomerService customerService = new CustomerService();
-    private CapitalService capitalService = new CapitalServiceImpl();
-    private OpenAccountPactService openAccountPactService = new OpenAccountPactServiceImpl();
-    private AccountService accountService = new AccountServiceImpl();
-    private ProductService productService = new ProductServiceImpl();
-    private BankCardService bankCardService = new BankCardServiceImpl();
+  private TradeDao tradeDao = new TradeDaoImpl();
+  private CustomerService customerService = new CustomerService();
+  private CapitalService capitalService = new CapitalServiceImpl();
+  private OpenAccountPactService openAccountPactService = new OpenAccountPactServiceImpl();
+  private AccountService accountService = new AccountServiceImpl();
+  private ProductService productService = new ProductServiceImpl();
+  private BankCardService bankCardService = new BankCardServiceImpl();
 
-    @Override
-    public List<TradeVo> getTradeListByToken(String token, TradeSearchFormVo tradeSearchFormVo, PageVo pageVo) throws BusinessRuntimeException{
+  @Override
+  public List<TradeVo> getTradeListByToken(String token, TradeSearchFormVo tradeSearchFormVo, PageVo pageVo) throws BusinessRuntimeException {
 
-        CustomerSession customerSession = customerService.getCustomerSession(token);
-        if (customerSession == null) {
-            throw new BusinessRuntimeException(new Message(Severity.ERROR, MsgCode.LOGIN_TIMEOUT));
-        }
-        List<TradeVo> list = tradeDao.getTradeListByCustomerId(customerSession.getCustomerId(), tradeSearchFormVo,pageVo);
-        return list;
+    CustomerSession customerSession = customerService.getCustomerSession(token);
+    if (customerSession == null) {
+      throw new BusinessRuntimeException(new Message(Severity.ERROR, MsgCode.LOGIN_TIMEOUT));
     }
+    List<TradeVo> list = tradeDao.getTradeListByCustomerId(customerSession.getCustomerId(), tradeSearchFormVo, pageVo);
+    return list;
+  }
 
-    public CapitalProductTradeVo findCapitalProductDetailTrade(String token, TradeSearchFormVo tradeSearchFormVo){
-        CommonUtil.getInstance().validateParams(tradeSearchFormVo.getPrdType(), tradeSearchFormVo.getPrdCode());
-        PageVo pageVo = new PageVo();
-        pageVo.setPageSize(3);
-        List<TradeVo> list = getTradeListByToken(token, tradeSearchFormVo, pageVo);
-        HoldCapitalVo holdCapitalVo = capitalService.findCapitalProductDetail(tradeSearchFormVo.getPrdType(), tradeSearchFormVo.getPrdCode());
+  public CapitalProductTradeVo findCapitalProductDetailTrade(String token, TradeSearchFormVo tradeSearchFormVo) {
+    CommonUtil.getInstance().validateParams(tradeSearchFormVo.getPrdType(), tradeSearchFormVo.getPrdCode());
+    PageVo pageVo = new PageVo();
+    pageVo.setPageSize(3);
+    List<TradeVo> list = getTradeListByToken(token, tradeSearchFormVo, pageVo);
+    HoldCapitalVo holdCapitalVo = capitalService.findCapitalProductDetail(tradeSearchFormVo.getPrdType(), tradeSearchFormVo.getPrdCode());
 
-        CapitalProductTradeVo capitalProductTradeVo = new CapitalProductTradeVo();
-        capitalProductTradeVo.setList(list);
-        capitalProductTradeVo.setHoldCapitalVo(holdCapitalVo);
-        capitalProductTradeVo.setTradeCount(pageVo.getCount());
+    CapitalProductTradeVo capitalProductTradeVo = new CapitalProductTradeVo();
+    capitalProductTradeVo.setList(list);
+    capitalProductTradeVo.setHoldCapitalVo(holdCapitalVo);
+    capitalProductTradeVo.setTradeCount(pageVo.getCount());
 
-        return capitalProductTradeVo;
+    return capitalProductTradeVo;
+  }
+
+  @Override
+  public Trade createTrade() {
+    return null;
+  }
+
+
+  public void tradeFundOrders(TradeFormVo tradeFormVo) {
+    String token = null;
+    String bankCardNo = null;
+    String fundCompanyCode = null;
+    String prdType = null;
+    String mobilePhoneNo = null;
+    String deviceNo = null;
+
+    CustomerSession customerSession = customerService.getCustomerSession(token);
+    if (customerSession == null) {
+      throw new BusinessRuntimeException(new Message(Severity.ERROR, MsgCode.LOGIN_TIMEOUT));
     }
-
-    @Override
-    public Trade createTrade() {
-        return null;
+    CustomerVo customerVo = customerService.getCustomerVoByPhoneNo(mobilePhoneNo, deviceNo);
+    if ("0".equals(customerVo.getCertify())) {
+      throw new BusinessRuntimeException(new Message(Severity.ERROR, MsgCode.BANK_NAME_CERTIFY_FAIL));
     }
-
-
-    public void tradeFundOrders(TradeFormVo tradeFormVo){
-        String token = null;
-        String bankCardNo = null;
-        String fundCompanyCode = null;
-        String prdType = null;
-        String mobilePhoneNo = null;
-        String deviceNo = null;
-        
-        CustomerSession customerSession = customerService.getCustomerSession(token);
-        if (customerSession == null){
-            throw new BusinessRuntimeException(new Message(Severity.ERROR, MsgCode.LOGIN_TIMEOUT));
-        }
-        CustomerVo customerVo = customerService.getCustomerVoByPhoneNo(mobilePhoneNo, deviceNo);
-        if ("0".equals(customerVo.getCertify())) {
-            throw new BusinessRuntimeException(new Message(Severity.ERROR, MsgCode.BANK_NAME_CERTIFY_FAIL));
-        }
-        if ("0".equals(customerVo.getBankCardCount())) {
-            throw new BusinessRuntimeException(new Message(Severity.ERROR, MsgCode.BANK_CARD_NOT_BINGING));
-        }
-        String customerId = customerSession.getCustomerId();
-
-        PageVo pageVo = new PageVo();
-        pageVo.put("EQS_bankCardNo", bankCardNo);
-        List<BankCardVo> bankCardVoList = bankCardService.findBankCardsByToken(token, pageVo);
-        if (bankCardVoList == null || bankCardVoList.isEmpty()) {
-            throw new BusinessRuntimeException(new Message(Severity.ERROR, MsgCode.BANK_CARD_NOT_BINGING));
-        }
-        BankCardVo bankCardVo = bankCardVoList.get(0);
-
-        //开户
-        openAccountPactService.createFundOpenAccount(customerId, bankCardVo);
-        //子帐号
-        accountService.createSubAccount(customerId,fundCompanyCode, prdType);
-        //下单记录
-        tradePurchase(tradeFormVo, bankCardVo, customerId);
-        //调用支付接口
-
-        
-        
+    if ("0".equals(customerVo.getBankCardCount())) {
+      throw new BusinessRuntimeException(new Message(Severity.ERROR, MsgCode.BANK_CARD_NOT_BINGING));
     }
+    String customerId = customerSession.getCustomerId();
 
-    private Trade tradePurchase (TradeFormVo tradeFormVo,BankCardVo bankCardVo, String customerId){
-        String tradeAmount = tradeFormVo.getTradeAmount();
-        String quantity = tradeFormVo.getQuantity();
-        String prdCode = tradeFormVo.getPrdCode();
-        String bankName = bankCardVo.getBankName();
-        String bankCardNo = bankCardVo.getBankCardNo();
-
-        Timestamp currentTime = DBHelper.getCurrentTime();
-
-        Trade trade = new Trade();
-        trade.setTradeNo(formatTradeNo(tradeDao.getTradeNoSeq(), currentTime));
-        trade.setType("1");//1:申购
-        trade.setTradeStatus("1");//申购中
-        trade.setConfirmStatus("1");//1-待确认
-        trade.setTradeTime(currentTime);
-        trade.setCreateTime(currentTime);
-        trade.setCustId(customerId);
-        trade.setBankCardNo(bankCardNo);
-        trade.setBankName(bankName);
-        trade.setPayStatus("1");//未付款
-        trade.setTradeAmount(new BigDecimal(tradeAmount));
-        trade.setQuantity(Integer.valueOf(quantity));
-
-        Fund fund = productService.findFundByCode(prdCode);
-        trade.setProductCode(prdCode);
-        trade.setProductName(fund.getChiName());
-        trade.setProductPrice(fund.getMinApplyAmount());
-        if (fund.getCharge() != null) {
-            trade.setFee(fund.getCharge());
-        }
-        return tradeDao.saveTrade(trade);
+    PageVo pageVo = new PageVo();
+    pageVo.put("EQS_bankCardNo", bankCardNo);
+    List<BankCardVo> bankCardVoList = bankCardService.findBankCardsByToken(token, pageVo);
+    if (bankCardVoList == null || bankCardVoList.isEmpty()) {
+      throw new BusinessRuntimeException(new Message(Severity.ERROR, MsgCode.BANK_CARD_NOT_BINGING));
     }
+    BankCardVo bankCardVo = bankCardVoList.get(0);
 
-    private String formatTradeNo(String tradeNoSeq, Timestamp currentTime){
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMddHHmmssss");
-        String time = sdf.format(currentTime);
-        return time + tradeNoSeq;
+    //开户
+    openAccountPactService.createFundOpenAccount(customerId, bankCardVo);
+    //子帐号
+    accountService.createSubAccount(customerId, fundCompanyCode, prdType);
+    //下单记录
+    tradePurchase(tradeFormVo, bankCardVo, customerId);
+    //调用支付接口
+
+
+  }
+
+  private Trade tradePurchase(TradeFormVo tradeFormVo, BankCardVo bankCardVo, String customerId) {
+    String tradeAmount = tradeFormVo.getTradeAmount();
+    String quantity = tradeFormVo.getQuantity();
+    String prdCode = tradeFormVo.getPrdCode();
+    String bankName = bankCardVo.getBankName();
+    String bankCardNo = bankCardVo.getBankCardNo();
+
+    Timestamp currentTime = DBHelper.getCurrentTime();
+
+    Trade trade = new Trade();
+    trade.setTradeNo(formatTradeNo(tradeDao.getTradeNoSeq(), currentTime));
+    trade.setType("1");//1:申购
+    trade.setTradeStatus("1");//申购中
+    trade.setConfirmStatus("1");//1-待确认
+    trade.setTradeTime(currentTime);
+    trade.setCreateTime(currentTime);
+    trade.setCustId(customerId);
+    trade.setBankCardNo(bankCardNo);
+    trade.setBankName(bankName);
+    trade.setPayStatus("1");//未付款
+    trade.setTradeAmount(new BigDecimal(tradeAmount));
+    trade.setQuantity(Integer.valueOf(quantity));
+
+    Fund fund = productService.findFundByCode(prdCode);
+    trade.setProductCode(prdCode);
+    trade.setProductName(fund.getChiName());
+    trade.setProductPrice(fund.getMinApplyAmount());
+    if (fund.getCharge() != null) {
+      trade.setFee(fund.getCharge());
     }
+    return tradeDao.saveTrade(trade);
+  }
 
-    public void tradeRedeem(){
+  private String formatTradeNo(String tradeNoSeq, Timestamp currentTime) {
+    SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMddHHmmssss");
+    String time = sdf.format(currentTime);
+    return time + tradeNoSeq;
+  }
 
-    }
+  public void tradeRedeem() {
+
+  }
 
 }

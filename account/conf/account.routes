@@ -5,15 +5,15 @@
 
 
 #capital
-POST        /accountital/totalcapital                 @com.sunlights.account.web.CapitalController.getTotalCapitalInfo
-POST        /accountital/allcapital4prd               @com.sunlights.account.web.CapitalController.getAllCapital4Prd
-POST        /accountital/mycapital                    @com.sunlights.account.web.CapitalController.getMyCapital
-POST        /accountital/findtotalprofits             @com.sunlights.account.web.CapitalController.findTotalProfitList
+POST        /accountital/totalcapital            @com.sunlights.account.web.CapitalController.getTotalCapitalInfo
+POST        /accountital/allcapital4prd          @com.sunlights.account.web.CapitalController.getAllCapital4Prd
+POST        /accountital/mycapital               @com.sunlights.account.web.CapitalController.getMyCapital
+POST        /accountital/findtotalprofits        @com.sunlights.account.web.CapitalController.findTotalProfitList
 
 #Account
-POST        /resetaccpwdcertify                       @com.sunlights.account.web.BaseAccountController.resetAccountPwdCertify
-POST        /resetaccpwd                              @com.sunlights.account.web.BaseAccountController.resetAccountPwd
+POST        /resetaccpwdcertify                  @com.sunlights.account.web.BaseAccountController.resetAccountPwdCertify
+POST        /resetaccpwd                         @com.sunlights.account.web.BaseAccountController.resetAccountPwd
 
 
 # Map static resources from the /public folder to the /assets URL path
-GET        /assets/*file        controllers.Assets.at(path="/public", file)
+GET         /assets/*file                        controllers.Assets.at(path="/public", file)

@@ -18,21 +18,21 @@ import java.util.List;
  * @author <a href="mailto:zhencai.yuan@sunlights.cc">yuanzhencai</a>
  */
 public class FundDaoImpl extends EntityBaseDao implements FundDao {
-    @Override
-    public Fund findFundByCode(String code) {
-        List<Fund> funds = super.findBy(Fund.class, "fundCode", code);
-        return funds.isEmpty() ? null : funds.get(0);
+  @Override
+  public Fund findFundByCode(String code) {
+    List<Fund> funds = super.findBy(Fund.class, "fundCode", code);
+    return funds.isEmpty() ? null : funds.get(0);
+  }
+
+  @Override
+  public List<FundHistory> findFundHistoriesByDays(String fundCode, int days) {
+
+    String jpql = " select fh from FundHistory fh where fh.fundCode = '" + fundCode + "' order by fh.createTime desc";
+
+    Query query = super.createQuery(jpql);
+    if (days > 0) {
+      query.setMaxResults(days);
     }
-
-    @Override
-    public List<FundHistory> findFundHistoriesByDays(String fundCode, int days) {
-
-        String jpql = " select fh from FundHistory fh where fh.fundCode = '" + fundCode + "' order by fh.createTime desc";
-
-        Query query = super.createQuery(jpql);
-        if (days > 0) {
-            query.setMaxResults(days);
-        }
-        return query.getResultList();
-    }
+    return query.getResultList();
+  }
 }

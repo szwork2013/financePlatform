@@ -15,13 +15,13 @@ import models.SmsMessage;
  */
 
 public class SmsMessageDaoImpl extends EntityBaseDao implements SmsMessageDao {
-    @Override
-    public SmsMessage saveSmsMessage(SmsMessage smsMessage) {
-        return create(smsMessage);
-    }
+  @Override
+  public SmsMessage saveSmsMessage(SmsMessage smsMessage) {
+    return create(smsMessage);
+  }
 
-    @Override
-    public SmsMessage updateSmsMessage(SmsMessage smsMessage) {
-        return update(smsMessage);
-    }
+  @Override
+  public SmsMessage updateSmsMessage(SmsMessage smsMessage) {
+    return update(smsMessage);
+  }
 }

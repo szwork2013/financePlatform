@@ -12,6 +12,7 @@ import com.sunlights.core.vo.BankVo;
  * @author <a href="mailto:zhencai.yuan@sunlights.cc">yuanzhencai</a>
  */
 public interface BankClient {
-    public BankVo findBankByBankCardNo(String bankCardNo);
-    public boolean validateBankCard(String idCardNo, String bankCardNo);
+  public BankVo findBankByBankCardNo(String bankCardNo);
+
+  public boolean validateBankCard(String idCardNo, String bankCardNo);
 }

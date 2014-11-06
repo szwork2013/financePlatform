@@ -16,9 +16,9 @@ libraryDependencies ++= Seq(
   javaJpa.exclude("org.hibernate.javax.persistence", "hibernate-jpa-2.0-api"),
   cache,
   javaWs,
-  "cn.com.nciic" % "sfxxrz" %"1.0"
+  "cn.com.nciic" % "sfxxrz" % "1.0"
 )
 
-sources in (Compile,doc) := Seq.empty
+sources in(Compile, doc) := Seq.empty
 
-publishArtifact in (Compile, packageDoc) := false
+publishArtifact in(Compile, packageDoc) := false

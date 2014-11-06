@@ -12,5 +12,5 @@ import models.Bank;
  * @author <a href="mailto:zhencai.yuan@sunlights.cc">yuanzhencai</a>
  */
 public interface BankDao {
-    public Bank findBankByBankCode(String bankCode);
+  public Bank findBankByBankCode(String bankCode);
 }

@@ -11,14 +11,14 @@ package com.sunlights.core.vo;
  * @author <a href="mailto:zhencai.yuan@sunlights.cc">yuanzhencai</a>
  */
 public class BankCardFormVo extends BankCardVo {
-    // 银行卡号
-    private String bankCardPassword;
+  // 银行卡号
+  private String bankCardPassword;
 
-    public String getBankCardPassword() {
-        return bankCardPassword;
-    }
+  public String getBankCardPassword() {
+    return bankCardPassword;
+  }
 
-    public void setBankCardPassword(String bankCardPassword) {
-        this.bankCardPassword = bankCardPassword;
-    }
+  public void setBankCardPassword(String bankCardPassword) {
+    this.bankCardPassword = bankCardPassword;
+  }
 }

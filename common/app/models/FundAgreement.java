@@ -14,47 +14,47 @@ import java.util.Date;
  */
 @Entity
 @Table(name = "f_fund_Agreement")
-public class FundAgreement extends IdEntity{
-    @Column(name = "customer_id", length = 30)
-    private String customerId;
-    @Column(name = "company_code", length = 20)
-    private String companyCode;
-    @Temporal(TemporalType.TIMESTAMP)
-    @Column(name = "create_time")
-    private Date createTime;
-    @Temporal(TemporalType.TIMESTAMP)
-    @Column(name = "update_time")
-    private Date updateTime;
+public class FundAgreement extends IdEntity {
+  @Column(name = "customer_id", length = 30)
+  private String customerId;
+  @Column(name = "company_code", length = 20)
+  private String companyCode;
+  @Temporal(TemporalType.TIMESTAMP)
+  @Column(name = "create_time")
+  private Date createTime;
+  @Temporal(TemporalType.TIMESTAMP)
+  @Column(name = "update_time")
+  private Date updateTime;
 
-    public String getCustomerId() {
-        return customerId;
-    }
+  public String getCustomerId() {
+    return customerId;
+  }
 
-    public void setCustomerId(String customerId) {
-        this.customerId = customerId;
-    }
+  public void setCustomerId(String customerId) {
+    this.customerId = customerId;
+  }
 
-    public String getCompanyCode() {
-        return companyCode;
-    }
+  public String getCompanyCode() {
+    return companyCode;
+  }
 
-    public void setCompanyCode(String companyCode) {
-        this.companyCode = companyCode;
-    }
+  public void setCompanyCode(String companyCode) {
+    this.companyCode = companyCode;
+  }
 
-    public Date getCreateTime() {
-        return createTime;
-    }
+  public Date getCreateTime() {
+    return createTime;
+  }
 
-    public void setCreateTime(Date createTime) {
-        this.createTime = createTime;
-    }
+  public void setCreateTime(Date createTime) {
+    this.createTime = createTime;
+  }
 
-    public Date getUpdateTime() {
-        return updateTime;
-    }
+  public Date getUpdateTime() {
+    return updateTime;
+  }
 
-    public void setUpdateTime(Date updateTime) {
-        this.updateTime = updateTime;
-    }
+  public void setUpdateTime(Date updateTime) {
+    this.updateTime = updateTime;
+  }
 }

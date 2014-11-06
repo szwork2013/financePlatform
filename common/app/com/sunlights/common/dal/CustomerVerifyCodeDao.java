@@ -12,7 +12,9 @@ import models.CustomerVerifyCode;
  * @author <a href="mailto:jiaming.wang@sunlights.cc">wangJiaMing</a>
  */
 public interface CustomerVerifyCodeDao {
-    public CustomerVerifyCode saveCustomerVerifyCode(CustomerVerifyCode customerVerifyCode);
-    public CustomerVerifyCode updateCustomerVerifyCode(CustomerVerifyCode customerVerifyCode);
-    public CustomerVerifyCode findVerifyCodeByType(String mobilePhoneNo, String verifyType);
+  public CustomerVerifyCode saveCustomerVerifyCode(CustomerVerifyCode customerVerifyCode);
+
+  public CustomerVerifyCode updateCustomerVerifyCode(CustomerVerifyCode customerVerifyCode);
+
+  public CustomerVerifyCode findVerifyCodeByType(String mobilePhoneNo, String verifyType);
 }

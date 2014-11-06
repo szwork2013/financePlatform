@@ -5,70 +5,70 @@ import com.sunlights.account.AccountConstant;
 import java.io.Serializable;
 
 public class Capital4Product implements Serializable {
-	private static final long serialVersionUID = 8471977226403621283L;
+  private static final long serialVersionUID = 8471977226403621283L;
 
-	private String prdCode;
-	
-	private String prdName;
-	
-	private String totalProfit = AccountConstant.DEFAULT_MONEY;
-	
-	private String marketValue = AccountConstant.DEFAULT_MONEY;
+  private String prdCode;
 
-    private String prdType;
-    private String prdTypeDesc;
-    
+  private String prdName;
 
-    public Capital4Product(){
+  private String totalProfit = AccountConstant.DEFAULT_MONEY;
 
-    }
+  private String marketValue = AccountConstant.DEFAULT_MONEY;
+
+  private String prdType;
+  private String prdTypeDesc;
 
 
-    public String getPrdCode() {
-        return prdCode;
-    }
+  public Capital4Product() {
 
-    public void setPrdCode(String prdCode) {
-        this.prdCode = prdCode;
-    }
+  }
 
-    public String getPrdName() {
-        return prdName;
-    }
 
-    public void setPrdName(String prdName) {
-        this.prdName = prdName;
-    }
+  public String getPrdCode() {
+    return prdCode;
+  }
 
-    public String getTotalProfit() {
-		return totalProfit;
-	}
+  public void setPrdCode(String prdCode) {
+    this.prdCode = prdCode;
+  }
 
-	public void setTotalProfit(String totalProfit) {
-		this.totalProfit = totalProfit;
-	}
+  public String getPrdName() {
+    return prdName;
+  }
 
-	public String getMarketValue() {
-		return marketValue;
-	}
+  public void setPrdName(String prdName) {
+    this.prdName = prdName;
+  }
 
-	public void setMarketValue(String marketValue) {
-		this.marketValue = marketValue;
-	}
+  public String getTotalProfit() {
+    return totalProfit;
+  }
 
-    public String getPrdTypeDesc() {
-        return prdTypeDesc;
-    }
+  public void setTotalProfit(String totalProfit) {
+    this.totalProfit = totalProfit;
+  }
 
-    public void setPrdTypeDesc(String prdTypeDesc) {
-        this.prdTypeDesc = prdTypeDesc;
-    }
+  public String getMarketValue() {
+    return marketValue;
+  }
 
-    public String getPrdType() {
-        return prdType;
-    }
+  public void setMarketValue(String marketValue) {
+    this.marketValue = marketValue;
+  }
 
-    public void setPrdType(String prdType) {
-        this.prdType = prdType;
-    }
+  public String getPrdTypeDesc() {
+    return prdTypeDesc;
+  }
+
+  public void setPrdTypeDesc(String prdTypeDesc) {
+    this.prdTypeDesc = prdTypeDesc;
+  }
+
+  public String getPrdType() {
+    return prdType;
+  }
+
+  public void setPrdType(String prdType) {
+    this.prdType = prdType;
+  }
 }

@@ -14,77 +14,77 @@ import java.util.Date;
  */
 @Entity
 @Table(name = "c_fund_open_account")
-public class FundOpenAccount extends IdEntity{
-    @Column(name = "bank_Card_No",length = 32)
-    private String bankCardNo;
-    @Column(name = "bank_code",length = 20)
-    private String bankCode;
-    @Column(name = "bank_buyer_name",length = 10)
-    private String bankBuyerName;
-    @Column(name = "branch_bank_name",length = 60)
-    private String branchBankName;
-    @Column(name = "customer_Id",length = 30)
-    private String customerId;
-    @Temporal(TemporalType.TIMESTAMP)
-    @Column(name = "create_time",length = 32)
-    private Date createTime;
-    @Temporal(TemporalType.TIMESTAMP)
-    @Column(name = "update_time",length = 32)
-    private Date updateTime;
+public class FundOpenAccount extends IdEntity {
+  @Column(name = "bank_Card_No", length = 32)
+  private String bankCardNo;
+  @Column(name = "bank_code", length = 20)
+  private String bankCode;
+  @Column(name = "bank_buyer_name", length = 10)
+  private String bankBuyerName;
+  @Column(name = "branch_bank_name", length = 60)
+  private String branchBankName;
+  @Column(name = "customer_Id", length = 30)
+  private String customerId;
+  @Temporal(TemporalType.TIMESTAMP)
+  @Column(name = "create_time", length = 32)
+  private Date createTime;
+  @Temporal(TemporalType.TIMESTAMP)
+  @Column(name = "update_time", length = 32)
+  private Date updateTime;
 
-    public String getBankCardNo() {
-        return bankCardNo;
-    }
+  public String getBankCardNo() {
+    return bankCardNo;
+  }
 
-    public void setBankCardNo(String bankCardNo) {
-        this.bankCardNo = bankCardNo;
-    }
+  public void setBankCardNo(String bankCardNo) {
+    this.bankCardNo = bankCardNo;
+  }
 
-    public String getBankCode() {
-        return bankCode;
-    }
+  public String getBankCode() {
+    return bankCode;
+  }
 
-    public void setBankCode(String bankCode) {
-        this.bankCode = bankCode;
-    }
+  public void setBankCode(String bankCode) {
+    this.bankCode = bankCode;
+  }
 
-    public String getBankBuyerName() {
-        return bankBuyerName;
-    }
+  public String getBankBuyerName() {
+    return bankBuyerName;
+  }
 
-    public void setBankBuyerName(String bankBuyerName) {
-        this.bankBuyerName = bankBuyerName;
-    }
+  public void setBankBuyerName(String bankBuyerName) {
+    this.bankBuyerName = bankBuyerName;
+  }
 
-    public String getBranchBankName() {
-        return branchBankName;
-    }
+  public String getBranchBankName() {
+    return branchBankName;
+  }
 
-    public void setBranchBankName(String branchBankName) {
-        this.branchBankName = branchBankName;
-    }
+  public void setBranchBankName(String branchBankName) {
+    this.branchBankName = branchBankName;
+  }
 
-    public String getCustomerId() {
-        return customerId;
-    }
+  public String getCustomerId() {
+    return customerId;
+  }
 
-    public void setCustomerId(String customerId) {
-        this.customerId = customerId;
-    }
+  public void setCustomerId(String customerId) {
+    this.customerId = customerId;
+  }
 
-    public Date getCreateTime() {
-        return createTime;
-    }
+  public Date getCreateTime() {
+    return createTime;
+  }
 
-    public void setCreateTime(Date createTime) {
-        this.createTime = createTime;
-    }
+  public void setCreateTime(Date createTime) {
+    this.createTime = createTime;
+  }
 
-    public Date getUpdateTime() {
-        return updateTime;
-    }
+  public Date getUpdateTime() {
+    return updateTime;
+  }
 
-    public void setUpdateTime(Date updateTime) {
-        this.updateTime = updateTime;
-    }
+  public void setUpdateTime(Date updateTime) {
+    this.updateTime = updateTime;
+  }
 }

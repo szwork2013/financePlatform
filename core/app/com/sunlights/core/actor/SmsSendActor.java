@@ -16,19 +16,19 @@ import play.libs.F;
  * @author <a href="mailto:jiaming.wang@sunlights.cc">wangJiaMing</a>
  */
 public class SmsSendActor extends UntypedActor {
-    @Override
-    public void onReceive(Object message) throws Exception {
-        if (message instanceof SmsMessage) {
-            final SmsMessage sm = (SmsMessage) message;
-            JPA.withTransaction(new F.Callback0() {
-                @Override
-                public void invoke() throws Throwable {
-                    SmsMessageService smsMessageService = new SmsMessageService();
-                    smsMessageService.sendSms(sm);
-                }
-            });
-        } else {
-            unhandled(message);
+  @Override
+  public void onReceive(Object message) throws Exception {
+    if (message instanceof SmsMessage) {
+      final SmsMessage sm = (SmsMessage) message;
+      JPA.withTransaction(new F.Callback0() {
+        @Override
+        public void invoke() throws Throwable {
+          SmsMessageService smsMessageService = new SmsMessageService();
+          smsMessageService.sendSms(sm);
         }
+      });
+    } else {
+      unhandled(message);
     }
+  }
 }

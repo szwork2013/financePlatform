@@ -16,29 +16,29 @@ import java.util.List;
  * @author <a href="mailto:zhencai.yuan@sunlights.cc">yuanzhencai</a>
  */
 public class BankCardDaoImpl extends EntityBaseDao implements BankCardDao {
-    @Override
-    public BankCard create(BankCard bankCard) {
-        return super.create(bankCard);
-    }
+  @Override
+  public BankCard create(BankCard bankCard) {
+    return super.create(bankCard);
+  }
 
-    @Override
-    public void deleteById(Long bankId) {
-        BankCard bankCard = super.find(BankCard.class, bankId);
-        super.delete(bankCard);
-    }
+  @Override
+  public void deleteById(Long bankId) {
+    BankCard bankCard = super.find(BankCard.class, bankId);
+    super.delete(bankCard);
+  }
 
-    @Override
-    public void deleteByNo(String no) {
-        List<BankCard> bankCards = super.findBy(BankCard.class, "bankCardNo", no);
-        if (!bankCards.isEmpty()) {
-            super.delete(bankCards.get(0));
-        }
+  @Override
+  public void deleteByNo(String no) {
+    List<BankCard> bankCards = super.findBy(BankCard.class, "bankCardNo", no);
+    if (!bankCards.isEmpty()) {
+      super.delete(bankCards.get(0));
     }
+  }
 
-    @Override
-    public boolean hasBankCard(String bankCardNo) {
-        List<BankCard> bankCards = super.findBy(BankCard.class, "bankCardNo", bankCardNo);
-        return !bankCards.isEmpty();
-    }
+  @Override
+  public boolean hasBankCard(String bankCardNo) {
+    List<BankCard> bankCards = super.findBy(BankCard.class, "bankCardNo", bankCardNo);
+    return !bankCards.isEmpty();
+  }
 
 }

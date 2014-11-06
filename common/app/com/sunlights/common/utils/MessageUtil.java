@@ -14,43 +14,43 @@ import com.fasterxml.jackson.databind.JsonNode;
  */
 public class MessageUtil {
 
-    private MessageVo mesageVo;
+  private MessageVo mesageVo;
 
-    private MessageUtil() {
-        super();
+  private MessageUtil() {
+    super();
+  }
+
+  private static ThreadLocal<MessageUtil> instance = new ThreadLocal<MessageUtil>() {
+    protected MessageUtil initialValue() {
+      return (new MessageUtil());
     }
+  };
 
-    private static ThreadLocal<MessageUtil> instance = new ThreadLocal<MessageUtil>() {
-        protected MessageUtil initialValue() {
-            return (new MessageUtil());
-        }
-    };
+  public static MessageUtil getInstance() {
+    return instance.get();
+  }
 
-    public static MessageUtil getInstance() {
-        return instance.get();
-    }
+  public void setMessage(Message message) {
+    mesageVo = new MessageVo(message);
+  }
 
-    public void setMessage(Message message) {
-        mesageVo = new MessageVo(message);
-    }
+  public void setMessage(Message message, Object value) {
+    setMessage(message);
+    mesageVo.setValue(value);
+  }
 
-    public void setMessage(Message message, Object value) {
-        setMessage(message);
-        mesageVo.setValue(value);
-    }
+  public JsonNode toJson() {
+    return Json.toJson(mesageVo);
+  }
 
-    public JsonNode toJson() {
-        return Json.toJson(mesageVo);
-    }
+  public JsonNode msgToJson(Message message, Object value) {
+    setMessage(message, value);
+    return toJson();
+  }
 
-    public JsonNode msgToJson(Message message, Object value) {
-        setMessage(message, value);
-        return toJson();
-    }
-
-    public JsonNode msgToJson(Message message) {
-        setMessage(message);
-        return toJson();
-    }
+  public JsonNode msgToJson(Message message) {
+    setMessage(message);
+    return toJson();
+  }
 
 }

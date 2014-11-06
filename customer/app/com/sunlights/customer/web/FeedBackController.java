@@ -26,21 +26,21 @@ import static play.data.Form.form;
  */
 @Transactional
 public class FeedBackController extends Controller {
-    
-    private FeedBackService feedBackService = new FeedBackServiceImpl();
-    
-    public Result saveFeedBack(){
-        Map<String, String> params = form().bindFromRequest().data();
 
-        String mobile = params.get("mobile");
-        String deviceNo = params.get("deviceNo");
-        String content = params.get("feedback");
-        
-        feedBackService.saveFeedBack(mobile, content, deviceNo);
+  private FeedBackService feedBackService = new FeedBackServiceImpl();
 
-        JsonNode json = MessageUtil.getInstance().msgToJson(new Message(MsgCode.OPERATE_SUCCESS));
-        
-        return ok(json);
-    }
+  public Result saveFeedBack() {
+    Map<String, String> params = form().bindFromRequest().data();
+
+    String mobile = params.get("mobile");
+    String deviceNo = params.get("deviceNo");
+    String content = params.get("feedback");
+
+    feedBackService.saveFeedBack(mobile, content, deviceNo);
+
+    JsonNode json = MessageUtil.getInstance().msgToJson(new Message(MsgCode.OPERATE_SUCCESS));
+
+    return ok(json);
+  }
 
 }

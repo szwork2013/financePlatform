@@ -13,9 +13,9 @@ import models.FeedBack;
  *
  * @author <a href="mailto:jiaming.wang@sunlights.cc">wangJiaMing</a>
  */
-public class FeedBackDaoImpl extends EntityBaseDao implements FeedBackDao{
+public class FeedBackDaoImpl extends EntityBaseDao implements FeedBackDao {
 
-    public FeedBack saveFeedBack(FeedBack feedBack){
-        return create(feedBack);
-    }
+  public FeedBack saveFeedBack(FeedBack feedBack) {
+    return create(feedBack);
+  }
 }

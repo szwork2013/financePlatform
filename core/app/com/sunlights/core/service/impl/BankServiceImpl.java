@@ -30,54 +30,54 @@ import java.util.List;
  * @author <a href="mailto:zhencai.yuan@sunlights.cc">yuanzhencai</a>
  */
 public class BankServiceImpl implements BankService {
-    private BankDao bankDao = new BankDaoImpl();
+  private BankDao bankDao = new BankDaoImpl();
 
-    private PageService pageService = new PageService();
+  private PageService pageService = new PageService();
 
-    private BankClient bankClient = new BankClientImpl();
+  private BankClient bankClient = new BankClientImpl();
 
-    private CustomerService customerService = new CustomerService();
+  private CustomerService customerService = new CustomerService();
 
-    @Override
-    public List<BankVo> findBanksBy(PageVo pageVo) {
-        StringBuilder xsql = new StringBuilder();
-        xsql.append(" select new com.sunlights.core.vo.BankVo(b)");
-        xsql.append(" from Bank b");
-        xsql.append(" where 1=1");
-        xsql.append(" /~ and b.bankName like {bankName} ~/ ");
-        xsql.append(" /~ and b.bankCode like {bankCode} ~/ ");
-        xsql.append(" /~ and b.status = {status} ~/ ");
-        List<BankVo> bankVos = pageService.findXsqlBy(xsql.toString(), pageVo);
-        pageVo.getList().addAll(bankVos);
-        return bankVos;
+  @Override
+  public List<BankVo> findBanksBy(PageVo pageVo) {
+    StringBuilder xsql = new StringBuilder();
+    xsql.append(" select new com.sunlights.core.vo.BankVo(b)");
+    xsql.append(" from Bank b");
+    xsql.append(" where 1=1");
+    xsql.append(" /~ and b.bankName like {bankName} ~/ ");
+    xsql.append(" /~ and b.bankCode like {bankCode} ~/ ");
+    xsql.append(" /~ and b.status = {status} ~/ ");
+    List<BankVo> bankVos = pageService.findXsqlBy(xsql.toString(), pageVo);
+    pageVo.getList().addAll(bankVos);
+    return bankVos;
+  }
+
+  @Override
+  public BankVo findBankByBankCardNo(String bankCardNo) {
+    BankVo bankVo = bankClient.findBankByBankCardNo(bankCardNo);
+    if (StringUtils.isNotEmpty(bankVo.bankCode)) {
+      Bank bank = bankDao.findBankByBankCode(bankVo.bankCode);
+      return new BankVo(bank);
     }
+    return bankVo;
+  }
 
-    @Override
-    public BankVo findBankByBankCardNo(String bankCardNo) {
-        BankVo bankVo = bankClient.findBankByBankCardNo(bankCardNo);
-        if (StringUtils.isNotEmpty(bankVo.bankCode)) {
-            Bank bank = bankDao.findBankByBankCode(bankVo.bankCode);
-            return new BankVo(bank);
-        }
-        return bankVo;
-    }
+  @Override
+  public Bank findBankByBankCode(String bankCode) {
+    return bankDao.findBankByBankCode(bankCode);
+  }
 
-    @Override
-    public Bank findBankByBankCode(String bankCode) {
-        return bankDao.findBankByBankCode(bankCode);
+  @Override
+  public boolean validateBankCard(String token, BankCardVo bankCardVo) {
+    if (StringUtils.isEmpty(token)) {
+      MessageUtil.getInstance().setMessage(new Message(Severity.INFO, MsgCode.LOGIN_TIMEOUT));
+      return false;
     }
-
-    @Override
-    public boolean validateBankCard(String token, BankCardVo bankCardVo) {
-        if (StringUtils.isEmpty(token)) {
-            MessageUtil.getInstance().setMessage(new Message(Severity.INFO, MsgCode.LOGIN_TIMEOUT));
-            return false;
-        }
-        Customer customer = customerService.getCustomerByToken(token);
-        if (customer == null || StringUtils.isEmpty(customer.getIdentityNumber())) {
-            MessageUtil.getInstance().setMessage(new Message(Severity.ERROR, MsgCode.BANK_NAME_CERTIFY_FAIL, "验证失败", "请先实名认证。"));
-            return false;
-        }
-        return bankClient.validateBankCard(customer.getIdentityNumber(), bankCardVo.getNo());
+    Customer customer = customerService.getCustomerByToken(token);
+    if (customer == null || StringUtils.isEmpty(customer.getIdentityNumber())) {
+      MessageUtil.getInstance().setMessage(new Message(Severity.ERROR, MsgCode.BANK_NAME_CERTIFY_FAIL, "验证失败", "请先实名认证。"));
+      return false;
     }
+    return bankClient.validateBankCard(customer.getIdentityNumber(), bankCardVo.getNo());
+  }
 }

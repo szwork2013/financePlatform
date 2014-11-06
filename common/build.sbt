@@ -34,7 +34,7 @@ libraryDependencies ++= Seq(
   "rapid" % "xsqlbuider" % "1.0.4"
 )
 
-sources in (Compile,doc) := Seq.empty
+sources in(Compile, doc) := Seq.empty
 
-publishArtifact in (Compile, packageDoc) := false
+publishArtifact in(Compile, packageDoc) := false
 

@@ -22,88 +22,91 @@ import java.util.List;
 /**
  * 我的资产的后台服务
  * 提供RESTful接口
- * 
- * @author tangweiqun	2014/10/22
  *
+ * @author tangweiqun  2014/10/22
  */
 @Transactional
-public class CapitalController extends Controller{
-	private Form<CapitalFormVo> capitalFormVoForm = Form.form(CapitalFormVo.class);
-	
-	private CapitalService capitalService = new CapitalServiceImpl();
-	
-	/**
-	 * 获取客户的总资产信息
-	 * @return
-	 */
-    @Transactional
-	public Result getTotalCapitalInfo() {
-		Form<String> form = Form.form(String.class).bindFromRequest();
-		String mobile = form.data().get("mobile");
-		System.out.println("mobile = " + mobile);
-		
-		Logger.info("mobile = === " + mobile);
-		TotalCapitalInfo totalCapitalInfo = capitalService.getTotalCapital(mobile, false);
-		MessageUtil.getInstance().setMessage(new Message(MsgCode.OPERATE_SUCCESS), totalCapitalInfo);
-		return ok(MessageUtil.getInstance().toJson());
-	}
-	
-	/**
-	 * 获取客户所有产品对应的资产信息
-	 * @return
-	 */
-	public Result getAllCapital4Prd() {
-		Form<String> form = Form.form(String.class).bindFromRequest();
-		String mobile = form.data().get("mobile");
-		System.out.println("mobile = " + mobile);
-        CapitalFormVo capitalFormVo = capitalFormVoForm.bindFromRequest().get();
-        PageVo pageVo = new PageVo();
-        pageVo.setIndex(capitalFormVo.getIndex());
-        pageVo.setPageSize(capitalFormVo.getPageSize());
+public class CapitalController extends Controller {
+  private Form<CapitalFormVo> capitalFormVoForm = Form.form(CapitalFormVo.class);
 
-		List<Capital4Product> capital4Products = capitalService.getAllCapital4Product(mobile, pageVo);
-        pageVo.setList(capital4Products);
+  private CapitalService capitalService = new CapitalServiceImpl();
 
-        MessageUtil.getInstance().setMessage(new Message(MsgCode.OPERATE_SUCCESS), capital4Products);
-        return ok(MessageUtil.getInstance().toJson());
-}
+  /**
+   * 获取客户的总资产信息
+   *
+   * @return
+   */
+  @Transactional
+  public Result getTotalCapitalInfo() {
+    Form<String> form = Form.form(String.class).bindFromRequest();
+    String mobile = form.data().get("mobile");
+    System.out.println("mobile = " + mobile);
 
-    /**
-     * 获取我的资产所有信息
-     * @return
-     */
-	public Result getMyCapital() {
-		Form<String> form = Form.form(String.class).bindFromRequest();
-		String mobile = form.data().get("mobile");
-		System.out.println("mobile = " + mobile);
-		
-		TotalCapitalInfo totalCapitalInfo = capitalService.getTotalCapital(mobile, true);
+    Logger.info("mobile = === " + mobile);
+    TotalCapitalInfo totalCapitalInfo = capitalService.getTotalCapital(mobile, false);
+    MessageUtil.getInstance().setMessage(new Message(MsgCode.OPERATE_SUCCESS), totalCapitalInfo);
+    return ok(MessageUtil.getInstance().toJson());
+  }
 
-        Message message = new Message(MsgCode.OPERATE_SUCCESS);
-        JsonNode json = MessageUtil.getInstance().msgToJson(message, totalCapitalInfo);
-		return ok(json);
+  /**
+   * 获取客户所有产品对应的资产信息
+   *
+   * @return
+   */
+  public Result getAllCapital4Prd() {
+    Form<String> form = Form.form(String.class).bindFromRequest();
+    String mobile = form.data().get("mobile");
+    System.out.println("mobile = " + mobile);
+    CapitalFormVo capitalFormVo = capitalFormVoForm.bindFromRequest().get();
+    PageVo pageVo = new PageVo();
+    pageVo.setIndex(capitalFormVo.getIndex());
+    pageVo.setPageSize(capitalFormVo.getPageSize());
 
-	}
+    List<Capital4Product> capital4Products = capitalService.getAllCapital4Product(mobile, pageVo);
+    pageVo.setList(capital4Products);
 
-    /**
-     * 累计收益查询
-     * @return
-     */
-    public Result findTotalProfitList(){
-        Form<CapitalFormVo> form = Form.form(CapitalFormVo.class).bindFromRequest();
-        CapitalFormVo capitalFormVo = form.get();
+    MessageUtil.getInstance().setMessage(new Message(MsgCode.OPERATE_SUCCESS), capital4Products);
+    return ok(MessageUtil.getInstance().toJson());
+  }
 
-        List<HoldCapitalVo> list = capitalService.findTotalProfitList(capitalFormVo);
+  /**
+   * 获取我的资产所有信息
+   *
+   * @return
+   */
+  public Result getMyCapital() {
+    Form<String> form = Form.form(String.class).bindFromRequest();
+    String mobile = form.data().get("mobile");
+    System.out.println("mobile = " + mobile);
 
-        PageVo pageVo = new PageVo();
-        pageVo.setIndex(capitalFormVo.getIndex());
-        pageVo.setCount(list.size());
-        pageVo.setPageSize(capitalFormVo.getPageSize());
-        pageVo.setList(list);
+    TotalCapitalInfo totalCapitalInfo = capitalService.getTotalCapital(mobile, true);
 
-        Message message = new Message(MsgCode.OPERATE_SUCCESS);
-        JsonNode json = MessageUtil.getInstance().msgToJson(message, pageVo);
-        return ok(json);
-    }
+    Message message = new Message(MsgCode.OPERATE_SUCCESS);
+    JsonNode json = MessageUtil.getInstance().msgToJson(message, totalCapitalInfo);
+    return ok(json);
+
+  }
+
+  /**
+   * 累计收益查询
+   *
+   * @return
+   */
+  public Result findTotalProfitList() {
+    Form<CapitalFormVo> form = Form.form(CapitalFormVo.class).bindFromRequest();
+    CapitalFormVo capitalFormVo = form.get();
+
+    List<HoldCapitalVo> list = capitalService.findTotalProfitList(capitalFormVo);
+
+    PageVo pageVo = new PageVo();
+    pageVo.setIndex(capitalFormVo.getIndex());
+    pageVo.setCount(list.size());
+    pageVo.setPageSize(capitalFormVo.getPageSize());
+    pageVo.setList(list);
+
+    Message message = new Message(MsgCode.OPERATE_SUCCESS);
+    JsonNode json = MessageUtil.getInstance().msgToJson(message, pageVo);
+    return ok(json);
+  }
 
 }

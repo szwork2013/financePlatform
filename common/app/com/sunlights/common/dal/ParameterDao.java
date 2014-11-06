@@ -14,9 +14,9 @@ import java.util.List;
  * @author <a href="mailto:jiaming.wang@sunlights.cc">wangJiaMing</a>
  */
 public interface ParameterDao {
-    public List<Parameter> loadAllParameter();
+  public List<Parameter> loadAllParameter();
 
-    public Parameter addParameter(Parameter parameter);
+  public Parameter addParameter(Parameter parameter);
 
-    public Parameter updateParameter(Parameter parameter);
+  public Parameter updateParameter(Parameter parameter);
 }

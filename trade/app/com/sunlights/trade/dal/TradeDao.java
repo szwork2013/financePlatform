@@ -18,17 +18,19 @@ import java.util.List;
  */
 public interface TradeDao {
 
-    public String getTradeNoSeq();
-    /**
-     * 获取交易记录
-     * @param customerId 客户号
-     * @param tradeSearchFormVo
-     * @return
-     */
-    public List<TradeVo> getTradeListByCustomerId(String customerId, TradeSearchFormVo tradeSearchFormVo, PageVo pageVo);
-    
-    public Trade saveTrade(Trade trade);
+  public String getTradeNoSeq();
 
-    public Trade updateTrade(Trade trade);
+  /**
+   * 获取交易记录
+   *
+   * @param customerId        客户号
+   * @param tradeSearchFormVo
+   * @return
+   */
+  public List<TradeVo> getTradeListByCustomerId(String customerId, TradeSearchFormVo tradeSearchFormVo, PageVo pageVo);
+
+  public Trade saveTrade(Trade trade);
+
+  public Trade updateTrade(Trade trade);
 
 }

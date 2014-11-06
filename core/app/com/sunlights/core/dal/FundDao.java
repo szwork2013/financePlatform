@@ -15,7 +15,7 @@ import java.util.List;
  * @author <a href="mailto:zhencai.yuan@sunlights.cc">yuanzhencai</a>
  */
 public interface FundDao {
-    public Fund findFundByCode(String code);
+  public Fund findFundByCode(String code);
 
-    public List<FundHistory> findFundHistoriesByDays(String fundCode, int days);
+  public List<FundHistory> findFundHistoriesByDays(String fundCode, int days);
 }

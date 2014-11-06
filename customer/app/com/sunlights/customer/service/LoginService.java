@@ -15,34 +15,37 @@ import com.sunlights.customer.vo.CustomerVo;
  * @author <a href="mailto:jiaming.wang@sunlights.cc">wangJiaMing</a>
  */
 public interface LoginService {
-    
-    public Customer register(CustomerFormVo customerFormVo);
 
-    public CustomerSession login(CustomerFormVo vo, String token, String clientAddress);
+  public Customer register(CustomerFormVo customerFormVo);
 
-    public CustomerSession loginByGesture(CustomerFormVo vo, String token, String clientAddress);
+  public CustomerSession login(CustomerFormVo vo, String token, String clientAddress);
 
-    public void logout(String mobilePhoneNo, String deviceNo, String token);
+  public CustomerSession loginByGesture(CustomerFormVo vo, String token, String clientAddress);
 
-    /**
-     * 忘记密码验证码校对
-     * @return
-     */
-    public boolean resetpwdCertify(CustomerFormVo vo);
+  public void logout(String mobilePhoneNo, String deviceNo, String token);
 
-    /**
-     * 重置密码
-     * @return
-     */
-    public Customer resetpwd(String mobilePhoneNo, String passWord, String deviceNo);
+  /**
+   * 忘记密码验证码校对
+   *
+   * @return
+   */
+  public boolean resetpwdCertify(CustomerFormVo vo);
 
-    /**
-     * 保存手势密码
-     * @return
-     */
-    public CustomerVo saveGesturePwd(CustomerFormVo vo);
+  /**
+   * 重置密码
+   *
+   * @return
+   */
+  public Customer resetpwd(String mobilePhoneNo, String passWord, String deviceNo);
 
-    public void confirmPwd(String mobilePhoneNo, String password);
+  /**
+   * 保存手势密码
+   *
+   * @return
+   */
+  public CustomerVo saveGesturePwd(CustomerFormVo vo);
 
-    public void saveLoginHistory(Customer customer, String deviceNo);
+  public void confirmPwd(String mobilePhoneNo, String password);
+
+  public void saveLoginHistory(Customer customer, String deviceNo);
 }

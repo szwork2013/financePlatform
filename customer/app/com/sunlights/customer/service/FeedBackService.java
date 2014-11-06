@@ -12,5 +12,5 @@ import models.FeedBack;
  * @author <a href="mailto:jiaming.wang@sunlights.cc">wangJiaMing</a>
  */
 public interface FeedBackService {
-    public FeedBack saveFeedBack(String mobile, String content, String deviceNo);
+  public FeedBack saveFeedBack(String mobile, String content, String deviceNo);
 }

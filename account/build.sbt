@@ -10,6 +10,6 @@ libraryDependencies ++= Seq(
   javaWs
 )
 
-sources in (Compile,doc) := Seq.empty
+sources in(Compile, doc) := Seq.empty
 
-publishArtifact in (Compile, packageDoc) := false
+publishArtifact in(Compile, packageDoc) := false
