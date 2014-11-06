@@ -36,7 +36,7 @@ public class FeedBackController extends Controller {
         String deviceNo = params.get("deviceNo");
         String content = params.get("feedback");
         
-        feedBackService.saveFeedBack(mobile, deviceNo, content);
+        feedBackService.saveFeedBack(mobile, content, deviceNo);
 
         JsonNode json = MessageUtil.getInstance().msgToJson(new Message(MsgCode.OPERATE_SUCCESS));
         

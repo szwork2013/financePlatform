@@ -32,7 +32,7 @@ public class FeedBack extends IdEntity{
     @Column(name = "UPDATE_TIME")
     private Date updateTime;
     @Column(name = "UPDATE_BY",length = 30)
-    private Date updateBy;
+    private String updateBy;
 
     public FeedBack() {
     }
@@ -93,11 +93,11 @@ public class FeedBack extends IdEntity{
         this.updateTime = updateTime;
     }
 
-    public Date getUpdateBy() {
+    public String getUpdateBy() {
         return updateBy;
     }
 
-    public void setUpdateBy(Date updateBy) {
+    public void setUpdateBy(String updateBy) {
         this.updateBy = updateBy;
     }
 
