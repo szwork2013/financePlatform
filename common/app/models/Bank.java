@@ -25,11 +25,11 @@ public class Bank extends IdEntity {
   private String status;
 
   @Temporal(TemporalType.TIMESTAMP)
-  @Column(name = "CREATED_DATETIME")
+  @Column(name = "CREATE_TIME")
   private Date createdDatetime;
 
   @Temporal(TemporalType.TIMESTAMP)
-  @Column(name = "UPDATE_DATETIME")
+  @Column(name = "UPDATE_TIME")
   private Date updateDatetime;
 
   public Bank() {
