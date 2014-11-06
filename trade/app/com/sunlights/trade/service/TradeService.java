@@ -5,6 +5,7 @@ import com.sunlights.common.vo.PageVo;
 import com.sunlights.trade.vo.CapitalProductTradeVo;
 import com.sunlights.trade.vo.TradeFormVo;
 import com.sunlights.trade.vo.TradeVo;
+import models.Trade;
 
 import java.util.List;
 
@@ -33,4 +34,7 @@ public interface TradeService {
      * @return
      */
     public CapitalProductTradeVo findCapitalProductDetailTrade(String token, TradeFormVo tradeFormVo);
+
+
+    public Trade createTrade();
 }

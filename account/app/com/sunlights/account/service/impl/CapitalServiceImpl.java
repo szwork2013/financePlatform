@@ -1,8 +1,8 @@
 package com.sunlights.account.service.impl;
 
-import com.sunlights.account.dal.BaseAccountDao;
+import com.sunlights.account.dal.AccountDao;
 import com.sunlights.account.dal.CapitalDao;
-import com.sunlights.account.dal.impl.BaseAccountDaoImpl;
+import com.sunlights.account.dal.impl.AccountDaoImpl;
 import com.sunlights.account.dal.impl.CapitalDaoImpl;
 import com.sunlights.account.service.CapitalService;
 import com.sunlights.account.vo.Capital4Product;
@@ -30,7 +30,7 @@ import java.util.List;
 public class CapitalServiceImpl implements CapitalService {
 	
 	private CapitalDao capitalDao = new CapitalDaoImpl();
-    private BaseAccountDao baseAccountDao = new BaseAccountDaoImpl();
+    private AccountDao accountDao = new AccountDaoImpl();
     private CustomerService customerService = new CustomerService();
 	
 	public TotalCapitalInfo getTotalCapital(String mobile, boolean takeCapital4Prd) {
@@ -38,9 +38,9 @@ public class CapitalServiceImpl implements CapitalService {
 		BigDecimal totalYesterdayProfit = BigDecimal.ZERO;
         BigDecimal totalProfit = BigDecimal.ZERO;
 
-        BaseAccount baseAccount = baseAccountDao.getBaseAccount(customer.getCustomerId());
+        BaseAccount baseAccount = accountDao.getBaseAccount(customer.getCustomerId());
         BigDecimal totalCapital = baseAccount.getBalance() == null ? BigDecimal.ZERO : baseAccount.getBalance();
-        List<SubAccount> subAccountList = baseAccountDao.findSubAccountList(customer.getCustomerId());
+        List<SubAccount> subAccountList = accountDao.findSubAccountList(customer.getCustomerId());
         for (SubAccount subAccount : subAccountList) {
             totalYesterdayProfit = totalYesterdayProfit.add(subAccount.getYesterdayProfit());
             totalProfit = totalProfit.add(subAccount.getProfit());

@@ -53,7 +53,8 @@ public enum MsgCode {
     BANK_CARD_ADD_FAIL("2212","银行卡添加失败"),
     BANK_CARD_DELETE_FAIL("2213","银行卡删除失败"),
     BANK_CARD_CERTIFY_FAIL("2214","银行卡验证失败"),
-    BIND_CARD_FAIL_EMPTY_BANK("2215","绑卡失败","银行不能为空")
+    BIND_CARD_FAIL_EMPTY_BANK("2215","绑卡失败","银行不能为空"),
+    BANK_CARD_NOT_BINGING("2216", "未绑卡银行卡"),
     ;
 
     private String code;

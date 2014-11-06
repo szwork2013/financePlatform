@@ -11,7 +11,7 @@ import java.io.Serializable;
  *
  * @author <a href="mailto:jiaming.wang@sunlights.cc">wangJiaMing</a>
  */
-public class TradeFormVo implements Serializable{
+public class TradeSearchFormVo implements Serializable{
     private int index = 0;
     private int pageSize = 0;
     private int count = 0;

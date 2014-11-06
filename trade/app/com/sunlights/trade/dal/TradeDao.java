@@ -16,6 +16,8 @@ import java.util.List;
  * @author <a href="mailto:jiaming.wang@sunlights.cc">wangJiaMing</a>
  */
 public interface TradeDao {
+
+    public String getTradeNoSeq();
     /**
      * 获取交易记录
      * @param customerId 客户号

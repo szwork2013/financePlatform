@@ -8,13 +8,10 @@ import play.Logger;
 import play.db.jpa.JPA;
 import play.libs.F;
 import play.test.FakeRequest;
-import web.TestUtil;
 
 import javax.persistence.Query;
 import java.util.HashMap;
 import java.util.Map;
-
-import static web.TestUtil.*;
 
 import static org.fest.assertions.Assertions.assertThat;
 import static play.test.Helpers.*;

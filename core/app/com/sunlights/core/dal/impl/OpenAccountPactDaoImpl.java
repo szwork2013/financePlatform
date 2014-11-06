@@ -2,8 +2,10 @@ package com.sunlights.core.dal.impl;
 
 import com.sunlights.common.dal.EntityBaseDao;
 import com.sunlights.core.dal.OpenAccountPactDao;
+import models.FundOpenAccount;
 import models.OpenAccountPact;
 
+import javax.persistence.Query;
 import java.util.List;
 
 /**
@@ -28,4 +30,25 @@ public class OpenAccountPactDaoImpl extends EntityBaseDao implements OpenAccount
         }
         return null;
     }
+
+    @Override
+    public FundOpenAccount findFundOpenAccount(String customerId, String bankCardNo) {
+        String sql = "select oa from FundOpenAccount oa where oa.customer_id = ?0 and oa.bankCardNo = ?1";
+        Query query = em.createQuery(sql, FundOpenAccount.class);
+        query.setParameter(0, customerId);
+        query.setParameter(1, bankCardNo);
+        List<FundOpenAccount> list = query.getResultList();
+        if (list == null || list.isEmpty()) {
+            return null;
+        }
+
+        return list.get(0);
+    }
+
+    public FundOpenAccount saveFundOpenAccount(FundOpenAccount fundOpenAccount){
+        return create(fundOpenAccount);
+    }
+
+
+
 }

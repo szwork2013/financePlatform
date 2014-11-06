@@ -247,7 +247,7 @@ COMMENT ON COLUMN "public"."c_customer_verify_code"."verify_code" IS '验证码'
 COMMENT ON COLUMN "public"."c_customer_verify_code"."verify_type" IS '类型';
 
 -- ----------------------------
--- Table structure for c_feedback
+-- Table structure for c_feedbac.sql
 -- ----------------------------
 DROP TABLE IF EXISTS "public"."c_feedback";
 CREATE TABLE "public"."c_feedback" (
@@ -370,6 +370,24 @@ COMMENT ON COLUMN "public"."f_basic_account"."update_time" IS '修改时间';
 COMMENT ON COLUMN "public"."f_basic_account"."delete_time" IS '删除时间';
 COMMENT ON COLUMN "public"."f_basic_account"."trade_password" IS '交易密码';
 COMMENT ON COLUMN "public"."f_basic_account"."cust_id" IS '客户号';
+
+
+
+-- ----------------------------
+-- Table structure for f_fund_Agreement
+-- ----------------------------
+CREATE TABLE f_fund_Agreement
+(
+  id bigint NOT NULL,
+  customer_id character varying(30),
+  company_code character varying(20),
+  create_time timestamp without time zone,
+  update_time timestamp without time zone,
+  CONSTRAINT c_bank_card_pkey PRIMARY KEY (id)
+)
+WITH (
+  OIDS=FALSE
+);
 
 -- ----------------------------
 -- Table structure for f_holdcapital
@@ -1170,7 +1188,7 @@ ALTER TABLE "public"."c_customer_session" ADD PRIMARY KEY ("id");
 ALTER TABLE "public"."c_customer_verify_code" ADD PRIMARY KEY ("id");
 
 -- ----------------------------
--- Primary Key structure for table c_feedback
+-- Primary Key structure for table c_feedbac.sql
 -- ----------------------------
 ALTER TABLE "public"."c_feedback" ADD PRIMARY KEY ("id");
 

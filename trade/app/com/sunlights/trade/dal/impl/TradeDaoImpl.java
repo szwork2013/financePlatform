@@ -10,6 +10,7 @@ import com.sunlights.trade.dal.TradeDao;
 import com.sunlights.trade.vo.TradeFormVo;
 import com.sunlights.trade.vo.TradeVo;
 
+import javax.persistence.Query;
 import java.math.BigDecimal;
 import java.sql.Timestamp;
 import java.util.ArrayList;
@@ -29,6 +30,17 @@ import java.util.Map;
 public class TradeDaoImpl extends EntityBaseDao implements TradeDao {
 
     private PageDao pageDao = new PageDaoImpl();
+
+    public String getTradeNoSeq(){
+        Query query = em.createNativeQuery("SELECT nextval('trade_seq')");
+        String trade_seq = query.getSingleResult().toString();
+        String zero = "";
+        for (int i = 0; i < 4 - trade_seq.length(); i++){
+            zero += "0";
+        }
+        return zero + trade_seq;
+    }
+
 
     @Override
     public List<TradeVo> getTradeListByCustomerId(String customerId, TradeFormVo tradeFormVo, PageVo pageVo) {

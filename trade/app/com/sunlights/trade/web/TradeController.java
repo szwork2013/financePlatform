@@ -70,5 +70,14 @@ public class TradeController extends Controller{
         return ok(json);
     }
 
+    public Result tradeOrders(){
+        Logger.info("----------findCapitalProductDetailTrade start ------------");
+        Http.Cookie cookie = Controller.request().cookie(AppConst.TOKEN);
+        String token = cookie == null ? null : cookie.value();
+
+
+        return ok();
+    }
+
 
 }

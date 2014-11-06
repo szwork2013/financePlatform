@@ -1,7 +1,5 @@
 package models;
 
-import models.IdEntity;
-
 import javax.persistence.*;
 import java.math.BigDecimal;
 import java.sql.Timestamp;
@@ -24,8 +22,8 @@ public class SubAccount extends IdEntity {
     private String custId;
     @Column(length = 10,name = "SUB_ACCOUNT")
     private String subAccount;//子账户号
-    @Column(name = "BASIC_ACCOUNT")
-    private Long basicAccount;//基本账户号
+    @Column(name = "BASIC_ACCOUNT", length = 30)
+    private String basicAccount;//基本账户号
     @Column(name = "STATUS",length = 1)
     private String status;//子账户状态
     @Column(name="BALANCE", precision = 18,scale = 4)
@@ -60,11 +58,11 @@ public class SubAccount extends IdEntity {
         this.subAccount = subAccount;
     }
 
-    public Long getBasicAccount() {
+    public String getBasicAccount() {
         return basicAccount;
     }
 
-    public void setBasicAccount(Long basicAccount) {
+    public void setBasicAccount(String basicAccount) {
         this.basicAccount = basicAccount;
     }
 

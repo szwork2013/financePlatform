@@ -25,11 +25,10 @@ public interface AccountService {
 	/**
 	 * 注册子账户
 	 * @param custId	客户号
-	 * @param baseAccount	该客户所属的基本账户
-	 * @param prdCode	产品编码
-	 * @return	true 表示注册成功    false表示注册失败
+	 * @param fundCompanyCode	基金公司编码
+	 * @param prdType	产品类型
 	 */
-	public boolean registerSubAccount(String custId, String baseAccount, String prdCode);
+	public void createSubAccount(String custId, String fundCompanyCode, String prdType);
 	
 	/**
 	 * 记账
@@ -53,13 +52,4 @@ public interface AccountService {
      * @return
      */
     public BaseAccount resetTradePwd(CustomerFormVo customerFormVo, String token);
-
-    /**
-     * 实名验证和交易密码设置
-     * @param customerFormVo
-     * @param token
-     * @param remoteAddress
-     * @return
-     */
-    public void certifyAndResetTradePwd(CustomerFormVo customerFormVo, String token, String remoteAddress);
 }

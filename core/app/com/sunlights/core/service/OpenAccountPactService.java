@@ -13,4 +13,7 @@ import com.sunlights.core.vo.AgreementVo;
  */
 public interface OpenAccountPactService {
     public AgreementVo findAgreementVoByAgreementNo(String agreementNo);
+
+
+    public void createFundOpenAccount(String customerId, String bankCardNo);
 }

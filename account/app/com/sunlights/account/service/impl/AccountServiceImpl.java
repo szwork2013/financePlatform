@@ -1,23 +1,20 @@
 package com.sunlights.account.service.impl;
 
 import com.sunlights.account.AccountConstant;
-import com.sunlights.account.dal.BaseAccountDao;
-import com.sunlights.account.dal.impl.BaseAccountDaoImpl;
+import com.sunlights.account.dal.AccountDao;
+import com.sunlights.account.dal.impl.AccountDaoImpl;
 import com.sunlights.account.service.AccountService;
 import com.sunlights.common.AppConst;
 import com.sunlights.common.MsgCode;
 import com.sunlights.common.Severity;
 import com.sunlights.common.exceptions.BusinessRuntimeException;
-import com.sunlights.common.service.VerifyCodeService;
 import com.sunlights.common.utils.CommonUtil;
 import com.sunlights.common.utils.DBHelper;
 import com.sunlights.common.utils.MD5Helper;
 import com.sunlights.common.vo.Message;
 import com.sunlights.customer.service.impl.CustomerService;
 import com.sunlights.customer.vo.CustomerFormVo;
-import models.BaseAccount;
-import models.Customer;
-import models.CustomerSession;
+import models.*;
 import play.Logger;
 
 import java.math.BigDecimal;
@@ -25,9 +22,8 @@ import java.sql.Timestamp;
 
 public class AccountServiceImpl implements AccountService {
 	
-	private BaseAccountDao baseAccountDao = new BaseAccountDaoImpl();
+	private AccountDao accountDao = new AccountDaoImpl();
     private CustomerService customerService = new CustomerService();
-    private VerifyCodeService verifyCodeService = new VerifyCodeService();
 
 	public boolean createBaseAccount(String custId, String tradePassword) {
 		BaseAccount baseAccount = new BaseAccount();
@@ -37,14 +33,40 @@ public class AccountServiceImpl implements AccountService {
 		baseAccount.setStatus(AccountConstant.BASE_ACCOUNT_NOMAL_STATUS);
 		baseAccount.setBalance(BigDecimal.ZERO);
 		baseAccount.setCreateTime(new Timestamp(System.currentTimeMillis()));
-		baseAccountDao.saveBaseAccount(baseAccount);
+		accountDao.saveBaseAccount(baseAccount);
 		return true;
 	}
 
+
+
 	@Override
-	public boolean registerSubAccount(String custId, String baseAccount, String prdCode) {
-		// TODO Auto-generated method stub
-		return false;
+	public void createSubAccount(String custId, String fundCompanyCode, String prdType) {
+        //与基金公司开户
+        boolean isExist = accountDao.findFundAgreementExist(custId, fundCompanyCode);
+        if (isExist){
+            return ;
+        }
+        accountDao.saveFundAgreement(custId, fundCompanyCode);
+
+        //查询是否设置产品账户关系
+        PrdAccountConfig prdAccountConfig = accountDao.findPrdAccountConfig(prdType);
+        if (prdAccountConfig != null) {
+            return ;
+        }
+
+        //创建子帐号
+        BaseAccount baseAccount = accountDao.getBaseAccount(custId);
+
+        Timestamp currentTime = DBHelper.getCurrentTime();
+        SubAccount subAccount = new SubAccount();
+        subAccount.setCustId(custId);
+        subAccount.setBasicAccount(baseAccount.getBaseAccountNo());
+        subAccount.setSubAccount("123");//TODO
+        subAccount.setCreateTime(currentTime);
+        subAccount.setUpdateTime(currentTime);
+        accountDao.saveSubAccount(subAccount);
+
+        accountDao.savePrdAccountConfig(subAccount.getSubAccount(), prdType);
 	}
 
 	@Override
@@ -101,21 +123,16 @@ public class AccountServiceImpl implements AccountService {
                 customerService.updateCustomer(customer);
             }
             //设置交易密码
-            baseAccount = baseAccountDao.getBaseAccount(customerSession.getCustomerId());
+            baseAccount = accountDao.getBaseAccount(customerSession.getCustomerId());
             baseAccount.setTradePassword(new MD5Helper().encrypt(tradePassword));
             baseAccount.setUpdateTime(currentTime);
-            baseAccountDao.updateBaseAccount(baseAccount);
+            accountDao.updateBaseAccount(baseAccount);
 
         }
 
         return baseAccount;
     }
 
-    @Override
-    public void certifyAndResetTradePwd(CustomerFormVo customerFormVo, String token, String remoteAddress){
-//        CustomerSession customerSession = verifyCodeService.certify(customerFormVo, token, remoteAddress);//TODO
-//        resetTradePwd(customerFormVo, customerSession.getToken());
-    }
 
 
 

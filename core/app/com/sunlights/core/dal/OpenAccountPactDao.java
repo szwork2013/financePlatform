@@ -1,5 +1,6 @@
 package com.sunlights.core.dal;
 
+import models.FundOpenAccount;
 import models.OpenAccountPact;
 
 /**
@@ -13,4 +14,9 @@ import models.OpenAccountPact;
  */
 public interface OpenAccountPactDao {
     public OpenAccountPact findOpenAccountPactByAgreementNo(String agreementNo);
+
+
+    public FundOpenAccount findFundOpenAccount(String customerId, String bankCardNo);
+
+    public FundOpenAccount saveFundOpenAccount(FundOpenAccount fundOpenAccount);
 }
