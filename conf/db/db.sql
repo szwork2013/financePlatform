@@ -762,6 +762,7 @@ DROP TABLE IF EXISTS "public"."p_product_recommend";
 CREATE TABLE "public"."p_product_recommend" (
 "id" int8 NOT NULL,
 "product_id" int8,
+"product_name" varchar(100) COLLATE "default",
 "recommend_type" varchar(8) COLLATE "default",
 "product_code" varchar(8) COLLATE "default",
 "begin_date" timestamp(6),
