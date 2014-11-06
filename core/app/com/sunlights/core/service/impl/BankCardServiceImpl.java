@@ -8,13 +8,13 @@ import com.sunlights.common.vo.Message;
 import com.sunlights.common.vo.PageVo;
 import com.sunlights.core.dal.BankCardDao;
 import com.sunlights.core.dal.impl.BankCardDaoImpl;
-import models.Bank;
-import models.BankCard;
 import com.sunlights.core.service.BankCardService;
 import com.sunlights.core.service.BankService;
 import com.sunlights.core.vo.BankCardVo;
-import models.Customer;
 import com.sunlights.customer.service.impl.CustomerService;
+import models.Bank;
+import models.BankCard;
+import models.Customer;
 import org.apache.commons.lang3.StringUtils;
 import play.db.jpa.Transactional;
 
@@ -55,7 +55,7 @@ public class BankCardServiceImpl implements BankCardService {
         xsql.append(" from BankCard c , Bank b");
         xsql.append(" where c.bankId = b.id");
         xsql.append(" /~ and c.customerId = {customerId} ~/ ");
-        xsql.append(" /~ and c.bankCardNo like {bankCardNo} ~/ ");
+        xsql.append(" /~ and c.bankCardNo = {bankCardNo} ~/ ");
         xsql.append(" /~ and c.bankType like {bankType} ~/ ");
         xsql.append(" /~ and b.bankName like {bankName} ~/ ");
         xsql.append(" /~ and c.status = {status} ~/ ");

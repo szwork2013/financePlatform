@@ -1,5 +1,6 @@
 package com.sunlights.core.vo;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import models.Bank;
 import models.BankCard;
 
@@ -17,6 +18,9 @@ public class BankCardVo {
     private String no;
     // 0：验证为通过  1：验证通过  2：验证中
     private String validateStatus;
+
+    @JsonIgnore
+    private String bankCardNo;
 
     public BankCardVo() {
         super();
@@ -42,6 +46,7 @@ public class BankCardVo {
             this.displayNo = bankCardNo + cardNo.substring(cardNo.length() - 4);
         }
         this.validateStatus = bankCard.getStatus();
+        this.bankCardNo = bankCard.getBankCardNo();
     }
 
     public String getId() {
@@ -106,5 +111,13 @@ public class BankCardVo {
 
     public void setNo(String no) {
         this.no = no;
+    }
+
+    public String getBankCardNo() {
+        return bankCardNo;
+    }
+
+    public void setBankCardNo(String bankCardNo) {
+        this.bankCardNo = bankCardNo;
     }
 }

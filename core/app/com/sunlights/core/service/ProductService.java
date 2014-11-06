@@ -4,6 +4,7 @@ import com.sunlights.common.vo.PageVo;
 import com.sunlights.core.vo.ChartVo;
 import com.sunlights.core.vo.FundVo;
 import com.sunlights.core.vo.ProductVo;
+import models.Fund;
 
 import java.util.List;
 
@@ -22,6 +23,8 @@ public interface ProductService {
     public List<FundVo> findFunds(PageVo pageVo);
 
     public ProductVo findProductDetailBy(String productCode, String type);
+
+    public Fund findFundByCode(String productCode);
 
     public ChartVo findOneWeekProfitsByDays(String fundCode, int days);
 

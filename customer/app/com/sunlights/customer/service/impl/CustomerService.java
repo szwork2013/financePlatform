@@ -8,7 +8,6 @@ import com.sunlights.common.utils.DBHelper;
 import com.sunlights.common.utils.MD5Helper;
 import com.sunlights.customer.dal.CustomerDao;
 import com.sunlights.customer.dal.impl.CustomerDaoImpl;
-import com.sunlights.customer.vo.CustomerInfoVo;
 import com.sunlights.customer.vo.CustomerVo;
 import models.Customer;
 import models.CustomerSession;
@@ -34,27 +33,12 @@ public class CustomerService {
     private CustomerDao customerDao = new CustomerDaoImpl();
     private ParameterService parameterService = new ParameterService();
 
-    public CustomerInfoVo getCustomerInfoVoByPhoneNo(String mobilePhoneNo, String deviceNo) {
-        return customerDao.getCustomerInfoVoByPhoneNo(mobilePhoneNo, deviceNo);
-    }
-    public CustomerInfoVo getCustomerInfoVoByIdCardNo(String idCardNo, String userName){
-        return customerDao.getCustomerInfoVoByIdCardNo(idCardNo, userName);
-    }
-    public CustomerVo getCustomerVoByPhoneNo(String mobilePhoneNo, String deviceNo){
-        CustomerInfoVo customerInfoVo = getCustomerInfoVoByPhoneNo(mobilePhoneNo, deviceNo);
-        if (customerInfoVo != null) {
-            return customerInfoVo.getCustomerVo();
-        }
-        return null;
+    public CustomerVo getCustomerVoByPhoneNo(String mobilePhoneNo, String deviceNo) {
+        return customerDao.getCustomerVoByPhoneNo(mobilePhoneNo, deviceNo);
     }
     public CustomerVo getCustomerVoByIdCardNo(String idCardNo, String userName){
-        CustomerInfoVo customerInfoVo = getCustomerInfoVoByIdCardNo(idCardNo, userName);
-        if (customerInfoVo != null) {
-            return customerInfoVo.getCustomerVo();
-        }
-        return null;
+        return customerDao.getCustomerVoByIdCardNo(idCardNo, userName);
     }
-
 
     public Customer getCustomerByMobile(String mobile) {
         return customerDao.getCustomerByMobile(mobile);

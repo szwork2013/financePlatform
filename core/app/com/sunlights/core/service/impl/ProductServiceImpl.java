@@ -3,13 +3,13 @@ package com.sunlights.core.service.impl;
 import com.sunlights.common.service.PageService;
 import com.sunlights.common.utils.ArithUtil;
 import com.sunlights.common.utils.CommonUtil;
-import models.Fund;
 import com.sunlights.common.vo.PageVo;
 import com.sunlights.core.CodeConst;
 import com.sunlights.core.dal.FundDao;
 import com.sunlights.core.dal.impl.FundDaoImpl;
 import com.sunlights.core.service.ProductService;
 import com.sunlights.core.vo.*;
+import models.Fund;
 import models.FundHistory;
 
 import java.util.ArrayList;
@@ -77,11 +77,16 @@ public class ProductServiceImpl implements ProductService {
         return fundVos;
     }
 
+    public Fund findFundByCode(String productCode){
+        Fund fund = fundDao.findFundByCode(productCode);
+        return fund;
+    }
+
     @Override
     public ProductVo findProductDetailBy(String productCode, String type) {
         ProductVo productVo = null;
         if (CodeConst.PRODUCT_FUND.equals(type)) {
-            Fund fund = fundDao.findFundByCode(productCode);
+            Fund fund = findFundByCode(productCode);
             if (fund != null) {
                 FundDetailVo fundDetailVo = new FundDetailVo(fund);
                 productVo = fundDetailVo;

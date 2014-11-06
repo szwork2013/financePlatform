@@ -1,6 +1,7 @@
 package com.sunlights.core.service;
 
 import com.sunlights.core.vo.AgreementVo;
+import com.sunlights.core.vo.BankCardVo;
 
 /**
  * <p>Project: fsp</p>
@@ -14,6 +15,5 @@ import com.sunlights.core.vo.AgreementVo;
 public interface OpenAccountPactService {
     public AgreementVo findAgreementVoByAgreementNo(String agreementNo);
 
-
-    public void createFundOpenAccount(String customerId, String bankCardNo);
+    public void createFundOpenAccount(String customerId, BankCardVo bankCardVo);
 }

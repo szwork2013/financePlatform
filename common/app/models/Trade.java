@@ -1,7 +1,5 @@
 package models;
 
-import models.IdEntity;
-
 import javax.persistence.*;
 import java.math.BigDecimal;
 import java.sql.Timestamp;
@@ -20,6 +18,8 @@ import java.util.Date;
 @Entity
 @Table(name = "T_TRADE")
 public class Trade extends IdEntity {
+    @Column(name = "holdcapital_id")
+    private Long holdCapitalId;
     @Column(length = 30, name = "cust_id")
     private String custId;//客户号
     @Column(length = 20, name = "trade_no")
@@ -62,6 +62,30 @@ public class Trade extends IdEntity {
     private Date deleteTime;//'删除时间';
 
     public Trade() {
+    }
+
+    public Long getHoldCapitalId() {
+        return holdCapitalId;
+    }
+
+    public void setHoldCapitalId(Long holdCapitalId) {
+        this.holdCapitalId = holdCapitalId;
+    }
+
+    public void setTradeTime(Date tradeTime) {
+        this.tradeTime = tradeTime;
+    }
+
+    public void setCreateTime(Date createTime) {
+        this.createTime = createTime;
+    }
+
+    public void setUpdateTime(Date updateTime) {
+        this.updateTime = updateTime;
+    }
+
+    public void setDeleteTime(Date deleteTime) {
+        this.deleteTime = deleteTime;
     }
 
     public String getCustId() {

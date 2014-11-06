@@ -9,7 +9,7 @@ import com.sunlights.common.vo.PageVo;
 import com.sunlights.trade.service.TradeService;
 import com.sunlights.trade.service.impl.TradeServiceImpl;
 import com.sunlights.trade.vo.CapitalProductTradeVo;
-import com.sunlights.trade.vo.TradeFormVo;
+import com.sunlights.trade.vo.TradeSearchFormVo;
 import com.sunlights.trade.vo.TradeVo;
 import play.Logger;
 import play.data.Form;
@@ -31,7 +31,7 @@ import java.util.List;
  */
 @Transactional
 public class TradeController extends Controller{
-    private Form<TradeFormVo> tradeFormVoForm = Form.form(TradeFormVo.class);
+    private Form<TradeSearchFormVo> tradeFormVoForm = Form.form(TradeSearchFormVo.class);
 
     private TradeService tradeService = new TradeServiceImpl();
 
@@ -40,12 +40,12 @@ public class TradeController extends Controller{
         Http.Cookie cookie = Controller.request().cookie(AppConst.TOKEN);
         String token = cookie == null ? null : cookie.value();
 
-        TradeFormVo tradeFormVo = tradeFormVoForm.bindFromRequest().get();
+        TradeSearchFormVo tradeSearchFormVo = tradeFormVoForm.bindFromRequest().get();
         PageVo pageVo = new PageVo();
-        pageVo.setIndex(tradeFormVo.getIndex());
-        pageVo.setPageSize(tradeFormVo.getPageSize());
+        pageVo.setIndex(tradeSearchFormVo.getIndex());
+        pageVo.setPageSize(tradeSearchFormVo.getPageSize());
 
-        List<TradeVo> list = tradeService.getTradeListByToken(token, tradeFormVo, pageVo);
+        List<TradeVo> list = tradeService.getTradeListByToken(token, tradeSearchFormVo, pageVo);
         pageVo.setList(list);
         pageVo.getFilter().clear();
 
@@ -60,9 +60,9 @@ public class TradeController extends Controller{
         Http.Cookie cookie = Controller.request().cookie(AppConst.TOKEN);
         String token = cookie == null ? null : cookie.value();
 
-        TradeFormVo tradeFormVo = tradeFormVoForm.bindFromRequest().get();
+        TradeSearchFormVo tradeSearchFormVo = tradeFormVoForm.bindFromRequest().get();
 
-        CapitalProductTradeVo capitalProductTradeVo = tradeService.findCapitalProductDetailTrade(token, tradeFormVo);
+        CapitalProductTradeVo capitalProductTradeVo = tradeService.findCapitalProductDetailTrade(token, tradeSearchFormVo);
 
         Message message = new Message(MsgCode.OPERATE_SUCCESS);
         JsonNode json = MessageUtil.getInstance().msgToJson(message, capitalProductTradeVo);

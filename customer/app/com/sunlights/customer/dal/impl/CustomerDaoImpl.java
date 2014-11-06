@@ -2,10 +2,10 @@ package com.sunlights.customer.dal.impl;
 
 import com.sunlights.common.dal.EntityBaseDao;
 import com.sunlights.customer.dal.CustomerDao;
+import com.sunlights.customer.vo.CustomerVo;
 import models.Customer;
 import models.CustomerGesture;
 import models.CustomerSession;
-import com.sunlights.customer.vo.CustomerInfoVo;
 import play.Logger;
 
 import javax.persistence.Query;
@@ -60,7 +60,7 @@ public class CustomerDaoImpl extends EntityBaseDao implements CustomerDao {
         return create(customer);
     }
 
-    public CustomerInfoVo getCustomerInfoVoByPhoneNo(String mobilePhoneNo, String deviceNo){
+    public CustomerVo getCustomerVoByPhoneNo(String mobilePhoneNo, String deviceNo){
         String sql = "select c.mobile,c.real_name,c.nick_name,c.email,c.identity_number," +
                 "case when EXISTS (select 1 from c_customer_gesture cg where cg.customer_id = c.customer_id and cg.status = 'N' and cg.device_no = :deviceNo) THEN '1' ELSE '0' END as gestureOpened," +
                 "case when c.identity_typer = 'I' and c.identity_number is not null THEN '1' ELSE '0' END as certify," +
@@ -77,12 +77,12 @@ public class CustomerDaoImpl extends EntityBaseDao implements CustomerDao {
         query.setParameter("mobilePhoneNo", mobilePhoneNo);
         List<Object[]> list = query.getResultList();
 
-        CustomerInfoVo customerInfoVo = transCustomerInfoVo(list);
+        CustomerVo customerInfoVo = transCustomerVo(list);
 
         return customerInfoVo;
     }
 
-    public CustomerInfoVo getCustomerInfoVoByIdCardNo(String idCardNo, String userName){
+    public CustomerVo getCustomerVoByIdCardNo(String idCardNo, String userName){
         String sql = " select c.mobile,c.real_name,c.nick_name,c.email,c.identity_number," +
                 " 0 || '' as gestureOpened," +
                 " case when c.identity_typer = 'I' and c.identity_number is not null THEN '1' ELSE '0' END as certify," +
@@ -100,38 +100,38 @@ public class CustomerDaoImpl extends EntityBaseDao implements CustomerDao {
         query.setParameter("userName", userName);
         List list = query.getResultList();
 
-        CustomerInfoVo customerInfoVo = transCustomerInfoVo(list);
+        CustomerVo customerVo = transCustomerVo(list);
 
-        return customerInfoVo;
+        return customerVo;
     }
 
-    private CustomerInfoVo transCustomerInfoVo(List<Object[]> list) {
+    private CustomerVo transCustomerVo(List<Object[]> list) {
         if (list == null || list.size() == 0) {
             return null;
         }
 
-        CustomerInfoVo customerInfoVo = new CustomerInfoVo();
+        CustomerVo customerVo = new CustomerVo();
         for (Object[] column : list) {
-            customerInfoVo.setMobilePhoneNo(column[0] == null ? null : column[0].toString());
-            customerInfoVo.setUserName(column[1] == null ? null : column[1].toString());
-            customerInfoVo.setNickName(column[2] == null ? null : column[2].toString());
-            customerInfoVo.setEmail(column[3] == null ? null : column[3].toString());
-            customerInfoVo.setIdCardNo(column[4] == null ? null : column[4].toString());
-            customerInfoVo.setGestureOpened(column[5] == null ? null : column[5].toString());
-            customerInfoVo.setCertify(column[6] == null ? null : column[6].toString());
-            customerInfoVo.setTradePwdFlag(column[7] == null ? null : column[7].toString());
-            customerInfoVo.setBankCardCount(column[8] == null ? null : column[8].toString());
-            customerInfoVo.setCustomerId(column[9] == null ? null : column[9].toString());
+            customerVo.setMobilePhoneNo(column[0] == null ? null : column[0].toString());
+            customerVo.setUserName(column[1] == null ? null : column[1].toString());
+            customerVo.setNickName(column[2] == null ? null : column[2].toString());
+            customerVo.setEmail(column[3] == null ? null : column[3].toString());
+            customerVo.setIdCardNo(column[4] == null ? null : column[4].toString());
+            customerVo.setGestureOpened(column[5] == null ? null : column[5].toString());
+            customerVo.setCertify(column[6] == null ? null : column[6].toString());
+            customerVo.setTradePwdFlag(column[7] == null ? null : column[7].toString());
+            customerVo.setBankCardCount(column[8] == null ? null : column[8].toString());
+            customerVo.setCustomerId(column[9] == null ? null : column[9].toString());
         }
 
-        if (customerInfoVo.getMobilePhoneNo() != null) {
-            customerInfoVo.setMobileDisplayNo(customerInfoVo.getMobilePhoneNo().substring(0, 3) + "****" + customerInfoVo.getMobilePhoneNo().substring(7));
+        if (customerVo.getMobilePhoneNo() != null) {
+            customerVo.setMobileDisplayNo(customerVo.getMobilePhoneNo().substring(0, 3) + "****" + customerVo.getMobilePhoneNo().substring(7));
         }
-        if ("1".equals(customerInfoVo.getCertify())) {
-            customerInfoVo.setIdCardNo(customerInfoVo.getIdCardNo().substring(0, 6) + "******" + customerInfoVo.getIdCardNo().substring(14));
-            customerInfoVo.setUserName("*" + customerInfoVo.getUserName().substring(1));
+        if ("1".equals(customerVo.getCertify())) {
+            customerVo.setIdCardNo(customerVo.getIdCardNo().substring(0, 6) + "******" + customerVo.getIdCardNo().substring(14));
+            customerVo.setUserName("*" + customerVo.getUserName().substring(1));
         }
-        return customerInfoVo;
+        return customerVo;
     }
 
 

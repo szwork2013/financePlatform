@@ -9,7 +9,10 @@ import com.sunlights.account.vo.Capital4Product;
 import com.sunlights.account.vo.CapitalFormVo;
 import com.sunlights.account.vo.HoldCapitalVo;
 import com.sunlights.account.vo.TotalCapitalInfo;
+import com.sunlights.common.MsgCode;
+import com.sunlights.common.exceptions.BusinessRuntimeException;
 import com.sunlights.common.utils.ArithUtil;
+import com.sunlights.common.vo.Message;
 import com.sunlights.common.vo.PageVo;
 import com.sunlights.customer.service.impl.CustomerService;
 import models.BaseAccount;
@@ -35,6 +38,9 @@ public class CapitalServiceImpl implements CapitalService {
 	
 	public TotalCapitalInfo getTotalCapital(String mobile, boolean takeCapital4Prd) {
         Customer customer = customerService.getCustomerByMobile(mobile);
+        if (customer == null) {
+            throw new BusinessRuntimeException(new Message(MsgCode.PHONE_NUMBER_NOT_REGISTRY));
+        }
 		BigDecimal totalYesterdayProfit = BigDecimal.ZERO;
         BigDecimal totalProfit = BigDecimal.ZERO;
 

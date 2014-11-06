@@ -23,11 +23,7 @@ CREATE TABLE t_trade
   product_name character varying(100), -- 产品名称
   product_price numeric(18,4), -- 产品单价
   quantity integer, -- 数量
-  amount integer,
   holdcapital_id bigint,
-  pay_statu character varying(1),
-  prd_code character varying(8),
-  prd_pricr numeric(18,4),
   CONSTRAINT pk_t_trade PRIMARY KEY (id)
 )
 WITH (

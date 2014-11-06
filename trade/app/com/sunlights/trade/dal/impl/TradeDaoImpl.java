@@ -7,8 +7,9 @@ import com.sunlights.common.utils.ArithUtil;
 import com.sunlights.common.utils.CommonUtil;
 import com.sunlights.common.vo.PageVo;
 import com.sunlights.trade.dal.TradeDao;
-import com.sunlights.trade.vo.TradeFormVo;
+import com.sunlights.trade.vo.TradeSearchFormVo;
 import com.sunlights.trade.vo.TradeVo;
+import models.Trade;
 
 import javax.persistence.Query;
 import java.math.BigDecimal;
@@ -43,9 +44,9 @@ public class TradeDaoImpl extends EntityBaseDao implements TradeDao {
 
 
     @Override
-    public List<TradeVo> getTradeListByCustomerId(String customerId, TradeFormVo tradeFormVo, PageVo pageVo) {
-        String productCode = tradeFormVo.getPrdCode();
-        String productType = tradeFormVo.getPrdType();
+    public List<TradeVo> getTradeListByCustomerId(String customerId, TradeSearchFormVo tradeSearchFormVo, PageVo pageVo) {
+        String productCode = tradeSearchFormVo.getPrdCode();
+        String productType = tradeSearchFormVo.getPrdType();
 
         Map<String, Object> filter = new HashMap<String, Object>();
         filter.put("0", customerId);
@@ -69,6 +70,16 @@ public class TradeDaoImpl extends EntityBaseDao implements TradeDao {
         List<Object[]> list = pageDao.findNativeBy(querySql, pageVo);
 
         return transTradeVo(list);
+    }
+
+    @Override
+    public Trade saveTrade(Trade trade) {
+        return create(trade);
+    }
+
+    @Override
+    public Trade updateTrade(Trade trade) {
+        return update(trade);
     }
 
     private List<TradeVo> transTradeVo(List<Object[]> list){

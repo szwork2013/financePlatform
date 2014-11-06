@@ -1,8 +1,9 @@
 package com.sunlights.trade.dal;
 
 import com.sunlights.common.vo.PageVo;
-import com.sunlights.trade.vo.TradeFormVo;
+import com.sunlights.trade.vo.TradeSearchFormVo;
 import com.sunlights.trade.vo.TradeVo;
+import models.Trade;
 
 import java.util.List;
 
@@ -21,9 +22,13 @@ public interface TradeDao {
     /**
      * 获取交易记录
      * @param customerId 客户号
-     * @param tradeFormVo
+     * @param tradeSearchFormVo
      * @return
      */
-    public List<TradeVo> getTradeListByCustomerId(String customerId, TradeFormVo tradeFormVo, PageVo pageVo);
+    public List<TradeVo> getTradeListByCustomerId(String customerId, TradeSearchFormVo tradeSearchFormVo, PageVo pageVo);
+    
+    public Trade saveTrade(Trade trade);
+
+    public Trade updateTrade(Trade trade);
 
 }

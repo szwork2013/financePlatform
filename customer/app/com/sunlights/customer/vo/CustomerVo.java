@@ -1,6 +1,8 @@
 package com.sunlights.customer.vo;
 
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import java.io.Serializable;
 
 
@@ -24,11 +26,15 @@ public class CustomerVo implements Serializable{
     private String bankCardCount = "0";//绑定的银行卡数量
     private String tradePwdFlag = "0";//交易密码是否设置 0 未  1已
 
+    @JsonIgnore
+    private String customerId;
+
     public CustomerVo(){
 
     }
 
-    public CustomerVo(String mobile, String userName, String nickName, String email, String idCardNo, String gestureOpened, String certify, String tradePwdFlag, String bankCardCount) {
+    public CustomerVo(String mobile, String userName, String nickName, String email, String idCardNo, String gestureOpened,
+                      String certify, String tradePwdFlag, String bankCardCount, String customerId) {
         this.mobilePhoneNo = mobile;
         this.userName = userName;
         this.nickName = nickName;
@@ -38,6 +44,7 @@ public class CustomerVo implements Serializable{
         this.gestureOpened = gestureOpened;
         this.tradePwdFlag = tradePwdFlag;
         this.bankCardCount = bankCardCount;
+        this.customerId = customerId;
     }
 
     public String getUserName() {
@@ -118,5 +125,13 @@ public class CustomerVo implements Serializable{
 
     public void setTradePwdFlag(String tradePwdFlag) {
         this.tradePwdFlag = tradePwdFlag;
+    }
+
+    public String getCustomerId() {
+        return customerId;
+    }
+
+    public void setCustomerId(String customerId) {
+        this.customerId = customerId;
     }
 }

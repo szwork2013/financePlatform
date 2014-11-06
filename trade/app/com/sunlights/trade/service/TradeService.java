@@ -3,7 +3,7 @@ package com.sunlights.trade.service;
 import com.sunlights.common.exceptions.BusinessRuntimeException;
 import com.sunlights.common.vo.PageVo;
 import com.sunlights.trade.vo.CapitalProductTradeVo;
-import com.sunlights.trade.vo.TradeFormVo;
+import com.sunlights.trade.vo.TradeSearchFormVo;
 import com.sunlights.trade.vo.TradeVo;
 import models.Trade;
 
@@ -22,18 +22,18 @@ public interface TradeService {
     /**
      * 获取交易记录
      * @param token 客户号
-     * @param tradeFormVo
+     * @param tradeSearchFormVo
      * @return
      */
-    public List<TradeVo> getTradeListByToken(String token, TradeFormVo tradeFormVo,PageVo pageVo) throws BusinessRuntimeException;
+    public List<TradeVo> getTradeListByToken(String token, TradeSearchFormVo tradeSearchFormVo,PageVo pageVo) throws BusinessRuntimeException;
 
     /**
      * 产品详情及记录
      * @param token
-     * @param tradeFormVo
+     * @param tradeSearchFormVo
      * @return
      */
-    public CapitalProductTradeVo findCapitalProductDetailTrade(String token, TradeFormVo tradeFormVo);
+    public CapitalProductTradeVo findCapitalProductDetailTrade(String token, TradeSearchFormVo tradeSearchFormVo);
 
 
     public Trade createTrade();

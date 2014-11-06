@@ -3,6 +3,7 @@ package com.sunlights.core.service.impl;
 import com.sunlights.common.utils.DBHelper;
 import com.sunlights.core.dal.OpenAccountPactDao;
 import com.sunlights.core.service.BankCardService;
+import com.sunlights.core.vo.BankCardVo;
 import models.FundOpenAccount;
 import models.OpenAccountPact;
 import com.sunlights.core.dal.impl.OpenAccountPactDaoImpl;
@@ -39,15 +40,16 @@ public class OpenAccountPactServiceImpl implements OpenAccountPactService {
 
 
     @Override
-    public void createFundOpenAccount(String customerId, String bankCardNo) {
+    public void createFundOpenAccount(String customerId, BankCardVo bankCardVo) {
+        String bankCardNo = bankCardVo.getBankCardNo();
         FundOpenAccount fundOpenAccount = openAccountPactDao.findFundOpenAccount(customerId,bankCardNo);
         if (fundOpenAccount == null) {
-
-            //TODO 银行信息查询
             Timestamp currentTime = DBHelper.getCurrentTime();
 
             fundOpenAccount = new FundOpenAccount();
             fundOpenAccount.setCustomerId(customerId);
+            fundOpenAccount.setBankCode(bankCardVo.getBankCode());
+            fundOpenAccount.setBranchBankName(bankCardVo.getBankName());
             fundOpenAccount.setBankCardNo(bankCardNo);
             fundOpenAccount.setCreateTime(currentTime);
             fundOpenAccount.setUpdateTime(currentTime);

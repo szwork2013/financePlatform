@@ -11,7 +11,6 @@ import com.sunlights.common.vo.Message;
 import com.sunlights.core.integration.IdentityClient;
 import com.sunlights.customer.service.impl.CustomerService;
 import com.sunlights.customer.vo.CustomerFormVo;
-import com.sunlights.customer.vo.CustomerInfoVo;
 import com.sunlights.customer.vo.CustomerVo;
 import models.Customer;
 import models.CustomerSession;
@@ -68,20 +67,16 @@ public class IdentityService {
             CommonUtil.getInstance().validateParams(userName, idCardNo);
             //判断是否已做过实名认证
 
-            CustomerInfoVo customerInfoVo = customerService.getCustomerInfoVoByIdCardNo(idCardNo, userName);
+            CustomerVo customerVo = customerService.getCustomerVoByIdCardNo(idCardNo, userName);
 
-            if (customerInfoVo != null && AppConst.VALID_CERTIFY.equals(customerInfoVo.getCertify())) {
-                MessageUtil.getInstance().setMessage(new Message(MsgCode.OPERATE_SUCCESS), customerInfoVo.getCustomerVo());
-                customer = customerService.getCustomerByCustomerId(customerInfoVo.getCustomerId());
+            if (customerVo != null && AppConst.VALID_CERTIFY.equals(customerVo.getCertify())) {
+                MessageUtil.getInstance().setMessage(new Message(MsgCode.OPERATE_SUCCESS), customerVo);
+                customer = customerService.getCustomerByCustomerId(customerVo.getCustomerId());
             }else{
                 identityClient.identity(idCardNo, userName);//真正调用实名认证
                 customer = saveCustomer(mobilePhoneNo, userName, idCardNo, deviceNo);
                 accountService.createBaseAccount(customer.getCustomerId(), null);
 
-                CustomerVo customerVo = null;
-                if (customerInfoVo != null) {
-                    customerVo = customerInfoVo.getCustomerVo();
-                }
                 if (customerVo == null) {
                     customerVo = new CustomerVo();
                 }

@@ -1,9 +1,9 @@
 package com.sunlights.customer.dal;
 
+import com.sunlights.customer.vo.CustomerVo;
 import models.Customer;
 import models.CustomerGesture;
 import models.CustomerSession;
-import com.sunlights.customer.vo.CustomerInfoVo;
 
 import java.sql.Timestamp;
 
@@ -24,8 +24,8 @@ public interface CustomerDao {
     public Customer saveCustomer(Customer customer);
     public Customer updateCustomer(Customer customer);
 
-    public CustomerInfoVo getCustomerInfoVoByPhoneNo(String mobilePhoneNo, String deviceNo);
-    public CustomerInfoVo getCustomerInfoVoByIdCardNo(String idCardNo, String userName);
+    public CustomerVo getCustomerVoByPhoneNo(String mobilePhoneNo, String deviceNo);
+    public CustomerVo getCustomerVoByIdCardNo(String idCardNo, String userName);
 
     public CustomerSession findCustomerSessionByToken(String token, Timestamp nMin);
     public CustomerSession findCustomerSessionByCustomer(String customerId, String deviceNo);
