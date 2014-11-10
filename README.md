@@ -14,11 +14,16 @@
 6. git clone git@EARTH:sunlights/financeplatform.git
 7. 导入项目到intellij IDEA.
 
-#模块的依赖关系
+# 模块介绍和他们的依赖关系
 ====================================
-common: 实现了jpa entitiy model和一些基础的工具类
-core: 实现了安全，注册，短信，产品，
+## 模块介绍
+* common: 实现了jpa entitiy model和一些基础的工具类
+* customer:
+* account：
+* core: 实现了安全，注册，短信，产品
+* trade：
 
+## 模块之间的依赖关系
 core->customer->common
 core->account->common
 trade->core
@@ -28,6 +33,10 @@ trade->core
 1. 把现在代码移动到finacePlatform
 2. 完善单元测试用例
 3. 为controller接口添加JavaDoc， 参考CustomerController里的方式
+
+
+#代码规范
+请安装IDEA的checkstyle， PMD， findBugs插件
 
 
 
