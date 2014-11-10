@@ -43,7 +43,8 @@ public class CapitalServiceImpl implements CapitalService {
     BigDecimal totalProfit = BigDecimal.ZERO;
 
     BaseAccount baseAccount = accountDao.getBaseAccount(customer.getCustomerId());
-    BigDecimal totalCapital = baseAccount.getBalance() == null ? BigDecimal.ZERO : baseAccount.getBalance();
+    BigDecimal rewardProfit = baseAccount.getBalance() == null ? BigDecimal.ZERO : baseAccount.getBalance();
+    BigDecimal totalCapital = rewardProfit;
     List<SubAccount> subAccountList = accountDao.findSubAccountList(customer.getCustomerId());
     for (SubAccount subAccount : subAccountList) {
       totalYesterdayProfit = totalYesterdayProfit.add(subAccount.getYesterdayProfit());
@@ -51,7 +52,7 @@ public class CapitalServiceImpl implements CapitalService {
       totalCapital = totalCapital.add(subAccount.getBalance());
     }
     TotalCapitalInfo totalCapitalInfo = new TotalCapitalInfo();
-    totalCapitalInfo.setRewardProfit("0.00");
+    totalCapitalInfo.setRewardProfit(ArithUtil.bigToScale2(rewardProfit));
     totalCapitalInfo.setTotalCapital(ArithUtil.bigToScale2(totalCapital));
     totalCapitalInfo.setTotalProfit(ArithUtil.bigToScale2(totalProfit));
     totalCapitalInfo.setYesterdayProfit(ArithUtil.bigToScale2(totalYesterdayProfit));

@@ -5,6 +5,8 @@
 
 POST        /tradelist            @com.sunlights.trade.web.TradeController.getTradeList
 POST        /productdetail        @com.sunlights.trade.web.TradeController.findCapitalProductDetailTrade
+POST        /tradeorders          @com.sunlights.trade.web.TradeController.tradeOrders
+
 
 
 

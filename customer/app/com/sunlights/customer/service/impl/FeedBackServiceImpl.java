@@ -1,5 +1,6 @@
 package com.sunlights.customer.service.impl;
 
+import com.sunlights.common.AppConst;
 import com.sunlights.common.utils.DBHelper;
 import com.sunlights.customer.dal.FeedBackDao;
 import com.sunlights.customer.dal.impl.FeedBackDaoImpl;
@@ -20,28 +21,28 @@ import java.sql.Timestamp;
  */
 public class FeedBackServiceImpl implements FeedBackService {
 
-  private CustomerService customerService = new CustomerService();
-  private FeedBackDao feedBackDao = new FeedBackDaoImpl();
+    private CustomerService customerService = new CustomerService();
+    private FeedBackDao feedBackDao = new FeedBackDaoImpl();
+    
+    public FeedBack saveFeedBack(String mobile, String content, String deviceNo){
+        Timestamp currentTime = DBHelper.getCurrentTime();
+        
+        FeedBack feedBack = new FeedBack();
+        feedBack.setMobile(mobile);
 
-  public FeedBack saveFeedBack(String mobile, String content, String deviceNo) {
-    Timestamp currentTime = DBHelper.getCurrentTime();
+        Customer customer = customerService.getCustomerByMobile(mobile);
+        if (customer != null) {
+            feedBack.setCustomerId(customer.getCustomerId());
+        }
+        feedBack.setDeviceNo(deviceNo);
+        feedBack.setContext(content);
+        feedBack.setStatus(AppConst.STATUS_VALID);
+        feedBack.setCreateTime(currentTime);
+        feedBack.setUpdateTime(currentTime);
 
-    FeedBack feedBack = new FeedBack();
-    feedBack.setMobile(mobile);
+        feedBackDao.saveFeedBack(feedBack);
 
-    Customer customer = customerService.getCustomerByMobile(mobile);
-    if (customer != null) {
-      feedBack.setCustomerId(customer.getCustomerId());
+        return feedBack;
     }
-    feedBack.setDeviceNo(deviceNo);
-    feedBack.setContext(content);
-
-    feedBack.setCreateTime(currentTime);
-    feedBack.setUpdateTime(currentTime);
-
-    feedBackDao.saveFeedBack(feedBack);
-
-    return feedBack;
-  }
 
 }

@@ -9,6 +9,7 @@ import com.sunlights.common.vo.PageVo;
 import com.sunlights.trade.service.TradeService;
 import com.sunlights.trade.service.impl.TradeServiceImpl;
 import com.sunlights.trade.vo.CapitalProductTradeVo;
+import com.sunlights.trade.vo.TradeFormVo;
 import com.sunlights.trade.vo.TradeSearchFormVo;
 import com.sunlights.trade.vo.TradeVo;
 import play.Logger;
@@ -30,54 +31,61 @@ import java.util.List;
  * @author <a href="mailto:jiaming.wang@sunlights.cc">wangJiaMing</a>
  */
 @Transactional
-public class TradeController extends Controller {
-  private Form<TradeSearchFormVo> tradeFormVoForm = Form.form(TradeSearchFormVo.class);
+public class TradeController extends Controller{
+    private Form<TradeSearchFormVo> tradeSearchFormVoForm = Form.form(TradeSearchFormVo.class);
+    private Form<TradeFormVo> tradeFormVoForm = Form.form(TradeFormVo.class);
 
-  private TradeService tradeService = new TradeServiceImpl();
+    private TradeService tradeService = new TradeServiceImpl();
 
-  public Result getTradeList() {
-    Logger.info("----------getTradeList start ------------");
-    Http.Cookie cookie = Controller.request().cookie(AppConst.TOKEN);
-    String token = cookie == null ? null : cookie.value();
+    public Result getTradeList(){
+        Logger.info("----------getTradeList start ------------");
+        Http.Cookie cookie = Controller.request().cookie(AppConst.TOKEN);
+        String token = cookie == null ? null : cookie.value();
 
-    TradeSearchFormVo tradeSearchFormVo = tradeFormVoForm.bindFromRequest().get();
-    PageVo pageVo = new PageVo();
-    pageVo.setIndex(tradeSearchFormVo.getIndex());
-    pageVo.setPageSize(tradeSearchFormVo.getPageSize());
+        TradeSearchFormVo tradeSearchFormVo = tradeSearchFormVoForm.bindFromRequest().get();
+        PageVo pageVo = new PageVo();
+        pageVo.setIndex(tradeSearchFormVo.getIndex());
+        pageVo.setPageSize(tradeSearchFormVo.getPageSize());
 
-    List<TradeVo> list = tradeService.getTradeListByToken(token, tradeSearchFormVo, pageVo);
-    pageVo.setList(list);
-    pageVo.getFilter().clear();
+        List<TradeVo> list = tradeService.getTradeListByToken(token, tradeSearchFormVo, pageVo);
+        pageVo.setList(list);
+        pageVo.getFilter().clear();
 
-    Message message = new Message(MsgCode.OPERATE_SUCCESS);
-    JsonNode json = MessageUtil.getInstance().msgToJson(message, pageVo);
-    Logger.info("----------getTradeList end" + json);
-    return ok(json);
-  }
+        Message message = new Message(MsgCode.OPERATE_SUCCESS);
+        JsonNode json = MessageUtil.getInstance().msgToJson(message, pageVo);
+        Logger.info("----------getTradeList end" + json);
+        return ok(json);
+    }
 
-  public Result findCapitalProductDetailTrade() {
-    Logger.info("----------findCapitalProductDetailTrade start ------------");
-    Http.Cookie cookie = Controller.request().cookie(AppConst.TOKEN);
-    String token = cookie == null ? null : cookie.value();
+    public Result findCapitalProductDetailTrade(){
+        Logger.info("----------findCapitalProductDetailTrade start ------------");
+        Http.Cookie cookie = Controller.request().cookie(AppConst.TOKEN);
+        String token = cookie == null ? null : cookie.value();
 
-    TradeSearchFormVo tradeSearchFormVo = tradeFormVoForm.bindFromRequest().get();
+        TradeSearchFormVo tradeSearchFormVo = tradeSearchFormVoForm.bindFromRequest().get();
 
-    CapitalProductTradeVo capitalProductTradeVo = tradeService.findCapitalProductDetailTrade(token, tradeSearchFormVo);
+        CapitalProductTradeVo capitalProductTradeVo = tradeService.findCapitalProductDetailTrade(token, tradeSearchFormVo);
 
-    Message message = new Message(MsgCode.OPERATE_SUCCESS);
-    JsonNode json = MessageUtil.getInstance().msgToJson(message, capitalProductTradeVo);
-    Logger.info("----------findCapitalProductDetailTrade end" + json);
-    return ok(json);
-  }
+        Message message = new Message(MsgCode.OPERATE_SUCCESS);
+        JsonNode json = MessageUtil.getInstance().msgToJson(message, capitalProductTradeVo);
+        Logger.info("----------findCapitalProductDetailTrade end--------------\n" + json);
+        return ok(json);
+    }
 
-  public Result tradeOrders() {
-    Logger.info("----------findCapitalProductDetailTrade start ------------");
-    Http.Cookie cookie = Controller.request().cookie(AppConst.TOKEN);
-    String token = cookie == null ? null : cookie.value();
+    public Result tradeOrders(){
+        Logger.info("----------tradeOrders start ------------");
+        Http.Cookie cookie = Controller.request().cookie(AppConst.TOKEN);
+        String token = cookie == null ? null : cookie.value();
 
+        TradeFormVo tradeFormVo = tradeFormVoForm.bindFromRequest().get();
 
-    return ok();
-  }
+        tradeService.tradeFundOrders(tradeFormVo, token);
+
+        JsonNode json = MessageUtil.getInstance().msgToJson(new Message(MsgCode.TRADE_SUCCESS));
+        Logger.info("----------tradeOrders end: ------------\n" + json);
+
+        return ok(json);
+    }
 
 
 }

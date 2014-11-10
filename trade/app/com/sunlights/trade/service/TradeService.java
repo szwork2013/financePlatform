@@ -3,9 +3,9 @@ package com.sunlights.trade.service;
 import com.sunlights.common.exceptions.BusinessRuntimeException;
 import com.sunlights.common.vo.PageVo;
 import com.sunlights.trade.vo.CapitalProductTradeVo;
+import com.sunlights.trade.vo.TradeFormVo;
 import com.sunlights.trade.vo.TradeSearchFormVo;
 import com.sunlights.trade.vo.TradeVo;
-import models.Trade;
 
 import java.util.List;
 
@@ -19,24 +19,27 @@ import java.util.List;
  * @author <a href="mailto:jiaming.wang@sunlights.cc">wangJiaMing</a>
  */
 public interface TradeService {
-  /**
-   * 获取交易记录
-   *
-   * @param token             客户号
-   * @param tradeSearchFormVo
-   * @return
-   */
-  public List<TradeVo> getTradeListByToken(String token, TradeSearchFormVo tradeSearchFormVo, PageVo pageVo) throws BusinessRuntimeException;
+    /**
+     * 获取交易记录
+     * @param token 客户号
+     * @param tradeSearchFormVo
+     * @return
+     */
+    public List<TradeVo> getTradeListByToken(String token, TradeSearchFormVo tradeSearchFormVo,PageVo pageVo) throws BusinessRuntimeException;
 
-  /**
-   * 产品详情及记录
-   *
-   * @param token
-   * @param tradeSearchFormVo
-   * @return
-   */
-  public CapitalProductTradeVo findCapitalProductDetailTrade(String token, TradeSearchFormVo tradeSearchFormVo);
+    /**
+     * 产品详情及记录
+     * @param token
+     * @param tradeSearchFormVo
+     * @return
+     */
+    public CapitalProductTradeVo findCapitalProductDetailTrade(String token, TradeSearchFormVo tradeSearchFormVo);
 
 
-  public Trade createTrade();
+    /**
+     * 下单
+     * @param tradeFormVo
+     * @param token
+     */
+    public void tradeFundOrders(TradeFormVo tradeFormVo, String token);
 }

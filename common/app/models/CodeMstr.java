@@ -21,6 +21,8 @@ public class CodeMstr extends IdEntity {
   private String codeCat;
   @Column(name = "CODE_ABBR", length = 50)
   private String codeAbbr;
+  @Column(name = "CODE_VAL", length = 100)
+  private String codeVal;
   @Column(name = "PARENT_CODE_CAT")
   private String parentCodeCat;
   @Column(name = "CODE_SEQ")
@@ -107,4 +109,12 @@ public class CodeMstr extends IdEntity {
   public void setCreateTime(Timestamp createTime) {
     this.createTime = createTime;
   }
+
+    public String getCodeVal() {
+        return codeVal;
+    }
+
+    public void setCodeVal(String codeVal) {
+        this.codeVal = codeVal;
+    }
 }

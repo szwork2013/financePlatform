@@ -2,7 +2,7 @@ CREATE TABLE f_sub_account
 (
   id bigint NOT NULL, -- 子账户ID
   sub_account character varying(10), -- 子账户号
-  basic_account bigint, -- 基本账户号
+  basic_account character varying(30), -- 基本账户号
   status character(1), -- 子账户状态
   balance numeric(18,4), -- 余额
   profit numeric(18,4), -- 累计收益
@@ -10,7 +10,7 @@ CREATE TABLE f_sub_account
   create_time timestamp without time zone, -- 创建时间
   update_time timestamp without time zone, -- 修改时间
   delete_time timestamp without time zone, -- 删除时间
-  cust_id character(30), -- 客户号
+  cust_id character varying(30), -- 客户号
   CONSTRAINT pk_f_sub_account PRIMARY KEY (id)
 )
 WITH (

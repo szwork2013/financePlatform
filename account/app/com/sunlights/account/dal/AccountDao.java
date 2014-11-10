@@ -1,34 +1,40 @@
 package com.sunlights.account.dal;
 
-import models.BaseAccount;
-import models.PrdAccountConfig;
-import models.SubAccount;
+import models.*;
 
 import java.util.List;
 
 /**
  * 基本账户DAO接口
- *
+ * 
  * @author tangweiqun 2014/10/23
+ *
  */
 public interface AccountDao {
+	
+	public void saveBaseAccount(BaseAccount baseAccount);
+    public void updateBaseAccount(BaseAccount baseAccount);
+	public BaseAccount getBaseAccount(String custId);
+    
+    public List<SubAccount> findSubAccountList(String customerId);
+    public SubAccount findSubAccount(String customerId, String prdType);
+    public SubAccount saveSubAccount(SubAccount subAccount);
+    public SubAccount updateSubAccount(SubAccount subAccount);
 
-  public void saveBaseAccount(BaseAccount baseAccount);
+    public boolean findFundAgreementExist(String customerId, String fundCompanyCode);
 
-  public void updateBaseAccount(BaseAccount baseAccount);
+    public void saveFundAgreement(String customerId, String fundCompanyCode);
 
-  public BaseAccount getBaseAccount(String custId);
+    public PrdAccountConfig findPrdAccountConfig(String prdType);
 
-  public List<SubAccount> findSubAccountList(String customerId);
+    public void savePrdAccountConfig(String subAccountNo, String prdType);
 
-  public SubAccount saveSubAccount(SubAccount subAccount);
+    public void saveAcctChangFlow(AcctChangFlow acctChangFlow);
 
-  public boolean findFundAgreementExist(String customerId, String fundCompanyCode);
+    public HoldCapital findHoldCapital(String customerId, String productCode);
 
-  public void saveFundAgreement(String customerId, String fundCompanyCode);
+    public HoldCapital saveHoldCapital(HoldCapital holdCapital);
 
-  public PrdAccountConfig findPrdAccountConfig(String prdType);
-
-  public void savePrdAccountConfig(String subAccountNo, String prdType);
+    public HoldCapital updateHoldCapital(HoldCapital holdCapital);
 
 }

@@ -33,7 +33,7 @@ public class OpenAccountPactDaoImpl extends EntityBaseDao implements OpenAccount
 
   @Override
   public FundOpenAccount findFundOpenAccount(String customerId, String bankCardNo) {
-    String sql = "select oa from FundOpenAccount oa where oa.customer_id = ?0 and oa.bankCardNo = ?1";
+    String sql = "select oa from FundOpenAccount oa where oa.customerId = ?0 and oa.bankCardNo = ?1";
     Query query = em.createQuery(sql, FundOpenAccount.class);
     query.setParameter(0, customerId);
     query.setParameter(1, bankCardNo);

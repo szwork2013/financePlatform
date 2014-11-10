@@ -26,47 +26,47 @@ import com.sunlights.core.vo.IdentifierVo;
 
 public class IdentityClient {
 
-  private ParameterService parameterService = new ParameterService();
+    private ParameterService parameterService = new ParameterService();
 
-  public void identity(String idCardNo, String userName) {
-    ObjectNode CheckRequest = Json.newObject();
-    CheckRequest.put("IDNumber", idCardNo);
-    CheckRequest.put("Name", userName);
-    String req = Json.toJson(CheckRequest).toString();
-    Logger.info("================CheckRequest:" + req);
+    public void identity(String idCardNo, String userName){
+        ObjectNode CheckRequest = Json.newObject();
+        CheckRequest.put("IDNumber", idCardNo);
+        CheckRequest.put("Name", userName);
+        String req = Json.toJson(CheckRequest).toString();
+        Logger.info("================CheckRequest:" + req);
 
-    ObjectNode Credential = Json.newObject();
-    Credential.put("UserName", parameterService.getParameterByName(AppConst.CERTIFY_USERNAME));
-    Credential.put("Password", parameterService.getParameterByName(AppConst.CERTIFY_PASSWORD));
-    String cred = Json.toJson(Credential).toString();
-    Logger.info("================Credential:" + cred);
+        ObjectNode Credential = Json.newObject();
+        Credential.put("UserName", parameterService.getParameterByName(AppConst.CERTIFY_USERNAME));
+        Credential.put("Password", parameterService.getParameterByName(AppConst.CERTIFY_PASSWORD));
+        String cred = Json.toJson(Credential).toString();
+        Logger.info("================Credential:" + cred);
 
-    String url = parameterService.getParameterByName(AppConst.CERTIFY_URL);
-    String testMode = parameterService.getParameterByName(AppConst.CERTIFY_TEST);
-    String returnStr = null;
-    if (AppConst.VERIFY_CODE_STATUS_INVALID.equals(testMode)) {
-      Logger.info("================实名认证==============");
-      try {
-        SimpleCheckByJson scbj = new SimpleCheckByJson();
-        scbj.setCred(cred);
-        scbj.setRequest(req);
+        String url = parameterService.getParameterByName(AppConst.CERTIFY_URL);
+        String testMode = parameterService.getParameterByName(AppConst.CERTIFY_TEST);
+        String returnStr = null;
+        if (AppConst.STATUS_VALID.equals(testMode)) {
+            Logger.info("================实名认证==============");
+            try {
+                SimpleCheckByJson scbj = new SimpleCheckByJson();
+                scbj.setCred(cred);
+                scbj.setRequest(req);
 
-        IdentifierServiceStub client = new IdentifierServiceStub(url);
-        SimpleCheckByJsonResponse scbr = client.simpleCheckByJson(scbj);
-        returnStr = scbr.getSimpleCheckByJsonResult();
-        Logger.info("==============实名认证返回结果：" + returnStr);
-      } catch (Exception e) {
-        throw CommonUtil.getInstance().fatalBusinessException(MsgCode.CERTIFY_NAME_FAIL, e.getMessage());
-      }
+                IdentifierServiceStub client = new IdentifierServiceStub(url);
+                SimpleCheckByJsonResponse scbr = client.simpleCheckByJson(scbj);
+                returnStr = scbr.getSimpleCheckByJsonResult();
+                Logger.info("==============实名认证返回结果：" + returnStr);
+            } catch (Exception e) {
+                throw CommonUtil.getInstance().fatalBusinessException(MsgCode.CERTIFY_NAME_FAIL, e.getMessage());
+            }
 
-      IdentifierVo identifierVo = Json.fromJson(Json.parse(returnStr), IdentifierVo.class);
-      if (!"100".equals(identifierVo.ResponseCode)) {
-        throw CommonUtil.getInstance().fatalBusinessException(MsgCode.CERTIFY_NAME_FAIL, "失败code:" + identifierVo.ResponseCode);
-      } else {
-        if (!"一致".equals(identifierVo.getResult())) {
-          throw CommonUtil.getInstance().errorBusinessException(MsgCode.CERTIFY_INFO_FAIL, identifierVo.getResult());
+            IdentifierVo identifierVo =Json.fromJson(Json.parse(returnStr), IdentifierVo.class);
+            if (!"100".equals(identifierVo.ResponseCode)) {
+                throw CommonUtil.getInstance().fatalBusinessException(MsgCode.CERTIFY_NAME_FAIL, "失败code:" + identifierVo.ResponseCode);
+            }else{
+                if (!"一致".equals(identifierVo.getResult())) {
+                    throw CommonUtil.getInstance().errorBusinessException(MsgCode.CERTIFY_INFO_FAIL,identifierVo.getResult());
+                }
+            }
         }
-      }
     }
-  }
 }

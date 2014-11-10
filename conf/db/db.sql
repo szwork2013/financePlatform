@@ -317,30 +317,49 @@ COMMENT ON COLUMN "public"."code_mstr"."code_seq" IS '顺序号';
 COMMENT ON COLUMN "public"."code_mstr"."status" IS '有效状态';
 COMMENT ON COLUMN "public"."code_mstr"."parent_code_cat" IS '父代码';
 
+
+-- ----------------------------
+-- Table structure for f_acct_chang_flow
+-- ----------------------------
+DROP TABLE IF EXISTS "public"."c_fund_open_account";
+CREATE TABLE "public"."c_fund_open_account" (
+"id" int8 NOT NULL,
+"bank_card_No" varchar(32) COLLATE "default",
+"bank_code" varchar(20) COLLATE "default",
+"bank_buyer_name" varchar(10) COLLATE "default",
+"branch_bank_name" varchar(60),
+"create_time" timestamp(6),
+"update_time" timestamp(6),
+"customer_id" varchar(30) COLLATE "default"
+)
+WITH (OIDS=FALSE)
+
+;
+
 -- ----------------------------
 -- Table structure for f_acct_chang_flow
 -- ----------------------------
 DROP TABLE IF EXISTS "public"."f_acct_chang_flow";
 CREATE TABLE "public"."f_acct_chang_flow" (
 "id" int8 NOT NULL,
-"prd_code" varchar(8) COLLATE "default",
+"product_code" varchar(8) COLLATE "default",
 "trade_no" varchar(20) COLLATE "default",
 "subject_no" varchar(6) COLLATE "default",
 "amount" numeric(18,4),
 "create_time" timestamp(6),
-"cust_id" char(30) COLLATE "default"
+"customer_id" char(30) COLLATE "default"
 )
 WITH (OIDS=FALSE)
 
 ;
 COMMENT ON TABLE "public"."f_acct_chang_flow" IS '账户变动流水表';
 COMMENT ON COLUMN "public"."f_acct_chang_flow"."id" IS '账户变动流水ID';
-COMMENT ON COLUMN "public"."f_acct_chang_flow"."prd_code" IS '产品编码';
+COMMENT ON COLUMN "public"."f_acct_chang_flow"."product_code" IS '产品编码';
 COMMENT ON COLUMN "public"."f_acct_chang_flow"."trade_no" IS '交易流水号';
 COMMENT ON COLUMN "public"."f_acct_chang_flow"."subject_no" IS '科目号';
 COMMENT ON COLUMN "public"."f_acct_chang_flow"."amount" IS '变动金额';
 COMMENT ON COLUMN "public"."f_acct_chang_flow"."create_time" IS '创建时间';
-COMMENT ON COLUMN "public"."f_acct_chang_flow"."cust_id" IS '客户号';
+COMMENT ON COLUMN "public"."f_acct_chang_flow"."customer_id" IS '客户号';
 
 -- ----------------------------
 -- Table structure for f_basic_account
@@ -434,7 +453,7 @@ CREATE TABLE "public"."f_sub_account" (
 "create_time" timestamp(6),
 "update_time" timestamp(6),
 "delete_time" timestamp(6),
-"cust_id" char(30) COLLATE "default"
+"cust_id" varchar(30) COLLATE "default"
 )
 WITH (OIDS=FALSE)
 
@@ -458,7 +477,7 @@ COMMENT ON COLUMN "public"."f_sub_account"."cust_id" IS '客户号';
 DROP TABLE IF EXISTS "public"."f_subject";
 CREATE TABLE "public"."f_subject" (
 "id" int8 NOT NULL,
-"NO" varchar(6) COLLATE "default",
+"subject_no" varchar(6) COLLATE "default",
 "description" varchar(20) COLLATE "default",
 "dc_flag" char(1) COLLATE "default",
 "create_time" timestamp(6),
@@ -470,7 +489,7 @@ WITH (OIDS=FALSE)
 ;
 COMMENT ON TABLE "public"."f_subject" IS '科目表';
 COMMENT ON COLUMN "public"."f_subject"."id" IS '科目ID';
-COMMENT ON COLUMN "public"."f_subject"."NO" IS '科目号';
+COMMENT ON COLUMN "public"."f_subject"."subject_no" IS '科目号';
 COMMENT ON COLUMN "public"."f_subject"."description" IS '科目说明';
 COMMENT ON COLUMN "public"."f_subject"."dc_flag" IS '借贷标志  增加资金记贷方 C  较少资金记借方 D';
 COMMENT ON COLUMN "public"."f_subject"."create_time" IS '创建时间';
@@ -1121,11 +1140,7 @@ CREATE TABLE "public"."t_trade" (
 "product_name" varchar(100) COLLATE "default",
 "product_price" numeric(18,4),
 "quantity" int4,
-"amount" int4,
-"holdcapital_id" int8,
-"pay_statu" varchar(1) COLLATE "default",
-"prd_code" varchar(8) COLLATE "default",
-"prd_pricr" numeric(18,4)
+"holdcapital_id" int8
 )
 WITH (OIDS=FALSE)
 
@@ -1485,3 +1500,43 @@ INSERT INTO "public"."parameter" VALUES ('17', null, '2014-10-15 19:49:20', 'N',
 INSERT INTO "public"."parameter" VALUES ('18', null, '2014-10-15 19:49:41', 'N', null, '2014-10-15 19:49:41', '短信接口-通道编号', 'SMS_CHANNEL', '252304001');
 INSERT INTO "public"."parameter" VALUES ('19', null, '2014-10-15 19:50:00', 'N', null, '2014-10-15 19:50:00', '短信接口-授权码', 'SMS_WARRANTYCODE', '9a15294089130ec6a8d27502d808a2a1');
 INSERT INTO "public"."parameter" VALUES ('20', null, '2014-10-15 19:53:54', 'N', null, '2014-10-15 19:53:54', '短信接口-N真实调用/非N 测试模式', 'SMS_TEST', 'N');
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -11,42 +11,68 @@ import java.io.Serializable;
  *
  * @author <a href="mailto:jiaming.wang@sunlights.cc">wangJiaMing</a>
  */
-public class TradeFormVo implements Serializable {
-  private String tradeAmount;
-  private String quantity;
-  private String prdCode;
-  private String bankCardNo;
+public class TradeFormVo implements Serializable{
+    private String tradeAmount;
+    private String quantity;
+    private String prdCode;
+    private String prdType;
+    private String mobilePhoneNo;
+    private String bankCardNo;
+    private String deviceNo;
 
+    public String getDeviceNo() {
+        return deviceNo;
+    }
 
-  public String getTradeAmount() {
-    return tradeAmount;
-  }
+    public void setDeviceNo(String deviceNo) {
+        this.deviceNo = deviceNo;
+    }
 
-  public void setTradeAmount(String tradeAmount) {
-    this.tradeAmount = tradeAmount;
-  }
+    public String getMobilePhoneNo() {
+        return mobilePhoneNo;
+    }
 
-  public String getQuantity() {
-    return quantity;
-  }
+    public void setMobilePhoneNo(String mobilePhoneNo) {
+        this.mobilePhoneNo = mobilePhoneNo;
+    }
 
-  public void setQuantity(String quantity) {
-    this.quantity = quantity;
-  }
+    public String getPrdType() {
+        return prdType;
+    }
 
-  public String getPrdCode() {
-    return prdCode;
-  }
+    public void setPrdType(String prdType) {
+        this.prdType = prdType;
+    }
 
-  public void setPrdCode(String prdCode) {
-    this.prdCode = prdCode;
-  }
+    public String getTradeAmount() {
+        return tradeAmount;
+    }
 
-  public String getBankCardNo() {
-    return bankCardNo;
-  }
+    public void setTradeAmount(String tradeAmount) {
+        this.tradeAmount = tradeAmount;
+    }
 
-  public void setBankCardNo(String bankCardNo) {
-    this.bankCardNo = bankCardNo;
-  }
+    public String getQuantity() {
+        return quantity;
+    }
+
+    public void setQuantity(String quantity) {
+        this.quantity = quantity;
+    }
+
+    public String getPrdCode() {
+        return prdCode;
+    }
+
+    public void setPrdCode(String prdCode) {
+        this.prdCode = prdCode;
+    }
+
+    public String getBankCardNo() {
+        return bankCardNo;
+    }
+
+    public void setBankCardNo(String bankCardNo) {
+        this.bankCardNo = bankCardNo;
+    }
 }
