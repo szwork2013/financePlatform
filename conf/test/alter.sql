@@ -1,51 +1,15 @@
-ALTER TABLE c_customer_gesture DROP COLUMN updated_datetime;
 
-ALTER TABLE c_customer_gesture ADD COLUMN update_time timestamp without time zone;
-COMMENT ON COLUMN c_customer_gesture.update_time IS '更新时间';
-
-ALTER TABLE c_customer_gesture DROP COLUMN created_datetime;
-
-ALTER TABLE c_customer_gesture ADD COLUMN create_time timestamp without time zone;
-COMMENT ON COLUMN c_customer_gesture.create_time IS '创建时间';
+ alter table c_customer_gesture rename column updated_datetime to update_time;
+ alter table c_customer_gesture rename column created_datetime to create_time;
 
 
-ALTER TABLE c_customer_session DROP COLUMN created_datetime;
-
-ALTER TABLE c_customer_session ADD COLUMN create_time timestamp without time zone;
-
-ALTER TABLE c_customer_session DROP COLUMN updated_datetime;
-
-ALTER TABLE c_customer_session ADD COLUMN update_time timestamp without time zone;
+  alter table c_customer_session rename column created_datetime to create_time;
+   alter table c_customer_session rename column updated_datetime to update_time;
 
 
-ALTER TABLE c_customer_verify_code DROP COLUMN created_datetime;
+  alter table c_customer_verify_code rename column created_datetime to create_time;
+   alter table c_customer_verify_code rename column updated_datetime to update_time;
 
-ALTER TABLE c_customer_verify_code ADD COLUMN create_time timestamp without time zone;
-
-ALTER TABLE c_customer_verify_code DROP COLUMN updated_datetime;
-
-ALTER TABLE c_customer_verify_code ADD COLUMN update_time timestamp without time zone;
-
-
-
-ALTER TABLE login_history DROP COLUMN created_datetime;
-
-ALTER TABLE login_history ADD COLUMN create_time timestamp without time zone;
-
-ALTER TABLE login_history DROP COLUMN login_datetime;
-
-ALTER TABLE login_history ADD COLUMN login_time timestamp without time zone;
-COMMENT ON COLUMN login_history.login_time IS '登录时间';
-
- ALTER TABLE login_history DROP COLUMN logout_datetime;
-
-ALTER TABLE login_history ADD COLUMN logout_time timestamp without time zone;
-COMMENT ON COLUMN login_history.logout_time IS '登出时间';
-
-
-ALTER TABLE login_history DROP COLUMN updated_datetime;
-
-ALTER TABLE login_history ADD COLUMN update_time timestamp without time zone;
 
 
 
@@ -55,47 +19,18 @@ ALTER TABLE parameter DROP COLUMN updated_by;
 ALTER TABLE parameter DROP COLUMN updated_datetime;
 ALTER TABLE parameter ADD COLUMN status character varying(1);
 COMMENT ON COLUMN parameter.status IS 'Y有效 N失效';
+update parameter set status = 'Y';
 
 
+alter table sms_message rename column created_datetime to create_time;
+   alter table sms_message rename column updated_datetime to update_time;
 
 
-ALTER TABLE sms_message DROP COLUMN created_datetime;
-
-ALTER TABLE sms_message ADD COLUMN create_time timestamp without time zone;
-
-
-ALTER TABLE sms_message DROP COLUMN updated_datetime;
-
-ALTER TABLE sms_message ADD COLUMN update_time timestamp without time zone;
-
-
-
-
-ALTER TABLE c_customer DROP COLUMN created_by;
-
-ALTER TABLE c_customer ADD COLUMN create_by character varying(30);
-COMMENT ON COLUMN c_customer.create_by IS '创建人';
-
-
-ALTER TABLE c_customer DROP COLUMN created_datetime;
-
-ALTER TABLE c_customer ADD COLUMN create_time timestamp without time zone;
-COMMENT ON COLUMN c_customer.create_time IS '创建时间';
-
-
-ALTER TABLE c_customer DROP COLUMN updated_by;
-
-ALTER TABLE c_customer ADD COLUMN update_by character varying(30);
-
-
-
- ALTER TABLE c_customer DROP COLUMN update_time;
-
-ALTER TABLE c_customer ADD COLUMN update_time timestamp without time zone;
-
-
-
-
+alter table c_customer rename column created_datetime to create_time;
+   alter table c_customer rename column updated_datetime to update_time;
+ alter table c_customer rename column created_by to create_by;
+   alter table c_customer rename column updated_by to update_by;
+   
 
 DROP TABLE login_history;
 
@@ -129,7 +64,7 @@ COMMENT ON COLUMN c_login_history.customer_id IS '客户号';
 COMMENT ON COLUMN c_login_history.login_time IS '登录时间';
 COMMENT ON COLUMN c_login_history.logout_time IS '登出时间';
 
+update f_basic_account set status='Y';
 
 
 
-update parameter set status = 'Y';
