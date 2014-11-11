@@ -35,4 +35,11 @@ public interface CapitalDao {
    */
   public List<HoldCapital> findHoldCapitalsByProductCode(String customerId, CapitalFormVo capitalFormVo);
 
+
+    public HoldCapital findHoldCapital(String customerId, String productCode);
+
+    public HoldCapital saveHoldCapital(HoldCapital holdCapital);
+
+    public HoldCapital updateHoldCapital(HoldCapital holdCapital);
+
 }

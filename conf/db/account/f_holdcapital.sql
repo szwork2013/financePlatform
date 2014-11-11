@@ -2,19 +2,19 @@
 CREATE TABLE f_holdcapital
 (
   id bigint NOT NULL,
-  create_time timestamp without time zone,
-  cust_id character varying(255), -- 客户号
-  delete_time timestamp without time zone,
+  cust_id character varying(30), -- 客户号
   hold_capital numeric(18,4), -- 持有资产
   product_code character varying(8),
   product_name character varying(100),
-  settle_date timestamp without time zone, -- 结算日期
-  status character varying(1),
+  product_type character varying(50), -- 产品类型
   total_profit numeric(18,4), -- 累计收益
   trade_amount numeric(18,4), -- 申赎资产
-  update_time timestamp without time zone,
   yesterday_profit numeric(18,4), -- 昨日收益
-  product_type character varying(50), -- 产品类型
+  status character varying(1),
+  settle_date timestamp without time zone, -- 结算日期
+  create_time timestamp without time zone,
+  update_time timestamp without time zone,
+  delete_time timestamp without time zone,
   CONSTRAINT f_holdcapital_pkey PRIMARY KEY (id)
 )
 WITH (

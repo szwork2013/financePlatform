@@ -3,7 +3,6 @@ package com.sunlights.account.service;
 import com.sunlights.account.vo.AcctChangeFlowVo;
 import com.sunlights.customer.vo.CustomerFormVo;
 import models.BaseAccount;
-import models.HoldCapital;
 
 /**
  * 
@@ -47,7 +46,7 @@ public interface AccountService {
 	 */
 	public void dealAccount(AcctChangeFlowVo acctChangeFlowVo);
 
-    public HoldCapital createHoldCapital(AcctChangeFlowVo acctChangeFlowVo);
+
 
 
 }

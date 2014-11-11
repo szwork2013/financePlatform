@@ -1,5 +1,6 @@
 package com.sunlights.trade.service;
 
+import com.sunlights.account.vo.TotalCapitalInfo;
 import com.sunlights.common.exceptions.BusinessRuntimeException;
 import com.sunlights.common.vo.PageVo;
 import com.sunlights.trade.vo.CapitalProductTradeVo;
@@ -41,5 +42,13 @@ public interface TradeService {
      * @param tradeFormVo
      * @param token
      */
-    public void tradeFundOrders(TradeFormVo tradeFormVo, String token);
+    public TotalCapitalInfo tradeFundOrder(TradeFormVo tradeFormVo, String token);
+
+    /**
+     * 赎回
+     * @param tradeFormVo
+     * @param token
+     * @return
+     */
+    public TotalCapitalInfo tradeFundRedeem(TradeFormVo tradeFormVo, String token);
 }

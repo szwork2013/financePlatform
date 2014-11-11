@@ -29,9 +29,9 @@ public class LoginDaoImpl extends EntityBaseDao implements LoginDao {
   }
 
   public LoginHistory findByPwd(String customerId, String deviceNo) {
-    Query query = em.createNativeQuery("select c.* FROM login_history c where c.customer_id = ?0 " +
-        "and c.device_no = ?1 and c.pwd_ind = 'Y'" +
-        "order by created_datetime desc", LoginHistory.class);
+    Query query = em.createQuery("select c FROM LoginHistory c where c.customerId = ?0 " +
+        "and c.deviceNo = ?1 and c.pwdInd = 'Y'" +
+        "order by c.createTime desc", LoginHistory.class);
     query.setParameter(0, customerId);
     query.setParameter(1, deviceNo);
     List<LoginHistory> list = query.getResultList();
@@ -42,9 +42,9 @@ public class LoginDaoImpl extends EntityBaseDao implements LoginDao {
   }
 
   public LoginHistory findByGesturePwd(String customerId, String deviceNo) {
-    Query query = em.createNativeQuery("select c.* FROM login_history c where c.customer_id = ?0 " +
-        "and c.device_no = ?1 and c.gesture_Ind = 'Y'" +
-        "order by created_datetime desc", LoginHistory.class);
+    Query query = em.createQuery("select c FROM LoginHistory c where c.customerId = ?0 " +
+            "and c.deviceNo = ?1 and c.gestureInd = 'Y'" +
+            "order by c.createTime desc", LoginHistory.class);
     query.setParameter(0, customerId);
     query.setParameter(1, deviceNo);
     List<LoginHistory> list = query.getResultList();
@@ -55,9 +55,9 @@ public class LoginDaoImpl extends EntityBaseDao implements LoginDao {
   }
 
   public LoginHistory findByLoginCustomer(String customerId, String deviceNo) {
-    Query query = em.createNativeQuery("select c.* FROM login_history c where c.customer_id = ?0 " +
-        "and c.device_no = ?1 and c.success_Ind = 'Y' and c.login_datetime is not null " +
-        "and c.logout_datetime is null order by created_datetime desc", LoginHistory.class);
+    Query query = em.createQuery("select c FROM LoginHistory c where c.customerId = ?0 " +
+        "and c.deviceNo = ?1 and c.successInd = 'Y' and c.loginTime is not null " +
+        "and c.logoutTime is null order by c.createTime desc", LoginHistory.class);
     query.setParameter(0, customerId);
     query.setParameter(1, deviceNo);
     List<LoginHistory> list = query.getResultList();

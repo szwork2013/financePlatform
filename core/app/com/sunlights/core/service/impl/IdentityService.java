@@ -59,7 +59,7 @@ public class IdentityService {
         customer.setRealName(userName);
         customer.setIdentityTyper(AppConst.ID_CARD);
         customer.setIdentityNumber(idCardNo);
-        customer.setUpdatedDatetime(DBHelper.getCurrentTime());
+        customer.setUpdateTime(DBHelper.getCurrentTime());
         customerService.updateCustomer(customer);
 
         MessageUtil.getInstance().setMessage(new Message(MsgCode.CERTIFY_SUCCESS), customerService.getCustomerVoByPhoneNo(mobilePhoneNo, deviceNo));
@@ -107,8 +107,8 @@ public class IdentityService {
     customer.setProperty(AppConst.CUSTOMER_BUYER);
     customer.setDeviceNo(deviceNo);
     customer.setStatus(AppConst.CUSTOMER_STATUS_NORMAL);
-    customer.setCreatedDatetime(currentTime);
-    customer.setUpdatedDatetime(currentTime);
+    customer.setCreateTime(currentTime);
+    customer.setUpdateTime(currentTime);
     customerService.saveCustomer(customer);
     return customer;
   }

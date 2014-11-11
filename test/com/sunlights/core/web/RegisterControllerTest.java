@@ -44,7 +44,7 @@ public class RegisterControllerTest extends BaseTest {
         JPA.withTransaction(new F.Callback0() {
           @Override
           public void invoke() throws Throwable {
-            Query query = JPA.em().createNativeQuery("select c.* FROM c_customer_verify_code c where c.mobile = ?0 and c.verify_type = ?1 and c.status = 'N' order by created_datetime desc", CustomerVerifyCode.class);
+            Query query = JPA.em().createNativeQuery("select c.* FROM c_customer_verify_code c where c.mobile = ?0 and c.verify_type = ?1 and c.status = 'N' order by create_time desc", CustomerVerifyCode.class);
             query.setParameter(0, mobilePhoneNo);
             query.setParameter(1, type);
             CustomerVerifyCode customerVerifyCode = (CustomerVerifyCode) query.getSingleResult();

@@ -111,8 +111,8 @@ public final class AppConst {
     public static String TRADE_TYPE_REDEEM = "1";
 
     // ----- customer ---
-    public static String STATUS_INVALID = "Y";
-    public static String STATUS_VALID = "N";
+    public static String STATUS_VALID = "Y";
+    public static String STATUS_INVALID = "N";
 
 
     /**
@@ -152,7 +152,7 @@ public final class AppConst {
 
     // --- all ---
 
-    public static String DELETE_FLAG = "defunctInd";
+    public static String STATUS_FLAG = "status";
 
     public static long ONE_MINUTE = 60 * 1000;
     public static String TOKEN = "token";

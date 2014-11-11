@@ -36,13 +36,13 @@ public class VerifyCodeService {
         if (preCustomerVerifyCode != null) {
             //未失效返回以前的
             long VERIFYCODE_EXPIRY = parameterService.getParameterNumeric(AppConst.VERIFYCODE_EXPIRY);//验证码在失效时间
-            if (currentTimestamp.getTime() - preCustomerVerifyCode.getCreatedDatetime().getTime() <= VERIFYCODE_EXPIRY * AppConst.ONE_MINUTE) {
+            if (currentTimestamp.getTime() - preCustomerVerifyCode.getCreateTime().getTime() <= VERIFYCODE_EXPIRY * AppConst.ONE_MINUTE) {
                 verifyCode = preCustomerVerifyCode.getVerifyCode();
                 Logger.info("===========verifyCode:" + verifyCode);
                 return verifyCode;
             }else{
                 preCustomerVerifyCode.setStatus(AppConst.STATUS_INVALID);
-                preCustomerVerifyCode.setUpdatedDatetime(currentTimestamp);
+                preCustomerVerifyCode.setUpdateTime(currentTimestamp);
                 customerVerifyCodeDao.updateCustomerVerifyCode(preCustomerVerifyCode);
             }
         }
@@ -52,8 +52,8 @@ public class VerifyCodeService {
         newUserVefiryCode.setVerifyType(type);
         newUserVefiryCode.setMobile(mobilePhoneNo);
         newUserVefiryCode.setVerifyCode(verifyCode);
-        newUserVefiryCode.setCreatedDatetime(currentTimestamp);
-        newUserVefiryCode.setUpdatedDatetime(currentTimestamp);
+        newUserVefiryCode.setCreateTime(currentTimestamp);
+        newUserVefiryCode.setUpdateTime(currentTimestamp);
         newUserVefiryCode.setDeviceNo(deviceNo);
         customerVerifyCodeDao.saveCustomerVerifyCode(newUserVefiryCode);
 
@@ -96,9 +96,9 @@ public class VerifyCodeService {
 
         Timestamp currentTime = DBHelper.getCurrentTime();
         long verifyCodeExpiry = parameterService.getParameterNumeric(AppConst.VERIFYCODE_EXPIRY);
-        if (currentTime.getTime() - customerVerifyCode.getCreatedDatetime().getTime() >= verifyCodeExpiry * AppConst.ONE_MINUTE) {// 验证码有效时间超时
+        if (currentTime.getTime() - customerVerifyCode.getCreateTime().getTime() >= verifyCodeExpiry * AppConst.ONE_MINUTE) {// 验证码有效时间超时
             customerVerifyCode.setStatus(AppConst.STATUS_INVALID);
-            customerVerifyCode.setUpdatedDatetime(currentTime);
+            customerVerifyCode.setUpdateTime(currentTime);
             customerVerifyCodeDao.updateCustomerVerifyCode(customerVerifyCode);
             return  MsgCode.CERTIFY_TIMEOUT;
         }
@@ -107,7 +107,7 @@ public class VerifyCodeService {
         }
 
         customerVerifyCode.setStatus(AppConst.STATUS_INVALID);
-        customerVerifyCode.setUpdatedDatetime(currentTime);
+        customerVerifyCode.setUpdateTime(currentTime);
         customerVerifyCodeDao.updateCustomerVerifyCode(customerVerifyCode);
 
         return MsgCode.OPERATE_SUCCESS;

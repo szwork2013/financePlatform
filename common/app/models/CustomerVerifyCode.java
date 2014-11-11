@@ -2,10 +2,9 @@ package models;
 
 import com.sunlights.common.AppConst;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Table;
+import javax.persistence.*;
 import java.sql.Timestamp;
+import java.util.Date;
 
 /**
  * Created by Administrator on 2014/9/4.
@@ -21,30 +20,32 @@ public class CustomerVerifyCode extends IdEntity {
     private String deviceNo;//设备号
     @Column(length = 20,name = "VERIFY_TYPE")
     private String verifyType;//验证码类型
-    @Column(name = "UPDATED_DATETIME")
-    private Timestamp updatedDatetime;
-    @Column(name = "CREATED_DATETIME")
-    private Timestamp createdDatetime;
+    @Temporal(TemporalType.TIMESTAMP)
+    @Column(name = "UPDATE_TIME")
+    private Date updateTime;
+    @Temporal(TemporalType.TIMESTAMP)
+    @Column(name = "CREATE_TIME")
+    private Date createTime;
     @Column(name = "STATUS", length = 1)
     private String status = AppConst.STATUS_VALID;
 
     public CustomerVerifyCode() {
     }
 
-    public Timestamp getUpdatedDatetime() {
-        return updatedDatetime;
+    public Date getUpdateTime() {
+        return updateTime;
     }
 
-    public void setUpdatedDatetime(Timestamp updatedDatetime) {
-        this.updatedDatetime = updatedDatetime;
+    public void setUpdateTime(Timestamp updateTime) {
+        this.updateTime = updateTime;
     }
 
-    public Timestamp getCreatedDatetime() {
-        return createdDatetime;
+    public Date getCreateTime() {
+        return createTime;
     }
 
-    public void setCreatedDatetime(Timestamp createdDatetime) {
-        this.createdDatetime = createdDatetime;
+    public void setCreateTime(Timestamp createTime) {
+        this.createTime = createTime;
     }
 
     public String getStatus() {

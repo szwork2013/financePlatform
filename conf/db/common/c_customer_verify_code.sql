@@ -1,11 +1,11 @@
 CREATE TABLE c_customer_verify_code
 (
   id bigint NOT NULL,
-  created_datetime timestamp without time zone,
+  create_time timestamp without time zone,
   device_no character varying(40), -- 设备号
   mobile character varying(11), -- 手机号
   status character varying(1), -- Y失效 N有效
-  updated_datetime timestamp without time zone,
+  update_time timestamp without time zone,
   verify_code character varying(40), -- 验证码
   verify_type character varying(20), -- 类型
   CONSTRAINT c_customer_verify_code_pkey PRIMARY KEY (id)

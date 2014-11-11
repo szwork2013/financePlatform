@@ -64,9 +64,9 @@ public class ParameterService {
       throw CommonUtil.getInstance().errorBusinessException(MsgCode.MISSING_PARAM_CONFIG, name);
     }
     long returnValue = 0;
-    try {
-      returnValue = Long.valueOf(value);
-    } catch (Exception e) {
+     try {
+          returnValue = Long.valueOf(value);
+      } catch (Exception e) {
       throw CommonUtil.getInstance().errorBusinessException(MsgCode.PARAM_IS_NOT_NUMBER, name);
     }
     return returnValue;
@@ -83,8 +83,6 @@ public class ParameterService {
     parameter.setName(name);
     parameter.setValue(value);
     parameter.setDescription(description);
-    parameter.setCreatedDatetime(currentTime);
-    parameter.setUpdatedDatetime(currentTime);
 
     parameterDao.addParameter(parameter);
 

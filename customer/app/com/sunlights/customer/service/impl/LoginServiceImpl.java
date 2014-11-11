@@ -52,8 +52,6 @@ public class LoginServiceImpl implements LoginService {
 		String mobilePhoneNo = vo.getMobilePhoneNo();
 		String passWord = vo.getPassWord();
 		String deviceNo = vo.getDeviceNo();
-        Logger.info("=============deviceNo:" + deviceNo);
-        Logger.info("============token:" + token);
 		//
         CommonUtil.getInstance().validateParams(mobilePhoneNo, passWord, deviceNo);
         Customer customer = getCustomerByMobilePhoneNo(mobilePhoneNo);
@@ -88,9 +86,6 @@ public class LoginServiceImpl implements LoginService {
         String mobilePhoneNo = vo.getMobilePhoneNo();
         String gesturePassWord = vo.getGesturePassWord();
         String deviceNo = vo.getDeviceNo();
-		Logger.info("gesturePwd:" + gesturePassWord);
-		Logger.info("mobilePhoneNo:" + mobilePhoneNo);
-        Logger.info("============token:" + token);
 
         CommonUtil.getInstance().validateParams(mobilePhoneNo, gesturePassWord, deviceNo);
         Customer customer = getCustomerByMobilePhoneNo(mobilePhoneNo);
@@ -118,7 +113,7 @@ public class LoginServiceImpl implements LoginService {
         	long PWD_MAX = parameterService.getParameterNumeric(AppConst.PWD_MAX);// 登录失败的最大次数
     		if (loginHistory.getLogNum() % PWD_MAX == 0) {// 此次为PWD_MAX * n次    手势删除，若为登录状态则登出
     			customerGesture.setStatus(AppConst.STATUS_INVALID);
-    			customerGesture.setUpdatedDatetime(DBHelper.getCurrentTime());
+    			customerGesture.setUpdateTime(DBHelper.getCurrentTime());
                 customerDao.updateCustomerGesture(customerGesture);
     			logout(customer.getMobile(), deviceNo, token);
     		}
@@ -184,8 +179,8 @@ public class LoginServiceImpl implements LoginService {
         customer.setProperty(AppConst.CUSTOMER_BUYER);
         customer.setDeviceNo(deviceNo);
         customer.setStatus(AppConst.CUSTOMER_STATUS_NORMAL);
-        customer.setCreatedDatetime(currentTime);
-        customer.setUpdatedDatetime(currentTime);
+        customer.setCreateTime(currentTime);
+        customer.setUpdateTime(currentTime);
         customerService.saveCustomer(customer);
         return customer;
     }
@@ -202,8 +197,6 @@ public class LoginServiceImpl implements LoginService {
         String idCardNo = vo.getIdCardNo();
         String deviceNo = vo.getDeviceNo();
 
-        Logger.info("=======userName:" + userName);
-        Logger.info("=======mobilePhoneNo:" + mobilePhoneNo);
         CommonUtil.getInstance().validateParams(mobilePhoneNo, verifyCode);
 		Customer customer = getCustomerByMobilePhoneNo(mobilePhoneNo);
 		if (customer == null) {
@@ -236,7 +229,7 @@ public class LoginServiceImpl implements LoginService {
 		}
 		Timestamp currentTime = DBHelper.getCurrentTime();
         customer.setLoginPassWord(new MD5Helper().encrypt(passWord));
-        customer.setUpdatedDatetime(currentTime);
+        customer.setUpdateTime(currentTime);
         customerService.updateCustomer(customer);
 
         Message message = new Message(MsgCode.PASSWORD_CHANGE_SUCCESS);
@@ -252,10 +245,6 @@ public class LoginServiceImpl implements LoginService {
      * @param token
      */
 	public void logout(String mobilePhoneNo, String deviceNo, String token) {
-        Logger.info("=======logout======token:" + token);
-        Logger.info("=======logout======deviceNo:" + deviceNo);
-        Logger.info("=======logout======mobilePhoneNo:" + mobilePhoneNo);
-
         Customer customer = getCustomerByMobilePhoneNo(mobilePhoneNo);
         if (customer == null) {
             throw CommonUtil.getInstance().errorBusinessException(MsgCode.PHONE_NUMBER_NOT_REGISTRY);
@@ -270,13 +259,13 @@ public class LoginServiceImpl implements LoginService {
         if (customerSession != null) {//清除
             customerService.removeCache(token);
             customerSession.setStatus(AppConst.STATUS_INVALID);
-            customerSession.setUpdatedDatetime(currentTime);
+            customerSession.setUpdateTime(currentTime);
             customerDao.updateCustomerSession(customerSession);
         }
         LoginHistory loginHistory = loginDao.findByLoginCustomer(customer.getCustomerId(), deviceNo);
         if(loginHistory != null){
-            loginHistory.setLogoutDatetime(currentTime);
-            loginHistory.setUpdatedDatetime(currentTime);
+            loginHistory.setLogoutTime(currentTime);
+            loginHistory.setUpdateTime(currentTime);
             loginDao.updateLoginHistory(loginHistory);
         }
 
@@ -309,7 +298,6 @@ public class LoginServiceImpl implements LoginService {
         String gestureOpened = vo.getGestureOpened();
         String deviceNo = vo.getDeviceNo();
 
-		Logger.info("=====gestureOpened:" + gestureOpened);
         Customer customer = checkFormVo(mobilePhoneNo, gesturePassWord, gestureOpened);
 		Timestamp currentTime = DBHelper.getCurrentTime();
 		CustomerGesture customerGesture = customerDao.findCustomerGestureByDeviceNo(customer.getCustomerId(), deviceNo);
@@ -327,7 +315,7 @@ public class LoginServiceImpl implements LoginService {
         if (mobilePhoneNo == null
                 || gestureOpened == null
                 || (AppConst.VALID_CERTIFY.equals(gestureOpened) && gesturePassWord == null)) {
-            throw CommonUtil.getInstance().errorBusinessException(MsgCode.MISSING_PARAM_CONFIG);
+            throw CommonUtil.getInstance().errorBusinessException(MsgCode.ACCESS_FAIL);
         }
         Customer customer = getCustomerByMobilePhoneNo(mobilePhoneNo);
         if (customer == null) {
@@ -337,7 +325,7 @@ public class LoginServiceImpl implements LoginService {
     }
 
     private void closeGesture(Timestamp currentTime, CustomerGesture customerGesture) {
-        customerGesture.setUpdatedDatetime(currentTime);
+        customerGesture.setUpdateTime(currentTime);
         customerGesture.setStatus(AppConst.STATUS_INVALID);
         customerDao.updateCustomerGesture(customerGesture);
     }
@@ -346,8 +334,8 @@ public class LoginServiceImpl implements LoginService {
         CustomerGesture customerGesture;
         customerGesture = new CustomerGesture();
         customerGesture.setGesturePassword(new MD5Helper().encrypt(gesturePassWord));
-        customerGesture.setCreatedDatetime(currentTime);
-        customerGesture.setUpdatedDatetime(currentTime);
+        customerGesture.setCreateTime(currentTime);
+        customerGesture.setUpdateTime(currentTime);
         customerGesture.setDeviceNo(deviceNo);
         customerGesture.setCustomerId(customer.getCustomerId());
         customerDao.saveCustomerGesture(customerGesture);
@@ -358,13 +346,13 @@ public class LoginServiceImpl implements LoginService {
         LoginHistory loginHistory = new LoginHistory();
         loginHistory.setCustomerId(customer.getCustomerId());
         loginHistory.setDeviceNo(deviceNo);
-        loginHistory.setPwdInd(AppConst.STATUS_INVALID);
-        loginHistory.setGestureInd(AppConst.STATUS_INVALID);
-        loginHistory.setSocialInd(AppConst.STATUS_INVALID);
-        loginHistory.setSuccessInd(AppConst.STATUS_INVALID);
-        loginHistory.setLoginDatetime(currentTime);
-        loginHistory.setCreatedDatetime(currentTime);
-        loginHistory.setUpdatedDatetime(currentTime);
+        loginHistory.setPwdInd(AppConst.STATUS_VALID);
+        loginHistory.setGestureInd(AppConst.STATUS_VALID);
+        loginHistory.setSocialInd(AppConst.STATUS_VALID);
+        loginHistory.setSuccessInd(AppConst.STATUS_VALID);
+        loginHistory.setLoginTime(currentTime);
+        loginHistory.setCreateTime(currentTime);
+        loginHistory.setUpdateTime(currentTime);
         loginHistory.setLogNum(0);
         loginDao.saveLoginHistory(loginHistory);
     }
@@ -404,7 +392,7 @@ public class LoginServiceImpl implements LoginService {
             long logNum = oldHistory.getLogNum();
             long PWD_MAX = parameterService.getParameterNumeric(AppConst.PWD_MAX);
             if (logNum != 0 && logNum % PWD_MAX == 0) {//上一次为PWD_MAX * n次
-                long balanceMin = getTotalMinute(logNum, PWD_MAX) * AppConst.ONE_MINUTE - (currentTime.getTime() - oldHistory.getCreatedDatetime().getTime());
+                long balanceMin = getTotalMinute(logNum, PWD_MAX) * AppConst.ONE_MINUTE - (currentTime.getTime() - oldHistory.getCreateTime().getTime());
                 if (balanceMin > 0) {
                     BigDecimal min = ArithUtil.bigUpScale0(new BigDecimal((double) balanceMin / AppConst.ONE_MINUTE));
                     throw CommonUtil.getInstance().errorBusinessException(MsgCode.PASSWORD_ERROR_OVER_COUNT, min);
@@ -426,10 +414,10 @@ public class LoginServiceImpl implements LoginService {
 
         if (oldHistory != null) {
             oldNum = oldHistory.getLogNum();
-            if (!AppConst.STATUS_INVALID.equals(oldHistory.getSuccessInd())) {// 成功为0，以下重计算失败的次数
+            if (!AppConst.STATUS_VALID.equals(oldHistory.getSuccessInd())) {// 成功为0，以下重计算失败的次数
                 //登录失败但没到最大次数，隔LOGIN_PERIOD时间恢复重新计数登录次数
                 long LOGIN_PERIOD = parameterService.getParameterNumeric(AppConst.LOGIN_PERIOD);
-                if (oldNum < PWD_MAX && (currentTime.getTime() - oldHistory.getCreatedDatetime().getTime() > LOGIN_PERIOD * AppConst.ONE_MINUTE)) {
+                if (oldNum < PWD_MAX && (currentTime.getTime() - oldHistory.getCreateTime().getTime() > LOGIN_PERIOD * AppConst.ONE_MINUTE)) {
                     oldNum = 0;
                 }
             }
@@ -439,15 +427,15 @@ public class LoginServiceImpl implements LoginService {
         loginHistory.setCustomerId(customer.getCustomerId());
         loginHistory.setDeviceNo(deviceNo);
         if (isGestureLogin) {
-            loginHistory.setGestureInd(AppConst.STATUS_INVALID);
+            loginHistory.setGestureInd(AppConst.STATUS_VALID);
         }else{
-            loginHistory.setPwdInd(AppConst.STATUS_INVALID);
+            loginHistory.setPwdInd(AppConst.STATUS_VALID);
         }
         loginHistory.setLogNum(oldNum + 1);
-        loginHistory.setSuccessInd(AppConst.STATUS_VALID);
-        loginHistory.setLoginDatetime(currentTime);
-        loginHistory.setCreatedDatetime(currentTime);
-        loginHistory.setUpdatedDatetime(currentTime);
+        loginHistory.setSuccessInd(AppConst.STATUS_INVALID);
+        loginHistory.setLoginTime(currentTime);
+        loginHistory.setCreateTime(currentTime);
+        loginHistory.setUpdateTime(currentTime);
         loginDao.saveLoginHistory(loginHistory);
 
         addFailMessage(loginHistory, isGestureLogin);

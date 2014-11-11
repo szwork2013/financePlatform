@@ -77,8 +77,8 @@ public class CustomerService {
     customerSession.setCustomerId(customer.getCustomerId());
     customerSession.setToken(new MD5Helper().encrypt(customer.getMobile() + customer.getDeviceNo() + currentTime));
     customerSession.setClientAddress(clientAddress);
-    customerSession.setCreatedDatetime(currentTime);
-    customerSession.setUpdatedDatetime(currentTime);
+    customerSession.setCreateTime(currentTime);
+    customerSession.setUpdateTime(currentTime);
     customerSession.setDeviceNo(customer.getDeviceNo());
     customerDao.saveCustomerSession(customerSession);
 

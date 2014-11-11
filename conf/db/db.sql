@@ -125,8 +125,8 @@ WITH (OIDS=FALSE)
 DROP TABLE IF EXISTS "public"."c_customer";
 CREATE TABLE "public"."c_customer" (
 "id" int8 NOT NULL,
-"created_by" varchar(30) COLLATE "default",
-"created_datetime" timestamp(6),
+"create_by" varchar(30) COLLATE "default",
+"create_time" timestamp(6),
 "customer_id" varchar(30) COLLATE "default",
 "customer_type" varchar(1) COLLATE "default",
 "device_no" varchar(50) COLLATE "default",
@@ -145,16 +145,16 @@ CREATE TABLE "public"."c_customer" (
 "reg_channel" varchar(1) COLLATE "default",
 "reg_way" varchar(1) COLLATE "default",
 "status" varchar(1) COLLATE "default",
-"updated_by" varchar(30) COLLATE "default",
-"updated_datetime" timestamp(6),
+"update_by" varchar(30) COLLATE "default",
+"update_time" timestamp(6),
 "weibo" varchar(30) COLLATE "default",
 "weixin" varchar(30) COLLATE "default"
 )
 WITH (OIDS=FALSE)
 
 ;
-COMMENT ON COLUMN "public"."c_customer"."created_by" IS '创建人';
-COMMENT ON COLUMN "public"."c_customer"."created_datetime" IS '创建时间';
+COMMENT ON COLUMN "public"."c_customer"."create_by" IS '创建人';
+COMMENT ON COLUMN "public"."c_customer"."create_time" IS '创建时间';
 COMMENT ON COLUMN "public"."c_customer"."customer_id" IS '客户号';
 COMMENT ON COLUMN "public"."c_customer"."customer_type" IS '客户类型';
 COMMENT ON COLUMN "public"."c_customer"."device_no" IS '注册设备号';
@@ -182,21 +182,21 @@ COMMENT ON COLUMN "public"."c_customer"."weixin" IS '绑定微信号';
 DROP TABLE IF EXISTS "public"."c_customer_gesture";
 CREATE TABLE "public"."c_customer_gesture" (
 "id" int8 NOT NULL,
-"created_datetime" timestamp(6),
+"create_time" timestamp(6),
 "device_no" varchar(40) COLLATE "default",
 "gesture_password" varchar(40) COLLATE "default",
 "status" varchar(1) COLLATE "default",
-"updated_datetime" timestamp(6),
+"update_time" timestamp(6),
 "customer_id" varchar(30) COLLATE "default"
 )
 WITH (OIDS=FALSE)
 
 ;
-COMMENT ON COLUMN "public"."c_customer_gesture"."created_datetime" IS '创建时间';
+COMMENT ON COLUMN "public"."c_customer_gesture"."create_time" IS '创建时间';
 COMMENT ON COLUMN "public"."c_customer_gesture"."device_no" IS '设备号';
 COMMENT ON COLUMN "public"."c_customer_gesture"."gesture_password" IS '手势密码';
 COMMENT ON COLUMN "public"."c_customer_gesture"."status" IS 'Y失效 N有效';
-COMMENT ON COLUMN "public"."c_customer_gesture"."updated_datetime" IS '更新时间';
+COMMENT ON COLUMN "public"."c_customer_gesture"."update_time" IS '更新时间';
 COMMENT ON COLUMN "public"."c_customer_gesture"."customer_id" IS '客户号';
 
 -- ----------------------------
@@ -206,12 +206,12 @@ DROP TABLE IF EXISTS "public"."c_customer_session";
 CREATE TABLE "public"."c_customer_session" (
 "id" int8 NOT NULL,
 "client_address" varchar(40) COLLATE "default",
-"created_datetime" timestamp(6),
+"create_time" timestamp(6),
 "device_name" varchar(40) COLLATE "default",
 "device_no" varchar(40) COLLATE "default",
 "status" varchar(1) COLLATE "default",
 "token" varchar(400) COLLATE "default",
-"updated_datetime" timestamp(6),
+"update_time" timestamp(6),
 "customer_id" varchar(30) COLLATE "default"
 )
 WITH (OIDS=FALSE)
@@ -229,11 +229,11 @@ COMMENT ON COLUMN "public"."c_customer_session"."customer_id" IS '客户号';
 DROP TABLE IF EXISTS "public"."c_customer_verify_code";
 CREATE TABLE "public"."c_customer_verify_code" (
 "id" int8 NOT NULL,
-"created_datetime" timestamp(6),
+"create_time" timestamp(6),
 "device_no" varchar(40) COLLATE "default",
 "mobile" varchar(11) COLLATE "default",
 "status" varchar(1) COLLATE "default",
-"updated_datetime" timestamp(6),
+"update_time" timestamp(6),
 "verify_code" varchar(40) COLLATE "default",
 "verify_type" varchar(20) COLLATE "default"
 )
@@ -550,19 +550,19 @@ WITH (OIDS=FALSE)
 -- ----------------------------
 -- Table structure for login_history
 -- ----------------------------
-DROP TABLE IF EXISTS "public"."login_history";
-CREATE TABLE "public"."login_history" (
+DROP TABLE IF EXISTS "public"."c_login_history";
+CREATE TABLE "public"."c_login_history" (
 "id" int8 NOT NULL,
-"created_datetime" timestamp(6),
+"create_time" timestamp(6),
 "device_no" varchar(40) COLLATE "default",
 "gesture_ind" varchar(1) COLLATE "default",
 "log_num" int8,
-"login_datetime" timestamp(6),
-"logout_datetime" timestamp(6),
+"login_time" timestamp(6),
+"logout_time" timestamp(6),
 "pwd_ind" varchar(1) COLLATE "default",
 "social_ind" varchar(1) COLLATE "default",
 "success_ind" varchar(1) COLLATE "default",
-"updated_datetime" timestamp(6),
+"update_time" timestamp(6),
 "customer_id" varchar(30) COLLATE "default"
 )
 WITH (OIDS=FALSE)
@@ -571,8 +571,8 @@ WITH (OIDS=FALSE)
 COMMENT ON COLUMN "public"."login_history"."device_no" IS '设备号';
 COMMENT ON COLUMN "public"."login_history"."gesture_ind" IS 'Y手势登录 ';
 COMMENT ON COLUMN "public"."login_history"."log_num" IS '登录失败次数';
-COMMENT ON COLUMN "public"."login_history"."login_datetime" IS '登录时间';
-COMMENT ON COLUMN "public"."login_history"."logout_datetime" IS '登出时间';
+COMMENT ON COLUMN "public"."login_history"."login_time" IS '登录时间';
+COMMENT ON COLUMN "public"."login_history"."logout_time" IS '登出时间';
 COMMENT ON COLUMN "public"."login_history"."pwd_ind" IS 'Y密码登录';
 COMMENT ON COLUMN "public"."login_history"."success_ind" IS '成功登录标志';
 COMMENT ON COLUMN "public"."login_history"."customer_id" IS '客户号';
@@ -820,11 +820,7 @@ WITH (OIDS=FALSE)
 DROP TABLE IF EXISTS "public"."parameter";
 CREATE TABLE "public"."parameter" (
 "id" int8 NOT NULL,
-"created_by" varchar(30) COLLATE "default",
-"created_datetime" timestamp(6),
-"defunct_ind" varchar(1) COLLATE "default",
-"updated_by" varchar(30) COLLATE "default",
-"updated_datetime" timestamp(6),
+"status" varchar(1) COLLATE "default",
 "description" varchar(255) COLLATE "default",
 "name" varchar(50) COLLATE "default",
 "value" varchar(50) COLLATE "default"
@@ -832,11 +828,7 @@ CREATE TABLE "public"."parameter" (
 WITH (OIDS=FALSE)
 
 ;
-COMMENT ON COLUMN "public"."parameter"."created_by" IS '创建人';
-COMMENT ON COLUMN "public"."parameter"."created_datetime" IS '创建时间';
-COMMENT ON COLUMN "public"."parameter"."defunct_ind" IS 'N有效 Y失效';
-COMMENT ON COLUMN "public"."parameter"."updated_by" IS '更新人';
-COMMENT ON COLUMN "public"."parameter"."updated_datetime" IS '更新时间';
+COMMENT ON COLUMN "public"."parameter"."status" IS 'Y有效 N失效';
 COMMENT ON COLUMN "public"."parameter"."description" IS '描述';
 COMMENT ON COLUMN "public"."parameter"."name" IS '参数名';
 COMMENT ON COLUMN "public"."parameter"."value" IS '参数值';
@@ -1079,12 +1071,12 @@ DROP TABLE IF EXISTS "public"."sms_message";
 CREATE TABLE "public"."sms_message" (
 "id" int8 NOT NULL,
 "content" varchar(200) COLLATE "default",
-"created_datetime" timestamp(6),
+"create_time" timestamp(6),
 "mobile" varchar(11) COLLATE "default",
 "rec_status" varchar(40) COLLATE "default",
 "return_msg" varchar(200) COLLATE "default",
 "smsid" varchar(40) COLLATE "default",
-"updated_datetime" timestamp(6)
+"update_time" timestamp(6)
 )
 WITH (OIDS=FALSE)
 

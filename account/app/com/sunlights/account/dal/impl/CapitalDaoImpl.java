@@ -4,6 +4,7 @@ import com.sunlights.account.dal.CapitalDao;
 import com.sunlights.account.vo.Capital4Product;
 import com.sunlights.account.vo.CapitalFormVo;
 import com.sunlights.account.vo.HoldCapitalVo;
+import com.sunlights.common.AppConst;
 import com.sunlights.common.dal.EntityBaseDao;
 import com.sunlights.common.dal.PageDao;
 import com.sunlights.common.dal.impl.PageDaoImpl;
@@ -36,7 +37,7 @@ public class CapitalDaoImpl extends EntityBaseDao implements CapitalDao {
         " order by hc.create_time desc";
     Query query = em.createNativeQuery(sql);
     query.setParameter("custId", custId);
-    query.setParameter("status", "N");
+    query.setParameter("status", AppConst.STATUS_VALID);
     if (pageVo.getIndex() > 0) {
       query.setFirstResult(pageVo.getIndex());
     }
@@ -84,7 +85,7 @@ public class CapitalDaoImpl extends EntityBaseDao implements CapitalDao {
     sql = "select count(1) from f_holdcapital hc where hc.cust_id = ?0 and hc.status = ?1";
     query = em.createNativeQuery(sql);
     query.setParameter(0, custId);
-    query.setParameter(1, "N");
+    query.setParameter(1, AppConst.STATUS_VALID);
     String count = query.getSingleResult().toString();
     pageVo.setCount(Integer.valueOf(count));
   }
@@ -110,7 +111,7 @@ public class CapitalDaoImpl extends EntityBaseDao implements CapitalDao {
         " and hc.status = ?1";
     Query holdCapitalSql = em.createNativeQuery(sql);
     holdCapitalSql.setParameter(0, prdCode);
-    holdCapitalSql.setParameter(1, 'N');
+    holdCapitalSql.setParameter(1, AppConst.STATUS_VALID);
     List<Object[]> list = holdCapitalSql.getResultList();
     HoldCapitalVo holdCapitalVo = transHoldCapitalVo(list);
 
@@ -161,5 +162,28 @@ public class CapitalDaoImpl extends EntityBaseDao implements CapitalDao {
     return holdCapitalVo;
   }
 
+
+    @Override
+    public HoldCapital findHoldCapital(String customerId, String productCode) {
+        String sql = "select hc from HoldCapital hc where hc.custId = ?0 and hc.productCode = ?1 and hc.status = 'Y'";
+        Query query = em.createQuery(sql, HoldCapital.class);
+        query.setParameter(0, customerId);
+        query.setParameter(1, productCode);
+        List<HoldCapital> list = query.getResultList();
+        if (list == null || list.isEmpty()) {
+            return null;
+        }
+        return list.get(0);
+    }
+
+    @Override
+    public HoldCapital saveHoldCapital(HoldCapital holdCapital) {
+        return create(holdCapital);
+    }
+
+    @Override
+    public HoldCapital updateHoldCapital(HoldCapital holdCapital) {
+        return update(holdCapital);
+    }
 
 }

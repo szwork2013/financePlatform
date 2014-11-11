@@ -31,10 +31,6 @@ public interface AccountDao {
 
     public void saveAcctChangFlow(AcctChangFlow acctChangFlow);
 
-    public HoldCapital findHoldCapital(String customerId, String productCode);
 
-    public HoldCapital saveHoldCapital(HoldCapital holdCapital);
-
-    public HoldCapital updateHoldCapital(HoldCapital holdCapital);
 
 }

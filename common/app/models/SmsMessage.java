@@ -1,11 +1,8 @@
 package models;
 
-import models.IdEntity;
-
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Table;
+import javax.persistence.*;
 import java.sql.Timestamp;
+import java.util.Date;
 
 /**
  * <p>Project: tradingsystem</p>
@@ -29,10 +26,12 @@ public class SmsMessage extends IdEntity {
   private String recStatus;//回执状态
   @Column(length = 200, name = "return_msg")
   private String returnMsg;
-  @Column(name = "created_datetime")
-  private Timestamp createdDatetime;//创建事件
-  @Column(name = "updated_datetime")
-  private Timestamp updatedDatetime;//修改时间
+  @Temporal(TemporalType.TIMESTAMP)
+  @Column(name = "CREATE_TIME")
+  private Date createTime;//创建事件
+  @Temporal(TemporalType.TIMESTAMP)
+  @Column(name = "UPDATE_TIME")
+  private Date updateTime;//修改时间
 
   public SmsMessage() {
   }
@@ -77,19 +76,19 @@ public class SmsMessage extends IdEntity {
     this.returnMsg = returnMsg;
   }
 
-  public Timestamp getCreatedDatetime() {
-    return createdDatetime;
+  public Date getCreateTime() {
+    return createTime;
   }
 
-  public void setCreatedDatetime(Timestamp createdDatetime) {
-    this.createdDatetime = createdDatetime;
+  public void setCreateTime(Timestamp createTime) {
+    this.createTime = createTime;
   }
 
-  public Timestamp getUpdatedDatetime() {
-    return updatedDatetime;
+  public Date getUpdateTime() {
+    return updateTime;
   }
 
-  public void setUpdatedDatetime(Timestamp updatedDatetime) {
-    this.updatedDatetime = updatedDatetime;
+  public void setUpdateTime(Timestamp updateTime) {
+    this.updateTime = updateTime;
   }
 }

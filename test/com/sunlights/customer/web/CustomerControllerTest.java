@@ -26,11 +26,12 @@ public class CustomerControllerTest extends BaseTest {
     running(fakeApplication(), new Runnable() {
       public void run() {
         Map<String, String> formParams = new HashMap<>();
-        formParams.put("mobilePhoneNo", "18522222225");
+        formParams.put("mobilePhoneNo", "15821948594");
         formParams.put("deviceNo", "1111");
 
         FakeRequest formRequest = fakeRequest(POST, "/customer/getusermstr").withHeader("Content-Type", "application/x-www-form-urlencoded").withFormUrlEncodedBody(formParams);
         play.mvc.Result result = route(formRequest);
+        Logger.info(contentAsString(result));
         assertThat(status(result)).isEqualTo(OK);
         MessageVo message = toMessageVo(result);
         assertThat(message.getMessage().getCode()).isEqualTo("0000");
@@ -43,7 +44,7 @@ public class CustomerControllerTest extends BaseTest {
   public void testLogin() throws Exception {
     running(fakeApplication(), new Runnable() {
       public void run() {
-        final String mobilePhoneNo = "18522222225";
+        final String mobilePhoneNo = "18522222226";
         final String deviceNo = "1111";
 
         final Map<String, String> formParams = new HashMap<>();
@@ -57,7 +58,7 @@ public class CustomerControllerTest extends BaseTest {
         JPA.withTransaction(new F.Callback0() {
           @Override
           public void invoke() throws Throwable {
-            Query query = JPA.em().createNativeQuery("select cs.* FROM c_customer_session cs,c_customer c where c.mobile = ?0 and c.customer_id = cs.CUSTOMER_ID order by cs.created_datetime desc limit 1 offset 0", CustomerSession.class);
+            Query query = JPA.em().createNativeQuery("select cs.* FROM c_customer_session cs,c_customer c where c.mobile = ?0 and c.customer_id = cs.CUSTOMER_ID order by cs.create_time desc limit 1 offset 0", CustomerSession.class);
             query.setParameter(0, mobilePhoneNo);
             CustomerSession customerSession = (CustomerSession) query.getSingleResult();
             formParams.put("token", customerSession.getToken());
@@ -132,7 +133,7 @@ public class CustomerControllerTest extends BaseTest {
   public void testResetPwd() throws Exception {
     running(fakeApplication(), new Runnable() {
       public void run() {
-        final String mobilePhoneNo = "18522222225";
+        final String mobilePhoneNo = "18522222226";
         final String deviceNo = "1111";
 
         final Map<String, String> formParams = new HashMap<>();
@@ -146,7 +147,7 @@ public class CustomerControllerTest extends BaseTest {
         JPA.withTransaction(new F.Callback0() {
           @Override
           public void invoke() throws Throwable {
-            Query query = JPA.em().createNativeQuery("select cs.* FROM c_customer_session cs,c_customer c where c.mobile = ?0 and c.customer_id = cs.CUSTOMER_ID order by cs.created_datetime desc limit 1 offset 0", CustomerSession.class);
+            Query query = JPA.em().createNativeQuery("select cs.* FROM c_customer_session cs,c_customer c where c.mobile = ?0 and c.customer_id = cs.CUSTOMER_ID order by cs.create_time desc limit 1 offset 0", CustomerSession.class);
             query.setParameter(0, mobilePhoneNo);
             CustomerSession customerSession = (CustomerSession) query.getSingleResult();
             formParams.put("token", customerSession.getToken());

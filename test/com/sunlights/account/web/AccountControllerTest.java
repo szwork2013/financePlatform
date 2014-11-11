@@ -52,7 +52,7 @@ public class AccountControllerTest extends BaseTest {
         JPA.withTransaction(new F.Callback0() {
           @Override
           public void invoke() throws Throwable {
-            Query query = JPA.em().createNativeQuery("select cs.* FROM c_customer_session cs,c_customer c where c.mobile = ?0 and c.customer_id = cs.CUSTOMER_ID order by cs.created_datetime desc limit 1 offset 0", CustomerSession.class);
+            Query query = JPA.em().createNativeQuery("select cs.* FROM c_customer_session cs,c_customer c where c.mobile = ?0 and c.customer_id = cs.CUSTOMER_ID order by cs.create_time desc limit 1 offset 0", CustomerSession.class);
             query.setParameter(0, mobilePhoneNo);
             CustomerSession customerSession = (CustomerSession) query.getSingleResult();
             formParams.put("token", customerSession.getToken());

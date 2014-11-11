@@ -27,11 +27,11 @@ public class SubAccount extends IdEntity {
   @Column(name = "STATUS", length = 1)
   private String status;//子账户状态
   @Column(name = "BALANCE", precision = 18, scale = 4)
-  private BigDecimal balance;//余额
+  private BigDecimal balance = BigDecimal.ZERO;//余额
   @Column(name = "YESTERDAY_PROFIT", precision = 18, scale = 4)
-  private BigDecimal yesterdayProfit;//昨日收益
+  private BigDecimal yesterdayProfit = BigDecimal.ZERO;//昨日收益
   @Column(name = "PROFIT", precision = 18, scale = 4)
-  private BigDecimal profit;//累计收益
+  private BigDecimal profit = BigDecimal.ZERO;//累计收益
   @Temporal(TemporalType.TIMESTAMP)
   @Column(name = "CREATE_TIME")
   private Date createTime;

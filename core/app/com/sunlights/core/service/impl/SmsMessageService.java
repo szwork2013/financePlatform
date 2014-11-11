@@ -45,7 +45,7 @@ public class SmsMessageService {
   public void sendSms(SmsMessage smsMessage) {
     String result = smsMessageClient.sendSms(smsMessage);
     smsMessage.setReturnMsg(result);
-    smsMessage.setUpdatedDatetime(DBHelper.getCurrentTime());
+    smsMessage.setUpdateTime(DBHelper.getCurrentTime());
     smsMessageDao.updateSmsMessage(smsMessage);
   }
 
@@ -68,8 +68,8 @@ public class SmsMessageService {
     smsMessage.setMobile(mobilePhoneNo);
     smsMessage.setSmsId(getSmsId());
     smsMessage.setContent(content);
-    smsMessage.setCreatedDatetime(currentTime);
-    smsMessage.setUpdatedDatetime(currentTime);
+    smsMessage.setCreateTime(currentTime);
+    smsMessage.setUpdateTime(currentTime);
     smsMessageDao.saveSmsMessage(smsMessage);
 
     return smsMessage;

@@ -59,11 +59,11 @@ public class AccountDaoImpl extends EntityBaseDao implements AccountDao {
         Query query = em.createNativeQuery(sql);
         query.setParameter(0, customerId);
         query.setParameter(1, fundCompanyCode);
-        int count = query.getMaxResults();//TODO 可否？
-        if (count > 0) {
-            return true;
+        List list = query.getResultList();
+        if (list == null || list.isEmpty()) {
+            return false;
         }
-        return false;
+        return true;
     }
 
     @Override
@@ -100,26 +100,5 @@ public class AccountDaoImpl extends EntityBaseDao implements AccountDao {
         create(acctChangFlow);
     }
 
-    @Override
-    public HoldCapital findHoldCapital(String customerId, String productCode) {
-        String sql = "select hc from HoldCapital hc where hc.custId = ?0 and hc.productCode = ?1 and hc.status = 'N'";
-        Query query = em.createQuery(sql, HoldCapital.class);
-        query.setParameter(0, customerId);
-        query.setParameter(1, productCode);
-        List<HoldCapital> list = query.getResultList();
-        if (list == null || list.isEmpty()) {
-            return null;
-        }
-        return list.get(0);
-    }
 
-    @Override
-    public HoldCapital saveHoldCapital(HoldCapital holdCapital) {
-        return create(holdCapital);
-    }
-
-    @Override
-    public HoldCapital updateHoldCapital(HoldCapital holdCapital) {
-        return update(holdCapital);
-    }
 }

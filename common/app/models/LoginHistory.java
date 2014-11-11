@@ -2,16 +2,15 @@ package models;
 
 import com.sunlights.common.AppConst;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Table;
+import javax.persistence.*;
 import java.sql.Timestamp;
+import java.util.Date;
 
 /**
  * Created by Administrator on 2014/9/5.
  */
 @Entity
-@Table(name = "LOGIN_HISTORY")
+@Table(name = "C_LOGIN_HISTORY")
 public class LoginHistory extends IdEntity{
     @Column(length = 30,name = "CUSTOMER_ID")
     private String customerId;
@@ -20,38 +19,42 @@ public class LoginHistory extends IdEntity{
     @Column(length = 1,name = "SUCCESS_IND")
     private String successInd = AppConst.STATUS_VALID;
     @Column(length = 1,name = "PWD_IND")
-    private String pwdInd = AppConst.STATUS_VALID;
+    private String pwdInd = AppConst.STATUS_INVALID;
     @Column(length = 1,name = "GESTURE_IND")
-    private String gestureInd = AppConst.STATUS_VALID;
+    private String gestureInd = AppConst.STATUS_INVALID;
     @Column(length = 1,name = "SOCIAL_IND")
-    private String socialInd = AppConst.STATUS_VALID;
-    @Column(name = "LOGIN_DATETIME")
-    private Timestamp loginDatetime;
-    @Column(name = "LOGOUT_DATETIME")
-    private Timestamp logoutDatetime;
+    private String socialInd = AppConst.STATUS_INVALID;
+    @Temporal(TemporalType.TIMESTAMP)
+    @Column(name = "LOGIN_TIME")
+    private Date loginTime;
+    @Temporal(TemporalType.TIMESTAMP)
+    @Column(name = "LOGOUT_TIME")
+    private Date logoutTime;
     @Column(length = 3,name = "LOG_NUM")
     private long logNum = 0;
-    @Column(name = "UPDATED_DATETIME")
-    private Timestamp updatedDatetime;
-    @Column(name = "CREATED_DATETIME")
-    private Timestamp createdDatetime;
+    @Temporal(TemporalType.TIMESTAMP)
+    @Column(name = "UPDATE_TIME")
+    private Date updateTime;
+    @Temporal(TemporalType.TIMESTAMP)
+    @Column(name = "CREATE_TIME")
+    private Date createTime;
     public LoginHistory() {
     }
 
-    public Timestamp getUpdatedDatetime() {
-        return updatedDatetime;
+    public Date getUpdateTime() {
+        return updateTime;
     }
 
-    public void setUpdatedDatetime(Timestamp updatedDatetime) {
-        this.updatedDatetime = updatedDatetime;
+    public void setUpdateTime(Timestamp updateTime) {
+        this.updateTime = updateTime;
     }
 
-    public Timestamp getCreatedDatetime() {
-        return createdDatetime;
+    public Date getCreateTime() {
+        return createTime;
     }
 
-    public void setCreatedDatetime(Timestamp createdDatetime) {
-        this.createdDatetime = createdDatetime;
+    public void setCreateTime(Timestamp createTime) {
+        this.createTime = createTime;
     }
 
     public String getCustomerId() {
@@ -102,20 +105,20 @@ public class LoginHistory extends IdEntity{
         this.socialInd = socialInd;
     }
 
-    public Timestamp getLoginDatetime() {
-        return loginDatetime;
+    public Date getLoginTime() {
+        return loginTime;
     }
 
-    public void setLoginDatetime(Timestamp loginDatetime) {
-        this.loginDatetime = loginDatetime;
+    public void setLoginTime(Timestamp loginTime) {
+        this.loginTime = loginTime;
     }
 
-    public Timestamp getLogoutDatetime() {
-        return logoutDatetime;
+    public Date getLogoutTime() {
+        return logoutTime;
     }
 
-    public void setLogoutDatetime(Timestamp logoutDatetime) {
-        this.logoutDatetime = logoutDatetime;
+    public void setLogoutTime(Timestamp logoutTime) {
+        this.logoutTime = logoutTime;
     }
 
     public long getLogNum() {

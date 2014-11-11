@@ -62,7 +62,7 @@ public class CustomerDaoImpl extends EntityBaseDao implements CustomerDao {
 
   public CustomerVo getCustomerVoByPhoneNo(String mobilePhoneNo, String deviceNo) {
     String sql = "select c.mobile,c.real_name,c.nick_name,c.email,c.identity_number," +
-        "case when EXISTS (select 1 from c_customer_gesture cg where cg.customer_id = c.customer_id and cg.status = 'N' and cg.device_no = :deviceNo) THEN '1' ELSE '0' END as gestureOpened," +
+        "case when EXISTS (select 1 from c_customer_gesture cg where cg.customer_id = c.customer_id and cg.status = 'Y' and cg.device_no = :deviceNo) THEN '1' ELSE '0' END as gestureOpened," +
         "case when c.identity_typer = 'I' and c.identity_number is not null THEN '1' ELSE '0' END as certify," +
         "case when a.trade_password is null THEN '0' ELSE '1' END as tradePwdFlag," +
         "(select count(1) from c_bank_card bc where bc.customer_id = c.customer_id) as bankCardCount " +
@@ -106,7 +106,7 @@ public class CustomerDaoImpl extends EntityBaseDao implements CustomerDao {
   }
 
   private CustomerVo transCustomerVo(List<Object[]> list) {
-    if (list == null || list.size() == 0) {
+    if (list == null || list.isEmpty()) {
       return null;
     }
 
@@ -139,9 +139,9 @@ public class CustomerDaoImpl extends EntityBaseDao implements CustomerDao {
   public CustomerSession findCustomerSessionByToken(String token, Timestamp nMin) {
     StringBuilder sb = new StringBuilder();
     sb.append("select c FROM CustomerSession c ");
-    sb.append("where c.status = 'N' and c.token = :token");
+    sb.append("where c.status = 'Y' and c.token = :token");
     if (nMin != null) {
-      sb.append(" and c.updatedDatetime >= :nMin");
+      sb.append(" and c.updateTime >= :nMin");
     }
     Query query = em.createQuery(sb.toString(), CustomerSession.class);
     query.setParameter("token", token);
@@ -149,10 +149,10 @@ public class CustomerDaoImpl extends EntityBaseDao implements CustomerDao {
       query.setParameter("nMin", nMin);
     }
     List<CustomerSession> list = query.getResultList();
-    if (list != null && list.size() != 0) {
-      return list.get(0);
+    if (list == null || list.isEmpty()) {
+        return null;
     }
-    return null;
+      return list.get(0);
   }
 
   public CustomerSession saveCustomerSession(CustomerSession customerSession) {
@@ -165,7 +165,7 @@ public class CustomerDaoImpl extends EntityBaseDao implements CustomerDao {
   }
 
   public CustomerSession findCustomerSessionByCustomer(String customerId, String deviceNo) {
-    Query query = em.createNativeQuery("select c.* FROM c_customer_session c where c.customer_id = ?0 and c.deviceNo = ?1 and c.status = 'N' order by create_datetime desc", CustomerSession.class);
+    Query query = em.createNativeQuery("select c.* FROM c_customer_session c where c.customer_id = ?0 and c.deviceNo = ?1 and c.status = 'Y' order by create_time desc", CustomerSession.class);
     query.setParameter(0, customerId);
     query.setParameter(1, deviceNo);
     List<CustomerSession> list = query.getResultList();
@@ -188,7 +188,7 @@ public class CustomerDaoImpl extends EntityBaseDao implements CustomerDao {
   }
 
   public CustomerGesture findCustomerGestureByDeviceNo(String customerId, String deviceNo) {
-    Query query = em.createNativeQuery("select cg.* FROM c_customer_gesture cg where cg.customer_id = ?0 and cg.device_no = ?1 and cg.status = 'N'", CustomerGesture.class);
+    Query query = em.createNativeQuery("select cg.* FROM c_customer_gesture cg where cg.customer_id = ?0 and cg.device_no = ?1 and cg.status = 'Y'", CustomerGesture.class);
     query.setParameter(0, customerId);
     query.setParameter(1, deviceNo);
     List<CustomerGesture> list = query.getResultList();

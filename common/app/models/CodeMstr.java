@@ -1,9 +1,7 @@
 package models;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Table;
-import java.sql.Timestamp;
+import javax.persistence.*;
+import java.util.Date;
 
 /**
  * <p>Project: fsp</p>
@@ -35,8 +33,9 @@ public class CodeMstr extends IdEntity {
   private String magic;
   @Column(name = "create_by")
   private String createBy;
+  @Temporal(TemporalType.TIMESTAMP)
   @Column(name = "create_time")
-  private Timestamp createTime;
+  private Date createTime;
 
   public String getCodeCat() {
     return codeCat;
@@ -102,11 +101,11 @@ public class CodeMstr extends IdEntity {
     this.createBy = createBy;
   }
 
-  public Timestamp getCreateTime() {
+  public Date getCreateTime() {
     return createTime;
   }
 
-  public void setCreateTime(Timestamp createTime) {
+  public void setCreateTime(Date createTime) {
     this.createTime = createTime;
   }
 

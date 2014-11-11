@@ -1,6 +1,7 @@
 package com.sunlights.trade.web;
 
 import com.fasterxml.jackson.databind.JsonNode;
+import com.sunlights.account.vo.TotalCapitalInfo;
 import com.sunlights.common.AppConst;
 import com.sunlights.common.MsgCode;
 import com.sunlights.common.utils.MessageUtil;
@@ -72,20 +73,35 @@ public class TradeController extends Controller{
         return ok(json);
     }
 
-    public Result tradeOrders(){
-        Logger.info("----------tradeOrders start ------------");
+    public Result tradeOrder(){
+        Logger.info("----------tradeOrder start ------------");
         Http.Cookie cookie = Controller.request().cookie(AppConst.TOKEN);
         String token = cookie == null ? null : cookie.value();
 
         TradeFormVo tradeFormVo = tradeFormVoForm.bindFromRequest().get();
 
-        tradeService.tradeFundOrders(tradeFormVo, token);
+        TotalCapitalInfo totalCapitalInfo = tradeService.tradeFundOrder(tradeFormVo, token);
 
-        JsonNode json = MessageUtil.getInstance().msgToJson(new Message(MsgCode.TRADE_SUCCESS));
-        Logger.info("----------tradeOrders end: ------------\n" + json);
+        JsonNode json = MessageUtil.getInstance().msgToJson(new Message(MsgCode.TRADE_SUCCESS), totalCapitalInfo);
+        Logger.info("----------tradeOrder end: ------------\n" + json);
 
         return ok(json);
     }
 
+
+    public Result tradeRedeem(){
+        Logger.info("----------tradeRedeem start ------------");
+        Http.Cookie cookie = Controller.request().cookie(AppConst.TOKEN);
+        String token = cookie == null ? null : cookie.value();
+
+        TradeFormVo tradeFormVo = tradeFormVoForm.bindFromRequest().get();
+
+        TotalCapitalInfo totalCapitalInfo = tradeService.tradeFundRedeem(tradeFormVo, token);
+
+        JsonNode json = MessageUtil.getInstance().msgToJson(new Message(MsgCode.TRADE_SUCCESS), totalCapitalInfo);
+        Logger.info("----------tradeRedeem end: ------------\n" + json);
+
+        return ok(json);
+    }
 
 }

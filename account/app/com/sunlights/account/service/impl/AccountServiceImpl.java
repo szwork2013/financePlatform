@@ -16,10 +16,10 @@ import com.sunlights.common.vo.Message;
 import com.sunlights.customer.service.impl.CustomerService;
 import com.sunlights.customer.vo.CustomerFormVo;
 import models.*;
-import play.Logger;
 
 import java.math.BigDecimal;
 import java.sql.Timestamp;
+import java.text.SimpleDateFormat;
 
 public class AccountServiceImpl implements AccountService {
 	
@@ -62,7 +62,8 @@ public class AccountServiceImpl implements AccountService {
         SubAccount subAccount = new SubAccount();
         subAccount.setCustId(custId);
         subAccount.setBasicAccount(baseAccount.getBaseAccountNo());
-        subAccount.setSubAccount("123");//TODO
+        SimpleDateFormat sdf = new SimpleDateFormat("MMddHHmmss");
+        subAccount.setSubAccount(sdf.format(currentTime));
         subAccount.setCreateTime(currentTime);
         subAccount.setUpdateTime(currentTime);
         accountDao.saveSubAccount(subAccount);
@@ -82,10 +83,17 @@ public class AccountServiceImpl implements AccountService {
         acctChangFlow.setCustomerId(customerId);
         acctChangFlow.setProductCode(prdCode);
         acctChangFlow.setTradeNo(tradeNo);
-        if (AppConst.TRADE_TYPE_PURCHASE.equals(tradeType)) {//TODO
+//        if (AppConst.TRADE_TYPE_PURCHASE.equals(tradeType)) {//TODO
+//            acctChangFlow.setSubjectNo(AppConst.SUBJECT_PURCHASE);
+//            acctChangFlow.setAmount(amount);
+//        }else if (AppConst.TRADE_TYPE_REDEEM.equals(tradeType)){
+//            acctChangFlow.setAmount(amount.negate());
+//            acctChangFlow.setSubjectNo(AppConst.SUBJECT_REDEEM);
+//        }
+        if ("1".equals(tradeType)) {//TODO
             acctChangFlow.setSubjectNo(AppConst.SUBJECT_PURCHASE);
             acctChangFlow.setAmount(amount);
-        }else if (AppConst.TRADE_TYPE_REDEEM.equals(tradeType)){
+        }else if ("2".equals(tradeType)){
             acctChangFlow.setAmount(amount.negate());
             acctChangFlow.setSubjectNo(AppConst.SUBJECT_REDEEM);
         }
@@ -93,68 +101,13 @@ public class AccountServiceImpl implements AccountService {
         accountDao.saveAcctChangFlow(acctChangFlow);
     }
 
-    @Override
-    public HoldCapital createHoldCapital(AcctChangeFlowVo acctChangeFlowVo) {
-        String customerId = acctChangeFlowVo.getCustomerId();
-        String productCode = acctChangeFlowVo.getPrdCode();
-        String productName = acctChangeFlowVo.getPrdName();
-        String productType = acctChangeFlowVo.getPrdType();
-        String tradeType = acctChangeFlowVo.getTradeType();
-
-        BigDecimal amount = BigDecimal.ZERO;
-        BigDecimal tradeAmount = BigDecimal.ZERO;
-        BigDecimal holdCapitalAmount = BigDecimal.ZERO;
-        BigDecimal yesterdayProfit = BigDecimal.ZERO;
-        BigDecimal totalProfit = BigDecimal.ZERO;
-
-        Timestamp currentTime = DBHelper.getCurrentTime();
-        HoldCapital preHoldCapital = accountDao.findHoldCapital(customerId, productCode);
-        if (preHoldCapital != null) {
-            tradeAmount = preHoldCapital.getTradeAmount();
-            holdCapitalAmount = preHoldCapital.getHoldCapital();
-            yesterdayProfit = preHoldCapital.getYesterdayProfit();
-            totalProfit = preHoldCapital.getTotalProfit();
-
-            preHoldCapital.setStatus(AppConst.STATUS_INVALID);
-            preHoldCapital.setDeleteTime(currentTime);
-            accountDao.updateHoldCapital(preHoldCapital);
-        }
-        if (AppConst.TRADE_TYPE_PURCHASE.equals(tradeType)) {//TODO
-            amount = acctChangeFlowVo.getAmount();
-        }else{//TODO 赎回金额超过最大限制
-            amount = acctChangeFlowVo.getAmount().negate();
-        }
-        HoldCapital holdCapital = new HoldCapital();
-        holdCapital.setCustId(customerId);
-        holdCapital.setProductCode(productCode);
-        holdCapital.setProductName(productName);
-        holdCapital.setProductType(productType);
-        holdCapital.setTradeAmount(tradeAmount.add(amount));
-        holdCapital.setHoldCapital(holdCapitalAmount.add(amount));
-        holdCapital.setYesterdayProfit(yesterdayProfit);
-        holdCapital.setTotalProfit(totalProfit);
-        holdCapital.setStatus(AppConst.STATUS_VALID);
-        holdCapital.setCreateTime(currentTime);
-        holdCapital.setUpdateTime(currentTime);
-        accountDao.saveHoldCapital(holdCapital);
-
-        SubAccount subAccount = accountDao.findSubAccount(customerId, productType);
-        subAccount.setBalance(subAccount.getBalance().add(amount));
-        subAccount.setUpdateTime(currentTime);
-        accountDao.updateSubAccount(subAccount);
-
-        return holdCapital;
-    }
 
     public void resetTradePwdCertify(CustomerFormVo vo) {
         String mobilePhoneNo = vo.getMobilePhoneNo();
         String verifyCode = vo.getVerifyCode();
         String userName = vo.getUserName();
         String idCardNo = vo.getIdCardNo();
-        String deviceNo = vo.getDeviceNo();
 
-        Logger.info("=======userName:" + userName);
-        Logger.info("=======mobilePhoneNo:" + mobilePhoneNo);
         CommonUtil.getInstance().validateParams(mobilePhoneNo, verifyCode);
         Customer customer = customerService.getCustomerByMobile(mobilePhoneNo);
         if (customer == null) {
@@ -177,7 +130,6 @@ public class AccountServiceImpl implements AccountService {
     public BaseAccount resetTradePwd(CustomerFormVo customerFormVo, String token){
         String mobilePhoneNo = customerFormVo.getMobilePhoneNo();
         String tradePassword = customerFormVo.getPassWord();
-        String deviceNo = customerFormVo.getDeviceNo();
 
         CustomerSession customerSession = customerService.getCustomerSession(token);
         BaseAccount baseAccount = null;
@@ -189,7 +141,7 @@ public class AccountServiceImpl implements AccountService {
                 Customer customer = customerService.getCustomerByCustomerId(customerSession.getCustomerId());
                 //登录密码为交易密码
                 customer.setLoginPassWord(new MD5Helper().encrypt(tradePassword));
-                customer.setUpdatedDatetime(currentTime);
+                customer.setUpdateTime(currentTime);
                 customerService.updateCustomer(customer);
             }
             //设置交易密码

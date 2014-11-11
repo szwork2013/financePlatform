@@ -1,8 +1,8 @@
 CREATE TABLE c_customer
 (
   id bigint NOT NULL,
-  created_by character varying(30), -- 创建人
-  created_datetime timestamp without time zone, -- 创建时间
+  create_by character varying(30), -- 创建人
+  create_time timestamp without time zone, -- 创建时间
   customer_id character varying(30), -- 客户号
   customer_type character varying(1), -- 客户类型
   device_no character varying(50), -- 注册设备号
@@ -21,14 +21,14 @@ CREATE TABLE c_customer
   reg_channel character varying(1), -- 注册渠道
   reg_way character varying(1), -- 注册方式
   status character varying(1), -- 用户状态
-  updated_by character varying(30),
-  updated_datetime timestamp without time zone,
+  update_by character varying(30),
+  update_time timestamp without time zone,
   weibo character varying(30), -- 绑定微博号
   weixin character varying(30), -- 绑定微信号
   CONSTRAINT c_customer_pkey PRIMARY KEY (id)
 );
-COMMENT ON COLUMN c_customer.created_by IS '创建人';
-COMMENT ON COLUMN c_customer.created_datetime IS '创建时间';
+COMMENT ON COLUMN c_customer.create_by IS '创建人';
+COMMENT ON COLUMN c_customer.create_time IS '创建时间';
 COMMENT ON COLUMN c_customer.customer_id IS '客户号';
 COMMENT ON COLUMN c_customer.customer_type IS '客户类型';
 COMMENT ON COLUMN c_customer.device_no IS '注册设备号';

@@ -2,12 +2,12 @@ CREATE TABLE c_customer_session
 (
   id bigint NOT NULL,
   client_address character varying(40), -- 客户端Ip地址
-  created_datetime timestamp without time zone,
+  create_time timestamp without time zone,
   device_name character varying(40), -- 设备名称
   device_no character varying(40), -- 设备号
   status character varying(1), -- Y失效 N有效
   token character varying(400),
-  updated_datetime timestamp without time zone,
+  update_time timestamp without time zone,
   customer_id character varying(30), -- 客户号
   CONSTRAINT c_customer_session_pkey PRIMARY KEY (id),
 );

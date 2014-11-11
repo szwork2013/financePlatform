@@ -59,6 +59,7 @@ public enum MsgCode {
     BANK_CARD_NOT_BINGING("2216", "未绑卡银行卡"),
 
     TRADE_SUCCESS("0400", "下单成功"),
+    TRADE_AMOUNT_VALIDATE("2400", "申购金额超出总资产", "请重新输入"),
     ;
 
     private String code;

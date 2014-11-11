@@ -1,10 +1,8 @@
 package com.sunlights.account.service;
 
-import com.sunlights.account.vo.Capital4Product;
-import com.sunlights.account.vo.CapitalFormVo;
-import com.sunlights.account.vo.HoldCapitalVo;
-import com.sunlights.account.vo.TotalCapitalInfo;
+import com.sunlights.account.vo.*;
 import com.sunlights.common.vo.PageVo;
+import models.HoldCapital;
 
 import java.util.List;
 
@@ -44,6 +42,8 @@ public interface CapitalService {
    * @return
    */
   public List<HoldCapitalVo> findTotalProfitList(CapitalFormVo capitalFormVo);
+
+  public HoldCapital createHoldCapital(AcctChangeFlowVo acctChangeFlowVo);
 
 
 }

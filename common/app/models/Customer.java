@@ -1,11 +1,8 @@
 package models;
 
-import models.IdEntity;
-
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Table;
+import javax.persistence.*;
 import java.sql.Timestamp;
+import java.util.Date;
 
 /**
  * <p>Project: fsp</p>
@@ -62,14 +59,16 @@ public class Customer extends IdEntity {
   private String mobile;// 绑定手机
   @Column(length = 1, name = "STATUS")
   private String status;//用户状态 T.正常 U.已锁定
-  @Column(name = "CREATED_DATETIME")
-  private Timestamp createdDatetime;
-  @Column(name = "CREATED_BY", length = 30)
-  private String createdBy;
-  @Column(name = "UPDATED_DATETIME")
-  private Timestamp updatedDatetime;
-  @Column(name = "UPDATED_BY", length = 30)
-  private String updatedBy;
+  @Temporal(TemporalType.TIMESTAMP)
+  @Column(name = "CREATE_TIME")
+  private Date createTime;
+  @Column(name = "CREATE_BY", length = 30)
+  private String createBy;
+  @Temporal(TemporalType.TIMESTAMP)
+  @Column(name = "UPDATE_TIME")
+  private Date updateTime;
+  @Column(name = "UPDATE_BY", length = 30)
+  private String updateBy;
 
   public Customer() {
   }
@@ -218,36 +217,36 @@ public class Customer extends IdEntity {
     this.weibo = weibo;
   }
 
-  public Timestamp getCreatedDatetime() {
-    return createdDatetime;
+  public Date getCreateTime() {
+    return createTime;
   }
 
-  public void setCreatedDatetime(Timestamp createdDatetime) {
-    this.createdDatetime = createdDatetime;
+  public void setCreateTime(Timestamp createTime) {
+    this.createTime = createTime;
   }
 
-  public String getCreatedBy() {
-    return createdBy;
+  public String getCreateBy() {
+    return createBy;
   }
 
-  public void setCreatedBy(String createdBy) {
-    this.createdBy = createdBy;
+  public void setCreateBy(String createBy) {
+    this.createBy = createBy;
   }
 
-  public Timestamp getUpdatedDatetime() {
-    return updatedDatetime;
+  public Date getUpdateTime() {
+    return updateTime;
   }
 
-  public void setUpdatedDatetime(Timestamp updatedDatetime) {
-    this.updatedDatetime = updatedDatetime;
+  public void setUpdateTime(Timestamp updateTime) {
+    this.updateTime = updateTime;
   }
 
-  public String getUpdatedBy() {
-    return updatedBy;
+  public String getUpdateBy() {
+    return updateBy;
   }
 
-  public void setUpdatedBy(String updatedBy) {
-    this.updatedBy = updatedBy;
+  public void setUpdateBy(String updateBy) {
+    this.updateBy = updateBy;
   }
 
   public String getMobile() {
