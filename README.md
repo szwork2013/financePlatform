@@ -38,6 +38,9 @@ trade->core
 #代码规范
 请安装IDEA的checkstyle， PMD， findBugs插件
 
+# Guava库使用
+* [Guava教程](http://outofmemory.cn/java/guava/)
+
 
 
 

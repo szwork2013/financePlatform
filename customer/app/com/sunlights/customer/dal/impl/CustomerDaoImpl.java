@@ -94,7 +94,8 @@ public class CustomerDaoImpl extends EntityBaseDao implements CustomerDao {
         "   and     c.identity_typer = 'I'" +
         "   and     c.identity_number = :idCardNo";
 
-    Logger.info(sql);
+    Logger.debug(sql);
+
     Query query = em.createNativeQuery(sql);
     query.setParameter("idCardNo", idCardNo);
     query.setParameter("userName", userName);

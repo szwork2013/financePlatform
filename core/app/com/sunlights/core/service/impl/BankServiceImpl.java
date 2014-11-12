@@ -73,6 +73,7 @@ public class BankServiceImpl implements BankService {
       MessageUtil.getInstance().setMessage(new Message(Severity.INFO, MsgCode.LOGIN_TIMEOUT));
       return false;
     }
+
     Customer customer = customerService.getCustomerByToken(token);
     if (customer == null || StringUtils.isEmpty(customer.getIdentityNumber())) {
       MessageUtil.getInstance().setMessage(new Message(Severity.ERROR, MsgCode.BANK_NAME_CERTIFY_FAIL, "验证失败", "请先实名认证。"));

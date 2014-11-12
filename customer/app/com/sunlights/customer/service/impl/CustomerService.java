@@ -16,7 +16,6 @@ import play.cache.Cache;
 import play.mvc.Http;
 
 import java.sql.Timestamp;
-import java.text.SimpleDateFormat;
 
 /**
  * <p>Project: fsp</p>
@@ -143,6 +142,7 @@ public class CustomerService {
   }
 
   public Customer getCustomerByToken(String token) {
+
     CustomerSession customerSession = getCustomerSession(token);
     if (customerSession == null) return null;
     return getCustomerByCustomerId(customerSession.getCustomerId());
@@ -165,8 +165,7 @@ public class CustomerService {
 
 
   private String generateCustomerId(String property) {
-    SimpleDateFormat formatter = new SimpleDateFormat("yyyyMMddHHmmss");
-    String customerId = formatter.format(DBHelper.getCurrentTime());
+    String customerId = CommonUtil.dateToString(DBHelper.getCurrentTime(), CommonUtil.YYYYMMDDHHMMSS);
     if (AppConst.CUSTOMER_BUYER.equals(property)) {
       customerId += "01";
     } else {

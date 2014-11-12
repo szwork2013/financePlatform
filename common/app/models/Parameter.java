@@ -15,7 +15,7 @@ public class Parameter extends IdEntity {
     @Column(length = 50)
     private String value;
     private String description;
-    @Column(name = "STATUS", length = 1)
+    @Column(length = 1)
     private String status = AppConst.STATUS_VALID;
 
    public Parameter() {
@@ -51,11 +51,11 @@ public class Parameter extends IdEntity {
     this.description = description;
   }
 
-    public String getStatus() {
-        return status;
-    }
+  public String getStatus() {
+      return status;
+  }
 
-    public void setStatus(String status) {
-        this.status = status;
-    }
+  public void setStatus(String status) {
+      this.status = status;
+  }
 }
