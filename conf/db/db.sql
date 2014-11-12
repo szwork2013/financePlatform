@@ -79,45 +79,8 @@ CREATE SEQUENCE "public"."trade_seq"
 COMMENT ON SEQUENCE "public"."trade_seq" IS 
 '交易流水号';
 
--- ----------------------------
--- Table structure for c_bank
--- ----------------------------
-DROP TABLE IF EXISTS "public"."c_bank";
-CREATE TABLE "public"."c_bank" (
-"id" int8 NOT NULL,
-"bank_code" varchar(40) COLLATE "default",
-"bank_name" varchar(50) COLLATE "default",
-"created_datetime" timestamp(6),
-"en_name" varchar(50) COLLATE "default",
-"status" varchar(1) COLLATE "default",
-"updated_datetime" timestamp(6)
-)
-WITH (OIDS=FALSE)
 
-;
-COMMENT ON COLUMN "public"."c_bank"."bank_code" IS '银行编码';
-COMMENT ON COLUMN "public"."c_bank"."bank_name" IS '银行名称';
-COMMENT ON COLUMN "public"."c_bank"."en_name" IS '英文名';
-COMMENT ON COLUMN "public"."c_bank"."status" IS '状态';
 
--- ----------------------------
--- Table structure for c_bank_card
--- ----------------------------
-DROP TABLE IF EXISTS "public"."c_bank_card";
-CREATE TABLE "public"."c_bank_card" (
-"id" int8 NOT NULL,
-"bank_card_no" varchar(40) COLLATE "default",
-"bank_code" varchar(40) COLLATE "default",
-"status" varchar(1) COLLATE "default",
-"bank_type" varchar(1) COLLATE "default",
-"created_datetime" timestamp(6),
-"customer_id" varchar(30) COLLATE "default",
-"update_datetime" timestamp(6),
-"bank_id" int8
-)
-WITH (OIDS=FALSE)
-
-;
 
 -- ----------------------------
 -- Table structure for c_customer
@@ -1456,6 +1419,37 @@ CREATE TABLE
   SYS_IND CHARACTER VARYING(1),
   MAGIC CHARACTER VARYING(255),
   REMARKS CHARACTER VARYING(255),
+  PRIMARY KEY (ID)
+);
+
+-- 2014-11-12
+DROP TABLE IF EXISTS C_BANK;
+CREATE TABLE
+  C_BANK
+(
+  ID BIGINT NOT NULL,
+  BANK_CODE CHARACTER VARYING(40),
+  BANK_NAME CHARACTER VARYING(50),
+  CREATE_TIME TIMESTAMP(6) WITHOUT TIME ZONE,
+  EN_NAME CHARACTER VARYING(50),
+  STATUS CHARACTER VARYING(1),
+  UPDATE_TIME TIMESTAMP(6) WITHOUT TIME ZONE,
+  PRIMARY KEY (ID)
+);
+
+DROP TABLE IF EXISTS C_BANK_CARD;
+CREATE TABLE
+  C_BANK_CARD
+(
+  ID BIGINT NOT NULL,
+  BANK_CARD_NO CHARACTER VARYING(40),
+  BANK_CODE CHARACTER VARYING(40),
+  STATUS CHARACTER VARYING(1),
+  BANK_TYPE CHARACTER VARYING(1),
+  CREATE_TIME TIMESTAMP(6) WITHOUT TIME ZONE,
+  CUSTOMER_ID CHARACTER VARYING(30),
+  UPDATE_TIME TIMESTAMP(6) WITHOUT TIME ZONE,
+  BANK_ID BIGINT,
   PRIMARY KEY (ID)
 );
 

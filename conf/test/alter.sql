@@ -30,7 +30,9 @@ alter table c_customer rename column created_datetime to create_time;
    alter table c_customer rename column updated_datetime to update_time;
  alter table c_customer rename column created_by to create_by;
    alter table c_customer rename column updated_by to update_by;
-   
+
+
+
 
 DROP TABLE login_history;
 
@@ -66,5 +68,9 @@ COMMENT ON COLUMN c_login_history.logout_time IS '登出时间';
 
 update f_basic_account set status='Y';
 
+--2014-11-12
+ ALTER TABLE C_BANK RENAME COLUMN CREATED_DATETIME TO CREATE_TIME;
+ ALTER TABLE C_BANK RENAME COLUMN UPDATED_DATETIME TO UPDATE_TIME;
 
-
+  ALTER TABLE C_BANK_CARD RENAME COLUMN CREATED_DATETIME TO CREATE_TIME;
+ ALTER TABLE C_BANK_CARD RENAME COLUMN UPDATE_DATETIME TO UPDATE_TIME;

@@ -22,8 +22,8 @@ public class BankCardDaoImpl extends EntityBaseDao implements BankCardDao {
   }
 
   @Override
-  public void deleteById(Long bankId) {
-    BankCard bankCard = super.find(BankCard.class, bankId);
+  public void deleteById(Long bankCardId) {
+    BankCard bankCard = super.find(BankCard.class, bankCardId);
     super.delete(bankCard);
   }
 

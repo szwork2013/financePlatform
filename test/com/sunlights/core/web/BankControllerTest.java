@@ -1,24 +1,28 @@
 package com.sunlights.core.web;
 
+import com.fasterxml.jackson.databind.JsonNode;
+import com.sunlights.BaseTest;
 import com.sunlights.common.AppConst;
 import com.sunlights.common.MsgCode;
 import com.sunlights.common.dal.EntityBaseDao;
+import com.sunlights.common.vo.MessageVo;
 import com.sunlights.common.vo.PageVo;
 import com.sunlights.core.vo.BankCardFormVo;
 import com.sunlights.core.vo.BankCardVo;
 import models.CustomerSession;
-import models.FundHistory;
 import org.junit.Before;
 import org.junit.Test;
 import play.Logger;
 import play.data.Form;
 import play.db.jpa.JPA;
+import play.libs.F;
 import play.libs.Json;
 import play.mvc.Http;
-import play.test.FakeApplication;
 import play.test.FakeRequest;
 import web.TestUtil;
 
+import javax.persistence.Query;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -26,168 +30,179 @@ import java.util.Map;
 import static org.fest.assertions.Assertions.assertThat;
 import static play.test.Helpers.*;
 
-public class BankControllerTest {
+public class BankControllerTest extends BaseTest {
 
-  private static Form<PageVo> pagerForm = Form.form(PageVo.class);
-  private static Form<BankCardFormVo> bankCardForm = Form.form(BankCardFormVo.class);
+    private static Form<PageVo> pagerForm = Form.form(PageVo.class);
+    private static Form<BankCardFormVo> bankCardForm = Form.form(BankCardFormVo.class);
 
-  private static String BANK_CARD_NO = "6225885105575635";
+    private static String BANK_CARD_NO = "6225885105575635";
+    Http.Cookie cookie = null;
 
-  @Test
-  public void testCreateAndDeleteBankCard() throws Exception {
-    running(fakeApplication(inMemoryDatabase("test")), new Runnable() {
-      public void run() {
-        BankCardFormVo bankCardVo = new BankCardFormVo();
-        bankCardVo.setBankCode("CCB");
-        bankCardVo.setNo(BANK_CARD_NO);
-        bankCardVo.setBankCardPassword("11111111111");
+    @Before
+    public void init() {
+        running(fakeApplication(inMemoryDatabase("test")), new Runnable() {
+            public void run() {
+                final String mobilePhoneNo = "18321718279";
+                final String deviceNo = "1111";
 
-        final String[] token = {null};
-        JPA.withTransaction(new play.libs.F.Callback0() {
-          public void invoke() {
-            EntityBaseDao entityBaseDao = new EntityBaseDao();
-            List<CustomerSession> sessions = entityBaseDao.findAll(CustomerSession.class, "createdDatetime", false);
-            if (!sessions.isEmpty()) {
-              CustomerSession customerSession = sessions.get(0);
-              token[0] = customerSession.getToken();
+                final Map<String, String> formParams = new HashMap<>();
+                formParams.put("mobilePhoneNo", mobilePhoneNo);
+                formParams.put("deviceNo", deviceNo);
+                formParams.put("passWord", "1");
+
+                Logger.info("===============login=====Test=============");
+                FakeRequest formRequest = fakeRequest(POST, "/customer/login").withHeader("Content-Type", "application/x-www-form-urlencoded").withFormUrlEncodedBody(formParams);
+                play.mvc.Result result = route(formRequest);
+                assertThat(status(result)).isEqualTo(OK);
+                MessageVo message = toMessageVo(result);
+                assertThat(message.getMessage().getCode()).isEqualTo("0101");
+                assertThat(message.getMessage().getSummary()).isEqualTo("登录成功");
+
+                JPA.withTransaction(new F.Callback0() {
+                    @Override
+                    public void invoke() throws Throwable {
+                        Query query = JPA.em().createNativeQuery("select cs.* FROM c_customer_session cs,c_customer c where c.mobile = ?0 and c.customer_id = cs.CUSTOMER_ID order by cs.create_time desc limit 1 offset 0", CustomerSession.class);
+                        query.setParameter(0, mobilePhoneNo);
+                        CustomerSession customerSession = (CustomerSession) query.getSingleResult();
+                        formParams.put("token", customerSession.getToken());
+                        Logger.info("===============search===customoerSession===============");
+                    }
+                });
+                cookie = new Http.Cookie("token", formParams.get("token"), null, null, null, false, false);
             }
-          }
         });
 
-        play.mvc.Result result = null;
-        FakeRequest bankCardCreateRequest = fakeRequest(POST, "/core/bank/bankcard/create");
-        Map<String, String> paramMap = bankCardForm.bind(Json.toJson(bankCardVo)).data();
+    }
 
-        createBankCard(token[0], bankCardCreateRequest, paramMap);
+    @Test
+    public void testCreateBankCard() throws Exception {
+        running(fakeApplication(inMemoryDatabase("test")), new Runnable() {
+            public void run() {
+                BankCardFormVo bankCardVo = new BankCardFormVo();
+                bankCardVo.setBankCode("CCB");
+                bankCardVo.setNo(BANK_CARD_NO);
+                bankCardVo.setBankCardPassword("11111111111");
 
-        // delete bank card
-        FakeRequest bankCardDeleteRequest = fakeRequest(POST, "/core/bank/bankcard/delete");
-        paramMap = bankCardForm.bind(Json.toJson(bankCardVo)).data();
 
-        FakeRequest formBankCardDeleteRequest = bankCardDeleteRequest.withHeader("Content-Type", TestUtil.APPLICATION_X_WWW_FORM_URLENCODED).withFormUrlEncodedBody(paramMap);
-        formBankCardDeleteRequest.withCookies(new Http.Cookie(AppConst.TOKEN, token[0], null, null, null, false, false));
-        result = route(formBankCardDeleteRequest);
+                play.mvc.Result result = null;
+                // create bank card
+                FakeRequest bankCardCreateRequest = fakeRequest(POST, "/core/bank/bankcard/create");
+                Map<String, String> paramMap = bankCardForm.bind(Json.toJson(bankCardVo)).data();
 
-        Logger.info("result is " + contentAsString(result));
-        assertThat(contentAsString(result)).contains(MsgCode.BANK_CARD_DELETE_SUCCESS.getCode());
+                FakeRequest formBankCardCreateRequest = bankCardCreateRequest.withHeader("Content-Type", TestUtil.APPLICATION_X_WWW_FORM_URLENCODED).withFormUrlEncodedBody(paramMap);
+                formBankCardCreateRequest.withCookies(cookie);
+                result = route(formBankCardCreateRequest);
 
-      }
-    });
+                Logger.info("result is " + contentAsString(result));
+                assertThat(contentAsString(result)).contains(MsgCode.BANK_CARD_ADD_SUCCESS.getCode());
 
-  }
 
-  private void createBankCard(String s, FakeRequest bankCardCreateRequest, Map<String, String> paramMap) {
-    play.mvc.Result result;
-    FakeRequest formBankCardCreateRequest = bankCardCreateRequest.withHeader("Content-Type", TestUtil.APPLICATION_X_WWW_FORM_URLENCODED).withFormUrlEncodedBody(paramMap);
-    formBankCardCreateRequest.withCookies(new Http.Cookie(AppConst.TOKEN, s, null, null, null, false, false));
-    result = route(formBankCardCreateRequest);
-
-    Logger.info("result is " + contentAsString(result));
-    assertThat(contentAsString(result)).contains(MsgCode.BANK_CARD_ADD_SUCCESS.getCode());
-  }
-
-  @Test
-  public void testValidateBankCard() throws Exception {
-    running(fakeApplication(inMemoryDatabase("test")), new Runnable() {
-      public void run() {
-        BankCardFormVo bankCardVo = new BankCardFormVo();
-        bankCardVo.setNo(BANK_CARD_NO);
-        bankCardVo.setBankCode("CCB");
-
-        final String[] token = {null};
-        JPA.withTransaction(new play.libs.F.Callback0() {
-          public void invoke() {
-            EntityBaseDao entityBaseDao = new EntityBaseDao();
-            List<CustomerSession> sessions = entityBaseDao.findAll(CustomerSession.class, "createdDatetime", false);
-            if (!sessions.isEmpty()) {
-              CustomerSession customerSession = sessions.get(0);
-              token[0] = customerSession.getToken();
             }
-          }
         });
 
-        play.mvc.Result result = null;
-        FakeRequest bankCardValidateRequest = fakeRequest(POST, "/core/bank/bankcard/validate");
-        Map<String, String> paramMap = bankCardForm.bind(Json.toJson(bankCardVo)).data();
+    }
 
-        FakeRequest formRequest = bankCardValidateRequest.withHeader("Content-Type", TestUtil.APPLICATION_X_WWW_FORM_URLENCODED).withFormUrlEncodedBody(paramMap);
-        formRequest.withCookies(new Http.Cookie(AppConst.TOKEN, token[0], null, null, null, false, false));
-        result = route(formRequest);
+    @Test
+    public void testValidateBankCard() throws Exception {
+        running(fakeApplication(inMemoryDatabase("test")), new Runnable() {
+            public void run() {
+                BankCardFormVo bankCardVo = new BankCardFormVo();
+                bankCardVo.setNo(BANK_CARD_NO);
+                bankCardVo.setBankCode("CCB");
 
-        Logger.info("result is " + contentAsString(result));
-        assertThat(contentAsString(result)).contains(MsgCode.OPERATE_SUCCESS.getCode());
-      }
-    });
-  }
+                play.mvc.Result result = null;
+                FakeRequest bankCardValidateRequest = fakeRequest(POST, "/core/bank/bankcard/validate");
+                Map<String, String> paramMap = bankCardForm.bind(Json.toJson(bankCardVo)).data();
 
-  @Test
-  public void testFindBankCards() throws Exception {
-    running(fakeApplication(inMemoryDatabase("test")), new Runnable() {
-      public void run() {
-        final String[] token = {null};
-        JPA.withTransaction(new play.libs.F.Callback0() {
-          public void invoke() {
-            EntityBaseDao entityBaseDao = new EntityBaseDao();
-            List<CustomerSession> sessions = entityBaseDao.findAll(CustomerSession.class, "createdDatetime", false);
-            if (!sessions.isEmpty()) {
-              CustomerSession customerSession = sessions.get(0);
-              token[0] = customerSession.getToken();
+                FakeRequest formRequest = bankCardValidateRequest.withHeader("Content-Type", TestUtil.APPLICATION_X_WWW_FORM_URLENCODED).withFormUrlEncodedBody(paramMap);
+                formRequest.withCookies(cookie);
+                result = route(formRequest);
+
+                Logger.info("result is " + contentAsString(result));
+                assertThat(contentAsString(result)).contains(MsgCode.OPERATE_SUCCESS.getCode());
             }
-          }
         });
-        FakeRequest findBankCards = fakeRequest(POST, "/core/bank/bankcards");
-        play.mvc.Result result = null;
-        // form request
-        PageVo pageVo = new PageVo();
-        Map<String, String> paramMap = pagerForm.bind(Json.toJson(pageVo)).data();
-        Logger.info("[paramMap]" + paramMap);
+    }
 
-        FakeRequest formRequest = findBankCards.withHeader("Content-Type", TestUtil.APPLICATION_X_WWW_FORM_URLENCODED).withFormUrlEncodedBody(paramMap);
-        System.out.println("[token]" + token[0]);
-        formRequest.withCookies(new Http.Cookie(AppConst.TOKEN, token[0], null, null, null, false, false));
-        result = route(formRequest);
+    @Test
+    public void testFindAndDeleteBankCards() throws Exception {
+        running(fakeApplication(inMemoryDatabase("test")), new Runnable() {
+            public void run() {
 
-        Logger.info("result is " + contentAsString(result));
+                FakeRequest findBankCards = fakeRequest(POST, "/core/bank/bankcards");
+                play.mvc.Result result = null;
+                // form request
+                PageVo pageVo = new PageVo();
+                Map<String, String> paramMap = pagerForm.bind(Json.toJson(pageVo)).data();
+                Logger.info("[paramMap]" + paramMap);
 
-        assertThat(contentAsString(result)).contains(MsgCode.OPERATE_SUCCESS.getCode());
-      }
-    });
-  }
+                FakeRequest formRequest = findBankCards.withHeader("Content-Type", TestUtil.APPLICATION_X_WWW_FORM_URLENCODED).withFormUrlEncodedBody(paramMap);
+                formRequest.withCookies(cookie);
 
-  @Test
-  public void testFindBankByBankCardNo() throws Exception {
-    running(fakeApplication(inMemoryDatabase("test")), new Runnable() {
-      public void run() {
-        BankCardVo bankCardVo = new BankCardVo();
-        bankCardVo.setNo("6225885105574736");
-        FakeRequest findBankRequest = fakeRequest(POST, "/core/bank/findbybankcard");
-        play.mvc.Result result = null;
-        // form request
-        Map<String, String> paramMap = bankCardForm.bind(Json.toJson(bankCardVo)).data();
-        Logger.info("[paramMap]" + paramMap);
-        FakeRequest formRequest = findBankRequest.withHeader("Content-Type", TestUtil.APPLICATION_X_WWW_FORM_URLENCODED).withFormUrlEncodedBody(paramMap);
-        result = route(formRequest);
-        Logger.info("result is " + contentAsString(result));
-        assertThat(contentAsString(result)).contains(MsgCode.OPERATE_SUCCESS.getCode());
-      }
-    });
-  }
 
-  @Test
-  public void testFindBanks() throws Exception {
-    running(fakeApplication(inMemoryDatabase("test")), new Runnable() {
-      public void run() {
-        PageVo pageVo = new PageVo();
-        FakeRequest banksRequest = fakeRequest(POST, "/core/banks");
-        play.mvc.Result result = null;
-        // form request
-        Map<String, String> paramMap = pagerForm.bind(Json.toJson(pageVo)).data();
-        Logger.info("[paramMap]" + paramMap);
-        FakeRequest formRequest = banksRequest.withHeader("Content-Type", TestUtil.APPLICATION_X_WWW_FORM_URLENCODED).withFormUrlEncodedBody(paramMap);
-        result = route(formRequest);
-        Logger.info("result is " + contentAsString(result));
-        assertThat(contentAsString(result)).contains("0000");
-      }
-    });
-  }
+                result = route(formRequest);
+
+                Logger.info("result is " + contentAsString(result));
+
+                assertThat(contentAsString(result)).contains(MsgCode.OPERATE_SUCCESS.getCode());
+
+                MessageVo message = toMessageVo(result);
+                Object value = message.getValue();
+                if (value != null) {
+                    List data = (ArrayList) value;
+                    if (!data.isEmpty()) {
+                        BankCardVo bankCardVo = Json.fromJson(Json.toJson(data.get(0)), BankCardVo.class);
+                        // delete bank card
+                        FakeRequest bankCardDeleteRequest = fakeRequest(POST, "/core/bank/bankcard/delete");
+                        paramMap = bankCardForm.bind(Json.toJson(bankCardVo)).data();
+
+                        FakeRequest formBankCardDeleteRequest = bankCardDeleteRequest.withHeader("Content-Type", TestUtil.APPLICATION_X_WWW_FORM_URLENCODED).withFormUrlEncodedBody(paramMap);
+                        formBankCardDeleteRequest.withCookies(cookie);
+                        result = route(formBankCardDeleteRequest);
+
+                        Logger.info("result is " + contentAsString(result));
+                        assertThat(contentAsString(result)).contains(MsgCode.BANK_CARD_DELETE_SUCCESS.getCode());
+                    }
+                }
+
+            }
+        });
+    }
+
+    @Test
+    public void testFindBankByBankCardNo() throws Exception {
+        running(fakeApplication(inMemoryDatabase("test")), new Runnable() {
+            public void run() {
+                BankCardVo bankCardVo = new BankCardVo();
+                bankCardVo.setNo("6225885105574736");
+                FakeRequest findBankRequest = fakeRequest(POST, "/core/bank/findbybankcard");
+                play.mvc.Result result = null;
+                // form request
+                Map<String, String> paramMap = bankCardForm.bind(Json.toJson(bankCardVo)).data();
+                Logger.info("[paramMap]" + paramMap);
+                FakeRequest formRequest = findBankRequest.withHeader("Content-Type", TestUtil.APPLICATION_X_WWW_FORM_URLENCODED).withFormUrlEncodedBody(paramMap);
+                result = route(formRequest);
+                Logger.info("result is " + contentAsString(result));
+                assertThat(contentAsString(result)).contains(MsgCode.OPERATE_SUCCESS.getCode());
+            }
+        });
+    }
+
+    @Test
+    public void testFindBanks() throws Exception {
+        running(fakeApplication(inMemoryDatabase("test")), new Runnable() {
+            public void run() {
+                PageVo pageVo = new PageVo();
+                FakeRequest banksRequest = fakeRequest(POST, "/core/banks");
+                play.mvc.Result result = null;
+                // form request
+                Map<String, String> paramMap = pagerForm.bind(Json.toJson(pageVo)).data();
+                Logger.info("[paramMap]" + paramMap);
+                FakeRequest formRequest = banksRequest.withHeader("Content-Type", TestUtil.APPLICATION_X_WWW_FORM_URLENCODED).withFormUrlEncodedBody(paramMap);
+                result = route(formRequest);
+                Logger.info("result is " + contentAsString(result));
+                assertThat(contentAsString(result)).contains("0000");
+            }
+        });
+    }
 }

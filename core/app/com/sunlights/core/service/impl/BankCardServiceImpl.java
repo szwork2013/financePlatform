@@ -32,91 +32,91 @@ import java.util.List;
  * @author <a href="mailto:zhencai.yuan@sunlights.cc">yuanzhencai</a>
  */
 public class BankCardServiceImpl implements BankCardService {
-  private BankCardDao bankCardDao = new BankCardDaoImpl();
-  private CustomerService customerService = new CustomerService();
-  private PageService pageService = new PageService();
-  private BankService bankService = new BankServiceImpl();
+    private BankCardDao bankCardDao = new BankCardDaoImpl();
+    private CustomerService customerService = new CustomerService();
+    private PageService pageService = new PageService();
+    private BankService bankService = new BankServiceImpl();
 
-  @Override
-  public List<BankCardVo> findBankCardsByToken(String token, PageVo pageVo) {
-    if (StringUtils.isEmpty(token)) {
-      MessageUtil.getInstance().setMessage(new Message(Severity.INFO, MsgCode.LOGIN_TIMEOUT));
-      return null;
-    }
-    Customer customer = customerService.getCustomerByToken(token);
-    if (customer == null || StringUtils.isEmpty(customer.getCustomerId())) {
-      MessageUtil.getInstance().setMessage(new Message(Severity.ERROR, MsgCode.LOGIN_TIMEOUT));
-      return null;
-    }
-    pageVo.put("EQS_customerId", customer.getCustomerId());
+    @Override
+    public List<BankCardVo> findBankCardsByToken(String token, PageVo pageVo) {
+        if (StringUtils.isEmpty(token)) {
+            MessageUtil.getInstance().setMessage(new Message(Severity.INFO, MsgCode.LOGIN_TIMEOUT));
+            return null;
+        }
+        Customer customer = customerService.getCustomerByToken(token);
+        if (customer == null || StringUtils.isEmpty(customer.getCustomerId())) {
+            MessageUtil.getInstance().setMessage(new Message(Severity.ERROR, MsgCode.LOGIN_TIMEOUT));
+            return null;
+        }
+        pageVo.put("EQS_customerId", customer.getCustomerId());
 
-    StringBuilder xsql = new StringBuilder();
-    xsql.append(" select new com.sunlights.core.vo.BankCardVo(c,b)");
-    xsql.append(" from BankCard c , Bank b");
-    xsql.append(" where c.bankId = b.id");
-    xsql.append(" /~ and c.customerId = {customerId} ~/ ");
-    xsql.append(" /~ and c.bankCardNo = {bankCardNo} ~/ ");
-    xsql.append(" /~ and c.bankType like {bankType} ~/ ");
-    xsql.append(" /~ and b.bankName like {bankName} ~/ ");
-    xsql.append(" /~ and c.status = {status} ~/ ");
+        StringBuilder xsql = new StringBuilder();
+        xsql.append(" select new com.sunlights.core.vo.BankCardVo(c,b)");
+        xsql.append(" from BankCard c , Bank b");
+        xsql.append(" where c.bankId = b.id");
+        xsql.append(" /~ and c.customerId = {customerId} ~/ ");
+        xsql.append(" /~ and c.bankCardNo = {bankCardNo} ~/ ");
+        xsql.append(" /~ and c.bankType like {bankType} ~/ ");
+        xsql.append(" /~ and b.bankName like {bankName} ~/ ");
+        xsql.append(" /~ and c.status = {status} ~/ ");
 
-    List<BankCardVo> bankCardVos = pageService.findXsqlBy(xsql.toString(), pageVo);
-    pageVo.getList().addAll(bankCardVos);
-    MessageUtil.getInstance().setMessage(new Message(Severity.INFO, MsgCode.OPERATE_SUCCESS), bankCardVos);
-    return bankCardVos;
-  }
+        List<BankCardVo> bankCardVos = pageService.findXsqlBy(xsql.toString(), pageVo);
+        pageVo.getList().addAll(bankCardVos);
+        MessageUtil.getInstance().setMessage(new Message(Severity.INFO, MsgCode.OPERATE_SUCCESS), bankCardVos);
+        return bankCardVos;
+    }
 
-  @Transactional
-  @Override
-  public BankCard createBankCard(String token, BankCardVo bankCardVo) {
-    if (StringUtils.isEmpty(token)) {
-      MessageUtil.getInstance().setMessage(new Message(Severity.INFO, MsgCode.LOGIN_TIMEOUT));
-      return null;
+    @Transactional
+    @Override
+    public BankCard createBankCard(String token, BankCardVo bankCardVo) {
+        if (StringUtils.isEmpty(token)) {
+            MessageUtil.getInstance().setMessage(new Message(Severity.INFO, MsgCode.LOGIN_TIMEOUT));
+            return null;
+        }
+        Customer customer = customerService.getCustomerByToken(token);
+        if (customer == null || StringUtils.isEmpty(customer.getCustomerId())) {
+            MessageUtil.getInstance().setMessage(new Message(Severity.ERROR, MsgCode.LOGIN_TIMEOUT));
+            return null;
+        }
+        BankCard bankCard = new BankCard();
+        bankCard.setCustomerId(customer.getCustomerId());
+        if (StringUtils.isEmpty(bankCardVo.getBankCode())) {
+            MessageUtil.getInstance().setMessage(new Message(Severity.ERROR, MsgCode.BIND_CARD_FAIL_EMPTY_BANK));
+            return null;
+        }
+        if (bankCardDao.hasBankCard(bankCardVo.getNo())) {
+            MessageUtil.getInstance().setMessage(new Message(Severity.ERROR, MsgCode.BIND_CARD_FAIL_ALREADY_BIND));
+            return null;
+        }
+        Bank bank = bankService.findBankByBankCode(bankCardVo.getBankCode());
+        bankCard.setBankCardNo(bankCardVo.getNo());
+        bankCard.setBankCode(bank.getBankCode());
+        bankCard.setBankId(bank.getId());
+        bankCard.setCreateTime(new Timestamp(new Date().getTime()));
+        bankCard.setStatus(bankCardVo.getValidateStatus());
+        bankCard.setUpdateTime(new Timestamp(new Date().getTime()));
+        bankCard.setStatus("Y");
+        bankCard.setBankType("0");
+        BankCard card = bankCardDao.create(bankCard);
+        MessageUtil.getInstance().setMessage(new Message(Severity.INFO, MsgCode.BANK_CARD_ADD_SUCCESS));
+        return card;
     }
-    Customer customer = customerService.getCustomerByToken(token);
-    if (customer == null || StringUtils.isEmpty(customer.getCustomerId())) {
-      MessageUtil.getInstance().setMessage(new Message(Severity.ERROR, MsgCode.LOGIN_TIMEOUT));
-      return null;
-    }
-    BankCard bankCard = new BankCard();
-    bankCard.setCustomerId(customer.getCustomerId());
-    if (StringUtils.isEmpty(bankCardVo.getBankCode())) {
-      MessageUtil.getInstance().setMessage(new Message(Severity.ERROR, MsgCode.BIND_CARD_FAIL_EMPTY_BANK));
-      return null;
-    }
-    if (bankCardDao.hasBankCard(bankCardVo.getNo())) {
-      MessageUtil.getInstance().setMessage(new Message(Severity.ERROR, MsgCode.BIND_CARD_FAIL_ALREADY_BIND));
-      return null;
-    }
-    Bank bank = bankService.findBankByBankCode(bankCardVo.getBankCode());
-    bankCard.setBankCardNo(bankCardVo.getNo());
-    bankCard.setBankCode(bank.getBankCode());
-    bankCard.setBankId(bank.getId());
-    bankCard.setCreatedDatetime(new Timestamp(new Date().getTime()));
-    bankCard.setStatus(bankCardVo.getValidateStatus());
-    bankCard.setUpdateDatetime(new Timestamp(new Date().getTime()));
-    bankCard.setStatus("Y");
-    bankCard.setBankType("0");
-    BankCard card = bankCardDao.create(bankCard);
-    MessageUtil.getInstance().setMessage(new Message(Severity.INFO, MsgCode.BANK_CARD_ADD_SUCCESS));
-    return card;
-  }
 
-  @Transactional
-  @Override
-  public boolean deleteBankCard(String token, BankCardVo bankCardVo) {
-    if (StringUtils.isEmpty(token)) {
-      MessageUtil.getInstance().setMessage(new Message(Severity.INFO, MsgCode.LOGIN_TIMEOUT));
-      return false;
+    @Transactional
+    @Override
+    public boolean deleteBankCard(String token, BankCardVo bankCardVo) {
+        if (StringUtils.isEmpty(token)) {
+            MessageUtil.getInstance().setMessage(new Message(Severity.INFO, MsgCode.LOGIN_TIMEOUT));
+            return false;
+        }
+        Customer customer = customerService.getCustomerByToken(token);
+        if (customer == null || StringUtils.isEmpty(customer.getCustomerId())) {
+            MessageUtil.getInstance().setMessage(new Message(Severity.ERROR, MsgCode.LOGIN_TIMEOUT));
+            return false;
+        }
+        bankCardDao.deleteById(Long.valueOf(bankCardVo.getId()));
+        MessageUtil.getInstance().setMessage(new Message(Severity.INFO, MsgCode.BANK_CARD_DELETE_SUCCESS));
+        return true;
     }
-    Customer customer = customerService.getCustomerByToken(token);
-    if (customer == null || StringUtils.isEmpty(customer.getCustomerId())) {
-      MessageUtil.getInstance().setMessage(new Message(Severity.ERROR, MsgCode.LOGIN_TIMEOUT));
-      return false;
-    }
-    bankCardDao.deleteByNo(bankCardVo.getNo());
-    MessageUtil.getInstance().setMessage(new Message(Severity.INFO, MsgCode.BANK_CARD_DELETE_SUCCESS));
-    return true;
-  }
 
 }

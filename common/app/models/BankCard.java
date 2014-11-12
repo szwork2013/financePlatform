@@ -30,12 +30,12 @@ public class BankCard extends IdEntity {
   private String status;
 
   @Temporal(TemporalType.TIMESTAMP)
-  @Column(name = "CREATED_DATETIME")
-  private Date createdDatetime;
+  @Column(name = "CREATE_TIME")
+  private Date createTime;
 
   @Temporal(TemporalType.TIMESTAMP)
-  @Column(name = "UPDATE_DATETIME")
-  private Date updateDatetime;
+  @Column(name = "UPDATE_TIME")
+  private Date updateTime;
 
   public BankCard() {
   }
@@ -88,19 +88,19 @@ public class BankCard extends IdEntity {
     this.status = status;
   }
 
-  public Date getCreatedDatetime() {
-    return createdDatetime;
+  public Date getCreateTime() {
+    return createTime;
   }
 
-  public void setCreatedDatetime(Date createdDatetime) {
-    this.createdDatetime = createdDatetime;
+  public void setCreateTime(Date createTime) {
+    this.createTime = createTime;
   }
 
-  public Date getUpdateDatetime() {
-    return updateDatetime;
+  public Date getUpdateTime() {
+    return updateTime;
   }
 
-  public void setUpdateDatetime(Date updateDatetime) {
-    this.updateDatetime = updateDatetime;
+  public void setUpdateTime(Date updateTime) {
+    this.updateTime = updateTime;
   }
 }

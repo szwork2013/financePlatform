@@ -26,11 +26,11 @@ public class Bank extends IdEntity {
 
   @Temporal(TemporalType.TIMESTAMP)
   @Column(name = "CREATE_TIME")
-  private Date createdDatetime;
+  private Date createdTime;
 
   @Temporal(TemporalType.TIMESTAMP)
   @Column(name = "UPDATE_TIME")
-  private Date updateDatetime;
+  private Date updateTime;
 
   public Bank() {
   }
@@ -67,19 +67,19 @@ public class Bank extends IdEntity {
     this.status = status;
   }
 
-  public Date getCreatedDatetime() {
-    return createdDatetime;
+  public Date getCreatedTime() {
+    return createdTime;
   }
 
-  public void setCreatedDatetime(Date createdDatetime) {
-    this.createdDatetime = createdDatetime;
+  public void setCreatedTime(Date createdTime) {
+    this.createdTime = createdTime;
   }
 
-  public Date getUpdateDatetime() {
-    return updateDatetime;
+  public Date getUpdateTime() {
+    return updateTime;
   }
 
-  public void setUpdateDatetime(Date updateDatetime) {
-    this.updateDatetime = updateDatetime;
+  public void setUpdateTime(Date updateTime) {
+    this.updateTime = updateTime;
   }
 }
