@@ -419,17 +419,6 @@ public class EntityBaseDao {
    * @return 与 jpql对应的 count 语句
    */
   public String prepareCountHql(String jpql) {
-    // StringBuilder countOfQuery = new StringBuilder("SELECT COUNT(*) as countNum");
-    //
-    // String fromQl = jpql.substring(jpql.toUpperCase().indexOf("FROM"));
-    //
-    // int pos = fromQl.toUpperCase().indexOf("ORDER BY");
-    // if (pos != -1) {
-    // fromQl = fromQl.substring(0, pos);
-    // }
-    //
-    // countOfQuery.append(fromQl);
-    // huhan modify
     boolean distinct = false;
     if (jpql.toUpperCase().contains("DISTINCT")) {
       distinct = true;
@@ -448,13 +437,8 @@ public class EntityBaseDao {
       fromQl1 = fromQls[2];
     }
     StringBuilder countOfQuery = new StringBuilder("SELECT COUNT(" + (distinct ? "DISTINCT " + fromQl1 + ".id" : fromQl1 + ".id") + ") ");
-    // StringBuilder countOfQuery = new StringBuilder("SELECT COUNT("+fromQl1+") ");
-    // StringBuilder distinctCount = new StringBuilder("SELECT count(dc) from ("+jpql +") as dc");
-    // if(distinct){
-    // countOfQuery = distinctCount;
-    // }else{
+
     countOfQuery.append(fromQl);
-    // }
     return countOfQuery.toString();
   }
 
@@ -479,7 +463,6 @@ public class EntityBaseDao {
    *
    * @param values 数量可变的参数,按顺序绑定.
    */
-
   public Query createQuery(final String queryString, final Object... values) {
     Validate.notEmpty(queryString, "queryString不能为空");
     Query query = em.createQuery(queryString);
@@ -586,29 +569,16 @@ public class EntityBaseDao {
    */
   public String buildJpqlAndParams(String xsql, Map<String, Object> filterMap, Map<String, Object> paramMap) {
     // 得到需要动态构建的字段
-    List<String> avialableKeys = Lists.newArrayList();
-
-    Pattern p = Pattern.compile("\\{(.+?)\\}");
-    Matcher m = p.matcher(xsql);
-
-    while (m.find()) {
-      avialableKeys.add(m.group(1));
-    }
+    List<String> avialableKeys = getAvaliableKeys(xsql);
     // 剔除不需要的过滤属性 和 空值的属性
     Map<String, Object> tmpMap = Maps.newHashMap();
     for (Map.Entry<String, Object> kv : filterMap.entrySet()) {
       if (kv.getValue() == null || "".equals(kv.getValue())) {
         continue;
       }
-      boolean hasIt = false;
-      for (String s : avialableKeys) {
-        if (kv.getKey().contains(s)) {
-          hasIt = true;
-          break;
-        }
-      }
-      if (hasIt)
+      if (hasKey(avialableKeys, kv)) {
         tmpMap.put(kv.getKey(), kv.getValue());
+      }
     }
     // Assert.isTrue(avialableKeys.size()== filterMap.size());
     this.convertMap(tmpMap, paramMap);
@@ -620,6 +590,17 @@ public class EntityBaseDao {
     return jpql;
   }
 
+  private boolean hasKey(List<String> avialableKeys, Map.Entry<String, Object> kv) {
+    boolean hasIt = false;
+    for (String s : avialableKeys) {
+      if (kv.getKey().contains(s)) {
+        hasIt = true;
+        break;
+      }
+    }
+    return hasIt;
+  }
+
   public Query createNativeQueryByMap(String xsql, Map<String, Object> filterMap) {
     Map<String, Object> paramMap = Maps.newHashMapWithExpectedSize(5);
     String sql = this.buildSqlAndParams(xsql, filterMap, paramMap);
@@ -627,37 +608,28 @@ public class EntityBaseDao {
     return createNativeQuery(sql, paramMap);
   }
 
-  public String buildSqlAndParams(String xsql, Map<String, Object> filterMap, Map<String, Object> paramMap) {
-
-
+  private String buildSqlAndParams(String xsql, Map<String, Object> filterMap, Map<String, Object> paramMap) {
     // 得到需要动态构建的字段
-    List<String> avialableKeys = Lists.newArrayList();
-
-    Pattern p = Pattern.compile("\\{(.+?)\\}");
-    Matcher m = p.matcher(xsql);
-
-    while (m.find()) {
-      avialableKeys.add(m.group(1));
-    }
+    List<String> avialableKeys = getAvaliableKeys(xsql);
     int index = 1;
     // 剔除不需要的过滤属性 和 空值的属性
     Map<String, Object> tmpMap = Maps.newHashMap();
     Map<String, Object> avialableFilterMap = Maps.newHashMap();
-
     for (int i = 0; i < avialableKeys.size(); i++) {
-      String s = avialableKeys.get(i);
+      String key = avialableKeys.get(i);
       for (Map.Entry<String, Object> kv : filterMap.entrySet()) {
         if (kv.getValue() == null || "".equals(kv.getValue())) {
           continue;
         }
-        if (kv.getKey().contains(s)) {
-          tmpMap.put(kv.getKey().replace(s, String.valueOf(index)), kv.getValue());
-          avialableFilterMap.put(s, kv.getValue());
+        if (kv.getKey().contains(key)) {
+          tmpMap.put(kv.getKey().replace(key, String.valueOf(index)), kv.getValue());
+          avialableFilterMap.put(key, kv.getValue());
           index++;
           break;
         }
       }
     }
+
     this.convertMap(tmpMap, paramMap);
 
     // 构建 SQL 语句
@@ -667,9 +639,19 @@ public class EntityBaseDao {
     return sql;
   }
 
-  private Map<String, Object> convertMap(Map<String, Object> filterMap, Map<String, Object> paramMap) {
-    // Map<String, Object> paramMap = Maps.newHashMap();
+  private List<String> getAvaliableKeys(String xsql) {
+    List<String> avialableKeys = Lists.newArrayList();
 
+    Pattern p = Pattern.compile("\\{(.+?)\\}");
+    Matcher m = p.matcher(xsql);
+
+    while (m.find()) {
+      avialableKeys.add(m.group(1));
+    }
+    return avialableKeys;
+  }
+
+  private Map<String, Object> convertMap(Map<String, Object> filterMap, Map<String, Object> paramMap) {
     for (Map.Entry<String, Object> kv : filterMap.entrySet()) {
       // 获取属性的 Name (key)
       String filterName = kv.getKey();
