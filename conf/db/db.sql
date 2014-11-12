@@ -1441,57 +1441,24 @@ ALTER TABLE "public"."qrtz_simprop_triggers" ADD FOREIGN KEY ("sched_name", "tri
 -- ----------------------------
 ALTER TABLE "public"."qrtz_triggers" ADD FOREIGN KEY ("sched_name", "job_name", "job_group") REFERENCES "public"."qrtz_job_details" ("sched_name", "job_name", "job_group") ON DELETE NO ACTION ON UPDATE NO ACTION;
 
--- ----------------------------
--- Records of c_bank
--- ----------------------------
-INSERT INTO "public"."c_bank" VALUES ('1', 'BOC', '中国银行', '2014-09-27 10:30:22', 'BankofChina', 'Y', '2014-11-05 16:15:10.359');
-INSERT INTO "public"."c_bank" VALUES ('2', 'ICBC', '中国工商银行', '2014-09-27 10:33:35', 'Industrial and Commercial Bank of China', 'Y', '2014-09-27 10:33:35');
-INSERT INTO "public"."c_bank" VALUES ('3', 'ABC', '中国农业银行', '2014-09-27 10:35:24', 'Agricultural Bank of China', 'Y', '2014-09-27 10:35:24');
-INSERT INTO "public"."c_bank" VALUES ('4', 'CCB', '中国建设银行', '2014-09-27 10:38:15', 'China Construction Bank', 'Y', '2014-09-27 10:38:15');
-INSERT INTO "public"."c_bank" VALUES ('5', 'BCM', '交通银行', '2014-09-27 10:44:28', 'BANK OF COMMUNICATIONS ', 'Y', '2014-09-27 10:44:28');
-INSERT INTO "public"."c_bank" VALUES ('6', 'PSBC', '中国邮政储蓄银行', '2014-09-27 10:46:43', 'POSTAL SAVINGS BANK OF CHINA', 'Y', '2014-09-27 10:46:43');
-INSERT INTO "public"."c_bank" VALUES ('7', 'CITIC', '中信银行', '2014-09-27 10:52:21', 'CHINA CITIC BANK', 'Y', '2014-09-27 10:52:21');
-INSERT INTO "public"."c_bank" VALUES ('8', 'SPDB', '上海浦东发展银行', '2014-09-27 10:54:56', 'Shanghai Pudong Development Bank', 'Y', '2014-09-27 10:54:56');
-INSERT INTO "public"."c_bank" VALUES ('9', 'CIB', '兴业银行', '2014-09-27 10:56:31', 'Industrial Bank', 'Y', '2014-09-27 10:56:31');
-INSERT INTO "public"."c_bank" VALUES ('10', 'CMBC', '中国民生银行', '2014-09-27 11:01:38', 'China Minsheng Banking Corp', 'Y', '2014-09-27 11:01:38');
-INSERT INTO "public"."c_bank" VALUES ('11', 'CEB', '中国光大银行', '2014-09-27 11:06:53', 'CHINA EVERBRIGHT BANK', 'Y', '2014-09-27 11:06:53');
-INSERT INTO "public"."c_bank" VALUES ('12', 'PAB', '平安银行', '2014-09-27 11:09:09', 'Ping An Bank ', 'Y', '2014-09-27 11:09:09');
-INSERT INTO "public"."c_bank" VALUES ('13', 'HXB', '华夏银行', '2014-09-27 11:10:44', 'Hua Xia Bank', 'Y', '2014-09-27 11:10:44');
-INSERT INTO "public"."c_bank" VALUES ('14', 'BOB', '北京银行', '2014-09-27 11:13:10', 'Bank of Beijing ', 'Y', '2014-09-27 11:13:10');
-INSERT INTO "public"."c_bank" VALUES ('15', 'CGB', '广东发展银行', '2014-09-27 11:15:13', 'China Guangfa Bank', 'Y', '2014-09-27 11:15:13');
-INSERT INTO "public"."c_bank" VALUES ('16', 'BOS', '上海银行', '2014-09-27 11:17:00', 'Bank of Shanghai', 'Y', '2014-09-27 11:17:00');
-INSERT INTO "public"."c_bank" VALUES ('17', 'EGB', '恒丰银行', '2014-09-27 11:23:26', 'Evergrowing Bank', 'Y', '2014-09-27 11:23:26');
-INSERT INTO "public"."c_bank" VALUES ('18', 'BRCB', '北京农村商业银行', '2014-09-27 11:30:24', 'BEIJING RURAL COMMERCIAL BANK', 'Y', '2014-09-27 11:30:24');
-INSERT INTO "public"."c_bank" VALUES ('19', 'CRCB', '重庆农村商业银行', '2014-09-27 11:32:53', 'CHONGQING RURAL COMMERCLAL BANK', 'Y', '2014-09-27 11:32:53');
-INSERT INTO "public"."c_bank" VALUES ('20', 'CBB', '渤海银行', '2014-09-27 11:36:08', 'China Bohai Bank', 'Y', '2014-09-27 11:36:08');
-INSERT INTO "public"."c_bank" VALUES ('21', 'SRCB', '上海农村商业银行', '2014-09-27 11:40:34', 'Shanghai Rural Commercial Bank', 'Y', '2014-09-27 11:40:34');
-INSERT INTO "public"."c_bank" VALUES ('22', 'BON', '南京银行', '2014-09-27 11:47:31', 'BANK OF NANJING', 'Y', '2014-09-27 11:49:07');
-INSERT INTO "public"."c_bank" VALUES ('23', 'BOJ', '江苏银行', '2014-09-27 11:21:09', 'BANK OF JIANGSU', 'Y', '2014-09-27 11:49:25');
-INSERT INTO "public"."c_bank" VALUES ('24', 'CMB', '招商银行', '2014-09-27 10:48:48', 'China Merchants Bank', 'Y', '2014-09-27 12:04:58');
 
--- ----------------------------
--- Records of parameter
--- ----------------------------
-INSERT INTO "public"."parameter" VALUES ('1', null, '2014-09-22 11:47:15', 'N', null, '2014-09-22 11:47:15', '实名认证-URL地址', 'CERTIFY_URL', 'http://service.sfxxrz.com/IdentifierService.svc');
-INSERT INTO "public"."parameter" VALUES ('2', null, '2014-09-22 11:46:50', 'N', null, '2014-09-22 11:46:50', '实名认证-帐号密码', 'CERTIFY_PASSWORD', '0DEi9dPb');
-INSERT INTO "public"."parameter" VALUES ('3', null, '2014-09-23 12:13:14', 'N', null, '2014-09-23 12:13:14', '缓存存在时间(min)', 'CACHE_EXPIRY', '60');
-INSERT INTO "public"."parameter" VALUES ('4', null, '2014-09-15 18:28:41', 'N', null, '2014-09-15 18:28:41', '登录失败没到最大次数，隔XXX时间后失败次数清0的时间(min)', 'LOGIN_PERIOD', '60');
-INSERT INTO "public"."parameter" VALUES ('5', null, '2014-09-15 18:27:11', 'N', null, '2014-09-15 18:27:11', '验证码在单位时间内最大次数', 'VERIFYCODE_MAX', '5');
-INSERT INTO "public"."parameter" VALUES ('6', null, '2014-09-15 18:28:27', 'N', null, '2014-09-15 18:28:27', '密码允许错误最大次数', 'PWD_MAX', '5');
-INSERT INTO "public"."parameter" VALUES ('7', null, '2014-09-15 18:28:13', 'N', null, '2014-09-15 18:28:13', '验证码时效时间(min)', 'VERIFYCODE_EXPIRY', '60');
-INSERT INTO "public"."parameter" VALUES ('8', null, '2014-09-22 11:46:26', 'N', null, '2014-09-22 11:46:26', '实名认证-帐号用户名', 'CERTIFY_USERNAME', 'yyzc_admin');
-INSERT INTO "public"."parameter" VALUES ('9', null, '2014-09-15 18:28:51', 'N', null, '2014-09-15 18:28:51', '用户解锁时间(min)', 'USERUNLOCK_PERIOD', '60');
-INSERT INTO "public"."parameter" VALUES ('10', null, '2014-09-15 18:27:58', 'N', null, '2014-09-15 18:27:58', '验证码最大次数的单位时间(min)', 'VERIFYCODE_TIMES', '60');
-INSERT INTO "public"."parameter" VALUES ('11', null, '2014-09-25 11:36:18', 'N', null, '2014-09-25 11:36:18', '实名认证-N真实调用/非N测试模式', 'CERTIFY_TEST', 'Y');
-INSERT INTO "public"."parameter" VALUES ('12', null, '2014-09-18 10:26:36', 'N', null, '2014-09-18 10:26:36', '暂时锁定的时间(min)', 'RELIEVE_SUSLOCK_PERIOD', '30');
-INSERT INTO "public"."parameter" VALUES ('13', null, '2014-09-23 12:13:33', 'N', null, '2014-09-23 12:13:33', 'cookie存在时间(min)', 'COOKIE_EXPIRY', '1440');
-INSERT INTO "public"."parameter" VALUES ('14', null, '2014-09-23 12:13:48', 'N', null, '2014-09-23 12:13:48', '后台CustomerSession有效时间(min)，一般与COOKIE_EXPIRY存在时间一致', 'SESSION_EXPIRY', '1440');
-INSERT INTO "public"."parameter" VALUES ('15', null, '2014-10-15 19:48:37', 'N', null, '2014-10-15 19:48:37', '短信接口-URL地址', 'SMS_URL', 'http://sms.2office.net:8080/WebService/sms3.aspx');
-INSERT INTO "public"."parameter" VALUES ('16', null, '2014-10-15 19:48:58', 'N', null, '2014-10-15 19:48:58', '短信接口-第二办公室门牌号码', 'SMS_ACCOUNT', '2523040');
-INSERT INTO "public"."parameter" VALUES ('17', null, '2014-10-15 19:49:20', 'N', null, '2014-10-15 19:49:20', '短信接口-密码', 'SMS_PASSWORD', 'yiyuezc597');
-INSERT INTO "public"."parameter" VALUES ('18', null, '2014-10-15 19:49:41', 'N', null, '2014-10-15 19:49:41', '短信接口-通道编号', 'SMS_CHANNEL', '252304001');
-INSERT INTO "public"."parameter" VALUES ('19', null, '2014-10-15 19:50:00', 'N', null, '2014-10-15 19:50:00', '短信接口-授权码', 'SMS_WARRANTYCODE', '9a15294089130ec6a8d27502d808a2a1');
-INSERT INTO "public"."parameter" VALUES ('20', null, '2014-10-15 19:53:54', 'N', null, '2014-10-15 19:53:54', '短信接口-N真实调用/非N 测试模式', 'SMS_TEST', 'N');
+CREATE TABLE
+  DICT
+(
+  ID BIGINT NOT NULL,
+  CODE_CAT CHARACTER VARYING(50),
+  CODE_KEY CHARACTER VARYING(50),
+  CODE_VAL CHARACTER VARYING(100),
+  SEQ_NO INTEGER,
+  CREATE_BY CHARACTER VARYING(255),
+  CREATE_TIME TIMESTAMP(6) WITHOUT TIME ZONE,
+  STATUS CHARACTER VARYING(1),
+  SYS_IND CHARACTER VARYING(1),
+  MAGIC CHARACTER VARYING(255),
+  REMARKS CHARACTER VARYING(255),
+  PRIMARY KEY (ID)
+);
+
 
 
 
