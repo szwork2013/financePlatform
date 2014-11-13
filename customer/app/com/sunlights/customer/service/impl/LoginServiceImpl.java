@@ -61,7 +61,9 @@ public class LoginServiceImpl implements LoginService {
         //若为已登录状态跳出，（如：手机后台激活）
         CustomerSession customerSession = customerService.getCustomerSession(token);
         if (customerSession != null) {
-            return customerSession;
+            if (new MD5Helper().encrypt(passWord).equals(customer.getLoginPassWord())) {
+                return customerSession;
+            }
         }else{
             validateLoginTime(customer, deviceNo);
         }
@@ -253,7 +255,7 @@ public class LoginServiceImpl implements LoginService {
         if (token != null) {
             customerSession = customerService.getCustomerSession(token);
         }else{
-            customerSession = customerDao.findCustomerSessionByCustomer(customer.getCustomerId(), deviceNo);
+            customerSession = customerDao.findCustomerSessionByCustomerId(customer.getCustomerId(), deviceNo);
         }
         Timestamp currentTime = DBHelper.getCurrentTime();
         if (customerSession != null) {//清除
