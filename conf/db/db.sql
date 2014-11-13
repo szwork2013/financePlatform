@@ -1004,12 +1004,9 @@ COMMENT ON TABLE "public"."t_trade" IS '交易表';
 COMMENT ON COLUMN "public"."t_trade"."id" IS '交易主键';
 COMMENT ON COLUMN "public"."t_trade"."trade_no" IS '交易流水号';
 COMMENT ON COLUMN "public"."t_trade"."fee" IS '手续费';
-COMMENT ON COLUMN "public"."t_trade"."type" IS '1:申购 2:赎回 3:分红
-';
-COMMENT ON COLUMN "public"."t_trade"."trade_status" IS '1：存/取钱中、2：存/取钱成功、3：存/取失败【失败原因】
-';
-COMMENT ON COLUMN "public"."t_trade"."confirm_status" IS '0-不需发送；1-待确认；2-待确认；3-部分确认；4-确认完成；5-确认失败
-';
+COMMENT ON COLUMN "public"."t_trade"."type" IS '1:申购 2:赎回 3:分红';
+COMMENT ON COLUMN "public"."t_trade"."trade_status" IS '1：存/取钱中、2：存/取钱成功、3：存/取失败【失败原因】';
+COMMENT ON COLUMN "public"."t_trade"."confirm_status" IS '0-不需发送；1-待确认；2-待确认；3-部分确认；4-确认完成；5-确认失败';
 COMMENT ON COLUMN "public"."t_trade"."trade_time" IS '下单时间';
 COMMENT ON COLUMN "public"."t_trade"."create_time" IS '创建时间';
 COMMENT ON COLUMN "public"."t_trade"."update_time" IS '修改时间';
