@@ -1,11 +1,10 @@
 package models;
 
-
 import javax.persistence.*;
 import java.util.Date;
 
 /**
- * <p>Project: fsp</p>
+ * <p>Project: OperationPlatform</p>
  * <p>Title: ProductManage.java</p>
  * <p>Description: </p>
  * <p>Copyright (c) 2014 Sunlights.cc</p>
@@ -14,104 +13,164 @@ import java.util.Date;
  * @author <a href="mailto:zhencai.yuan@sunlights.cc">yuanzhencai</a>
  */
 @Entity
-@Table(name = "P_PRODUCT_MANAGE")
+@Table(name = "p_product_manage", schema = "public")
 public class ProductManage extends IdEntity {
-  @Column(name = "PRODUCT_NAME")
-  private String productName;
+    @Column(name = "product_name")
+    private String productName;
 
-  @Temporal(TemporalType.TIMESTAMP)
-  @Column(name = "BEGIN_TIME")
-  private Date beginTime;
+    @Temporal(TemporalType.TIMESTAMP)
+    @Column(name = "begin_time")
+    private Date beginTime;
 
-  @Temporal(TemporalType.TIMESTAMP)
-  @Column(name = "END_DATE")
-  private Date endDate;
+    @Temporal(TemporalType.TIMESTAMP)
+    @Column(name = "end_date")
+    private Date endDate;
 
-  @Temporal(TemporalType.TIMESTAMP)
-  @Column(name = "CREATE_TIME")
-  private Date createTime;
+    @Temporal(TemporalType.TIMESTAMP)
+    @Column(name = "create_time")
+    private Date createTime;
 
-  @Temporal(TemporalType.TIMESTAMP)
-  @Column(name = "UPDATE_TIME")
-  private Date updateTime;
-  @Column(name = "PRODUCT_DESC")
-  private String productDesc;
-  @Column(name = "PRODUCT_STATUS")
-  private String productStatus;
-  @Column(name = "URL")
-  private String url;
-  @Column(name = "PRODUCT_CODE")
-  private String productCode;
+    @Temporal(TemporalType.TIMESTAMP)
+    @Column(name = "update_time")
+    private Date updateTime;
 
-  public String getProductName() {
-    return productName;
-  }
+    @Column(name = "product_desc")
+    private String productDesc;
 
-  public void setProductName(String productName) {
-    this.productName = productName;
-  }
+    @Column(name = "product_status")
+    private String productStatus;
 
-  public Date getBeginTime() {
-    return beginTime;
-  }
+    @Column(name = "url")
+    private String url;
 
-  public void setBeginTime(Date beginTime) {
-    this.beginTime = beginTime;
-  }
+    @Column(name = "product_code")
+    private String productCode;
 
-  public Date getEndDate() {
-    return endDate;
-  }
+    @Column(name = "product_type")
+    private String productType;
 
-  public void setEndDate(Date endDate) {
-    this.endDate = endDate;
-  }
 
-  public Date getCreateTime() {
-    return createTime;
-  }
+    public String getProductName() {
+        return productName;
+    }
 
-  public void setCreateTime(Date createTime) {
-    this.createTime = createTime;
-  }
+    public void setProductName(String productName) {
+        this.productName = productName;
+    }
 
-  public Date getUpdateTime() {
-    return updateTime;
-  }
+    public Date getBeginTime() {
+        return beginTime;
+    }
 
-  public void setUpdateTime(Date updateTime) {
-    this.updateTime = updateTime;
-  }
+    public void setBeginTime(Date beginTime) {
+        this.beginTime = beginTime;
+    }
 
-  public String getProductDesc() {
-    return productDesc;
-  }
+    public Date getEndDate() {
+        return endDate;
+    }
 
-  public void setProductDesc(String productDesc) {
-    this.productDesc = productDesc;
-  }
+    public void setEndDate(Date endDate) {
+        this.endDate = endDate;
+    }
 
-  public String getProductStatus() {
-    return productStatus;
-  }
+    public Date getCreateTime() {
+        return createTime;
+    }
 
-  public void setProductStatus(String productStatus) {
-    this.productStatus = productStatus;
-  }
+    public void setCreateTime(Date createTime) {
+        this.createTime = createTime;
+    }
 
-  public String getUrl() {
-    return url;
-  }
 
-  public void setUrl(String url) {
-    this.url = url;
-  }
+    public Date getUpdateTime() {
+        return updateTime;
+    }
 
-  public String getProductCode() {
-    return productCode;
-  }
+    public void setUpdateTime(Date updateTime) {
+        this.updateTime = updateTime;
+    }
 
-  public void setProductCode(String productCode) {
-    this.productCode = productCode;
-  }
+
+    public String getProductDesc() {
+        return productDesc;
+    }
+
+    public void setProductDesc(String productDesc) {
+        this.productDesc = productDesc;
+    }
+
+    public String getProductStatus() {
+        return productStatus;
+    }
+
+    public void setProductStatus(String productStatus) {
+        this.productStatus = productStatus;
+    }
+
+
+    public String getUrl() {
+        return url;
+    }
+
+    public void setUrl(String url) {
+        this.url = url;
+    }
+
+
+    public String getProductCode() {
+        return productCode;
+    }
+
+    public void setProductCode(String productCode) {
+        this.productCode = productCode;
+    }
+
+
+    public String getProductType() {
+        return productType;
+    }
+
+    public void setProductType(String productType) {
+        this.productType = productType;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        ProductManage that = (ProductManage) o;
+
+        if (getId() != that.getId()) return false;
+        if (beginTime != null ? !beginTime.equals(that.beginTime) : that.beginTime != null) return false;
+        if (createTime != null ? !createTime.equals(that.createTime) : that.createTime != null) return false;
+        if (endDate != null ? !endDate.equals(that.endDate) : that.endDate != null) return false;
+        if (productCode != null ? !productCode.equals(that.productCode) : that.productCode != null) return false;
+        if (productDesc != null ? !productDesc.equals(that.productDesc) : that.productDesc != null) return false;
+        if (productName != null ? !productName.equals(that.productName) : that.productName != null) return false;
+        if (productStatus != null ? !productStatus.equals(that.productStatus) : that.productStatus != null)
+            return false;
+        if (productType != null ? !productType.equals(that.productType) : that.productType != null) return false;
+        if (updateTime != null ? !updateTime.equals(that.updateTime) : that.updateTime != null) return false;
+        if (url != null ? !url.equals(that.url) : that.url != null) return false;
+
+        return true;
+    }
+
+    @Override
+    public int hashCode() {
+        int result = (int) (getId() ^ (getId() >>> 32));
+        result = 31 * result + (productName != null ? productName.hashCode() : 0);
+        result = 31 * result + (beginTime != null ? beginTime.hashCode() : 0);
+        result = 31 * result + (endDate != null ? endDate.hashCode() : 0);
+        result = 31 * result + (createTime != null ? createTime.hashCode() : 0);
+        result = 31 * result + (updateTime != null ? updateTime.hashCode() : 0);
+        result = 31 * result + (productDesc != null ? productDesc.hashCode() : 0);
+        result = 31 * result + (productStatus != null ? productStatus.hashCode() : 0);
+        result = 31 * result + (url != null ? url.hashCode() : 0);
+        result = 31 * result + (productCode != null ? productCode.hashCode() : 0);
+        result = 31 * result + (productType != null ? productType.hashCode() : 0);
+        return result;
+    }
 }
