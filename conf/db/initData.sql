@@ -176,24 +176,23 @@ INSERT INTO "public"."c_bank" VALUES ('24', 'CMB', '招商银行', '2014-09-27 1
 -- ----------------------------
 -- Records of parameter
 -- ----------------------------
-INSERT INTO "public"."parameter" VALUES ('1', null, '2014-09-22 11:47:15', 'N', null, '2014-09-22 11:47:15', '实名认证-URL地址', 'CERTIFY_URL', 'http://service.sfxxrz.com/IdentifierService.svc');
-INSERT INTO "public"."parameter" VALUES ('2', null, '2014-09-22 11:46:50', 'N', null, '2014-09-22 11:46:50', '实名认证-帐号密码', 'CERTIFY_PASSWORD', '0DEi9dPb');
-INSERT INTO "public"."parameter" VALUES ('3', null, '2014-09-23 12:13:14', 'N', null, '2014-09-23 12:13:14', '缓存存在时间(min)', 'CACHE_EXPIRY', '60');
-INSERT INTO "public"."parameter" VALUES ('4', null, '2014-09-15 18:28:41', 'N', null, '2014-09-15 18:28:41', '登录失败没到最大次数，隔XXX时间后失败次数清0的时间(min)', 'LOGIN_PERIOD', '60');
-INSERT INTO "public"."parameter" VALUES ('5', null, '2014-09-15 18:27:11', 'N', null, '2014-09-15 18:27:11', '验证码在单位时间内最大次数', 'VERIFYCODE_MAX', '5');
-INSERT INTO "public"."parameter" VALUES ('6', null, '2014-09-15 18:28:27', 'N', null, '2014-09-15 18:28:27', '密码允许错误最大次数', 'PWD_MAX', '5');
-INSERT INTO "public"."parameter" VALUES ('7', null, '2014-09-15 18:28:13', 'N', null, '2014-09-15 18:28:13', '验证码时效时间(min)', 'VERIFYCODE_EXPIRY', '60');
-INSERT INTO "public"."parameter" VALUES ('8', null, '2014-09-22 11:46:26', 'N', null, '2014-09-22 11:46:26', '实名认证-帐号用户名', 'CERTIFY_USERNAME', 'yyzc_admin');
-INSERT INTO "public"."parameter" VALUES ('9', null, '2014-09-15 18:28:51', 'N', null, '2014-09-15 18:28:51', '用户解锁时间(min)', 'USERUNLOCK_PERIOD', '60');
-INSERT INTO "public"."parameter" VALUES ('10', null, '2014-09-15 18:27:58', 'N', null, '2014-09-15 18:27:58', '验证码最大次数的单位时间(min)', 'VERIFYCODE_TIMES', '60');
-INSERT INTO "public"."parameter" VALUES ('11', null, '2014-09-25 11:36:18', 'N', null, '2014-09-25 11:36:18', '实名认证-N真实调用/非N测试模式', 'CERTIFY_TEST', 'Y');
-INSERT INTO "public"."parameter" VALUES ('12', null, '2014-09-18 10:26:36', 'N', null, '2014-09-18 10:26:36', '暂时锁定的时间(min)', 'RELIEVE_SUSLOCK_PERIOD', '30');
-INSERT INTO "public"."parameter" VALUES ('13', null, '2014-09-23 12:13:33', 'N', null, '2014-09-23 12:13:33', 'cookie存在时间(min)', 'COOKIE_EXPIRY', '1440');
-INSERT INTO "public"."parameter" VALUES ('14', null, '2014-09-23 12:13:48', 'N', null, '2014-09-23 12:13:48', '后台CustomerSession有效时间(min)，一般与COOKIE_EXPIRY存在时间一致', 'SESSION_EXPIRY', '1440');
-INSERT INTO "public"."parameter" VALUES ('15', null, '2014-10-15 19:48:37', 'N', null, '2014-10-15 19:48:37', '短信接口-URL地址', 'SMS_URL', 'http://sms.2office.net:8080/WebService/sms3.aspx');
-INSERT INTO "public"."parameter" VALUES ('16', null, '2014-10-15 19:48:58', 'N', null, '2014-10-15 19:48:58', '短信接口-第二办公室门牌号码', 'SMS_ACCOUNT', '2523040');
-INSERT INTO "public"."parameter" VALUES ('17', null, '2014-10-15 19:49:20', 'N', null, '2014-10-15 19:49:20', '短信接口-密码', 'SMS_PASSWORD', 'yiyuezc597');
-INSERT INTO "public"."parameter" VALUES ('18', null, '2014-10-15 19:49:41', 'N', null, '2014-10-15 19:49:41', '短信接口-通道编号', 'SMS_CHANNEL', '252304001');
-INSERT INTO "public"."parameter" VALUES ('19', null, '2014-10-15 19:50:00', 'N', null, '2014-10-15 19:50:00', '短信接口-授权码', 'SMS_WARRANTYCODE', '9a15294089130ec6a8d27502d808a2a1');
-INSERT INTO "public"."parameter" VALUES ('20', null, '2014-10-15 19:53:54', 'N', null, '2014-10-15 19:53:54', '短信接口-N真实调用/非N 测试模式', 'SMS_TEST', 'N');
-
+INSERT INTO "public"."parameter" VALUES ('1', '实名认证-URL地址', 'CERTIFY_URL', 'http://service.sfxxrz.com/IdentifierService.svc', 'Y');
+INSERT INTO "public"."parameter" VALUES ('2', '实名认证-帐号密码', 'CERTIFY_PASSWORD', '0DEi9dPb', 'Y');
+INSERT INTO "public"."parameter" VALUES ('3', '缓存存在时间(min)', 'CACHE_EXPIRY', '60', 'Y');
+INSERT INTO "public"."parameter" VALUES ('4', '登录失败没到最大次数，隔XXX时间后失败次数清0的时间(min)', 'LOGIN_PERIOD', '60', 'Y');
+INSERT INTO "public"."parameter" VALUES ('5', '验证码在单位时间内最大次数', 'VERIFYCODE_MAX', '5', 'Y');
+INSERT INTO "public"."parameter" VALUES ('6', '密码允许错误最大次数', 'PWD_MAX', '5', 'Y');
+INSERT INTO "public"."parameter" VALUES ('7', '验证码时效时间(min)', 'VERIFYCODE_EXPIRY', '60', 'Y');
+INSERT INTO "public"."parameter" VALUES ('8', '实名认证-帐号用户名', 'CERTIFY_USERNAME', 'yyzc_admin', 'Y');
+INSERT INTO "public"."parameter" VALUES ('9', '用户解锁时间(min)', 'USERUNLOCK_PERIOD', '60', 'Y');
+INSERT INTO "public"."parameter" VALUES ('10', '验证码最大次数的单位时间(min)', 'VERIFYCODE_TIMES', '60', 'Y');
+INSERT INTO "public"."parameter" VALUES ('11', '实名认证-N真实调用/非N测试模式', 'CERTIFY_TEST', 'Y', 'Y');
+INSERT INTO "public"."parameter" VALUES ('12', '暂时锁定的时间(min)', 'RELIEVE_SUSLOCK_PERIOD', '30', 'Y');
+INSERT INTO "public"."parameter" VALUES ('13', 'cookie存在时间(min)', 'COOKIE_EXPIRY', '1440', 'Y');
+INSERT INTO "public"."parameter" VALUES ('14', '后台CustomerSession有效时间(min)，一般与COOKIE_EXPIRY存在时间一致', 'SESSION_EXPIRY', '1440', 'Y');
+INSERT INTO "public"."parameter" VALUES ('15', '短信接口-URL地址', 'SMS_URL', 'http://sms.2office.net:8080/WebService/sms3.aspx', 'Y');
+INSERT INTO "public"."parameter" VALUES ('16', '短信接口-第二办公室门牌号码', 'SMS_ACCOUNT', '2523040', 'Y');
+INSERT INTO "public"."parameter" VALUES ('17', '短信接口-密码', 'SMS_PASSWORD', 'yiyuezc597', 'Y');
+INSERT INTO "public"."parameter" VALUES ('18', '短信接口-通道编号', 'SMS_CHANNEL', '252304001', 'Y');
+INSERT INTO "public"."parameter" VALUES ('19', '短信接口-授权码', 'SMS_WARRANTYCODE', '9a15294089130ec6a8d27502d808a2a1', 'Y');
+INSERT INTO "public"."parameter" VALUES ('20', '短信接口-N真实调用/非N 测试模式', 'SMS_TEST', 'N', 'Y');

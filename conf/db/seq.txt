@@ -8,11 +8,6 @@ CREATE SEQUENCE src
   MAXVALUE 9223372036854775807
   START 168
   CACHE 1;
-ALTER TABLE src
-  OWNER TO postgres;
-
-
-
 
 -- Sequence: cust_seq
 
@@ -25,13 +20,9 @@ CREATE SEQUENCE cust_seq
   START 10
   CACHE 1
   CYCLE;
-ALTER TABLE cust_seq
-  OWNER TO postgres;
+
 COMMENT ON SEQUENCE cust_seq
   IS '客户号序列';
-
-
-
 
   -- Sequence: trade_seq
 
@@ -45,6 +36,6 @@ COMMENT ON SEQUENCE cust_seq
     CACHE 1
     CYCLE;
   ALTER TABLE trade_seq
-    OWNER TO postgres;
+    OWNER TO sunlights;
   COMMENT ON SEQUENCE trade_seq
     IS '交易流水号';
