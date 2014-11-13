@@ -62,6 +62,7 @@ public class LoginServiceImpl implements LoginService {
         CustomerSession customerSession = customerService.getCustomerSession(token);
         if (customerSession != null) {
             if (new MD5Helper().encrypt(passWord).equals(customer.getLoginPassWord())) {
+                saveLoginHistory(customer, deviceNo);
                 return customerSession;
             }
         }else{
@@ -104,6 +105,7 @@ public class LoginServiceImpl implements LoginService {
         if (customerSession != null) {
             //并且此次手势密码输入正确  直接返回（用于手势解屏）
             if (new MD5Helper().encrypt(gesturePassWord).equals(customerGesture.getGesturePassword())) {
+                saveLoginHistory(customer, deviceNo);
             	return customerSession;
             }
         }else{
