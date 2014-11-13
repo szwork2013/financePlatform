@@ -2,7 +2,6 @@ package models;
 
 import javax.persistence.*;
 import java.math.BigDecimal;
-import java.sql.Timestamp;
 import java.util.Date;
 
 
@@ -64,171 +63,155 @@ public class Trade extends IdEntity {
   public Trade() {
   }
 
-  public Long getHoldCapitalId() {
-    return holdCapitalId;
-  }
+    public Long getHoldCapitalId() {
+        return holdCapitalId;
+    }
 
-  public void setHoldCapitalId(Long holdCapitalId) {
-    this.holdCapitalId = holdCapitalId;
-  }
+    public void setHoldCapitalId(Long holdCapitalId) {
+        this.holdCapitalId = holdCapitalId;
+    }
 
-  public void setTradeTime(Date tradeTime) {
-    this.tradeTime = tradeTime;
-  }
+    public String getCustId() {
+        return custId;
+    }
 
-  public void setCreateTime(Date createTime) {
-    this.createTime = createTime;
-  }
+    public void setCustId(String custId) {
+        this.custId = custId;
+    }
 
-  public void setUpdateTime(Date updateTime) {
-    this.updateTime = updateTime;
-  }
+    public String getTradeNo() {
+        return tradeNo;
+    }
 
-  public void setDeleteTime(Date deleteTime) {
-    this.deleteTime = deleteTime;
-  }
+    public void setTradeNo(String tradeNo) {
+        this.tradeNo = tradeNo;
+    }
 
-  public String getCustId() {
-    return custId;
-  }
+    public BigDecimal getProductPrice() {
+        return productPrice;
+    }
 
-  public void setCustId(String custId) {
-    this.custId = custId;
-  }
+    public void setProductPrice(BigDecimal productPrice) {
+        this.productPrice = productPrice;
+    }
 
-  public String getTradeNo() {
-    return tradeNo;
-  }
+    public String getProductCode() {
+        return productCode;
+    }
 
-  public void setTradeNo(String tradeNo) {
-    this.tradeNo = tradeNo;
-  }
+    public void setProductCode(String productCode) {
+        this.productCode = productCode;
+    }
 
-  public BigDecimal getFee() {
-    return fee;
-  }
+    public String getProductName() {
+        return productName;
+    }
 
-  public void setFee(BigDecimal fee) {
-    this.fee = fee;
-  }
+    public void setProductName(String productName) {
+        this.productName = productName;
+    }
 
-  public String getType() {
-    return type;
-  }
+    public int getQuantity() {
+        return quantity;
+    }
 
-  public void setType(String type) {
-    this.type = type;
-  }
+    public void setQuantity(int quantity) {
+        this.quantity = quantity;
+    }
 
-  public String getTradeStatus() {
-    return tradeStatus;
-  }
+    public BigDecimal getTradeAmount() {
+        return tradeAmount;
+    }
 
-  public void setTradeStatus(String tradeStatus) {
-    this.tradeStatus = tradeStatus;
-  }
+    public void setTradeAmount(BigDecimal tradeAmount) {
+        this.tradeAmount = tradeAmount;
+    }
 
-  public String getPayStatus() {
-    return payStatus;
-  }
+    public BigDecimal getFee() {
+        return fee;
+    }
 
-  public void setPayStatus(String payStatus) {
-    this.payStatus = payStatus;
-  }
+    public void setFee(BigDecimal fee) {
+        this.fee = fee;
+    }
 
-  public String getConfirmStatus() {
-    return confirmStatus;
-  }
+    public String getType() {
+        return type;
+    }
 
-  public void setConfirmStatus(String confirmStatus) {
-    this.confirmStatus = confirmStatus;
-  }
+    public void setType(String type) {
+        this.type = type;
+    }
 
-  public Date getTradeTime() {
-    return tradeTime;
-  }
+    public String getTradeStatus() {
+        return tradeStatus;
+    }
 
-  public void setTradeTime(Timestamp tradeTime) {
-    this.tradeTime = tradeTime;
-  }
+    public void setTradeStatus(String tradeStatus) {
+        this.tradeStatus = tradeStatus;
+    }
 
-  public Date getCreateTime() {
-    return createTime;
-  }
+    public String getPayStatus() {
+        return payStatus;
+    }
 
-  public void setCreateTime(Timestamp createTime) {
-    this.createTime = createTime;
-  }
+    public void setPayStatus(String payStatus) {
+        this.payStatus = payStatus;
+    }
 
-  public Date getUpdateTime() {
-    return updateTime;
-  }
+    public String getConfirmStatus() {
+        return confirmStatus;
+    }
 
-  public void setUpdateTime(Timestamp updateTime) {
-    this.updateTime = updateTime;
-  }
+    public void setConfirmStatus(String confirmStatus) {
+        this.confirmStatus = confirmStatus;
+    }
 
-  public Date getDeleteTime() {
-    return deleteTime;
-  }
+    public String getBankName() {
+        return bankName;
+    }
 
-  public void setDeleteTime(Timestamp deleteTime) {
-    this.deleteTime = deleteTime;
-  }
+    public void setBankName(String bankName) {
+        this.bankName = bankName;
+    }
 
-  public BigDecimal getTradeAmount() {
-    return tradeAmount;
-  }
+    public String getBankCardNo() {
+        return bankCardNo;
+    }
 
-  public void setTradeAmount(BigDecimal tradeAmount) {
-    this.tradeAmount = tradeAmount;
-  }
+    public void setBankCardNo(String bankCardNo) {
+        this.bankCardNo = bankCardNo;
+    }
 
-  public String getBankName() {
-    return bankName;
-  }
+    public Date getTradeTime() {
+        return tradeTime;
+    }
 
-  public void setBankName(String bankName) {
-    this.bankName = bankName;
-  }
+    public void setTradeTime(Date tradeTime) {
+        this.tradeTime = tradeTime;
+    }
 
-  public String getBankCardNo() {
-    return bankCardNo;
-  }
+    public Date getCreateTime() {
+        return createTime;
+    }
 
-  public void setBankCardNo(String bankCardNo) {
-    this.bankCardNo = bankCardNo;
-  }
+    public void setCreateTime(Date createTime) {
+        this.createTime = createTime;
+    }
 
-  public BigDecimal getProductPrice() {
-    return productPrice;
-  }
+    public Date getUpdateTime() {
+        return updateTime;
+    }
 
-  public void setProductPrice(BigDecimal productPrice) {
-    this.productPrice = productPrice;
-  }
+    public void setUpdateTime(Date updateTime) {
+        this.updateTime = updateTime;
+    }
 
-  public String getProductCode() {
-    return productCode;
-  }
+    public Date getDeleteTime() {
+        return deleteTime;
+    }
 
-  public void setProductCode(String productCode) {
-    this.productCode = productCode;
-  }
-
-  public String getProductName() {
-    return productName;
-  }
-
-  public void setProductName(String productName) {
-    this.productName = productName;
-  }
-
-  public int getQuantity() {
-    return quantity;
-  }
-
-  public void setQuantity(int quantity) {
-    this.quantity = quantity;
-  }
+    public void setDeleteTime(Date deleteTime) {
+        this.deleteTime = deleteTime;
+    }
 }

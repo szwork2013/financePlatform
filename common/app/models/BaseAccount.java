@@ -1,10 +1,7 @@
 package models;
 
-import models.IdEntity;
-
 import javax.persistence.*;
 import java.math.BigDecimal;
-import java.sql.Timestamp;
 import java.util.Date;
 
 
@@ -82,7 +79,7 @@ public class BaseAccount extends IdEntity {
     return createTime;
   }
 
-  public void setCreateTime(Timestamp createTime) {
+  public void setCreateTime(Date createTime) {
     this.createTime = createTime;
   }
 
@@ -90,7 +87,7 @@ public class BaseAccount extends IdEntity {
     return updateTime;
   }
 
-  public void setUpdateTime(Timestamp updateTime) {
+  public void setUpdateTime(Date updateTime) {
     this.updateTime = updateTime;
   }
 
@@ -98,7 +95,7 @@ public class BaseAccount extends IdEntity {
     return deleteTime;
   }
 
-  public void setDeleteTime(Timestamp deleteTime) {
+  public void setDeleteTime(Date deleteTime) {
     this.deleteTime = deleteTime;
   }
 

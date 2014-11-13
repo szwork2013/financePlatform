@@ -1,7 +1,6 @@
 package models;
 
 import javax.persistence.*;
-import java.sql.Timestamp;
 import java.util.Date;
 
 /**
@@ -221,7 +220,7 @@ public class Customer extends IdEntity {
     return createTime;
   }
 
-  public void setCreateTime(Timestamp createTime) {
+  public void setCreateTime(Date createTime) {
     this.createTime = createTime;
   }
 
@@ -237,7 +236,7 @@ public class Customer extends IdEntity {
     return updateTime;
   }
 
-  public void setUpdateTime(Timestamp updateTime) {
+  public void setUpdateTime(Date updateTime) {
     this.updateTime = updateTime;
   }
 
