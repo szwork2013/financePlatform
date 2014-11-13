@@ -33,7 +33,7 @@ public interface CustomerDao {
 
   public CustomerSession findCustomerSessionByToken(String token, Timestamp nMin);
 
-  public CustomerSession findCustomerSessionByCustomer(String customerId, String deviceNo);
+  public CustomerSession findCustomerSessionByCustomerId(String customerId, String deviceNo);
 
   public CustomerSession saveCustomerSession(CustomerSession customerSession);
 

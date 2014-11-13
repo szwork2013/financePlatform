@@ -25,7 +25,7 @@ public interface AccountDao {
 
     public void saveFundAgreement(String customerId, String fundCompanyCode);
 
-    public PrdAccountConfig findPrdAccountConfig(String prdType);
+    public boolean findPrdAccountConfigExist(String prdType, String subAccountNo);
 
     public void savePrdAccountConfig(String subAccountNo, String prdType);
 

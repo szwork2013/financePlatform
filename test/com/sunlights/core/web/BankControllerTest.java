@@ -1,10 +1,7 @@
 package com.sunlights.core.web;
 
-import com.fasterxml.jackson.databind.JsonNode;
 import com.sunlights.BaseTest;
-import com.sunlights.common.AppConst;
 import com.sunlights.common.MsgCode;
-import com.sunlights.common.dal.EntityBaseDao;
 import com.sunlights.common.vo.MessageVo;
 import com.sunlights.common.vo.PageVo;
 import com.sunlights.core.vo.BankCardFormVo;
@@ -42,7 +39,7 @@ public class BankControllerTest extends BaseTest {
     public void init() {
         running(fakeApplication(inMemoryDatabase("test")), new Runnable() {
             public void run() {
-                final String mobilePhoneNo = "18321718279";
+                final String mobilePhoneNo = "13811599308";
                 final String deviceNo = "1111";
 
                 final Map<String, String> formParams = new HashMap<>();

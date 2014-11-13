@@ -13,19 +13,19 @@ public interface CapitalService {
   /**
    * 资产查询
    *
-   * @param mobile
+   * @param token
    * @param takeCapital4Prd 是否显示产品收益情况
    * @return
    */
-  public TotalCapitalInfo getTotalCapital(String mobile, boolean takeCapital4Prd);
+  public TotalCapitalInfo getTotalCapital(String token, boolean takeCapital4Prd);
 
   /**
    * 产品收益情况
    *
-   * @param mobile
+   * @param token
    * @return
    */
-  public List<Capital4Product> getAllCapital4Product(String mobile, PageVo pageVo);
+  public List<Capital4Product> getAllCapital4Product(String token, PageVo pageVo);
 
   /**
    * 产品详情

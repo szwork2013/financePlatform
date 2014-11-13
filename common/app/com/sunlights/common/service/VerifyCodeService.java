@@ -29,7 +29,6 @@ public class VerifyCodeService {
         CommonUtil.getInstance().validateParams(mobilePhoneNo, type);
         checkValidVerifyCode(type);
 
-
         String verifyCode = null;
         Timestamp currentTimestamp = DBHelper.getCurrentTime();
         CustomerVerifyCode preCustomerVerifyCode = customerVerifyCodeDao.findVerifyCodeByType(mobilePhoneNo, type);

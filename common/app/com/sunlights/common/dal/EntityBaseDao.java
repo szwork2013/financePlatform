@@ -466,18 +466,34 @@ public class EntityBaseDao {
   public Query createQuery(final String queryString, final Object... values) {
     Validate.notEmpty(queryString, "queryString不能为空");
     Query query = em.createQuery(queryString);
-    if (values != null) {
-      for (int i = 1; i <= values.length; i++) {
-        Object value = values[i - 1];
-        if (value != null) {
-          query.setParameter(i, value);
-        }
-      }
-    }
-    return query;
+      putQueryParams(query, values);
+      return query;
   }
 
-  /**
+    /**
+     * 根据查询JPQL与参数列表创建Query对象. 与find()函数可进行更加灵活的操作.
+     *
+     * @param values 数量可变的参数,按顺序绑定.
+     */
+    public Query createNameQuery(final String queryName, final Object... values) {
+        Validate.notEmpty(queryName, "queryName不能为空");
+        Query query = em.createNamedQuery(queryName);
+        putQueryParams(query, values);
+        return query;
+    }
+
+    private void putQueryParams(Query query, Object[] values) {
+        if (values != null) {
+            for (int i = 1; i <= values.length; i++) {
+                Object value = values[i - 1];
+                if (value != null) {
+                    query.setParameter(i, value);
+                }
+            }
+        }
+    }
+
+    /**
    * <p>
    * Description:原生SQL查询
    * </p>
@@ -489,15 +505,8 @@ public class EntityBaseDao {
   public Query createLocalQuery(final String queryString, final Object... values) {
     Validate.notEmpty(queryString, "queryString不能为空");
     Query query = em.createNativeQuery(queryString);
-    if (values != null) {
-      for (int i = 1; i <= values.length; i++) {
-        Object value = values[i - 1];
-        if (value != null) {
-          query.setParameter(i, value);
-        }
-      }
-    }
-    return query;
+      putQueryParams(query, values);
+      return query;
   }
 
   /**

@@ -14,6 +14,9 @@ import java.util.Date;
  */
 @Entity
 @Table(name = "c_fund_open_account")
+@NamedQueries({
+        @NamedQuery(name = "findFundOpenAccount", query = "select oa from FundOpenAccount oa where oa.customerId = ?1 and oa.bankCardNo = ?2")
+})
 public class FundOpenAccount extends IdEntity {
   @Column(name = "bank_Card_No", length = 32)
   private String bankCardNo;

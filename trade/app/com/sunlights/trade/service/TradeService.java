@@ -1,7 +1,6 @@
 package com.sunlights.trade.service;
 
 import com.sunlights.account.vo.TotalCapitalInfo;
-import com.sunlights.common.exceptions.BusinessRuntimeException;
 import com.sunlights.common.vo.PageVo;
 import com.sunlights.trade.vo.CapitalProductTradeVo;
 import com.sunlights.trade.vo.TradeFormVo;
@@ -26,7 +25,7 @@ public interface TradeService {
      * @param tradeSearchFormVo
      * @return
      */
-    public List<TradeVo> getTradeListByToken(String token, TradeSearchFormVo tradeSearchFormVo,PageVo pageVo) throws BusinessRuntimeException;
+    public List<TradeVo> getTradeListByToken(String token, TradeSearchFormVo tradeSearchFormVo,PageVo pageVo);
 
     /**
      * 产品详情及记录

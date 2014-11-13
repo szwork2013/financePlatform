@@ -3,7 +3,6 @@ package com.sunlights.core.web;
 import com.sunlights.BaseTest;
 import com.sunlights.common.vo.MessageVo;
 import org.junit.Test;
-import play.test.FakeRequest;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -23,8 +22,7 @@ public class SecurityControllerTest extends BaseTest {
         formParams.put("deviceNo", "deviceNo");
         formParams.put("type", "REGISTER");
 
-        FakeRequest formRequest = fakeRequest(POST, "/core/verificationcode").withHeader("Content-Type", "application/x-www-form-urlencoded").withFormUrlEncodedBody(formParams);
-        play.mvc.Result result = route(formRequest);
+        play.mvc.Result result = getResult("/core/verificationcode", formParams);
         assertThat(status(result)).isEqualTo(OK);
         MessageVo message = toMessageVo(result);
         assertThat(message.getMessage().getCode()).isEqualTo("0000");
@@ -41,8 +39,7 @@ public class SecurityControllerTest extends BaseTest {
         formParams.put("userName", "testusername");
         formParams.put("idCardNo", "254545454545454554");
 
-        FakeRequest formRequest = fakeRequest(POST, "/core/certify").withHeader("Content-Type", "application/x-www-form-urlencoded").withFormUrlEncodedBody(formParams);
-        play.mvc.Result result = route(formRequest);
+        play.mvc.Result result = getResult("/core/certify", formParams);
         assertThat(status(result)).isEqualTo(OK);
         MessageVo message = toMessageVo(result);
         assertThat(message.getMessage().getSeverity() == 0);
@@ -59,8 +56,7 @@ public class SecurityControllerTest extends BaseTest {
         formParams.put("idCardNo", "254545454545454554");
         formParams.put("passWord", "0000");
 
-        FakeRequest formRequest = fakeRequest(POST, "/core/certify").withHeader("Content-Type", "application/x-www-form-urlencoded").withFormUrlEncodedBody(formParams);
-        play.mvc.Result result = route(formRequest);
+        play.mvc.Result result = getResult("/core/certify", formParams);
         assertThat(status(result)).isEqualTo(OK);
         MessageVo message = toMessageVo(result);
         assertThat(message.getMessage().getSeverity() == 0);

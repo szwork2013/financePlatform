@@ -14,7 +14,7 @@ import com.sunlights.core.vo.BankCardVo;
 import com.sunlights.customer.service.impl.CustomerService;
 import models.Bank;
 import models.BankCard;
-import models.Customer;
+import models.CustomerSession;
 import org.apache.commons.lang3.StringUtils;
 import play.db.jpa.Transactional;
 
@@ -39,16 +39,8 @@ public class BankCardServiceImpl implements BankCardService {
 
     @Override
     public List<BankCardVo> findBankCardsByToken(String token, PageVo pageVo) {
-        if (StringUtils.isEmpty(token)) {
-            MessageUtil.getInstance().setMessage(new Message(Severity.INFO, MsgCode.LOGIN_TIMEOUT));
-            return null;
-        }
-        Customer customer = customerService.getCustomerByToken(token);
-        if (customer == null || StringUtils.isEmpty(customer.getCustomerId())) {
-            MessageUtil.getInstance().setMessage(new Message(Severity.ERROR, MsgCode.LOGIN_TIMEOUT));
-            return null;
-        }
-        pageVo.put("EQS_customerId", customer.getCustomerId());
+        CustomerSession customerSession = customerService.getCustomerSession(token);
+        pageVo.put("EQS_customerId", customerSession.getCustomerId());
 
         StringBuilder xsql = new StringBuilder();
         xsql.append(" select new com.sunlights.core.vo.BankCardVo(c,b)");
@@ -69,17 +61,9 @@ public class BankCardServiceImpl implements BankCardService {
     @Transactional
     @Override
     public BankCard createBankCard(String token, BankCardVo bankCardVo) {
-        if (StringUtils.isEmpty(token)) {
-            MessageUtil.getInstance().setMessage(new Message(Severity.INFO, MsgCode.LOGIN_TIMEOUT));
-            return null;
-        }
-        Customer customer = customerService.getCustomerByToken(token);
-        if (customer == null || StringUtils.isEmpty(customer.getCustomerId())) {
-            MessageUtil.getInstance().setMessage(new Message(Severity.ERROR, MsgCode.LOGIN_TIMEOUT));
-            return null;
-        }
+        CustomerSession customerSession = customerService.getCustomerSession(token);
         BankCard bankCard = new BankCard();
-        bankCard.setCustomerId(customer.getCustomerId());
+        bankCard.setCustomerId(customerSession.getCustomerId());
         if (StringUtils.isEmpty(bankCardVo.getBankCode())) {
             MessageUtil.getInstance().setMessage(new Message(Severity.ERROR, MsgCode.BIND_CARD_FAIL_EMPTY_BANK));
             return null;
@@ -105,15 +89,6 @@ public class BankCardServiceImpl implements BankCardService {
     @Transactional
     @Override
     public boolean deleteBankCard(String token, BankCardVo bankCardVo) {
-        if (StringUtils.isEmpty(token)) {
-            MessageUtil.getInstance().setMessage(new Message(Severity.INFO, MsgCode.LOGIN_TIMEOUT));
-            return false;
-        }
-        Customer customer = customerService.getCustomerByToken(token);
-        if (customer == null || StringUtils.isEmpty(customer.getCustomerId())) {
-            MessageUtil.getInstance().setMessage(new Message(Severity.ERROR, MsgCode.LOGIN_TIMEOUT));
-            return false;
-        }
         bankCardDao.deleteById(Long.valueOf(bankCardVo.getId()));
         MessageUtil.getInstance().setMessage(new Message(Severity.INFO, MsgCode.BANK_CARD_DELETE_SUCCESS));
         return true;

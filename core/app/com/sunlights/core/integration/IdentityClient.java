@@ -44,7 +44,7 @@ public class IdentityClient {
         String url = parameterService.getParameterByName(AppConst.CERTIFY_URL);
         String testMode = parameterService.getParameterByName(AppConst.CERTIFY_TEST);
         String returnStr = null;
-        if (AppConst.STATUS_VALID.equals(testMode)) {
+        if (!AppConst.STATUS_VALID.equals(testMode)) {
             Logger.info("================实名认证==============");
             try {
                 SimpleCheckByJson scbj = new SimpleCheckByJson();

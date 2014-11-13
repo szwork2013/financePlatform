@@ -18,52 +18,34 @@ import java.util.List;
  */
 
 public class LoginDaoImpl extends EntityBaseDao implements LoginDao {
-  @Override
-  public LoginHistory saveLoginHistory(LoginHistory loginHistory) {
-    return create(loginHistory);
-  }
-
-  @Override
-  public LoginHistory updateLoginHistory(LoginHistory loginHistory) {
-    return update(loginHistory);
-  }
-
-  public LoginHistory findByPwd(String customerId, String deviceNo) {
-    Query query = em.createQuery("select c FROM LoginHistory c where c.customerId = ?0 " +
-        "and c.deviceNo = ?1 and c.pwdInd = 'Y'" +
-        "order by c.createTime desc", LoginHistory.class);
-    query.setParameter(0, customerId);
-    query.setParameter(1, deviceNo);
-    List<LoginHistory> list = query.getResultList();
-    if (list != null && list.size() != 0) {
-      return list.get(0);
+    @Override
+    public LoginHistory saveLoginHistory(LoginHistory loginHistory) {
+        return create(loginHistory);
     }
-    return null;
-  }
 
-  public LoginHistory findByGesturePwd(String customerId, String deviceNo) {
-    Query query = em.createQuery("select c FROM LoginHistory c where c.customerId = ?0 " +
-            "and c.deviceNo = ?1 and c.gestureInd = 'Y'" +
-            "order by c.createTime desc", LoginHistory.class);
-    query.setParameter(0, customerId);
-    query.setParameter(1, deviceNo);
-    List<LoginHistory> list = query.getResultList();
-    if (list != null && list.size() != 0) {
-      return list.get(0);
+    @Override
+    public LoginHistory updateLoginHistory(LoginHistory loginHistory) {
+        return update(loginHistory);
     }
-    return null;
-  }
 
-  public LoginHistory findByLoginCustomer(String customerId, String deviceNo) {
-    Query query = em.createQuery("select c FROM LoginHistory c where c.customerId = ?0 " +
-        "and c.deviceNo = ?1 and c.successInd = 'Y' and c.loginTime is not null " +
-        "and c.logoutTime is null order by c.createTime desc", LoginHistory.class);
-    query.setParameter(0, customerId);
-    query.setParameter(1, deviceNo);
-    List<LoginHistory> list = query.getResultList();
-    if (list != null && list.size() != 0) {
-      return list.get(0);
+    public LoginHistory findByPwd(String customerId, String deviceNo) {
+        return getLoginHistory(customerId, deviceNo, "findByPwd");
     }
-    return null;
-  }
+
+    public LoginHistory findByGesturePwd(String customerId, String deviceNo) {
+        return getLoginHistory(customerId, deviceNo, "findByGesturePwd");
+    }
+
+    public LoginHistory findByLoginCustomer(String customerId, String deviceNo) {
+        return getLoginHistory(customerId, deviceNo, "findByLoginCustomer");
+    }
+
+    private LoginHistory getLoginHistory(String customerId, String deviceNo, String queryName) {
+        Query query = createNameQuery(queryName, customerId, deviceNo);
+        List<LoginHistory> list = query.getResultList();
+        if (list.isEmpty()) {
+            return null;
+        }
+        return list.get(0);
+    }
 }

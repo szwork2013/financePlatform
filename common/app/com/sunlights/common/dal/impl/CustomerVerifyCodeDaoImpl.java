@@ -29,14 +29,12 @@ public class CustomerVerifyCodeDaoImpl extends EntityBaseDao implements Customer
   }
 
   public CustomerVerifyCode findVerifyCodeByType(String mobilePhoneNo, String verifyType) {
-    Query query = em.createNativeQuery("select c.* FROM c_customer_verify_code c where c.mobile = ?0 and c.verify_type = ?1 and c.status = 'Y' order by create_time desc", CustomerVerifyCode.class);
-    query.setParameter(0, mobilePhoneNo);
-    query.setParameter(1, verifyType);
+    Query query = createNameQuery("findVerifyCodeByType", mobilePhoneNo, verifyType);
     List<CustomerVerifyCode> list = query.getResultList();
-    if (list != null && list.size() != 0) {
-      return list.get(0);
+    if (list.isEmpty()) {
+        return null;
     }
-    return null;
+      return list.get(0);
   }
 
 }

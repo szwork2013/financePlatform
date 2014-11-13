@@ -1,15 +1,13 @@
 package com.sunlights.core.web;
 
 import com.sunlights.BaseTest;
+import com.sunlights.common.service.VerifyCodeService;
 import com.sunlights.common.vo.MessageVo;
-import models.CustomerVerifyCode;
 import org.junit.Test;
 import play.Logger;
 import play.db.jpa.JPA;
 import play.libs.F;
-import play.test.FakeRequest;
 
-import javax.persistence.Query;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -23,8 +21,8 @@ public class RegisterControllerTest extends BaseTest {
   public void testRegister() throws Exception {
     running(fakeApplication(), new Runnable() {
       public void run() {
-        final String mobilePhoneNo = "18522222225";
-        final String deviceNo = "1111";
+        final String mobilePhoneNo = "18522222227";
+        final String deviceNo = getDeviceNo();
         final String type = "REGISTER";
 
         final Map<String, String> formParams = new HashMap<>();
@@ -33,8 +31,7 @@ public class RegisterControllerTest extends BaseTest {
         formParams.put("type", type);
         formParams.put("passWord", "1");
 
-        FakeRequest formRequest = fakeRequest(POST, "/core/verificationcode").withHeader(CONTENT_TYPE, APPLICATION_X_WWW_FORM_URLENCODED).withFormUrlEncodedBody(formParams);
-        play.mvc.Result result = route(formRequest);
+        play.mvc.Result result = getResult("/core/verificationcode", formParams);
 
         assertThat(status(result)).isEqualTo(OK);
         MessageVo message = toMessageVo(result);
@@ -44,16 +41,13 @@ public class RegisterControllerTest extends BaseTest {
         JPA.withTransaction(new F.Callback0() {
           @Override
           public void invoke() throws Throwable {
-            Query query = JPA.em().createNativeQuery("select c.* FROM c_customer_verify_code c where c.mobile = ?0 and c.verify_type = ?1 and c.status = 'N' order by create_time desc", CustomerVerifyCode.class);
-            query.setParameter(0, mobilePhoneNo);
-            query.setParameter(1, type);
-            CustomerVerifyCode customerVerifyCode = (CustomerVerifyCode) query.getSingleResult();
-            formParams.put("verifyCode", customerVerifyCode.getVerifyCode());
+              VerifyCodeService verifyCodeService = new VerifyCodeService();
+              String verifyCode = verifyCodeService.genVerificationCode(mobilePhoneNo, type, deviceNo);
+              formParams.put("verifyCode", verifyCode);
           }
         });
 
-        formRequest = fakeRequest(POST, "/core/register").withHeader(CONTENT_TYPE, APPLICATION_X_WWW_FORM_URLENCODED).withFormUrlEncodedBody(formParams);
-        result = route(formRequest);
+        result = getResult("/core/register", formParams);
         Logger.info(result.toString());
         assertThat(status(result)).isEqualTo(OK);
 

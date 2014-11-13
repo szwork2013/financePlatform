@@ -12,6 +12,7 @@ import com.sunlights.core.service.impl.BankCardServiceImpl;
 import com.sunlights.core.service.impl.BankServiceImpl;
 import com.sunlights.core.vo.BankCardFormVo;
 import com.sunlights.core.vo.BankVo;
+import com.sunlights.customer.service.impl.CustomerService;
 import play.data.Form;
 import play.db.jpa.Transactional;
 import play.libs.Json;
@@ -20,8 +21,6 @@ import play.mvc.Http;
 import play.mvc.Result;
 
 import java.util.List;
-
-import static play.mvc.Controller.request;
 
 /**
  * <p>Project: fsp</p>
@@ -35,109 +34,114 @@ import static play.mvc.Controller.request;
 @Transactional
 public class BankController extends Controller {
 
-  private Form<PageVo> pagerForm = Form.form(PageVo.class);
-  private Form<BankCardFormVo> bankCardForm = Form.form(BankCardFormVo.class);
+    private Form<PageVo> pagerForm = Form.form(PageVo.class);
+    private Form<BankCardFormVo> bankCardForm = Form.form(BankCardFormVo.class);
 
-  private BankService bankService = new BankServiceImpl();
-  private BankCardService bankCardService = new BankCardServiceImpl();
+    private BankService bankService = new BankServiceImpl();
+    private BankCardService bankCardService = new BankCardServiceImpl();
+    private CustomerService customerService = new CustomerService();
 
-  public Result createBankCard() {
-    BankCardFormVo bankCardVo = null;
-    Http.RequestBody body = request().body();
-    if (body.asJson() != null) {
-      bankCardVo = Json.fromJson(body.asJson(), BankCardFormVo.class);
+    public Result createBankCard() {
+        BankCardFormVo bankCardVo = null;
+        Http.RequestBody body = request().body();
+        if (body.asJson() != null) {
+            bankCardVo = Json.fromJson(body.asJson(), BankCardFormVo.class);
+        }
+        if (body.asFormUrlEncoded() != null) {
+            bankCardVo = bankCardForm.bindFromRequest().get();
+        }
+        play.Logger.info("[bankCardVo]" + Json.toJson(bankCardVo));
+        Http.Cookie cookie = Controller.request().cookie(AppConst.TOKEN);
+        String token = cookie == null ? null : cookie.value();
+        customerService.validateCustomerSession(request(), session(), response());
+        bankCardService.createBankCard(token, bankCardVo);
+        return ok(MessageUtil.getInstance().toJson());
     }
-    if (body.asFormUrlEncoded() != null) {
-      bankCardVo = bankCardForm.bindFromRequest().get();
-    }
-    play.Logger.info("[bankCardVo]" + Json.toJson(bankCardVo));
-    Http.Cookie cookie = Controller.request().cookie(AppConst.TOKEN);
-    String token = cookie == null ? null : cookie.value();
-    bankCardService.createBankCard(token, bankCardVo);
-    return ok(MessageUtil.getInstance().toJson());
-  }
 
 
-  public Result deleteBankCards() {
-    BankCardFormVo bankCardVo = null;
-    Http.RequestBody body = request().body();
-    if (body.asJson() != null) {
-      bankCardVo = Json.fromJson(body.asJson(), BankCardFormVo.class);
+    public Result deleteBankCards() {
+        BankCardFormVo bankCardVo = null;
+        Http.RequestBody body = request().body();
+        if (body.asJson() != null) {
+            bankCardVo = Json.fromJson(body.asJson(), BankCardFormVo.class);
+        }
+        if (body.asFormUrlEncoded() != null) {
+            bankCardVo = bankCardForm.bindFromRequest().get();
+        }
+        play.Logger.info("[bankCardVo]" + Json.toJson(bankCardVo));
+        Http.Cookie cookie = Controller.request().cookie(AppConst.TOKEN);
+        String token = cookie == null ? null : cookie.value();
+        customerService.validateCustomerSession(request(), session(), response());
+        bankCardService.deleteBankCard(token, bankCardVo);
+        return ok(MessageUtil.getInstance().toJson());
     }
-    if (body.asFormUrlEncoded() != null) {
-      bankCardVo = bankCardForm.bindFromRequest().get();
-    }
-    play.Logger.info("[bankCardVo]" + Json.toJson(bankCardVo));
-    Http.Cookie cookie = Controller.request().cookie(AppConst.TOKEN);
-    String token = cookie == null ? null : cookie.value();
-    bankCardService.deleteBankCard(token, bankCardVo);
-    return ok(MessageUtil.getInstance().toJson());
-  }
 
-  public Result validateBankCard() {
-    BankCardFormVo bankCardVo = null;
-    Http.RequestBody body = request().body();
-    if (body.asJson() != null) {
-      bankCardVo = Json.fromJson(body.asJson(), BankCardFormVo.class);
+    public Result validateBankCard() {
+        BankCardFormVo bankCardVo = null;
+        Http.RequestBody body = request().body();
+        if (body.asJson() != null) {
+            bankCardVo = Json.fromJson(body.asJson(), BankCardFormVo.class);
+        }
+        if (body.asFormUrlEncoded() != null) {
+            bankCardVo = bankCardForm.bindFromRequest().get();
+        }
+        play.Logger.info("[bankCardVo]" + Json.toJson(bankCardVo));
+        Http.Cookie cookie = Controller.request().cookie(AppConst.TOKEN);
+        String token = cookie == null ? null : cookie.value();
+        customerService.validateCustomerSession(request(), session(), response());
+        boolean validated = bankService.validateBankCard(token, bankCardVo);
+        if (validated) {
+            MessageUtil.getInstance().setMessage(new Message(Severity.INFO, MsgCode.OPERATE_SUCCESS), true);
+        } else {
+            MessageUtil.getInstance().setMessage(new Message(Severity.INFO, MsgCode.BANK_CARD_CERTIFY_FAIL), false);
+        }
+        return ok(MessageUtil.getInstance().toJson());
     }
-    if (body.asFormUrlEncoded() != null) {
-      bankCardVo = bankCardForm.bindFromRequest().get();
-    }
-    play.Logger.info("[bankCardVo]" + Json.toJson(bankCardVo));
-    Http.Cookie cookie = Controller.request().cookie(AppConst.TOKEN);
-    String token = cookie == null ? null : cookie.value();
-    boolean validated = bankService.validateBankCard(token, bankCardVo);
-    if (validated) {
-      MessageUtil.getInstance().setMessage(new Message(Severity.INFO, MsgCode.OPERATE_SUCCESS), true);
-    } else {
-      MessageUtil.getInstance().setMessage(new Message(Severity.INFO, MsgCode.BANK_CARD_CERTIFY_FAIL), false);
-    }
-    return ok(MessageUtil.getInstance().toJson());
-  }
 
-  public Result findBankCards() {
-    PageVo pageVo = new PageVo();
-    Http.RequestBody body = request().body();
-    if (body.asJson() != null) {
-      pageVo = Json.fromJson(body.asJson(), PageVo.class);
+    public Result findBankCards() {
+        PageVo pageVo = new PageVo();
+        Http.RequestBody body = request().body();
+        if (body.asJson() != null) {
+            pageVo = Json.fromJson(body.asJson(), PageVo.class);
+        }
+        if (body.asFormUrlEncoded() != null) {
+            pageVo = pagerForm.bindFromRequest().get();
+        }
+        Http.Cookie cookie = Controller.request().cookie(AppConst.TOKEN);
+        String token = cookie == null ? null : cookie.value();
+        customerService.validateCustomerSession(request(), session(), response());
+        bankCardService.findBankCardsByToken(token, pageVo);
+        return ok(MessageUtil.getInstance().toJson());
     }
-    if (body.asFormUrlEncoded() != null) {
-      pageVo = pagerForm.bindFromRequest().get();
-    }
-    Http.Cookie cookie = Controller.request().cookie(AppConst.TOKEN);
-    String token = cookie == null ? null : cookie.value();
-    bankCardService.findBankCardsByToken(token, pageVo);
-    return ok(MessageUtil.getInstance().toJson());
-  }
 
-  public Result findBankByBankCardNo() {
-    BankCardFormVo bankCardVo = null;
-    Http.RequestBody body = request().body();
-    if (body.asJson() != null) {
-      bankCardVo = Json.fromJson(body.asJson(), BankCardFormVo.class);
+    public Result findBankByBankCardNo() {
+        BankCardFormVo bankCardVo = null;
+        Http.RequestBody body = request().body();
+        if (body.asJson() != null) {
+            bankCardVo = Json.fromJson(body.asJson(), BankCardFormVo.class);
+        }
+        if (body.asFormUrlEncoded() != null) {
+            bankCardVo = bankCardForm.bindFromRequest().get();
+        }
+        play.Logger.info("[bankCardVo]" + Json.toJson(bankCardVo));
+        BankVo bankVo = bankService.findBankByBankCardNo(bankCardVo.getNo());
+        MessageUtil.getInstance().setMessage(new Message(Severity.INFO, MsgCode.OPERATE_SUCCESS), bankVo);
+        return ok(MessageUtil.getInstance().toJson());
     }
-    if (body.asFormUrlEncoded() != null) {
-      bankCardVo = bankCardForm.bindFromRequest().get();
-    }
-    play.Logger.info("[bankCardVo]" + Json.toJson(bankCardVo));
-    BankVo bankVo = bankService.findBankByBankCardNo(bankCardVo.getNo());
-    MessageUtil.getInstance().setMessage(new Message(Severity.INFO, MsgCode.OPERATE_SUCCESS), bankVo);
-    return ok(MessageUtil.getInstance().toJson());
-  }
 
-  public Result findBanks() {
-    PageVo pageVo = new PageVo();
-    Http.RequestBody body = request().body();
+    public Result findBanks() {
+        PageVo pageVo = new PageVo();
+        Http.RequestBody body = request().body();
 
-    if (body.asJson() != null) {
-      pageVo = Json.fromJson(body.asJson(), PageVo.class);
+        if (body.asJson() != null) {
+            pageVo = Json.fromJson(body.asJson(), PageVo.class);
+        }
+        if (body.asFormUrlEncoded() != null) {
+            pageVo = pagerForm.bindFromRequest().get();
+        }
+        play.Logger.info("[pager]" + Json.toJson(pageVo));
+        List<BankVo> bankVos = bankService.findBanksBy(pageVo);
+        MessageUtil.getInstance().setMessage(new Message(Severity.INFO, MsgCode.OPERATE_SUCCESS), bankVos);
+        return ok(MessageUtil.getInstance().toJson());
     }
-    if (body.asFormUrlEncoded() != null) {
-      pageVo = pagerForm.bindFromRequest().get();
-    }
-    play.Logger.info("[pager]" + Json.toJson(pageVo));
-    List<BankVo> bankVos = bankService.findBanksBy(pageVo);
-    MessageUtil.getInstance().setMessage(new Message(Severity.INFO, MsgCode.OPERATE_SUCCESS), bankVos);
-    return ok(MessageUtil.getInstance().toJson());
-  }
 }

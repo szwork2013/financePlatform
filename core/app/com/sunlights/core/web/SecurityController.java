@@ -64,7 +64,7 @@ public class SecurityController extends Controller {
 
         String verifyCode = verifyCodeService.genVerificationCode(mobilePhoneNo, verifyType, deviceNo);
 
-        if (AppConst.STATUS_VALID.equals(parameterService.getParameterByName(AppConst.SMS_TEST))) {
+        if (!AppConst.STATUS_VALID.equals(parameterService.getParameterByName(AppConst.SMS_TEST))) {
             smsMessageService.tellActor(mobilePhoneNo, verifyCode, verifyType);
         }
 

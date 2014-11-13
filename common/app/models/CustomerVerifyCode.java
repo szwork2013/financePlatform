@@ -11,6 +11,9 @@ import java.util.Date;
  */
 @Entity
 @Table(name = "C_CUSTOMER_VERIFY_CODE")
+@NamedQueries({
+        @NamedQuery(name = "findVerifyCodeByType", query = "select c FROM CustomerVerifyCode c where c.mobile = ?1 and c.verifyType = ?2 and c.status = 'Y' order by createTime desc")
+})
 public class CustomerVerifyCode extends IdEntity {
     @Column(length = 40,name = "VERIFY_CODE")
     private String verifyCode; // 验证码

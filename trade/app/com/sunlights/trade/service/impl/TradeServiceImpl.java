@@ -61,12 +61,8 @@ public class TradeServiceImpl implements TradeService {
     private PaymentService paymentService = new PaymentService();
 
     @Override
-    public List<TradeVo> getTradeListByToken(String token, TradeSearchFormVo tradeSearchFormVo, PageVo pageVo) throws BusinessRuntimeException{
-
+    public List<TradeVo> getTradeListByToken(String token, TradeSearchFormVo tradeSearchFormVo, PageVo pageVo){
         CustomerSession customerSession = customerService.getCustomerSession(token);
-        if (customerSession == null) {
-            throw new BusinessRuntimeException(new Message(Severity.ERROR, MsgCode.LOGIN_TIMEOUT));
-        }
         List<TradeVo> list = tradeDao.getTradeListByCustomerId(customerSession.getCustomerId(), tradeSearchFormVo,pageVo);
         return list;
     }
@@ -97,9 +93,9 @@ public class TradeServiceImpl implements TradeService {
         String quantity = tradeFormVo.getQuantity();
 
         CommonUtil.getInstance().validateParams(bankCardNo, prdCode, prdType, mobilePhoneNo, deviceNo,tradeAmount,quantity);
+        tradeValidate(mobilePhoneNo, deviceNo);
 
         CustomerSession customerSession = customerService.getCustomerSession(token);
-        tradeValidate(mobilePhoneNo, deviceNo, customerSession);
         String customerId = customerSession.getCustomerId();
 
         PageVo pageVo = new PageVo();
@@ -140,10 +136,7 @@ public class TradeServiceImpl implements TradeService {
         return totalCapitalInfo;
     }
 
-    private void tradeValidate(String mobilePhoneNo, String deviceNo, CustomerSession customerSession) {
-        if (customerSession == null){
-            throw new BusinessRuntimeException(new Message(Severity.ERROR, MsgCode.LOGIN_TIMEOUT));
-        }
+    private void tradeValidate(String mobilePhoneNo, String deviceNo) {
         CustomerVo customerVo = customerService.getCustomerVoByPhoneNo(mobilePhoneNo, deviceNo);
         if ("0".equals(customerVo.getCertify())) {
             throw new BusinessRuntimeException(new Message(Severity.ERROR, MsgCode.BANK_NAME_CERTIFY_FAIL));
@@ -181,7 +174,7 @@ public class TradeServiceImpl implements TradeService {
         Timestamp currentTime = DBHelper.getCurrentTime();
 
         Trade trade = new Trade();
-        trade.setTradeNo(formatTradeNo(tradeDao.getTradeNoSeq(), currentTime));
+        trade.setTradeNo(generateTradeNo());
         if ("1".equals(type)) {//申购
             trade.setType("1");//
             trade.setTradeAmount(new BigDecimal(tradeAmount));
@@ -202,17 +195,15 @@ public class TradeServiceImpl implements TradeService {
         trade.setProductCode(prdCode);
         trade.setProductName(fund.getChiName());
         trade.setProductPrice(fund.getMinApplyAmount());
-        if (fund.getCharge() != null) {
-            trade.setFee(fund.getCharge());
-        }
+        trade.setFee(fund.getCharge() == null ? BigDecimal.ZERO : fund.getCharge());
         return tradeDao.saveTrade(trade);
     }
 
 
-    private String formatTradeNo(String tradeNoSeq, Timestamp currentTime){
+    private String generateTradeNo(){
         SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMddHHmmssss");
-        String time = sdf.format(currentTime);
-        return time + tradeNoSeq;
+        String time = sdf.format(DBHelper.getCurrentTime());
+        return time + tradeDao.getTradeNoSeq();
     }
 
 
@@ -225,9 +216,9 @@ public class TradeServiceImpl implements TradeService {
         String quantity = tradeFormVo.getQuantity();
 
         CommonUtil.getInstance().validateParams(prdCode, prdType, mobilePhoneNo, deviceNo,tradeAmount,quantity);
+        tradeValidate(mobilePhoneNo, deviceNo);
 
         CustomerSession customerSession = customerService.getCustomerSession(token);
-        tradeValidate(mobilePhoneNo, deviceNo, customerSession);
         String customerId = customerSession.getCustomerId();
 
         List<BankCardVo> bankCardVoList = bankCardService.findBankCardsByToken(token, new PageVo());//TODO 暂时只支持一张银行卡

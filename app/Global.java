@@ -1,5 +1,3 @@
-import static play.mvc.Results.ok;
-
 import com.fasterxml.jackson.databind.JsonNode;
 import com.sunlights.common.Severity;
 import com.sunlights.common.exceptions.BusinessRuntimeException;
@@ -16,6 +14,8 @@ import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.text.MessageFormat;
 
+import static play.mvc.Results.ok;
+
 public class Global extends GlobalSettings {
   private static final String PATH_APP = "/.*";
 
@@ -23,6 +23,8 @@ public class Global extends GlobalSettings {
   public void onStart(Application application) {
     super.onStart(application);
   }
+
+
 
   @Override
   public F.Promise<Result> onError(Http.RequestHeader reqHeader, Throwable reqthrow) {

@@ -48,17 +48,10 @@ public class AccountServiceImpl implements AccountService {
             return ;
         }
         accountDao.saveFundAgreement(custId, fundCompanyCode);
-
-        //查询是否设置产品账户关系
-        PrdAccountConfig prdAccountConfig = accountDao.findPrdAccountConfig(prdType);
-        if (prdAccountConfig != null) {
-            return ;
-        }
+        Timestamp currentTime = DBHelper.getCurrentTime();
 
         //创建子帐号
         BaseAccount baseAccount = accountDao.getBaseAccount(custId);
-
-        Timestamp currentTime = DBHelper.getCurrentTime();
         SubAccount subAccount = new SubAccount();
         subAccount.setCustId(custId);
         subAccount.setBasicAccount(baseAccount.getBaseAccountNo());
@@ -68,7 +61,11 @@ public class AccountServiceImpl implements AccountService {
         subAccount.setUpdateTime(currentTime);
         accountDao.saveSubAccount(subAccount);
 
-        accountDao.savePrdAccountConfig(subAccount.getSubAccount(), prdType);
+        //查询是否设置产品账户关系
+        boolean prdAccountConfigExist = accountDao.findPrdAccountConfigExist(prdType, subAccount.getSubAccount());
+        if (!prdAccountConfigExist) {
+            accountDao.savePrdAccountConfig(subAccount.getSubAccount(), prdType);
+        }
 	}
 
 	@Override

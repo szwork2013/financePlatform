@@ -42,12 +42,9 @@ public class AccountDaoImpl extends EntityBaseDao implements AccountDao {
 
     @Override
     public SubAccount findSubAccount(String customerId, String prdType) {
-        String sql = "select sa from SubAccount sa,PrdAccountConfig pc where sa.subAccount = pc.subAccount and sa.custId = ?0 and pc.prdTypeCode = ?1";
-        Query query = em.createQuery(sql);
-        query.setParameter(0, customerId);
-        query.setParameter(1, prdType);
+        Query query =  createNameQuery("findSubAccount", customerId, prdType);
         List<SubAccount> list = query.getResultList();
-        if (list == null || list.isEmpty()) {
+        if (list.isEmpty()) {
             return null;
         }
         return list.get(0);
@@ -60,7 +57,7 @@ public class AccountDaoImpl extends EntityBaseDao implements AccountDao {
         query.setParameter(0, customerId);
         query.setParameter(1, fundCompanyCode);
         List list = query.getResultList();
-        if (list == null || list.isEmpty()) {
+        if (list.isEmpty()) {
             return false;
         }
         return true;
@@ -77,12 +74,16 @@ public class AccountDaoImpl extends EntityBaseDao implements AccountDao {
         create(fundAgreement);
     }
 
-    public PrdAccountConfig findPrdAccountConfig(String prdType){
-        List<PrdAccountConfig> list = findBy(PrdAccountConfig.class, "prdTypeCode", prdType);
-        if (list == null || list.isEmpty()) {
-            return null;
+    public boolean findPrdAccountConfigExist(String prdType, String subAccountNo){
+        String sql = "select 1 from prd_account_config fa where fa.prd_type_code = ?0 and sub_account = ?1";
+        Query query = em.createNativeQuery(sql);
+        query.setParameter(0, prdType);
+        query.setParameter(1, subAccountNo);
+        List list = query.getResultList();
+        if (list.isEmpty()) {
+            return false;
         }
-        return list.get(0);
+        return true;
     }
 
     public void savePrdAccountConfig(String subAccountNo, String prdType){

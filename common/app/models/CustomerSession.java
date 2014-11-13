@@ -11,6 +11,9 @@ import java.util.Date;
  */
 @Entity
 @Table(name = "C_CUSTOMER_SESSION")
+@NamedQueries({
+        @NamedQuery(name="findCSByCustomerId",query="select c from CustomerSession c where c.customerId = ?1 and c.deviceNo = ?2 and c.status = 'Y' order by createTime desc")
+})
 public class CustomerSession extends IdEntity {
     @Column(length = 30,name = "CUSTOMER_ID")
     private String customerId;

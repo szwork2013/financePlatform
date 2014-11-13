@@ -32,55 +32,55 @@ import play.mvc.Result;
  */
 @Transactional
 public class BaseAccountController extends Controller {
-  private Form<CustomerFormVo> customerFormVo = Form.form(CustomerFormVo.class);
+    private Form<CustomerFormVo> customerFormVo = Form.form(CustomerFormVo.class);
 
-  private AccountService accountService = new AccountServiceImpl();
+    private AccountService accountService = new AccountServiceImpl();
 
-  private CustomerService customerService = new CustomerService();
+    private CustomerService customerService = new CustomerService();
 
-  private VerifyCodeService verifyCodeService = new VerifyCodeService();
+    private VerifyCodeService verifyCodeService = new VerifyCodeService();
 
-  /**
-   * 验证交易密码设置/修改
-   *
-   * @return
-   */
-  public Result resetAccountPwdCertify() {
-    Logger.info("=================resetTradePwdCertify==========");
-    CustomerFormVo customerFormVo = this.customerFormVo.bindFromRequest().get();
-    accountService.resetTradePwdCertify(customerFormVo);
+    /**
+     * 验证交易密码设置/修改
+     *
+     * @return
+     */
+    public Result resetAccountPwdCertify() {
+        Logger.info("=================resetTradePwdCertify==========");
+        CustomerFormVo customerFormVo = this.customerFormVo.bindFromRequest().get();
+        accountService.resetTradePwdCertify(customerFormVo);
 
-    CustomerVerifyCodeVo customerVerifyCodeVo = new CustomerVerifyCodeVo();
-    customerVerifyCodeVo.setMobile(customerFormVo.getMobilePhoneNo());
-    customerVerifyCodeVo.setVerifyType(AppConst.VERIFY_CODE_RESET_ACCOUNT);
-    customerVerifyCodeVo.setDeviceNo(customerFormVo.getDeviceNo());
-    customerVerifyCodeVo.setVerifyCode(customerFormVo.getVerifyCode());
-    MsgCode msgCode = verifyCodeService.validateVerifyCode(customerVerifyCodeVo);
-    MessageVo messageVo = new MessageVo(new Message(msgCode));
+        CustomerVerifyCodeVo customerVerifyCodeVo = new CustomerVerifyCodeVo();
+        customerVerifyCodeVo.setMobile(customerFormVo.getMobilePhoneNo());
+        customerVerifyCodeVo.setVerifyType(AppConst.VERIFY_CODE_RESET_ACCOUNT);
+        customerVerifyCodeVo.setDeviceNo(customerFormVo.getDeviceNo());
+        customerVerifyCodeVo.setVerifyCode(customerFormVo.getVerifyCode());
+        MsgCode msgCode = verifyCodeService.validateVerifyCode(customerVerifyCodeVo);
+        MessageVo messageVo = new MessageVo(new Message(msgCode));
 
-    return ok(Json.toJson(messageVo));
-  }
+        return ok(Json.toJson(messageVo));
+    }
 
-  /**
-   * 交易密码设置/修改
-   *
-   * @return
-   */
-  public Result resetAccountPwd() {
-    Logger.info("=================resetTradePwd==========");
-    Http.Cookie cookie = Controller.request().cookie(AppConst.TOKEN);
-    String token = cookie == null ? null : cookie.value();
-    Logger.info("=========token:" + token);
+    /**
+     * 交易密码设置/修改
+     *
+     * @return
+     */
+    public Result resetAccountPwd() {
+        Logger.info("=================resetTradePwd==========");
+        Http.Cookie cookie = Controller.request().cookie(AppConst.TOKEN);
+        String token = cookie == null ? null : cookie.value();
+        Logger.info("=========token:" + token);
 
-    CustomerFormVo customerFormVo = this.customerFormVo.bindFromRequest().get();
-    accountService.resetTradePwd(customerFormVo, token);
+        CustomerFormVo customerFormVo = this.customerFormVo.bindFromRequest().get();
+        accountService.resetTradePwd(customerFormVo, token);
 
-    CustomerVo customerVo = customerService.getCustomerVoByPhoneNo(customerFormVo.getMobilePhoneNo(), customerFormVo.getDeviceNo());
-    MessageVo<CustomerVo> messageVo = new MessageVo<>(new Message(MsgCode.TRAD_PASSWORD_RESET_SUCCESS));
-    messageVo.setValue(customerVo);
+        CustomerVo customerVo = customerService.getCustomerVoByPhoneNo(customerFormVo.getMobilePhoneNo(), customerFormVo.getDeviceNo());
+        MessageVo<CustomerVo> messageVo = new MessageVo<>(new Message(MsgCode.TRAD_PASSWORD_RESET_SUCCESS));
+        messageVo.setValue(customerVo);
 
-    return ok(Json.toJson(messageVo));
-  }
+        return ok(Json.toJson(messageVo));
+    }
 
 
 }

@@ -7,6 +7,7 @@ import com.sunlights.common.MsgCode;
 import com.sunlights.common.utils.MessageUtil;
 import com.sunlights.common.vo.Message;
 import com.sunlights.common.vo.PageVo;
+import com.sunlights.customer.service.impl.CustomerService;
 import com.sunlights.trade.service.TradeService;
 import com.sunlights.trade.service.impl.TradeServiceImpl;
 import com.sunlights.trade.vo.CapitalProductTradeVo;
@@ -37,11 +38,14 @@ public class TradeController extends Controller{
     private Form<TradeFormVo> tradeFormVoForm = Form.form(TradeFormVo.class);
 
     private TradeService tradeService = new TradeServiceImpl();
+    private CustomerService customerService = new CustomerService();
 
     public Result getTradeList(){
         Logger.info("----------getTradeList start ------------");
         Http.Cookie cookie = Controller.request().cookie(AppConst.TOKEN);
         String token = cookie == null ? null : cookie.value();
+
+        customerService.validateCustomerSession(request(),session(),response());
 
         TradeSearchFormVo tradeSearchFormVo = tradeSearchFormVoForm.bindFromRequest().get();
         PageVo pageVo = new PageVo();
@@ -54,7 +58,7 @@ public class TradeController extends Controller{
 
         Message message = new Message(MsgCode.OPERATE_SUCCESS);
         JsonNode json = MessageUtil.getInstance().msgToJson(message, pageVo);
-        Logger.info("----------getTradeList end" + json);
+        Logger.info("----------getTradeList end---------------\n" + json);
         return ok(json);
     }
 
@@ -62,6 +66,8 @@ public class TradeController extends Controller{
         Logger.info("----------findCapitalProductDetailTrade start ------------");
         Http.Cookie cookie = Controller.request().cookie(AppConst.TOKEN);
         String token = cookie == null ? null : cookie.value();
+
+        customerService.validateCustomerSession(request(),session(),response());
 
         TradeSearchFormVo tradeSearchFormVo = tradeSearchFormVoForm.bindFromRequest().get();
 
@@ -77,6 +83,8 @@ public class TradeController extends Controller{
         Logger.info("----------tradeOrder start ------------");
         Http.Cookie cookie = Controller.request().cookie(AppConst.TOKEN);
         String token = cookie == null ? null : cookie.value();
+
+        customerService.validateCustomerSession(request(),session(),response());
 
         TradeFormVo tradeFormVo = tradeFormVoForm.bindFromRequest().get();
 
@@ -94,6 +102,8 @@ public class TradeController extends Controller{
         Http.Cookie cookie = Controller.request().cookie(AppConst.TOKEN);
         String token = cookie == null ? null : cookie.value();
 
+        customerService.validateCustomerSession(request(),session(),response());
+        
         TradeFormVo tradeFormVo = tradeFormVoForm.bindFromRequest().get();
 
         TotalCapitalInfo totalCapitalInfo = tradeService.tradeFundRedeem(tradeFormVo, token);

@@ -11,6 +11,11 @@ import java.util.Date;
  */
 @Entity
 @Table(name = "C_LOGIN_HISTORY")
+@NamedQueries({
+        @NamedQuery(name="findByPwd",query="select c from LoginHistory c where c.customerId = ?1 and c.deviceNo = ?2 and c.pwdInd = 'Y' order by c.createTime desc"),
+        @NamedQuery(name="findByGesturePwd",query="select c from LoginHistory c where c.customerId = ?1 and c.deviceNo = ?2 and c.gestureInd = 'Y' order by c.createTime desc"),
+        @NamedQuery(name="findByLoginCustomer",query="select c from LoginHistory c where c.customerId = ?1 and c.deviceNo = ?2 and c.successInd = 'Y' and c.loginTime is not null and c.logoutTime is null order by c.createTime desc")
+})
 public class LoginHistory extends IdEntity{
     @Column(length = 30,name = "CUSTOMER_ID")
     private String customerId;

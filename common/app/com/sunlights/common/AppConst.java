@@ -49,7 +49,7 @@ public final class AppConst {
      */
     public static final String SESSION_EXPIRY = "SESSION_EXPIRY";
     /**
-     *  实名认证-N真实调用/非N 测试模式
+     *  实名认证-N真实调用/Y测试模式
      */
     public static final String CERTIFY_TEST = "CERTIFY_TEST";
     /**
@@ -85,7 +85,7 @@ public final class AppConst {
      */
     public static final String SMS_CHANNEL = "SMS_CHANNEL";
     /**
-     * 短信接口-N真实调用/非N 测试模式
+     * 短信接口-N真实调用/Y测试模式
      */
     public static final String SMS_TEST = "SMS_TEST";
 

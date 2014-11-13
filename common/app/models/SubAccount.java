@@ -17,6 +17,9 @@ import java.util.Date;
  */
 @Entity
 @Table(name = "F_SUB_ACCOUNT")
+@NamedQueries({
+        @NamedQuery(name = "findSubAccount", query = "select sa from SubAccount sa,PrdAccountConfig pc where sa.subAccount = pc.subAccount and sa.custId = ?1 and pc.prdTypeCode = ?2")
+})
 public class SubAccount extends IdEntity {
   @Column(length = 30, name = "CUST_ID")
   private String custId;

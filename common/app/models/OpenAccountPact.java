@@ -1,9 +1,6 @@
 package models;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 import java.sql.Timestamp;
 
 /**
@@ -17,6 +14,9 @@ import java.sql.Timestamp;
  */
 @Entity
 @Table(name = "c_open_account_pact")
+@NamedQueries({
+        @NamedQuery(name = "findOpenAccountPactByAgreementNo", query = "select o from OpenAccountPact o where o.status = 'Y' and o.agreementNo = ?1")
+})
 public class OpenAccountPact {
   @Id
   @Column(length = 20, name = "agreement_no")

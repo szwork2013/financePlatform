@@ -26,8 +26,6 @@ public interface CapitalDao {
    */
   public HoldCapitalVo findCapitalProductDetail(String prdType, String prdCode);
 
-  public HoldCapital findHoldCapitalsById(Long id);
-
   /**
    * 累计收益查询
    *
