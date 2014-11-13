@@ -20,7 +20,7 @@ public class TradeControllerTest extends BaseTest {
     
     @Before
     public void getCookie(){
-        final String mobilePhoneNo = "15821948594";
+        final String mobilePhoneNo = "13811599308";
         final String password = "1";
         running(fakeApplication(), new Runnable() {
             public void run() {
@@ -66,5 +66,52 @@ public class TradeControllerTest extends BaseTest {
         });
     }
 
+    @Test
+    public void testTradeOrder() throws Exception {
+        running(fakeApplication(), new Runnable() {
+            public void run() {
+                Logger.info("=============testTradeOrder start======");
+                Map<String, String> formParams = new HashMap<String, String>();
+                formParams.put("bankCardNo", "6225885105575635");
+                formParams.put("prdType", "0");
+                formParams.put("mobilePhoneNo", "13811599308");
+                formParams.put("prdCode", "350004");
+                formParams.put("tradeAmount", "100");
+                formParams.put("quantity", "1");
 
+                play.mvc.Result result = getResult("/trade/tradeorder", formParams, cookie);
+                Logger.info("=============testTradeOrder result======\n" + contentAsString(result));
+                assertThat(status(result)).isEqualTo(OK);
+                MessageVo message = toMessageVo(result);
+                assertThat(message.getMessage().getCode()).isEqualTo("0400");
+                assertThat(message.getMessage().getSummary()).isEqualTo("下单成功");
+
+            }
+        });
+
+    }
+
+    @Test
+    public void testTradeRedeem() throws Exception {
+        running(fakeApplication(), new Runnable() {
+            public void run() {
+                Logger.info("=============testTradeRedeem start======");
+                Map<String, String> formParams = new HashMap<String, String>();
+                formParams.put("prdType", "0");
+                formParams.put("prdCode", "350004");
+                formParams.put("mobilePhoneNo", "13811599308");
+                formParams.put("tradeAmount", "100");
+                formParams.put("quantity", "1");
+
+                play.mvc.Result result = getResult("/trade/traderedeem", formParams, cookie);
+                Logger.info("=============testTradeRedeem result======\n" + contentAsString(result));
+                assertThat(status(result)).isEqualTo(OK);
+                MessageVo message = toMessageVo(result);
+                assertThat(message.getMessage().getCode()).isEqualTo("0401");
+                assertThat(message.getMessage().getSummary()).isEqualTo("赎回成功");
+
+            }
+        });
+
+    }
 }

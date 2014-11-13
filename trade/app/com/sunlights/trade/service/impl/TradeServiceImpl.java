@@ -131,7 +131,7 @@ public class TradeServiceImpl implements TradeService {
         trade.setConfirmStatus("4");
         trade.setHoldCapitalId(holdCapital.getId());
         updateTrade(trade);
-        TotalCapitalInfo totalCapitalInfo = capitalService.getTotalCapital(mobilePhoneNo, true);
+        TotalCapitalInfo totalCapitalInfo = capitalService.getTotalCapital(token, true);
 
         return totalCapitalInfo;
     }
@@ -248,7 +248,7 @@ public class TradeServiceImpl implements TradeService {
         trade.setConfirmStatus("4");
         trade.setHoldCapitalId(holdCapital.getId());
         updateTrade(trade);
-        TotalCapitalInfo totalCapitalInfo = capitalService.getTotalCapital(mobilePhoneNo, true);
+        TotalCapitalInfo totalCapitalInfo = capitalService.getTotalCapital(token, true);
 
         return totalCapitalInfo;
     }

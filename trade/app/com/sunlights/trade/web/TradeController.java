@@ -90,7 +90,7 @@ public class TradeController extends Controller{
 
         TotalCapitalInfo totalCapitalInfo = tradeService.tradeFundOrder(tradeFormVo, token);
 
-        JsonNode json = MessageUtil.getInstance().msgToJson(new Message(MsgCode.TRADE_SUCCESS), totalCapitalInfo);
+        JsonNode json = MessageUtil.getInstance().msgToJson(new Message(MsgCode.TRADE_ORDER_SUCCESS), totalCapitalInfo);
         Logger.info("----------tradeOrder end: ------------\n" + json);
 
         return ok(json);
@@ -108,7 +108,7 @@ public class TradeController extends Controller{
 
         TotalCapitalInfo totalCapitalInfo = tradeService.tradeFundRedeem(tradeFormVo, token);
 
-        JsonNode json = MessageUtil.getInstance().msgToJson(new Message(MsgCode.TRADE_SUCCESS), totalCapitalInfo);
+        JsonNode json = MessageUtil.getInstance().msgToJson(new Message(MsgCode.TRADE_REDEEM_SUCCESS), totalCapitalInfo);
         Logger.info("----------tradeRedeem end: ------------\n" + json);
 
         return ok(json);

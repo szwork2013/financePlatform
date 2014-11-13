@@ -58,7 +58,8 @@ public enum MsgCode {
     BIND_CARD_FAIL_EMPTY_BANK("2215","绑卡失败","银行不能为空"),
     BANK_CARD_NOT_BINGING("2216", "未绑卡银行卡"),
 
-    TRADE_SUCCESS("0400", "下单成功"),
+    TRADE_ORDER_SUCCESS("0400", "下单成功"),
+    TRADE_REDEEM_SUCCESS("0401", "赎回成功"),
     TRADE_AMOUNT_VALIDATE("2400", "申购金额超出总资产", "请重新输入"),
     //operation platform
 	CREATE_SUCCESS("0001", "创建成功", ""),

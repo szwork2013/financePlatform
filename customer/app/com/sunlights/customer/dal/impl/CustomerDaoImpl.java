@@ -2,6 +2,7 @@ package com.sunlights.customer.dal.impl;
 
 import com.google.common.base.Strings;
 import com.sunlights.common.dal.EntityBaseDao;
+import com.sunlights.common.utils.CommonUtil;
 import com.sunlights.customer.dal.CustomerDao;
 import com.sunlights.customer.vo.CustomerVo;
 import models.Customer;
@@ -75,6 +76,7 @@ public class CustomerDaoImpl extends EntityBaseDao implements CustomerDao {
         Query query = em.createNativeQuery(sql);
         query.setParameter("deviceNo", deviceNo);
         query.setParameter("mobilePhoneNo", mobilePhoneNo);
+
         List<Object[]> list = query.getResultList();
 
         CustomerVo customerInfoVo = transCustomerVo(list);
@@ -106,23 +108,13 @@ public class CustomerDaoImpl extends EntityBaseDao implements CustomerDao {
         return customerVo;
     }
 
-    private CustomerVo transCustomerVo(List<Object[]> list) {
-        if (list.isEmpty()) {
-            return null;
-        }
 
-        CustomerVo customerVo = new CustomerVo();
-        for (Object[] column : list) {
-            customerVo.setMobilePhoneNo(column[0] == null ? null : column[0].toString());
-            customerVo.setUserName(column[1] == null ? null : column[1].toString());
-            customerVo.setNickName(column[2] == null ? null : column[2].toString());
-            customerVo.setEmail(column[3] == null ? null : column[3].toString());
-            customerVo.setIdCardNo(column[4] == null ? null : column[4].toString());
-            customerVo.setGestureOpened(column[5] == null ? null : column[5].toString());
-            customerVo.setCertify(column[6] == null ? null : column[6].toString());
-            customerVo.setTradePwdFlag(column[7] == null ? null : column[7].toString());
-            customerVo.setBankCardCount(column[8] == null ? null : column[8].toString());
-            customerVo.setCustomerId(column[9] == null ? null : column[9].toString());
+
+
+    private CustomerVo transCustomerVo(List<Object[]> list) {
+        CustomerVo customerVo = CommonUtil.column2StringVo(list, CustomerVo.class);
+        if (customerVo == null) {
+            return null;
         }
 
         if (customerVo.getMobilePhoneNo() != null) {
