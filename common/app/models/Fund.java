@@ -7,7 +7,7 @@ import java.sql.Timestamp;
 import java.util.Date;
 
 /**
- * <p>Project: fsp</p>
+ * <p>Project: op</p>
  * <p>Title: Fund.java</p>
  * <p>Description: </p>
  * <p>Copyright (c) 2014 Sunlights.cc</p>
@@ -19,10 +19,84 @@ import java.util.Date;
 @Table(name = "P_FUND")
 public class Fund extends IdEntity {
 
+    public Fund() {
+    }
+
+    public Fund(BigDecimal minApplyAmount, long lowestRedemption, BigDecimal oneYearProfit,
+                BigDecimal millionOfProfit, BigDecimal oneWeekProfit, Timestamp navDate, String isApply,
+                String isRedemption, String productStatus, String companyName, String fundCode, String chiName,
+                String chiNameAbbr, String engName, String engNameAbbr, String secuAbbr, BigDecimal fundScale,
+                String fundType, String investPeriod, BigDecimal charge, String toAccountType,Long supplierId,
+                String riskLevel, Long initBuyedCount, Long oneMonthBuyedCount, Date createdDatetime, String createdBy,
+                Date updatedDatetime, String updatedBy, String deleted) {
+        this.minApplyAmount = minApplyAmount;
+        this.lowestRedemption = lowestRedemption;
+        this.oneYearProfit = oneYearProfit;
+        this.millionOfProfit = millionOfProfit;
+        this.oneWeekProfit = oneWeekProfit;
+        this.navDate = navDate;
+        this.isApply = isApply;
+        this.isRedemption = isRedemption;
+        this.productStatus = productStatus;
+        this.companyName = companyName;
+        this.fundCode = fundCode;
+        this.chiName = chiName;
+        this.chiNameAbbr = chiNameAbbr;
+        this.engName = engName;
+        this.engNameAbbr = engNameAbbr;
+        this.secuAbbr = secuAbbr;
+        this.fundScale = fundScale;
+        this.fundType = fundType;
+        this.investPeriod = investPeriod;
+        this.charge = charge;
+        this.toAccountType = toAccountType;
+        this.supplierId = supplierId;
+        this.riskLevel = riskLevel;
+        this.initBuyedCount = initBuyedCount;
+        this.oneMonthBuyedCount = oneMonthBuyedCount;
+        this.createTime = createdDatetime;
+        this.createBy = createdBy;
+        this.updateTime = updatedDatetime;
+        this.updateBy = updatedBy;
+        this.deleted = deleted;
+    }
+
+    public Fund(BigDecimal minApplyAmount, long lowestRedemption, BigDecimal oneYearProfit, BigDecimal millionOfProfit,
+                BigDecimal oneWeekProfit, Timestamp navDate, String isApply, String isRedemption, String productStatus,
+                String companyName, String fundCode, String chiName, String chiNameAbbr, String engName, String engNameAbbr,
+                String secuAbbr, BigDecimal fundScale, String fundType, String investPeriod, BigDecimal charge,
+                String toAccountType, Long supplierId, String riskLevel, Long initBuyedCount, Long oneMonthBuyedCount) {
+        this.minApplyAmount = minApplyAmount;
+        this.lowestRedemption = lowestRedemption;
+        this.oneYearProfit = oneYearProfit;
+        this.millionOfProfit = millionOfProfit;
+        this.oneWeekProfit = oneWeekProfit;
+        this.navDate = navDate;
+        this.isApply = isApply;
+        this.isRedemption = isRedemption;
+        this.productStatus = productStatus;
+        this.companyName = companyName;
+        this.fundCode = fundCode;
+        this.chiName = chiName;
+        this.chiNameAbbr = chiNameAbbr;
+        this.engName = engName;
+        this.engNameAbbr = engNameAbbr;
+        this.secuAbbr = secuAbbr;
+        this.fundScale = fundScale;
+        this.fundType = fundType;
+        this.investPeriod = investPeriod;
+        this.charge = charge;
+        this.toAccountType = toAccountType;
+        this.supplierId = supplierId;
+        this.riskLevel = riskLevel;
+        this.initBuyedCount = initBuyedCount;
+        this.oneMonthBuyedCount = oneMonthBuyedCount;
+    }
+
     @Column(name = "MIN_APPLY_AMOUNT", precision = 18, scale = 4)
     private BigDecimal minApplyAmount;//最小申购额度
     @Column(name = "LOWEST_REDEMPTION")
-    private int lowestRedemption;//最低赎回份额
+    private long lowestRedemption;//最低赎回份额
     @Column(name = "ONE_YEAR_PROFIT", precision = 18, scale = 4)
     private BigDecimal oneYearProfit;//年化收益
     @Column(name = "MILLION_OF_PROFIT", precision = 18, scale = 4)
@@ -63,7 +137,7 @@ public class Fund extends IdEntity {
     private BigDecimal charge;//手续费
     @Column(name = "SUPPLIER_ID")
     private Long supplierId;//供应商ID
-    @Column(name = "RISK_LEVEL")
+    @Column(name = "RISK_LEVEL" ,length=50 )
     private String riskLevel;//风险等级
     @Column(name = "TO_ACCOUNT_TYPE")
     private String toAccountType;//到帐方式
@@ -85,7 +159,8 @@ public class Fund extends IdEntity {
 
     @Column(name = "UPDATE_BY", length = 30)
     private String updateBy;
-
+    @Column(name = "DELETED", length = 1)
+    private String deleted;
 
     public BigDecimal getMinApplyAmount() {
         return minApplyAmount;
@@ -95,11 +170,11 @@ public class Fund extends IdEntity {
         this.minApplyAmount = minApplyAmount;
     }
 
-    public int getLowestRedemption() {
+    public long getLowestRedemption() {
         return lowestRedemption;
     }
 
-    public void setLowestRedemption(int lowestRedemption) {
+    public void setLowestRedemption(long lowestRedemption) {
         this.lowestRedemption = lowestRedemption;
     }
 
@@ -247,6 +322,14 @@ public class Fund extends IdEntity {
         this.charge = charge;
     }
 
+    public String getToAccountType() {
+        return toAccountType;
+    }
+
+    public void setToAccountType(String toAccountType) {
+        this.toAccountType = toAccountType;
+    }
+
     public Long getSupplierId() {
         return supplierId;
     }
@@ -285,6 +368,14 @@ public class Fund extends IdEntity {
 
     public void setOneMonthBuyedCount(Long oneMonthBuyedCount) {
         this.oneMonthBuyedCount = oneMonthBuyedCount;
+    }
+
+    public String getDeleted() {
+        return deleted;
+    }
+
+    public void setDeleted(String deleted) {
+        this.deleted = deleted;
     }
 
     public Date getCreateTime() {

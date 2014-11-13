@@ -60,7 +60,21 @@ public enum MsgCode {
 
     TRADE_SUCCESS("0400", "下单成功"),
     TRADE_AMOUNT_VALIDATE("2400", "申购金额超出总资产", "请重新输入"),
-    ;
+    //operation platform
+	CREATE_SUCCESS("0001", "创建成功", ""),
+    UPDATE_SUCCESS("0002", "更新成功", ""),
+    DELETE_SUCCESS("0003", "删除成功", ""),
+    OPERATE_WARNING("1000", "警告", ""),
+    OPERATE_FAILURE("2000", "操作失败", ""),
+    CREATE_FAILURE("2001", "创建失败", ""),
+    UPDATE_FAILURE("2002", "更新失败", ""),
+    DELETE_FAILURE("2003", "删除失败", ""),
+    CODE_EXIST_ERROR("2300", "操作失败：", "已存在的字典表。"),
+    FUND_COMPANY_EXIST_ERROR("2400", "操作失败：", "已存在的基金公司。"),
+    SUPPLIER_EXIST_ERROR("2500", "操作失败：", "已存在的供应商。"),
+    NOT_NULL("2001", "操作失败：", "传入参数'{0}'不能为空")
+
+	;
 
     private String code;
     private String message;
