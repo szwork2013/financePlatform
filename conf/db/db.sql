@@ -342,34 +342,6 @@ WITH (OIDS=FALSE)
 ;
 
 -- ----------------------------
--- Table structure for c_supplier
--- ----------------------------
-DROP TABLE IF EXISTS "public"."c_supplier";
-CREATE TABLE "public"."c_supplier" (
-"id" int8 NOT NULL,
-"supplier_belong_addr" varchar(200) COLLATE "default",
-"supplier_contact_call" varchar(15) COLLATE "default",
-"supplier_corporate_property" varchar(20) COLLATE "default",
-"supplier_customer_type" varchar(50) COLLATE "default",
-"supplier_display_name" varchar(50) COLLATE "default",
-"supplier_inner_code" int4,
-"supplier_merchant_introduction" varchar(200) COLLATE "default",
-"supplier_merchant_name" varchar(100) COLLATE "default",
-"supplier_capital_paid" numeric(19,2),
-"supplier_reg_addr" varchar(100) COLLATE "default",
-"supplier_capital_reg" numeric(19,2),
-"supplier_reg_city" varchar(10) COLLATE "default",
-"supplier_reg_prov" varchar(10) COLLATE "default",
-"supplier_type" varchar(50) COLLATE "default",
-"supplier_web_addr" varchar(50) COLLATE "default",
-"create_time" timestamp(6),
-"update_time" timestamp(6)
-)
-WITH (OIDS=FALSE)
-
-;
-
--- ----------------------------
 -- Table structure for dict
 -- ----------------------------
 DROP TABLE IF EXISTS "public"."dict";
@@ -1051,6 +1023,44 @@ COMMENT ON COLUMN "public"."t_trade"."product_name" IS '产品名称';
 COMMENT ON COLUMN "public"."t_trade"."product_price" IS '产品单价';
 COMMENT ON COLUMN "public"."t_trade"."quantity" IS '数量';
 
+/*==============================================================*/
+/* Table: P_fund_company                                        */
+/*==============================================================*/
+
+CREATE TABLE P_FUND_COMPANY
+(
+   ID                   BIGINT                         NOT NULL,
+   COMPANY_NAME         VARCHAR(50)                    NULL,
+   COMPANY_CODE         VARCHAR(20)                    NULL,
+   PRIMARY KEY (ID)
+);
+
+/*==============================================================*/
+/* TABLE: C_SUPPLIER                                            */
+/*==============================================================*/
+DROP TABLE IF EXISTS C_SUPPLIER;
+CREATE TABLE C_SUPPLIER
+(
+   ID                   BIGINT                         NOT NULL,
+   SUPPLIER_CODE       VARCHAR(50)                    NULL,
+   SUPPLIER_TYPE        VARCHAR(50)                    NULL,
+   MERCHANT_NAME        VARCHAR(100)                   NULL,
+   DISPLAY_NAME         VARCHAR(50)                    NULL,
+   BELONG_ADDRESS       VARCHAR(200)                   NULL,
+   CONTACT_CALLNO       VARCHAR(15)                    NULL,
+   CORPORATE_PROPERTY   VARCHAR(20)                    NULL,
+   WEBSITE_ADDRESS      VARCHAR(50)                    NULL,
+   MERCHANT_INTRODUCTION VARCHAR(200)                   NULL,
+   REG_CAPITAL          DECIMAL(18,4)                  NULL,
+   PAID_UP_CAPITAL      DECIMAL(18,4)                  NULL,
+   REG_PROV             VARCHAR(10)                    NULL,
+   REG_CITY             VARCHAR(10)                    NULL,
+   REG_ADDRESS          VARCHAR(100)                   NULL,
+   CREATE_TIME          TIMESTAMP                      NULL,
+   UPDATE_TIME          TIMESTAMP                      NULL,
+   PRIMARY KEY (ID)
+);
+
 -- ----------------------------
 -- Alter Sequences Owned By 
 -- ----------------------------
@@ -1099,11 +1109,6 @@ ALTER TABLE "public"."c_login_history" ADD PRIMARY KEY ("id");
 -- Primary Key structure for table c_open_account_pact
 -- ----------------------------
 ALTER TABLE "public"."c_open_account_pact" ADD PRIMARY KEY ("agreement_no");
-
--- ----------------------------
--- Primary Key structure for table c_supplier
--- ----------------------------
-ALTER TABLE "public"."c_supplier" ADD PRIMARY KEY ("id");
 
 -- ----------------------------
 -- Primary Key structure for table dict
