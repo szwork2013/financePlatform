@@ -322,14 +322,6 @@ public class Fund extends IdEntity {
         this.charge = charge;
     }
 
-    public String getToAccountType() {
-        return toAccountType;
-    }
-
-    public void setToAccountType(String toAccountType) {
-        this.toAccountType = toAccountType;
-    }
-
     public Long getSupplierId() {
         return supplierId;
     }
