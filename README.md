@@ -28,18 +28,50 @@ core->customer->common
 core->account->common
 trade->core
 
-#代码重构
+# 代码重构
 ========================================
 1. 把现在代码移动到finacePlatform
 2. 完善单元测试用例
 3. 为controller接口添加JavaDoc， 参考CustomerController里的方式
 
 
-#代码规范
+# 代码规范
 请安装IDEA的checkstyle， PMD， findBugs插件
 
 # Guava库使用
 * [Guava教程](http://outofmemory.cn/java/guava/)
+
+# 设置publish项目到maven库
+* 在目录 .ivy2 下面创建 文件.credentials把下面的内容放进去
+    realm=Sonatype Nexus Repository Manager
+    host=192.168.1.97
+    user=admin
+    password=admin123
+
+* 在需要publish的项目的build.sbt文件里添加下面的内容
+    credentials += Credentials(Path.userHome / ".ivy2" / ".credentials")
+    publishTo <<= version { v: String =>
+      val nexus = "http://192.168.1.97:8081/nexus/"
+      if (v.trim.endsWith("SNAPSHOT"))
+        Some("snapshots" at nexus + "content/repositories/snapshots")
+      else
+        Some("releases" at nexus + "content/repositories/releases")
+    }
+
+* 运行activator publish， 如果是子项目，需要运行 activator， 然后运行 project <<子项目名>>,  publish
+
+* import dependency to other project
+    1)add repositories to build.sbt
+      resolvers ++= Seq(
+        "Sunlights 3rd party" at "http://192.168.1.97:8081/nexus/content/repositories/thirdparty",
+        "Sunlights snapshots" at "http://192.168.1.97:8081/nexus/content/repositories/snapshots/",
+        "Sunlights releases" at "http://192.168.1.97:8081/nexus/content/repositories/releases/",
+      )
+    2)add dependency to build.sbt
+     libraryDependencies ++= Seq(
+        "cs" % "cs_2.11" % "1.0-SNAPSHOT"
+     )
+
 
 
 

@@ -1,6 +1,6 @@
 name := "common"
 
-version := "1.0"
+version := "1.0-SNAPSHOT"
 
 resolvers ++= Seq(
   "Sunlights 3rd party" at "http://192.168.1.97:8081/nexus/content/repositories/thirdparty",
@@ -39,3 +39,12 @@ sources in(Compile, doc) := Seq.empty
 
 publishArtifact in(Compile, packageDoc) := false
 
+credentials += Credentials(Path.userHome / ".ivy2" / ".credentials")
+
+publishTo <<= version { v: String =>
+  val nexus = "http://192.168.1.97:8081/nexus/"
+  if (v.trim.endsWith("SNAPSHOT"))
+    Some("snapshots" at nexus + "content/repositories/snapshots")
+  else
+    Some("releases" at nexus + "content/repositories/releases")
+}
