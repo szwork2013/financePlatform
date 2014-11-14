@@ -1,5 +1,6 @@
 package com.sunlights.common.service;
 
+import com.sunlights.common.vo.DictVo;
 import models.Dict;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -22,11 +23,11 @@ import java.util.Map;
 public class CommonService {
     private static Logger logger = LoggerFactory.getLogger(CommonService.class);
 
-    private static Map<String, List<Dict>> catDictMap = null;
+    private static Map<String, List<DictVo>> catDictMap = null;
 
     private static List<Dict> dicts = null;
 
-    private static Map<String, Dict> valueMap = null;
+    private static Map<String, DictVo> valueMap = null;
 
     static {
         initDicts();
@@ -38,21 +39,21 @@ public class CommonService {
 
 
     private static void initDicts() {
-        catDictMap = new HashMap<String, List<Dict>>();
+        catDictMap = new HashMap<String, List<DictVo>>();
         dicts = new ArrayList<Dict>();
-        valueMap = new HashMap<String, Dict>();
+        valueMap = new HashMap<String, DictVo>();
 
         String jpql = " select d from Dict d where d.status = 'Y' order by d.codeCat,d.seqNo";
         dicts = JPA.em().createQuery(jpql).getResultList();
         for (int i = 0; i < dicts.size(); i++) {
             Dict dict = dicts.get(i);
             String catPointKey = dict.getCodeCat() + "." + dict.getCodeKey();
-            valueMap.put(catPointKey, dict);
-            List<Dict> catDicts = catDictMap.get(dict.getCodeCat());
+            valueMap.put(catPointKey, new DictVo(dict));
+            List<DictVo> catDicts = catDictMap.get(dict.getCodeCat());
             if (catDicts == null) {
-                catDicts = new ArrayList<Dict>();
+                catDicts = new ArrayList<DictVo>();
             }
-            catDicts.add(dict);
+            catDicts.add(new DictVo(dict));
             catDictMap.put(dict.getCodeCat(), catDicts);
         }
 
@@ -60,25 +61,25 @@ public class CommonService {
 
 
     public String findValueByCatPointKey(String catPointKey) {
-        Dict dict = valueMap.get(catPointKey);
+        DictVo dict = valueMap.get(catPointKey);
         return dict == null ? catPointKey : dict.getCodeVal();
     }
 
 
-    public List<Dict> findDictsByCat(String cat) {
+    public List<DictVo> findDictsByCat(String cat) {
         return catDictMap.get(cat);
     }
 
     public Map<String, String> findDictMapByCat(String cat) {
         HashMap<String, String> dictMap = new HashMap<String, String>();
-        List<Dict> catDicts = catDictMap.get(cat);
-        for (Dict dict : catDicts) {
+        List<DictVo> catDicts = catDictMap.get(cat);
+        for (DictVo dict : catDicts) {
             dictMap.put(dict.getCodeCat() + "." + dict.getCodeKey(), dict.getCodeVal());
         }
         return dictMap;
     }
 
-    public Dict findDictByCatPointKey(String catPointKey) {
+    public DictVo findDictByCatPointKey(String catPointKey) {
         return valueMap.get(catPointKey);
     }
 

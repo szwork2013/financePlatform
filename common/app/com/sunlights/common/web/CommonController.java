@@ -2,7 +2,7 @@ package com.sunlights.common.web;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.sunlights.common.service.CommonService;
-import models.Dict;
+import com.sunlights.common.vo.DictVo;
 import play.db.jpa.Transactional;
 import play.libs.Json;
 import play.mvc.Controller;
@@ -30,9 +30,7 @@ public class CommonController extends Controller {
 
         if (body.asJson() != null) {
             JsonNode cat = body.asJson().findValue("cat");
-            System.out.println("[cat]" + cat.asText());
-            List<Dict> dicts = commonService.findDictsByCat(cat.asText());
-            System.out.println("[dicts]" + dicts.size());
+            List<DictVo> dicts = commonService.findDictsByCat(cat.asText());
             return ok(Json.toJson(dicts));
         }
         return badRequest("操作失败");

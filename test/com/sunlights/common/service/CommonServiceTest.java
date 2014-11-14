@@ -1,6 +1,6 @@
 package com.sunlights.common.service;
 
-import models.Dict;
+import com.sunlights.common.vo.DictVo;
 import org.junit.Test;
 import play.Logger;
 import play.db.jpa.JPA;
@@ -10,10 +10,7 @@ import java.util.List;
 import java.util.Map;
 
 import static org.fest.assertions.Assertions.assertThat;
-import static org.junit.Assert.*;
-import static play.test.Helpers.fakeApplication;
-import static play.test.Helpers.inMemoryDatabase;
-import static play.test.Helpers.running;
+import static play.test.Helpers.*;
 
 public class CommonServiceTest {
 
@@ -44,7 +41,7 @@ public class CommonServiceTest {
                 JPA.withTransaction(new play.libs.F.Callback0() {
                     public void invoke() {
                         CommonService commonService = new CommonService();
-                        List<Dict> dicts = commonService.findDictsByCat("FP.RECOMMEND.TYPE");
+                        List<DictVo> dicts = commonService.findDictsByCat("FP.RECOMMEND.TYPE");
                         Logger.info("[dicts]" + Json.toJson(dicts));
                         assertThat(dicts).isNotEmpty();
                     }
