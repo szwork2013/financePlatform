@@ -5,11 +5,14 @@ import com.sunlights.common.Severity;
 import com.sunlights.common.exceptions.BusinessRuntimeException;
 import org.apache.commons.lang3.StringUtils;
 
+import java.lang.reflect.Constructor;
 import java.text.DateFormat;
 import java.text.MessageFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 /**
  * <p>Project: fsp</p>
@@ -99,4 +102,41 @@ public class CommonUtil {
         }
     }
 
+    /**
+     * 只试用于Vo构造方法都是String的参数，构造器的顺序和查询出的结果集顺序要对应
+     * @param columnList
+     * @param classes
+     * @param <T>
+     * @return
+     */
+    public static <T> List<T> column2StringVoList(List<Object[]> columnList, Class classes){
+        List<T> list = new ArrayList<T>();
+
+        if (!columnList.isEmpty()) {
+            Object[] columns = columnList.get(0);
+
+            Class[] constructorClass = new Class[columns.length];
+            for (int i = 0; i < columns.length; i++) {
+                constructorClass[i] = String.class;
+                if (columns[i] != null && columns[i].getClass() != String.class) {
+                    columns[i] = columns[i].toString();
+                }
+            }
+            try {
+                for (Object[] obj : columnList) {
+                    Constructor constructor = classes.getConstructor(constructorClass);
+                    T t = (T)constructor.newInstance(obj);
+                    list.add(t);
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+
+        return list;
+    }
+
+    public static <T> T column2StringVo(List<Object[]> columnList, Class classes){
+        return (T)column2StringVoList(columnList, classes).get(0);
+    }
 }
