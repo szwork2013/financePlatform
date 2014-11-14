@@ -1,14 +1,12 @@
 package models;
 
-
 import javax.persistence.*;
 import java.math.BigDecimal;
-import java.sql.Timestamp;
 import java.util.Date;
 
 /**
- * <p>Project: fsp</p>
- * <p>Title: Fund.java</p>
+ * <p>Project: OperationPlatform</p>
+ * <p>Title: PFundHistory.java</p>
  * <p>Description: </p>
  * <p>Copyright (c) 2014 Sunlights.cc</p>
  * <p>All Rights Reserved.</p>
@@ -16,306 +14,424 @@ import java.util.Date;
  * @author <a href="mailto:zhencai.yuan@sunlights.cc">yuanzhencai</a>
  */
 @Entity
-@Table(name = "P_FUND_HISTORY")
+@Table(name = "p_fund_history", schema = "public")
 public class FundHistory extends IdEntity {
+    @Column(name = "fund_code")
+    private String fundCode;
 
-  @Column(name = "MIN_APPLY_AMOUNT", precision = 18, scale = 4)
-  private BigDecimal minApplyAmount;//最小申购额度
-  @Column(name = "LOWEST_REDEMPTION")
-  private int lowestRedemption;//最低赎回份额
-  @Column(name = "ONE_YEAR_PROFIT", precision = 18, scale = 4)
-  private BigDecimal oneYearProfit;//年化收益
-  @Column(name = "MILLION_OF_PROFIT", precision = 18, scale = 4)
-  private BigDecimal millionOfProfit;//万份收益
-  @Column(name = "ONE_WEEK_PROFIT", precision = 18, scale = 4)
-  private BigDecimal oneWeekProfit;//一周年化收益
-  @Column(name = "NAV_DATE")
-  private Timestamp navDate;//净值日期
-  @Column(name = "IS_APPLY")
-  private String isApply;//可否申购
-  @Column(name = "IS_REDEMPTION")
-  private String isRedemption;//可否赎回
-  @Column(name = "PRODUCT_STATUS")
-  private String productStatus;//基金状态
-
-
-  @Column(name = "COMPANY_NAME", length = 10)
-  private String companyName;//基金公司名称
-  @Column(name = "FUND_CODE", length = 10)
-  private String fundCode;//基金代码
-  @Column(name = "CHI_NAME", length = 100)
-  private String chiName;//中文名称
-  @Column(name = "CHI_NAME_ABBR", length = 50)
-  private String chiNameAbbr;//中文名称简称
-  @Column(name = "ENG_NAME", length = 100)
-  private String engName;//英文名称
-  @Column(name = "ENG_NAME_ABBR", length = 50)
-  private String engNameAbbr;//英文名称简称
-  @Column(name = "SECU_ABBR", length = 20)
-  private String secuAbbr;//证券简称
-  @Column(name = "FUND_SCALE", precision = 18, scale = 4)
-  private BigDecimal fundScale;//基金规模
-  @Column(name = "FUND_TYPE")
-  private String fundType;//基金类型
-  @Column(name = "INVEST_PERIOD")
-  private String investPeriod;//投资期限
-  @Column(name = "CHARGE", precision = 18, scale = 4)
-  private BigDecimal charge;//手续费
-  @Column(name = "SUPPILER_ID")
-  private Long supplierId;//供应商ID
-  @Column(name = "RISK_LEVEL")
-  private String riskLevel;//风险等级
-  @Column(name = "TO_ACCOUNT_TYPE")
-  private String toAccountType;//到帐方式
-  @Column(name = "INIT_BUYED_COUNT")
-  private Long initBuyedCount;
-  @Column(name = "ONE_MONTH_BUYED_COUNT")
-  private Long oneMonthBuyedCount;
-
-  @Temporal(TemporalType.TIMESTAMP)
-  @Column(name = "CREATE_TIME")
-  private Date createTime;
-
-  @Column(name = "CREATE_BY", length = 30)
-  private String createBy;
-
-  @Temporal(TemporalType.TIMESTAMP)
-  @Column(name = "UPDATE_TIME")
-  private Date updateTime;
-
-  @Column(name = "UPDATE_BY", length = 30)
-  private String updateBy;
-
-
-  public BigDecimal getMinApplyAmount() {
-    return minApplyAmount;
-  }
-
-  public void setMinApplyAmount(BigDecimal minApplyAmount) {
-    this.minApplyAmount = minApplyAmount;
-  }
-
-  public int getLowestRedemption() {
-    return lowestRedemption;
-  }
-
-  public void setLowestRedemption(int lowestRedemption) {
-    this.lowestRedemption = lowestRedemption;
-  }
-
-  public BigDecimal getOneYearProfit() {
-    return oneYearProfit;
-  }
-
-  public void setOneYearProfit(BigDecimal oneYearProfit) {
-    this.oneYearProfit = oneYearProfit;
-  }
-
-  public BigDecimal getMillionOfProfit() {
-    return millionOfProfit;
-  }
-
-  public void setMillionOfProfit(BigDecimal millionOfProfit) {
-    this.millionOfProfit = millionOfProfit;
-  }
-
-  public BigDecimal getOneWeekProfit() {
-    return oneWeekProfit;
-  }
+    @Column(name = "min_apply_amount")
+    private BigDecimal minApplyAmount;
+    @Column(name = "lowest_redemption")
+    private Long lowestRedemption;
+    @Column(name = "one_year_profit")
+    private BigDecimal oneYearProfit;
+    @Column(name = "million_of_profit")
+    private BigDecimal millionOfProfit;
 
-  public void setOneWeekProfit(BigDecimal oneWeekProfit) {
-    this.oneWeekProfit = oneWeekProfit;
-  }
+    @Column(name = "one_week_profit")
+    private BigDecimal oneWeekProfit;
 
-  public Timestamp getNavDate() {
-    return navDate;
-  }
+    @Temporal(TemporalType.TIMESTAMP)
+    @Column(name = "nav_date")
+    private Date navDate;
 
-  public void setNavDate(Timestamp navDate) {
-    this.navDate = navDate;
-  }
+    @Column(name = "is_apply")
+    private String isApply;
+    @Column(name = "is_redemption")
+    private String isRedemption;
+    @Column(name = "product_status")
+    private String productStatus;
 
-  public String getIsApply() {
-    return isApply;
-  }
+    @Temporal(TemporalType.TIMESTAMP)
+    @Column(name = "create_time")
+    private Date createTime;
 
-  public void setIsApply(String isApply) {
-    this.isApply = isApply;
-  }
+    @Temporal(TemporalType.TIMESTAMP)
+    @Column(name = "update_time")
+    private Date updateTime;
 
-  public String getIsRedemption() {
-    return isRedemption;
-  }
+    @Column(name = "update_by")
+    private String updateBy;
 
-  public void setIsRedemption(String isRedemption) {
-    this.isRedemption = isRedemption;
-  }
+    @Column(name = "create_by")
+    private String createBy;
 
-  public String getProductStatus() {
-    return productStatus;
-  }
+    @Column(name = "fund_company_id")
+    private Long fundCompanyId;
 
-  public void setProductStatus(String productStatus) {
-    this.productStatus = productStatus;
-  }
+    @Column(name = "chi_name")
+    private String chiName;
 
-  public String getCompanyName() {
-    return companyName;
-  }
+    @Column(name = "chi_name_abbr")
+    private String chiNameAbbr;
 
-  public void setCompanyName(String companyName) {
-    this.companyName = companyName;
-  }
+    @Column(name = "eng_name")
+    private String engName;
 
-  public String getFundCode() {
-    return fundCode;
-  }
+    @Column(name = "eng_name_abbr")
+    private String engNameAbbr;
 
-  public void setFundCode(String fundCode) {
-    this.fundCode = fundCode;
-  }
+    @Column(name = "secu_abbr")
+    private String secuAbbr;
 
-  public String getChiName() {
-    return chiName;
-  }
+    @Column(name = "fund_scale")
+    private BigDecimal fundScale;
 
-  public void setChiName(String chiName) {
-    this.chiName = chiName;
-  }
+    @Column(name = "fund_type")
+    private String fundType;
 
-  public String getChiNameAbbr() {
-    return chiNameAbbr;
-  }
+    @Temporal(TemporalType.TIMESTAMP)
+    @Column(name = "scale_time")
+    private Date scaleTime;
 
-  public void setChiNameAbbr(String chiNameAbbr) {
-    this.chiNameAbbr = chiNameAbbr;
-  }
+    @Column(name = "invest_period")
+    private String investPeriod;
 
-  public String getEngName() {
-    return engName;
-  }
+    @Column(name = "charge")
+    private Long charge;
 
-  public void setEngName(String engName) {
-    this.engName = engName;
-  }
+    @Column(name = "to_account_type")
+    private String toAccountType;
 
-  public String getEngNameAbbr() {
-    return engNameAbbr;
-  }
+    @Column(name = "supplier_id")
+    private Long supplierId;
 
-  public void setEngNameAbbr(String engNameAbbr) {
-    this.engNameAbbr = engNameAbbr;
-  }
+    @Column(name = "risk_level")
+    private String riskLevel;
 
-  public String getSecuAbbr() {
-    return secuAbbr;
-  }
 
-  public void setSecuAbbr(String secuAbbr) {
-    this.secuAbbr = secuAbbr;
-  }
+    @Column(name = "init_buyed_count")
+    private Long initBuyedCount;
 
-  public BigDecimal getFundScale() {
-    return fundScale;
-  }
+    @Column(name = "one_month_buyed_count")
+    private Long oneMonthBuyedCount;
 
-  public void setFundScale(BigDecimal fundScale) {
-    this.fundScale = fundScale;
-  }
 
-  public String getFundType() {
-    return fundType;
-  }
+    public String getFundCode() {
+        return fundCode;
+    }
 
-  public void setFundType(String fundType) {
-    this.fundType = fundType;
-  }
+    public void setFundCode(String fundCode) {
+        this.fundCode = fundCode;
+    }
 
-  public String getInvestPeriod() {
-    return investPeriod;
-  }
+    public BigDecimal getMinApplyAmount() {
+        return minApplyAmount;
+    }
+
+    public void setMinApplyAmount(BigDecimal minApplyAmount) {
+        this.minApplyAmount = minApplyAmount;
+    }
+
+    public Long getLowestRedemption() {
+        return lowestRedemption;
+    }
+
+    public void setLowestRedemption(Long lowestRedemption) {
+        this.lowestRedemption = lowestRedemption;
+    }
+
+    public BigDecimal getOneYearProfit() {
+        return oneYearProfit;
+    }
+
+    public void setOneYearProfit(BigDecimal oneYearProfit) {
+        this.oneYearProfit = oneYearProfit;
+    }
+
+    public BigDecimal getMillionOfProfit() {
+        return millionOfProfit;
+    }
+
+    public void setMillionOfProfit(BigDecimal millionOfProfit) {
+        this.millionOfProfit = millionOfProfit;
+    }
+
+    public BigDecimal getOneWeekProfit() {
+        return oneWeekProfit;
+    }
+
+    public void setOneWeekProfit(BigDecimal oneWeekProfit) {
+        this.oneWeekProfit = oneWeekProfit;
+    }
+
+    public Date getNavDate() {
+        return navDate;
+    }
+
+    public void setNavDate(Date navDate) {
+        this.navDate = navDate;
+    }
+
+    public String getIsApply() {
+        return isApply;
+    }
+
+    public void setIsApply(String isApply) {
+        this.isApply = isApply;
+    }
+
+    public String getIsRedemption() {
+        return isRedemption;
+    }
+
+    public void setIsRedemption(String isRedemption) {
+        this.isRedemption = isRedemption;
+    }
+
+    public String getProductStatus() {
+        return productStatus;
+    }
+
+    public void setProductStatus(String productStatus) {
+        this.productStatus = productStatus;
+    }
+
+    public Date getCreateTime() {
+        return createTime;
+    }
+
+    public void setCreateTime(Date createTime) {
+        this.createTime = createTime;
+    }
+
+    public Date getUpdateTime() {
+        return updateTime;
+    }
+
+    public void setUpdateTime(Date updateTime) {
+        this.updateTime = updateTime;
+    }
+
+    public String getUpdateBy() {
+        return updateBy;
+    }
+
+    public void setUpdateBy(String updateBy) {
+        this.updateBy = updateBy;
+    }
+
+    public String getCreateBy() {
+        return createBy;
+    }
+
+    public void setCreateBy(String createBy) {
+        this.createBy = createBy;
+    }
+
+    public Long getFundCompanyId() {
+        return fundCompanyId;
+    }
+
+    public void setFundCompanyId(Long fundCompanyId) {
+        this.fundCompanyId = fundCompanyId;
+    }
+
+    public String getChiName() {
+        return chiName;
+    }
+
+    public void setChiName(String chiName) {
+        this.chiName = chiName;
+    }
+
+    public String getChiNameAbbr() {
+        return chiNameAbbr;
+    }
+
+    public void setChiNameAbbr(String chiNameAbbr) {
+        this.chiNameAbbr = chiNameAbbr;
+    }
+
+    public String getEngName() {
+        return engName;
+    }
+
+    public void setEngName(String engName) {
+        this.engName = engName;
+    }
+
+    public String getEngNameAbbr() {
+        return engNameAbbr;
+    }
 
-  public void setInvestPeriod(String investPeriod) {
-    this.investPeriod = investPeriod;
-  }
-
-  public BigDecimal getCharge() {
-    return charge;
-  }
-
-  public void setCharge(BigDecimal charge) {
-    this.charge = charge;
-  }
-
-  public Long getSupplierId() {
-    return supplierId;
-  }
-
-  public void setSupplierId(Long supplierId) {
-    this.supplierId = supplierId;
-  }
-
-  public String getRiskLevel() {
-    return riskLevel;
-  }
-
-  public void setRiskLevel(String riskLevel) {
-    this.riskLevel = riskLevel;
-  }
-
-  public String getToAccountType() {
-    return toAccountType;
-  }
-
-  public void setToAccountType(String toAccountType) {
-    this.toAccountType = toAccountType;
-  }
-
-  public Long getInitBuyedCount() {
-    return initBuyedCount;
-  }
-
-  public void setInitBuyedCount(Long initBuyedCount) {
-    this.initBuyedCount = initBuyedCount;
-  }
-
-  public Long getOneMonthBuyedCount() {
-    return oneMonthBuyedCount;
-  }
-
-  public void setOneMonthBuyedCount(Long oneMonthBuyedCount) {
-    this.oneMonthBuyedCount = oneMonthBuyedCount;
-  }
-
-  public Date getCreateTime() {
-    return createTime;
-  }
-
-  public void setCreateTime(Date createTime) {
-    this.createTime = createTime;
-  }
-
-  public String getCreateBy() {
-    return createBy;
-  }
-
-  public void setCreateBy(String createBy) {
-    this.createBy = createBy;
-  }
-
-  public Date getUpdateTime() {
-    return updateTime;
-  }
-
-  public void setUpdateTime(Date updateTime) {
-    this.updateTime = updateTime;
-  }
-
-  public String getUpdateBy() {
-    return updateBy;
-  }
-
-  public void setUpdateBy(String updateBy) {
-    this.updateBy = updateBy;
-  }
+    public void setEngNameAbbr(String engNameAbbr) {
+        this.engNameAbbr = engNameAbbr;
+    }
+
+    public String getSecuAbbr() {
+        return secuAbbr;
+    }
+
+    public void setSecuAbbr(String secuAbbr) {
+        this.secuAbbr = secuAbbr;
+    }
+
+    public BigDecimal getFundScale() {
+        return fundScale;
+    }
+
+    public void setFundScale(BigDecimal fundScale) {
+        this.fundScale = fundScale;
+    }
+
+    public String getFundType() {
+        return fundType;
+    }
+
+    public void setFundType(String fundType) {
+        this.fundType = fundType;
+    }
+
+    public Date getScaleTime() {
+        return scaleTime;
+    }
+
+    public void setScaleTime(Date scaleTime) {
+        this.scaleTime = scaleTime;
+    }
+
+    public String getInvestPeriod() {
+        return investPeriod;
+    }
+
+    public void setInvestPeriod(String investPeriod) {
+        this.investPeriod = investPeriod;
+    }
+
+    public Long getCharge() {
+        return charge;
+    }
+
+    public void setCharge(Long charge) {
+        this.charge = charge;
+    }
+
+    public String getToAccountType() {
+        return toAccountType;
+    }
+
+    public void setToAccountType(String toAccountType) {
+        this.toAccountType = toAccountType;
+    }
+
+    public Long getSupplierId() {
+        return supplierId;
+    }
+
+    public void setSupplierId(Long supplierId) {
+        this.supplierId = supplierId;
+    }
+
+    public String getRiskLevel() {
+        return riskLevel;
+    }
+
+    public void setRiskLevel(String riskLevel) {
+        this.riskLevel = riskLevel;
+    }
+
+    public Long getInitBuyedCount() {
+        return initBuyedCount;
+    }
+
+    public void setInitBuyedCount(Long initBuyedCount) {
+        this.initBuyedCount = initBuyedCount;
+    }
+
+    public Long getOneMonthBuyedCount() {
+        return oneMonthBuyedCount;
+    }
+
+    public void setOneMonthBuyedCount(Long oneMonthBuyedCount) {
+        this.oneMonthBuyedCount = oneMonthBuyedCount;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        FundHistory that = (FundHistory) o;
+
+        if (getId() != that.getId()) return false;
+        if (charge != null ? !charge.equals(that.charge) : that.charge != null) return false;
+        if (chiName != null ? !chiName.equals(that.chiName) : that.chiName != null) return false;
+        if (chiNameAbbr != null ? !chiNameAbbr.equals(that.chiNameAbbr) : that.chiNameAbbr != null) return false;
+        if (createBy != null ? !createBy.equals(that.createBy) : that.createBy != null) return false;
+        if (createTime != null ? !createTime.equals(that.createTime) : that.createTime != null) return false;
+        if (engName != null ? !engName.equals(that.engName) : that.engName != null) return false;
+        if (engNameAbbr != null ? !engNameAbbr.equals(that.engNameAbbr) : that.engNameAbbr != null) return false;
+        if (fundCode != null ? !fundCode.equals(that.fundCode) : that.fundCode != null) return false;
+        if (fundCompanyId != null ? !fundCompanyId.equals(that.fundCompanyId) : that.fundCompanyId != null)
+            return false;
+        if (fundScale != null ? !fundScale.equals(that.fundScale) : that.fundScale != null) return false;
+        if (fundType != null ? !fundType.equals(that.fundType) : that.fundType != null) return false;
+        if (initBuyedCount != null ? !initBuyedCount.equals(that.initBuyedCount) : that.initBuyedCount != null)
+            return false;
+        if (investPeriod != null ? !investPeriod.equals(that.investPeriod) : that.investPeriod != null) return false;
+        if (isApply != null ? !isApply.equals(that.isApply) : that.isApply != null) return false;
+        if (isRedemption != null ? !isRedemption.equals(that.isRedemption) : that.isRedemption != null) return false;
+        if (lowestRedemption != null ? !lowestRedemption.equals(that.lowestRedemption) : that.lowestRedemption != null)
+            return false;
+        if (millionOfProfit != null ? !millionOfProfit.equals(that.millionOfProfit) : that.millionOfProfit != null)
+            return false;
+        if (minApplyAmount != null ? !minApplyAmount.equals(that.minApplyAmount) : that.minApplyAmount != null)
+            return false;
+        if (navDate != null ? !navDate.equals(that.navDate) : that.navDate != null) return false;
+        if (oneMonthBuyedCount != null ? !oneMonthBuyedCount.equals(that.oneMonthBuyedCount) : that.oneMonthBuyedCount != null)
+            return false;
+        if (oneWeekProfit != null ? !oneWeekProfit.equals(that.oneWeekProfit) : that.oneWeekProfit != null)
+            return false;
+        if (oneYearProfit != null ? !oneYearProfit.equals(that.oneYearProfit) : that.oneYearProfit != null)
+            return false;
+        if (productStatus != null ? !productStatus.equals(that.productStatus) : that.productStatus != null)
+            return false;
+        if (riskLevel != null ? !riskLevel.equals(that.riskLevel) : that.riskLevel != null) return false;
+        if (scaleTime != null ? !scaleTime.equals(that.scaleTime) : that.scaleTime != null) return false;
+        if (secuAbbr != null ? !secuAbbr.equals(that.secuAbbr) : that.secuAbbr != null) return false;
+        if (supplierId != null ? !supplierId.equals(that.supplierId) : that.supplierId != null) return false;
+        if (toAccountType != null ? !toAccountType.equals(that.toAccountType) : that.toAccountType != null)
+            return false;
+        if (updateBy != null ? !updateBy.equals(that.updateBy) : that.updateBy != null) return false;
+        if (updateTime != null ? !updateTime.equals(that.updateTime) : that.updateTime != null) return false;
+
+        return true;
+    }
+
+    @Override
+    public int hashCode() {
+        int result = (int) (getId() ^ (getId() >>> 32));
+        result = 31 * result + (fundCode != null ? fundCode.hashCode() : 0);
+        result = 31 * result + (minApplyAmount != null ? minApplyAmount.hashCode() : 0);
+        result = 31 * result + (lowestRedemption != null ? lowestRedemption.hashCode() : 0);
+        result = 31 * result + (oneYearProfit != null ? oneYearProfit.hashCode() : 0);
+        result = 31 * result + (millionOfProfit != null ? millionOfProfit.hashCode() : 0);
+        result = 31 * result + (oneWeekProfit != null ? oneWeekProfit.hashCode() : 0);
+        result = 31 * result + (navDate != null ? navDate.hashCode() : 0);
+        result = 31 * result + (isApply != null ? isApply.hashCode() : 0);
+        result = 31 * result + (isRedemption != null ? isRedemption.hashCode() : 0);
+        result = 31 * result + (productStatus != null ? productStatus.hashCode() : 0);
+        result = 31 * result + (createTime != null ? createTime.hashCode() : 0);
+        result = 31 * result + (updateTime != null ? updateTime.hashCode() : 0);
+        result = 31 * result + (updateBy != null ? updateBy.hashCode() : 0);
+        result = 31 * result + (createBy != null ? createBy.hashCode() : 0);
+        result = 31 * result + (fundCompanyId != null ? fundCompanyId.hashCode() : 0);
+        result = 31 * result + (chiName != null ? chiName.hashCode() : 0);
+        result = 31 * result + (chiNameAbbr != null ? chiNameAbbr.hashCode() : 0);
+        result = 31 * result + (engName != null ? engName.hashCode() : 0);
+        result = 31 * result + (engNameAbbr != null ? engNameAbbr.hashCode() : 0);
+        result = 31 * result + (secuAbbr != null ? secuAbbr.hashCode() : 0);
+        result = 31 * result + (fundScale != null ? fundScale.hashCode() : 0);
+        result = 31 * result + (fundType != null ? fundType.hashCode() : 0);
+        result = 31 * result + (scaleTime != null ? scaleTime.hashCode() : 0);
+        result = 31 * result + (investPeriod != null ? investPeriod.hashCode() : 0);
+        result = 31 * result + (charge != null ? charge.hashCode() : 0);
+        result = 31 * result + (toAccountType != null ? toAccountType.hashCode() : 0);
+        result = 31 * result + (supplierId != null ? supplierId.hashCode() : 0);
+        result = 31 * result + (riskLevel != null ? riskLevel.hashCode() : 0);
+        result = 31 * result + (initBuyedCount != null ? initBuyedCount.hashCode() : 0);
+        result = 31 * result + (oneMonthBuyedCount != null ? oneMonthBuyedCount.hashCode() : 0);
+        return result;
+    }
 }

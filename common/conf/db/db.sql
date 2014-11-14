@@ -1021,43 +1021,7 @@ COMMENT ON COLUMN "public"."t_trade"."product_name" IS '产品名称';
 COMMENT ON COLUMN "public"."t_trade"."product_price" IS '产品单价';
 COMMENT ON COLUMN "public"."t_trade"."quantity" IS '数量';
 
-/*==============================================================*/
-/* Table: P_fund_company                                        */
-/*==============================================================*/
 
-CREATE TABLE P_FUND_COMPANY
-(
-   ID                   BIGINT                         NOT NULL,
-   COMPANY_NAME         VARCHAR(50)                    NULL,
-   COMPANY_CODE         VARCHAR(20)                    NULL,
-   PRIMARY KEY (ID)
-);
-
-/*==============================================================*/
-/* TABLE: C_SUPPLIER                                            */
-/*==============================================================*/
-DROP TABLE IF EXISTS C_SUPPLIER;
-CREATE TABLE C_SUPPLIER
-(
-   ID                   BIGINT                         NOT NULL,
-   SUPPLIER_CODE       VARCHAR(50)                    NULL,
-   SUPPLIER_TYPE        VARCHAR(50)                    NULL,
-   MERCHANT_NAME        VARCHAR(100)                   NULL,
-   DISPLAY_NAME         VARCHAR(50)                    NULL,
-   BELONG_ADDRESS       VARCHAR(200)                   NULL,
-   CONTACT_CALLNO       VARCHAR(15)                    NULL,
-   CORPORATE_PROPERTY   VARCHAR(20)                    NULL,
-   WEBSITE_ADDRESS      VARCHAR(50)                    NULL,
-   MERCHANT_INTRODUCTION VARCHAR(200)                   NULL,
-   REG_CAPITAL          DECIMAL(18,4)                  NULL,
-   PAID_UP_CAPITAL      DECIMAL(18,4)                  NULL,
-   REG_PROV             VARCHAR(10)                    NULL,
-   REG_CITY             VARCHAR(10)                    NULL,
-   REG_ADDRESS          VARCHAR(100)                   NULL,
-   CREATE_TIME          TIMESTAMP                      NULL,
-   UPDATE_TIME          TIMESTAMP                      NULL,
-   PRIMARY KEY (ID)
-);
 
 /*==============================================================*/
 /* Table: F_ACTIVITY                                            */
@@ -1383,3 +1347,149 @@ ALTER TABLE "public"."qrtz_simprop_triggers" ADD FOREIGN KEY ("sched_name", "tri
 -- Foreign Key structure for table "public"."qrtz_triggers"
 -- ----------------------------
 ALTER TABLE "public"."qrtz_triggers" ADD FOREIGN KEY ("sched_name", "job_name", "job_group") REFERENCES "public"."qrtz_job_details" ("sched_name", "job_name", "job_group") ON DELETE NO ACTION ON UPDATE NO ACTION;
+
+
+
+--2014-11-12
+/*==============================================================*/
+/* Table: P_fund_company                                        */
+/*==============================================================*/
+DROP TABLE IF EXISTS P_FUND_COMPANY;
+CREATE TABLE P_FUND_COMPANY
+(
+  ID           BIGINT      NOT NULL,
+  COMPANY_NAME VARCHAR(50) NULL,
+  COMPANY_CODE VARCHAR(20) NULL,
+  PRIMARY KEY (ID)
+);
+
+/*==============================================================*/
+/* TABLE: C_SUPPLIER                                            */
+/*==============================================================*/
+DROP TABLE IF EXISTS C_SUPPLIER;
+CREATE TABLE C_SUPPLIER
+(
+  ID                    BIGINT         NOT NULL,
+  SUPPLIER_CODE         VARCHAR(50)    NULL,
+  SUPPLIER_TYPE         VARCHAR(50)    NULL,
+  MERCHANT_NAME         VARCHAR(100)   NULL,
+  DISPLAY_NAME          VARCHAR(50)    NULL,
+  BELONG_ADDRESS        VARCHAR(200)   NULL,
+  CONTACT_CALLNO        VARCHAR(15)    NULL,
+  CORPORATE_PROPERTY    VARCHAR(20)    NULL,
+  WEBSITE_ADDRESS       VARCHAR(50)    NULL,
+  MERCHANT_INTRODUCTION VARCHAR(200)   NULL,
+  REG_CAPITAL           DECIMAL(18, 4) NULL,
+  PAID_UP_CAPITAL       DECIMAL(18, 4) NULL,
+  REG_PROV              VARCHAR(10)    NULL,
+  REG_CITY              VARCHAR(10)    NULL,
+  REG_ADDRESS           VARCHAR(100)   NULL,
+  CREATE_TIME           TIMESTAMP      NULL,
+  UPDATE_TIME           TIMESTAMP      NULL,
+  PRIMARY KEY (ID)
+);
+
+--2014-11-13
+
+/*==============================================================*/
+/* Table: p_product_manage                                      */
+/*==============================================================*/
+DROP TABLE IF EXISTS P_PRODUCT_MANAGE;
+CREATE TABLE P_PRODUCT_MANAGE
+(
+  ID             BIGINT       NOT NULL,
+  PRODUCT_CODE   VARCHAR(10)  NULL,
+  PRODUCT_TYPE   VARCHAR(50)  NULL,
+  PRODUCT_NAME   VARCHAR(10)  NULL,
+  BEGIN_TIME     TIMESTAMP    NULL,
+  END_DATE       TIMESTAMP    NULL,
+  CREATE_TIME    TIMESTAMP    NULL,
+  UPDATE_TIME    TIMESTAMP    NULL,
+  PRODUCT_DESC   VARCHAR(100) NULL,
+  PRODUCT_STATUS VARCHAR(50)  NULL,
+  URL            VARCHAR(300) NULL,
+  PRIMARY KEY (ID)
+);
+
+--2014-11-14
+
+/*==============================================================*/
+/* Table: P_Fund                                                */
+/*==============================================================*/
+DROP TABLE IF EXISTS P_FUND;
+CREATE TABLE P_FUND
+(
+  ID                    BIGINT         NOT NULL,
+  FUND_CODE             VARCHAR(10)    NULL,
+  MIN_APPLY_AMOUNT      DECIMAL(18, 4) NULL,
+  LOWEST_REDEMPTION     BIGINT         NULL,
+  ONE_YEAR_PROFIT       DECIMAL(18, 4) NULL,
+  MILLION_OF_PROFIT     DECIMAL(18, 4) NULL,
+  ONE_WEEK_PROFIT       DECIMAL(18, 4) NULL,
+  NAV_DATE              TIMESTAMP      NULL,
+  IS_APPLY              VARCHAR(50)    NULL,
+  IS_REDEMPTION         VARCHAR(50)    NULL,
+  PRODUCT_STATUS        VARCHAR(50)    NULL,
+  CREATE_TIME           TIMESTAMP      NULL,
+  UPDATE_TIME           TIMESTAMP      NULL,
+  UPDATE_BY             VARCHAR(10)    NULL,
+  CREATE_BY             VARCHAR(10)    NULL,
+  FUND_COMPANY_ID       BIGINT         NULL,
+  CHI_NAME              VARCHAR(100)   NULL,
+  CHI_NAME_ABBR         VARCHAR(50)    NULL,
+  ENG_NAME              VARCHAR(100)   NULL,
+  ENG_NAME_ABBR         VARCHAR(50)    NULL,
+  SECU_ABBR             VARCHAR(20)    NULL,
+  FUND_SCALE            DECIMAL        NULL,
+  SCALE_TIME            TIMESTAMP      NULL,
+  FUND_TYPE             VARCHAR(50)    NULL,
+  INVEST_PERIOD         VARCHAR(50)    NULL,
+  CHARGE                DECIMAL        NULL,
+  TO_ACCOUNT_TYPE       VARCHAR(50)    NULL,
+  SUPPLIER_ID           BIGINT         NULL,
+  RISK_LEVEL            VARCHAR(50)    NULL,
+  INIT_BUYED_COUNT      BIGINT         NULL,
+  ONE_MONTH_BUYED_COUNT BIGINT         NULL,
+  CONSTRAINT PK_P_FUND PRIMARY KEY (ID)
+);
+
+/*==============================================================*/
+/* Table: P_Fund_History                                        */
+/*==============================================================*/
+DROP TABLE IF EXISTS P_FUND_HISTORY;
+CREATE TABLE P_FUND_HISTORY
+(
+  ID                    BIGINT         NOT NULL,
+  FUND_CODE             VARCHAR(10)    NULL,
+  MIN_APPLY_AMOUNT      DECIMAL(18, 4) NULL,
+  LOWEST_REDEMPTION     BIGINT         NULL,
+  ONE_YEAR_PROFIT       DECIMAL(18, 4) NULL,
+  MILLION_OF_PROFIT     DECIMAL(18, 4) NULL,
+  ONE_WEEK_PROFIT       DECIMAL(18, 4) NULL,
+  NAV_DATE              TIMESTAMP      NULL,
+  IS_APPLY              VARCHAR(50)    NULL,
+  IS_REDEMPTION         VARCHAR(50)    NULL,
+  PRODUCT_STATUS        VARCHAR(50)    NULL,
+  CREATE_TIME           TIMESTAMP      NULL,
+  UPDATE_TIME           TIMESTAMP      NULL,
+  UPDATE_BY             VARCHAR(10)    NULL,
+  CREATE_BY             VARCHAR(10)    NULL,
+  FUND_COMPANY_ID       BIGINT         NULL,
+  CHI_NAME              VARCHAR(100)   NULL,
+  CHI_NAME_ABBR         VARCHAR(50)    NULL,
+  ENG_NAME              VARCHAR(100)   NULL,
+  ENG_NAME_ABBR         VARCHAR(50)    NULL,
+  SECU_ABBR             VARCHAR(20)    NULL,
+  FUND_SCALE            DECIMAL        NULL,
+  FUND_TYPE             VARCHAR(50)    NULL,
+  SCALE_TIME            TIMESTAMP      NULL,
+  INVEST_PERIOD         VARCHAR(50)    NULL,
+  CHARGE                DECIMAL        NULL,
+  TO_ACCOUNT_TYPE       VARCHAR(50)    NULL,
+  SUPPLIER_ID           BIGINT         NULL,
+  RISK_LEVEL            VARCHAR(50)    NULL,
+  INIT_BUYED_COUNT      BIGINT         NULL,
+  ONE_MONTH_BUYED_COUNT BIGINT         NULL,
+  CONSTRAINT PK_P_FUND_HISTORY PRIMARY KEY (ID)
+);
+
