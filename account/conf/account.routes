@@ -8,7 +8,7 @@
 POST        /accountital/totalcapital            @com.sunlights.account.web.CapitalController.getTotalCapitalInfo
 POST        /accountital/allcapital4prd          @com.sunlights.account.web.CapitalController.getAllCapital4Prd
 POST        /accountital/mycapital               @com.sunlights.account.web.CapitalController.getMyCapital
-POST        /accountital/findtotalprofits        @com.sunlights.account.web.CapitalController.findTotalProfitList
+POST        /accountital/yesterdayprofit         @com.sunlights.account.web.CapitalController.findYesterdayProfitList
 
 #Account
 POST        /resetaccpwdcertify                  @com.sunlights.account.web.BaseAccountController.resetAccountPwdCertify

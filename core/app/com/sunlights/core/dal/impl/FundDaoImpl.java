@@ -23,7 +23,11 @@ public class FundDaoImpl extends EntityBaseDao implements FundDao {
     List<Fund> funds = super.findBy(Fund.class, "fundCode", code);
     return funds.isEmpty() ? null : funds.get(0);
   }
-
+    @Override
+    public FundHistory findFundHistoryByCode(String code) {
+        List<FundHistory> funds = super.findBy(FundHistory.class, "fundCode", code);
+        return funds.isEmpty() ? null : funds.get(0);
+    }
   @Override
   public List<FundHistory> findFundHistoriesByDays(String fundCode, int days) {
 

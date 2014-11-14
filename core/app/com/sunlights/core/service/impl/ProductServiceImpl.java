@@ -82,6 +82,11 @@ public class ProductServiceImpl implements ProductService {
     return fund;
   }
 
+    public FundHistory findFundHistoryByCode(String productCode) {
+        FundHistory fundHistory = fundDao.findFundHistoryByCode(productCode);
+        return fundHistory;
+    }
+
   @Override
   public ProductVo findProductDetailBy(String productCode, String type) {
     ProductVo productVo = null;

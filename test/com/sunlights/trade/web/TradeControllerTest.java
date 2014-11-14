@@ -54,7 +54,7 @@ public class TradeControllerTest extends BaseTest {
                 Logger.info("=============testFindCapitalProductDetailTrade start======");
                 Map<String, String> formParams = new HashMap<String, String>();
                 formParams.put("prdType", "0");
-                formParams.put("prdCode", "GYHB");
+                formParams.put("prdCode", "350004");
                 play.mvc.Result result = getResult("/trade/productdetail", formParams, cookie);
                 Logger.info("=============testFindCapitalProductDetailTrade result======\n" + contentAsString(result));
                 assertThat(status(result)).isEqualTo(OK);

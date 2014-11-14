@@ -2,6 +2,7 @@ package com.sunlights.core.service.impl;
 
 import akka.actor.ActorRef;
 import com.sunlights.common.AppConst;
+import com.sunlights.common.ParameterConst;
 import com.sunlights.common.service.ParameterService;
 import com.sunlights.common.utils.DBHelper;
 import com.sunlights.core.actor.Actors;
@@ -59,7 +60,7 @@ public class SmsMessageService {
     } else if (AppConst.VERIFY_CODE_RESET_ACCOUNT.equals(type)) {
       typeStr = "修改交易密码";
     }
-    long expriyTimes = parameterService.getParameterNumeric(AppConst.VERIFYCODE_EXPIRY);
+    long expriyTimes = parameterService.getParameterNumeric(ParameterConst.VERIFYCODE_EXPIRY);
     String content = MessageFormat.format("您的{0}的验证码为： " +
         "{1}（{2}分钟内有效）【艺岳投资】", typeStr, verifyCode, expriyTimes);
 

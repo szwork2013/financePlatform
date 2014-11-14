@@ -5,7 +5,7 @@ import com.sunlights.account.service.CapitalService;
 import com.sunlights.account.service.impl.CapitalServiceImpl;
 import com.sunlights.account.vo.Capital4Product;
 import com.sunlights.account.vo.CapitalFormVo;
-import com.sunlights.account.vo.HoldCapitalVo;
+import com.sunlights.account.vo.CapitalVo;
 import com.sunlights.account.vo.TotalCapitalInfo;
 import com.sunlights.common.AppConst;
 import com.sunlights.common.MsgCode;
@@ -39,7 +39,6 @@ public class CapitalController extends Controller {
      *
      * @return
      */
-    @Transactional
     public Result getTotalCapitalInfo() {
         customerService.validateCustomerSession(request(),session(),response());
         Http.Cookie cookie = request().cookie(AppConst.TOKEN);
@@ -51,7 +50,7 @@ public class CapitalController extends Controller {
     }
 
     /**
-     * 获取客户所有产品对应的资产信息
+     * 获取客户所持有产品资产信息
      *
      * @return
      */
@@ -91,22 +90,22 @@ public class CapitalController extends Controller {
     }
 
     /**
-     * 累计收益查询
+     * 昨日收益查询
      *
      * @return
      */
-    public Result findTotalProfitList() {
-        Form<CapitalFormVo> form = Form.form(CapitalFormVo.class).bindFromRequest();
-        CapitalFormVo capitalFormVo = form.get();
+    public Result findYesterdayProfitList() {
+        CapitalFormVo capitalFormVo = capitalFormVoForm.bindFromRequest().get();
 
         customerService.validateCustomerSession(request(),session(),response());
-
-        List<HoldCapitalVo> list = capitalService.findTotalProfitList(capitalFormVo);
+        Http.Cookie cookie = request().cookie(AppConst.TOKEN);
+        String token = cookie == null ? null : cookie.value();
 
         PageVo pageVo = new PageVo();
         pageVo.setIndex(capitalFormVo.getIndex());
-        pageVo.setCount(list.size());
         pageVo.setPageSize(capitalFormVo.getPageSize());
+
+        List<CapitalVo> list = capitalService.findYesterdayProfitList(token, pageVo);
         pageVo.setList(list);
 
         Message message = new Message(MsgCode.OPERATE_SUCCESS);

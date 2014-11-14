@@ -37,10 +37,7 @@ public class TradeDaoImpl extends EntityBaseDao implements TradeDao {
 
 
     @Override
-    public List<TradeVo> getTradeListByCustomerId(String customerId, TradeSearchFormVo tradeSearchFormVo, PageVo pageVo) {
-        String productCode = tradeSearchFormVo.getPrdCode();
-        String productType = tradeSearchFormVo.getPrdType();
-
+    public List<TradeVo> getTradeListByCustomerId(String customerId, String productCode, PageVo pageVo) {
         String sql =  "select t " +
                 "from  Trade t " +
                 "where 1 = 1" +
@@ -73,7 +70,7 @@ public class TradeDaoImpl extends EntityBaseDao implements TradeDao {
             tradeVo.setPrdCode(trade.getProductCode());
             tradeVo.setTradeNo(trade.getTradeNo());
             tradeVo.setTradeTime(CommonUtil.dateToString(trade.getTradeTime(), CommonUtil.DATE_FORMAT_YYYY_MM_DD_HH_MM));
-            tradeVo.setTradeAmount(ArithUtil.bigToScale2(trade.getTradeAmount()));
+            tradeVo.setTradeAmount(ArithUtil.bigToScale2(trade.getTradeAmount().abs()));
             tradeVo.setTradeStatus(trade.getTradeStatus());
             tradeVo.setTradeType(trade.getType());
 

@@ -19,7 +19,6 @@ import models.*;
 
 import java.math.BigDecimal;
 import java.sql.Timestamp;
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -55,10 +54,8 @@ public class CapitalServiceImpl implements CapitalService {
 
         if (takeCapital4Prd) {
             PageVo pageVo = new PageVo();
-//            pageVo.setPageSize(3);
             List<Capital4Product> capital4Products = findCapital4ProductList(customerId, pageVo);
             totalCapitalInfo.setCapital4Products(capital4Products);
-//            totalCapitalInfo.setCount(pageVo.getCount() + "");
         }
 
         return totalCapitalInfo;
@@ -68,11 +65,6 @@ public class CapitalServiceImpl implements CapitalService {
     public List<Capital4Product> getAllCapital4Product(String token, PageVo pageVo) {
         CustomerSession customerSession = customerService.getCustomerSession(token);
         return findCapital4ProductList(customerSession.getCustomerId(), pageVo);
-    }
-
-    @Override
-    public HoldCapitalVo findCapitalProductDetail(String prdType, String prdCode) {
-        return capitalDao.findCapitalProductDetail(prdType, prdCode);
     }
 
     private List<Capital4Product> findCapital4ProductList(String customerId, PageVo pageVo) {
@@ -141,18 +133,14 @@ public class CapitalServiceImpl implements CapitalService {
         return holdCapital;
     }
 
-    public List<HoldCapitalVo> findTotalProfitList(CapitalFormVo capitalFormVo) {
-        Customer customer = customerService.getCustomerByMobile(capitalFormVo.getMobile());
-        List<HoldCapital> list = capitalDao.findHoldCapitalsByProductCode(customer.getCustomerId(), capitalFormVo);
-        List<HoldCapitalVo> holdCapitalVos = new ArrayList<HoldCapitalVo>();
-        HoldCapitalVo holdCapitalVo = null;
-        for (HoldCapital capital : list) {
-//            holdCapitalVo = transferTotalCapitalVo(capital);//TODO
-            holdCapitalVos.add(holdCapitalVo);
-        }
-        return holdCapitalVos;
+    public List<CapitalVo> findYesterdayProfitList(String token, PageVo pageVo) {
+        CustomerSession customerSession = customerService.getCustomerSession(token);
+        List<CapitalVo> list = capitalDao.findCapitalProfitListByCustId(customerSession.getCustomerId(), pageVo);
+        return list;
     }
 
-
+    public HoldCapital findHoldCapital(String customerId, String productCode){
+        return capitalDao.findHoldCapital(customerId, productCode);
+    }
 
 }

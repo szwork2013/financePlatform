@@ -37,7 +37,7 @@ public class SecurityControllerTest extends BaseTest {
       public void run() {
         Map<String, String> formParams = new HashMap<>();
         formParams.put("userName", "testusername");
-        formParams.put("idCardNo", "254545454545454554");
+        formParams.put("idCardNo", "254545454545454554");//
 
         play.mvc.Result result = getResult("/core/certify", formParams);
         assertThat(status(result)).isEqualTo(OK);

@@ -1,7 +1,6 @@
 package com.sunlights.trade.dal;
 
 import com.sunlights.common.vo.PageVo;
-import com.sunlights.trade.vo.TradeSearchFormVo;
 import com.sunlights.trade.vo.TradeVo;
 import models.Trade;
 
@@ -22,12 +21,11 @@ public interface TradeDao {
 
   /**
    * 获取交易记录
-   *
    * @param customerId        客户号
-   * @param tradeSearchFormVo
+   * @param productCode
    * @return
    */
-  public List<TradeVo> getTradeListByCustomerId(String customerId, TradeSearchFormVo tradeSearchFormVo, PageVo pageVo);
+  public List<TradeVo> getTradeListByCustomerId(String customerId, String productCode, PageVo pageVo);
 
   public Trade saveTrade(Trade trade);
 

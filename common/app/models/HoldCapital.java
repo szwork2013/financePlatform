@@ -2,7 +2,6 @@ package models;
 
 import javax.persistence.*;
 import java.math.BigDecimal;
-import java.sql.Timestamp;
 import java.util.Date;
 
 
@@ -28,6 +27,8 @@ public class HoldCapital extends IdEntity {
   private BigDecimal tradeAmount;//申赎资产
   @Column(name = "HOLD_CAPITAL")
   private BigDecimal holdCapital;//持有资产
+  @Column(name = "HOLD_CAPITAL_TYPE", length = 50)
+  private String holdCapitalType;
   @Column(name = "YESTERDAY_PROFIT", precision = 18, scale = 4)
   private BigDecimal yesterdayProfit;//昨天收益
   @Column(name = "TOTAL_PROFIT", precision = 18, scale = 4)
@@ -47,109 +48,115 @@ public class HoldCapital extends IdEntity {
   @Column(name = "DELETE_TIME")
   private Date deleteTime;
 
+    public String getCustId() {
+        return custId;
+    }
 
-  public String getCustId() {
-    return custId;
-  }
+    public void setCustId(String custId) {
+        this.custId = custId;
+    }
 
-  public void setCustId(String custId) {
-    this.custId = custId;
-  }
+    public String getProductCode() {
+        return productCode;
+    }
 
+    public void setProductCode(String productCode) {
+        this.productCode = productCode;
+    }
 
-  public BigDecimal getHoldCapital() {
-    return holdCapital;
-  }
+    public String getProductName() {
+        return productName;
+    }
 
-  public void setHoldCapital(BigDecimal holdCapital) {
-    this.holdCapital = holdCapital;
-  }
+    public void setProductName(String productName) {
+        this.productName = productName;
+    }
 
-  public BigDecimal getYesterdayProfit() {
-    return yesterdayProfit;
-  }
+    public String getProductType() {
+        return productType;
+    }
 
-  public void setYesterdayProfit(BigDecimal yesterdayProfit) {
-    this.yesterdayProfit = yesterdayProfit;
-  }
+    public void setProductType(String productType) {
+        this.productType = productType;
+    }
 
-  public BigDecimal getTotalProfit() {
-    return totalProfit;
-  }
+    public BigDecimal getTradeAmount() {
+        return tradeAmount;
+    }
 
-  public void setTotalProfit(BigDecimal totalProfit) {
-    this.totalProfit = totalProfit;
-  }
+    public void setTradeAmount(BigDecimal tradeAmount) {
+        this.tradeAmount = tradeAmount;
+    }
 
-  public Date getCreateTime() {
-    return createTime;
-  }
+    public BigDecimal getHoldCapital() {
+        return holdCapital;
+    }
 
-  public void setCreateTime(Timestamp createTime) {
-    this.createTime = createTime;
-  }
+    public void setHoldCapital(BigDecimal holdCapital) {
+        this.holdCapital = holdCapital;
+    }
 
-  public Date getUpdateTime() {
-    return updateTime;
-  }
+    public String getHoldCapitalType() {
+        return holdCapitalType;
+    }
 
-  public void setUpdateTime(Timestamp updateTime) {
-    this.updateTime = updateTime;
-  }
+    public void setHoldCapitalType(String holdCapitalType) {
+        this.holdCapitalType = holdCapitalType;
+    }
 
-  public Date getDeleteTime() {
-    return deleteTime;
-  }
+    public BigDecimal getYesterdayProfit() {
+        return yesterdayProfit;
+    }
 
-  public void setDeleteTime(Timestamp deleteTime) {
-    this.deleteTime = deleteTime;
-  }
+    public void setYesterdayProfit(BigDecimal yesterdayProfit) {
+        this.yesterdayProfit = yesterdayProfit;
+    }
 
-  public String getProductCode() {
-    return productCode;
-  }
+    public BigDecimal getTotalProfit() {
+        return totalProfit;
+    }
 
-  public void setProductCode(String productCode) {
-    this.productCode = productCode;
-  }
+    public void setTotalProfit(BigDecimal totalProfit) {
+        this.totalProfit = totalProfit;
+    }
 
-  public String getProductName() {
-    return productName;
-  }
+    public String getStatus() {
+        return status;
+    }
 
-  public void setProductName(String productName) {
-    this.productName = productName;
-  }
+    public void setStatus(String status) {
+        this.status = status;
+    }
 
-  public BigDecimal getTradeAmount() {
-    return tradeAmount;
-  }
+    public Date getSettleDate() {
+        return settleDate;
+    }
 
-  public void setTradeAmount(BigDecimal tradeAmount) {
-    this.tradeAmount = tradeAmount;
-  }
+    public void setSettleDate(Date settleDate) {
+        this.settleDate = settleDate;
+    }
 
-  public String getStatus() {
-    return status;
-  }
+    public Date getCreateTime() {
+        return createTime;
+    }
 
-  public void setStatus(String status) {
-    this.status = status;
-  }
+    public void setCreateTime(Date createTime) {
+        this.createTime = createTime;
+    }
 
-  public Date getSettleDate() {
-    return settleDate;
-  }
+    public Date getUpdateTime() {
+        return updateTime;
+    }
 
-  public void setSettleDate(Timestamp settleDate) {
-    this.settleDate = settleDate;
-  }
+    public void setUpdateTime(Date updateTime) {
+        this.updateTime = updateTime;
+    }
 
-  public String getProductType() {
-    return productType;
-  }
+    public Date getDeleteTime() {
+        return deleteTime;
+    }
 
-  public void setProductType(String productType) {
-    this.productType = productType;
-  }
+    public void setDeleteTime(Date deleteTime) {
+        this.deleteTime = deleteTime;
+    }
 }

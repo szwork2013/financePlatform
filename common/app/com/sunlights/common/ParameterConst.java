@@ -3,7 +3,7 @@ package com.sunlights.common;
 /**
  * Created by Administrator on 2014/9/15.
  */
-public interface IParameterConst {
+public final class ParameterConst {
     /**
      * 验证码在单位时间内最大次数
      */

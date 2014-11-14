@@ -441,6 +441,7 @@ CREATE TABLE "public"."f_holdcapital" (
 "cust_id" varchar(255) COLLATE "default",
 "delete_time" timestamp(6),
 "hold_capital" numeric(18,4),
+"hold_capital_type" varchar(50) COLLATE "default",
 "product_code" varchar(8) COLLATE "default",
 "product_name" varchar(100) COLLATE "default",
 "settle_date" timestamp(6),

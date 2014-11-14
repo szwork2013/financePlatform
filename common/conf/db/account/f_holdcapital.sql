@@ -4,6 +4,7 @@ CREATE TABLE f_holdcapital
   id bigint NOT NULL,
   cust_id character varying(30), -- 客户号
   hold_capital numeric(18,4), -- 持有资产
+  hold_capital_type CHARACTER VARYING(50),
   product_code character varying(8),
   product_name character varying(100),
   product_type character varying(50), -- 产品类型

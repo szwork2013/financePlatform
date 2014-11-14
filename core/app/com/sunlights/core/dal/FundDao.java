@@ -17,5 +17,7 @@ import java.util.List;
 public interface FundDao {
   public Fund findFundByCode(String code);
 
+    public FundHistory findFundHistoryByCode(String code);
+
   public List<FundHistory> findFundHistoriesByDays(String fundCode, int days);
 }

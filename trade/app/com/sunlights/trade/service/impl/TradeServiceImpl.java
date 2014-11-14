@@ -5,11 +5,11 @@ import com.sunlights.account.service.CapitalService;
 import com.sunlights.account.service.impl.AccountServiceImpl;
 import com.sunlights.account.service.impl.CapitalServiceImpl;
 import com.sunlights.account.vo.AcctChangeFlowVo;
-import com.sunlights.account.vo.HoldCapitalVo;
 import com.sunlights.account.vo.TotalCapitalInfo;
 import com.sunlights.common.MsgCode;
 import com.sunlights.common.Severity;
 import com.sunlights.common.exceptions.BusinessRuntimeException;
+import com.sunlights.common.utils.ArithUtil;
 import com.sunlights.common.utils.CommonUtil;
 import com.sunlights.common.utils.DBHelper;
 import com.sunlights.common.vo.Message;
@@ -31,10 +31,7 @@ import com.sunlights.trade.vo.CapitalProductTradeVo;
 import com.sunlights.trade.vo.TradeFormVo;
 import com.sunlights.trade.vo.TradeSearchFormVo;
 import com.sunlights.trade.vo.TradeVo;
-import models.CustomerSession;
-import models.Fund;
-import models.HoldCapital;
-import models.Trade;
+import models.*;
 
 import java.math.BigDecimal;
 import java.sql.Timestamp;
@@ -63,24 +60,50 @@ public class TradeServiceImpl implements TradeService {
     @Override
     public List<TradeVo> getTradeListByToken(String token, TradeSearchFormVo tradeSearchFormVo, PageVo pageVo){
         CustomerSession customerSession = customerService.getCustomerSession(token);
-        List<TradeVo> list = tradeDao.getTradeListByCustomerId(customerSession.getCustomerId(), tradeSearchFormVo,pageVo);
+        return getTradeListByCustomerId(customerSession.getCustomerId(), tradeSearchFormVo.getPrdCode() ,pageVo);
+    }
+
+    private List<TradeVo> getTradeListByCustomerId(String customerId, String prdCode, PageVo pageVo){
+        List<TradeVo> list = tradeDao.getTradeListByCustomerId(customerId, prdCode ,pageVo);
         return list;
     }
 
     public CapitalProductTradeVo findCapitalProductDetailTrade(String token, TradeSearchFormVo tradeSearchFormVo){
-        CommonUtil.getInstance().validateParams(tradeSearchFormVo.getPrdType(), tradeSearchFormVo.getPrdCode());
+        String prdCode = tradeSearchFormVo.getPrdCode();
+        String prdType = tradeSearchFormVo.getPrdType();
+        CommonUtil.getInstance().validateParams(prdType, prdCode);
         PageVo pageVo = new PageVo();
         pageVo.setPageSize(3);
-        List<TradeVo> list = getTradeListByToken(token, tradeSearchFormVo, pageVo);
-        HoldCapitalVo holdCapitalVo = capitalService.findCapitalProductDetail(tradeSearchFormVo.getPrdType(), tradeSearchFormVo.getPrdCode());
 
-        CapitalProductTradeVo capitalProductTradeVo = new CapitalProductTradeVo();
+        CustomerSession customerSession = customerService.getCustomerSession(token);
+        String customerId = customerSession.getCustomerId();
+
+        FundHistory fundHistory = productService.findFundHistoryByCode(prdCode);
+        HoldCapital holdCapital = capitalService.findHoldCapital(customerId, prdCode);
+        CapitalProductTradeVo capitalProductTradeVo = transHoldCapitalVo(holdCapital, fundHistory);
+
+        List<TradeVo> list = getTradeListByCustomerId(customerId, prdCode, pageVo);
         capitalProductTradeVo.setList(list);
-        capitalProductTradeVo.setHoldCapitalVo(holdCapitalVo);
         capitalProductTradeVo.setTradeCount(pageVo.getCount());
+        capitalProductTradeVo.setAvailableQuotient("0");//TODO
 
         return capitalProductTradeVo;
     }
+
+    private CapitalProductTradeVo transHoldCapitalVo(HoldCapital holdCapital, FundHistory fundHistory) {
+        CapitalProductTradeVo capitalProductTradeVo = new CapitalProductTradeVo();
+        capitalProductTradeVo.setPrdCode(holdCapital.getProductCode());
+        capitalProductTradeVo.setPrdName(holdCapital.getProductName());
+        capitalProductTradeVo.setMarketValue(ArithUtil.bigToScale2(holdCapital.getHoldCapital()));
+        capitalProductTradeVo.setTotalProfit(ArithUtil.bigToScale2(holdCapital.getTotalProfit()));
+        capitalProductTradeVo.setProfitLatestTime(CommonUtil.dateToString(holdCapital.getSettleDate(), CommonUtil.DATE_FORMAT_YYYY_MM_DD_HH_MM));
+        capitalProductTradeVo.setHoldQuotient(holdCapital.getTradeAmount().divide(fundHistory.getMinApplyAmount()).toString());
+        capitalProductTradeVo.setPrincipalValue(ArithUtil.bigToScale2(holdCapital.getHoldCapital().subtract(holdCapital.getTotalProfit())));
+        capitalProductTradeVo.setMillionOfProfit(fundHistory.getMillionOfProfit().toString());
+        capitalProductTradeVo.setOneWeekProfit(fundHistory.getOneWeekProfit().toString());
+        return capitalProductTradeVo;
+    }
+
 
 
     public TotalCapitalInfo tradeFundOrder(TradeFormVo tradeFormVo, String token){

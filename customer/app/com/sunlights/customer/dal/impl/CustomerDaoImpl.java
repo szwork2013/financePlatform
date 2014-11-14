@@ -92,7 +92,8 @@ public class CustomerDaoImpl extends EntityBaseDao implements CustomerDao {
                 " (select count(1) from c_bank_card bc where bc.customer_id = c.customer_id) as bankCardCount, " +
                 "  c.customer_id " +
                 " from    c_customer c,f_basic_account a" +
-                " where   c.real_name = :userName" +
+                " where   c.customer_id = a.cust_id" +
+                " and     c.real_name = :userName" +
                 " and     c.identity_typer = 'I'" +
                 " and     c.identity_number = :idCardNo";
 

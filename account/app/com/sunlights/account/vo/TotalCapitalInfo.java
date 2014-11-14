@@ -7,9 +7,13 @@ import java.io.Serializable;
 import java.util.List;
 
 /**
- * 我的资产页面需要的数据信息
+ * <p>Project: fsp</p>
+ * <p>Title: TotalCapitalVo.java</p>
+ * <p>Description: 总资产信息</p>
+ * <p>Copyright (c) 2014 Sunlights.cc</p>
+ * <p>All Rights Reserved.</p>
  *
- * @author tangweiqun  2014/10/22
+ * @author <a href="mailto:jiaming.wang@sunlights.cc">wangJiaMing</a>
  */
 public class TotalCapitalInfo implements Serializable {
   private static final long serialVersionUID = 4548594159264855489L;
