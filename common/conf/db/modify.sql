@@ -1,0 +1,1 @@
+ALTER TABLE f_holdcapital ADD COLUMN hold_capital_type character varying(50);
