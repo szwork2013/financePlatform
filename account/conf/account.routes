@@ -14,6 +14,9 @@ POST        /accountital/yesterdayprofit         @com.sunlights.account.web.Capi
 POST        /resetaccpwdcertify                  @com.sunlights.account.web.BaseAccountController.resetAccountPwdCertify
 POST        /resetaccpwd                         @com.sunlights.account.web.BaseAccountController.resetAccountPwd
 
+#Activity
+POST  /activity/list                             @com.sunlights.account.web.ActivityController.getActivityList
+
 
 # Map static resources from the /public folder to the /assets URL path
 GET         /assets/*file                        controllers.Assets.at(path="/public", file)
