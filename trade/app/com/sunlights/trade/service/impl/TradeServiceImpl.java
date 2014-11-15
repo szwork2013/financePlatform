@@ -218,7 +218,7 @@ public class TradeServiceImpl implements TradeService {
         trade.setProductCode(prdCode);
         trade.setProductName(fund.getChiName());
         trade.setProductPrice(fund.getMinApplyAmount());
-        trade.setFee(fund.getCharge() == null ? BigDecimal.ZERO : fund.getCharge());
+//        trade.setFee(fund.getCharge() == null ? BigDecimal.ZERO : fund.getCharge());
         return tradeDao.saveTrade(trade);
     }
 

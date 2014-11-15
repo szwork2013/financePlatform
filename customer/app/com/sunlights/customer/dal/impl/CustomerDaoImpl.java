@@ -113,19 +113,20 @@ public class CustomerDaoImpl extends EntityBaseDao implements CustomerDao {
 
 
     private CustomerVo transCustomerVo(List<Object[]> list) {
-        CustomerVo customerVo = CommonUtil.column2StringVo(list, CustomerVo.class);
-        if (customerVo == null) {
-            return null;
-        }
-
-        if (customerVo.getMobilePhoneNo() != null) {
-            customerVo.setMobileDisplayNo(customerVo.getMobilePhoneNo().substring(0, 3) + "****" + customerVo.getMobilePhoneNo().substring(7));
-        }
-        if ("1".equals(customerVo.getCertify())) {
-            customerVo.setIdCardNo(customerVo.getIdCardNo().substring(0, 6) + "******" + customerVo.getIdCardNo().substring(14));
-            customerVo.setUserName("*" + customerVo.getUserName().substring(1));
-        }
-        return customerVo;
+//        CustomerVo customerVo = CommonUtil.column2StringVo(list, CustomerVo.class);
+//        if (customerVo == null) {
+//            return null;
+//        }
+//
+//        if (customerVo.getMobilePhoneNo() != null) {
+//            customerVo.setMobileDisplayNo(customerVo.getMobilePhoneNo().substring(0, 3) + "****" + customerVo.getMobilePhoneNo().substring(7));
+//        }
+//        if ("1".equals(customerVo.getCertify())) {
+//            customerVo.setIdCardNo(customerVo.getIdCardNo().substring(0, 6) + "******" + customerVo.getIdCardNo().substring(14));
+//            customerVo.setUserName("*" + customerVo.getUserName().substring(1));
+//        }
+//        return customerVo;
+        return null;
     }
 
 

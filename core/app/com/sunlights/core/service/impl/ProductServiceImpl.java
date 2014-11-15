@@ -92,10 +92,10 @@ public class ProductServiceImpl implements ProductService {
     ProductVo productVo = null;
     if (CodeConst.PRODUCT_FUND.equals(type)) {
       Fund fund = findFundByCode(productCode);
-      if (fund != null) {
-        FundDetailVo fundDetailVo = new FundDetailVo(fund);
-        productVo = fundDetailVo;
-      }
+//      if (fund != null) {
+//        FundDetailVo fundDetailVo = new FundDetailVo(fund);
+//        productVo = fundDetailVo;
+//      }
     }
     return productVo;
   }
