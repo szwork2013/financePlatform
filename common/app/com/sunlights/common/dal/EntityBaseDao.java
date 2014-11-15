@@ -613,7 +613,7 @@ public class EntityBaseDao {
   public Query createNativeQueryByMap(String xsql, Map<String, Object> filterMap) {
     Map<String, Object> paramMap = Maps.newHashMapWithExpectedSize(5);
     String sql = this.buildSqlAndParams(xsql, filterMap, paramMap);
-
+    Logger.debug("sql : " + sql);
     return createNativeQuery(sql, paramMap);
   }
 
