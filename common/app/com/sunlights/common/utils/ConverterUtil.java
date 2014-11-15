@@ -4,7 +4,6 @@ import com.google.common.collect.Maps;
 import com.sunlights.common.exceptions.ConverterException;
 import org.apache.commons.beanutils.BeanUtils;
 
-import java.lang.reflect.InvocationTargetException;
 import java.util.List;
 import java.util.Map;
 
@@ -48,22 +47,22 @@ public final class ConverterUtil {
     }
 
     /**
-     * 把Map对象转换为对应的实体，map的key和实体的属性需要对应
+     * 把Map对象转换为对应的对象，map的key和实体的属性需要对应
      * @param mapObj
-     * @param entity
-     * @param <E>
+     * @param object
+     * @param <O>
      * @return
      * @see #createMap(java.util.List, java.util.List)
      */
-    public static <E> E convertMap2Entity(Map<String, Object> mapObj, E entity) throws ConverterException {
+    public static <O> O convertMap2Object(Map<String, Object> mapObj, O object) throws ConverterException {
         for (String key : mapObj.keySet()) {
             try {
-                BeanUtils.setProperty(entity, key, mapObj.get(key));
+                BeanUtils.setProperty(object, key, mapObj.get(key));
             } catch (Exception e) {
-                throw new ConverterException(entity.getClass().getName()+" 没有对应的属性：" + key, e);
+                throw new ConverterException(object.getClass().getName()+" 没有对应的属性：" + key, e);
             }
         }
-        return entity;
+        return object;
     }
 
     /**
