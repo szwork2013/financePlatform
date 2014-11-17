@@ -23,8 +23,7 @@ public class FundHistory extends IdEntity {
     private BigDecimal minApplyAmount;
     @Column(name = "lowest_redemption")
     private Long lowestRedemption;
-    @Column(name = "one_year_profit")
-    private BigDecimal oneYearProfit;
+
     @Column(name = "million_of_profit")
     private BigDecimal millionOfProfit;
 
@@ -57,7 +56,7 @@ public class FundHistory extends IdEntity {
     private String createBy;
 
     @Column(name = "fund_company_id")
-    private Long fundCompanyId;
+    private String fundCompanyId;
 
     @Column(name = "chi_name")
     private String chiName;
@@ -129,14 +128,6 @@ public class FundHistory extends IdEntity {
 
     public void setLowestRedemption(Long lowestRedemption) {
         this.lowestRedemption = lowestRedemption;
-    }
-
-    public BigDecimal getOneYearProfit() {
-        return oneYearProfit;
-    }
-
-    public void setOneYearProfit(BigDecimal oneYearProfit) {
-        this.oneYearProfit = oneYearProfit;
     }
 
     public BigDecimal getMillionOfProfit() {
@@ -219,11 +210,11 @@ public class FundHistory extends IdEntity {
         this.createBy = createBy;
     }
 
-    public Long getFundCompanyId() {
+    public String getFundCompanyId() {
         return fundCompanyId;
     }
 
-    public void setFundCompanyId(Long fundCompanyId) {
+    public void setFundCompanyId(String fundCompanyId) {
         this.fundCompanyId = fundCompanyId;
     }
 
@@ -383,8 +374,6 @@ public class FundHistory extends IdEntity {
             return false;
         if (oneWeekProfit != null ? !oneWeekProfit.equals(that.oneWeekProfit) : that.oneWeekProfit != null)
             return false;
-        if (oneYearProfit != null ? !oneYearProfit.equals(that.oneYearProfit) : that.oneYearProfit != null)
-            return false;
         if (productStatus != null ? !productStatus.equals(that.productStatus) : that.productStatus != null)
             return false;
         if (riskLevel != null ? !riskLevel.equals(that.riskLevel) : that.riskLevel != null) return false;
@@ -405,7 +394,6 @@ public class FundHistory extends IdEntity {
         result = 31 * result + (fundCode != null ? fundCode.hashCode() : 0);
         result = 31 * result + (minApplyAmount != null ? minApplyAmount.hashCode() : 0);
         result = 31 * result + (lowestRedemption != null ? lowestRedemption.hashCode() : 0);
-        result = 31 * result + (oneYearProfit != null ? oneYearProfit.hashCode() : 0);
         result = 31 * result + (millionOfProfit != null ? millionOfProfit.hashCode() : 0);
         result = 31 * result + (oneWeekProfit != null ? oneWeekProfit.hashCode() : 0);
         result = 31 * result + (navDate != null ? navDate.hashCode() : 0);

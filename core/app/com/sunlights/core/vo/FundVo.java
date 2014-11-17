@@ -2,6 +2,7 @@ package com.sunlights.core.vo;
 
 
 import com.sunlights.common.service.CommonService;
+import com.sunlights.common.utils.ArithUtil;
 import models.Fund;
 import models.ProductManage;
 import models.ProductRecommend;
@@ -62,9 +63,9 @@ public class FundVo extends ProductVo {
         super.setCategory(fund.getFundType());
         super.setCategoryDesc(new CommonService().findValueByCatPointKey(fund.getFundType()));
         super.setCode(fund.getFundCode());
-        this.sevenDaysIncome = fund.getOneWeekProfit();
-        this.millionIncome = fund.getMillionOfProfit();
-        this.purchasedAmount = fund.getMinApplyAmount();
+        this.sevenDaysIncome = ArithUtil.bigUpScale4(fund.getOneWeekProfit());
+        this.millionIncome = ArithUtil.bigUpScale4(fund.getMillionOfProfit());
+        this.purchasedAmount = ArithUtil.bigUpScale4(fund.getMinApplyAmount());
         this.peopleOfPurchased = fund.getInitBuyedCount();
         this.purchasedMethod = new CommonService().findValueByCatPointKey(fund.getInvestPeriod());
     }

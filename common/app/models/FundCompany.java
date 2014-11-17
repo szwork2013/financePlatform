@@ -15,6 +15,9 @@ public class FundCompany extends IdEntity {
     @Column(name = "COMPANY_CODE", length = 20)
     private String companyCode;//公司代码
 
+    @Column(name = "COMPANY_ID", length = 20)
+    private String companyId;//公司ID
+
     public String getCompanyName() {
         return companyName;
     }
@@ -29,5 +32,13 @@ public class FundCompany extends IdEntity {
 
     public void setCompanyCode(String companyCode) {
         this.companyCode = companyCode;
+    }
+
+    public String getCompanyId() {
+        return companyId;
+    }
+
+    public void setCompanyId(String companyId) {
+        this.companyId = companyId;
     }
 }
