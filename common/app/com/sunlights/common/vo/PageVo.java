@@ -22,7 +22,7 @@ public class PageVo {
   private int count = 0;
   private List list = new ArrayList();
 
-  @JsonIgnore
+//  @JsonIgnore
   private Map<String, Object> filter = new HashMap<String, Object>();
 
   public void put(String key, Object value) {
