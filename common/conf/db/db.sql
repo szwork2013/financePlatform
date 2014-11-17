@@ -20,82 +20,84 @@ Date: 2014-11-12 16:07:45
 -- ----------------------------
 DROP SEQUENCE "public"."cust_seq";
 CREATE SEQUENCE "public"."cust_seq"
- INCREMENT 1
- MINVALUE 1
- MAXVALUE 9999999999
- START 22
- CACHE 1
- CYCLE;
-COMMENT ON SEQUENCE "public"."cust_seq" IS 
+INCREMENT 1
+MINVALUE 1
+MAXVALUE 9999999999
+START 22
+CACHE 1
+CYCLE;
+COMMENT ON SEQUENCE "public"."cust_seq" IS
 '客户号序列';
-SELECT setval('"public"."cust_seq"', 22, true);
+SELECT
+  setval('"public"."cust_seq"', 22, TRUE);
 
 -- ----------------------------
 -- Sequence structure for hibernate_sequence
 -- ----------------------------
 DROP SEQUENCE "public"."hibernate_sequence";
 CREATE SEQUENCE "public"."hibernate_sequence"
- INCREMENT 1
- MINVALUE 1
- MAXVALUE 9223372036854775807
- START 14
- CACHE 1;
-SELECT setval('"public"."hibernate_sequence"', 14, true);
+INCREMENT 1
+MINVALUE 1
+MAXVALUE 9223372036854775807
+START 14
+CACHE 1;
+SELECT
+  setval('"public"."hibernate_sequence"', 14, TRUE);
 
 -- ----------------------------
 -- Sequence structure for seq_base_model
 -- ----------------------------
 DROP SEQUENCE "public"."seq_base_model";
 CREATE SEQUENCE "public"."seq_base_model"
- INCREMENT 1
- MINVALUE 1
- MAXVALUE 9999999999
- START 1
- CACHE 1;
+INCREMENT 1
+MINVALUE 1
+MAXVALUE 9999999999
+START 1
+CACHE 1;
 
 -- ----------------------------
 -- Sequence structure for src
 -- ----------------------------
 DROP SEQUENCE "public"."src";
 CREATE SEQUENCE "public"."src"
- INCREMENT 1
- MINVALUE 1
- MAXVALUE 9223372036854775807
- START 392
- CACHE 1;
-SELECT setval('"public"."src"', 392, true);
+INCREMENT 1
+MINVALUE 1
+MAXVALUE 9223372036854775807
+START 392
+CACHE 1;
+SELECT
+  setval('"public"."src"', 392, TRUE);
 
 -- ----------------------------
 -- Sequence structure for trade_seq
 -- ----------------------------
 DROP SEQUENCE "public"."trade_seq";
 CREATE SEQUENCE "public"."trade_seq"
- INCREMENT 1
- MINVALUE 1
- MAXVALUE 9999
- START 19
- CACHE 1
- CYCLE;
-COMMENT ON SEQUENCE "public"."trade_seq" IS 
+INCREMENT 1
+MINVALUE 1
+MAXVALUE 9999
+START 19
+CACHE 1
+CYCLE;
+COMMENT ON SEQUENCE "public"."trade_seq" IS
 '交易流水号';
-SELECT setval('"public"."trade_seq"', 19, true);
+SELECT
+  setval('"public"."trade_seq"', 19, TRUE);
 
 -- ----------------------------
 -- Table structure for c_bank
 -- ----------------------------
 DROP TABLE IF EXISTS "public"."c_bank";
 CREATE TABLE "public"."c_bank" (
-"id" int8 NOT NULL,
-"bank_code" varchar(40) COLLATE "default",
-"bank_name" varchar(50) COLLATE "default",
-"create_time" timestamp(6),
-"en_name" varchar(50) COLLATE "default",
-"status" varchar(1) COLLATE "default",
-"update_time" timestamp(6)
+  "id"          INT8 NOT NULL,
+  "bank_code"   VARCHAR(40) COLLATE "default",
+  "bank_name"   VARCHAR(50) COLLATE "default",
+  "create_time" TIMESTAMP(6),
+  "en_name"     VARCHAR(50) COLLATE "default",
+  "status"      VARCHAR(1) COLLATE "default",
+  "update_time" TIMESTAMP(6)
 )
-WITH (OIDS=FALSE)
-
-;
+WITH (OIDS = FALSE);
 COMMENT ON COLUMN "public"."c_bank"."bank_code" IS '银行编码';
 COMMENT ON COLUMN "public"."c_bank"."bank_name" IS '银行名称';
 COMMENT ON COLUMN "public"."c_bank"."en_name" IS '英文名';
@@ -106,54 +108,50 @@ COMMENT ON COLUMN "public"."c_bank"."status" IS '状态';
 -- ----------------------------
 DROP TABLE IF EXISTS "public"."c_bank_card";
 CREATE TABLE "public"."c_bank_card" (
-"id" int8 NOT NULL,
-"bank_card_no" varchar(40) COLLATE "default",
-"bank_code" varchar(40) COLLATE "default",
-"status" varchar(1) COLLATE "default",
-"bank_type" varchar(1) COLLATE "default",
-"create_time" timestamp(6),
-"customer_id" varchar(30) COLLATE "default",
-"update_time" timestamp(6),
-"bank_id" int8
+  "id"           INT8 NOT NULL,
+  "bank_card_no" VARCHAR(40) COLLATE "default",
+  "bank_code"    VARCHAR(40) COLLATE "default",
+  "status"       VARCHAR(1) COLLATE "default",
+  "bank_type"    VARCHAR(1) COLLATE "default",
+  "create_time"  TIMESTAMP(6),
+  "customer_id"  VARCHAR(30) COLLATE "default",
+  "update_time"  TIMESTAMP(6),
+  "bank_id"      INT8
 )
-WITH (OIDS=FALSE)
-
-;
+WITH (OIDS = FALSE);
 
 -- ----------------------------
 -- Table structure for c_customer
 -- ----------------------------
 DROP TABLE IF EXISTS "public"."c_customer";
 CREATE TABLE "public"."c_customer" (
-"id" int8 NOT NULL,
-"customer_id" varchar(30) COLLATE "default",
-"customer_type" varchar(1) COLLATE "default",
-"device_no" varchar(50) COLLATE "default",
-"email" varchar(50) COLLATE "default",
-"identity_number" varchar(30) COLLATE "default",
-"identity_typer" varchar(1) COLLATE "default",
-"login_id" varchar(20) COLLATE "default",
-"login_password" varchar(40) COLLATE "default",
-"mobile" varchar(11) COLLATE "default",
-"nick_name" varchar(20) COLLATE "default",
-"pic_way" varchar(40) COLLATE "default",
-"property" varchar(1) COLLATE "default",
-"qq" varchar(20) COLLATE "default",
-"real_name" varchar(20) COLLATE "default",
-"referral_code" varchar(10) COLLATE "default",
-"reg_channel" varchar(1) COLLATE "default",
-"reg_way" varchar(1) COLLATE "default",
-"status" varchar(1) COLLATE "default",
-"weibo" varchar(30) COLLATE "default",
-"weixin" varchar(30) COLLATE "default",
-"create_by" varchar(30) COLLATE "default",
-"create_time" timestamp(6),
-"update_by" varchar(30) COLLATE "default",
-"update_time" timestamp(6)
+  "id"              INT8 NOT NULL,
+  "customer_id"     VARCHAR(30) COLLATE "default",
+  "customer_type"   VARCHAR(1) COLLATE "default",
+  "device_no"       VARCHAR(50) COLLATE "default",
+  "email"           VARCHAR(50) COLLATE "default",
+  "identity_number" VARCHAR(30) COLLATE "default",
+  "identity_typer"  VARCHAR(1) COLLATE "default",
+  "login_id"        VARCHAR(20) COLLATE "default",
+  "login_password"  VARCHAR(40) COLLATE "default",
+  "mobile"          VARCHAR(11) COLLATE "default",
+  "nick_name"       VARCHAR(20) COLLATE "default",
+  "pic_way"         VARCHAR(40) COLLATE "default",
+  "property"        VARCHAR(1) COLLATE "default",
+  "qq"              VARCHAR(20) COLLATE "default",
+  "real_name"       VARCHAR(20) COLLATE "default",
+  "referral_code"   VARCHAR(10) COLLATE "default",
+  "reg_channel"     VARCHAR(1) COLLATE "default",
+  "reg_way"         VARCHAR(1) COLLATE "default",
+  "status"          VARCHAR(1) COLLATE "default",
+  "weibo"           VARCHAR(30) COLLATE "default",
+  "weixin"          VARCHAR(30) COLLATE "default",
+  "create_by"       VARCHAR(30) COLLATE "default",
+  "create_time"     TIMESTAMP(6),
+  "update_by"       VARCHAR(30) COLLATE "default",
+  "update_time"     TIMESTAMP(6)
 )
-WITH (OIDS=FALSE)
-
-;
+WITH (OIDS = FALSE);
 COMMENT ON COLUMN "public"."c_customer"."customer_id" IS '客户号';
 COMMENT ON COLUMN "public"."c_customer"."customer_type" IS '客户类型';
 COMMENT ON COLUMN "public"."c_customer"."device_no" IS '注册设备号';
@@ -182,17 +180,15 @@ COMMENT ON COLUMN "public"."c_customer"."create_time" IS '创建时间';
 -- ----------------------------
 DROP TABLE IF EXISTS "public"."c_customer_gesture";
 CREATE TABLE "public"."c_customer_gesture" (
-"id" int8 NOT NULL,
-"device_no" varchar(40) COLLATE "default",
-"gesture_password" varchar(40) COLLATE "default",
-"status" varchar(1) COLLATE "default",
-"customer_id" varchar(30) COLLATE "default",
-"update_time" timestamp(6),
-"create_time" timestamp(6)
+  "id"               INT8 NOT NULL,
+  "device_no"        VARCHAR(40) COLLATE "default",
+  "gesture_password" VARCHAR(40) COLLATE "default",
+  "status"           VARCHAR(1) COLLATE "default",
+  "customer_id"      VARCHAR(30) COLLATE "default",
+  "update_time"      TIMESTAMP(6),
+  "create_time"      TIMESTAMP(6)
 )
-WITH (OIDS=FALSE)
-
-;
+WITH (OIDS = FALSE);
 COMMENT ON COLUMN "public"."c_customer_gesture"."device_no" IS '设备号';
 COMMENT ON COLUMN "public"."c_customer_gesture"."gesture_password" IS '手势密码';
 COMMENT ON COLUMN "public"."c_customer_gesture"."status" IS 'Y失效 N有效';
@@ -205,19 +201,17 @@ COMMENT ON COLUMN "public"."c_customer_gesture"."create_time" IS '创建时间';
 -- ----------------------------
 DROP TABLE IF EXISTS "public"."c_customer_session";
 CREATE TABLE "public"."c_customer_session" (
-"id" int8 NOT NULL,
-"client_address" varchar(40) COLLATE "default",
-"device_name" varchar(40) COLLATE "default",
-"device_no" varchar(40) COLLATE "default",
-"status" varchar(1) COLLATE "default",
-"token" varchar(400) COLLATE "default",
-"customer_id" varchar(30) COLLATE "default",
-"create_time" timestamp(6),
-"update_time" timestamp(6)
+  "id"             INT8 NOT NULL,
+  "client_address" VARCHAR(40) COLLATE "default",
+  "device_name"    VARCHAR(40) COLLATE "default",
+  "device_no"      VARCHAR(40) COLLATE "default",
+  "status"         VARCHAR(1) COLLATE "default",
+  "token"          VARCHAR(400) COLLATE "default",
+  "customer_id"    VARCHAR(30) COLLATE "default",
+  "create_time"    TIMESTAMP(6),
+  "update_time"    TIMESTAMP(6)
 )
-WITH (OIDS=FALSE)
-
-;
+WITH (OIDS = FALSE);
 COMMENT ON COLUMN "public"."c_customer_session"."client_address" IS '客户端Ip地址';
 COMMENT ON COLUMN "public"."c_customer_session"."device_name" IS '设备名称';
 COMMENT ON COLUMN "public"."c_customer_session"."device_no" IS '设备号';
@@ -229,18 +223,16 @@ COMMENT ON COLUMN "public"."c_customer_session"."customer_id" IS '客户号';
 -- ----------------------------
 DROP TABLE IF EXISTS "public"."c_customer_verify_code";
 CREATE TABLE "public"."c_customer_verify_code" (
-"id" int8 NOT NULL,
-"device_no" varchar(40) COLLATE "default",
-"mobile" varchar(11) COLLATE "default",
-"status" varchar(1) COLLATE "default",
-"verify_code" varchar(40) COLLATE "default",
-"verify_type" varchar(20) COLLATE "default",
-"create_time" timestamp(6),
-"update_time" timestamp(6)
+  "id"          INT8 NOT NULL,
+  "device_no"   VARCHAR(40) COLLATE "default",
+  "mobile"      VARCHAR(11) COLLATE "default",
+  "status"      VARCHAR(1) COLLATE "default",
+  "verify_code" VARCHAR(40) COLLATE "default",
+  "verify_type" VARCHAR(20) COLLATE "default",
+  "create_time" TIMESTAMP(6),
+  "update_time" TIMESTAMP(6)
 )
-WITH (OIDS=FALSE)
-
-;
+WITH (OIDS = FALSE);
 COMMENT ON COLUMN "public"."c_customer_verify_code"."device_no" IS '设备号';
 COMMENT ON COLUMN "public"."c_customer_verify_code"."mobile" IS '手机号';
 COMMENT ON COLUMN "public"."c_customer_verify_code"."status" IS 'Y失效 N有效';
@@ -252,60 +244,54 @@ COMMENT ON COLUMN "public"."c_customer_verify_code"."verify_type" IS '类型';
 -- ----------------------------
 DROP TABLE IF EXISTS "public"."c_feedback";
 CREATE TABLE "public"."c_feedback" (
-"id" int8 NOT NULL,
-"customer_id" varchar(30) COLLATE "default",
-"context" text COLLATE "default",
-"mobile" varchar(20) COLLATE "default",
-"remark" text COLLATE "default",
-"status" varchar(50) COLLATE "default",
-"device_no" varchar(50) COLLATE "default",
-"create_time" timestamp(6),
-"update_time" timestamp(6),
-"update_by" varchar(30) COLLATE "default"
+  "id"          INT8 NOT NULL,
+  "customer_id" VARCHAR(30) COLLATE "default",
+  "context"     TEXT COLLATE "default",
+  "mobile"      VARCHAR(20) COLLATE "default",
+  "remark"      TEXT COLLATE "default",
+  "status"      VARCHAR(50) COLLATE "default",
+  "device_no"   VARCHAR(50) COLLATE "default",
+  "create_time" TIMESTAMP(6),
+  "update_time" TIMESTAMP(6),
+  "update_by"   VARCHAR(30) COLLATE "default"
 )
-WITH (OIDS=FALSE)
-
-;
+WITH (OIDS = FALSE);
 
 -- ----------------------------
 -- Table structure for c_fund_open_account
 -- ----------------------------
 DROP TABLE IF EXISTS "public"."c_fund_open_account";
 CREATE TABLE "public"."c_fund_open_account" (
-"id" int8,
-"bank_card_no" varchar(32) COLLATE "default",
-"bank_code" varchar(20) COLLATE "default",
-"bank_buyer_name" varchar(10) COLLATE "default",
-"branch_bank_name" varchar(60) COLLATE "default",
-"customer_id" varchar(30) COLLATE "default",
-"create_time" timestamp(6),
-"update_time" timestamp(6)
+  "id"               INT8,
+  "bank_card_no"     VARCHAR(32) COLLATE "default",
+  "bank_code"        VARCHAR(20) COLLATE "default",
+  "bank_buyer_name"  VARCHAR(10) COLLATE "default",
+  "branch_bank_name" VARCHAR(60) COLLATE "default",
+  "customer_id"      VARCHAR(30) COLLATE "default",
+  "create_time"      TIMESTAMP(6),
+  "update_time"      TIMESTAMP(6)
 )
-WITH (OIDS=FALSE)
-
-;
+WITH (OIDS = FALSE);
 
 -- ----------------------------
 -- Table structure for c_login_history
 -- ----------------------------
 DROP TABLE IF EXISTS "public"."c_login_history";
 CREATE TABLE "public"."c_login_history" (
-"id" int8 NOT NULL,
-"device_no" varchar(40) COLLATE "default",
-"gesture_ind" varchar(1) COLLATE "default",
-"log_num" int8,
-"pwd_ind" varchar(1) COLLATE "default",
-"social_ind" varchar(1) COLLATE "default",
-"success_ind" varchar(1) COLLATE "default",
-"customer_id" varchar(30) COLLATE "default",
-"create_time" timestamp(6),
-"login_time" timestamp(6),
-"logout_time" timestamp(6),
-"update_time" timestamp(6)
+  "id"          INT8 NOT NULL,
+  "device_no"   VARCHAR(40) COLLATE "default",
+  "gesture_ind" VARCHAR(1) COLLATE "default",
+  "log_num"     INT8,
+  "pwd_ind"     VARCHAR(1) COLLATE "default",
+  "social_ind"  VARCHAR(1) COLLATE "default",
+  "success_ind" VARCHAR(1) COLLATE "default",
+  "customer_id" VARCHAR(30) COLLATE "default",
+  "create_time" TIMESTAMP(6),
+  "login_time"  TIMESTAMP(6),
+  "logout_time" TIMESTAMP(6),
+  "update_time" TIMESTAMP(6)
 )
-WITH (OIDS=FALSE)
-
-;
+WITH (OIDS = FALSE);
 COMMENT ON COLUMN "public"."c_login_history"."device_no" IS '设备号';
 COMMENT ON COLUMN "public"."c_login_history"."gesture_ind" IS 'Y手势登录 ';
 COMMENT ON COLUMN "public"."c_login_history"."log_num" IS '登录失败次数';
@@ -320,64 +306,58 @@ COMMENT ON COLUMN "public"."c_login_history"."logout_time" IS '登出时间';
 -- ----------------------------
 DROP TABLE IF EXISTS "public"."c_open_account_pact";
 CREATE TABLE "public"."c_open_account_pact" (
-"agreement_no" varchar(20) COLLATE "default" NOT NULL,
-"sign_channel" varchar(10) COLLATE "default",
-"agreement_start_date" timestamp(6),
-"agreement_end_date" timestamp(6),
-"agreement_effect_date" timestamp(6),
-"agreement_expiry_date" timestamp(6),
-"agreement_status" varchar(1) COLLATE "default",
-"sale_property" varchar(1) COLLATE "default",
-"user_attribution" varchar(1) COLLATE "default",
-"agreement_name" varchar(40) COLLATE "default",
-"agreement_file_type" varchar(10) COLLATE "default",
-"file_name" varchar(100) COLLATE "default",
-"file_path" varchar(200) COLLATE "default",
-"status" varchar(1) COLLATE "default",
-"create_date" timestamp(6),
-"update_date" timestamp(6)
+  "agreement_no"          VARCHAR(20) COLLATE "default" NOT NULL,
+  "sign_channel"          VARCHAR(10) COLLATE "default",
+  "agreement_start_date"  TIMESTAMP(6),
+  "agreement_end_date"    TIMESTAMP(6),
+  "agreement_effect_date" TIMESTAMP(6),
+  "agreement_expiry_date" TIMESTAMP(6),
+  "agreement_status"      VARCHAR(1) COLLATE "default",
+  "sale_property"         VARCHAR(1) COLLATE "default",
+  "user_attribution"      VARCHAR(1) COLLATE "default",
+  "agreement_name"        VARCHAR(40) COLLATE "default",
+  "agreement_file_type"   VARCHAR(10) COLLATE "default",
+  "file_name"             VARCHAR(100) COLLATE "default",
+  "file_path"             VARCHAR(200) COLLATE "default",
+  "status"                VARCHAR(1) COLLATE "default",
+  "create_date"           TIMESTAMP(6),
+  "update_date"           TIMESTAMP(6)
 )
-WITH (OIDS=FALSE)
-
-;
+WITH (OIDS = FALSE);
 
 -- ----------------------------
 -- Table structure for dict
 -- ----------------------------
 DROP TABLE IF EXISTS "public"."dict";
 CREATE TABLE "public"."dict" (
-"id" int8 NOT NULL,
-"code_cat" varchar(50) COLLATE "default",
-"code_key" varchar(50) COLLATE "default",
-"code_val" varchar(100) COLLATE "default",
-"seq_no" int4,
-"create_by" varchar(255) COLLATE "default",
-"create_time" timestamp(6),
-"status" varchar(1) COLLATE "default",
-"sys_ind" varchar(1) COLLATE "default",
-"magic" varchar(255) COLLATE "default",
-"remarks" varchar(255) COLLATE "default"
+  "id"          INT8 NOT NULL,
+  "code_cat"    VARCHAR(50) COLLATE "default",
+  "code_key"    VARCHAR(50) COLLATE "default",
+  "code_val"    VARCHAR(100) COLLATE "default",
+  "seq_no"      INT4,
+  "create_by"   VARCHAR(255) COLLATE "default",
+  "create_time" TIMESTAMP(6),
+  "status"      VARCHAR(1) COLLATE "default",
+  "sys_ind"     VARCHAR(1) COLLATE "default",
+  "magic"       VARCHAR(255) COLLATE "default",
+  "remarks"     VARCHAR(255) COLLATE "default"
 )
-WITH (OIDS=FALSE)
-
-;
+WITH (OIDS = FALSE);
 
 -- ----------------------------
 -- Table structure for f_acct_chang_flow
 -- ----------------------------
 DROP TABLE IF EXISTS "public"."f_acct_chang_flow";
 CREATE TABLE "public"."f_acct_chang_flow" (
-"id" int8 NOT NULL,
-"product_code" varchar(8) COLLATE "default",
-"trade_no" varchar(20) COLLATE "default",
-"subject_no" varchar(6) COLLATE "default",
-"amount" numeric(18,4),
-"create_time" timestamp(6),
-"customer_id" varchar(30) COLLATE "default"
+  "id"           INT8 NOT NULL,
+  "product_code" VARCHAR(8) COLLATE "default",
+  "trade_no"     VARCHAR(20) COLLATE "default",
+  "subject_no"   VARCHAR(6) COLLATE "default",
+  "amount"       NUMERIC(18, 4),
+  "create_time"  TIMESTAMP(6),
+  "customer_id"  VARCHAR(30) COLLATE "default"
 )
-WITH (OIDS=FALSE)
-
-;
+WITH (OIDS = FALSE);
 COMMENT ON TABLE "public"."f_acct_chang_flow" IS '账户变动流水表';
 COMMENT ON COLUMN "public"."f_acct_chang_flow"."id" IS '账户变动流水ID';
 COMMENT ON COLUMN "public"."f_acct_chang_flow"."product_code" IS '产品编码';
@@ -392,19 +372,17 @@ COMMENT ON COLUMN "public"."f_acct_chang_flow"."customer_id" IS '客户号';
 -- ----------------------------
 DROP TABLE IF EXISTS "public"."f_basic_account";
 CREATE TABLE "public"."f_basic_account" (
-"id" int8 NOT NULL,
-"account_no" varchar(30) COLLATE "default",
-"status" char(1) COLLATE "default",
-"balance" numeric(18,4),
-"create_time" timestamp(6),
-"update_time" timestamp(6),
-"delete_time" timestamp(6),
-"trade_password" varchar(50) COLLATE "default",
-"cust_id" varchar(30) COLLATE "default"
+  "id"             INT8 NOT NULL,
+  "account_no"     VARCHAR(30) COLLATE "default",
+  "status"         CHAR(1) COLLATE "default",
+  "balance"        NUMERIC(18, 4),
+  "create_time"    TIMESTAMP(6),
+  "update_time"    TIMESTAMP(6),
+  "delete_time"    TIMESTAMP(6),
+  "trade_password" VARCHAR(50) COLLATE "default",
+  "cust_id"        VARCHAR(30) COLLATE "default"
 )
-WITH (OIDS=FALSE)
-
-;
+WITH (OIDS = FALSE);
 COMMENT ON TABLE "public"."f_basic_account" IS '基本账户';
 COMMENT ON COLUMN "public"."f_basic_account"."id" IS '基本账户Id';
 COMMENT ON COLUMN "public"."f_basic_account"."account_no" IS '基本账户号';
@@ -421,40 +399,36 @@ COMMENT ON COLUMN "public"."f_basic_account"."cust_id" IS '客户号';
 -- ----------------------------
 DROP TABLE IF EXISTS "public"."f_fund_agreement";
 CREATE TABLE "public"."f_fund_agreement" (
-"id" int8 NOT NULL,
-"customer_id" varchar(30) COLLATE "default",
-"company_code" varchar(20) COLLATE "default" NOT NULL,
-"create_time" timestamp(6),
-"update_time" timestamp(6)
+  "id"           INT8                          NOT NULL,
+  "customer_id"  VARCHAR(30) COLLATE "default",
+  "company_code" VARCHAR(20) COLLATE "default" NOT NULL,
+  "create_time"  TIMESTAMP(6),
+  "update_time"  TIMESTAMP(6)
 )
-WITH (OIDS=FALSE)
-
-;
+WITH (OIDS = FALSE);
 
 -- ----------------------------
 -- Table structure for f_holdcapital
 -- ----------------------------
 DROP TABLE IF EXISTS "public"."f_holdcapital";
 CREATE TABLE "public"."f_holdcapital" (
-"id" int8 NOT NULL,
-"create_time" timestamp(6),
-"cust_id" varchar(255) COLLATE "default",
-"delete_time" timestamp(6),
-"hold_capital" numeric(18,4),
-"hold_capital_type" varchar(50) COLLATE "default",
-"product_code" varchar(8) COLLATE "default",
-"product_name" varchar(100) COLLATE "default",
-"settle_date" timestamp(6),
-"status" varchar(1) COLLATE "default",
-"total_profit" numeric(18,4),
-"trade_amount" numeric(18,4),
-"update_time" timestamp(6),
-"yesterday_profit" numeric(18,4),
-"product_type" varchar(50) COLLATE "default"
+  "id"                INT8 NOT NULL,
+  "create_time"       TIMESTAMP(6),
+  "cust_id"           VARCHAR(255) COLLATE "default",
+  "delete_time"       TIMESTAMP(6),
+  "hold_capital"      NUMERIC(18, 4),
+  "hold_capital_type" VARCHAR(50) COLLATE "default",
+  "product_code"      VARCHAR(8) COLLATE "default",
+  "product_name"      VARCHAR(100) COLLATE "default",
+  "settle_date"       TIMESTAMP(6),
+  "status"            VARCHAR(1) COLLATE "default",
+  "total_profit"      NUMERIC(18, 4),
+  "trade_amount"      NUMERIC(18, 4),
+  "update_time"       TIMESTAMP(6),
+  "yesterday_profit"  NUMERIC(18, 4),
+  "product_type"      VARCHAR(50) COLLATE "default"
 )
-WITH (OIDS=FALSE)
-
-;
+WITH (OIDS = FALSE);
 COMMENT ON COLUMN "public"."f_holdcapital"."cust_id" IS '客户号';
 COMMENT ON COLUMN "public"."f_holdcapital"."hold_capital" IS '持有资产';
 COMMENT ON COLUMN "public"."f_holdcapital"."settle_date" IS '结算日期';
@@ -467,21 +441,19 @@ COMMENT ON COLUMN "public"."f_holdcapital"."yesterday_profit" IS '昨日收益';
 -- ----------------------------
 DROP TABLE IF EXISTS "public"."f_sub_account";
 CREATE TABLE "public"."f_sub_account" (
-"id" int8 NOT NULL,
-"sub_account" varchar(10) COLLATE "default",
-"status" char(1) COLLATE "default",
-"balance" numeric(18,4),
-"profit" numeric(18,4),
-"yesterday_profit" numeric(18,4),
-"create_time" timestamp(6),
-"update_time" timestamp(6),
-"delete_time" timestamp(6),
-"cust_id" varchar(30) COLLATE "default",
-"basic_account" varchar(30) COLLATE "default"
+  "id"               INT8 NOT NULL,
+  "sub_account"      VARCHAR(10) COLLATE "default",
+  "status"           CHAR(1) COLLATE "default",
+  "balance"          NUMERIC(18, 4),
+  "profit"           NUMERIC(18, 4),
+  "yesterday_profit" NUMERIC(18, 4),
+  "create_time"      TIMESTAMP(6),
+  "update_time"      TIMESTAMP(6),
+  "delete_time"      TIMESTAMP(6),
+  "cust_id"          VARCHAR(30) COLLATE "default",
+  "basic_account"    VARCHAR(30) COLLATE "default"
 )
-WITH (OIDS=FALSE)
-
-;
+WITH (OIDS = FALSE);
 COMMENT ON TABLE "public"."f_sub_account" IS '子账户';
 COMMENT ON COLUMN "public"."f_sub_account"."id" IS '子账户ID';
 COMMENT ON COLUMN "public"."f_sub_account"."sub_account" IS '子账户号';
@@ -500,17 +472,15 @@ COMMENT ON COLUMN "public"."f_sub_account"."basic_account" IS '基本账户号';
 -- ----------------------------
 DROP TABLE IF EXISTS "public"."f_subject";
 CREATE TABLE "public"."f_subject" (
-"id" int8 NOT NULL,
-"subject_no" varchar(6) COLLATE "default",
-"description" varchar(20) COLLATE "default",
-"dc_flag" varchar(50) COLLATE "default",
-"create_time" timestamp(6),
-"update_time" timestamp(6),
-"delete_time" timestamp(6)
+  "id"          INT8 NOT NULL,
+  "subject_no"  VARCHAR(6) COLLATE "default",
+  "description" VARCHAR(20) COLLATE "default",
+  "dc_flag"     VARCHAR(50) COLLATE "default",
+  "create_time" TIMESTAMP(6),
+  "update_time" TIMESTAMP(6),
+  "delete_time" TIMESTAMP(6)
 )
-WITH (OIDS=FALSE)
-
-;
+WITH (OIDS = FALSE);
 COMMENT ON TABLE "public"."f_subject" IS '科目表';
 COMMENT ON COLUMN "public"."f_subject"."id" IS '科目ID';
 COMMENT ON COLUMN "public"."f_subject"."subject_no" IS '科目号';
@@ -525,154 +495,142 @@ COMMENT ON COLUMN "public"."f_subject"."delete_time" IS '删除时间';
 -- ----------------------------
 DROP TABLE IF EXISTS "public"."m_logging_event";
 CREATE TABLE "public"."m_logging_event" (
-"log_event_id" int8 NOT NULL,
-"log_event_arg0" varchar(10) COLLATE "default",
-"log_event_arg1" varchar(10) COLLATE "default",
-"log_event_arg2" varchar(10) COLLATE "default",
-"log_event_arg3" varchar(10) COLLATE "default",
-"log_event_caller_class" varchar(10) COLLATE "default",
-"log_event_caller_filename" varchar(10) COLLATE "default",
-"log_event_caller_line" varchar(10) COLLATE "default",
-"log_event_caller_method" varchar(10) COLLATE "default",
-"log_event_format_msg" varchar(10) COLLATE "default",
-"log_event_level" varchar(10) COLLATE "default",
-"log_event_logger_name" varchar(10) COLLATE "default",
-"log_event_ref_flag" int4,
-"log_event_thread_name" varchar(10) COLLATE "default",
-"log_event_timestmp" int8
+  "log_event_id"              INT8 NOT NULL,
+  "log_event_arg0"            VARCHAR(10) COLLATE "default",
+  "log_event_arg1"            VARCHAR(10) COLLATE "default",
+  "log_event_arg2"            VARCHAR(10) COLLATE "default",
+  "log_event_arg3"            VARCHAR(10) COLLATE "default",
+  "log_event_caller_class"    VARCHAR(10) COLLATE "default",
+  "log_event_caller_filename" VARCHAR(10) COLLATE "default",
+  "log_event_caller_line"     VARCHAR(10) COLLATE "default",
+  "log_event_caller_method"   VARCHAR(10) COLLATE "default",
+  "log_event_format_msg"      VARCHAR(10) COLLATE "default",
+  "log_event_level"           VARCHAR(10) COLLATE "default",
+  "log_event_logger_name"     VARCHAR(10) COLLATE "default",
+  "log_event_ref_flag"        INT4,
+  "log_event_thread_name"     VARCHAR(10) COLLATE "default",
+  "log_event_timestmp"        INT8
 )
-WITH (OIDS=FALSE)
-
-;
+WITH (OIDS = FALSE);
 
 -- ----------------------------
 -- Table structure for m_logging_event_exception
 -- ----------------------------
 DROP TABLE IF EXISTS "public"."m_logging_event_exception";
 CREATE TABLE "public"."m_logging_event_exception" (
-"log_event_id" int8 NOT NULL,
-"log_event_i" int4,
-"log_event_trace_line" varchar(10) COLLATE "default"
+  "log_event_id"         INT8 NOT NULL,
+  "log_event_i"          INT4,
+  "log_event_trace_line" VARCHAR(10) COLLATE "default"
 )
-WITH (OIDS=FALSE)
-
-;
+WITH (OIDS = FALSE);
 
 -- ----------------------------
 -- Table structure for m_logging_event_property
 -- ----------------------------
 DROP TABLE IF EXISTS "public"."m_logging_event_property";
 CREATE TABLE "public"."m_logging_event_property" (
-"log_event_id" int8 NOT NULL,
-"log_mapped_key" varchar(10) COLLATE "default",
-"log_mapped_value" varchar(10) COLLATE "default"
+  "log_event_id"     INT8 NOT NULL,
+  "log_mapped_key"   VARCHAR(10) COLLATE "default",
+  "log_mapped_value" VARCHAR(10) COLLATE "default"
 )
-WITH (OIDS=FALSE)
-
-;
+WITH (OIDS = FALSE);
 
 -- ----------------------------
 -- Table structure for p_fund
 -- ----------------------------
 DROP TABLE IF EXISTS "public"."p_fund";
 CREATE TABLE "public"."p_fund" (
-"id" int8 NOT NULL,
-"min_apply_amount" numeric(18,4),
-"lowest_redemption" int8,
-"one_year_profit" numeric(18,4),
-"million_of_profit" numeric(18,4),
-"one_week_profit" numeric(18,4),
-"nav_date" timestamp(6),
-"is_apply" varchar(50) COLLATE "default",
-"is_redemption" varchar(50) COLLATE "default",
-"product_status" varchar(50) COLLATE "default",
-"deleted" varchar(50) COLLATE "default",
-"create_time" timestamp(6),
-"update_time" timestamp(6),
-"update_by" varchar(10) COLLATE "default",
-"create_by" varchar(10) COLLATE "default",
-"company_name" varchar(10) COLLATE "default",
-"chi_name" varchar(100) COLLATE "default",
-"chi_name_abbr" varchar(50) COLLATE "default",
-"eng_name" varchar(100) COLLATE "default",
-"eng_name_abbr" varchar(50) COLLATE "default",
-"secu_abbr" varchar(20) COLLATE "default",
-"fund_scale" numeric,
-"fund_type" varchar(50) COLLATE "default",
-"invest_period" varchar(50) COLLATE "default",
-"charge" numeric,
-"to_account_type" varchar(50) COLLATE "default",
-"supplier_id" int8,
-"risk_level" varchar(50) COLLATE "default",
-"fund_code" varchar(10) COLLATE "default",
-"init_buyed_count" int8,
-"one_month_buyed_count" int8
+  "id"                    INT8 NOT NULL,
+  "min_apply_amount"      NUMERIC(18, 4),
+  "lowest_redemption"     INT8,
+  "one_year_profit"       NUMERIC(18, 4),
+  "million_of_profit"     NUMERIC(18, 4),
+  "one_week_profit"       NUMERIC(18, 4),
+  "nav_date"              TIMESTAMP(6),
+  "is_apply"              VARCHAR(50) COLLATE "default",
+  "is_redemption"         VARCHAR(50) COLLATE "default",
+  "product_status"        VARCHAR(50) COLLATE "default",
+  "deleted"               VARCHAR(50) COLLATE "default",
+  "create_time"           TIMESTAMP(6),
+  "update_time"           TIMESTAMP(6),
+  "update_by"             VARCHAR(10) COLLATE "default",
+  "create_by"             VARCHAR(10) COLLATE "default",
+  "company_name"          VARCHAR(10) COLLATE "default",
+  "chi_name"              VARCHAR(100) COLLATE "default",
+  "chi_name_abbr"         VARCHAR(50) COLLATE "default",
+  "eng_name"              VARCHAR(100) COLLATE "default",
+  "eng_name_abbr"         VARCHAR(50) COLLATE "default",
+  "secu_abbr"             VARCHAR(20) COLLATE "default",
+  "fund_scale"            NUMERIC,
+  "fund_type"             VARCHAR(50) COLLATE "default",
+  "invest_period"         VARCHAR(50) COLLATE "default",
+  "charge"                NUMERIC,
+  "to_account_type"       VARCHAR(50) COLLATE "default",
+  "supplier_id"           INT8,
+  "risk_level"            VARCHAR(50) COLLATE "default",
+  "fund_code"             VARCHAR(10) COLLATE "default",
+  "init_buyed_count"      INT8,
+  "one_month_buyed_count" INT8
 )
-WITH (OIDS=FALSE)
-
-;
+WITH (OIDS = FALSE);
 
 -- ----------------------------
 -- Table structure for p_fund_history
 -- ----------------------------
 DROP TABLE IF EXISTS "public"."p_fund_history";
 CREATE TABLE "public"."p_fund_history" (
-"id" int8 NOT NULL,
-"min_apply_amount" numeric(18,4),
-"lowest_redemption" int8,
-"one_year_profit" numeric(18,4),
-"million_of_profit" numeric(18,4),
-"one_week_profit" numeric(18,4),
-"nav_date" timestamp(6),
-"is_apply" varchar(50) COLLATE "default",
-"is_redemption" varchar(50) COLLATE "default",
-"product_status" int4,
-"deleted" bool,
-"create_time" timestamp(6),
-"update_time" timestamp(6),
-"update_by" varchar(10) COLLATE "default",
-"create_by" varchar(10) COLLATE "default",
-"company_name" varchar(10) COLLATE "default",
-"chi_name" varchar(100) COLLATE "default",
-"chi_name_abbr" varchar(50) COLLATE "default",
-"eng_name" varchar(100) COLLATE "default",
-"eng_name_abbr" varchar(50) COLLATE "default",
-"secu_abbr" varchar(20) COLLATE "default",
-"fund_scale" numeric,
-"fund_type" varchar(50) COLLATE "default",
-"invest_period" varchar(50) COLLATE "default",
-"charge" numeric,
-"to_account_type" varchar(50) COLLATE "default",
-"supplier_id" int8,
-"risk_level" varchar(50) COLLATE "default",
-"fund_code" varchar(10) COLLATE "default",
-"init_buyed_count" int8,
-"one_month_buyed_count" int8,
-"created_by" varchar(30) COLLATE "default",
-"onr_month_buyed_count" int8,
-"suppiler_id" int8,
-"updated_by" varchar(30) COLLATE "default",
-"updated_time" timestamp(6)
+  "id"                    INT8 NOT NULL,
+  "min_apply_amount"      NUMERIC(18, 4),
+  "lowest_redemption"     INT8,
+  "one_year_profit"       NUMERIC(18, 4),
+  "million_of_profit"     NUMERIC(18, 4),
+  "one_week_profit"       NUMERIC(18, 4),
+  "nav_date"              TIMESTAMP(6),
+  "is_apply"              VARCHAR(50) COLLATE "default",
+  "is_redemption"         VARCHAR(50) COLLATE "default",
+  "product_status"        INT4,
+  "deleted"               BOOL,
+  "create_time"           TIMESTAMP(6),
+  "update_time"           TIMESTAMP(6),
+  "update_by"             VARCHAR(10) COLLATE "default",
+  "create_by"             VARCHAR(10) COLLATE "default",
+  "company_name"          VARCHAR(10) COLLATE "default",
+  "chi_name"              VARCHAR(100) COLLATE "default",
+  "chi_name_abbr"         VARCHAR(50) COLLATE "default",
+  "eng_name"              VARCHAR(100) COLLATE "default",
+  "eng_name_abbr"         VARCHAR(50) COLLATE "default",
+  "secu_abbr"             VARCHAR(20) COLLATE "default",
+  "fund_scale"            NUMERIC,
+  "fund_type"             VARCHAR(50) COLLATE "default",
+  "invest_period"         VARCHAR(50) COLLATE "default",
+  "charge"                NUMERIC,
+  "to_account_type"       VARCHAR(50) COLLATE "default",
+  "supplier_id"           INT8,
+  "risk_level"            VARCHAR(50) COLLATE "default",
+  "fund_code"             VARCHAR(10) COLLATE "default",
+  "init_buyed_count"      INT8,
+  "one_month_buyed_count" INT8,
+  "created_by"            VARCHAR(30) COLLATE "default",
+  "onr_month_buyed_count" INT8,
+  "suppiler_id"           INT8,
+  "updated_by"            VARCHAR(30) COLLATE "default",
+  "updated_time"          TIMESTAMP(6)
 )
-WITH (OIDS=FALSE)
-
-;
+WITH (OIDS = FALSE);
 
 -- ----------------------------
 -- Table structure for p_prd_type
 -- ----------------------------
 DROP TABLE IF EXISTS "public"."p_prd_type";
 CREATE TABLE "public"."p_prd_type" (
-"id" int8 NOT NULL,
-"code" varchar(8) COLLATE "default",
-"name" varchar(60) COLLATE "default",
-"create_time" timestamp(6),
-"update_time" timestamp(6),
-"delete_time" timestamp(6)
+  "id"          INT8 NOT NULL,
+  "code"        VARCHAR(8) COLLATE "default",
+  "name"        VARCHAR(60) COLLATE "default",
+  "create_time" TIMESTAMP(6),
+  "update_time" TIMESTAMP(6),
+  "delete_time" TIMESTAMP(6)
 )
-WITH (OIDS=FALSE)
-
-;
+WITH (OIDS = FALSE);
 COMMENT ON TABLE "public"."p_prd_type" IS '产品类型表';
 COMMENT ON COLUMN "public"."p_prd_type"."id" IS '主键';
 COMMENT ON COLUMN "public"."p_prd_type"."code" IS '产品类型编码';
@@ -686,58 +644,52 @@ COMMENT ON COLUMN "public"."p_prd_type"."delete_time" IS '删除时间';
 -- ----------------------------
 DROP TABLE IF EXISTS "public"."p_product_manage";
 CREATE TABLE "public"."p_product_manage" (
-"id" int8 NOT NULL,
-"product_name" varchar(10) COLLATE "default",
-"begin_time" timestamp(6),
-"end_date" timestamp(6),
-"create_time" timestamp(6),
-"update_time" timestamp(6),
-"product_desc" varchar(100) COLLATE "default",
-"product_status" char(50) COLLATE "default",
-"url" varchar(300) COLLATE "default",
-"product_code" varchar(10) COLLATE "default",
-"product_type" varchar(50) COLLATE "default"
+  "id"             INT8 NOT NULL,
+  "product_name"   VARCHAR(10) COLLATE "default",
+  "begin_time"     TIMESTAMP(6),
+  "end_date"       TIMESTAMP(6),
+  "create_time"    TIMESTAMP(6),
+  "update_time"    TIMESTAMP(6),
+  "product_desc"   VARCHAR(100) COLLATE "default",
+  "product_status" CHAR(50) COLLATE "default",
+  "url"            VARCHAR(300) COLLATE "default",
+  "product_code"   VARCHAR(10) COLLATE "default",
+  "product_type"   VARCHAR(50) COLLATE "default"
 )
-WITH (OIDS=FALSE)
-
-;
+WITH (OIDS = FALSE);
 
 -- ----------------------------
 -- Table structure for p_product_recommend
 -- ----------------------------
 DROP TABLE IF EXISTS "public"."p_product_recommend";
 CREATE TABLE "public"."p_product_recommend" (
-"id" int8 NOT NULL,
-"product_id" int8,
-"product_name" varchar(100) COLLATE "default",
-"recommend_type" varchar(8) COLLATE "default",
-"product_code" varchar(8) COLLATE "default",
-"begin_date" timestamp(6),
-"end_date" timestamp(6),
-"temp_stop_date" timestamp(6),
-"priority_level" varchar(50) COLLATE "default",
-"recommend_flag" varchar(50) COLLATE "default",
-"recommend_desc" varchar(50) COLLATE "default",
-"url" varchar(500) COLLATE "default"
+  "id"             INT8 NOT NULL,
+  "product_id"     INT8,
+  "product_name"   VARCHAR(100) COLLATE "default",
+  "recommend_type" VARCHAR(8) COLLATE "default",
+  "product_code"   VARCHAR(8) COLLATE "default",
+  "begin_date"     TIMESTAMP(6),
+  "end_date"       TIMESTAMP(6),
+  "temp_stop_date" TIMESTAMP(6),
+  "priority_level" VARCHAR(50) COLLATE "default",
+  "recommend_flag" VARCHAR(50) COLLATE "default",
+  "recommend_desc" VARCHAR(50) COLLATE "default",
+  "url"            VARCHAR(500) COLLATE "default"
 )
-WITH (OIDS=FALSE)
-
-;
+WITH (OIDS = FALSE);
 
 -- ----------------------------
 -- Table structure for parameter
 -- ----------------------------
 DROP TABLE IF EXISTS "public"."parameter";
 CREATE TABLE "public"."parameter" (
-"id" int8 NOT NULL,
-"description" varchar(255) COLLATE "default",
-"name" varchar(50) COLLATE "default",
-"value" varchar(50) COLLATE "default",
-"status" varchar(1) COLLATE "default"
+  "id"          INT8 NOT NULL,
+  "description" VARCHAR(255) COLLATE "default",
+  "name"        VARCHAR(50) COLLATE "default",
+  "value"       VARCHAR(50) COLLATE "default",
+  "status"      VARCHAR(1) COLLATE "default"
 )
-WITH (OIDS=FALSE)
-
-;
+WITH (OIDS = FALSE);
 COMMENT ON COLUMN "public"."parameter"."description" IS '描述';
 COMMENT ON COLUMN "public"."parameter"."name" IS '参数名';
 COMMENT ON COLUMN "public"."parameter"."value" IS '参数值';
@@ -748,16 +700,14 @@ COMMENT ON COLUMN "public"."parameter"."status" IS 'Y有效 N失效';
 -- ----------------------------
 DROP TABLE IF EXISTS "public"."prd_account_config";
 CREATE TABLE "public"."prd_account_config" (
-"id" int8 NOT NULL,
-"prd_type_code" varchar(8) COLLATE "default",
-"sub_account" varchar(10) COLLATE "default",
-"create_time" timestamp(6),
-"update_time" timestamp(6),
-"delete_time" timestamp(6)
+  "id"            INT8 NOT NULL,
+  "prd_type_code" VARCHAR(8) COLLATE "default",
+  "sub_account"   VARCHAR(10) COLLATE "default",
+  "create_time"   TIMESTAMP(6),
+  "update_time"   TIMESTAMP(6),
+  "delete_time"   TIMESTAMP(6)
 )
-WITH (OIDS=FALSE)
-
-;
+WITH (OIDS = FALSE);
 COMMENT ON TABLE "public"."prd_account_config" IS '产品-账户关系配置表';
 COMMENT ON COLUMN "public"."prd_account_config"."id" IS '主键Id';
 COMMENT ON COLUMN "public"."prd_account_config"."prd_type_code" IS '产品类型编码';
@@ -771,236 +721,210 @@ COMMENT ON COLUMN "public"."prd_account_config"."delete_time" IS '删除时间';
 -- ----------------------------
 DROP TABLE IF EXISTS "public"."qrtz_blob_triggers";
 CREATE TABLE "public"."qrtz_blob_triggers" (
-"sched_name" varchar(120) COLLATE "default" NOT NULL,
-"trigger_name" varchar(200) COLLATE "default" NOT NULL,
-"trigger_group" varchar(200) COLLATE "default" NOT NULL,
-"blob_data" bytea
+  "sched_name"    VARCHAR(120) COLLATE "default" NOT NULL,
+  "trigger_name"  VARCHAR(200) COLLATE "default" NOT NULL,
+  "trigger_group" VARCHAR(200) COLLATE "default" NOT NULL,
+  "blob_data"     BYTEA
 )
-WITH (OIDS=FALSE)
-
-;
+WITH (OIDS = FALSE);
 
 -- ----------------------------
 -- Table structure for qrtz_calendars
 -- ----------------------------
 DROP TABLE IF EXISTS "public"."qrtz_calendars";
 CREATE TABLE "public"."qrtz_calendars" (
-"sched_name" varchar(120) COLLATE "default" NOT NULL,
-"calendar_name" varchar(200) COLLATE "default" NOT NULL,
-"calendar" bytea NOT NULL
+  "sched_name"    VARCHAR(120) COLLATE "default" NOT NULL,
+  "calendar_name" VARCHAR(200) COLLATE "default" NOT NULL,
+  "calendar"      BYTEA                          NOT NULL
 )
-WITH (OIDS=FALSE)
-
-;
+WITH (OIDS = FALSE);
 
 -- ----------------------------
 -- Table structure for qrtz_cron_triggers
 -- ----------------------------
 DROP TABLE IF EXISTS "public"."qrtz_cron_triggers";
 CREATE TABLE "public"."qrtz_cron_triggers" (
-"sched_name" varchar(120) COLLATE "default" NOT NULL,
-"trigger_name" varchar(200) COLLATE "default" NOT NULL,
-"trigger_group" varchar(200) COLLATE "default" NOT NULL,
-"cron_expression" varchar(120) COLLATE "default" NOT NULL,
-"time_zone_id" varchar(80) COLLATE "default"
+  "sched_name"      VARCHAR(120) COLLATE "default" NOT NULL,
+  "trigger_name"    VARCHAR(200) COLLATE "default" NOT NULL,
+  "trigger_group"   VARCHAR(200) COLLATE "default" NOT NULL,
+  "cron_expression" VARCHAR(120) COLLATE "default" NOT NULL,
+  "time_zone_id"    VARCHAR(80) COLLATE "default"
 )
-WITH (OIDS=FALSE)
-
-;
+WITH (OIDS = FALSE);
 
 -- ----------------------------
 -- Table structure for qrtz_fired_triggers
 -- ----------------------------
 DROP TABLE IF EXISTS "public"."qrtz_fired_triggers";
 CREATE TABLE "public"."qrtz_fired_triggers" (
-"sched_name" varchar(120) COLLATE "default" NOT NULL,
-"entry_id" varchar(95) COLLATE "default" NOT NULL,
-"trigger_name" varchar(200) COLLATE "default" NOT NULL,
-"trigger_group" varchar(200) COLLATE "default" NOT NULL,
-"instance_name" varchar(200) COLLATE "default" NOT NULL,
-"fired_time" int8 NOT NULL,
-"priority" int4 NOT NULL,
-"state" varchar(16) COLLATE "default" NOT NULL,
-"job_name" varchar(200) COLLATE "default",
-"job_group" varchar(200) COLLATE "default",
-"is_nonconcurrent" bool,
-"requests_recovery" bool
+  "sched_name"        VARCHAR(120) COLLATE "default" NOT NULL,
+  "entry_id"          VARCHAR(95) COLLATE "default"  NOT NULL,
+  "trigger_name"      VARCHAR(200) COLLATE "default" NOT NULL,
+  "trigger_group"     VARCHAR(200) COLLATE "default" NOT NULL,
+  "instance_name"     VARCHAR(200) COLLATE "default" NOT NULL,
+  "fired_time"        INT8                           NOT NULL,
+  "priority"          INT4                           NOT NULL,
+  "state"             VARCHAR(16) COLLATE "default"  NOT NULL,
+  "job_name"          VARCHAR(200) COLLATE "default",
+  "job_group"         VARCHAR(200) COLLATE "default",
+  "is_nonconcurrent"  BOOL,
+  "requests_recovery" BOOL
 )
-WITH (OIDS=FALSE)
-
-;
+WITH (OIDS = FALSE);
 
 -- ----------------------------
 -- Table structure for qrtz_job_details
 -- ----------------------------
 DROP TABLE IF EXISTS "public"."qrtz_job_details";
 CREATE TABLE "public"."qrtz_job_details" (
-"sched_name" varchar(120) COLLATE "default" NOT NULL,
-"job_name" varchar(200) COLLATE "default" NOT NULL,
-"job_group" varchar(200) COLLATE "default" NOT NULL,
-"description" varchar(250) COLLATE "default",
-"job_class_name" varchar(250) COLLATE "default" NOT NULL,
-"is_durable" bool NOT NULL,
-"is_nonconcurrent" bool NOT NULL,
-"is_update_data" bool NOT NULL,
-"requests_recovery" bool NOT NULL,
-"job_data" bytea
+  "sched_name"        VARCHAR(120) COLLATE "default" NOT NULL,
+  "job_name"          VARCHAR(200) COLLATE "default" NOT NULL,
+  "job_group"         VARCHAR(200) COLLATE "default" NOT NULL,
+  "description"       VARCHAR(250) COLLATE "default",
+  "job_class_name"    VARCHAR(250) COLLATE "default" NOT NULL,
+  "is_durable"        BOOL                           NOT NULL,
+  "is_nonconcurrent"  BOOL                           NOT NULL,
+  "is_update_data"    BOOL                           NOT NULL,
+  "requests_recovery" BOOL                           NOT NULL,
+  "job_data"          BYTEA
 )
-WITH (OIDS=FALSE)
-
-;
+WITH (OIDS = FALSE);
 
 -- ----------------------------
 -- Table structure for qrtz_locks
 -- ----------------------------
 DROP TABLE IF EXISTS "public"."qrtz_locks";
 CREATE TABLE "public"."qrtz_locks" (
-"sched_name" varchar(120) COLLATE "default" NOT NULL,
-"lock_name" varchar(40) COLLATE "default" NOT NULL
+  "sched_name" VARCHAR(120) COLLATE "default" NOT NULL,
+  "lock_name"  VARCHAR(40) COLLATE "default"  NOT NULL
 )
-WITH (OIDS=FALSE)
-
-;
+WITH (OIDS = FALSE);
 
 -- ----------------------------
 -- Table structure for qrtz_paused_trigger_grps
 -- ----------------------------
 DROP TABLE IF EXISTS "public"."qrtz_paused_trigger_grps";
 CREATE TABLE "public"."qrtz_paused_trigger_grps" (
-"sched_name" varchar(120) COLLATE "default" NOT NULL,
-"trigger_group" varchar(200) COLLATE "default" NOT NULL
+  "sched_name"    VARCHAR(120) COLLATE "default" NOT NULL,
+  "trigger_group" VARCHAR(200) COLLATE "default" NOT NULL
 )
-WITH (OIDS=FALSE)
-
-;
+WITH (OIDS = FALSE);
 
 -- ----------------------------
 -- Table structure for qrtz_scheduler_state
 -- ----------------------------
 DROP TABLE IF EXISTS "public"."qrtz_scheduler_state";
 CREATE TABLE "public"."qrtz_scheduler_state" (
-"sched_name" varchar(120) COLLATE "default" NOT NULL,
-"instance_name" varchar(200) COLLATE "default" NOT NULL,
-"last_checkin_time" int8 NOT NULL,
-"checkin_interval" int8 NOT NULL
+  "sched_name"        VARCHAR(120) COLLATE "default" NOT NULL,
+  "instance_name"     VARCHAR(200) COLLATE "default" NOT NULL,
+  "last_checkin_time" INT8                           NOT NULL,
+  "checkin_interval"  INT8                           NOT NULL
 )
-WITH (OIDS=FALSE)
-
-;
+WITH (OIDS = FALSE);
 
 -- ----------------------------
 -- Table structure for qrtz_simple_triggers
 -- ----------------------------
 DROP TABLE IF EXISTS "public"."qrtz_simple_triggers";
 CREATE TABLE "public"."qrtz_simple_triggers" (
-"sched_name" varchar(120) COLLATE "default" NOT NULL,
-"trigger_name" varchar(200) COLLATE "default" NOT NULL,
-"trigger_group" varchar(200) COLLATE "default" NOT NULL,
-"repeat_count" int8 NOT NULL,
-"repeat_interval" int8 NOT NULL,
-"times_triggered" int8 NOT NULL
+  "sched_name"      VARCHAR(120) COLLATE "default" NOT NULL,
+  "trigger_name"    VARCHAR(200) COLLATE "default" NOT NULL,
+  "trigger_group"   VARCHAR(200) COLLATE "default" NOT NULL,
+  "repeat_count"    INT8                           NOT NULL,
+  "repeat_interval" INT8                           NOT NULL,
+  "times_triggered" INT8                           NOT NULL
 )
-WITH (OIDS=FALSE)
-
-;
+WITH (OIDS = FALSE);
 
 -- ----------------------------
 -- Table structure for qrtz_simprop_triggers
 -- ----------------------------
 DROP TABLE IF EXISTS "public"."qrtz_simprop_triggers";
 CREATE TABLE "public"."qrtz_simprop_triggers" (
-"sched_name" varchar(120) COLLATE "default" NOT NULL,
-"trigger_name" varchar(200) COLLATE "default" NOT NULL,
-"trigger_group" varchar(200) COLLATE "default" NOT NULL,
-"str_prop_1" varchar(512) COLLATE "default",
-"str_prop_2" varchar(512) COLLATE "default",
-"str_prop_3" varchar(512) COLLATE "default",
-"int_prop_1" int4,
-"int_prop_2" int4,
-"long_prop_1" int8,
-"long_prop_2" int8,
-"dec_prop_1" numeric(13,4),
-"dec_prop_2" numeric(13,4),
-"bool_prop_1" bool,
-"bool_prop_2" bool
+  "sched_name"    VARCHAR(120) COLLATE "default" NOT NULL,
+  "trigger_name"  VARCHAR(200) COLLATE "default" NOT NULL,
+  "trigger_group" VARCHAR(200) COLLATE "default" NOT NULL,
+  "str_prop_1"    VARCHAR(512) COLLATE "default",
+  "str_prop_2"    VARCHAR(512) COLLATE "default",
+  "str_prop_3"    VARCHAR(512) COLLATE "default",
+  "int_prop_1"    INT4,
+  "int_prop_2"    INT4,
+  "long_prop_1"   INT8,
+  "long_prop_2"   INT8,
+  "dec_prop_1"    NUMERIC(13, 4),
+  "dec_prop_2"    NUMERIC(13, 4),
+  "bool_prop_1"   BOOL,
+  "bool_prop_2"   BOOL
 )
-WITH (OIDS=FALSE)
-
-;
+WITH (OIDS = FALSE);
 
 -- ----------------------------
 -- Table structure for qrtz_triggers
 -- ----------------------------
 DROP TABLE IF EXISTS "public"."qrtz_triggers";
 CREATE TABLE "public"."qrtz_triggers" (
-"sched_name" varchar(120) COLLATE "default" NOT NULL,
-"trigger_name" varchar(200) COLLATE "default" NOT NULL,
-"trigger_group" varchar(200) COLLATE "default" NOT NULL,
-"job_name" varchar(200) COLLATE "default" NOT NULL,
-"job_group" varchar(200) COLLATE "default" NOT NULL,
-"description" varchar(250) COLLATE "default",
-"next_fire_time" int8,
-"prev_fire_time" int8,
-"priority" int4,
-"trigger_state" varchar(16) COLLATE "default" NOT NULL,
-"trigger_type" varchar(8) COLLATE "default" NOT NULL,
-"start_time" int8 NOT NULL,
-"end_time" int8,
-"calendar_name" varchar(200) COLLATE "default",
-"misfire_instr" int2,
-"job_data" bytea
+  "sched_name"     VARCHAR(120) COLLATE "default" NOT NULL,
+  "trigger_name"   VARCHAR(200) COLLATE "default" NOT NULL,
+  "trigger_group"  VARCHAR(200) COLLATE "default" NOT NULL,
+  "job_name"       VARCHAR(200) COLLATE "default" NOT NULL,
+  "job_group"      VARCHAR(200) COLLATE "default" NOT NULL,
+  "description"    VARCHAR(250) COLLATE "default",
+  "next_fire_time" INT8,
+  "prev_fire_time" INT8,
+  "priority"       INT4,
+  "trigger_state"  VARCHAR(16) COLLATE "default"  NOT NULL,
+  "trigger_type"   VARCHAR(8) COLLATE "default"   NOT NULL,
+  "start_time"     INT8                           NOT NULL,
+  "end_time"       INT8,
+  "calendar_name"  VARCHAR(200) COLLATE "default",
+  "misfire_instr"  INT2,
+  "job_data"       BYTEA
 )
-WITH (OIDS=FALSE)
-
-;
+WITH (OIDS = FALSE);
 
 -- ----------------------------
 -- Table structure for sms_message
 -- ----------------------------
 DROP TABLE IF EXISTS "public"."sms_message";
 CREATE TABLE "public"."sms_message" (
-"id" int8 NOT NULL,
-"content" varchar(200) COLLATE "default",
-"mobile" varchar(11) COLLATE "default",
-"rec_status" varchar(40) COLLATE "default",
-"return_msg" varchar(200) COLLATE "default",
-"smsid" varchar(40) COLLATE "default",
-"create_time" timestamp(6),
-"update_time" timestamp(6)
+  "id"          INT8 NOT NULL,
+  "content"     VARCHAR(200) COLLATE "default",
+  "mobile"      VARCHAR(11) COLLATE "default",
+  "rec_status"  VARCHAR(40) COLLATE "default",
+  "return_msg"  VARCHAR(200) COLLATE "default",
+  "smsid"       VARCHAR(40) COLLATE "default",
+  "create_time" TIMESTAMP(6),
+  "update_time" TIMESTAMP(6)
 )
-WITH (OIDS=FALSE)
-
-;
+WITH (OIDS = FALSE);
 
 -- ----------------------------
 -- Table structure for t_trade
 -- ----------------------------
 DROP TABLE IF EXISTS "public"."t_trade";
 CREATE TABLE "public"."t_trade" (
-"id" int8 NOT NULL,
-"trade_no" varchar(20) COLLATE "default",
-"fee" numeric(18,4),
-"type" char(1) COLLATE "default",
-"trade_status" char(1) COLLATE "default",
-"confirm_status" char(1) COLLATE "default",
-"trade_time" timestamp(6),
-"create_time" timestamp(6),
-"update_time" timestamp(6),
-"delete_time" timestamp(6),
-"cust_id" varchar(30) COLLATE "default",
-"bank_card_no" varchar(40) COLLATE "default",
-"bank_name" varchar(50) COLLATE "default",
-"pay_status" varchar(1) COLLATE "default",
-"trade_amount" numeric(18,4),
-"product_code" varchar(8) COLLATE "default",
-"product_name" varchar(100) COLLATE "default",
-"product_price" numeric(18,4),
-"quantity" int4,
-"holdcapital_id" int8
+  "id"             INT8 NOT NULL,
+  "trade_no"       VARCHAR(20) COLLATE "default",
+  "fee"            NUMERIC(18, 4),
+  "type"           CHAR(1) COLLATE "default",
+  "trade_status"   CHAR(1) COLLATE "default",
+  "confirm_status" CHAR(1) COLLATE "default",
+  "trade_time"     TIMESTAMP(6),
+  "create_time"    TIMESTAMP(6),
+  "update_time"    TIMESTAMP(6),
+  "delete_time"    TIMESTAMP(6),
+  "cust_id"        VARCHAR(30) COLLATE "default",
+  "bank_card_no"   VARCHAR(40) COLLATE "default",
+  "bank_name"      VARCHAR(50) COLLATE "default",
+  "pay_status"     VARCHAR(1) COLLATE "default",
+  "trade_amount"   NUMERIC(18, 4),
+  "product_code"   VARCHAR(8) COLLATE "default",
+  "product_name"   VARCHAR(100) COLLATE "default",
+  "product_price"  NUMERIC(18, 4),
+  "quantity"       INT4,
+  "holdcapital_id" INT8
 )
-WITH (OIDS=FALSE)
-
-;
+WITH (OIDS = FALSE);
 COMMENT ON TABLE "public"."t_trade" IS '交易表';
 COMMENT ON COLUMN "public"."t_trade"."id" IS '交易主键';
 COMMENT ON COLUMN "public"."t_trade"."trade_no" IS '交易流水号';
@@ -1022,73 +946,72 @@ COMMENT ON COLUMN "public"."t_trade"."product_price" IS '产品单价';
 COMMENT ON COLUMN "public"."t_trade"."quantity" IS '数量';
 
 
-
 /*==============================================================*/
 /* Table: F_ACTIVITY                                            */
 /*==============================================================*/
 DROP TABLE IF EXISTS F_ACTIVITY;
-create table F_ACTIVITY (
-   ID                   INT8                 not null,
-   STATUS               VARCHAR(6)           null,
-   TITLE                VARCHAR(700)         null,
-   BEGIN_TIME           DATE                 null,
-   END_TIME             DATE                 null,
-   IMAGE                VARCHAR(300)         null,
-   URL                  VARCHAR(300)         null,
-   APP_ID               VARCHAR(16)          null,
-   CLICK_TIME           INT8                 null,
-   TYPE                 VARCHAR(10)          null,
-   STYLE                VARCHAR(5)           null,
-   CREATE_TIME          TIMESTAMP            null,
-   UPDATE_TIME          TIMESTAMP            null,
-   CREATE_BY            VARCHAR(30)          null,
-   UPDATE_BY            VARCHAR(30)          null,
-   constraint PK_F_ACTIVITY primary key (ID)
+CREATE TABLE F_ACTIVITY (
+  ID          INT8         NOT NULL,
+  STATUS      VARCHAR(6)   NULL,
+  TITLE       VARCHAR(700) NULL,
+  BEGIN_TIME  DATE         NULL,
+  END_TIME    DATE         NULL,
+  IMAGE       VARCHAR(300) NULL,
+  URL         VARCHAR(300) NULL,
+  APP_ID      VARCHAR(16)  NULL,
+  CLICK_TIME  INT8         NULL,
+  TYPE        VARCHAR(10)  NULL,
+  STYLE       VARCHAR(5)   NULL,
+  CREATE_TIME TIMESTAMP    NULL,
+  UPDATE_TIME TIMESTAMP    NULL,
+  CREATE_BY   VARCHAR(30)  NULL,
+  UPDATE_BY   VARCHAR(30)  NULL,
+  CONSTRAINT PK_F_ACTIVITY PRIMARY KEY (ID)
 );
 
-comment on column F_ACTIVITY.ID is
+COMMENT ON COLUMN F_ACTIVITY.ID IS
 '主键';
 
-comment on column F_ACTIVITY.STATUS is
+COMMENT ON COLUMN F_ACTIVITY.STATUS IS
 'N表示正常   F表示禁用';
 
-comment on column F_ACTIVITY.TITLE is
+COMMENT ON COLUMN F_ACTIVITY.TITLE IS
 '活动标题';
 
-comment on column F_ACTIVITY.BEGIN_TIME is
+COMMENT ON COLUMN F_ACTIVITY.BEGIN_TIME IS
 '活动开始时间';
 
-comment on column F_ACTIVITY.END_TIME is
+COMMENT ON COLUMN F_ACTIVITY.END_TIME IS
 '活动结束时间';
 
-comment on column F_ACTIVITY.IMAGE is
+COMMENT ON COLUMN F_ACTIVITY.IMAGE IS
 '活动图片';
 
-comment on column F_ACTIVITY.URL is
+COMMENT ON COLUMN F_ACTIVITY.URL IS
 'HTML5路径';
 
-comment on column F_ACTIVITY.APP_ID is
+COMMENT ON COLUMN F_ACTIVITY.APP_ID IS
 '投放产品ID';
 
-comment on column F_ACTIVITY.CLICK_TIME is
+COMMENT ON COLUMN F_ACTIVITY.CLICK_TIME IS
 '点击次数';
 
-comment on column F_ACTIVITY.TYPE is
+COMMENT ON COLUMN F_ACTIVITY.TYPE IS
 '活动类型';
 
-comment on column F_ACTIVITY.STYLE is
+COMMENT ON COLUMN F_ACTIVITY.STYLE IS
 '活动形式';
 
-comment on column F_ACTIVITY.CREATE_TIME is
+COMMENT ON COLUMN F_ACTIVITY.CREATE_TIME IS
 '创建时间';
 
-comment on column F_ACTIVITY.UPDATE_TIME is
+COMMENT ON COLUMN F_ACTIVITY.UPDATE_TIME IS
 '修改时间';
 
-comment on column F_ACTIVITY.CREATE_BY is
+COMMENT ON COLUMN F_ACTIVITY.CREATE_BY IS
 '创建人';
 
-comment on column F_ACTIVITY.UPDATE_BY is
+COMMENT ON COLUMN F_ACTIVITY.UPDATE_BY IS
 '修改人';
 
 
@@ -1244,12 +1167,12 @@ ALTER TABLE "public"."qrtz_cron_triggers" ADD PRIMARY KEY ("sched_name", "trigge
 -- ----------------------------
 -- Indexes structure for table qrtz_fired_triggers
 -- ----------------------------
-CREATE INDEX "idx_qrtz_ft_inst_job_req_rcvry" ON "public"."qrtz_fired_triggers" USING btree (sched_name, instance_name, requests_recovery);
-CREATE INDEX "idx_qrtz_ft_j_g" ON "public"."qrtz_fired_triggers" USING btree (sched_name, job_name, job_group);
-CREATE INDEX "idx_qrtz_ft_jg" ON "public"."qrtz_fired_triggers" USING btree (sched_name, job_group);
-CREATE INDEX "idx_qrtz_ft_t_g" ON "public"."qrtz_fired_triggers" USING btree (sched_name, trigger_name, trigger_group);
-CREATE INDEX "idx_qrtz_ft_tg" ON "public"."qrtz_fired_triggers" USING btree (sched_name, trigger_group);
-CREATE INDEX "idx_qrtz_ft_trig_inst_name" ON "public"."qrtz_fired_triggers" USING btree (sched_name, instance_name);
+CREATE INDEX "idx_qrtz_ft_inst_job_req_rcvry" ON "public"."qrtz_fired_triggers" USING BTREE (sched_name, instance_name, requests_recovery);
+CREATE INDEX "idx_qrtz_ft_j_g" ON "public"."qrtz_fired_triggers" USING BTREE (sched_name, job_name, job_group);
+CREATE INDEX "idx_qrtz_ft_jg" ON "public"."qrtz_fired_triggers" USING BTREE (sched_name, job_group);
+CREATE INDEX "idx_qrtz_ft_t_g" ON "public"."qrtz_fired_triggers" USING BTREE (sched_name, trigger_name, trigger_group);
+CREATE INDEX "idx_qrtz_ft_tg" ON "public"."qrtz_fired_triggers" USING BTREE (sched_name, trigger_group);
+CREATE INDEX "idx_qrtz_ft_trig_inst_name" ON "public"."qrtz_fired_triggers" USING BTREE (sched_name, instance_name);
 
 -- ----------------------------
 -- Primary Key structure for table qrtz_fired_triggers
@@ -1259,8 +1182,8 @@ ALTER TABLE "public"."qrtz_fired_triggers" ADD PRIMARY KEY ("sched_name", "entry
 -- ----------------------------
 -- Indexes structure for table qrtz_job_details
 -- ----------------------------
-CREATE INDEX "idx_qrtz_j_grp" ON "public"."qrtz_job_details" USING btree (sched_name, job_group);
-CREATE INDEX "idx_qrtz_j_req_recovery" ON "public"."qrtz_job_details" USING btree (sched_name, requests_recovery);
+CREATE INDEX "idx_qrtz_j_grp" ON "public"."qrtz_job_details" USING BTREE (sched_name, job_group);
+CREATE INDEX "idx_qrtz_j_req_recovery" ON "public"."qrtz_job_details" USING BTREE (sched_name, requests_recovery);
 
 -- ----------------------------
 -- Primary Key structure for table qrtz_job_details
@@ -1295,18 +1218,18 @@ ALTER TABLE "public"."qrtz_simprop_triggers" ADD PRIMARY KEY ("sched_name", "tri
 -- ----------------------------
 -- Indexes structure for table qrtz_triggers
 -- ----------------------------
-CREATE INDEX "idx_qrtz_t_c" ON "public"."qrtz_triggers" USING btree (sched_name, calendar_name);
-CREATE INDEX "idx_qrtz_t_g" ON "public"."qrtz_triggers" USING btree (sched_name, trigger_group);
-CREATE INDEX "idx_qrtz_t_j" ON "public"."qrtz_triggers" USING btree (sched_name, job_name, job_group);
-CREATE INDEX "idx_qrtz_t_jg" ON "public"."qrtz_triggers" USING btree (sched_name, job_group);
-CREATE INDEX "idx_qrtz_t_n_g_state" ON "public"."qrtz_triggers" USING btree (sched_name, trigger_group, trigger_state);
-CREATE INDEX "idx_qrtz_t_n_state" ON "public"."qrtz_triggers" USING btree (sched_name, trigger_name, trigger_group, trigger_state);
-CREATE INDEX "idx_qrtz_t_next_fire_time" ON "public"."qrtz_triggers" USING btree (sched_name, next_fire_time);
-CREATE INDEX "idx_qrtz_t_nft_misfire" ON "public"."qrtz_triggers" USING btree (sched_name, misfire_instr, next_fire_time);
-CREATE INDEX "idx_qrtz_t_nft_st" ON "public"."qrtz_triggers" USING btree (sched_name, trigger_state, next_fire_time);
-CREATE INDEX "idx_qrtz_t_nft_st_misfire" ON "public"."qrtz_triggers" USING btree (sched_name, misfire_instr, next_fire_time, trigger_state);
-CREATE INDEX "idx_qrtz_t_nft_st_misfire_grp" ON "public"."qrtz_triggers" USING btree (sched_name, misfire_instr, next_fire_time, trigger_group, trigger_state);
-CREATE INDEX "idx_qrtz_t_state" ON "public"."qrtz_triggers" USING btree (sched_name, trigger_state);
+CREATE INDEX "idx_qrtz_t_c" ON "public"."qrtz_triggers" USING BTREE (sched_name, calendar_name);
+CREATE INDEX "idx_qrtz_t_g" ON "public"."qrtz_triggers" USING BTREE (sched_name, trigger_group);
+CREATE INDEX "idx_qrtz_t_j" ON "public"."qrtz_triggers" USING BTREE (sched_name, job_name, job_group);
+CREATE INDEX "idx_qrtz_t_jg" ON "public"."qrtz_triggers" USING BTREE (sched_name, job_group);
+CREATE INDEX "idx_qrtz_t_n_g_state" ON "public"."qrtz_triggers" USING BTREE (sched_name, trigger_group, trigger_state);
+CREATE INDEX "idx_qrtz_t_n_state" ON "public"."qrtz_triggers" USING BTREE (sched_name, trigger_name, trigger_group, trigger_state);
+CREATE INDEX "idx_qrtz_t_next_fire_time" ON "public"."qrtz_triggers" USING BTREE (sched_name, next_fire_time);
+CREATE INDEX "idx_qrtz_t_nft_misfire" ON "public"."qrtz_triggers" USING BTREE (sched_name, misfire_instr, next_fire_time);
+CREATE INDEX "idx_qrtz_t_nft_st" ON "public"."qrtz_triggers" USING BTREE (sched_name, trigger_state, next_fire_time);
+CREATE INDEX "idx_qrtz_t_nft_st_misfire" ON "public"."qrtz_triggers" USING BTREE (sched_name, misfire_instr, next_fire_time, trigger_state);
+CREATE INDEX "idx_qrtz_t_nft_st_misfire_grp" ON "public"."qrtz_triggers" USING BTREE (sched_name, misfire_instr, next_fire_time, trigger_group, trigger_state);
+CREATE INDEX "idx_qrtz_t_state" ON "public"."qrtz_triggers" USING BTREE (sched_name, trigger_state);
 
 -- ----------------------------
 -- Primary Key structure for table qrtz_triggers
@@ -1347,7 +1270,6 @@ ALTER TABLE "public"."qrtz_simprop_triggers" ADD FOREIGN KEY ("sched_name", "tri
 -- Foreign Key structure for table "public"."qrtz_triggers"
 -- ----------------------------
 ALTER TABLE "public"."qrtz_triggers" ADD FOREIGN KEY ("sched_name", "job_name", "job_group") REFERENCES "public"."qrtz_job_details" ("sched_name", "job_name", "job_group") ON DELETE NO ACTION ON UPDATE NO ACTION;
-
 
 
 --2014-11-12
@@ -1493,3 +1415,22 @@ CREATE TABLE P_FUND_HISTORY
   CONSTRAINT PK_P_FUND_HISTORY PRIMARY KEY (ID)
 );
 
+/*==============================================================*/
+/* Table: P_PRODUCT_RECOMMEND                                   */
+/*==============================================================*/
+DROP TABLE IF EXISTS P_PRODUCT_RECOMMEND;
+CREATE TABLE P_PRODUCT_RECOMMEND
+(
+  ID             BIGINT       NOT NULL,
+  RECOMMEND_TYPE VARCHAR(50)  NULL,
+  PRODUCT_NAME   VARCHAR(100) NULL,
+  PRODUCT_CODE   VARCHAR(30)  NULL,
+  BEGIN_DATE     TIMESTAMP    NULL,
+  END_DATE       TIMESTAMP    NULL,
+  TEMP_STOP_DATE TIMESTAMP    NULL,
+  PRIORITY_LEVEL INT          NULL,
+  RECOMMEND_FLAG VARCHAR(50)  NULL,
+  RECOMMEND_DESC VARCHAR(50)  NULL,
+  CREATE_TIME    TIMESTAMP    NULL,
+  UPDATE_TIME    TIMESTAMP    NULL
+);

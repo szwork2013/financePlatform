@@ -39,8 +39,6 @@ public class ProductRecommend extends IdEntity {
     private String recommendFlag;//推荐标志
     @Column(name = "RECOMMEND_DESC")
     private String recommendDesc;//推荐说明
-    @Column(name = "URL")
-    private String url;//接口地址
 
 
     public String getRecommendType() {
@@ -89,14 +87,6 @@ public class ProductRecommend extends IdEntity {
 
     public void setProductName(String productName) {
         this.productName = productName;
-    }
-
-    public String getUrl() {
-        return url;
-    }
-
-    public void setUrl(String url) {
-        this.url = url;
     }
 
     public Date getBeginDate() {
