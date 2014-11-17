@@ -71,6 +71,7 @@ public class ProductServiceImpl implements ProductService {
         xsql.append(" where f.fundCode = pr.productCode");
         xsql.append(" and f.fundCode = pm.productCode");
         xsql.append(" and pr.recommendFlag = '" + DictConst.FP_RECOMMEND_FLAG_1 + "'");
+        xsql.append(" order by pr.priorityLevel desc");
 
         List<ProductVo> fundVos = pageService.findXsqlBy(xsql.toString(), pageVo);
         return fundVos;
