@@ -41,7 +41,7 @@ public class ConverterTest {
 
         Map<String, Object> objectMap = ConverterUtil.createMap(Splitter.on(",").trimResults().splitToList(keys), values);
         AcctChangFlow acctChangFlow = new AcctChangFlow();
-        ConverterUtil.convertMap2Entity(objectMap, acctChangFlow);
+        ConverterUtil.convertMap2Object(objectMap, acctChangFlow);
 
         Assertions.assertThat(acctChangFlow.getCustomerId()).isEqualTo("aaaa");
         Assertions.assertThat(acctChangFlow.getAmount().intValue()).isEqualTo(5);

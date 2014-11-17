@@ -34,6 +34,8 @@ public class Activity extends IdEntity {
     private String type;
     @Column(name = "STYLE")
     private String style;
+    @Column(name = "CLICK_EVENT")
+    private String clickEvent;
 
     @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "CREATE_TIME")
@@ -161,4 +163,11 @@ public class Activity extends IdEntity {
         this.updateBy = updateBy;
     }
 
+    public String getClickEvent() {
+        return clickEvent;
+    }
+
+    public void setClickEvent(String clickEvent) {
+        this.clickEvent = clickEvent;
+    }
 }

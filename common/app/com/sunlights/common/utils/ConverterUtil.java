@@ -1,9 +1,13 @@
 package com.sunlights.common.utils;
 
+import com.google.common.base.Splitter;
+import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.sunlights.common.exceptions.ConverterException;
 import org.apache.commons.beanutils.BeanUtils;
+import play.Logger;
 
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
@@ -82,6 +86,23 @@ public final class ConverterUtil {
         }
 
         return result;
+    }
+
+    public static<T> List<T> convert(String keys, List<Object[]> resultRows, Class<T> clazz) {
+        List<T> list = Lists.newArrayList();
+        for (Object[] row : resultRows) {
+            List<Object> objects = Arrays.asList(row);
+            Map<String, Object> objectMap = ConverterUtil.createMap(Splitter.on(",").trimResults().splitToList(keys), objects);
+            try {
+                T vo = clazz.newInstance();
+                ConverterUtil.convertMap2Object(objectMap, vo);
+                list.add(vo);
+            } catch (Exception e) {
+                Logger.error(e.toString(), e);
+            }
+
+        }
+        return list;
     }
 
 }
