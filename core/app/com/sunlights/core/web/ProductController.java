@@ -37,6 +37,32 @@ public class ProductController extends Controller {
 
     private ProductService productService = new ProductServiceImpl();
 
+    public Result findProductsBy() {
+        PageVo pageVo = new PageVo();
+        ProductParameter productParameter = null;
+        Http.RequestBody body = request().body();
+        if (body.asJson() != null) {
+            productParameter = Json.fromJson(body.asJson(), ProductParameter.class);
+        }
+
+        if (body.asFormUrlEncoded() != null) {
+            productParameter = productParameterForm.bindFromRequest().get();
+        }
+
+        if (productParameter != null) {
+            pageVo.setIndex(productParameter.getIndex());
+            pageVo.setPageSize(productParameter.getPageSize());
+            pageVo.put("fundType", productParameter.getCategory());
+            pageVo.put("productType", productParameter.getType());
+            List<FundVo> funds = productService.findFunds(pageVo);
+            pageVo.setList(funds);
+            messageUtil.setMessage(new Message(Severity.INFO, MsgCode.OPERATE_SUCCESS), pageVo);
+            return ok(messageUtil.toJson());
+        }
+        messageUtil.setMessage(new Message(Severity.ERROR, MsgCode.OPERATE_FAILURE));
+        return ok(messageUtil.toJson());
+    }
+
     public Result findProductIndex() {
         List<ProductVo> productVos = productService.findProductIndex(new PageVo());
         ProductVo productVo = null;
@@ -129,7 +155,6 @@ public class ProductController extends Controller {
         if (body.asFormUrlEncoded() != null) {
             productParameter = productParameterForm.bindFromRequest().get();
         }
-        System.out.println("[productParameter]" + Json.toJson(productParameter));
         if (productParameter != null) {
             pageVo.setIndex(productParameter.getIndex());
             pageVo.setPageSize(productParameter.getPageSize());

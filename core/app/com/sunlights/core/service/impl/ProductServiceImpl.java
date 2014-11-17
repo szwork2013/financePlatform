@@ -80,12 +80,15 @@ public class ProductServiceImpl implements ProductService {
     @Override
     public List<FundVo> findFunds(PageVo pageVo) {
         String currentDate = CommonUtil.dateToString(new Date(), CommonUtil.DATE_FORMAT_LONG);
-        String jpql = " select new com.sunlights.core.vo.FundVo(f)" +
-                " from ProductManage pm , Fund f" +
-                " where pm.productCode = f.fundCode" +
+        String jpql = " select new com.sunlights.core.vo.FundVo(f,pr,pm)" +
+                " from ProductManage pm , Fund f ,ProductRecommend pr" +
+                " where f.fundCode = pr.productCode" +
+                " and f.fundCode = pm.productCode" +
                 " and pm.productStatus = '" + DictConst.FP_PRODUCT_MANAGE_STATUS_1 + "'" +
+                " and pm.productType = :productType" +
                 " and pm.beginTime < '" + currentDate + "'" +
-                " and pm.endDate >= '" + currentDate + "'";
+                " and pm.endDate >= '" + currentDate + "'" +
+                " and f.fundType = :fundType";
 
         List<FundVo> fundVos = pageService.findBy(jpql, pageVo);
         return fundVos;

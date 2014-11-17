@@ -25,4 +25,9 @@ public final class DictConst {
 
     public static final String FP_PRODUCT_MANAGE_STATUS = "FP.PRODUCT.MANAGE.STATUS";// 产品管理状态
     public static final String FP_PRODUCT_MANAGE_STATUS_1 = "FP.PRODUCT.MANAGE.STATUS.1"; //上架
+
+    public static final String FP_PRODUCT_TYPE = "FP.PRODUCT.TYPE"; //产品类型
+    public static final String FP_PRODUCT_TYPE_1 = "FP.PRODUCT.TYPE.1"; //基金
+    public static final String FP_PRODUCT_TYPE_1_1 = "FP.PRODUCT.TYPE.1.1"; //货币基金
+
 }

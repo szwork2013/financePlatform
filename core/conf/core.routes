@@ -4,10 +4,10 @@
 
 
 # product
-POST        /products                        @com.sunlights.core.web.ProductController.findProductsByType
 POST        /product/detail                  @com.sunlights.core.web.ProductController.findProductDetail
 POST        /product/chart                   @com.sunlights.core.web.ProductController.findChartBy
 POST        /product/index                   @com.sunlights.core.web.ProductController.findProductIndex
+POST        /products                        @com.sunlights.core.web.ProductController.findProductsBy
 
 #bank
 POST        /banks                           @com.sunlights.core.web.BankController.findBanks

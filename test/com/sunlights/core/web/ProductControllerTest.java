@@ -1,5 +1,6 @@
 package com.sunlights.core.web;
 
+import com.sunlights.common.DictConst;
 import com.sunlights.common.vo.PageVo;
 import com.sunlights.core.vo.ProductParameter;
 import org.junit.Test;
@@ -111,12 +112,43 @@ public class ProductControllerTest {
                 ProductParameter parameter = new ProductParameter();
 
                 // Products Request
-                FakeRequest productsRequest = fakeRequest(POST, "/core/product/index");
+                FakeRequest productIndexRequest = fakeRequest(POST, "/core/product/index");
                 // form request
                 Map<String, String> paramMap = parameterForm.bind(Json.toJson(parameter)).data();
                 Logger.info("[paramMap]" + paramMap);
 
-                FakeRequest formProductsRequest = productsRequest.withHeader(CONTENT_TYPE, TestUtil.APPLICATION_X_WWW_FORM_URLENCODED).withFormUrlEncodedBody(paramMap);
+                FakeRequest formProductsRequest = productIndexRequest.withHeader(CONTENT_TYPE, TestUtil.APPLICATION_X_WWW_FORM_URLENCODED).withFormUrlEncodedBody(paramMap);
+                play.mvc.Result result = route(formProductsRequest);
+
+                String contentAsString = contentAsString(result);
+                Logger.info("result is " + contentAsString);
+
+                assertThat(contentAsString).contains("0000");
+
+            }
+
+        });
+    }
+
+    @Test
+    public void testFindProducts() throws Exception {
+        running(fakeApplication(inMemoryDatabase("test")), new Runnable() {
+
+            public void run() {
+
+                ProductParameter parameter = new ProductParameter();
+                parameter.setIndex(0);
+                parameter.setPageSize(10);
+                parameter.setType(DictConst.FP_PRODUCT_TYPE_1);
+                parameter.setCategory(DictConst.FP_PRODUCT_TYPE_1_1);
+
+                // Products Request
+                FakeRequest fundsRequest = fakeRequest(POST, "/core/products");
+                // form request
+                Map<String, String> paramMap = parameterForm.bind(Json.toJson(parameter)).data();
+                Logger.info("[paramMap]" + paramMap);
+
+                FakeRequest formProductsRequest = fundsRequest.withHeader(CONTENT_TYPE, TestUtil.APPLICATION_X_WWW_FORM_URLENCODED).withFormUrlEncodedBody(paramMap);
                 play.mvc.Result result = route(formProductsRequest);
 
                 String contentAsString = contentAsString(result);
