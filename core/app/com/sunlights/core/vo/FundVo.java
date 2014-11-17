@@ -3,6 +3,7 @@ package com.sunlights.core.vo;
 
 import com.sunlights.common.service.CommonService;
 import models.Fund;
+import models.ProductManage;
 import models.ProductRecommend;
 
 import java.math.BigDecimal;
@@ -21,9 +22,10 @@ public class FundVo extends ProductVo {
 
     }
 
-    public FundVo(Fund fund, ProductRecommend pr) {
+    public FundVo(Fund fund, ProductRecommend pr, ProductManage pm) {
         inFund(fund);
         inProductRecommend(pr);
+        inProductManage(pm);
     }
 
     public FundVo(Fund fund) {
@@ -42,11 +44,16 @@ public class FundVo extends ProductVo {
         this.purchasedMethod = columns[8] == null ? null : (String) columns[8];
     }
 
+    public void inProductManage(ProductManage pm) {
+        super.setType(pm.getProductType());
+        super.setTypeDesc(new CommonService().findValueByCatPointKey(pm.getProductType()));
+    }
+
     public void inProductRecommend(ProductRecommend pr) {
-        super.setType(pr.getRecommendType());
-        super.setTypeDesc(new CommonService().findValueByCatPointKey(pr.getRecommendType()));
-        super.setGroup(pr.getRecommendFlag());
-        super.setGroupDesc(new CommonService().findValueByCatPointKey(pr.getRecommendFlag()));
+        super.setTag(pr.getRecommendFlag());
+        super.setTagDesc(new CommonService().findValueByCatPointKey(pr.getRecommendFlag()));
+        super.setGroup(pr.getRecommendType());
+        super.setGroupDesc(new CommonService().findValueByCatPointKey(pr.getRecommendType()));
     }
 
     public void inFund(Fund fund) {

@@ -24,6 +24,8 @@ public class ProductVo {
     // 推荐，其他
     private String group;
     private String groupDesc;
+    private String tag;
+    private String tagDesc;
 
     public Long getId() {
         return id;
@@ -95,5 +97,21 @@ public class ProductVo {
 
     public void setGroupDesc(String groupDesc) {
         this.groupDesc = groupDesc;
+    }
+
+    public String getTag() {
+        return tag;
+    }
+
+    public void setTag(String tag) {
+        this.tag = tag;
+    }
+
+    public String getTagDesc() {
+        return tagDesc;
+    }
+
+    public void setTagDesc(String tagDesc) {
+        this.tagDesc = tagDesc;
     }
 }

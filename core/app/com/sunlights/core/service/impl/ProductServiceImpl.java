@@ -66,7 +66,7 @@ public class ProductServiceImpl implements ProductService {
     @Override
     public List<ProductVo> findProductIndex(PageVo pageVo) {
         StringBuilder xsql = new StringBuilder();
-        xsql.append(" select new com.sunlights.core.vo.FundVo(f,pr)");
+        xsql.append(" select new com.sunlights.core.vo.FundVo(f,pr,pm)");
         xsql.append(" from Fund f , ProductRecommend pr , ProductManage pm");
         xsql.append(" where f.fundCode = pr.productCode");
         xsql.append(" and f.fundCode = pm.productCode");
