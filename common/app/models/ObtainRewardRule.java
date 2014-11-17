@@ -17,17 +17,17 @@ public class ObtainRewardRule extends IdEntity{
     @Column(name = "STATUS")
     private String status;
     @Column(name = "SHOULD_REWARD")
-    private BigDecimal shouldReward;
+    private Long shouldReward;
     @Column(name = "REAL_REWARD")
-    private BigDecimal realReward;
+    private Long realReward;
     @Column(name = "BACK_REWARD")
-    private BigDecimal backReward;
+    private Long backReward;
     @Column(name = "EFFECT_TIME")
     private Integer effectTime;
     @Column(name = "VALID_TIME")
     private Integer validTime;
     @Column(name = "TOTAL_LIMIT_AMT")
-    private BigDecimal totalLimitAmt;
+    private Long totalLimitAmt;
     @Column(name = "PRODUCT_TYPE")
     private String prdType;
     @Column(name = "PRODUCT_CODE")
@@ -76,29 +76,7 @@ public class ObtainRewardRule extends IdEntity{
         this.status = status;
     }
 
-    public BigDecimal getShouldReward() {
-        return shouldReward;
-    }
 
-    public void setShouldReward(BigDecimal shouldReward) {
-        this.shouldReward = shouldReward;
-    }
-
-    public BigDecimal getRealReward() {
-        return realReward;
-    }
-
-    public void setRealReward(BigDecimal realReward) {
-        this.realReward = realReward;
-    }
-
-    public BigDecimal getBackReward() {
-        return backReward;
-    }
-
-    public void setBackReward(BigDecimal backReward) {
-        this.backReward = backReward;
-    }
 
     public Integer getEffectTime() {
         return effectTime;
@@ -116,11 +94,35 @@ public class ObtainRewardRule extends IdEntity{
         this.validTime = validTime;
     }
 
-    public BigDecimal getTotalLimitAmt() {
+    public Long getShouldReward() {
+        return shouldReward;
+    }
+
+    public void setShouldReward(Long shouldReward) {
+        this.shouldReward = shouldReward;
+    }
+
+    public Long getRealReward() {
+        return realReward;
+    }
+
+    public void setRealReward(Long realReward) {
+        this.realReward = realReward;
+    }
+
+    public Long getBackReward() {
+        return backReward;
+    }
+
+    public void setBackReward(Long backReward) {
+        this.backReward = backReward;
+    }
+
+    public Long getTotalLimitAmt() {
         return totalLimitAmt;
     }
 
-    public void setTotalLimitAmt(BigDecimal totalLimitAmt) {
+    public void setTotalLimitAmt(Long totalLimitAmt) {
         this.totalLimitAmt = totalLimitAmt;
     }
 

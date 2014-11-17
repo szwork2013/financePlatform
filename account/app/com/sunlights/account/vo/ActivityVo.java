@@ -1,5 +1,7 @@
 package com.sunlights.account.vo;
 
+import models.Activity;
+
 import java.io.Serializable;
 
 /**
@@ -14,6 +16,19 @@ public class ActivityVo  implements Serializable {
     private String image;
 
     private String url;
+
+    public ActivityVo() {
+
+    }
+
+    public ActivityVo(Activity activity) {
+        if(activity != null) {
+            this.id = activity.getId();
+            this.name = activity.getTitle();
+            this.image = activity.getImage();
+            this.url = activity.getUrl();
+        }
+    }
 
     public Long getId() {
         return id;

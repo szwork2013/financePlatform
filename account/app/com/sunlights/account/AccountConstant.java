@@ -15,5 +15,13 @@ public interface AccountConstant {
    * 基本账户后面四位
    */
   String BASE_ACCOUNT_HOUZUI = "8888";
+    /**
+     *  活动相关实体的状态--表示正常状态
+     */
+  String ACTIVITY_STATUS_NOMAL = "N";
+    /**
+     *  活动相关实体的状态--表示禁止状态
+     */
+  String ACTIVITY_STATUS_FORBIDDEN = "Y";
 
 }

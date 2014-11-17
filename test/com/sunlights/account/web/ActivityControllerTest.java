@@ -26,7 +26,7 @@ public class ActivityControllerTest extends BaseTest{
             public void run() {
                 Logger.info("============testGetActivityList start====");
                 String index = "0";
-                String pageSize = "2";
+                String pageSize = "3";
 
 
                 Map<String, String> formParams = new HashMap<>();
