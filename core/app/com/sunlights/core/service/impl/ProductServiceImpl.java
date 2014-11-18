@@ -44,7 +44,7 @@ public class ProductServiceImpl implements ProductService {
                 ",f.init_buyed_count" +
                 ",f.invest_period" +
                 " from p_product_recommend pr" +
-                " left join p_fund f on pr.product_code = f.fund_code and pr.recommend_type = '" + DictConst.PRODUCT_FUND + "'" +
+//                " left join p_fund f on pr.product_code = f.fund_code and pr.recommend_type = '" + DictConst.PRODUCT_FUND + "'" +
                 " join p_product_manage pm on f.fund_code = pm.product_code" +
                 " and pm.product_status = '0'" +
                 " and pm.begin_time < '" + currentDate + "'" +
@@ -94,8 +94,8 @@ public class ProductServiceImpl implements ProductService {
         return fundVos;
     }
 
-    public Fund findFundByCode(String productCode) {
-        Fund fund = fundDao.findFundByCode(productCode);
+    public Fund findFundByCode(String fundCode) {
+        Fund fund = fundDao.findFundByCode(fundCode);
         return fund;
     }
 
@@ -107,13 +107,11 @@ public class ProductServiceImpl implements ProductService {
     @Override
     public ProductVo findProductDetailBy(String productCode, String type) {
         ProductVo productVo = null;
-        if (DictConst.PRODUCT_FUND.equals(type)) {
-            Fund fund = findFundByCode(productCode);
-//      if (fund != null) {
-//        FundDetailVo fundDetailVo = new FundDetailVo(fund);
-//        productVo = fundDetailVo;
-//      }
+        // 基金
+        if (DictConst.FP_PRODUCT_TYPE_1.equals(type)) {
+            productVo = fundDao.findFundDetailByCode(productCode);
         }
+        // TODO P2P
         return productVo;
     }
 

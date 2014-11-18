@@ -144,34 +144,4 @@ public class ProductController extends Controller {
         return ok(messageUtil.toJson());
     }
 
-    public Result findProductsByType() {
-        PageVo pageVo = new PageVo();
-        ProductParameter productParameter = null;
-        Http.RequestBody body = request().body();
-        if (body.asJson() != null) {
-            productParameter = Json.fromJson(body.asJson(), ProductParameter.class);
-        }
-
-        if (body.asFormUrlEncoded() != null) {
-            productParameter = productParameterForm.bindFromRequest().get();
-        }
-        if (productParameter != null) {
-            pageVo.setIndex(productParameter.getIndex());
-            pageVo.setPageSize(productParameter.getPageSize());
-            if (DictConst.PRODUCT_FUND.equals(productParameter.getCategory())) {
-                List<FundVo> fundVos = productService.findFunds(pageVo);
-                pageVo.getList().addAll(fundVos);
-            }
-            if (DictConst.PRODUCT_RECOMMEND.equals(productParameter.getCategory())) {
-                List<ProductVo> productVos = productService.findProductRecommends(pageVo);
-                pageVo.getList().addAll(productVos);
-            }
-            messageUtil.setMessage(new Message(Severity.INFO, MsgCode.OPERATE_SUCCESS), pageVo);
-        } else {
-            messageUtil.setMessage(new Message(Severity.ERROR, MsgCode.SEARCH_FAIL_TYPE_EMPTY));
-        }
-
-
-        return ok(messageUtil.toJson());
-    }
 }

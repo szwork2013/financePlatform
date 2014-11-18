@@ -1,7 +1,11 @@
 package com.sunlights.core.web;
 
+import com.sunlights.BaseTest;
 import com.sunlights.common.DictConst;
+import com.sunlights.common.MsgCode;
+import com.sunlights.common.vo.MessageVo;
 import com.sunlights.common.vo.PageVo;
+import com.sunlights.core.vo.FundVo;
 import com.sunlights.core.vo.ProductParameter;
 import org.junit.Test;
 import play.Logger;
@@ -11,13 +15,15 @@ import play.libs.Json;
 import play.test.FakeRequest;
 import web.TestUtil;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
 import static org.fest.assertions.Assertions.assertThat;
 import static play.test.Helpers.*;
 
 @Transactional
-public class ProductControllerTest {
+public class ProductControllerTest extends BaseTest {
     private static Form<PageVo> pagerForm = Form.form(PageVo.class);
     private static Form<ProductParameter> parameterForm = Form.form(ProductParameter.class);
 
@@ -54,54 +60,7 @@ public class ProductControllerTest {
 //    }
 //
 //
-//    @Test
-//    public void testFindProductsByTypeAndDetail() throws Exception {
-//        running(fakeApplication(inMemoryDatabase("test")), new Runnable() {
-//
-//            public void run() {
-//
-//                ProductParameter parameter = new ProductParameter();
-//
-//                parameter.setCategory(CodeConst.PRODUCT_FUND);
-//                parameter.setIndex(0);
-//                parameter.setPageSize(10);
-//
-//                // Products Request
-//                FakeRequest productsRequest = fakeRequest(POST, "/core/products");
-//                // form request
-//                Map<String, String> paramMap = parameterForm.bind(Json.toJson(parameter)).data();
-//                Logger.info("[paramMap]" + paramMap);
-//
-//                FakeRequest formProductsRequest = productsRequest.withHeader(CONTENT_TYPE, TestUtil.APPLICATION_X_WWW_FORM_URLENCODED).withFormUrlEncodedBody(paramMap);
-//                play.mvc.Result result = route(formProductsRequest);
-//
-//                String contentAsString = contentAsString(result);
-//                Logger.info("result is " + contentAsString);
-//
-//                assertThat(contentAsString).contains("0000");
-//
-//                // Product Detail Request
-//                JsonNode jsonNode = Json.parse(contentAsString);
-//                JsonNode value = jsonNode.findValue("value");
-//                JsonNode code = value.findValue("code");
-//                JsonNode type = value.findValue("type");
-//                if (code != null) {
-//                    parameter.setCode(code.asText());
-//                    parameter.setType(type.asText());
-//                    paramMap = parameterForm.bind(Json.toJson(parameter)).data();
-//
-//                    FakeRequest productDetailRequest = fakeRequest(POST, "/core/product/detail");
-//                    FakeRequest formProductDetailRequest = productDetailRequest.withHeader("Content-Type", "application/x-www-form-urlencoded").withFormUrlEncodedBody(paramMap);
-//                    result = route(formProductDetailRequest);
-//                    contentAsString = contentAsString(result);
-//                    Logger.info("result is " + contentAsString);
-//                    assertThat(contentAsString).contains("0000");
-//                }
-//
-//            }
-//
-//        });
-//    }
+
 
     @Test
     public void testProductIndex() throws Exception {
@@ -131,7 +90,7 @@ public class ProductControllerTest {
     }
 
     @Test
-    public void testFindProducts() throws Exception {
+    public void testFindProductsAndDetail() throws Exception {
         running(fakeApplication(inMemoryDatabase("test")), new Runnable() {
 
             public void run() {
@@ -154,7 +113,27 @@ public class ProductControllerTest {
                 String contentAsString = contentAsString(result);
                 Logger.info("result is " + contentAsString);
 
-                assertThat(contentAsString).contains("0000");
+                assertThat(contentAsString).contains(MsgCode.OPERATE_SUCCESS.getCode());
+
+                MessageVo message = toMessageVo(result);
+                Object value = message.getValue();
+                if (value != null) {
+                    PageVo pageVo = Json.fromJson(Json.toJson(value), PageVo.class);
+                    if (!pageVo.getList().isEmpty()) {
+                        FundVo fundVo = Json.fromJson(Json.toJson(pageVo.getList().get(0)), FundVo.class);
+                        // product detail
+                        FakeRequest productDetailRequest = fakeRequest(POST, "/core/product/detail");
+                        parameter.setType(fundVo.getType());
+                        parameter.setCode(fundVo.getCode());
+                        paramMap = parameterForm.bind(Json.toJson(parameter)).data();
+
+                        FakeRequest formProductDetailRequest = productDetailRequest.withHeader("Content-Type", TestUtil.APPLICATION_X_WWW_FORM_URLENCODED).withFormUrlEncodedBody(paramMap);
+                        result = route(formProductDetailRequest);
+
+                        Logger.info("result is " + contentAsString(result));
+                        assertThat(contentAsString(result)).contains(MsgCode.OPERATE_SUCCESS.getCode());
+                    }
+                }
 
             }
 
