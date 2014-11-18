@@ -946,73 +946,266 @@ COMMENT ON COLUMN "public"."t_trade"."product_price" IS '产品单价';
 COMMENT ON COLUMN "public"."t_trade"."quantity" IS '数量';
 
 
+drop table IF EXISTS F_ACTIVITY;
+
 /*==============================================================*/
 /* Table: F_ACTIVITY                                            */
 /*==============================================================*/
-DROP TABLE IF EXISTS F_ACTIVITY;
-CREATE TABLE F_ACTIVITY (
-  ID          INT8         NOT NULL,
-  STATUS      VARCHAR(6)   NULL,
-  TITLE       VARCHAR(700) NULL,
-  BEGIN_TIME  DATE         NULL,
-  END_TIME    DATE         NULL,
-  IMAGE       VARCHAR(300) NULL,
-  URL         VARCHAR(300) NULL,
-  APP_ID      VARCHAR(16)  NULL,
-  CLICK_TIME  INT8         NULL,
-  TYPE        VARCHAR(10)  NULL,
-  STYLE       VARCHAR(5)   NULL,
-  CREATE_TIME TIMESTAMP    NULL,
-  UPDATE_TIME TIMESTAMP    NULL,
-  CREATE_BY   VARCHAR(30)  NULL,
-  UPDATE_BY   VARCHAR(30)  NULL,
-  CONSTRAINT PK_F_ACTIVITY PRIMARY KEY (ID)
+create table F_ACTIVITY (
+   ID                   INT8                 not null,
+   STATUS               VARCHAR(2)           null,
+   TITLE                VARCHAR(700)         null,
+   BEGIN_TIME           DATE                 null,
+   END_TIME             DATE                 null,
+   APP_ID               VARCHAR(16)          null,
+   IMAGE                VARCHAR(50)          null,
+   URL                  VARCHAR(50)          null,
+   CLICK_TIME           INT8                 null,
+   TYPE                 VARCHAR(10)          null,
+   STYLE                VARCHAR(10)          null,
+   CLICK_EVENT          VARCHAR(6)           null,
+   CREATE_TIME          DATE                 null,
+   UPDATE_TIME          DATE                 null,
+   CREATE_BY            VARCHAR(30)          null,
+   UPDATE_BY            VARCHAR(30)          null,
+   constraint PK_F_ACTIVITY primary key (ID)
 );
 
-COMMENT ON COLUMN F_ACTIVITY.ID IS
+comment on column F_ACTIVITY.ID is
 '主键';
 
-COMMENT ON COLUMN F_ACTIVITY.STATUS IS
+comment on column F_ACTIVITY.STATUS is
 'N表示正常   F表示禁用';
 
-COMMENT ON COLUMN F_ACTIVITY.TITLE IS
+comment on column F_ACTIVITY.TITLE is
 '活动标题';
 
-COMMENT ON COLUMN F_ACTIVITY.BEGIN_TIME IS
+comment on column F_ACTIVITY.BEGIN_TIME is
 '活动开始时间';
 
-COMMENT ON COLUMN F_ACTIVITY.END_TIME IS
+comment on column F_ACTIVITY.END_TIME is
 '活动结束时间';
 
-COMMENT ON COLUMN F_ACTIVITY.IMAGE IS
-'活动图片';
-
-COMMENT ON COLUMN F_ACTIVITY.URL IS
-'HTML5路径';
-
-COMMENT ON COLUMN F_ACTIVITY.APP_ID IS
+comment on column F_ACTIVITY.APP_ID is
 '投放产品ID';
 
-COMMENT ON COLUMN F_ACTIVITY.CLICK_TIME IS
+comment on column F_ACTIVITY.IMAGE is
+'活动图片';
+
+comment on column F_ACTIVITY.URL is
+'html5名称';
+
+comment on column F_ACTIVITY.CLICK_TIME is
 '点击次数';
 
-COMMENT ON COLUMN F_ACTIVITY.TYPE IS
+comment on column F_ACTIVITY.TYPE is
 '活动类型';
 
-COMMENT ON COLUMN F_ACTIVITY.STYLE IS
+comment on column F_ACTIVITY.STYLE is
 '活动形式';
 
-COMMENT ON COLUMN F_ACTIVITY.CREATE_TIME IS
+comment on column F_ACTIVITY.CLICK_EVENT is
+'点击事件';
+
+comment on column F_ACTIVITY.CREATE_TIME is
 '创建时间';
 
-COMMENT ON COLUMN F_ACTIVITY.UPDATE_TIME IS
+comment on column F_ACTIVITY.UPDATE_TIME is
 '修改时间';
 
-COMMENT ON COLUMN F_ACTIVITY.CREATE_BY IS
+comment on column F_ACTIVITY.CREATE_BY is
 '创建人';
 
-COMMENT ON COLUMN F_ACTIVITY.UPDATE_BY IS
+comment on column F_ACTIVITY.UPDATE_BY is
 '修改人';
+
+
+drop table IF EXISTS F_REWARD_TYPE;
+
+/*==============================================================*/
+/* Table: F_REWARD_TYPE                                         */
+/*==============================================================*/
+create table F_REWARD_TYPE (
+   ID                   INT8                 not null,
+   CODE                 VARCHAR(6)           null,
+   NAME                 VARCHAR(16)          null,
+   UNIT                 INT8                 null,
+   CREATE_TIME          DATE                 null,
+   UPDATE_TIME          DATE                 null,
+   CREATE_BY            VARCHAR(30)          null,
+   UPDATE_BY            VARCHAR(30)          null,
+   constraint PK_F_REWARD_TYPE primary key (ID)
+);
+
+comment on column F_REWARD_TYPE.ID is
+'主键';
+
+comment on column F_REWARD_TYPE.CODE is
+'奖励类型编码';
+
+comment on column F_REWARD_TYPE.NAME is
+'奖励类型名称';
+
+comment on column F_REWARD_TYPE.UNIT is
+'单位';
+
+comment on column F_REWARD_TYPE.CREATE_TIME is
+'创建时间';
+
+comment on column F_REWARD_TYPE.UPDATE_TIME is
+'更新时间';
+
+comment on column F_REWARD_TYPE.CREATE_BY is
+'创建人';
+
+comment on column F_REWARD_TYPE.UPDATE_BY is
+'修改人';
+
+
+drop table IF EXISTS F_EXCHANGE_REWARD_RULE;
+
+/*==============================================================*/
+/* Table: F_EXCHANGE_REWARD_RULE                                */
+/*==============================================================*/
+create table F_EXCHANGE_REWARD_RULE (
+   ID                   INT8                 not null,
+   REWARD_TYPE          VARCHAR(6)           null,
+   STATUS               VARCHAR(2)           null,
+   EXCHAGE_TYPE         VARCHAR(6)           null,
+   RATE                 DECIMAL(18,4)        null,
+   LIMIT_TIME           INT4                 null,
+   NOTICE_TIME          INT4                 null,
+   DELAY_TIME           INT4                 null,
+   CREATE_TIME          DATE                 null,
+   UPDATE_TIME          DATE                 null,
+   CREATE_BY            VARCHAR(10)          null,
+   UPDATE_BY            VARCHAR(10)          null,
+   constraint PK_F_EXCHANGE_REWARD_RULE primary key (ID)
+);
+
+comment on column F_EXCHANGE_REWARD_RULE.ID is
+'主键';
+
+comment on column F_EXCHANGE_REWARD_RULE.REWARD_TYPE is
+'奖励类型';
+
+comment on column F_EXCHANGE_REWARD_RULE.STATUS is
+'状态 N表示正常  F表示禁止使用';
+
+comment on column F_EXCHANGE_REWARD_RULE.EXCHAGE_TYPE is
+'兑换类型';
+
+comment on column F_EXCHANGE_REWARD_RULE.RATE is
+'兑换率';
+
+comment on column F_EXCHANGE_REWARD_RULE.LIMIT_TIME is
+'兑换期限  1-1个月；2-2个月；3-3个月 4-6个月 5-两周';
+
+comment on column F_EXCHANGE_REWARD_RULE.NOTICE_TIME is
+'兑换到期提醒  1-提前1星期通知 2-提前3天通知';
+
+comment on column F_EXCHANGE_REWARD_RULE.DELAY_TIME is
+'兑换期限延长 1-积分有效期延长1周 2-积分有效期延长1月，并分享活动';
+
+comment on column F_EXCHANGE_REWARD_RULE.CREATE_TIME is
+'创建时间';
+
+comment on column F_EXCHANGE_REWARD_RULE.UPDATE_TIME is
+'修改时间';
+
+comment on column F_EXCHANGE_REWARD_RULE.CREATE_BY is
+'创建人';
+
+comment on column F_EXCHANGE_REWARD_RULE.UPDATE_BY is
+'修改人';
+
+
+drop table IF EXISTS F_GET_REWARD_RULE;
+
+/*==============================================================*/
+/* Table: F_GET_REWARD_RULE                                     */
+/*==============================================================*/
+create table F_GET_REWARD_RULE (
+   ID                   INT8                 not null,
+   activity_id          INT8                 null,
+   reward_type          VARCHAR(6)           null,
+   status               VARCHAR(2)           null,
+   should_reward        INT8                 null,
+   real_reward          INT8                 null,
+   back_reward          INT8                 null,
+   effect_time          INT4                 null,
+   valid_time           INT4                 null,
+   total_limit_amt      INT8                 null,
+   product_type         VARCHAR(30)          null,
+   product_code         VARCHAR(16)          null,
+   activity_channel     INT4                 null,
+   trade_amt            NUMERIC(18,4)        null,
+   back_funds           NUMERIC(18,4)        null,
+   create_time          DATE                 null,
+   update_time          DATE                 null,
+   create_by            VARCHAR(30)          null,
+   update_by            VARCHAR(30)          null,
+   constraint PK_F_GET_REWARD_RULE primary key (ID)
+);
+
+comment on column F_GET_REWARD_RULE.ID is
+'主键';
+
+comment on column F_GET_REWARD_RULE.activity_id is
+'活动Id';
+
+comment on column F_GET_REWARD_RULE.reward_type is
+'奖励类型';
+
+comment on column F_GET_REWARD_RULE.status is
+'状态  N表示正常  F表示禁用';
+
+comment on column F_GET_REWARD_RULE.should_reward is
+'应发奖励';
+
+comment on column F_GET_REWARD_RULE.real_reward is
+'实发奖励';
+
+comment on column F_GET_REWARD_RULE.back_reward is
+'退回奖励';
+
+comment on column F_GET_REWARD_RULE.effect_time is
+'奖励到账实效 1-实时到账 2-1到2个工作日 3-2到3个工作日 4-月末';
+
+comment on column F_GET_REWARD_RULE.valid_time is
+'奖励有效时长  1-1个月；2-2个月；3-3个月 4-6个月 5-两周';
+
+comment on column F_GET_REWARD_RULE.total_limit_amt is
+'奖励累计限额';
+
+comment on column F_GET_REWARD_RULE.product_type is
+'参与活动产品类型';
+
+comment on column F_GET_REWARD_RULE.product_code is
+'参与活动产品代码';
+
+comment on column F_GET_REWARD_RULE.activity_channel is
+'活动渠道   1-金豆荚APP';
+
+comment on column F_GET_REWARD_RULE.trade_amt is
+'交易金额';
+
+comment on column F_GET_REWARD_RULE.back_funds is
+'交易退款总金额';
+
+comment on column F_GET_REWARD_RULE.create_time is
+'创建时间';
+
+comment on column F_GET_REWARD_RULE.update_time is
+'修改时间';
+
+comment on column F_GET_REWARD_RULE.create_by is
+'创建人';
+
+comment on column F_GET_REWARD_RULE.update_by is
+'修改人';
+
+
 
 
 -- ----------------------------
