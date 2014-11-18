@@ -10,6 +10,7 @@ import com.sunlights.core.dal.impl.FundDaoImpl;
 import com.sunlights.core.service.ProductService;
 import com.sunlights.core.vo.*;
 import models.Fund;
+import models.FundCompany;
 import models.FundHistory;
 
 import java.util.ArrayList;
@@ -102,6 +103,10 @@ public class ProductServiceImpl implements ProductService {
     public FundHistory findFundHistoryByCode(String productCode) {
         FundHistory fundHistory = fundDao.findFundHistoryByCode(productCode);
         return fundHistory;
+    }
+
+    public FundCompany findFundCompanyById(String id){
+        return fundDao.findFundCompanyById(id);
     }
 
     @Override

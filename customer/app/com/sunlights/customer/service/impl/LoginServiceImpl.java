@@ -1,9 +1,6 @@
 package com.sunlights.customer.service.impl;
 
-import com.sunlights.common.AppConst;
-import com.sunlights.common.MsgCode;
-import com.sunlights.common.ParameterConst;
-import com.sunlights.common.Severity;
+import com.sunlights.common.*;
 import com.sunlights.common.exceptions.BusinessRuntimeException;
 import com.sunlights.common.service.ParameterService;
 import com.sunlights.common.service.VerifyCodeService;
@@ -17,10 +14,7 @@ import com.sunlights.customer.dal.impl.LoginDaoImpl;
 import com.sunlights.customer.service.LoginService;
 import com.sunlights.customer.vo.CustomerFormVo;
 import com.sunlights.customer.vo.CustomerVo;
-import models.Customer;
-import models.CustomerGesture;
-import models.CustomerSession;
-import models.LoginHistory;
+import models.*;
 import play.Logger;
 
 import java.math.BigDecimal;
@@ -178,12 +172,12 @@ public class LoginServiceImpl implements LoginService {
         customer.setNickName(nickName);
         customer.setMobile(mobilePhoneNo);
         customer.setLoginPassWord(new MD5Helper().encrypt(passWord));
-        customer.setRegChannel(AppConst.REGISTER_CHANNEL_MOBILE);
-        customer.setRegWay(AppConst.REGISTER_CHANNEL_MOBILE);
-        customer.setCustomerType(AppConst.CUSTOMER_TYPE_PERSON);
-        customer.setProperty(AppConst.CUSTOMER_BUYER);
+        customer.setRegChannel(DictConst.CUSTOMER_CHANNEL_1);
+        customer.setRegWay(DictConst.CUSTOMER_CHANNEL_1);
+        customer.setCustomerType(DictConst.CUSTOMER_TYPE_2);
+        customer.setProperty(DictConst.CUSTOMER_PROPERTY_1);
         customer.setDeviceNo(deviceNo);
-        customer.setStatus(AppConst.CUSTOMER_STATUS_NORMAL);
+        customer.setStatus(DictConst.CUSTOMER_STATUS_2);
         customer.setCreateTime(currentTime);
         customer.setUpdateTime(currentTime);
         customerService.saveCustomer(customer);
@@ -208,7 +202,7 @@ public class LoginServiceImpl implements LoginService {
 			throw CommonUtil.getInstance().errorBusinessException(MsgCode.PHONE_NUMBER_NOT_REGISTRY);
 		}
 
-        if (AppConst.ID_CARD.equals(customer.getIdentityTyper())) { //若为实名验证过的用户，判断真实姓名和身份证号是否和数据库中一致，
+        if (DictConst.CERTIFICATE_TYPE_1.equals(customer.getIdentityTyper())) { //若为实名验证过的用户，判断真实姓名和身份证号是否和数据库中一致，
             if (!idCardNo.equals(customer.getIdentityNumber()) || !userName.equals(customer.getRealName())) {
                 throw new BusinessRuntimeException(new Message(Severity.ERROR, MsgCode.NAME_OR_ID_ERROR));
             }

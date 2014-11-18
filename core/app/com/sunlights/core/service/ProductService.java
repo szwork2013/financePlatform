@@ -5,6 +5,7 @@ import com.sunlights.core.vo.ChartVo;
 import com.sunlights.core.vo.FundVo;
 import com.sunlights.core.vo.ProductVo;
 import models.Fund;
+import models.FundCompany;
 import models.FundHistory;
 
 import java.util.List;
@@ -30,6 +31,8 @@ public interface ProductService {
     public Fund findFundByCode(String productCode);
 
     public FundHistory findFundHistoryByCode(String productCode);
+
+    public FundCompany findFundCompanyById(String id);
 
     public ChartVo findOneWeekProfitsByDays(String fundCode, int days);
 

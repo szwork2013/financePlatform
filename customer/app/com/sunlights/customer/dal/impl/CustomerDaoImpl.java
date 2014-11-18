@@ -1,6 +1,7 @@
 package com.sunlights.customer.dal.impl;
 
 import com.google.common.base.Strings;
+import com.sunlights.common.DictConst;
 import com.sunlights.common.dal.EntityBaseDao;
 import com.sunlights.common.utils.CommonUtil;
 import com.sunlights.customer.dal.CustomerDao;
@@ -64,7 +65,7 @@ public class CustomerDaoImpl extends EntityBaseDao implements CustomerDao {
     public CustomerVo getCustomerVoByPhoneNo(String mobilePhoneNo, String deviceNo) {
         String sql = "select c.mobile,c.real_name,c.nick_name,c.email,c.identity_number," +
                 "case when EXISTS (select 1 from c_customer_gesture cg where cg.customer_id = c.customer_id and cg.status = 'Y' and cg.device_no = :deviceNo) THEN '1' ELSE '0' END as gestureOpened," +
-                "case when c.identity_typer = 'I' and c.identity_number is not null THEN '1' ELSE '0' END as certify," +
+                "case when c.identity_typer = :identityTyper and c.identity_number is not null THEN '1' ELSE '0' END as certify," +
                 "case when a.trade_password is null THEN '0' ELSE '1' END as tradePwdFlag," +
                 "(select count(1) from c_bank_card bc where bc.customer_id = c.customer_id) as bankCardCount " +
                 ",c.customer_id " +
@@ -74,6 +75,7 @@ public class CustomerDaoImpl extends EntityBaseDao implements CustomerDao {
 
 
         Query query = em.createNativeQuery(sql);
+        query.setParameter("identityTyper", DictConst.CERTIFICATE_TYPE_1);
         query.setParameter("deviceNo", deviceNo);
         query.setParameter("mobilePhoneNo", mobilePhoneNo);
 
@@ -87,19 +89,20 @@ public class CustomerDaoImpl extends EntityBaseDao implements CustomerDao {
     public CustomerVo getCustomerVoByIdCardNo(String idCardNo, String userName) {
         String sql = " select c.mobile,c.real_name,c.nick_name,c.email,c.identity_number," +
                 " 0 || '' as gestureOpened," +
-                " case when c.identity_typer = 'I' and c.identity_number is not null THEN '1' ELSE '0' END as certify," +
+                " case when c.identity_typer = :identityTyper and c.identity_number is not null THEN '1' ELSE '0' END as certify," +
                 " case when a.trade_password is null THEN '0' ELSE '1' END as tradePwdFlag," +
                 " (select count(1) from c_bank_card bc where bc.customer_id = c.customer_id) as bankCardCount, " +
                 "  c.customer_id " +
                 " from    c_customer c,f_basic_account a" +
                 " where   c.customer_id = a.cust_id" +
                 " and     c.real_name = :userName" +
-                " and     c.identity_typer = 'I'" +
+                " and     c.identity_typer = :identityTyper" +
                 " and     c.identity_number = :idCardNo";
 
         Logger.debug(sql);
 
         Query query = em.createNativeQuery(sql);
+        query.setParameter("identityTyper", DictConst.CERTIFICATE_TYPE_1);
         query.setParameter("idCardNo", idCardNo);
         query.setParameter("userName", userName);
         List list = query.getResultList();
@@ -108,9 +111,6 @@ public class CustomerDaoImpl extends EntityBaseDao implements CustomerDao {
 
         return customerVo;
     }
-
-
-
 
     private CustomerVo transCustomerVo(List<Object[]> list) {
 //        CustomerVo customerVo = CommonUtil.column2StringVo(list, CustomerVo.class);

@@ -4,6 +4,7 @@ import com.sunlights.account.dal.CapitalDao;
 import com.sunlights.account.vo.Capital4Product;
 import com.sunlights.account.vo.CapitalVo;
 import com.sunlights.common.AppConst;
+import com.sunlights.common.DictConst;
 import com.sunlights.common.dal.EntityBaseDao;
 import com.sunlights.common.dal.PageDao;
 import com.sunlights.common.dal.impl.PageDaoImpl;
@@ -52,7 +53,7 @@ public class CapitalDaoImpl extends EntityBaseDao implements CapitalDao {
     @Override
     public List<CapitalVo> findCapitalProfitListByCustId(String customerId, PageVo pageVo) {
         pageVo.put("EQS_customerId", customerId);
-        pageVo.put("EQS_holdCapitalType", "1");//TODO
+        pageVo.put("EQS_holdCapitalType", DictConst.HOLDCAPITAL_TYPE_2);
 
         List<HoldCapital> list = getHoldCapitalList(pageVo);
 
@@ -92,7 +93,6 @@ public class CapitalDaoImpl extends EntityBaseDao implements CapitalDao {
             if (BigDecimal.ZERO.compareTo(holdCapital.getHoldCapital()) == 0) {
                 continue;
             }
-            
             Capital4Product capital4Product = new Capital4Product();
 
             capital4Product.setPrdCode(holdCapital.getProductCode());
@@ -100,7 +100,6 @@ public class CapitalDaoImpl extends EntityBaseDao implements CapitalDao {
             capital4Product.setTotalProfit(ArithUtil.bigToScale2(holdCapital.getTotalProfit()));
             capital4Product.setMarketValue(ArithUtil.bigToScale2(holdCapital.getHoldCapital()));
             capital4Product.setPrdType(holdCapital.getProductType());
-            capital4Product.setPrdTypeDesc("基金");//TODO
             capital4ProductList.add(capital4Product);
         }
         return capital4ProductList;

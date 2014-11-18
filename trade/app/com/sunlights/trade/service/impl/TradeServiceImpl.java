@@ -6,6 +6,7 @@ import com.sunlights.account.service.impl.AccountServiceImpl;
 import com.sunlights.account.service.impl.CapitalServiceImpl;
 import com.sunlights.account.vo.AcctChangeFlowVo;
 import com.sunlights.account.vo.TotalCapitalInfo;
+import com.sunlights.common.DictConst;
 import com.sunlights.common.MsgCode;
 import com.sunlights.common.Severity;
 import com.sunlights.common.exceptions.BusinessRuntimeException;
@@ -78,14 +79,15 @@ public class TradeServiceImpl implements TradeService {
         CustomerSession customerSession = customerService.getCustomerSession(token);
         String customerId = customerSession.getCustomerId();
 
-        FundHistory fundHistory = productService.findFundHistoryByCode(prdCode);
-        HoldCapital holdCapital = capitalService.findHoldCapital(customerId, prdCode);
-        CapitalProductTradeVo capitalProductTradeVo = transHoldCapitalVo(holdCapital, fundHistory);
-
+        CapitalProductTradeVo capitalProductTradeVo = null;
+        if (DictConst.FP_PRODUCT_TYPE_1.equals(prdType)) {//基金
+            FundHistory fundHistory = productService.findFundHistoryByCode(prdCode);
+            HoldCapital holdCapital = capitalService.findHoldCapital(customerId, prdCode);
+            capitalProductTradeVo = transHoldCapitalVo(holdCapital, fundHistory);
+        }
         List<TradeVo> list = getTradeListByCustomerId(customerId, prdCode, pageVo);
         capitalProductTradeVo.setList(list);
         capitalProductTradeVo.setTradeCount(pageVo.getCount());
-        capitalProductTradeVo.setAvailableQuotient("0");//TODO
 
         return capitalProductTradeVo;
     }
@@ -101,6 +103,10 @@ public class TradeServiceImpl implements TradeService {
         capitalProductTradeVo.setPrincipalValue(ArithUtil.bigToScale2(holdCapital.getHoldCapital().subtract(holdCapital.getTotalProfit())));
         capitalProductTradeVo.setMillionOfProfit(fundHistory.getMillionOfProfit().toString());
         capitalProductTradeVo.setOneWeekProfit(fundHistory.getOneWeekProfit().toString());
+        if (!DictConst.FP_PRODUCT_TYPE_1_1.equals(fundHistory.getFundType())) {// 计算正在交易中的份额
+            BigDecimal amount = tradeDao.getTradeRedeemAmount(holdCapital.getCustId(), fundHistory.getFundCode());
+            capitalProductTradeVo.setAvailableQuotient(amount.divide(fundHistory.getMinApplyAmount()).toString());
+        }
         return capitalProductTradeVo;
     }
 
@@ -129,19 +135,20 @@ public class TradeServiceImpl implements TradeService {
         }
         BankCardVo bankCardVo = bankCardVoList.get(0);
         Fund fund = productService.findFundByCode(prdCode);
+        FundCompany fundCompany = productService.findFundCompanyById(fund.getFundCompanyId());
 
         //开户
         openAccountPactService.createFundOpenAccount(customerId, bankCardVo);
         //子帐号
-        accountService.createSubAccount(customerId,"HXYH", prdType);//TODO
+        accountService.createSubAccount(customerId,fundCompany.getFundCompanyId(), prdType);
         //下单记录
-        Trade trade = createTrade(tradeFormVo, bankCardVo, customerId, fund, "1");
+        Trade trade = createTrade(tradeFormVo, bankCardVo, customerId, fund, DictConst.TRADE_TYPE_1);
         //调用支付接口
         boolean paymentFlag = paymentService.payment();
         if (!paymentFlag) {
-            trade.setPayStatus("3");//付款失败
-            trade.setTradeStatus("3");
-            trade.setConfirmStatus("5");
+            trade.setPayStatus(DictConst.PAYMENT_STATUS_4);//付款失败
+            trade.setTradeStatus(DictConst.TRADE_STATUS_3);
+            trade.setConfirmStatus(DictConst.VERIFY_STATUS_5);
             updateTrade(trade);
             return null;
         }
@@ -149,9 +156,9 @@ public class TradeServiceImpl implements TradeService {
         //帐户变更记录
         HoldCapital holdCapital = saveAccountChangeInfo(prdType, prdCode, customerId, trade);
         //交易记录更新
-        trade.setPayStatus("2");
-        trade.setTradeStatus("2");
-        trade.setConfirmStatus("4");
+        trade.setPayStatus(DictConst.PAYMENT_STATUS_3);
+        trade.setTradeStatus(DictConst.TRADE_STATUS_2);
+        trade.setConfirmStatus(DictConst.VERIFY_STATUS_4);
         trade.setHoldCapitalId(holdCapital.getId());
         updateTrade(trade);
         TotalCapitalInfo totalCapitalInfo = capitalService.getTotalCapital(token, true);
@@ -198,27 +205,26 @@ public class TradeServiceImpl implements TradeService {
 
         Trade trade = new Trade();
         trade.setTradeNo(generateTradeNo());
-        if ("1".equals(type)) {//申购
-            trade.setType("1");//
+        trade.setType(type);
+        if (DictConst.TRADE_TYPE_1.equals(type)) {//申购
             trade.setTradeAmount(new BigDecimal(tradeAmount));
-        }else{
-            trade.setType("2");//赎回
+        }else{//赎回
             trade.setTradeAmount(new BigDecimal(tradeAmount).negate());
         }
-        trade.setTradeStatus("1");//申购中
-        trade.setConfirmStatus("1");//1-待确认
+        trade.setTradeStatus(DictConst.TRADE_STATUS_1);//申购中
+        trade.setConfirmStatus(DictConst.VERIFY_STATUS_1);//1-待确认
         trade.setTradeTime(currentTime);
         trade.setCreateTime(currentTime);
         trade.setCustId(customerId);
         trade.setBankCardNo(bankCardNo);
         trade.setBankName(bankName);
-        trade.setPayStatus("1");//未付款
+        trade.setPayStatus(DictConst.PAYMENT_STATUS_2);//未付款
         trade.setQuantity(Integer.valueOf(quantity));
 
         trade.setProductCode(prdCode);
         trade.setProductName(fund.getChiName());
         trade.setProductPrice(fund.getMinApplyAmount());
-//        trade.setFee(fund.getCharge() == null ? BigDecimal.ZERO : fund.getCharge());
+        trade.setFee(BigDecimal.valueOf(fund.getCharge()));
         return tradeDao.saveTrade(trade);
     }
 
@@ -252,13 +258,13 @@ public class TradeServiceImpl implements TradeService {
         Fund fund = productService.findFundByCode(prdCode);
 
         //赎回记录
-        Trade trade = createTrade(tradeFormVo, bankCardVo, customerId, fund, "2");
+        Trade trade = createTrade(tradeFormVo, bankCardVo, customerId, fund, DictConst.TRADE_TYPE_2);
         //还款接口
         boolean paymentFlag = paymentService.payment();
         if (!paymentFlag) {
-            trade.setPayStatus("3");//付款失败
-            trade.setTradeStatus("3");
-            trade.setConfirmStatus("5");
+            trade.setPayStatus(DictConst.PAYMENT_STATUS_4);//付款失败
+            trade.setTradeStatus(DictConst.TRADE_STATUS_3);
+            trade.setConfirmStatus(DictConst.VERIFY_STATUS_5);
             updateTrade(trade);
             return null;
         }
@@ -266,9 +272,9 @@ public class TradeServiceImpl implements TradeService {
         //帐户变更记录
         HoldCapital holdCapital = saveAccountChangeInfo(prdType, prdCode, customerId, trade);
         //交易记录更新
-        trade.setPayStatus("2");
-        trade.setTradeStatus("2");
-        trade.setConfirmStatus("4");
+        trade.setPayStatus(DictConst.PAYMENT_STATUS_3);
+        trade.setTradeStatus(DictConst.TRADE_STATUS_2);
+        trade.setConfirmStatus(DictConst.VERIFY_STATUS_4);
         trade.setHoldCapitalId(holdCapital.getId());
         updateTrade(trade);
         TotalCapitalInfo totalCapitalInfo = capitalService.getTotalCapital(token, true);

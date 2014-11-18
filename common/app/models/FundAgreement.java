@@ -17,8 +17,8 @@ import java.util.Date;
 public class FundAgreement extends IdEntity {
   @Column(name = "customer_id", length = 30)
   private String customerId;
-  @Column(name = "company_code", length = 20)
-  private String companyCode;
+  @Column(name = "fund_company_id", length = 20)
+  private String fundCompanyId;
   @Temporal(TemporalType.TIMESTAMP)
   @Column(name = "create_time")
   private Date createTime;
@@ -34,19 +34,19 @@ public class FundAgreement extends IdEntity {
     this.customerId = customerId;
   }
 
-  public String getCompanyCode() {
-    return companyCode;
-  }
+    public String getFundCompanyId() {
+        return fundCompanyId;
+    }
 
-  public void setCompanyCode(String companyCode) {
-    this.companyCode = companyCode;
-  }
+    public void setFundCompanyId(String fundCompanyId) {
+        this.fundCompanyId = fundCompanyId;
+    }
 
-  public Date getCreateTime() {
-    return createTime;
-  }
+    public Date getCreateTime() {
+        return createTime;
+    }
 
-  public void setCreateTime(Date createTime) {
+    public void setCreateTime(Date createTime) {
     this.createTime = createTime;
   }
 

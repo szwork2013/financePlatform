@@ -21,9 +21,9 @@ public interface AccountDao {
     public SubAccount saveSubAccount(SubAccount subAccount);
     public SubAccount updateSubAccount(SubAccount subAccount);
 
-    public boolean findFundAgreementExist(String customerId, String fundCompanyCode);
+    public boolean findFundAgreementExist(String customerId, String fundCompanyId);
 
-    public void saveFundAgreement(String customerId, String fundCompanyCode);
+    public void saveFundAgreement(String customerId, String fundCompanyId);
 
     public boolean findPrdAccountConfigExist(String prdType, String subAccountNo);
 

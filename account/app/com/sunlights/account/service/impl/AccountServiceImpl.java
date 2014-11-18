@@ -6,6 +6,7 @@ import com.sunlights.account.dal.impl.AccountDaoImpl;
 import com.sunlights.account.service.AccountService;
 import com.sunlights.account.vo.AcctChangeFlowVo;
 import com.sunlights.common.AppConst;
+import com.sunlights.common.DictConst;
 import com.sunlights.common.MsgCode;
 import com.sunlights.common.Severity;
 import com.sunlights.common.exceptions.BusinessRuntimeException;
@@ -41,13 +42,15 @@ public class AccountServiceImpl implements AccountService {
 
 
 	@Override
-	public void createSubAccount(String custId, String fundCompanyCode, String prdType) {
+	public void createSubAccount(String custId, String fundCompanyId, String prdType) {
         //与基金公司开户
-        boolean isExist = accountDao.findFundAgreementExist(custId, fundCompanyCode);
-        if (isExist){
-            return ;
+        if (DictConst.FP_PRODUCT_TYPE_1.equals(prdType)) {
+            boolean isExist = accountDao.findFundAgreementExist(custId, fundCompanyId);
+            if (isExist){
+                return ;
+            }
+            accountDao.saveFundAgreement(custId, fundCompanyId);
         }
-        accountDao.saveFundAgreement(custId, fundCompanyCode);
         Timestamp currentTime = DBHelper.getCurrentTime();
 
         //创建子帐号
@@ -80,20 +83,14 @@ public class AccountServiceImpl implements AccountService {
         acctChangFlow.setCustomerId(customerId);
         acctChangFlow.setProductCode(prdCode);
         acctChangFlow.setTradeNo(tradeNo);
-//        if (AppConst.TRADE_TYPE_PURCHASE.equals(tradeType)) {//TODO
-//            acctChangFlow.setSubjectNo(AppConst.SUBJECT_PURCHASE);
-//            acctChangFlow.setAmount(amount);
-//        }else if (AppConst.TRADE_TYPE_REDEEM.equals(tradeType)){
-//            acctChangFlow.setAmount(amount.negate());
-//            acctChangFlow.setSubjectNo(AppConst.SUBJECT_REDEEM);
-//        }
-        if ("1".equals(tradeType)) {//TODO
+        if (DictConst.TRADE_TYPE_1.equals(tradeType)) {
             acctChangFlow.setSubjectNo(AppConst.SUBJECT_PURCHASE);
             acctChangFlow.setAmount(amount);
-        }else if ("2".equals(tradeType)){
+        }else if (DictConst.TRADE_TYPE_2.equals(tradeType)){
             acctChangFlow.setAmount(amount.negate());
             acctChangFlow.setSubjectNo(AppConst.SUBJECT_REDEEM);
         }
+
         acctChangFlow.setCreateTime(DBHelper.getCurrentTime());
         accountDao.saveAcctChangFlow(acctChangFlow);
     }
@@ -111,7 +108,7 @@ public class AccountServiceImpl implements AccountService {
             throw new BusinessRuntimeException(new Message(Severity.ERROR, MsgCode.PHONE_NUMBER_NOT_REGISTRY));
         }
 
-        if (AppConst.ID_CARD.equals(customer.getIdentityTyper())) { //若为实名验证过的用户，判断真实姓名和身份证号是否和数据库中一致，
+        if (DictConst.CERTIFICATE_TYPE_1.equals(customer.getIdentityTyper())) { //若为实名验证过的用户，判断真实姓名和身份证号是否和数据库中一致，
             if (!idCardNo.equals(customer.getIdentityNumber()) || !userName.equals(customer.getRealName())) {
                 throw new BusinessRuntimeException(new Message(Severity.ERROR, MsgCode.NAME_OR_ID_ERROR));
             }

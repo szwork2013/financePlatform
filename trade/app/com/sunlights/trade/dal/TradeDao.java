@@ -4,6 +4,7 @@ import com.sunlights.common.vo.PageVo;
 import com.sunlights.trade.vo.TradeVo;
 import models.Trade;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 /**
@@ -26,6 +27,12 @@ public interface TradeDao {
    * @return
    */
   public List<TradeVo> getTradeListByCustomerId(String customerId, String productCode, PageVo pageVo);
+
+    /**
+     * 获取正在赎回中的金额
+     * @return
+     */
+  public BigDecimal getTradeRedeemAmount(String customerId, String productCode);
 
   public Trade saveTrade(Trade trade);
 

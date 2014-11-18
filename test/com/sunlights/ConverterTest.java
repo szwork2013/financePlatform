@@ -2,7 +2,6 @@ package com.sunlights;
 
 import com.google.common.base.Splitter;
 import com.sunlights.account.vo.AcctChangeFlowVo;
-import com.sunlights.common.utils.CommonUtil;
 import com.sunlights.common.utils.ConverterUtil;
 import models.AcctChangFlow;
 import org.fest.assertions.Assertions;

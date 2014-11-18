@@ -51,11 +51,11 @@ public class AccountDaoImpl extends EntityBaseDao implements AccountDao {
     }
 
     @Override
-    public boolean findFundAgreementExist(String customerId, String fundCompanyCode){
-        String sql = "select 1 from f_fund_Agreement fa where fa.customer_id = ?0 and company_code = ?1";
+    public boolean findFundAgreementExist(String customerId, String fundCompanyId){
+        String sql = "select 1 from f_fund_Agreement fa where fa.customer_id = ?0 and fund_company_id = ?1";
         Query query = em.createNativeQuery(sql);
         query.setParameter(0, customerId);
-        query.setParameter(1, fundCompanyCode);
+        query.setParameter(1, fundCompanyId);
         List list = query.getResultList();
         if (list.isEmpty()) {
             return false;
@@ -64,9 +64,9 @@ public class AccountDaoImpl extends EntityBaseDao implements AccountDao {
     }
 
     @Override
-    public void saveFundAgreement(String customerId, String fundCompanyCode){
+    public void saveFundAgreement(String customerId, String fundCompanyId){
         FundAgreement fundAgreement = new FundAgreement();
-        fundAgreement.setCompanyCode(fundCompanyCode);
+        fundAgreement.setFundCompanyId(fundCompanyId);
         fundAgreement.setCustomerId(customerId);
         Timestamp currentTime = DBHelper.getCurrentTime();
         fundAgreement.setCreateTime(currentTime);

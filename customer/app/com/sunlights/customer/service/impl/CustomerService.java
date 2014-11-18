@@ -1,6 +1,7 @@
 package com.sunlights.customer.service.impl;
 
 import com.sunlights.common.AppConst;
+import com.sunlights.common.DictConst;
 import com.sunlights.common.MsgCode;
 import com.sunlights.common.ParameterConst;
 import com.sunlights.common.service.ParameterService;
@@ -159,7 +160,7 @@ public class CustomerService {
 
     private String generateCustomerId(String property) {
         String customerId = CommonUtil.dateToString(DBHelper.getCurrentTime(), CommonUtil.YYYYMMDDHHMMSS);
-        if (AppConst.CUSTOMER_BUYER.equals(property)) {
+        if (DictConst.CUSTOMER_PROPERTY_1.equals(property)) {
             customerId += "01";
         } else {
             customerId += "02";
