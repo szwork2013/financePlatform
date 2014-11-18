@@ -955,8 +955,8 @@ create table F_ACTIVITY (
    ID                   INT8                 not null,
    STATUS               VARCHAR(2)           null,
    TITLE                VARCHAR(700)         null,
-   BEGIN_TIME           DATE                 null,
-   END_TIME             DATE                 null,
+   BEGIN_TIME           date                 null,
+   END_TIME             date                 null,
    APP_ID               VARCHAR(16)          null,
    IMAGE                VARCHAR(50)          null,
    URL                  VARCHAR(50)          null,
@@ -964,8 +964,8 @@ create table F_ACTIVITY (
    TYPE                 VARCHAR(10)          null,
    STYLE                VARCHAR(10)          null,
    CLICK_EVENT          VARCHAR(6)           null,
-   CREATE_TIME          DATE                 null,
-   UPDATE_TIME          DATE                 null,
+   CREATE_TIME          timestamp                 null,
+   UPDATE_TIME          timestamp                 null,
    CREATE_BY            VARCHAR(30)          null,
    UPDATE_BY            VARCHAR(30)          null,
    constraint PK_F_ACTIVITY primary key (ID)
@@ -1030,8 +1030,8 @@ create table F_REWARD_TYPE (
    CODE                 VARCHAR(6)           null,
    NAME                 VARCHAR(16)          null,
    UNIT                 INT8                 null,
-   CREATE_TIME          DATE                 null,
-   UPDATE_TIME          DATE                 null,
+   CREATE_TIME          timestamp                 null,
+   UPDATE_TIME          timestamp                 null,
    CREATE_BY            VARCHAR(30)          null,
    UPDATE_BY            VARCHAR(30)          null,
    constraint PK_F_REWARD_TYPE primary key (ID)
@@ -1076,10 +1076,10 @@ create table F_EXCHANGE_REWARD_RULE (
    LIMIT_TIME           INT4                 null,
    NOTICE_TIME          INT4                 null,
    DELAY_TIME           INT4                 null,
-   CREATE_TIME          DATE                 null,
-   UPDATE_TIME          DATE                 null,
-   CREATE_BY            VARCHAR(10)          null,
-   UPDATE_BY            VARCHAR(10)          null,
+   CREATE_TIME          timestamp                 null,
+   UPDATE_TIME          timestamp                 null,
+   CREATE_BY            VARCHAR(30)          null,
+   UPDATE_BY            VARCHAR(30)          null,
    constraint PK_F_EXCHANGE_REWARD_RULE primary key (ID)
 );
 
@@ -1141,8 +1141,8 @@ create table F_GET_REWARD_RULE (
    activity_channel     INT4                 null,
    trade_amt            NUMERIC(18,4)        null,
    back_funds           NUMERIC(18,4)        null,
-   create_time          DATE                 null,
-   update_time          DATE                 null,
+   create_time          timestamp                 null,
+   update_time          timestamp                 null,
    create_by            VARCHAR(30)          null,
    update_by            VARCHAR(30)          null,
    constraint PK_F_GET_REWARD_RULE primary key (ID)
