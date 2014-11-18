@@ -56,7 +56,7 @@ public class FundDetailVo extends FundVo {
 
         this.fundScale = scale == null ? null : ArithUtil.bigToScale2(scale.divide(new BigDecimal("100000000"))) + "亿";
         //最新：2014-10-26
-        this.currentDate = CommonUtil.dateToString(new Date(), CommonUtil.DATE_FORMAT_LONG);
+        this.currentDate = CommonUtil.dateToString(new Date(), CommonUtil.DATE_FORMAT_SHORT);
         this.buiersOf30Days = fund.getOneMonthBuyedCount();
     }
 
