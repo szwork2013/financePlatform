@@ -26,45 +26,11 @@ public final class AppConst {
     public static String SUBJECT_PURCHASE = "100001";
     public static String SUBJECT_REDEEM = "100002";
 
-    public static String TRADE_TYPE_PURCHASE = "0";
-    public static String TRADE_TYPE_REDEEM = "1";
 
     // ----- customer ---
     public static String STATUS_VALID = "Y";
     public static String STATUS_INVALID = "N";
 
-
-    /**
-     * 手机
-     */
-    public static String REGISTER_CHANNEL_MOBILE = "M";
-
-    /**
-     * 客户类型：个人
-     */
-    public static String CUSTOMER_TYPE_PERSON = "C";
-    /**
-     * 客户类型：商户
-     */
-    public static String CUSTOMER_TYPE_MERCHANT = "B";
-
-    /**
-     * 客户状态：正常
-     */
-    public static String CUSTOMER_STATUS_NORMAL = "T";
-    /**
-     * 客户状态：已锁定
-     */
-    public static String CUSTOMER_STATUS_LOCK = "U";
-
-    /**
-     * 证件类型：身份证
-     */
-    public static String ID_CARD = "I";
-
-    public static String CUSTOMER_BUYER = "1";
-
-    public static String CUSTOMER_SELLER = "2";
 
     public static String INVALID_CERTIFY = "0";
     public static String VALID_CERTIFY = "1";
