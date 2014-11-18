@@ -22,7 +22,7 @@ public class FundHistory extends IdEntity {
     @Column(name = "min_apply_amount")
     private BigDecimal minApplyAmount;
     @Column(name = "lowest_redemption")
-    private Long lowestRedemption;
+    private BigDecimal lowestRedemption;
 
     @Column(name = "million_of_profit")
     private BigDecimal millionOfProfit;
@@ -122,11 +122,11 @@ public class FundHistory extends IdEntity {
         this.minApplyAmount = minApplyAmount;
     }
 
-    public Long getLowestRedemption() {
+    public BigDecimal getLowestRedemption() {
         return lowestRedemption;
     }
 
-    public void setLowestRedemption(Long lowestRedemption) {
+    public void setLowestRedemption(BigDecimal lowestRedemption) {
         this.lowestRedemption = lowestRedemption;
     }
 

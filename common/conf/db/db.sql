@@ -1652,7 +1652,7 @@ ALTER TABLE P_FUND_HISTORY ALTER COLUMN FUND_SCALE TYPE NUMERIC(18, 5);
 
 ALTER TABLE P_FUND_COMPANY ADD COLUMN FUND_COMPANY_ID VARCHAR(100);
 
-
+--Y
 /*==============================================================*/
 /* Table: P_fund_company                                        */
 /*==============================================================*/
@@ -1684,3 +1684,6 @@ CREATE TABLE P_FUND_COMPANY
   CONSTRAINT PK_P_FUND_COMPANY PRIMARY KEY (ID)
 );
 
+--Y
+ALTER TABLE P_FUND ALTER COLUMN LOWEST_REDEMPTION TYPE NUMERIC(18, 5);
+ALTER TABLE P_FUND_HISTORY ALTER COLUMN LOWEST_REDEMPTION TYPE NUMERIC(18, 5);
