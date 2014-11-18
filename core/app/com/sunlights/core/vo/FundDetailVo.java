@@ -28,7 +28,7 @@ public class FundDetailVo extends FundVo {
     //基金公司
     private String companyName;
     // 基金规模
-    private BigDecimal fundScale;
+    private String fundScale;
     // 30天购买人数
     private Long buiersOf30Days;
     //最新：2014-10-26
@@ -53,7 +53,8 @@ public class FundDetailVo extends FundVo {
         this.companyName = fundCompany.getCompanyName();
         // 基金规模
         BigDecimal scale = fund.getFundScale();
-        this.fundScale = scale;
+
+        this.fundScale = scale == null ? null : ArithUtil.bigToScale2(scale.divide(new BigDecimal("100000000"))) + "亿";
         //最新：2014-10-26
         this.currentDate = CommonUtil.dateToString(new Date(), CommonUtil.DATE_FORMAT_LONG);
         this.buiersOf30Days = fund.getOneMonthBuyedCount();
@@ -83,11 +84,11 @@ public class FundDetailVo extends FundVo {
         this.companyName = companyName;
     }
 
-    public BigDecimal getFundScale() {
+    public String getFundScale() {
         return fundScale;
     }
 
-    public void setFundScale(BigDecimal fundScale) {
+    public void setFundScale(String fundScale) {
         this.fundScale = fundScale;
     }
 

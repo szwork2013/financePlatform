@@ -73,7 +73,7 @@ public class Fund extends IdEntity {
     @Column(name = "secu_abbr")
     private String secuAbbr;
 
-    @Column(name = "fund_scale")
+    @Column(name = "fund_scale", precision = 18, scale = 5)
     private BigDecimal fundScale;
 
     @Column(name = "fund_type")
@@ -259,6 +259,7 @@ public class Fund extends IdEntity {
     }
 
     public BigDecimal getFundScale() {
+
         return fundScale;
     }
 
