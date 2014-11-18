@@ -13,7 +13,7 @@ import java.util.Date;
  * @author <a href="mailto:jiaming.wang@sunlights.cc">wangJiaMing</a>
  */
 @Entity
-@Table(name = "c_question_record.sql")
+@Table(name = "c_question_record")
 public class QuestionRecord extends IdEntity {
     private String problem;
     @Column(name = "phone_no",length = 20)
