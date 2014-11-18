@@ -955,8 +955,9 @@ create table F_ACTIVITY (
    ID                   INT8                 not null,
    STATUS               VARCHAR(2)           null,
    TITLE                VARCHAR(700)         null,
-   BEGIN_TIME           date                 null,
-   END_TIME             date                 null,
+   BEGIN_TIME           DATE                 null,
+   END_TIME             DATE                 null,
+   SCENE                VARCHAR(6)           null,
    APP_ID               VARCHAR(16)          null,
    IMAGE                VARCHAR(50)          null,
    URL                  VARCHAR(50)          null,
@@ -964,8 +965,8 @@ create table F_ACTIVITY (
    TYPE                 VARCHAR(10)          null,
    STYLE                VARCHAR(10)          null,
    CLICK_EVENT          VARCHAR(6)           null,
-   CREATE_TIME          timestamp                 null,
-   UPDATE_TIME          timestamp                 null,
+   CREATE_TIME          TIMESTAMP            null,
+   UPDATE_TIME          TIMESTAMP            null,
    CREATE_BY            VARCHAR(30)          null,
    UPDATE_BY            VARCHAR(30)          null,
    constraint PK_F_ACTIVITY primary key (ID)
@@ -985,6 +986,9 @@ comment on column F_ACTIVITY.BEGIN_TIME is
 
 comment on column F_ACTIVITY.END_TIME is
 '活动结束时间';
+
+comment on column F_ACTIVITY.SCENE is
+'应用场景';
 
 comment on column F_ACTIVITY.APP_ID is
 '投放产品ID';

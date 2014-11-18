@@ -30,16 +30,17 @@ public class ActivityServiceImpl implements ActivityService{
             vo = new ActivityVo();
             vo.setId(activity.getId());
             vo.setName(activity.getTitle());
-            vo.setImage(getFileFuleUrl(activity.getImage()));
-            vo.setUrl(getFileFuleUrl(activity.getUrl()));
+            vo.setImage(getFileFuleUrl(activity.getImage(), "activity.imagePath"));
+            vo.setUrl(getFileFuleUrl(activity.getUrl(), "activity.html5Path"));
             activityVos.add(vo);
         }
         return activityVos;
     }
 
-    private String getFileFuleUrl(String fileName) {
-        String server = Configuration.root().getString("nginx.server");
-        String remoteDir = Configuration.root().getString("nginx.imagePath");
-        return new StringBuilder().append("http://").append(server).append(remoteDir).append("/").append(fileName).toString();
+    private String getFileFuleUrl(String fileName, String remotDir) {
+        String server = Configuration.root().getString("activity.server");
+        String port = Configuration.root().getString("activity.port");
+        String remoteDir = Configuration.root().getString(remotDir);
+        return new StringBuilder().append("http://").append(server).append(":").append(port).append(remoteDir).append("/").append(fileName).toString();
     }
 }

@@ -109,7 +109,7 @@ public class ActivityController extends Controller  {
         }
         messageUtil.setMessage(new Message(Severity.INFO, MsgCode.OPERATE_SUCCESS), pageVo);
 
-        Logger.debug("获取活动的信息：" + messageUtil.toJson().asText());
+        Logger.debug("获取活动的信息：" + messageUtil.toJson().toString());
         return ok(messageUtil.toJson());
     }
 }
