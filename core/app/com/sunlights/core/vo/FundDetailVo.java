@@ -52,7 +52,8 @@ public class FundDetailVo extends FundVo {
         //基金公司
         this.companyName = fundCompany.getCompanyName();
         // 基金规模
-        this.fundScale = new BigDecimal(ArithUtil.div(fund.getFundScale().doubleValue(), 100000000.00d));
+        BigDecimal scale = fund.getFundScale();
+        this.fundScale = scale;
         //最新：2014-10-26
         this.currentDate = CommonUtil.dateToString(new Date(), CommonUtil.DATE_FORMAT_LONG);
         this.buiersOf30Days = fund.getOneMonthBuyedCount();
