@@ -36,6 +36,8 @@ public class Activity extends IdEntity {
     private String style;
     @Column(name = "CLICK_EVENT")
     private String clickEvent;
+    @Column(name = "SCENE")
+    private String scene;
 
     @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "CREATE_TIME")
@@ -169,5 +171,13 @@ public class Activity extends IdEntity {
 
     public void setClickEvent(String clickEvent) {
         this.clickEvent = clickEvent;
+    }
+
+    public String getScene() {
+        return scene;
+    }
+
+    public void setScene(String scene) {
+        this.scene = scene;
     }
 }
