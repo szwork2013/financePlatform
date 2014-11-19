@@ -391,7 +391,7 @@ public class Fund extends IdEntity {
 
     @Override
     public int hashCode() {
-        int result = (int) (getId() ^ (getId() >>> 32));
+        int result = 1;
         result = 31 * result + (fundCode != null ? fundCode.hashCode() : 0);
         result = 31 * result + (minApplyAmount != null ? minApplyAmount.hashCode() : 0);
         result = 31 * result + (lowestRedemption != null ? lowestRedemption.hashCode() : 0);
