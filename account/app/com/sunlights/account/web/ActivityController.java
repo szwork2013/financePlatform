@@ -33,70 +33,7 @@ public class ActivityController extends Controller  {
     private MessageUtil messageUtil = MessageUtil.getInstance();
 
     public Result getActivityList() {
-        ActivityParamter activityParamter = null;
-        Http.RequestBody body = request().body();
-        if (body.asJson() != null) {
-            activityParamter = Json.fromJson(body.asJson(), ActivityParamter.class);
-        }
-
-        if (body.asFormUrlEncoded() != null) {
-            activityParamter = activityParameterForm.bindFromRequest().get();
-        }
-
-        PageVo pageVo = new PageVo();
-        pageVo.setIndex(0);
-        pageVo.setPageSize(10);
-        pageVo.setCount(4);
-
-        ActivityVo vo = new ActivityVo();
-        vo.setId(1L);
-        vo.setImage("http://i.yingyinglicai.com/frontweb/theme/imagesnew/banner/1.jpg");
-        vo.setUrl("http://licai.yingyinglicai.com/huodong/1111.html");
-        vo.setName("送积分1");
-
-        List<ActivityVo> vos = new ArrayList<ActivityVo>();
-        vos.add(vo);
-
-        vo = new ActivityVo();
-        vo.setId(2L);
-        vo.setImage("http://i.yingyinglicai.com/frontweb/theme/imagesnew/banner/2.jpg");
-        vo.setUrl("http://licai.yingyinglicai.com/index.htm#");
-        vo.setName("送积分2");
-        vos.add(vo);
-
-        vo = new ActivityVo();
-        vo.setId(3L);
-        vo.setImage("http://i.yingyinglicai.com/frontweb/theme/imagesnew/banner/3.jpg");
-        vo.setUrl("http://licai.yingyinglicai.com/else/banner2.htm");
-        vo.setName("送积分3");
-        vos.add(vo);
-
-        vo = new ActivityVo();
-        vo.setId(3L);
-        vo.setImage("http://i.yingyinglicai.com/frontweb/theme/imagesnew/banner/4.jpg");
-        vo.setUrl("http://licai.yingyinglicai.com/else/download.htm");
-        vo.setName("送积分4");
-        vos.add(vo);
-
-        pageVo.setList(vos);
-
-        messageUtil.setMessage(new Message(Severity.INFO, MsgCode.OPERATE_SUCCESS), pageVo);
-
-        System.out.println(messageUtil.toJson());
-        return ok(messageUtil.toJson());
-    }
-
-    public Result getActivityListTemp() {
-        ActivityParamter activityParamter = null;
-        Http.RequestBody body = request().body();
-        if (body.asJson() != null) {
-            activityParamter = Json.fromJson(body.asJson(), ActivityParamter.class);
-        }
-
-        if (body.asFormUrlEncoded() != null) {
-            activityParamter = activityParameterForm.bindFromRequest().get();
-        }
-
+        ActivityParamter activityParamter = getActivityParamter();
         PageVo pageVo = new PageVo();
         pageVo.setIndex(activityParamter.getIndex());
         pageVo.setPageSize(activityParamter.getPageSize());
@@ -109,7 +46,32 @@ public class ActivityController extends Controller  {
         }
         messageUtil.setMessage(new Message(Severity.INFO, MsgCode.OPERATE_SUCCESS), pageVo);
 
-        Logger.debug("获取活动的信息：" + messageUtil.toJson().asText());
+        Logger.debug("获取活动的信息：" + messageUtil.toJson().toString());
         return ok(messageUtil.toJson());
     }
+
+    public ActivityParamter getActivityParamter() {
+        ActivityParamter activityParamter = null;
+        Http.RequestBody body = request().body();
+        if (body.asJson() != null) {
+            activityParamter = Json.fromJson(body.asJson(), ActivityParamter.class);
+        }
+
+        if (body.asFormUrlEncoded() != null) {
+            activityParamter = activityParameterForm.bindFromRequest().get();
+        }
+        return activityParamter;
+    }
+
+    /**
+     * 签到接口
+     *
+     * @return
+     */
+    public Result SignIn() {
+        ActivityParamter activityParamter = getActivityParamter();
+
+        return ok();
+    }
+
 }

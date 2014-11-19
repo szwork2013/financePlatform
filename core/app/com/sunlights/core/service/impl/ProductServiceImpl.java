@@ -89,7 +89,8 @@ public class ProductServiceImpl implements ProductService {
                 " and pm.productType = :productType" +
                 " and pm.beginTime < '" + currentDate + "'" +
                 " and pm.endDate >= '" + currentDate + "'" +
-                " and f.fundType = :fundType";
+                " and f.fundType = :fundType" +
+                " order by pr.recommendType,pr.priorityLevel desc";
 
         List<FundVo> fundVos = pageService.findBy(jpql, pageVo);
         return fundVos;

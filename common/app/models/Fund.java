@@ -22,7 +22,7 @@ public class Fund extends IdEntity {
     @Column(name = "min_apply_amount")
     private BigDecimal minApplyAmount;
     @Column(name = "lowest_redemption")
-    private Long lowestRedemption;
+    private BigDecimal lowestRedemption;
 
     @Column(name = "million_of_profit")
     private BigDecimal millionOfProfit;
@@ -73,7 +73,7 @@ public class Fund extends IdEntity {
     @Column(name = "secu_abbr")
     private String secuAbbr;
 
-    @Column(name = "fund_scale")
+    @Column(name = "fund_scale", precision = 18, scale = 5)
     private BigDecimal fundScale;
 
     @Column(name = "fund_type")
@@ -92,8 +92,8 @@ public class Fund extends IdEntity {
     @Column(name = "to_account_type")
     private String toAccountType;
 
-    @Column(name = "supplier_id")
-    private Long supplierId;
+    @Column(name = "supplier_code")
+    private String supplierCode;
 
     @Column(name = "risk_level")
     private String riskLevel;
@@ -122,11 +122,11 @@ public class Fund extends IdEntity {
         this.minApplyAmount = minApplyAmount;
     }
 
-    public Long getLowestRedemption() {
+    public BigDecimal getLowestRedemption() {
         return lowestRedemption;
     }
 
-    public void setLowestRedemption(Long lowestRedemption) {
+    public void setLowestRedemption(BigDecimal lowestRedemption) {
         this.lowestRedemption = lowestRedemption;
     }
 
@@ -259,6 +259,7 @@ public class Fund extends IdEntity {
     }
 
     public BigDecimal getFundScale() {
+
         return fundScale;
     }
 
@@ -306,14 +307,6 @@ public class Fund extends IdEntity {
         this.toAccountType = toAccountType;
     }
 
-    public Long getSupplierId() {
-        return supplierId;
-    }
-
-    public void setSupplierId(Long supplierId) {
-        this.supplierId = supplierId;
-    }
-
     public String getRiskLevel() {
         return riskLevel;
     }
@@ -336,6 +329,14 @@ public class Fund extends IdEntity {
 
     public void setOneMonthBuyedCount(Long oneMonthBuyedCount) {
         this.oneMonthBuyedCount = oneMonthBuyedCount;
+    }
+
+    public String getSupplierCode() {
+        return supplierCode;
+    }
+
+    public void setSupplierCode(String supplierCode) {
+        this.supplierCode = supplierCode;
     }
 
     @Override
@@ -379,7 +380,7 @@ public class Fund extends IdEntity {
         if (riskLevel != null ? !riskLevel.equals(that.riskLevel) : that.riskLevel != null) return false;
         if (scaleTime != null ? !scaleTime.equals(that.scaleTime) : that.scaleTime != null) return false;
         if (secuAbbr != null ? !secuAbbr.equals(that.secuAbbr) : that.secuAbbr != null) return false;
-        if (supplierId != null ? !supplierId.equals(that.supplierId) : that.supplierId != null) return false;
+        if (supplierCode != null ? !supplierCode.equals(that.supplierCode) : that.supplierCode != null) return false;
         if (toAccountType != null ? !toAccountType.equals(that.toAccountType) : that.toAccountType != null)
             return false;
         if (updateBy != null ? !updateBy.equals(that.updateBy) : that.updateBy != null) return false;
@@ -390,7 +391,7 @@ public class Fund extends IdEntity {
 
     @Override
     public int hashCode() {
-        int result = (int) (getId() ^ (getId() >>> 32));
+        int result = 1;
         result = 31 * result + (fundCode != null ? fundCode.hashCode() : 0);
         result = 31 * result + (minApplyAmount != null ? minApplyAmount.hashCode() : 0);
         result = 31 * result + (lowestRedemption != null ? lowestRedemption.hashCode() : 0);
@@ -416,7 +417,7 @@ public class Fund extends IdEntity {
         result = 31 * result + (investPeriod != null ? investPeriod.hashCode() : 0);
         result = 31 * result + (charge != null ? charge.hashCode() : 0);
         result = 31 * result + (toAccountType != null ? toAccountType.hashCode() : 0);
-        result = 31 * result + (supplierId != null ? supplierId.hashCode() : 0);
+        result = 31 * result + (supplierCode != null ? supplierCode.hashCode() : 0);
         result = 31 * result + (riskLevel != null ? riskLevel.hashCode() : 0);
         result = 31 * result + (initBuyedCount != null ? initBuyedCount.hashCode() : 0);
         result = 31 * result + (oneMonthBuyedCount != null ? oneMonthBuyedCount.hashCode() : 0);
