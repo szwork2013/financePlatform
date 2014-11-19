@@ -27,7 +27,7 @@ public class FundDetailVo extends FundVo {
     // 基金规模
     private String fundScale;
     // 30天购买人数
-    private Long buiersOf30Days;
+    private Integer buiersOf30Days;
     //最新：2014-10-26
     private String currentDate;
 
@@ -38,23 +38,23 @@ public class FundDetailVo extends FundVo {
 
     public FundDetailVo(FundNav fundNav, ProductManage pm, FundCompany fundCompany) {
         super(fundNav, pm);
-        inFundDetail(fundNav, fundCompany);
+        inFundDetail(fundNav, pm, fundCompany);
     }
 
-    public void inFundDetail(FundNav fundNav, FundCompany fundCompany) {
+    public void inFundDetail(FundNav fundNav, ProductManage pm, FundCompany fundCompany) {
         //取现到帐
-//        this.toAccountType = new CommonService().findValueByCatPointKey(fund.getToAccountType());
+        this.toAccountType = fundNav.getRapidRedeem() + "";
         //风险
-//        this.riskLevel = new CommonService().findValueByCatPointKey(fund.getRiskLevel());
+        this.riskLevel = fundNav.getRiskLevel() + "";
         //基金公司
         this.companyName = fundCompany.getCompanyName();
         // 基金规模
-//        BigDecimal scale = fund.getFundScale();
+        BigDecimal scale = fundNav.getLastestTotalAsset();
 
-//        this.fundScale = scale == null ? null : ArithUtil.bigToScale2(scale.divide(new BigDecimal("100000000"))) + "亿";
+        this.fundScale = scale == null ? null : ArithUtil.bigToScale2(scale.divide(new BigDecimal("100000000"))) + "亿";
         //最新：2014-10-26
         this.currentDate = CommonUtil.dateToString(new Date(), CommonUtil.DATE_FORMAT_SHORT);
-//        this.buiersOf30Days = fund.getOneMonthBuyedCount();
+        this.buiersOf30Days = pm.getOneMonthBuyedCount();
     }
 
     public String getToAccountType() {
@@ -89,11 +89,11 @@ public class FundDetailVo extends FundVo {
         this.fundScale = fundScale;
     }
 
-    public Long getBuiersOf30Days() {
+    public Integer getBuiersOf30Days() {
         return buiersOf30Days;
     }
 
-    public void setBuiersOf30Days(Long buiersOf30Days) {
+    public void setBuiersOf30Days(Integer buiersOf30Days) {
         this.buiersOf30Days = buiersOf30Days;
     }
 

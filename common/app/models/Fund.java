@@ -4,23 +4,16 @@ import javax.persistence.*;
 import java.math.BigDecimal;
 import java.util.Date;
 
-/**
- * <p>Project: OperationPlatform</p>
- * <p>Title: PFundHistory.java</p>
- * <p>Description: </p>
- * <p>Copyright (c) 2014 Sunlights.cc</p>
- * <p>All Rights Reserved.</p>
- *
- * @author <a href="mailto:zhencai.yuan@sunlights.cc">yuanzhencai</a>
- */
 @Entity
-@Table(name = "p_fund", schema = "public")
+@Table(name = "P_FUND")
 public class Fund extends IdEntity {
+
     @Column(name = "fund_code")
     private String fundCode;
 
     @Column(name = "min_apply_amount")
     private BigDecimal minApplyAmount;
+
     @Column(name = "lowest_redemption")
     private BigDecimal lowestRedemption;
 
@@ -105,6 +98,8 @@ public class Fund extends IdEntity {
     @Column(name = "one_month_buyed_count")
     private Long oneMonthBuyedCount;
 
+    public Fund() {
+    }
 
     public String getFundCode() {
         return fundCode;
@@ -259,7 +254,6 @@ public class Fund extends IdEntity {
     }
 
     public BigDecimal getFundScale() {
-
         return fundScale;
     }
 
@@ -307,6 +301,14 @@ public class Fund extends IdEntity {
         this.toAccountType = toAccountType;
     }
 
+    public String getSupplierCode() {
+        return supplierCode;
+    }
+
+    public void setSupplierCode(String supplierCode) {
+        this.supplierCode = supplierCode;
+    }
+
     public String getRiskLevel() {
         return riskLevel;
     }
@@ -329,98 +331,5 @@ public class Fund extends IdEntity {
 
     public void setOneMonthBuyedCount(Long oneMonthBuyedCount) {
         this.oneMonthBuyedCount = oneMonthBuyedCount;
-    }
-
-    public String getSupplierCode() {
-        return supplierCode;
-    }
-
-    public void setSupplierCode(String supplierCode) {
-        this.supplierCode = supplierCode;
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-
-        Fund that = (Fund) o;
-
-        if (getId() != that.getId()) return false;
-        if (charge != null ? !charge.equals(that.charge) : that.charge != null) return false;
-        if (chiName != null ? !chiName.equals(that.chiName) : that.chiName != null) return false;
-        if (chiNameAbbr != null ? !chiNameAbbr.equals(that.chiNameAbbr) : that.chiNameAbbr != null) return false;
-        if (createBy != null ? !createBy.equals(that.createBy) : that.createBy != null) return false;
-        if (createTime != null ? !createTime.equals(that.createTime) : that.createTime != null) return false;
-        if (engName != null ? !engName.equals(that.engName) : that.engName != null) return false;
-        if (engNameAbbr != null ? !engNameAbbr.equals(that.engNameAbbr) : that.engNameAbbr != null) return false;
-        if (fundCode != null ? !fundCode.equals(that.fundCode) : that.fundCode != null) return false;
-        if (fundCompanyId != null ? !fundCompanyId.equals(that.fundCompanyId) : that.fundCompanyId != null)
-            return false;
-        if (fundScale != null ? !fundScale.equals(that.fundScale) : that.fundScale != null) return false;
-        if (fundType != null ? !fundType.equals(that.fundType) : that.fundType != null) return false;
-        if (initBuyedCount != null ? !initBuyedCount.equals(that.initBuyedCount) : that.initBuyedCount != null)
-            return false;
-        if (investPeriod != null ? !investPeriod.equals(that.investPeriod) : that.investPeriod != null) return false;
-        if (isApply != null ? !isApply.equals(that.isApply) : that.isApply != null) return false;
-        if (isRedemption != null ? !isRedemption.equals(that.isRedemption) : that.isRedemption != null) return false;
-        if (lowestRedemption != null ? !lowestRedemption.equals(that.lowestRedemption) : that.lowestRedemption != null)
-            return false;
-        if (millionOfProfit != null ? !millionOfProfit.equals(that.millionOfProfit) : that.millionOfProfit != null)
-            return false;
-        if (minApplyAmount != null ? !minApplyAmount.equals(that.minApplyAmount) : that.minApplyAmount != null)
-            return false;
-        if (navDate != null ? !navDate.equals(that.navDate) : that.navDate != null) return false;
-        if (oneMonthBuyedCount != null ? !oneMonthBuyedCount.equals(that.oneMonthBuyedCount) : that.oneMonthBuyedCount != null)
-            return false;
-        if (oneWeekProfit != null ? !oneWeekProfit.equals(that.oneWeekProfit) : that.oneWeekProfit != null)
-            return false;
-        if (productStatus != null ? !productStatus.equals(that.productStatus) : that.productStatus != null)
-            return false;
-        if (riskLevel != null ? !riskLevel.equals(that.riskLevel) : that.riskLevel != null) return false;
-        if (scaleTime != null ? !scaleTime.equals(that.scaleTime) : that.scaleTime != null) return false;
-        if (secuAbbr != null ? !secuAbbr.equals(that.secuAbbr) : that.secuAbbr != null) return false;
-        if (supplierCode != null ? !supplierCode.equals(that.supplierCode) : that.supplierCode != null) return false;
-        if (toAccountType != null ? !toAccountType.equals(that.toAccountType) : that.toAccountType != null)
-            return false;
-        if (updateBy != null ? !updateBy.equals(that.updateBy) : that.updateBy != null) return false;
-        if (updateTime != null ? !updateTime.equals(that.updateTime) : that.updateTime != null) return false;
-
-        return true;
-    }
-
-    @Override
-    public int hashCode() {
-        int result = 1;
-        result = 31 * result + (fundCode != null ? fundCode.hashCode() : 0);
-        result = 31 * result + (minApplyAmount != null ? minApplyAmount.hashCode() : 0);
-        result = 31 * result + (lowestRedemption != null ? lowestRedemption.hashCode() : 0);
-        result = 31 * result + (millionOfProfit != null ? millionOfProfit.hashCode() : 0);
-        result = 31 * result + (oneWeekProfit != null ? oneWeekProfit.hashCode() : 0);
-        result = 31 * result + (navDate != null ? navDate.hashCode() : 0);
-        result = 31 * result + (isApply != null ? isApply.hashCode() : 0);
-        result = 31 * result + (isRedemption != null ? isRedemption.hashCode() : 0);
-        result = 31 * result + (productStatus != null ? productStatus.hashCode() : 0);
-        result = 31 * result + (createTime != null ? createTime.hashCode() : 0);
-        result = 31 * result + (updateTime != null ? updateTime.hashCode() : 0);
-        result = 31 * result + (updateBy != null ? updateBy.hashCode() : 0);
-        result = 31 * result + (createBy != null ? createBy.hashCode() : 0);
-        result = 31 * result + (fundCompanyId != null ? fundCompanyId.hashCode() : 0);
-        result = 31 * result + (chiName != null ? chiName.hashCode() : 0);
-        result = 31 * result + (chiNameAbbr != null ? chiNameAbbr.hashCode() : 0);
-        result = 31 * result + (engName != null ? engName.hashCode() : 0);
-        result = 31 * result + (engNameAbbr != null ? engNameAbbr.hashCode() : 0);
-        result = 31 * result + (secuAbbr != null ? secuAbbr.hashCode() : 0);
-        result = 31 * result + (fundScale != null ? fundScale.hashCode() : 0);
-        result = 31 * result + (fundType != null ? fundType.hashCode() : 0);
-        result = 31 * result + (scaleTime != null ? scaleTime.hashCode() : 0);
-        result = 31 * result + (investPeriod != null ? investPeriod.hashCode() : 0);
-        result = 31 * result + (charge != null ? charge.hashCode() : 0);
-        result = 31 * result + (toAccountType != null ? toAccountType.hashCode() : 0);
-        result = 31 * result + (supplierCode != null ? supplierCode.hashCode() : 0);
-        result = 31 * result + (riskLevel != null ? riskLevel.hashCode() : 0);
-        result = 31 * result + (initBuyedCount != null ? initBuyedCount.hashCode() : 0);
-        result = 31 * result + (oneMonthBuyedCount != null ? oneMonthBuyedCount.hashCode() : 0);
-        return result;
     }
 }

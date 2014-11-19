@@ -9,6 +9,8 @@ import com.sunlights.common.vo.PageVo;
 import com.sunlights.core.vo.FundVo;
 import com.sunlights.core.vo.ProductParameter;
 import models.FundHistory;
+import models.FundNav;
+import models.FundNavHistory;
 import org.junit.Test;
 import play.Logger;
 import play.data.Form;
@@ -41,9 +43,9 @@ public class ProductControllerTest extends BaseTest {
                 JPA.withTransaction(new play.libs.F.Callback0() {
                     public void invoke() {
                         EntityBaseDao entityBaseDao = new EntityBaseDao();
-                        List<FundHistory> fundHistories = entityBaseDao.findAll(FundHistory.class, "createTime", false);
+                        List<FundNavHistory> fundHistories = entityBaseDao.findAll(FundNavHistory.class, "createTime", false);
                         if (!fundHistories.isEmpty()) {
-                            parameter.setPrdCode(fundHistories.get(0).getFundCode());
+                            parameter.setPrdCode(fundHistories.get(0).getFundcode());
                         }
                     }
                 });
@@ -102,7 +104,7 @@ public class ProductControllerTest extends BaseTest {
                 parameter.setIndex(0);
                 parameter.setPageSize(10);
                 parameter.setType(DictConst.FP_PRODUCT_TYPE_1);
-                parameter.setCategory(DictConst.FP_PRODUCT_TYPE_1_1);
+                parameter.setCategory(1);
 
                 // Products Request
                 FakeRequest fundsRequest = fakeRequest(POST, "/core/products");

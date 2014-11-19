@@ -9,11 +9,8 @@ import com.sunlights.core.dal.FundDao;
 import com.sunlights.core.dal.impl.FundDaoImpl;
 import com.sunlights.core.service.ProductService;
 import com.sunlights.core.vo.*;
-import models.Fund;
-import models.FundCompany;
-import models.FundHistory;
+import models.*;
 
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -38,7 +35,7 @@ public class ProductServiceImpl implements ProductService {
         StringBuilder xsql = new StringBuilder();
         xsql.append(" select new com.sunlights.core.vo.FundVo(f,pm)");
         xsql.append(" from FundNav f , ProductManage pm");
-        xsql.append(" where f.fundCode = pm.productCode");
+        xsql.append(" where f.fundcode = pm.productCode");
         xsql.append(" and pm.recommendFlag = '" + DictConst.FP_RECOMMEND_FLAG_1 + "'");
         xsql.append(" and pm.productStatus = '" + DictConst.FP_PRODUCT_MANAGE_STATUS_1 + "'");
         xsql.append(" order by pm.priorityLevel desc");
@@ -52,12 +49,12 @@ public class ProductServiceImpl implements ProductService {
         String currentDate = CommonUtil.dateToString(new Date(), CommonUtil.DATE_FORMAT_LONG);
         String jpql = " select new com.sunlights.core.vo.FundVo(f,pm)" +
                 " from FundNav f , ProductManage pm" +
-                " where f.fundCode = pm.productCode" +
+                " where f.fundcode = pm.productCode" +
                 " and pm.productStatus = '" + DictConst.FP_PRODUCT_MANAGE_STATUS_1 + "'" +
                 " and pm.recommendFlag <> '" + DictConst.FP_RECOMMEND_FLAG_1 + "'"+
                 " and pm.productType = :productType" +
-                " and pm.beginTime < '" + currentDate + "'" +
-                " and pm.endDate >= '" + currentDate + "'" +
+                " and pm.upBeginTime < '" + currentDate + "'" +
+                " and pm.downEndTime >= '" + currentDate + "'" +
                 " and f.fundType = :fundType" +
                 " order by pm.recommendType,pm.priorityLevel desc";
 
@@ -93,32 +90,32 @@ public class ProductServiceImpl implements ProductService {
     @Override
     public ChartVo findOneWeekProfitsByDays(String fundCode, int days) {
 
-        List<FundHistory> fundHistories = fundDao.findFundHistoriesByDays(fundCode, days);
+        List<FundNavHistory> fundHistories = fundDao.findFundNavHistoriesByDays(fundCode, days);
         ChartVo chartVo = new ChartVo();
         chartVo.setChartName("七日年化走势");
         chartVo.setChartType("2");
         chartVo.setPrdCode(fundCode);
         if (!fundHistories.isEmpty()) {
-            chartVo.setPrdName(fundHistories.get(0).getChiName());
+            chartVo.setPrdName(fundHistories.get(0).getFundname());
         }
-        for (FundHistory fundHistory : fundHistories) {
-            chartVo.getPoints().add(new Point(CommonUtil.dateToString(fundHistory.getCreateTime(), CommonUtil.DATE_FORMAT_SHORT), ArithUtil.mul(fundHistory.getOneWeekProfit().doubleValue(), 100) + ""));
+        for (FundNavHistory fundHistory : fundHistories) {
+            chartVo.getPoints().add(new Point(CommonUtil.dateToString(fundHistory.getCreateTime(), CommonUtil.DATE_FORMAT_SHORT), ArithUtil.mul(fundHistory.getPercentSevenDays().doubleValue(), 100) + ""));
         }
         return chartVo;
     }
 
     @Override
     public ChartVo findMillionOfProfitsByDays(String fundCode, int days) {
-        List<FundHistory> fundHistories = fundDao.findFundHistoriesByDays(fundCode, days);
+        List<FundNavHistory> fundHistories = fundDao.findFundNavHistoriesByDays(fundCode, days);
         ChartVo chartVo = new ChartVo();
         chartVo.setChartName("万份收益走势");
         chartVo.setChartType("1");
         chartVo.setPrdCode(fundCode);
         if (!fundHistories.isEmpty()) {
-            chartVo.setPrdName(fundHistories.get(0).getChiName());
+            chartVo.setPrdName(fundHistories.get(0).getFundname());
         }
-        for (FundHistory fundHistory : fundHistories) {
-            chartVo.getPoints().add(new Point(CommonUtil.dateToString(fundHistory.getCreateTime(), CommonUtil.DATE_FORMAT_SHORT), fundHistory.getMillionOfProfit() + ""));
+        for (FundNavHistory fundHistory : fundHistories) {
+            chartVo.getPoints().add(new Point(CommonUtil.dateToString(fundHistory.getCreateTime(), CommonUtil.DATE_FORMAT_SHORT), fundHistory.getIncomePerTenThousand() + ""));
         }
         return chartVo;
     }

@@ -1694,7 +1694,7 @@ ALTER TABLE P_FUND_HISTORY RENAME COLUMN SUPPLIER_ID TO SUPPLIER_CODE;
 
 
 
---2014-11-19-N
+--2014-11-19-Y
 /*==============================================================*/
 /* Table: FundNav                                               */
 /*==============================================================*/
@@ -1748,6 +1748,7 @@ CREATE TABLE FUNDNAV
 /*==============================================================*/
 /* Table: FundNav_history                                       */
 /*==============================================================*/
+--Y
 DROP TABLE IF EXISTS FUNDNAV_HISTORY;
 CREATE TABLE FUNDNAV_HISTORY
 (

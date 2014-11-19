@@ -3,10 +3,8 @@ package com.sunlights.core.vo;
 
 import com.sunlights.common.service.CommonService;
 import com.sunlights.common.utils.ArithUtil;
-import models.Fund;
 import models.FundNav;
 import models.ProductManage;
-import models.ProductRecommend;
 
 import java.math.BigDecimal;
 
@@ -41,13 +39,13 @@ public class FundVo extends ProductVo {
 
 
     public void inFundNav(FundNav fundNav) {
-        super.setName(fundNav.getFundName());
+        super.setName(fundNav.getFundname());
         super.setCategory(fundNav.getFundType() + "");
-        super.setCode(fundNav.getFundCode());
+        super.setCode(fundNav.getFundcode());
         this.sevenDaysIncome = ArithUtil.bigUpScale4(fundNav.getPercentSevenDays());
         this.millionIncome = ArithUtil.bigUpScale4(fundNav.getIncomePerTenThousand());
         this.purchasedAmount = ArithUtil.bigUpScale4(fundNav.getPurchaseLimitMin());
-        this.purchasedMethod = fundNav.getRapidRedeem() + "";
+        this.purchasedMethod = fundNav.getInvestmentType() + "";
     }
 
     public Long getPeopleOfPurchased() {

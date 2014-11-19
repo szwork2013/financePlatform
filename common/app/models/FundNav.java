@@ -1,9 +1,8 @@
 package models;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
+import com.fasterxml.jackson.annotation.JsonInclude;
+
+import javax.persistence.*;
 import java.math.BigDecimal;
 import java.util.Date;
 
@@ -13,23 +12,62 @@ import java.util.Date;
  * <p>Description: </p>
  * <p>Copyright (c) 2014 Sunlights.cc</p>
  * <p>All Rights Reserved.</p>
+ * <p/>
+ * //        fundcode	TEXT	主键（数米使用的基金代码）
+ * //        aliascode	TEXT	基金代码
+ * //        fundname	TEXT	基金名称（短）
+ * //        fundnameabbr	TEXT	基金名称（长）
+ * //        curr_date	TEXT	净值日期
+ * //        fund_type	INT	基金类型
+ * //        investment_type	INT	基金投资类型(配合基金类型使用)
+ * //        netvalue	REAL	单位净值
+ * //        total_netvalue	REAL	累计净值
+ * //        percent	REAL	当日涨幅
+ * //        income_per_ten_thousand	REAL	万份收益
+ * //        percent_seven_days	REAL	七日年化
+ * //        yield_1m	REAL	1个月收益
+ * //        yield_3m	REAL	3个月收益
+ * //        yield_6m	REAL	6个月收益
+ * //        yield_12m	REAL	12个月收益
+ * //        yield_this_year	REAL	今年以来收益
+ * //        cgs_3_year	REAL	银河3年评级
+ * //        lastest_total_asset	REAL	最新资产
+ * //        on_sale	INTEGER	是否是数米代销
+ * //        risk_level	STRING	基金风险等级
+ * //        share_type	STRING	收费方式
+ * //        purchase_state	INTEGER	是否可申购
+ * //        subscribe_state	INTEGER	是否可认购
+ * //        aip_state	INTEGER	是否可定投
+ * //        recommendation	INTEGER	是否数米推荐基金
+ * //        charge_rate_value	REAL	原始费率
+ * //        discount	REAL	费率折扣
+ * //        sale_charge_rate_value	REAL	销售费率
+ * //        is_monetary	INTEGER	是否是货币基金
+ * //        is_stf	INTEGER	是否是短期理财基金
+ * //        purchase_limit_min	REAL	起购金额
+ * //        redeem_limit_min	REAL 	起始赎回金额
+ * //        rapid_redeem	INTEGER	是否支持快速赎回（T+0）
+ * //        ia_guid	TEXT	基金公司GUID
+ * //        fund_management_fees	TEXT	管理费率
+ * //        fund_trustee_fees	TEXT	托管费率
  *
  * @author <a href="mailto:zhencai.yuan@sunlights.cc">yuanzhencai</a>
  */
+@JsonInclude(JsonInclude.Include.NON_EMPTY)
 @Entity
 public class FundNav {
     @Id
     @javax.persistence.Column(name = "fundcode")
-    private String fundCode;
+    private String fundcode;
 
     @javax.persistence.Column(name = "aliascode")
-    private String aliasCode;
+    private String aliascode;
 
     @javax.persistence.Column(name = "fundname")
-    private String fundName;
+    private String fundname;
 
     @javax.persistence.Column(name = "fundnameabbr")
-    private String fundNameAbbr;
+    private String fundnameabbr;
 
     @javax.persistence.Column(name = "curr_date")
     private String currDate;
@@ -41,7 +79,7 @@ public class FundNav {
     private Integer investmentType;
 
     @javax.persistence.Column(name = "netvalue")
-    private BigDecimal netValue;
+    private BigDecimal netvalue;
 
     @javax.persistence.Column(name = "total_netvalue")
     private BigDecimal totalNetvalue;
@@ -138,36 +176,36 @@ public class FundNav {
     @javax.persistence.Column(name = "update_time")
     private Date updateTime;
 
-    public String getFundCode() {
-        return fundCode;
+    public String getFundcode() {
+        return fundcode;
     }
 
-    public void setFundCode(String fundcode) {
-        this.fundCode = fundcode;
+    public void setFundcode(String fundcode) {
+        this.fundcode = fundcode;
     }
 
-    public String getAliasCode() {
-        return aliasCode;
+    public String getAliascode() {
+        return aliascode;
     }
 
-    public void setAliasCode(String aliascode) {
-        this.aliasCode = aliascode;
+    public void setAliascode(String aliascode) {
+        this.aliascode = aliascode;
     }
 
-    public String getFundName() {
-        return fundName;
+    public String getFundname() {
+        return fundname;
     }
 
-    public void setFundName(String fundname) {
-        this.fundName = fundname;
+    public void setFundname(String fundname) {
+        this.fundname = fundname;
     }
 
-    public String getFundNameAbbr() {
-        return fundNameAbbr;
+    public String getFundnameabbr() {
+        return fundnameabbr;
     }
 
-    public void setFundNameAbbr(String fundnameabbr) {
-        this.fundNameAbbr = fundnameabbr;
+    public void setFundnameabbr(String fundnameabbr) {
+        this.fundnameabbr = fundnameabbr;
     }
 
     public String getCurrDate() {
@@ -194,12 +232,12 @@ public class FundNav {
         this.investmentType = investmentType;
     }
 
-    public BigDecimal getNetValue() {
-        return netValue;
+    public BigDecimal getNetvalue() {
+        return netvalue;
     }
 
-    public void setNetValue(BigDecimal netvalue) {
-        this.netValue = netvalue;
+    public void setNetvalue(BigDecimal netvalue) {
+        this.netvalue = netvalue;
     }
 
     public BigDecimal getTotalNetvalue() {
@@ -458,7 +496,7 @@ public class FundNav {
         FundNav fundNav = (FundNav) o;
 
         if (aipState != null ? !aipState.equals(fundNav.aipState) : fundNav.aipState != null) return false;
-        if (aliasCode != null ? !aliasCode.equals(fundNav.aliasCode) : fundNav.aliasCode != null) return false;
+        if (aliascode != null ? !aliascode.equals(fundNav.aliascode) : fundNav.aliascode != null) return false;
         if (cgs3Year != null ? !cgs3Year.equals(fundNav.cgs3Year) : fundNav.cgs3Year != null) return false;
         if (chargeRateValue != null ? !chargeRateValue.equals(fundNav.chargeRateValue) : fundNav.chargeRateValue != null)
             return false;
@@ -470,9 +508,9 @@ public class FundNav {
         if (fundTrusteeFees != null ? !fundTrusteeFees.equals(fundNav.fundTrusteeFees) : fundNav.fundTrusteeFees != null)
             return false;
         if (fundType != null ? !fundType.equals(fundNav.fundType) : fundNav.fundType != null) return false;
-        if (fundCode != null ? !fundCode.equals(fundNav.fundCode) : fundNav.fundCode != null) return false;
-        if (fundName != null ? !fundName.equals(fundNav.fundName) : fundNav.fundName != null) return false;
-        if (fundNameAbbr != null ? !fundNameAbbr.equals(fundNav.fundNameAbbr) : fundNav.fundNameAbbr != null)
+        if (fundcode != null ? !fundcode.equals(fundNav.fundcode) : fundNav.fundcode != null) return false;
+        if (fundname != null ? !fundname.equals(fundNav.fundname) : fundNav.fundname != null) return false;
+        if (fundnameabbr != null ? !fundnameabbr.equals(fundNav.fundnameabbr) : fundNav.fundnameabbr != null)
             return false;
         if (iaGuid != null ? !iaGuid.equals(fundNav.iaGuid) : fundNav.iaGuid != null) return false;
         if (incomePerTenThousand != null ? !incomePerTenThousand.equals(fundNav.incomePerTenThousand) : fundNav.incomePerTenThousand != null)
@@ -483,7 +521,7 @@ public class FundNav {
         if (isStf != null ? !isStf.equals(fundNav.isStf) : fundNav.isStf != null) return false;
         if (lastestTotalAsset != null ? !lastestTotalAsset.equals(fundNav.lastestTotalAsset) : fundNav.lastestTotalAsset != null)
             return false;
-        if (netValue != null ? !netValue.equals(fundNav.netValue) : fundNav.netValue != null) return false;
+        if (netvalue != null ? !netvalue.equals(fundNav.netvalue) : fundNav.netvalue != null) return false;
         if (onSale != null ? !onSale.equals(fundNav.onSale) : fundNav.onSale != null) return false;
         if (percent != null ? !percent.equals(fundNav.percent) : fundNav.percent != null) return false;
         if (percentSevenDays != null ? !percentSevenDays.equals(fundNav.percentSevenDays) : fundNav.percentSevenDays != null)
@@ -518,14 +556,14 @@ public class FundNav {
 
     @Override
     public int hashCode() {
-        int result = fundCode != null ? fundCode.hashCode() : 0;
-        result = 31 * result + (aliasCode != null ? aliasCode.hashCode() : 0);
-        result = 31 * result + (fundName != null ? fundName.hashCode() : 0);
-        result = 31 * result + (fundNameAbbr != null ? fundNameAbbr.hashCode() : 0);
+        int result = fundcode != null ? fundcode.hashCode() : 0;
+        result = 31 * result + (aliascode != null ? aliascode.hashCode() : 0);
+        result = 31 * result + (fundname != null ? fundname.hashCode() : 0);
+        result = 31 * result + (fundnameabbr != null ? fundnameabbr.hashCode() : 0);
         result = 31 * result + (currDate != null ? currDate.hashCode() : 0);
         result = 31 * result + (fundType != null ? fundType.hashCode() : 0);
         result = 31 * result + (investmentType != null ? investmentType.hashCode() : 0);
-        result = 31 * result + (netValue != null ? netValue.hashCode() : 0);
+        result = 31 * result + (netvalue != null ? netvalue.hashCode() : 0);
         result = 31 * result + (totalNetvalue != null ? totalNetvalue.hashCode() : 0);
         result = 31 * result + (percent != null ? percent.hashCode() : 0);
         result = 31 * result + (incomePerTenThousand != null ? incomePerTenThousand.hashCode() : 0);
@@ -560,40 +598,4 @@ public class FundNav {
         return result;
     }
 }
-//        fundcode	TEXT	主键（数米使用的基金代码）
-//        aliascode	TEXT	基金代码
-//        fundname	TEXT	基金名称（短）
-//        fundnameabbr	TEXT	基金名称（长）
-//        curr_date	TEXT	净值日期
-//        fund_type	INT	基金类型
-//        investment_type	INT	基金投资类型(配合基金类型使用)
-//        netvalue	REAL	单位净值
-//        total_netvalue	REAL	累计净值
-//        percent	REAL	当日涨幅
-//        income_per_ten_thousand	REAL	万份收益
-//        percent_seven_days	REAL	七日年化
-//        yield_1m	REAL	1个月收益
-//        yield_3m	REAL	3个月收益
-//        yield_6m	REAL	6个月收益
-//        yield_12m	REAL	12个月收益
-//        yield_this_year	REAL	今年以来收益
-//        cgs_3_year	REAL	银河3年评级
-//        lastest_total_asset	REAL	最新资产
-//        on_sale	INTEGER	是否是数米代销
-//        risk_level	STRING	基金风险等级
-//        share_type	STRING	收费方式
-//        purchase_state	INTEGER	是否可申购
-//        subscribe_state	INTEGER	是否可认购
-//        aip_state	INTEGER	是否可定投
-//        recommendation	INTEGER	是否数米推荐基金
-//        charge_rate_value	REAL	原始费率
-//        discount	REAL	费率折扣
-//        sale_charge_rate_value	REAL	销售费率
-//        is_monetary	INTEGER	是否是货币基金
-//        is_stf	INTEGER	是否是短期理财基金
-//        purchase_limit_min	REAL	起购金额
-//        redeem_limit_min	REAL 	起始赎回金额
-//        rapid_redeem	INTEGER	是否支持快速赎回（T+0）
-//        ia_guid	TEXT	基金公司GUID
-//        fund_management_fees	TEXT	管理费率
-//        fund_trustee_fees	TEXT	托管费率
+

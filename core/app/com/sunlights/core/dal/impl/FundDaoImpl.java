@@ -6,6 +6,8 @@ import com.sunlights.core.vo.FundDetailVo;
 import models.Fund;
 import models.FundCompany;
 import models.FundHistory;
+import models.FundNavHistory;
+import play.db.jpa.JPA;
 
 import javax.persistence.Query;
 import java.util.List;
@@ -29,11 +31,10 @@ public class FundDaoImpl extends EntityBaseDao implements FundDao {
     @Override
     public FundDetailVo findFundDetailByCode(String code) {
         StringBuffer jpql = new StringBuffer();
-        jpql.append(" select new com.sunlights.core.vo.FundDetailVo(f,pr,pm,fc)");
-        jpql.append(" from ProductManage pm , Fund f ,ProductRecommend pr, FundCompany fc");
-        jpql.append(" where f.fundCode = pr.productCode");
-        jpql.append(" and f.fundCode = pm.productCode");
-        jpql.append(" and f.fundCompanyId = fc.fundCompanyId");
+        jpql.append(" select new com.sunlights.core.vo.FundDetailVo(f,pm,fc)");
+        jpql.append(" from ProductManage pm , Fund f , FundCompany fc");
+        jpql.append(" where f.fundcode = pm.productCode");
+        jpql.append(" and f.iaGuid = fc.fundCompanyId");
         jpql.append(" and f.fundCode = ?1");
 
         FundDetailVo fundDetailVo = super.findUnique(jpql.toString(), code);
@@ -63,4 +64,13 @@ public class FundDaoImpl extends EntityBaseDao implements FundDao {
         }
         return query.getResultList();
     }
+
+    @Override
+    public List<FundNavHistory> findFundNavHistoriesByDays(String fundCode, int days) {
+        String jpql = " select fh from FundNavHistory fh where fh.fundcode = '" + fundCode + "' order by fh.createTime desc";
+        List<FundNavHistory> fundNavHistories = super.find(jpql);
+        return fundNavHistories;
+    }
+
+
 }
