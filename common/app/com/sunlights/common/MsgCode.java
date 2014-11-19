@@ -74,6 +74,7 @@ public enum MsgCode {
     FUND_COMPANY_EXIST_ERROR("2400", "操作失败：", "已存在的基金公司。"),
     SUPPLIER_EXIST_ERROR("2500", "操作失败：", "已存在的供应商。"),
     FUND_EXIST_ERROR("2600", "操作失败：", "已存在的基金。"),
+    PRODUCT_MANAGE_EXIST_ERROR("2700", "操作失败：", "已存在的产品管理。"),
     NOT_NULL("2001", "操作失败：", "传入参数'{0}'不能为空")
 
 	;
