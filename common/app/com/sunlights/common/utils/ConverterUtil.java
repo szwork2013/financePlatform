@@ -7,6 +7,8 @@ import com.sunlights.common.exceptions.ConverterException;
 import org.apache.commons.beanutils.BeanUtils;
 import play.Logger;
 
+import java.lang.reflect.Field;
+import java.lang.reflect.Method;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
@@ -103,6 +105,43 @@ public final class ConverterUtil {
 
         }
         return list;
+    }
+
+    /**
+     * 转换相同类型不同的对象的值
+     * 将oldObject中不为空的值而newObject为空的值转到newObject中去
+     * @param oldObject
+     * @param newObject
+     * @param clazz
+     * @param <T>
+     * @throws Exception
+     */
+    public static<T> void covertSameObjValue(T oldObject, T newObject, Class<T> clazz) throws Exception {
+        Field[] declaredFields = clazz.getDeclaredFields();
+        for(Field field : declaredFields) {
+            //获取成员变量的名字
+            String name = field.getName();    //获取成员变量的名字，此处为id，name,age
+            //System.out.println(name);
+
+            //获取get和set方法的名字
+            String firstLetter = name.substring(0,1).toUpperCase();    //将属性的首字母转换为大写
+            String getMethodName = "get" + firstLetter + name.substring(1);
+            String setMethodName = "set" + firstLetter + name.substring(1);
+            //System.out.println(getMethodName + "," + setMethodName);
+
+            //获取方法对象
+            Method getMethod = clazz.getMethod(getMethodName, new Class[]{});
+            Method setMethod = clazz.getMethod(setMethodName, new Class[]{field.getType()});//注意set方法需要传入参数类型
+
+            //调用get方法获取旧的对象的值
+            Object value = getMethod.invoke(newObject);
+            if(value == null) {
+                Object oldValue = getMethod.invoke(oldObject);
+                //调用set方法将这个值复制到新的对象中去
+                setMethod.invoke(newObject, new Object[]{oldValue});
+            }
+        }
+
     }
 
 }
