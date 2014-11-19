@@ -3,10 +3,7 @@ package com.sunlights.core.vo;
 import com.sunlights.common.service.CommonService;
 import com.sunlights.common.utils.ArithUtil;
 import com.sunlights.common.utils.CommonUtil;
-import models.Fund;
-import models.FundCompany;
-import models.ProductManage;
-import models.ProductRecommend;
+import models.*;
 
 import java.math.BigDecimal;
 import java.util.Date;
@@ -39,25 +36,25 @@ public class FundDetailVo extends FundVo {
         super();
     }
 
-    public FundDetailVo(Fund fund, ProductRecommend pr, ProductManage pm, FundCompany fundCompany) {
-        super(fund, pr, pm);
-        inFundDetail(fund, fundCompany);
+    public FundDetailVo(FundNav fundNav, ProductManage pm, FundCompany fundCompany) {
+        super(fundNav, pm);
+        inFundDetail(fundNav, fundCompany);
     }
 
-    public void inFundDetail(Fund fund, FundCompany fundCompany) {
+    public void inFundDetail(FundNav fundNav, FundCompany fundCompany) {
         //取现到帐
-        this.toAccountType = new CommonService().findValueByCatPointKey(fund.getToAccountType());
+//        this.toAccountType = new CommonService().findValueByCatPointKey(fund.getToAccountType());
         //风险
-        this.riskLevel = new CommonService().findValueByCatPointKey(fund.getRiskLevel());
+//        this.riskLevel = new CommonService().findValueByCatPointKey(fund.getRiskLevel());
         //基金公司
         this.companyName = fundCompany.getCompanyName();
         // 基金规模
-        BigDecimal scale = fund.getFundScale();
+//        BigDecimal scale = fund.getFundScale();
 
-        this.fundScale = scale == null ? null : ArithUtil.bigToScale2(scale.divide(new BigDecimal("100000000"))) + "亿";
+//        this.fundScale = scale == null ? null : ArithUtil.bigToScale2(scale.divide(new BigDecimal("100000000"))) + "亿";
         //最新：2014-10-26
         this.currentDate = CommonUtil.dateToString(new Date(), CommonUtil.DATE_FORMAT_SHORT);
-        this.buiersOf30Days = fund.getOneMonthBuyedCount();
+//        this.buiersOf30Days = fund.getOneMonthBuyedCount();
     }
 
     public String getToAccountType() {

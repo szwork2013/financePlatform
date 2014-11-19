@@ -1691,3 +1691,139 @@ ALTER TABLE P_FUND RENAME COLUMN SUPPLIER_ID TO SUPPLIER_CODE;
 
 ALTER TABLE P_FUND_HISTORY ALTER COLUMN SUPPLIER_ID TYPE VARCHAR(50);
 ALTER TABLE P_FUND_HISTORY RENAME COLUMN SUPPLIER_ID TO SUPPLIER_CODE;
+
+
+
+--2014-11-19-N
+/*==============================================================*/
+/* Table: FundNav                                               */
+/*==============================================================*/
+DROP TABLE IF EXISTS FUNDNAV;
+CREATE TABLE FUNDNAV
+(
+  FUNDCODE             VARCHAR(30)                    NOT NULL,
+  ALIASCODE            VARCHAR(30)                    NULL,
+  FUNDNAME             TEXT                           NULL,
+  FUNDNAMEABBR         TEXT                           NULL,
+  CURR_DATE            TEXT                           NULL,
+  FUND_TYPE            INT                            NULL,
+  INVESTMENT_TYPE      INT                            NULL,
+  NETVALUE             DECIMAL(16,5)                  NULL,
+  TOTAL_NETVALUE       DECIMAL(16,5)                  NULL,
+  PERCENT              DECIMAL(16,5)                  NULL,
+  INCOME_PER_TEN_THOUSAND DECIMAL(16,5)                  NULL,
+  PERCENT_SEVEN_DAYS   DECIMAL(16,5)                  NULL,
+  YIELD_1M             DECIMAL(16,5)                  NULL,
+  YIELD_3M             DECIMAL(16,5)                  NULL,
+  YIELD_6M             DECIMAL(16,5)                  NULL,
+  YIELD_12M            DECIMAL(16,5)                  NULL,
+  YIELD_THIS_YEAR      DECIMAL(16,5)                  NULL,
+  CGS_3_YEAR           DECIMAL(16,5)                  NULL,
+  LASTEST_TOTAL_ASSET  DECIMAL(16,5)                  NULL,
+  ON_SALE              INT                            NULL,
+  RISK_LEVEL           VARCHAR(50)                    NULL,
+  SHARE_TYPE           VARCHAR(50)                    NULL,
+  PURCHASE_STATE       INT                            NULL,
+  SUBSCRIBE_STATE      INT                            NULL,
+  AIP_STATE            INT                            NULL,
+  RECOMMENDATION       INT                            NULL,
+  CHARGE_RATE_VALUE    DECIMAL(16,5)                  NULL,
+  DISCOUNT             DECIMAL(16,5)                  NULL,
+  SALE_CHARGE_RATE_VALUE DECIMAL(16,5)                  NULL,
+  IS_MONETARY          INT                            NULL,
+  IS_STF               INT                            NULL,
+  PURCHASE_LIMIT_MIN   DECIMAL(16,5)                  NULL,
+  REDEEM_LIMIT_MIN     DECIMAL(16,5)                  NULL,
+  RAPID_REDEEM         INT                            NULL,
+  IA_GUID              VARCHAR(100)                   NULL,
+  FUND_MANAGEMENT_FEES TEXT                           NULL,
+  FUND_TRUSTEE_FEES    TEXT                           NULL,
+  CREATE_TIME          TIMESTAMP                      NULL,
+  UPDATE_TIME          TIMESTAMP                      NULL,
+  PRIMARY KEY (FUNDCODE)
+);
+
+
+
+/*==============================================================*/
+/* Table: FundNav_history                                       */
+/*==============================================================*/
+DROP TABLE IF EXISTS FUNDNAV_HISTORY;
+CREATE TABLE FUNDNAV_HISTORY
+(
+  FUNDCODE             VARCHAR(30)                    NOT NULL,
+  ALIASCODE            VARCHAR(30)                    NULL,
+  FUNDNAME             TEXT                           NULL,
+  FUNDNAMEABBR         TEXT                           NULL,
+  CURR_DATE            TEXT                           NULL,
+  FUND_TYPE            INT                            NULL,
+  INVESTMENT_TYPE      INT                            NULL,
+  NETVALUE             DECIMAL(16,5)                  NULL,
+  TOTAL_NETVALUE       DECIMAL(16,5)                  NULL,
+  PERCENT              DECIMAL(16,5)                  NULL,
+  INCOME_PER_TEN_THOUSAND DECIMAL(16,5)                  NULL,
+  PERCENT_SEVEN_DAYS   DECIMAL(16,5)                  NULL,
+  YIELD_1M             DECIMAL(16,5)                  NULL,
+  YIELD_3M             DECIMAL(16,5)                  NULL,
+  YIELD_6M             DECIMAL(16,5)                  NULL,
+  YIELD_12M            DECIMAL(16,5)                  NULL,
+  YIELD_THIS_YEAR      DECIMAL(16,5)                  NULL,
+  CGS_3_YEAR           DECIMAL(16,5)                  NULL,
+  LASTEST_TOTAL_ASSET  DECIMAL(16,5)                  NULL,
+  ON_SALE              INT                            NULL,
+  RISK_LEVEL           VARCHAR(50)                    NULL,
+  SHARE_TYPE           VARCHAR(50)                    NULL,
+  PURCHASE_STATE       INT                            NULL,
+  SUBSCRIBE_STATE      INT                            NULL,
+  AIP_STATE            INT                            NULL,
+  RECOMMENDATION       INT                            NULL,
+  CHARGE_RATE_VALUE    DECIMAL(16,5)                  NULL,
+  DISCOUNT             DECIMAL(16,5)                  NULL,
+  SALE_CHARGE_RATE_VALUE DECIMAL(16,5)                  NULL,
+  IS_MONETARY          INT                            NULL,
+  IS_STF               INT                            NULL,
+  PURCHASE_LIMIT_MIN   DECIMAL(16,5)                  NULL,
+  REDEEM_LIMIT_MIN     DECIMAL(16,5)                  NULL,
+  RAPID_REDEEM         INT                            NULL,
+  IA_GUID              VARCHAR(100)                   NULL,
+  FUND_MANAGEMENT_FEES TEXT                           NULL,
+  FUND_TRUSTEE_FEES    TEXT                           NULL,
+  CREATE_TIME          TIMESTAMP                      NULL,
+  UPDATE_TIME          TIMESTAMP                      NULL,
+  PRIMARY KEY (FUNDCODE)
+);
+
+/*==============================================================*/
+/* Table: p_product_manage                                      */
+/*==============================================================*/
+DROP TABLE IF EXISTS P_PRODUCT_MANAGE;
+CREATE TABLE P_PRODUCT_MANAGE
+(
+  ID                   BIGINT                         NOT NULL,
+  PRODUCT_CODE         VARCHAR(30)                    NULL,
+  PRODUCT_NAME         VARCHAR(100)                   NULL,
+  PRODUCT_TYPE         VARCHAR(50)                    NULL,
+  PRODUCT_STATUS       VARCHAR(50)                    NULL,
+  BEGIN_DATE           TIMESTAMP                      NULL,
+  END_DATE             TIMESTAMP                      NULL,
+  TEMP_STOP_DATE       TIMESTAMP                      NULL,
+  PRIORITY_LEVEL       INT                            NULL,
+  RECOMMEND_TYPE       VARCHAR(8)                     NULL,
+  RECOMMEND_FLAG       VARCHAR(50)                    NULL,
+  RECOMMEND_DESC       VARCHAR(50)                    NULL,
+  SUPPLIER_CODE        VARCHAR(20)                    NULL,
+  URL                  VARCHAR(300)                   NULL,
+  IS_GRAB              VARCHAR(50)                    NULL,
+  UP_BEGIN_TIME        TIMESTAMP                      NULL,
+  DOWN_END_TIME        TIMESTAMP                      NULL,
+  PRODUCT_DESC         VARCHAR(100)                   NULL,
+  INIT_BUYED_COUNT     INT                            NULL,
+  ONE_MONTH_BUYED_COUNT INT                            NULL,
+  CREATE_TIME          TIMESTAMP                      NULL,
+  UPDATE_TIME          TIMESTAMP                      NULL,
+  CREATE_BY            VARCHAR(20)                    NULL,
+  UPDATE_BY            VARCHAR(20)                    NULL,
+  PRIMARY KEY (ID)
+);
+
+

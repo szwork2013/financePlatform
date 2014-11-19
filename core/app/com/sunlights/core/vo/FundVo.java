@@ -4,6 +4,7 @@ package com.sunlights.core.vo;
 import com.sunlights.common.service.CommonService;
 import com.sunlights.common.utils.ArithUtil;
 import models.Fund;
+import models.FundNav;
 import models.ProductManage;
 import models.ProductRecommend;
 
@@ -23,51 +24,30 @@ public class FundVo extends ProductVo {
 
     }
 
-    public FundVo(Fund fund, ProductRecommend pr, ProductManage pm) {
-        inFund(fund);
-        inProductRecommend(pr);
+    public FundVo(FundNav fundNav, ProductManage pm) {
+        inFundNav(fundNav);
         inProductManage(pm);
     }
 
-    public FundVo(Fund fund) {
-        inFund(fund);
-    }
-
-    public FundVo(Object[] columns) {
-        this.setType(columns[0] == null ? "" : columns[0].toString());
-        this.setId(columns[1] == null ? null : Long.valueOf(columns[1].toString()));
-        this.setName(columns[2] == null ? null : columns[2].toString());
-        this.setCode(columns[3] == null ? null : columns[3].toString());
-        this.sevenDaysIncome = columns[4] == null ? BigDecimal.ZERO : (BigDecimal) columns[4];//七日年化
-        this.millionIncome = columns[5] == null ? BigDecimal.ZERO : (BigDecimal) columns[5];
-        this.purchasedAmount = columns[6] == null ? BigDecimal.ZERO : (BigDecimal) columns[6];//起购金额
-        this.peopleOfPurchased = columns[7] == null ? 0L : Long.valueOf(columns[7].toString());
-        this.purchasedMethod = columns[8] == null ? null : (String) columns[8];
-    }
 
     public void inProductManage(ProductManage pm) {
         super.setType(pm.getProductType());
         super.setTypeDesc(new CommonService().findValueByCatPointKey(pm.getProductType()));
+        super.setGroup(pm.getRecommendType());
+        super.setGroupDesc(new CommonService().findValueByCatPointKey(pm.getRecommendType()));
+        super.setTag(pm.getRecommendFlag());
+        super.setTagDesc(new CommonService().findValueByCatPointKey(pm.getRecommendFlag()));
     }
 
-    public void inProductRecommend(ProductRecommend pr) {
-        super.setTag(pr.getRecommendFlag());
-        super.setTagDesc(new CommonService().findValueByCatPointKey(pr.getRecommendFlag()));
-        super.setGroup(pr.getRecommendType());
-        super.setGroupDesc(new CommonService().findValueByCatPointKey(pr.getRecommendType()));
-    }
 
-    public void inFund(Fund fund) {
-        super.setId(fund.getId());
-        super.setName(fund.getChiName());
-        super.setCategory(fund.getFundType());
-        super.setCategoryDesc(new CommonService().findValueByCatPointKey(fund.getFundType()));
-        super.setCode(fund.getFundCode());
-        this.sevenDaysIncome = ArithUtil.bigUpScale4(fund.getOneWeekProfit());
-        this.millionIncome = ArithUtil.bigUpScale4(fund.getMillionOfProfit());
-        this.purchasedAmount = ArithUtil.bigUpScale4(fund.getMinApplyAmount());
-        this.peopleOfPurchased = fund.getInitBuyedCount();
-        this.purchasedMethod = new CommonService().findValueByCatPointKey(fund.getInvestPeriod());
+    public void inFundNav(FundNav fundNav) {
+        super.setName(fundNav.getFundName());
+        super.setCategory(fundNav.getFundType() + "");
+        super.setCode(fundNav.getFundCode());
+        this.sevenDaysIncome = ArithUtil.bigUpScale4(fundNav.getPercentSevenDays());
+        this.millionIncome = ArithUtil.bigUpScale4(fundNav.getIncomePerTenThousand());
+        this.purchasedAmount = ArithUtil.bigUpScale4(fundNav.getPurchaseLimitMin());
+        this.purchasedMethod = fundNav.getRapidRedeem() + "";
     }
 
     public Long getPeopleOfPurchased() {

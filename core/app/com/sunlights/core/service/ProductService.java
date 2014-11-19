@@ -20,7 +20,6 @@ import java.util.List;
  * @author <a href="mailto:zhencai.yuan@sunlights.cc">yuanzhencai</a>
  */
 public interface ProductService {
-    public List<ProductVo> findProductRecommends(PageVo pageVo);
 
     public List<ProductVo> findProductIndex(PageVo pageVo);
 
