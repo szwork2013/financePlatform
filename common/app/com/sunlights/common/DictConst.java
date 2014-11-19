@@ -54,10 +54,6 @@ public final class DictConst {
     public static String CUSTOMER_STATUS_2 = CUSTOMER_STATUS + doc + "2";//正常
     public static String CUSTOMER_STATUS_3 = CUSTOMER_STATUS + doc + "3";//已锁定
 
-    public static String FEEDBACK_STATUS = "FP.FEEDBACK.STATUS";//反馈状态
-    public static String FEEDBACK_STATUS_1 = FEEDBACK_STATUS + doc + "1";//已审核
-    public static String FEEDBACK_STATUS_2 = FEEDBACK_STATUS + doc + "2";//未审核
-
     public static String CUSTOMER_PROPERTY = "FP.CUSTOMER.PROPERTY";//用户属性
     public static String CUSTOMER_PROPERTY_1 = CUSTOMER_PROPERTY + doc + "1";//买家
     public static String CUSTOMER_PROPERTY_2 = CUSTOMER_PROPERTY + doc + "2";//卖家

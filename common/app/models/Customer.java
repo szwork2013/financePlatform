@@ -26,21 +26,21 @@ public class Customer extends IdEntity {
 
   @Column(length = 40, name = "LOGIN_PASSWORD")
   private String loginPassWord;
-  @Column(length = 1, name = "REG_CHANNEL")
+  @Column(length = 50, name = "REG_CHANNEL")
   private String regChannel;// 注册渠道 M	手机渠道 W	互联网渠道
-  @Column(length = 1, name = "REG_WAY")
+  @Column(length = 50, name = "REG_WAY")
   private String regWay;//注册方式 M.手机 E.邮箱
   @Column(length = 20, name = "REAL_NAME")
   private String realName;//真实姓名
-  @Column(length = 1, name = "IDENTITY_TYPER")
+  @Column(length = 50, name = "IDENTITY_TYPER")
   private String identityTyper;//证件类型 I	居民身份证
   @Column(length = 30, name = "IDENTITY_NUMBER")
   private String identityNumber;//证件号码
   @Column(length = 40, name = "PIC_WAY")
   private String picWay;//用户图像存放路径
-  @Column(length = 1, name = "CUSTOMER_TYPE")
+  @Column(length = 50, name = "CUSTOMER_TYPE")
   private String customerType;//客户类型B.商户   C.个人  一期默认为C类
-  @Column(length = 1, name = "PROPERTY")
+  @Column(length = 50, name = "PROPERTY")
   private String property;//用户属性1.买家  2. 卖家  一期默认为买家
   @Column(length = 50, name = "DEVICE_NO")
   private String deviceNo;//注册设备号
@@ -56,7 +56,7 @@ public class Customer extends IdEntity {
   private String weibo;//绑定微博号
   @Column(length = 11, name = "MOBILE")
   private String mobile;// 绑定手机
-  @Column(length = 1, name = "STATUS")
+  @Column(length = 50, name = "STATUS")
   private String status;//用户状态 T.正常 U.已锁定
   @Temporal(TemporalType.TIMESTAMP)
   @Column(name = "CREATE_TIME")

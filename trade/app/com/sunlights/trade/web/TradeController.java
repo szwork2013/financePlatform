@@ -18,7 +18,6 @@ import play.Logger;
 import play.data.Form;
 import play.db.jpa.Transactional;
 import play.mvc.Controller;
-import play.mvc.Http;
 import play.mvc.Result;
 
 import java.util.List;
@@ -42,12 +41,12 @@ public class TradeController extends Controller{
 
     public Result getTradeList(){
         Logger.info("----------getTradeList start ------------");
-        Http.Cookie cookie = Controller.request().cookie(AppConst.TOKEN);
-        String token = cookie == null ? null : cookie.value();
 
         customerService.validateCustomerSession(request(),session(),response());
 
         TradeSearchFormVo tradeSearchFormVo = tradeSearchFormVoForm.bindFromRequest().get();
+        String token = request().cookie(AppConst.TOKEN).value();
+
         PageVo pageVo = new PageVo();
         pageVo.setIndex(tradeSearchFormVo.getIndex());
         pageVo.setPageSize(tradeSearchFormVo.getPageSize());
@@ -64,12 +63,11 @@ public class TradeController extends Controller{
 
     public Result findCapitalProductDetailTrade(){
         Logger.info("----------findCapitalProductDetailTrade start ------------");
-        Http.Cookie cookie = Controller.request().cookie(AppConst.TOKEN);
-        String token = cookie == null ? null : cookie.value();
 
         customerService.validateCustomerSession(request(),session(),response());
 
         TradeSearchFormVo tradeSearchFormVo = tradeSearchFormVoForm.bindFromRequest().get();
+        String token = request().cookie(AppConst.TOKEN).value();
 
         CapitalProductTradeVo capitalProductTradeVo = tradeService.findCapitalProductDetailTrade(token, tradeSearchFormVo);
 
@@ -81,12 +79,11 @@ public class TradeController extends Controller{
 
     public Result tradeOrder(){
         Logger.info("----------tradeOrder start ------------");
-        Http.Cookie cookie = Controller.request().cookie(AppConst.TOKEN);
-        String token = cookie == null ? null : cookie.value();
 
         customerService.validateCustomerSession(request(),session(),response());
 
         TradeFormVo tradeFormVo = tradeFormVoForm.bindFromRequest().get();
+        String token = request().cookie(AppConst.TOKEN).value();
 
         TotalCapitalInfo totalCapitalInfo = tradeService.tradeFundOrder(tradeFormVo, token);
 
@@ -99,12 +96,11 @@ public class TradeController extends Controller{
 
     public Result tradeRedeem(){
         Logger.info("----------tradeRedeem start ------------");
-        Http.Cookie cookie = Controller.request().cookie(AppConst.TOKEN);
-        String token = cookie == null ? null : cookie.value();
 
         customerService.validateCustomerSession(request(),session(),response());
         
         TradeFormVo tradeFormVo = tradeFormVoForm.bindFromRequest().get();
+        String token = request().cookie(AppConst.TOKEN).value();
 
         TotalCapitalInfo totalCapitalInfo = tradeService.tradeFundRedeem(tradeFormVo, token);
 

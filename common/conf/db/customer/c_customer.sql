@@ -4,23 +4,23 @@ CREATE TABLE c_customer
   create_by character varying(30), -- 创建人
   create_time timestamp without time zone, -- 创建时间
   customer_id character varying(30), -- 客户号
-  customer_type character varying(1), -- 客户类型
+  customer_type character varying(50), -- 客户类型
   device_no character varying(50), -- 注册设备号
   email character varying(50), -- 绑定邮箱
   identity_number character varying(30), -- 证件号码
-  identity_typer character varying(1), -- 证件类型
+  identity_typer character varying(50), -- 证件类型
   login_id character varying(20), -- 登陆号
   login_password character varying(40), -- 登陆密码
   mobile character varying(11), -- 绑定手机
   nick_name character varying(20), -- 昵称
   pic_way character varying(40), -- 用户图像存放路径
-  property character varying(1), -- 用户属性
+  property character varying(50), -- 用户属性
   qq character varying(20), -- 绑定QQ
   real_name character varying(20), -- 真实姓名
   referral_code character varying(10), -- 推荐码
-  reg_channel character varying(1), -- 注册渠道
-  reg_way character varying(1), -- 注册方式
-  status character varying(1), -- 用户状态
+  reg_channel character varying(50), -- 注册渠道
+  reg_way character varying(50), -- 注册方式
+  status character varying(50), -- 用户状态
   update_by character varying(30),
   update_time timestamp without time zone,
   weibo character varying(30), -- 绑定微博号

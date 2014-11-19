@@ -1,14 +1,17 @@
 package com.sunlights.customer.dal.impl;
 
 import com.google.common.base.Strings;
+import com.sunlights.common.AppConst;
 import com.sunlights.common.DictConst;
 import com.sunlights.common.dal.EntityBaseDao;
-import com.sunlights.common.utils.CommonUtil;
+import com.sunlights.common.exceptions.ConverterException;
+import com.sunlights.common.utils.ConverterUtil;
 import com.sunlights.customer.dal.CustomerDao;
 import com.sunlights.customer.vo.CustomerVo;
 import models.Customer;
 import models.CustomerGesture;
 import models.CustomerSession;
+import models.ShuMiAccount;
 import play.Logger;
 
 import javax.persistence.Query;
@@ -73,6 +76,7 @@ public class CustomerDaoImpl extends EntityBaseDao implements CustomerDao {
                 "where  c.customer_id = a.cust_id " +
                 "and  c.mobile = :mobilePhoneNo ";
 
+        Logger.debug(sql);
 
         Query query = em.createNativeQuery(sql);
         query.setParameter("identityTyper", DictConst.CERTIFICATE_TYPE_1);
@@ -113,20 +117,38 @@ public class CustomerDaoImpl extends EntityBaseDao implements CustomerDao {
     }
 
     private CustomerVo transCustomerVo(List<Object[]> list) {
-//        CustomerVo customerVo = CommonUtil.column2StringVo(list, CustomerVo.class);
-//        if (customerVo == null) {
-//            return null;
-//        }
-//
-//        if (customerVo.getMobilePhoneNo() != null) {
-//            customerVo.setMobileDisplayNo(customerVo.getMobilePhoneNo().substring(0, 3) + "****" + customerVo.getMobilePhoneNo().substring(7));
-//        }
-//        if ("1".equals(customerVo.getCertify())) {
-//            customerVo.setIdCardNo(customerVo.getIdCardNo().substring(0, 6) + "******" + customerVo.getIdCardNo().substring(14));
-//            customerVo.setUserName("*" + customerVo.getUserName().substring(1));
-//        }
-//        return customerVo;
-        return null;
+        if (list.isEmpty()){
+            return null;
+        }
+
+
+        String keys = "mobilePhoneNo,userName,nickName,email,idCardNo,gestureOpened,certify,tradePwdFlag,bankCardCount,customerId";
+        List<CustomerVo> customerVos = (List<CustomerVo>)ConverterUtil.convert(keys, list, CustomerVo.class);
+        CustomerVo customerVo = customerVos.get(0);
+        findShuMiAccount(customerVo);
+
+        if (customerVo.getMobilePhoneNo() != null) {
+            customerVo.setMobileDisplayNo(customerVo.getMobilePhoneNo().substring(0, 3) + "****" + customerVo.getMobilePhoneNo().substring(7));
+        }
+        if (AppConst.VALID_CERTIFY.equals(customerVo.getCertify())) {
+            customerVo.setIdCardNo(customerVo.getIdCardNo().substring(0, 6) + "******" + customerVo.getIdCardNo().substring(14));
+            customerVo.setUserName("*" + customerVo.getUserName().substring(1));
+        }
+        return customerVo;
+    }
+
+    private void findShuMiAccount(CustomerVo customerVo){
+        Query query = createNameQuery("findShuMiAccount", customerVo.getCustomerId());
+        List<ShuMiAccount> list = query.getResultList();
+        if (list.isEmpty()) {
+            return ;
+        }
+        try {
+            ConverterUtil.fromEntity(customerVo, list.get(0));
+        } catch (ConverterException e) {
+            e.printStackTrace();
+        }
+
     }
 
 

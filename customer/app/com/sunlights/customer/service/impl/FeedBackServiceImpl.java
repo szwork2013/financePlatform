@@ -1,6 +1,6 @@
 package com.sunlights.customer.service.impl;
 
-import com.sunlights.common.DictConst;
+import com.sunlights.common.AppConst;
 import com.sunlights.common.utils.DBHelper;
 import com.sunlights.customer.dal.FeedBackDao;
 import com.sunlights.customer.dal.impl.FeedBackDaoImpl;
@@ -36,7 +36,7 @@ public class FeedBackServiceImpl implements FeedBackService {
         }
         feedBack.setDeviceNo(deviceNo);
         feedBack.setContext(content);
-        feedBack.setStatus(DictConst.FEEDBACK_STATUS_2);
+        feedBack.setStatus(AppConst.STATUS_INVALID);
         feedBack.setCreateTime(currentTime);
         feedBack.setUpdateTime(currentTime);
 

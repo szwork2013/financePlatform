@@ -3,6 +3,7 @@ package com.sunlights.core.web;
 import com.sunlights.BaseTest;
 import com.sunlights.common.service.VerifyCodeService;
 import com.sunlights.common.vo.MessageVo;
+import com.sunlights.customer.vo.CustomerVo;
 import models.BaseAccount;
 import models.Customer;
 import models.CustomerSession;
@@ -11,6 +12,7 @@ import org.junit.Test;
 import play.Logger;
 import play.db.jpa.JPA;
 import play.libs.F;
+import play.libs.Json;
 
 import javax.persistence.EntityManager;
 import javax.persistence.Query;
@@ -26,7 +28,7 @@ public class RegisterControllerTest extends BaseTest {
     public void testRegister() throws Exception {
         running(fakeApplication(), new Runnable() {
             public void run() {
-                final String mobilePhoneNo = "18522222239";
+                final String mobilePhoneNo = "18522222240";
                 final String deviceNo = getDeviceNo();
                 final String type = "REGISTER";
 
@@ -59,6 +61,8 @@ public class RegisterControllerTest extends BaseTest {
                 message = toMessageVo(result);
                 assertThat(message.getMessage().getCode()).isEqualTo("0100");
                 assertThat(message.getMessage().getSummary()).isEqualTo("注册成功");
+                CustomerVo customerVo = Json.fromJson(Json.toJson(message.getValue()), CustomerVo.class);
+                assertThat(mobilePhoneNo).isEqualTo(customerVo.getMobilePhoneNo());
 
 
                 JPA.withTransaction(new F.Callback0() {
@@ -68,7 +72,7 @@ public class RegisterControllerTest extends BaseTest {
                         Query query = em.createQuery("select c from Customer c where c.mobile = :mobile", Customer.class);
                         query.setParameter("mobile", mobilePhoneNo);
                         Customer customer = (Customer)query.getSingleResult();
-                        
+
                         query = em.createQuery("select ba from BaseAccount ba where ba.custId = :customerId", BaseAccount.class);
                         query.setParameter("customerId", customer.getCustomerId());
                         BaseAccount baseAccount = (BaseAccount)query.getSingleResult();
@@ -76,7 +80,7 @@ public class RegisterControllerTest extends BaseTest {
                         query = em.createQuery("select lh from LoginHistory lh where lh.customerId = :customerId", LoginHistory.class);
                         query.setParameter("customerId", customer.getCustomerId());
                         LoginHistory loginHistory = (LoginHistory)query.getSingleResult();
-                        
+
                         query = em.createQuery("select cs from CustomerSession cs where cs.customerId = :customerId", CustomerSession.class);
                         query.setParameter("customerId", customer.getCustomerId());
                         CustomerSession customerSession = (CustomerSession)query.getSingleResult();

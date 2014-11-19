@@ -1,0 +1,28 @@
+{"message": {
+    "severity": 0,
+    "code": "0217",
+    "summary": "数米信息保存成功",
+    "detail": "",
+    "fields": {}
+}, "value": {
+    "userName": "*布",
+    "nickName": "吕小布",
+    "mobilePhoneNo": null,
+    "mobileDisplayNo": null,
+    "email": "y7076580@sina.com",
+    "gestureOpened": "1",
+    "certify": "1",
+    "idCardNo": "330825******621X",
+    "bankCardCount": "1",
+    "tradePwdFlag": "1",
+    "shumi_tokenKey": "0000a08ffd974254ab9449c8c8c0e190",
+    "shumi_tokenSecret": "9939f00d7f214c2f8e218f41a839764c",
+    "shumi_userName": "吕小布",
+    "shumi_realName": "吕布",
+    "shumi_idNumber": "33082519871014621X",
+    "shumi_bankName": "招商银行",
+    "shumi_bankCardNo": "6227003********3534",
+    "shumi_bankSerial": "002",
+    "shumi_phoneNum": "13811599308",
+    "shumi_email": "y7076580@sina.com"
+}}
