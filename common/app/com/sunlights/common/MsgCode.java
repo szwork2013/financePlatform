@@ -84,9 +84,14 @@ public enum MsgCode {
     SUPPLIER_EXIST_ERROR("2500", "操作失败：", "已存在的供应商。"),
     FUND_EXIST_ERROR("2600", "操作失败：", "已存在的基金。"),
     PRODUCT_MANAGE_EXIST_ERROR("2700", "操作失败：", "已存在的产品管理。"),
-    NOT_NULL("2001", "操作失败：", "传入参数'{0}'不能为空")
+    NOT_NULL("2001", "操作失败：", "传入参数'{0}'不能为空"),
 
-	;
+    //活动积分模块
+    OBTAIN_SUCC("0220", "获取积分成功"),
+    ACTIVITY_QUERY_SUCC("0221", "查询成功"),
+    ALREADY_SIGN("2220", "重复签到"),
+    NOT_CONFIG_SIGN_SCENE("2221", "没有配置签到场景");
+
 
     private String code;
     private String message;
