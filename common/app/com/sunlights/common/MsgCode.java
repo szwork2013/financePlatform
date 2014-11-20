@@ -95,15 +95,15 @@ public enum MsgCode {
 
     private String code;
     private String message;
-    private String detail="";
+    private String detail;
 
     private MsgCode(String code, String message){
-        this.code = code;
-        this.message = message;
+        this(code, message,"");
     }
 
     private MsgCode(String code, String message, String detail){
-        this(code, message);
+        this.code = code;
+        this.message = message;
         this.detail = detail;
     }
 
