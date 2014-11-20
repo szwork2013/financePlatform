@@ -15,10 +15,7 @@ import java.util.Date;
  */
 @Entity
 @javax.persistence.Table(name = "p_product_manage", schema = "public")
-public class ProductManage {
-    @Id
-    @javax.persistence.Column(name = "id")
-    private long id;
+public class ProductManage extends IdEntity {
 
     @javax.persistence.Column(name = "product_code")
     private String productCode;
@@ -95,14 +92,6 @@ public class ProductManage {
 
     @javax.persistence.Column(name = "update_by")
     private String updateBy;
-
-    public long getId() {
-        return id;
-    }
-
-    public void setId(long id) {
-        this.id = id;
-    }
 
     public String getProductCode() {
         return productCode;
@@ -295,7 +284,7 @@ public class ProductManage {
 
         ProductManage that = (ProductManage) o;
 
-        if (id != that.id) return false;
+        if (getId() != that.getId()) return false;
         if (beginDate != null ? !beginDate.equals(that.beginDate) : that.beginDate != null) return false;
         if (createBy != null ? !createBy.equals(that.createBy) : that.createBy != null) return false;
         if (createTime != null ? !createTime.equals(that.createTime) : that.createTime != null) return false;
@@ -332,7 +321,7 @@ public class ProductManage {
 
     @Override
     public int hashCode() {
-        int result = (int) (id ^ (id >>> 32));
+        int result = (int) (getId() != null ? getId() ^ (getId() >>> 32) : 0);
         result = 31 * result + (productCode != null ? productCode.hashCode() : 0);
         result = 31 * result + (productName != null ? productName.hashCode() : 0);
         result = 31 * result + (productType != null ? productType.hashCode() : 0);

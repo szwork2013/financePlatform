@@ -1811,7 +1811,7 @@ CREATE TABLE P_PRODUCT_MANAGE
   END_DATE             TIMESTAMP                      NULL,
   TEMP_STOP_DATE       TIMESTAMP                      NULL,
   PRIORITY_LEVEL       INT                            NULL,
-  RECOMMEND_TYPE       VARCHAR(8)                     NULL,
+  RECOMMEND_TYPE       VARCHAR(50)                     NULL,
   RECOMMEND_FLAG       VARCHAR(50)                    NULL,
   RECOMMEND_DESC       VARCHAR(50)                    NULL,
   SUPPLIER_CODE        VARCHAR(20)                    NULL,
