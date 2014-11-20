@@ -102,7 +102,7 @@ public class ProductServiceImpl implements ProductService {
             chartVo.setPrdName(fundHistories.get(0).getFundname());
         }
         for (FundNavHistory fundHistory : fundHistories) {
-            chartVo.getPoints().add(new Point(CommonUtil.dateToString(fundHistory.getCreateTime(), CommonUtil.DATE_FORMAT_SHORT), ArithUtil.mul(fundHistory.getPercentSevenDays().doubleValue(), 100) + ""));
+            chartVo.getPoints().add(new Point(CommonUtil.dateToString(fundHistory.getCreateTime(), CommonUtil.DATE_FORMAT_SHORT),  ArithUtil.mul(fundHistory.getPercentSevenDays().doubleValue(), 100) + ""));
         }
         return chartVo;
     }
@@ -118,7 +118,7 @@ public class ProductServiceImpl implements ProductService {
             chartVo.setPrdName(fundHistories.get(0).getFundname());
         }
         for (FundNavHistory fundHistory : fundHistories) {
-            chartVo.getPoints().add(new Point(CommonUtil.dateToString(fundHistory.getCreateTime(), CommonUtil.DATE_FORMAT_SHORT), fundHistory.getIncomePerTenThousand() + ""));
+            chartVo.getPoints().add(new Point(CommonUtil.dateToString(fundHistory.getCreateTime(), CommonUtil.DATE_FORMAT_SHORT), ArithUtil.bigUpScale4(fundHistory.getIncomePerTenThousand()) + ""));
         }
         return chartVo;
     }

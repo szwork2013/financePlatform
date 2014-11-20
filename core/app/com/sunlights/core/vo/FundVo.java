@@ -12,11 +12,12 @@ import java.math.BigDecimal;
  * Created by Yuan on 2014/9/1.
  */
 public class FundVo extends ProductVo {
-    private Long peopleOfPurchased;//已申购人数
+    private Integer peopleOfPurchased;//已申购人数
     private BigDecimal sevenDaysIncome;//七日年化收益率
     private BigDecimal millionIncome;//万分收益
     private String purchasedMethod;//买卖方式，比如:随买随卖
     private BigDecimal purchasedAmount;//起购金额
+    private String discount;
 
     public FundVo() {
 
@@ -35,6 +36,7 @@ public class FundVo extends ProductVo {
         super.setGroupDesc(new CommonService().findValueByCatPointKey(pm.getRecommendType()));
         super.setTag(pm.getRecommendFlag());
         super.setTagDesc(new CommonService().findValueByCatPointKey(pm.getRecommendFlag()));
+        this.setPeopleOfPurchased(pm.getInitBuyedCount());
     }
 
 
@@ -46,13 +48,15 @@ public class FundVo extends ProductVo {
         this.millionIncome = ArithUtil.bigUpScale4(fundNav.getIncomePerTenThousand());
         this.purchasedAmount = ArithUtil.bigUpScale4(fundNav.getPurchaseLimitMin());
         this.purchasedMethod = fundNav.getInvestmentType() + "";
+        this.discount = fundNav.getDiscount() + "";
     }
 
-    public Long getPeopleOfPurchased() {
+
+    public Integer getPeopleOfPurchased() {
         return peopleOfPurchased;
     }
 
-    public void setPeopleOfPurchased(Long peopleOfPurchased) {
+    public void setPeopleOfPurchased(Integer peopleOfPurchased) {
         this.peopleOfPurchased = peopleOfPurchased;
     }
 
@@ -87,5 +91,13 @@ public class FundVo extends ProductVo {
 
     public void setPurchasedAmount(BigDecimal purchasedAmount) {
         this.purchasedAmount = purchasedAmount;
+    }
+
+    public String getDiscount() {
+        return discount;
+    }
+
+    public void setDiscount(String discount) {
+        this.discount = discount;
     }
 }
