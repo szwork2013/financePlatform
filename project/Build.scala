@@ -4,7 +4,7 @@ import sbt._
 
 object FinancePlatformBuild extends Build {
 
-  lazy val compileVersion = "2.10.0";
+  lazy val compileVersion = "2.10.0"
 
   lazy val common = Project(id = "common", base = file("common"))
     .settings(scalaVersion := compileVersion)
