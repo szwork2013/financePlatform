@@ -4,19 +4,15 @@ import com.sunlights.BaseTest;
 import com.sunlights.account.AccountConstant;
 import com.sunlights.account.service.RewardFlowService;
 import com.sunlights.account.service.impl.RewardFlowServiceImpl;
-import com.sunlights.account.vo.ActivityParamter;
 import com.sunlights.common.MsgCode;
 import com.sunlights.common.vo.MessageVo;
-import com.sunlights.common.vo.PageVo;
 import models.RewardFlow;
 import org.junit.Before;
 import org.junit.Test;
 import play.Logger;
 import play.db.jpa.JPA;
 import play.libs.F;
-import play.libs.Json;
 import play.mvc.Http;
-import play.test.FakeRequest;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -26,7 +22,7 @@ import static org.junit.Assert.*;
 import static play.mvc.Http.Status.OK;
 import static play.test.Helpers.*;
 
-public class ActivityControllerTest extends BaseTest{
+public class RewardControllerTest extends BaseTest {
     private static Http.Cookie cookie;
 
     @Before
@@ -41,81 +37,65 @@ public class ActivityControllerTest extends BaseTest{
     }
 
     @Test
-    public void testSignInObtainReward() {
+    public void testGetSingInCanObtainRewards() throws Exception {
         running(fakeApplication(), new Runnable() {
             public void run() {
-                Logger.info("============testSignInObtainReward start====");
+                Logger.info("============testGetSingInCanObtainRewards start====");
+                Map<String, String> formParams = new HashMap<String, String>();
+                play.mvc.Result result = getResult("/account/reward/signInAmt", formParams, cookie);
+                Logger.info("============testGetSingInCanObtainRewards result====\n" + contentAsString(result));
+                assertThat(status(result)).isEqualTo(OK);
+                final MessageVo message = toMessageVo(result);
+
                 JPA.withTransaction(new F.Callback0() {
                     @Override
                     public void invoke() throws Throwable {
-                        Map<String, String> formParams = new HashMap<String, String>();
-                        play.mvc.Result result = null;
-
-                        //2:签到获取金豆正常测试
-                        formParams = new HashMap<String, String>();
-                        formParams.put("scene", AccountConstant.ACTIVITY_SIGNIN_SCENE_CODE);
-                        result = getResult("/account/activity/obtainRward", formParams, cookie);
-                        assertThat(status(result)).isEqualTo(OK);
-
-                        final MessageVo message = toMessageVo(result);
-
                         RewardFlowService rewardFlowService = new RewardFlowServiceImpl();
                         RewardFlow rewardFlows = rewardFlowService.findTodayFlowByCustIdAndScene("20141119102210010000000029", AccountConstant.ACTIVITY_SIGNIN_SCENE_CODE);
-                        if(rewardFlows != null) {
+                        if (rewardFlows != null) {
                             assertThat(message.getMessage().getCode()).isEqualTo(MsgCode.ALREADY_SIGN.getCode());
+                            StringBuilder sb = new StringBuilder();
+                            //sb.append("delete from RewardFlow").append(" where id =").append(rewardFlows.getId());
+                            //JPA.em().createQuery(sb.toString()).executeUpdate();
                             assertThat("20141119102210010000000029").isEqualTo(rewardFlows.getCustId());
                         } else {
-                            assertThat(message.getMessage().getCode()).isEqualTo(MsgCode.OBTAIN_SUCC.getCode());
+                            assertThat(message.getMessage().getCode()).isEqualTo(MsgCode.ACTIVITY_QUERY_SUCC.getCode());
                         }
-
-                        Logger.info("============testSignInObtainReward result====\n" + contentAsString(result));
                     }
                 });
 
             }
         });
     }
-
     @Test
-    public void testGetActivityList() throws Exception {
+    public void testGetMyRewardTotal() {
         running(fakeApplication(), new Runnable() {
             public void run() {
-                Logger.info("============testGetActivityList start====");
-                String index = "0";
-                String pageSize = "3";
-
-
-                Map<String, String> formParams = new HashMap<>();
-                formParams.put("index", index);
-                formParams.put("pageSize", pageSize);
-
-
-                play.mvc.Result result = getResult("/account/activity/list", formParams);
-                Logger.info("============testGetActivityList result====\n" + contentAsString(result));
-
-            }
-        });
-
-
-    }
-
-    @Test
-    public void testInviteObtainReward() {
-        running(fakeApplication(), new Runnable() {
-            public void run() {
-                Logger.info("============testInviteObtainReward start====");
-                //1：邀请好友获取金豆测试
+                Logger.info("============testGetMyRewardTotal start====");
                 Map<String, String> formParams = new HashMap<String, String>();
-                formParams.put("scene", AccountConstant.ACTIVITY_INVITE_SCENE_CODE);
-                play.mvc.Result result = getResult("/account/activity/obtainRward", formParams, cookie);
+                play.mvc.Result result = getResult("/account/reward/total", formParams, cookie);
+                Logger.info("============testGetMyRewardTotal result====\n" + contentAsString(result));
                 assertThat(status(result)).isEqualTo(OK);
                 MessageVo message = toMessageVo(result);
-                assertThat(message.getMessage().getCode()).isEqualTo(MsgCode.OBTAIN_SUCC.getCode());
+                assertThat(message.getMessage().getCode()).isEqualTo(MsgCode.ACTIVITY_QUERY_SUCC.getCode());
 
-                Logger.info("============testInviteObtainReward result====\n" + contentAsString(result));
             }
         });
     }
 
+    @Test
+    public void testGetMyRewardDetail() {
+        running(fakeApplication(), new Runnable() {
+            public void run() {
+                Logger.info("============testGetMyRewardDetail start====");
+                Map<String, String> formParams = new HashMap<String, String>();
+                play.mvc.Result result = getResult("/account/reward/myReward", formParams, cookie);
+                Logger.info("============testGetMyRewardDetail result====\n" + contentAsString(result));
+                assertThat(status(result)).isEqualTo(OK);
+                MessageVo message = toMessageVo(result);
+                assertThat(message.getMessage().getCode()).isEqualTo(MsgCode.ACTIVITY_QUERY_SUCC.getCode());
 
+            }
+        });
+    }
 }

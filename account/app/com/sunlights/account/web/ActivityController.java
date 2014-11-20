@@ -1,36 +1,36 @@
 package com.sunlights.account.web;
 
-import antlr.LexerSharedInputState;
+
+import com.sunlights.account.AccountConstant;
 import com.sunlights.account.service.ActivityService;
 import com.sunlights.account.service.impl.ActivityServiceImpl;
+import com.sunlights.account.service.rewardrules.IObtainRewardRule;
+import com.sunlights.account.service.rewardrules.RewardRuleFactory;
 import com.sunlights.account.vo.ActivityParamter;
 import com.sunlights.account.vo.ActivityVo;
+import com.sunlights.account.vo.ObtainRewardVo;
+import com.sunlights.account.vo.RewardResultVo;
 import com.sunlights.common.MsgCode;
 import com.sunlights.common.Severity;
-import com.sunlights.common.utils.MessageUtil;
 import com.sunlights.common.vo.Message;
 import com.sunlights.common.vo.PageVo;
+import models.Activity;
+import models.CustomerSession;
 import play.Logger;
-import play.data.Form;
 import play.db.jpa.Transactional;
-import play.libs.Json;
-import play.mvc.Controller;
-import play.mvc.Http;
 import play.mvc.Result;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
  * Created by tangweiqun on 2014/11/13.
  */
 @Transactional
-public class ActivityController extends Controller  {
-    private Form<ActivityParamter> activityParameterForm = Form.form(ActivityParamter.class);
+public class ActivityController extends ActivityBaseController  {
+
 
     private ActivityService activityService = new ActivityServiceImpl();
 
-    private MessageUtil messageUtil = MessageUtil.getInstance();
 
     public Result getActivityList() {
         ActivityParamter activityParamter = getActivityParamter();
@@ -50,28 +50,42 @@ public class ActivityController extends Controller  {
         return ok(messageUtil.toJson());
     }
 
-    public ActivityParamter getActivityParamter() {
-        ActivityParamter activityParamter = null;
-        Http.RequestBody body = request().body();
-        if (body.asJson() != null) {
-            activityParamter = Json.fromJson(body.asJson(), ActivityParamter.class);
-        }
-
-        if (body.asFormUrlEncoded() != null) {
-            activityParamter = activityParameterForm.bindFromRequest().get();
-        }
-        return activityParamter;
-    }
 
     /**
-     * 签到接口
+     * 用户获取奖励接口
      *
      * @return
      */
-    public Result SignIn() {
+    public Result obtainReward() {
+        //1：获取请求参数
+        String token = getToken();
         ActivityParamter activityParamter = getActivityParamter();
 
-        return ok();
+        //2:获取获取奖励需要的参数
+        CustomerSession customerSession = customerService.getCustomerSession(token);
+        String custNo = customerSession.getCustomerId();
+        String scene = activityParamter.getScene();
+
+        //3:获取相对应场景的奖励获取规则的处理类
+        IObtainRewardRule iObtainRewardRule = RewardRuleFactory.getIObtainRuleHandler(scene);
+        ObtainRewardVo obtainRewardVo = new ObtainRewardVo();
+        if(iObtainRewardRule == null) {
+            Logger.info("还没有配置签到的场景");
+            messageUtil.setMessage(new Message(Severity.INFO, MsgCode.NOT_CONFIG_ACTIVITY_SCENE), obtainRewardVo);
+            return ok(messageUtil.toJson());
+        }
+        //4:处理获取奖励
+        RewardResultVo rewardResultVo = iObtainRewardRule.obtainReward(custNo);
+
+        //5:解析结果并发往客户端
+        Message returnMessage = rewardResultVo.getReturnMessage();
+        if(MsgCode.OBTAIN_SUCC.getCode().equals(returnMessage.getCode())) {;
+            obtainRewardVo.setScene(scene);
+            obtainRewardVo.setObtainReward(rewardResultVo.getRewards());
+            obtainRewardVo.setCanNotObtain(true);
+        }
+        messageUtil.setMessage(returnMessage, obtainRewardVo);
+        return ok(messageUtil.toJson());
     }
 
 }
