@@ -1,5 +1,6 @@
 package com.sunlights.account.service.impl;
 
+import com.sunlights.account.AccountConstant;
 import com.sunlights.account.dal.ActivityDao;
 import com.sunlights.account.dal.impl.ActivityDaoImpl;
 import com.sunlights.account.service.ActivityService;
@@ -42,5 +43,11 @@ public class ActivityServiceImpl implements ActivityService{
         String port = Configuration.root().getString("activity.port");
         String remoteDir = Configuration.root().getString(remotDir);
         return new StringBuilder().append("http://").append(server).append(":").append(port).append(remoteDir).append("/").append(fileName).toString();
+    }
+
+    @Override
+    public List<Activity> getActivityByScene(String scene) {
+        //TODO
+        return activityDao.getActivityByScene(scene);
     }
 }

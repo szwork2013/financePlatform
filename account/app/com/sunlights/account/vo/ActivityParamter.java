@@ -1,10 +1,17 @@
 package com.sunlights.account.vo;
 
 /**
- * Created by Administrator on 2014/11/13.
+ * Created by tangweiqun on 2014/11/13.
  */
 public class ActivityParamter {
+    /**
+     * 活动主键
+     */
     private Long activityId;
+    /**
+     * 活动场景
+     */
+    private String scene;
 
     private int index;
     private int pageSize;
@@ -32,5 +39,13 @@ public class ActivityParamter {
 
     public void setActivityId(Long activityId) {
         this.activityId = activityId;
+    }
+
+    public String getScene() {
+        return scene;
+    }
+
+    public void setScene(String scene) {
+        this.scene = scene;
     }
 }

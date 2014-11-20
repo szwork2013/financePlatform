@@ -13,4 +13,11 @@ public interface ActivityDao {
 
     public List<Activity> getActivityVos(PageVo pageVo);
 
+    /**
+     * 根据活动的应用场景查处这个场景下的所有活动
+     * @param scene 应用场景
+     * @return
+     */
+    public List<Activity> getActivityByScene(String scene);
+
 }
