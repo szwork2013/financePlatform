@@ -104,7 +104,7 @@ public class ProductControllerTest extends BaseTest {
                 parameter.setIndex(0);
                 parameter.setPageSize(10);
                 parameter.setType(DictConst.FP_PRODUCT_TYPE_1);
-                parameter.setCategory(1);
+                parameter.setCategory(7);
 
                 // Products Request
                 FakeRequest fundsRequest = fakeRequest(POST, "/core/products");

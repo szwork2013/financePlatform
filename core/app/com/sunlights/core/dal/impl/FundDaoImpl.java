@@ -32,10 +32,10 @@ public class FundDaoImpl extends EntityBaseDao implements FundDao {
     public FundDetailVo findFundDetailByCode(String code) {
         StringBuffer jpql = new StringBuffer();
         jpql.append(" select new com.sunlights.core.vo.FundDetailVo(f,pm,fc)");
-        jpql.append(" from ProductManage pm , Fund f , FundCompany fc");
+        jpql.append(" from ProductManage pm , FundNav f , FundCompany fc");
         jpql.append(" where f.fundcode = pm.productCode");
         jpql.append(" and f.iaGuid = fc.fundCompanyId");
-        jpql.append(" and f.fundCode = ?1");
+        jpql.append(" and f.fundcode = ?1");
 
         FundDetailVo fundDetailVo = super.findUnique(jpql.toString(), code);
         return fundDetailVo;
