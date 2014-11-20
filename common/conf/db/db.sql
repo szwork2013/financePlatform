@@ -786,118 +786,120 @@ DROP TABLE IF EXISTS F_ACTIVITY;
 /*==============================================================*/
 /* Table: F_ACTIVITY                                            */
 /*==============================================================*/
-CREATE TABLE F_ACTIVITY (
-  ID          INT8         NOT NULL,
-  STATUS      VARCHAR(2)   NULL,
-  TITLE       VARCHAR(700) NULL,
-  BEGIN_TIME  DATE         NULL,
-  END_TIME    DATE         NULL,
-  SCENE       VARCHAR(6)   NULL,
-  APP_ID      VARCHAR(16)  NULL,
-  IMAGE       VARCHAR(50)  NULL,
-  URL         VARCHAR(50)  NULL,
-  CLICK_TIME  INT8         NULL,
-  TYPE        VARCHAR(10)  NULL,
-  STYLE       VARCHAR(10)  NULL,
-  CLICK_EVENT VARCHAR(6)   NULL,
-  CREATE_TIME TIMESTAMP    NULL,
-  UPDATE_TIME TIMESTAMP    NULL,
-  CREATE_BY   VARCHAR(30)  NULL,
-  UPDATE_BY   VARCHAR(30)  NULL,
-  CONSTRAINT PK_F_ACTIVITY PRIMARY KEY (ID)
+create table F_ACTIVITY
+(
+   ID                   INT8                           not null,
+   STATUS               VARCHAR(2)                     not null,
+   TITLE                VARCHAR(700)                   not null,
+   BEGIN_TIME           DATE                           null,
+   END_TIME             DATE                           null,
+   SCENE                VARCHAR(10)                    not null,
+   APP_ID               VARCHAR(16)                    null,
+   IMAGE                VARCHAR(50)                    null,
+   URL                  VARCHAR(50)                    null,
+   CLICK_TIME           INT8                           null,
+   TYPE                 VARCHAR(10)                    null,
+   STYLE                VARCHAR(10)                    null,
+   CLICK_EVENT          VARCHAR(6)                     null,
+   CREATE_TIME          TIMESTAMP                      null,
+   UPDATE_TIME          TIMESTAMP                      null,
+   CREATE_BY            VARCHAR(30)                    null,
+   UPDATE_BY            VARCHAR(30)                    null,
+   constraint PK_F_ACTIVITY primary key (ID)
 );
 
-COMMENT ON COLUMN F_ACTIVITY.ID IS
+comment on column F_ACTIVITY.ID is
 '主键';
 
-COMMENT ON COLUMN F_ACTIVITY.STATUS IS
+comment on column F_ACTIVITY.STATUS is
 'N表示正常   F表示禁用';
 
-COMMENT ON COLUMN F_ACTIVITY.TITLE IS
+comment on column F_ACTIVITY.TITLE is
 '活动标题';
 
-COMMENT ON COLUMN F_ACTIVITY.BEGIN_TIME IS
+comment on column F_ACTIVITY.BEGIN_TIME is
 '活动开始时间';
 
-COMMENT ON COLUMN F_ACTIVITY.END_TIME IS
+comment on column F_ACTIVITY.END_TIME is
 '活动结束时间';
 
-COMMENT ON COLUMN F_ACTIVITY.SCENE IS
+comment on column F_ACTIVITY.SCENE is
 '应用场景';
 
-COMMENT ON COLUMN F_ACTIVITY.APP_ID IS
+comment on column F_ACTIVITY.APP_ID is
 '投放产品ID';
 
-COMMENT ON COLUMN F_ACTIVITY.IMAGE IS
+comment on column F_ACTIVITY.IMAGE is
 '活动图片';
 
-COMMENT ON COLUMN F_ACTIVITY.URL IS
+comment on column F_ACTIVITY.URL is
 'html5名称';
 
-COMMENT ON COLUMN F_ACTIVITY.CLICK_TIME IS
+comment on column F_ACTIVITY.CLICK_TIME is
 '点击次数';
 
-COMMENT ON COLUMN F_ACTIVITY.TYPE IS
+comment on column F_ACTIVITY.TYPE is
 '活动类型';
 
-COMMENT ON COLUMN F_ACTIVITY.STYLE IS
+comment on column F_ACTIVITY.STYLE is
 '活动形式';
 
-COMMENT ON COLUMN F_ACTIVITY.CLICK_EVENT IS
+comment on column F_ACTIVITY.CLICK_EVENT is
 '点击事件';
 
-COMMENT ON COLUMN F_ACTIVITY.CREATE_TIME IS
+comment on column F_ACTIVITY.CREATE_TIME is
 '创建时间';
 
-COMMENT ON COLUMN F_ACTIVITY.UPDATE_TIME IS
+comment on column F_ACTIVITY.UPDATE_TIME is
 '修改时间';
 
-COMMENT ON COLUMN F_ACTIVITY.CREATE_BY IS
+comment on column F_ACTIVITY.CREATE_BY is
 '创建人';
 
-COMMENT ON COLUMN F_ACTIVITY.UPDATE_BY IS
+comment on column F_ACTIVITY.UPDATE_BY is
 '修改人';
 
 
-DROP TABLE IF EXISTS F_REWARD_TYPE;
 
+DROP TABLE IF EXISTS F_REWARD_TYPE;
 /*==============================================================*/
 /* Table: F_REWARD_TYPE                                         */
 /*==============================================================*/
-CREATE TABLE F_REWARD_TYPE (
-  ID          INT8        NOT NULL,
-  CODE        VARCHAR(6)  NULL,
-  NAME        VARCHAR(16) NULL,
-  UNIT        INT8        NULL,
-  CREATE_TIME TIMESTAMP   NULL,
-  UPDATE_TIME TIMESTAMP   NULL,
-  CREATE_BY   VARCHAR(30) NULL,
-  UPDATE_BY   VARCHAR(30) NULL,
-  CONSTRAINT PK_F_REWARD_TYPE PRIMARY KEY (ID)
+create table F_REWARD_TYPE
+(
+   ID                   INT8                           not null,
+   CODE                 VARCHAR(6)                     not null,
+   NAME                 VARCHAR(16)                    not null,
+   UNIT                 INT8                           not null,
+   CREATE_TIME          TIMESTAMP                      null,
+   UPDATE_TIME          TIMESTAMP                      null,
+   CREATE_BY            VARCHAR(30)                    null,
+   UPDATE_BY            VARCHAR(30)                    null,
+   constraint PK_F_REWARD_TYPE primary key (ID)
 );
 
-COMMENT ON COLUMN F_REWARD_TYPE.ID IS
+comment on column F_REWARD_TYPE.ID is
 '主键';
 
-COMMENT ON COLUMN F_REWARD_TYPE.CODE IS
+comment on column F_REWARD_TYPE.CODE is
 '奖励类型编码';
 
-COMMENT ON COLUMN F_REWARD_TYPE.NAME IS
+comment on column F_REWARD_TYPE.NAME is
 '奖励类型名称';
 
-COMMENT ON COLUMN F_REWARD_TYPE.UNIT IS
+comment on column F_REWARD_TYPE.UNIT is
 '单位';
 
-COMMENT ON COLUMN F_REWARD_TYPE.CREATE_TIME IS
+comment on column F_REWARD_TYPE.CREATE_TIME is
 '创建时间';
 
-COMMENT ON COLUMN F_REWARD_TYPE.UPDATE_TIME IS
+comment on column F_REWARD_TYPE.UPDATE_TIME is
 '更新时间';
 
-COMMENT ON COLUMN F_REWARD_TYPE.CREATE_BY IS
+comment on column F_REWARD_TYPE.CREATE_BY is
 '创建人';
 
-COMMENT ON COLUMN F_REWARD_TYPE.UPDATE_BY IS
+comment on column F_REWARD_TYPE.UPDATE_BY is
 '修改人';
 
 
@@ -906,57 +908,59 @@ DROP TABLE IF EXISTS F_EXCHANGE_REWARD_RULE;
 /*==============================================================*/
 /* Table: F_EXCHANGE_REWARD_RULE                                */
 /*==============================================================*/
-CREATE TABLE F_EXCHANGE_REWARD_RULE (
-  ID           INT8           NOT NULL,
-  REWARD_TYPE  VARCHAR(6)     NULL,
-  STATUS       VARCHAR(2)     NULL,
-  EXCHAGE_TYPE VARCHAR(6)     NULL,
-  RATE         DECIMAL(18, 4) NULL,
-  LIMIT_TIME   INT4           NULL,
-  NOTICE_TIME  INT4           NULL,
-  DELAY_TIME   INT4           NULL,
-  CREATE_TIME  TIMESTAMP      NULL,
-  UPDATE_TIME  TIMESTAMP      NULL,
-  CREATE_BY    VARCHAR(30)    NULL,
-  UPDATE_BY    VARCHAR(30)    NULL,
-  CONSTRAINT PK_F_EXCHANGE_REWARD_RULE PRIMARY KEY (ID)
+create table F_EXCHANGE_REWARD_RULE
+(
+   ID                   INT8                           not null,
+   REWARD_TYPE          VARCHAR(6)                     null,
+   STATUS               VARCHAR(2)                     null,
+   EXCHAGE_TYPE         VARCHAR(6)                     null,
+   RATE                 DECIMAL(18,4)                  not null,
+   LIMIT_TIME           INT4                           null,
+   NOTICE_TIME          INT4                           null,
+   DELAY_TIME           INT4                           null,
+   CREATE_TIME          TIMESTAMP                      null,
+   UPDATE_TIME          TIMESTAMP                      null,
+   CREATE_BY            VARCHAR(30)                    null,
+   UPDATE_BY            VARCHAR(30)                    null,
+   constraint PK_F_EXCHANGE_REWARD_RULE primary key (ID)
 );
 
-COMMENT ON COLUMN F_EXCHANGE_REWARD_RULE.ID IS
+comment on column F_EXCHANGE_REWARD_RULE.ID is
 '主键';
 
-COMMENT ON COLUMN F_EXCHANGE_REWARD_RULE.REWARD_TYPE IS
+comment on column F_EXCHANGE_REWARD_RULE.REWARD_TYPE is
 '奖励类型';
 
-COMMENT ON COLUMN F_EXCHANGE_REWARD_RULE.STATUS IS
+comment on column F_EXCHANGE_REWARD_RULE.STATUS is
 '状态 N表示正常  F表示禁止使用';
 
-COMMENT ON COLUMN F_EXCHANGE_REWARD_RULE.EXCHAGE_TYPE IS
+comment on column F_EXCHANGE_REWARD_RULE.EXCHAGE_TYPE is
 '兑换类型';
 
-COMMENT ON COLUMN F_EXCHANGE_REWARD_RULE.RATE IS
+comment on column F_EXCHANGE_REWARD_RULE.RATE is
 '兑换率';
 
-COMMENT ON COLUMN F_EXCHANGE_REWARD_RULE.LIMIT_TIME IS
+comment on column F_EXCHANGE_REWARD_RULE.LIMIT_TIME is
 '兑换期限  1-1个月；2-2个月；3-3个月 4-6个月 5-两周';
 
-COMMENT ON COLUMN F_EXCHANGE_REWARD_RULE.NOTICE_TIME IS
+comment on column F_EXCHANGE_REWARD_RULE.NOTICE_TIME is
 '兑换到期提醒  1-提前1星期通知 2-提前3天通知';
 
-COMMENT ON COLUMN F_EXCHANGE_REWARD_RULE.DELAY_TIME IS
+comment on column F_EXCHANGE_REWARD_RULE.DELAY_TIME is
 '兑换期限延长 1-积分有效期延长1周 2-积分有效期延长1月，并分享活动';
 
-COMMENT ON COLUMN F_EXCHANGE_REWARD_RULE.CREATE_TIME IS
+comment on column F_EXCHANGE_REWARD_RULE.CREATE_TIME is
 '创建时间';
 
-COMMENT ON COLUMN F_EXCHANGE_REWARD_RULE.UPDATE_TIME IS
+comment on column F_EXCHANGE_REWARD_RULE.UPDATE_TIME is
 '修改时间';
 
-COMMENT ON COLUMN F_EXCHANGE_REWARD_RULE.CREATE_BY IS
+comment on column F_EXCHANGE_REWARD_RULE.CREATE_BY is
 '创建人';
 
-COMMENT ON COLUMN F_EXCHANGE_REWARD_RULE.UPDATE_BY IS
+comment on column F_EXCHANGE_REWARD_RULE.UPDATE_BY is
 '修改人';
+
 
 
 DROP TABLE IF EXISTS F_GET_REWARD_RULE;
@@ -965,26 +969,26 @@ DROP TABLE IF EXISTS F_GET_REWARD_RULE;
 /* Table: F_GET_REWARD_RULE                                     */
 /*==============================================================*/
 CREATE TABLE F_GET_REWARD_RULE (
-  ID               INT8           NOT NULL,
-  activity_id      INT8           NULL,
-  reward_type      VARCHAR(6)     NULL,
-  status           VARCHAR(2)     NULL,
-  should_reward    INT8           NULL,
-  real_reward      INT8           NULL,
-  back_reward      INT8           NULL,
-  effect_time      INT4           NULL,
-  valid_time       INT4           NULL,
-  total_limit_amt  INT8           NULL,
-  product_type     VARCHAR(30)    NULL,
-  product_code     VARCHAR(16)    NULL,
-  activity_channel INT4           NULL,
-  trade_amt        NUMERIC(18, 4) NULL,
-  back_funds       NUMERIC(18, 4) NULL,
-  create_time      TIMESTAMP      NULL,
-  update_time      TIMESTAMP      NULL,
-  create_by        VARCHAR(30)    NULL,
-  update_by        VARCHAR(30)    NULL,
-  CONSTRAINT PK_F_GET_REWARD_RULE PRIMARY KEY (ID)
+    ID                   INT8                           not null,
+   activity_id          INT8                           null,
+   reward_type          VARCHAR(6)                     null,
+   status               VARCHAR(2)                     not null,
+   should_reward        INT8                           not null,
+   real_reward          INT8                           null,
+   back_reward          INT8                           null,
+   effect_time          INT4                           null,
+   valid_time           INT4                           null,
+   total_limit_amt      INT8                           null,
+   product_type         VARCHAR(30)                    null,
+   product_code         VARCHAR(16)                    null,
+   activity_channel     INT4                           null,
+   trade_amt            NUMERIC(18,2)                  null,
+   back_funds           NUMERIC(18,2)                  null,
+   create_time          TIMESTAMP                      null,
+   update_time          TIMESTAMP                      null,
+   create_by            VARCHAR(30)                    null,
+   update_by            VARCHAR(30)                    null,
+   constraint PK_F_GET_REWARD_RULE primary key (ID)
 );
 
 COMMENT ON COLUMN F_GET_REWARD_RULE.ID IS
@@ -1100,6 +1104,9 @@ comment on column F_REWARD_COUNT.UPDATE_TIME is
 /* Table: F_REWARD_FLOW                                         */
 /*==============================================================*/
 DROP TABLE IF EXISTS F_REWARD_FLOW;
+/*==============================================================*/
+/* Table: F_REWARD_FLOW                                         */
+/*==============================================================*/
 create table F_REWARD_FLOW
 (
    ID                   INT8                           not null,
@@ -1145,6 +1152,7 @@ comment on column F_REWARD_FLOW.MONEY is
 
 comment on column F_REWARD_FLOW.CREATE_TIME is
 '创建时间';
+
 
 
 -- ----------------------------

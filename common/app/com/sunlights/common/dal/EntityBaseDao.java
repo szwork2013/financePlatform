@@ -564,7 +564,7 @@ public class EntityBaseDao {
   public Query createQueryByMap(String xsql, Map<String, Object> filterMap) {
     Map<String, Object> paramMap = Maps.newHashMapWithExpectedSize(5);
     String jpql = this.buildJpqlAndParams(xsql, filterMap, paramMap);
-
+    Logger.debug("jpql = " + jpql);
     return createQuery(jpql, paramMap);
   }
 
