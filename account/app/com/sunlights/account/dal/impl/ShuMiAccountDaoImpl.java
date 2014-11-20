@@ -4,6 +4,8 @@ import com.sunlights.account.dal.ShuMiAccountDao;
 import com.sunlights.common.dal.EntityBaseDao;
 import models.ShuMiAccount;
 
+import java.util.List;
+
 /**
  * <p>Project: financeplatform</p>
  * <p>Title: ShuMiAccountDaoImpl.java</p>
@@ -17,5 +19,20 @@ public class ShuMiAccountDaoImpl extends EntityBaseDao implements ShuMiAccountDa
     @Override
     public ShuMiAccount saveShuMiAccount(ShuMiAccount shuMiAccount) {
         return create(shuMiAccount);
+    }
+
+    @Override
+    public ShuMiAccount findShuMiAccountByCustomerId(String customerId) {
+        List<ShuMiAccount> list = findBy(ShuMiAccount.class, "customerId", customerId);
+        if (list.isEmpty()){
+            return null;
+        }
+        return list.get(0);
+    }
+
+
+    @Override
+    public ShuMiAccount updateShuMiAccount(ShuMiAccount shuMiAccount) {
+        return update(shuMiAccount);
     }
 }

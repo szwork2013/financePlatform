@@ -86,7 +86,7 @@ public class ShuMiAccountControllerTest extends BaseTest {
                         query.setParameter(1, customer.getCustomerId());
                         ShuMiAccount shuMiAccount = (ShuMiAccount)query.getSingleResult();
 
-                        JPA.em().remove(shuMiAccount);
+//                        JPA.em().remove(shuMiAccount);
                     }
                 });
 

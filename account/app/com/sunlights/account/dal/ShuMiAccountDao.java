@@ -13,4 +13,10 @@ import models.ShuMiAccount;
  */
 public interface ShuMiAccountDao {
     public ShuMiAccount saveShuMiAccount(ShuMiAccount shuMiAccount);
+
+    public ShuMiAccount findShuMiAccountByCustomerId(String customerId);
+
+    public ShuMiAccount updateShuMiAccount(ShuMiAccount shuMiAccount);
+
+
 }
