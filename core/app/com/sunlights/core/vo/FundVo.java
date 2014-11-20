@@ -48,9 +48,20 @@ public class FundVo extends ProductVo {
         this.millionIncome = ArithUtil.bigUpScale4(fundNav.getIncomePerTenThousand());
         this.purchasedAmount = ArithUtil.bigUpScale4(fundNav.getPurchaseLimitMin());
         this.purchasedMethod = fundNav.getInvestmentType() + "";
-        this.discount = fundNav.getDiscount() + "";
+        this.discount = getDiscountValueByfund(fundNav);
     }
 
+    private String getDiscountValueByfund(FundNav fundNav) {
+        String value = "";
+        BigDecimal chargeRateValue = fundNav.getChargeRateValue();
+        BigDecimal fundNavDiscount = fundNav.getDiscount();
+        if (chargeRateValue == null || BigDecimal.ZERO.compareTo(chargeRateValue) == 0) {
+            value = "免手续费";
+        } else {
+            value = fundNavDiscount == null ? "免手续费" : fundNavDiscount.multiply(new BigDecimal("100"))+"折";
+        }
+        return value;
+    }
 
     public Integer getPeopleOfPurchased() {
         return peopleOfPurchased;

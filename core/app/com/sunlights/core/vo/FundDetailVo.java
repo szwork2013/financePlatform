@@ -1,5 +1,6 @@
 package com.sunlights.core.vo;
 
+import com.sunlights.common.FundDict;
 import com.sunlights.common.service.CommonService;
 import com.sunlights.common.utils.ArithUtil;
 import com.sunlights.common.utils.CommonUtil;
@@ -43,11 +44,10 @@ public class FundDetailVo extends FundVo {
     }
 
     public void inFundDetail(FundNav fundNav, ProductManage pm, FundCompany fundCompany) {
-        System.out.println("[ProductManage]" + Json.toJson(pm));
         //取现到帐
-        this.toAccountType = fundNav.getRapidRedeem() + "";
+        this.toAccountType = FundDict.getRapidRedeem(fundNav.getRapidRedeem());
         //风险
-        this.riskLevel = fundNav.getRiskLevel() + "";
+        this.riskLevel = FundDict.getRiskLevel(fundNav.getRiskLevel());
         //基金公司 简称
         this.companyName = fundCompany.getAbbrName();
         // 基金规模
