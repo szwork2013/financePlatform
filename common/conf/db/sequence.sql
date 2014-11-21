@@ -1,0 +1,40 @@
+-- Sequence: src
+
+DROP SEQUENCE src;
+
+CREATE SEQUENCE src
+  INCREMENT 1
+  MINVALUE 1
+  MAXVALUE 9223372036854775807
+  START 168
+  CACHE 1;
+
+-- Sequence: cust_seq
+
+DROP SEQUENCE cust_seq;
+
+CREATE SEQUENCE cust_seq
+  INCREMENT 1
+  MINVALUE 1
+  MAXVALUE 9999999999
+  START 10
+  CACHE 1
+  CYCLE;
+
+COMMENT ON SEQUENCE cust_seq
+  IS '客户号序列';
+
+-- Sequence: trade_seq
+
+DROP SEQUENCE trade_seq;
+
+CREATE SEQUENCE trade_seq
+  INCREMENT 1
+  MINVALUE 1
+  MAXVALUE 9999
+  START 1
+  CACHE 1
+  CYCLE;
+
+COMMENT ON SEQUENCE trade_seq
+  IS '交易流水号';

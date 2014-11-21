@@ -716,171 +716,6 @@ COMMENT ON COLUMN "public"."prd_account_config"."create_time" IS '创建时间';
 COMMENT ON COLUMN "public"."prd_account_config"."update_time" IS '修改时间';
 COMMENT ON COLUMN "public"."prd_account_config"."delete_time" IS '删除时间';
 
--- ----------------------------
--- Table structure for qrtz_blob_triggers
--- ----------------------------
-DROP TABLE IF EXISTS "public"."qrtz_blob_triggers";
-CREATE TABLE "public"."qrtz_blob_triggers" (
-  "sched_name"    VARCHAR(120) COLLATE "default" NOT NULL,
-  "trigger_name"  VARCHAR(200) COLLATE "default" NOT NULL,
-  "trigger_group" VARCHAR(200) COLLATE "default" NOT NULL,
-  "blob_data"     BYTEA
-)
-WITH (OIDS = FALSE);
-
--- ----------------------------
--- Table structure for qrtz_calendars
--- ----------------------------
-DROP TABLE IF EXISTS "public"."qrtz_calendars";
-CREATE TABLE "public"."qrtz_calendars" (
-  "sched_name"    VARCHAR(120) COLLATE "default" NOT NULL,
-  "calendar_name" VARCHAR(200) COLLATE "default" NOT NULL,
-  "calendar"      BYTEA                          NOT NULL
-)
-WITH (OIDS = FALSE);
-
--- ----------------------------
--- Table structure for qrtz_cron_triggers
--- ----------------------------
-DROP TABLE IF EXISTS "public"."qrtz_cron_triggers";
-CREATE TABLE "public"."qrtz_cron_triggers" (
-  "sched_name"      VARCHAR(120) COLLATE "default" NOT NULL,
-  "trigger_name"    VARCHAR(200) COLLATE "default" NOT NULL,
-  "trigger_group"   VARCHAR(200) COLLATE "default" NOT NULL,
-  "cron_expression" VARCHAR(120) COLLATE "default" NOT NULL,
-  "time_zone_id"    VARCHAR(80) COLLATE "default"
-)
-WITH (OIDS = FALSE);
-
--- ----------------------------
--- Table structure for qrtz_fired_triggers
--- ----------------------------
-DROP TABLE IF EXISTS "public"."qrtz_fired_triggers";
-CREATE TABLE "public"."qrtz_fired_triggers" (
-  "sched_name"        VARCHAR(120) COLLATE "default" NOT NULL,
-  "entry_id"          VARCHAR(95) COLLATE "default"  NOT NULL,
-  "trigger_name"      VARCHAR(200) COLLATE "default" NOT NULL,
-  "trigger_group"     VARCHAR(200) COLLATE "default" NOT NULL,
-  "instance_name"     VARCHAR(200) COLLATE "default" NOT NULL,
-  "fired_time"        INT8                           NOT NULL,
-  "priority"          INT4                           NOT NULL,
-  "state"             VARCHAR(16) COLLATE "default"  NOT NULL,
-  "job_name"          VARCHAR(200) COLLATE "default",
-  "job_group"         VARCHAR(200) COLLATE "default",
-  "is_nonconcurrent"  BOOL,
-  "requests_recovery" BOOL
-)
-WITH (OIDS = FALSE);
-
--- ----------------------------
--- Table structure for qrtz_job_details
--- ----------------------------
-DROP TABLE IF EXISTS "public"."qrtz_job_details";
-CREATE TABLE "public"."qrtz_job_details" (
-  "sched_name"        VARCHAR(120) COLLATE "default" NOT NULL,
-  "job_name"          VARCHAR(200) COLLATE "default" NOT NULL,
-  "job_group"         VARCHAR(200) COLLATE "default" NOT NULL,
-  "description"       VARCHAR(250) COLLATE "default",
-  "job_class_name"    VARCHAR(250) COLLATE "default" NOT NULL,
-  "is_durable"        BOOL                           NOT NULL,
-  "is_nonconcurrent"  BOOL                           NOT NULL,
-  "is_update_data"    BOOL                           NOT NULL,
-  "requests_recovery" BOOL                           NOT NULL,
-  "job_data"          BYTEA
-)
-WITH (OIDS = FALSE);
-
--- ----------------------------
--- Table structure for qrtz_locks
--- ----------------------------
-DROP TABLE IF EXISTS "public"."qrtz_locks";
-CREATE TABLE "public"."qrtz_locks" (
-  "sched_name" VARCHAR(120) COLLATE "default" NOT NULL,
-  "lock_name"  VARCHAR(40) COLLATE "default"  NOT NULL
-)
-WITH (OIDS = FALSE);
-
--- ----------------------------
--- Table structure for qrtz_paused_trigger_grps
--- ----------------------------
-DROP TABLE IF EXISTS "public"."qrtz_paused_trigger_grps";
-CREATE TABLE "public"."qrtz_paused_trigger_grps" (
-  "sched_name"    VARCHAR(120) COLLATE "default" NOT NULL,
-  "trigger_group" VARCHAR(200) COLLATE "default" NOT NULL
-)
-WITH (OIDS = FALSE);
-
--- ----------------------------
--- Table structure for qrtz_scheduler_state
--- ----------------------------
-DROP TABLE IF EXISTS "public"."qrtz_scheduler_state";
-CREATE TABLE "public"."qrtz_scheduler_state" (
-  "sched_name"        VARCHAR(120) COLLATE "default" NOT NULL,
-  "instance_name"     VARCHAR(200) COLLATE "default" NOT NULL,
-  "last_checkin_time" INT8                           NOT NULL,
-  "checkin_interval"  INT8                           NOT NULL
-)
-WITH (OIDS = FALSE);
-
--- ----------------------------
--- Table structure for qrtz_simple_triggers
--- ----------------------------
-DROP TABLE IF EXISTS "public"."qrtz_simple_triggers";
-CREATE TABLE "public"."qrtz_simple_triggers" (
-  "sched_name"      VARCHAR(120) COLLATE "default" NOT NULL,
-  "trigger_name"    VARCHAR(200) COLLATE "default" NOT NULL,
-  "trigger_group"   VARCHAR(200) COLLATE "default" NOT NULL,
-  "repeat_count"    INT8                           NOT NULL,
-  "repeat_interval" INT8                           NOT NULL,
-  "times_triggered" INT8                           NOT NULL
-)
-WITH (OIDS = FALSE);
-
--- ----------------------------
--- Table structure for qrtz_simprop_triggers
--- ----------------------------
-DROP TABLE IF EXISTS "public"."qrtz_simprop_triggers";
-CREATE TABLE "public"."qrtz_simprop_triggers" (
-  "sched_name"    VARCHAR(120) COLLATE "default" NOT NULL,
-  "trigger_name"  VARCHAR(200) COLLATE "default" NOT NULL,
-  "trigger_group" VARCHAR(200) COLLATE "default" NOT NULL,
-  "str_prop_1"    VARCHAR(512) COLLATE "default",
-  "str_prop_2"    VARCHAR(512) COLLATE "default",
-  "str_prop_3"    VARCHAR(512) COLLATE "default",
-  "int_prop_1"    INT4,
-  "int_prop_2"    INT4,
-  "long_prop_1"   INT8,
-  "long_prop_2"   INT8,
-  "dec_prop_1"    NUMERIC(13, 4),
-  "dec_prop_2"    NUMERIC(13, 4),
-  "bool_prop_1"   BOOL,
-  "bool_prop_2"   BOOL
-)
-WITH (OIDS = FALSE);
-
--- ----------------------------
--- Table structure for qrtz_triggers
--- ----------------------------
-DROP TABLE IF EXISTS "public"."qrtz_triggers";
-CREATE TABLE "public"."qrtz_triggers" (
-  "sched_name"     VARCHAR(120) COLLATE "default" NOT NULL,
-  "trigger_name"   VARCHAR(200) COLLATE "default" NOT NULL,
-  "trigger_group"  VARCHAR(200) COLLATE "default" NOT NULL,
-  "job_name"       VARCHAR(200) COLLATE "default" NOT NULL,
-  "job_group"      VARCHAR(200) COLLATE "default" NOT NULL,
-  "description"    VARCHAR(250) COLLATE "default",
-  "next_fire_time" INT8,
-  "prev_fire_time" INT8,
-  "priority"       INT4,
-  "trigger_state"  VARCHAR(16) COLLATE "default"  NOT NULL,
-  "trigger_type"   VARCHAR(8) COLLATE "default"   NOT NULL,
-  "start_time"     INT8                           NOT NULL,
-  "end_time"       INT8,
-  "calendar_name"  VARCHAR(200) COLLATE "default",
-  "misfire_instr"  INT2,
-  "job_data"       BYTEA
-)
-WITH (OIDS = FALSE);
 
 -- ----------------------------
 -- Table structure for sms_message
@@ -951,118 +786,120 @@ DROP TABLE IF EXISTS F_ACTIVITY;
 /*==============================================================*/
 /* Table: F_ACTIVITY                                            */
 /*==============================================================*/
-CREATE TABLE F_ACTIVITY (
-  ID          INT8         NOT NULL,
-  STATUS      VARCHAR(2)   NULL,
-  TITLE       VARCHAR(700) NULL,
-  BEGIN_TIME  DATE         NULL,
-  END_TIME    DATE         NULL,
-  SCENE       VARCHAR(6)   NULL,
-  APP_ID      VARCHAR(16)  NULL,
-  IMAGE       VARCHAR(50)  NULL,
-  URL         VARCHAR(50)  NULL,
-  CLICK_TIME  INT8         NULL,
-  TYPE        VARCHAR(10)  NULL,
-  STYLE       VARCHAR(10)  NULL,
-  CLICK_EVENT VARCHAR(6)   NULL,
-  CREATE_TIME TIMESTAMP    NULL,
-  UPDATE_TIME TIMESTAMP    NULL,
-  CREATE_BY   VARCHAR(30)  NULL,
-  UPDATE_BY   VARCHAR(30)  NULL,
-  CONSTRAINT PK_F_ACTIVITY PRIMARY KEY (ID)
+create table F_ACTIVITY
+(
+   ID                   INT8                           not null,
+   STATUS               VARCHAR(2)                     not null,
+   TITLE                VARCHAR(700)                   not null,
+   BEGIN_TIME           DATE                           null,
+   END_TIME             DATE                           null,
+   SCENE                VARCHAR(10)                    not null,
+   APP_ID               VARCHAR(16)                    null,
+   IMAGE                VARCHAR(50)                    null,
+   URL                  VARCHAR(50)                    null,
+   CLICK_TIME           INT8                           null,
+   TYPE                 VARCHAR(10)                    null,
+   STYLE                VARCHAR(10)                    null,
+   CLICK_EVENT          VARCHAR(6)                     null,
+   CREATE_TIME          TIMESTAMP                      null,
+   UPDATE_TIME          TIMESTAMP                      null,
+   CREATE_BY            VARCHAR(30)                    null,
+   UPDATE_BY            VARCHAR(30)                    null,
+   constraint PK_F_ACTIVITY primary key (ID)
 );
 
-COMMENT ON COLUMN F_ACTIVITY.ID IS
+comment on column F_ACTIVITY.ID is
 '主键';
 
-COMMENT ON COLUMN F_ACTIVITY.STATUS IS
+comment on column F_ACTIVITY.STATUS is
 'N表示正常   F表示禁用';
 
-COMMENT ON COLUMN F_ACTIVITY.TITLE IS
+comment on column F_ACTIVITY.TITLE is
 '活动标题';
 
-COMMENT ON COLUMN F_ACTIVITY.BEGIN_TIME IS
+comment on column F_ACTIVITY.BEGIN_TIME is
 '活动开始时间';
 
-COMMENT ON COLUMN F_ACTIVITY.END_TIME IS
+comment on column F_ACTIVITY.END_TIME is
 '活动结束时间';
 
-COMMENT ON COLUMN F_ACTIVITY.SCENE IS
+comment on column F_ACTIVITY.SCENE is
 '应用场景';
 
-COMMENT ON COLUMN F_ACTIVITY.APP_ID IS
+comment on column F_ACTIVITY.APP_ID is
 '投放产品ID';
 
-COMMENT ON COLUMN F_ACTIVITY.IMAGE IS
+comment on column F_ACTIVITY.IMAGE is
 '活动图片';
 
-COMMENT ON COLUMN F_ACTIVITY.URL IS
+comment on column F_ACTIVITY.URL is
 'html5名称';
 
-COMMENT ON COLUMN F_ACTIVITY.CLICK_TIME IS
+comment on column F_ACTIVITY.CLICK_TIME is
 '点击次数';
 
-COMMENT ON COLUMN F_ACTIVITY.TYPE IS
+comment on column F_ACTIVITY.TYPE is
 '活动类型';
 
-COMMENT ON COLUMN F_ACTIVITY.STYLE IS
+comment on column F_ACTIVITY.STYLE is
 '活动形式';
 
-COMMENT ON COLUMN F_ACTIVITY.CLICK_EVENT IS
+comment on column F_ACTIVITY.CLICK_EVENT is
 '点击事件';
 
-COMMENT ON COLUMN F_ACTIVITY.CREATE_TIME IS
+comment on column F_ACTIVITY.CREATE_TIME is
 '创建时间';
 
-COMMENT ON COLUMN F_ACTIVITY.UPDATE_TIME IS
+comment on column F_ACTIVITY.UPDATE_TIME is
 '修改时间';
 
-COMMENT ON COLUMN F_ACTIVITY.CREATE_BY IS
+comment on column F_ACTIVITY.CREATE_BY is
 '创建人';
 
-COMMENT ON COLUMN F_ACTIVITY.UPDATE_BY IS
+comment on column F_ACTIVITY.UPDATE_BY is
 '修改人';
 
 
-DROP TABLE IF EXISTS F_REWARD_TYPE;
 
+DROP TABLE IF EXISTS F_REWARD_TYPE;
 /*==============================================================*/
 /* Table: F_REWARD_TYPE                                         */
 /*==============================================================*/
-CREATE TABLE F_REWARD_TYPE (
-  ID          INT8        NOT NULL,
-  CODE        VARCHAR(6)  NULL,
-  NAME        VARCHAR(16) NULL,
-  UNIT        INT8        NULL,
-  CREATE_TIME TIMESTAMP   NULL,
-  UPDATE_TIME TIMESTAMP   NULL,
-  CREATE_BY   VARCHAR(30) NULL,
-  UPDATE_BY   VARCHAR(30) NULL,
-  CONSTRAINT PK_F_REWARD_TYPE PRIMARY KEY (ID)
+create table F_REWARD_TYPE
+(
+   ID                   INT8                           not null,
+   CODE                 VARCHAR(6)                     not null,
+   NAME                 VARCHAR(16)                    not null,
+   UNIT                 INT8                           not null,
+   CREATE_TIME          TIMESTAMP                      null,
+   UPDATE_TIME          TIMESTAMP                      null,
+   CREATE_BY            VARCHAR(30)                    null,
+   UPDATE_BY            VARCHAR(30)                    null,
+   constraint PK_F_REWARD_TYPE primary key (ID)
 );
 
-COMMENT ON COLUMN F_REWARD_TYPE.ID IS
+comment on column F_REWARD_TYPE.ID is
 '主键';
 
-COMMENT ON COLUMN F_REWARD_TYPE.CODE IS
+comment on column F_REWARD_TYPE.CODE is
 '奖励类型编码';
 
-COMMENT ON COLUMN F_REWARD_TYPE.NAME IS
+comment on column F_REWARD_TYPE.NAME is
 '奖励类型名称';
 
-COMMENT ON COLUMN F_REWARD_TYPE.UNIT IS
+comment on column F_REWARD_TYPE.UNIT is
 '单位';
 
-COMMENT ON COLUMN F_REWARD_TYPE.CREATE_TIME IS
+comment on column F_REWARD_TYPE.CREATE_TIME is
 '创建时间';
 
-COMMENT ON COLUMN F_REWARD_TYPE.UPDATE_TIME IS
+comment on column F_REWARD_TYPE.UPDATE_TIME is
 '更新时间';
 
-COMMENT ON COLUMN F_REWARD_TYPE.CREATE_BY IS
+comment on column F_REWARD_TYPE.CREATE_BY is
 '创建人';
 
-COMMENT ON COLUMN F_REWARD_TYPE.UPDATE_BY IS
+comment on column F_REWARD_TYPE.UPDATE_BY is
 '修改人';
 
 
@@ -1071,57 +908,59 @@ DROP TABLE IF EXISTS F_EXCHANGE_REWARD_RULE;
 /*==============================================================*/
 /* Table: F_EXCHANGE_REWARD_RULE                                */
 /*==============================================================*/
-CREATE TABLE F_EXCHANGE_REWARD_RULE (
-  ID           INT8           NOT NULL,
-  REWARD_TYPE  VARCHAR(6)     NULL,
-  STATUS       VARCHAR(2)     NULL,
-  EXCHAGE_TYPE VARCHAR(6)     NULL,
-  RATE         DECIMAL(18, 4) NULL,
-  LIMIT_TIME   INT4           NULL,
-  NOTICE_TIME  INT4           NULL,
-  DELAY_TIME   INT4           NULL,
-  CREATE_TIME  TIMESTAMP      NULL,
-  UPDATE_TIME  TIMESTAMP      NULL,
-  CREATE_BY    VARCHAR(30)    NULL,
-  UPDATE_BY    VARCHAR(30)    NULL,
-  CONSTRAINT PK_F_EXCHANGE_REWARD_RULE PRIMARY KEY (ID)
+create table F_EXCHANGE_REWARD_RULE
+(
+   ID                   INT8                           not null,
+   REWARD_TYPE          VARCHAR(6)                     null,
+   STATUS               VARCHAR(2)                     null,
+   EXCHAGE_TYPE         VARCHAR(6)                     null,
+   RATE                 DECIMAL(18,4)                  not null,
+   LIMIT_TIME           INT4                           null,
+   NOTICE_TIME          INT4                           null,
+   DELAY_TIME           INT4                           null,
+   CREATE_TIME          TIMESTAMP                      null,
+   UPDATE_TIME          TIMESTAMP                      null,
+   CREATE_BY            VARCHAR(30)                    null,
+   UPDATE_BY            VARCHAR(30)                    null,
+   constraint PK_F_EXCHANGE_REWARD_RULE primary key (ID)
 );
 
-COMMENT ON COLUMN F_EXCHANGE_REWARD_RULE.ID IS
+comment on column F_EXCHANGE_REWARD_RULE.ID is
 '主键';
 
-COMMENT ON COLUMN F_EXCHANGE_REWARD_RULE.REWARD_TYPE IS
+comment on column F_EXCHANGE_REWARD_RULE.REWARD_TYPE is
 '奖励类型';
 
-COMMENT ON COLUMN F_EXCHANGE_REWARD_RULE.STATUS IS
+comment on column F_EXCHANGE_REWARD_RULE.STATUS is
 '状态 N表示正常  F表示禁止使用';
 
-COMMENT ON COLUMN F_EXCHANGE_REWARD_RULE.EXCHAGE_TYPE IS
+comment on column F_EXCHANGE_REWARD_RULE.EXCHAGE_TYPE is
 '兑换类型';
 
-COMMENT ON COLUMN F_EXCHANGE_REWARD_RULE.RATE IS
+comment on column F_EXCHANGE_REWARD_RULE.RATE is
 '兑换率';
 
-COMMENT ON COLUMN F_EXCHANGE_REWARD_RULE.LIMIT_TIME IS
+comment on column F_EXCHANGE_REWARD_RULE.LIMIT_TIME is
 '兑换期限  1-1个月；2-2个月；3-3个月 4-6个月 5-两周';
 
-COMMENT ON COLUMN F_EXCHANGE_REWARD_RULE.NOTICE_TIME IS
+comment on column F_EXCHANGE_REWARD_RULE.NOTICE_TIME is
 '兑换到期提醒  1-提前1星期通知 2-提前3天通知';
 
-COMMENT ON COLUMN F_EXCHANGE_REWARD_RULE.DELAY_TIME IS
+comment on column F_EXCHANGE_REWARD_RULE.DELAY_TIME is
 '兑换期限延长 1-积分有效期延长1周 2-积分有效期延长1月，并分享活动';
 
-COMMENT ON COLUMN F_EXCHANGE_REWARD_RULE.CREATE_TIME IS
+comment on column F_EXCHANGE_REWARD_RULE.CREATE_TIME is
 '创建时间';
 
-COMMENT ON COLUMN F_EXCHANGE_REWARD_RULE.UPDATE_TIME IS
+comment on column F_EXCHANGE_REWARD_RULE.UPDATE_TIME is
 '修改时间';
 
-COMMENT ON COLUMN F_EXCHANGE_REWARD_RULE.CREATE_BY IS
+comment on column F_EXCHANGE_REWARD_RULE.CREATE_BY is
 '创建人';
 
-COMMENT ON COLUMN F_EXCHANGE_REWARD_RULE.UPDATE_BY IS
+comment on column F_EXCHANGE_REWARD_RULE.UPDATE_BY is
 '修改人';
+
 
 
 DROP TABLE IF EXISTS F_GET_REWARD_RULE;
@@ -1130,26 +969,26 @@ DROP TABLE IF EXISTS F_GET_REWARD_RULE;
 /* Table: F_GET_REWARD_RULE                                     */
 /*==============================================================*/
 CREATE TABLE F_GET_REWARD_RULE (
-  ID               INT8           NOT NULL,
-  activity_id      INT8           NULL,
-  reward_type      VARCHAR(6)     NULL,
-  status           VARCHAR(2)     NULL,
-  should_reward    INT8           NULL,
-  real_reward      INT8           NULL,
-  back_reward      INT8           NULL,
-  effect_time      INT4           NULL,
-  valid_time       INT4           NULL,
-  total_limit_amt  INT8           NULL,
-  product_type     VARCHAR(30)    NULL,
-  product_code     VARCHAR(16)    NULL,
-  activity_channel INT4           NULL,
-  trade_amt        NUMERIC(18, 4) NULL,
-  back_funds       NUMERIC(18, 4) NULL,
-  create_time      TIMESTAMP      NULL,
-  update_time      TIMESTAMP      NULL,
-  create_by        VARCHAR(30)    NULL,
-  update_by        VARCHAR(30)    NULL,
-  CONSTRAINT PK_F_GET_REWARD_RULE PRIMARY KEY (ID)
+    ID                   INT8                           not null,
+   activity_id          INT8                           null,
+   reward_type          VARCHAR(6)                     null,
+   status               VARCHAR(2)                     not null,
+   should_reward        INT8                           not null,
+   real_reward          INT8                           null,
+   back_reward          INT8                           null,
+   effect_time          INT4                           null,
+   valid_time           INT4                           null,
+   total_limit_amt      INT8                           null,
+   product_type         VARCHAR(30)                    null,
+   product_code         VARCHAR(16)                    null,
+   activity_channel     INT4                           null,
+   trade_amt            NUMERIC(18,2)                  null,
+   back_funds           NUMERIC(18,2)                  null,
+   create_time          TIMESTAMP                      null,
+   update_time          TIMESTAMP                      null,
+   create_by            VARCHAR(30)                    null,
+   update_by            VARCHAR(30)                    null,
+   constraint PK_F_GET_REWARD_RULE primary key (ID)
 );
 
 COMMENT ON COLUMN F_GET_REWARD_RULE.ID IS
@@ -1208,6 +1047,112 @@ COMMENT ON COLUMN F_GET_REWARD_RULE.create_by IS
 
 COMMENT ON COLUMN F_GET_REWARD_RULE.update_by IS
 '修改人';
+
+
+DROP TABLE IF EXISTS F_REWARD_COUNT;
+/*==============================================================*/
+/* Table: F_REWARD_COUNT                                        */
+/*==============================================================*/
+create table F_REWARD_COUNT
+(
+   ID                   INT8                           not null,
+   customer_Id          VARCHAR(30)                    null,
+   REWARD_TYPE          VARCHAR(6)                     null,
+   GET_AMOUNT           INT8                           null,
+   HOLD_REWARD          INT8                           null,
+   FROZEN_REWARD        INT8                           null,
+   GET_MONEY            DECIMAL(18,2)                  null,
+   HOLD_MONEY           DECIMAL(18,2)                  null,
+   FROZEN_MONEY         DECIMAL(18,2)                  null,
+   CREATE_TIME          TIMESTAMP                      null,
+   UPDATE_TIME          TIMESTAMP                      null,
+   constraint PK_F_REWARD_COUNT primary key (ID)
+);
+
+comment on column F_REWARD_COUNT.ID is
+'主键';
+
+comment on column F_REWARD_COUNT.REWARD_TYPE is
+'奖励类型';
+
+comment on column F_REWARD_COUNT.GET_AMOUNT is
+'获取奖励数量：获取各种奖励类型的奖励的总和';
+
+comment on column F_REWARD_COUNT.HOLD_REWARD is
+'持有奖励数量：现持有各种奖励类型的奖励的总和';
+
+comment on column F_REWARD_COUNT.FROZEN_REWARD is
+'冻结奖励数量';
+
+comment on column F_REWARD_COUNT.GET_MONEY is
+'获取奖励折现';
+
+comment on column F_REWARD_COUNT.HOLD_MONEY is
+'持有奖励折现';
+
+comment on column F_REWARD_COUNT.FROZEN_MONEY is
+'冻结奖励折现';
+
+comment on column F_REWARD_COUNT.CREATE_TIME is
+'创建时间';
+
+comment on column F_REWARD_COUNT.UPDATE_TIME is
+'修改时间';
+
+
+/*==============================================================*/
+/* Table: F_REWARD_FLOW                                         */
+/*==============================================================*/
+DROP TABLE IF EXISTS F_REWARD_FLOW;
+/*==============================================================*/
+/* Table: F_REWARD_FLOW                                         */
+/*==============================================================*/
+create table F_REWARD_FLOW
+(
+   ID                   INT8                           not null,
+   customer_Id          VARCHAR(30)                    null,
+   ACTIVITY_ID          INT8                           null,
+   Activity_title       varchar(700)                   null,
+   SCENE                varchar(10)                    null,
+   STATUS               INT4                           null,
+   REWARD_TYPE          VARCHAR(6)                     null,
+   OPERATOR_TYPE        INT4                           null,
+   REWARD_AMT           INT8                           null,
+   MONEY                DECIMAL(18,2)                  null,
+   CREATE_TIME          TIMESTAMP                      null,
+   constraint PK_F_REWARD_FLOW primary key (ID)
+);
+
+comment on column F_REWARD_FLOW.ID is
+'主键';
+
+comment on column F_REWARD_FLOW.ACTIVITY_ID is
+'活动ID';
+
+comment on column F_REWARD_FLOW.Activity_title is
+'活动标题';
+
+comment on column F_REWARD_FLOW.SCENE is
+'应用场景';
+
+comment on column F_REWARD_FLOW.STATUS is
+'状态 0-未发放，1-已发放，2-发放失败，4-撤回成功，5-撤回失败 6-已兑换';
+
+comment on column F_REWARD_FLOW.REWARD_TYPE is
+'奖励类型';
+
+comment on column F_REWARD_FLOW.OPERATOR_TYPE is
+'1表示获取  2表示兑换';
+
+comment on column F_REWARD_FLOW.REWARD_AMT is
+'奖励数量';
+
+comment on column F_REWARD_FLOW.MONEY is
+'奖励折现';
+
+comment on column F_REWARD_FLOW.CREATE_TIME is
+'创建时间';
+
 
 
 -- ----------------------------
@@ -1344,145 +1289,8 @@ ALTER TABLE "public"."parameter" ADD PRIMARY KEY ("id");
 -- ----------------------------
 ALTER TABLE "public"."prd_account_config" ADD PRIMARY KEY ("id");
 
--- ----------------------------
--- Primary Key structure for table qrtz_blob_triggers
--- ----------------------------
-ALTER TABLE "public"."qrtz_blob_triggers" ADD PRIMARY KEY ("sched_name", "trigger_name", "trigger_group");
 
--- ----------------------------
--- Primary Key structure for table qrtz_calendars
--- ----------------------------
-ALTER TABLE "public"."qrtz_calendars" ADD PRIMARY KEY ("sched_name", "calendar_name");
-
--- ----------------------------
--- Primary Key structure for table qrtz_cron_triggers
--- ----------------------------
-ALTER TABLE "public"."qrtz_cron_triggers" ADD PRIMARY KEY ("sched_name", "trigger_name", "trigger_group");
-
--- ----------------------------
--- Indexes structure for table qrtz_fired_triggers
--- ----------------------------
-CREATE INDEX "idx_qrtz_ft_inst_job_req_rcvry" ON "public"."qrtz_fired_triggers" USING BTREE (sched_name, instance_name, requests_recovery);
-CREATE INDEX "idx_qrtz_ft_j_g" ON "public"."qrtz_fired_triggers" USING BTREE (sched_name, job_name, job_group);
-CREATE INDEX "idx_qrtz_ft_jg" ON "public"."qrtz_fired_triggers" USING BTREE (sched_name, job_group);
-CREATE INDEX "idx_qrtz_ft_t_g" ON "public"."qrtz_fired_triggers" USING BTREE (sched_name, trigger_name, trigger_group);
-CREATE INDEX "idx_qrtz_ft_tg" ON "public"."qrtz_fired_triggers" USING BTREE (sched_name, trigger_group);
-CREATE INDEX "idx_qrtz_ft_trig_inst_name" ON "public"."qrtz_fired_triggers" USING BTREE (sched_name, instance_name);
-
--- ----------------------------
--- Primary Key structure for table qrtz_fired_triggers
--- ----------------------------
-ALTER TABLE "public"."qrtz_fired_triggers" ADD PRIMARY KEY ("sched_name", "entry_id");
-
--- ----------------------------
--- Indexes structure for table qrtz_job_details
--- ----------------------------
-CREATE INDEX "idx_qrtz_j_grp" ON "public"."qrtz_job_details" USING BTREE (sched_name, job_group);
-CREATE INDEX "idx_qrtz_j_req_recovery" ON "public"."qrtz_job_details" USING BTREE (sched_name, requests_recovery);
-
--- ----------------------------
--- Primary Key structure for table qrtz_job_details
--- ----------------------------
-ALTER TABLE "public"."qrtz_job_details" ADD PRIMARY KEY ("sched_name", "job_name", "job_group");
-
--- ----------------------------
--- Primary Key structure for table qrtz_locks
--- ----------------------------
-ALTER TABLE "public"."qrtz_locks" ADD PRIMARY KEY ("sched_name", "lock_name");
-
--- ----------------------------
--- Primary Key structure for table qrtz_paused_trigger_grps
--- ----------------------------
-ALTER TABLE "public"."qrtz_paused_trigger_grps" ADD PRIMARY KEY ("sched_name", "trigger_group");
-
--- ----------------------------
--- Primary Key structure for table qrtz_scheduler_state
--- ----------------------------
-ALTER TABLE "public"."qrtz_scheduler_state" ADD PRIMARY KEY ("sched_name", "instance_name");
-
--- ----------------------------
--- Primary Key structure for table qrtz_simple_triggers
--- ----------------------------
-ALTER TABLE "public"."qrtz_simple_triggers" ADD PRIMARY KEY ("sched_name", "trigger_name", "trigger_group");
-
--- ----------------------------
--- Primary Key structure for table qrtz_simprop_triggers
--- ----------------------------
-ALTER TABLE "public"."qrtz_simprop_triggers" ADD PRIMARY KEY ("sched_name", "trigger_name", "trigger_group");
-
--- ----------------------------
--- Indexes structure for table qrtz_triggers
--- ----------------------------
-CREATE INDEX "idx_qrtz_t_c" ON "public"."qrtz_triggers" USING BTREE (sched_name, calendar_name);
-CREATE INDEX "idx_qrtz_t_g" ON "public"."qrtz_triggers" USING BTREE (sched_name, trigger_group);
-CREATE INDEX "idx_qrtz_t_j" ON "public"."qrtz_triggers" USING BTREE (sched_name, job_name, job_group);
-CREATE INDEX "idx_qrtz_t_jg" ON "public"."qrtz_triggers" USING BTREE (sched_name, job_group);
-CREATE INDEX "idx_qrtz_t_n_g_state" ON "public"."qrtz_triggers" USING BTREE (sched_name, trigger_group, trigger_state);
-CREATE INDEX "idx_qrtz_t_n_state" ON "public"."qrtz_triggers" USING BTREE (sched_name, trigger_name, trigger_group, trigger_state);
-CREATE INDEX "idx_qrtz_t_next_fire_time" ON "public"."qrtz_triggers" USING BTREE (sched_name, next_fire_time);
-CREATE INDEX "idx_qrtz_t_nft_misfire" ON "public"."qrtz_triggers" USING BTREE (sched_name, misfire_instr, next_fire_time);
-CREATE INDEX "idx_qrtz_t_nft_st" ON "public"."qrtz_triggers" USING BTREE (sched_name, trigger_state, next_fire_time);
-CREATE INDEX "idx_qrtz_t_nft_st_misfire" ON "public"."qrtz_triggers" USING BTREE (sched_name, misfire_instr, next_fire_time, trigger_state);
-CREATE INDEX "idx_qrtz_t_nft_st_misfire_grp" ON "public"."qrtz_triggers" USING BTREE (sched_name, misfire_instr, next_fire_time, trigger_group, trigger_state);
-CREATE INDEX "idx_qrtz_t_state" ON "public"."qrtz_triggers" USING BTREE (sched_name, trigger_state);
-
--- ----------------------------
--- Primary Key structure for table qrtz_triggers
--- ----------------------------
-ALTER TABLE "public"."qrtz_triggers" ADD PRIMARY KEY ("sched_name", "trigger_name", "trigger_group");
-
--- ----------------------------
--- Primary Key structure for table sms_message
--- ----------------------------
-ALTER TABLE "public"."sms_message" ADD PRIMARY KEY ("id");
-
--- ----------------------------
--- Primary Key structure for table t_trade
--- ----------------------------
-ALTER TABLE "public"."t_trade" ADD PRIMARY KEY ("id");
-
--- ----------------------------
--- Foreign Key structure for table "public"."qrtz_blob_triggers"
--- ----------------------------
-ALTER TABLE "public"."qrtz_blob_triggers" ADD FOREIGN KEY ("sched_name", "trigger_name", "trigger_group") REFERENCES "public"."qrtz_triggers" ("sched_name", "trigger_name", "trigger_group") ON DELETE NO ACTION ON UPDATE NO ACTION;
-
--- ----------------------------
--- Foreign Key structure for table "public"."qrtz_cron_triggers"
--- ----------------------------
-ALTER TABLE "public"."qrtz_cron_triggers" ADD FOREIGN KEY ("sched_name", "trigger_name", "trigger_group") REFERENCES "public"."qrtz_triggers" ("sched_name", "trigger_name", "trigger_group") ON DELETE NO ACTION ON UPDATE NO ACTION;
-
--- ----------------------------
--- Foreign Key structure for table "public"."qrtz_simple_triggers"
--- ----------------------------
-ALTER TABLE "public"."qrtz_simple_triggers" ADD FOREIGN KEY ("sched_name", "trigger_name", "trigger_group") REFERENCES "public"."qrtz_triggers" ("sched_name", "trigger_name", "trigger_group") ON DELETE NO ACTION ON UPDATE NO ACTION;
-
--- ----------------------------
--- Foreign Key structure for table "public"."qrtz_simprop_triggers"
--- ----------------------------
-ALTER TABLE "public"."qrtz_simprop_triggers" ADD FOREIGN KEY ("sched_name", "trigger_name", "trigger_group") REFERENCES "public"."qrtz_triggers" ("sched_name", "trigger_name", "trigger_group") ON DELETE NO ACTION ON UPDATE NO ACTION;
-
--- ----------------------------
--- Foreign Key structure for table "public"."qrtz_triggers"
--- ----------------------------
-ALTER TABLE "public"."qrtz_triggers" ADD FOREIGN KEY ("sched_name", "job_name", "job_group") REFERENCES "public"."qrtz_job_details" ("sched_name", "job_name", "job_group") ON DELETE NO ACTION ON UPDATE NO ACTION;
-
-
---2014-11-12
-/*==============================================================*/
-/* Table: P_fund_company                                        */
-/*==============================================================*/
-DROP TABLE IF EXISTS P_FUND_COMPANY;
-CREATE TABLE P_FUND_COMPANY
-(
-  ID           BIGINT      NOT NULL,
-  COMPANY_NAME VARCHAR(50) NULL,
-  COMPANY_CODE VARCHAR(20) NULL,
-  PRIMARY KEY (ID)
-);
-
-/*==============================================================*/
-/* TABLE: C_SUPPLIER                                            */
-/*==============================================================*/
+--2014-11-20
 DROP TABLE IF EXISTS C_SUPPLIER;
 CREATE TABLE C_SUPPLIER
 (
@@ -1505,150 +1313,6 @@ CREATE TABLE C_SUPPLIER
   UPDATE_TIME           TIMESTAMP      NULL,
   PRIMARY KEY (ID)
 );
-
---2014-11-13
-
-/*==============================================================*/
-/* Table: p_product_manage                                      */
-/*==============================================================*/
-DROP TABLE IF EXISTS P_PRODUCT_MANAGE;
-CREATE TABLE P_PRODUCT_MANAGE
-(
-  ID             BIGINT       NOT NULL,
-  PRODUCT_CODE   VARCHAR(10)  NULL,
-  PRODUCT_TYPE   VARCHAR(50)  NULL,
-  PRODUCT_NAME   VARCHAR(10)  NULL,
-  BEGIN_TIME     TIMESTAMP    NULL,
-  END_DATE       TIMESTAMP    NULL,
-  CREATE_TIME    TIMESTAMP    NULL,
-  UPDATE_TIME    TIMESTAMP    NULL,
-  PRODUCT_DESC   VARCHAR(100) NULL,
-  PRODUCT_STATUS VARCHAR(50)  NULL,
-  URL            VARCHAR(300) NULL,
-  PRIMARY KEY (ID)
-);
-
---2014-11-14
-
-/*==============================================================*/
-/* Table: P_Fund                                                */
-/*==============================================================*/
-DROP TABLE IF EXISTS P_FUND;
-CREATE TABLE P_FUND
-(
-  ID                    BIGINT         NOT NULL,
-  FUND_CODE             VARCHAR(10)    NULL,
-  MIN_APPLY_AMOUNT      DECIMAL(18, 4) NULL,
-  LOWEST_REDEMPTION     BIGINT         NULL,
-  ONE_YEAR_PROFIT       DECIMAL(18, 4) NULL,
-  MILLION_OF_PROFIT     DECIMAL(18, 4) NULL,
-  ONE_WEEK_PROFIT       DECIMAL(18, 4) NULL,
-  NAV_DATE              TIMESTAMP      NULL,
-  IS_APPLY              VARCHAR(50)    NULL,
-  IS_REDEMPTION         VARCHAR(50)    NULL,
-  PRODUCT_STATUS        VARCHAR(50)    NULL,
-  CREATE_TIME           TIMESTAMP      NULL,
-  UPDATE_TIME           TIMESTAMP      NULL,
-  UPDATE_BY             VARCHAR(10)    NULL,
-  CREATE_BY             VARCHAR(10)    NULL,
-  FUND_COMPANY_ID       Long           NULL,
-  CHI_NAME              VARCHAR(100)   NULL,
-  CHI_NAME_ABBR         VARCHAR(50)    NULL,
-  ENG_NAME              VARCHAR(100)   NULL,
-  ENG_NAME_ABBR         VARCHAR(50)    NULL,
-  SECU_ABBR             VARCHAR(20)    NULL,
-  FUND_SCALE            DECIMAL        NULL,
-  SCALE_TIME            TIMESTAMP      NULL,
-  FUND_TYPE             VARCHAR(50)    NULL,
-  INVEST_PERIOD         VARCHAR(50)    NULL,
-  CHARGE                DECIMAL        NULL,
-  TO_ACCOUNT_TYPE       VARCHAR(50)    NULL,
-  SUPPLIER_ID           BIGINT         NULL,
-  RISK_LEVEL            VARCHAR(50)    NULL,
-  INIT_BUYED_COUNT      BIGINT         NULL,
-  ONE_MONTH_BUYED_COUNT BIGINT         NULL,
-  CONSTRAINT PK_P_FUND PRIMARY KEY (ID)
-);
-
-/*==============================================================*/
-/* Table: P_Fund_History                                        */
-/*==============================================================*/
-DROP TABLE IF EXISTS P_FUND_HISTORY;
-CREATE TABLE P_FUND_HISTORY
-(
-  ID                    BIGINT         NOT NULL,
-  FUND_CODE             VARCHAR(10)    NULL,
-  MIN_APPLY_AMOUNT      DECIMAL(18, 4) NULL,
-  LOWEST_REDEMPTION     BIGINT         NULL,
-  ONE_YEAR_PROFIT       DECIMAL(18, 4) NULL,
-  MILLION_OF_PROFIT     DECIMAL(18, 4) NULL,
-  ONE_WEEK_PROFIT       DECIMAL(18, 4) NULL,
-  NAV_DATE              TIMESTAMP      NULL,
-  IS_APPLY              VARCHAR(50)    NULL,
-  IS_REDEMPTION         VARCHAR(50)    NULL,
-  PRODUCT_STATUS        VARCHAR(50)    NULL,
-  CREATE_TIME           TIMESTAMP      NULL,
-  UPDATE_TIME           TIMESTAMP      NULL,
-  UPDATE_BY             VARCHAR(10)    NULL,
-  CREATE_BY             VARCHAR(10)    NULL,
-  FUND_COMPANY_ID       BIGINT         NULL,
-  CHI_NAME              VARCHAR(100)   NULL,
-  CHI_NAME_ABBR         VARCHAR(50)    NULL,
-  ENG_NAME              VARCHAR(100)   NULL,
-  ENG_NAME_ABBR         VARCHAR(50)    NULL,
-  SECU_ABBR             VARCHAR(20)    NULL,
-  FUND_SCALE            DECIMAL        NULL,
-  FUND_TYPE             VARCHAR(50)    NULL,
-  SCALE_TIME            TIMESTAMP      NULL,
-  INVEST_PERIOD         VARCHAR(50)    NULL,
-  CHARGE                DECIMAL        NULL,
-  TO_ACCOUNT_TYPE       VARCHAR(50)    NULL,
-  SUPPLIER_ID           BIGINT         NULL,
-  RISK_LEVEL            VARCHAR(50)    NULL,
-  INIT_BUYED_COUNT      BIGINT         NULL,
-  ONE_MONTH_BUYED_COUNT BIGINT         NULL,
-  CONSTRAINT PK_P_FUND_HISTORY PRIMARY KEY (ID)
-);
-
-/*==============================================================*/
-/* Table: P_PRODUCT_RECOMMEND                                   */
-/*==============================================================*/
-DROP TABLE IF EXISTS P_PRODUCT_RECOMMEND;
-CREATE TABLE P_PRODUCT_RECOMMEND
-(
-  ID             BIGINT       NOT NULL,
-  RECOMMEND_TYPE VARCHAR(50)  NULL,
-  PRODUCT_NAME   VARCHAR(100) NULL,
-  PRODUCT_CODE   VARCHAR(30)  NULL,
-  BEGIN_DATE     TIMESTAMP    NULL,
-  END_DATE       TIMESTAMP    NULL,
-  TEMP_STOP_DATE TIMESTAMP    NULL,
-  PRIORITY_LEVEL INT          NULL,
-  RECOMMEND_FLAG VARCHAR(50)  NULL,
-  RECOMMEND_DESC VARCHAR(50)  NULL,
-  CREATE_TIME    TIMESTAMP    NULL,
-  UPDATE_TIME    TIMESTAMP    NULL
-);
-
---2014-11-17  Y
-ALTER TABLE P_FUND ALTER COLUMN MIN_APPLY_AMOUNT TYPE NUMERIC(18, 5);
-ALTER TABLE P_FUND DROP COLUMN ONE_YEAR_PROFIT;
-ALTER TABLE P_FUND ALTER COLUMN MILLION_OF_PROFIT TYPE NUMERIC(18, 5);
-ALTER TABLE P_FUND ALTER COLUMN ONE_WEEK_PROFIT TYPE NUMERIC(18, 5);
-ALTER TABLE P_FUND ALTER COLUMN FUND_COMPANY_ID TYPE VARCHAR(100);
-ALTER TABLE P_FUND ALTER COLUMN CHARGE TYPE NUMERIC(18, 5);
-ALTER TABLE P_FUND ALTER COLUMN FUND_SCALE TYPE NUMERIC(18, 5);
-
-ALTER TABLE P_FUND_HISTORY ALTER COLUMN MIN_APPLY_AMOUNT TYPE NUMERIC(18, 5);
-ALTER TABLE P_FUND_HISTORY DROP COLUMN ONE_YEAR_PROFIT;
-ALTER TABLE P_FUND_HISTORY ALTER COLUMN MILLION_OF_PROFIT TYPE NUMERIC(18, 5);
-ALTER TABLE P_FUND_HISTORY ALTER COLUMN ONE_WEEK_PROFIT TYPE NUMERIC(18, 5);
-ALTER TABLE P_FUND_HISTORY ALTER COLUMN FUND_COMPANY_ID TYPE VARCHAR(100);
-ALTER TABLE P_FUND_HISTORY ALTER COLUMN CHARGE TYPE NUMERIC(18, 5);
-ALTER TABLE P_FUND_HISTORY ALTER COLUMN FUND_SCALE TYPE NUMERIC(18, 5);
-
-
-ALTER TABLE P_FUND_COMPANY ADD COLUMN FUND_COMPANY_ID VARCHAR(100);
 
 --Y
 /*==============================================================*/
@@ -1682,17 +1346,6 @@ CREATE TABLE
   IS_FUND_COMPANY CHARACTER VARYING(50),
   CONSTRAINT PK_P_FUND_COMPANY PRIMARY KEY (ID)
 );
-
-
---Y
-ALTER TABLE P_FUND ALTER COLUMN LOWEST_REDEMPTION TYPE NUMERIC(18, 5);
-ALTER TABLE P_FUND_HISTORY ALTER COLUMN LOWEST_REDEMPTION TYPE NUMERIC(18, 5);
-
-ALTER TABLE P_FUND ALTER COLUMN SUPPLIER_ID TYPE VARCHAR(50);
-ALTER TABLE P_FUND RENAME COLUMN SUPPLIER_ID TO SUPPLIER_CODE;
-
-ALTER TABLE P_FUND_HISTORY ALTER COLUMN SUPPLIER_ID TYPE VARCHAR(50);
-ALTER TABLE P_FUND_HISTORY RENAME COLUMN SUPPLIER_ID TO SUPPLIER_CODE;
 
 
 
@@ -1811,7 +1464,7 @@ CREATE TABLE P_PRODUCT_MANAGE
   END_DATE             TIMESTAMP                      NULL,
   TEMP_STOP_DATE       TIMESTAMP                      NULL,
   PRIORITY_LEVEL       INT                            NULL,
-  RECOMMEND_TYPE       VARCHAR(8)                     NULL,
+  RECOMMEND_TYPE       VARCHAR(50)                     NULL,
   RECOMMEND_FLAG       VARCHAR(50)                    NULL,
   RECOMMEND_DESC       VARCHAR(50)                    NULL,
   SUPPLIER_CODE        VARCHAR(20)                    NULL,
