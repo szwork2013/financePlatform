@@ -1,5 +1,7 @@
 package models;
 
+import com.sunlights.common.AppConst;
+
 import javax.persistence.*;
 import java.util.Date;
 
@@ -25,6 +27,8 @@ public class SmsMessage extends IdEntity {
   private String recStatus;//回执状态
   @Column(length = 200, name = "return_msg")
   private String returnMsg;
+  @Column(length = 1,name = "success_ind")
+  private String successInd = AppConst.STATUS_INVALID;
   @Temporal(TemporalType.TIMESTAMP)
   @Column(name = "CREATE_TIME")
   private Date createTime;//创建事件
@@ -90,4 +94,12 @@ public class SmsMessage extends IdEntity {
   public void setUpdateTime(Date updateTime) {
     this.updateTime = updateTime;
   }
+
+    public String getSuccessInd() {
+        return successInd;
+    }
+
+    public void setSuccessInd(String successInd) {
+        this.successInd = successInd;
+    }
 }
