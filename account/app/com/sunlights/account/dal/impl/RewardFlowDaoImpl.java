@@ -3,10 +3,8 @@ package com.sunlights.account.dal.impl;
 import com.sunlights.account.dal.RewardFlowDao;
 import com.sunlights.common.dal.EntityBaseDao;
 import com.sunlights.common.utils.CommonUtil;
-import models.HoldReward;
 import models.RewardFlow;
 
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;

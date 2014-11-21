@@ -130,15 +130,15 @@ public final class ConverterUtil {
             //System.out.println(getMethodName + "," + setMethodName);
 
             //获取方法对象
-            Method getMethod = clazz.getMethod(getMethodName, new Class[]{});
-            Method setMethod = clazz.getMethod(setMethodName, new Class[]{field.getType()});//注意set方法需要传入参数类型
+            Method getMethod = clazz.getMethod(getMethodName);
+            Method setMethod = clazz.getMethod(setMethodName, field.getType());//注意set方法需要传入参数类型
 
             //调用get方法获取旧的对象的值
             Object value = getMethod.invoke(newObject);
             if(value == null) {
                 Object oldValue = getMethod.invoke(oldObject);
                 //调用set方法将这个值复制到新的对象中去
-                setMethod.invoke(newObject, new Object[]{oldValue});
+                setMethod.invoke(newObject, oldValue);
             }
         }
 

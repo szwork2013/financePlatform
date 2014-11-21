@@ -8,8 +8,14 @@ import com.sunlights.common.vo.PageVo;
 import com.sunlights.core.dal.FundDao;
 import com.sunlights.core.dal.impl.FundDaoImpl;
 import com.sunlights.core.service.ProductService;
-import com.sunlights.core.vo.*;
-import models.*;
+import com.sunlights.core.vo.ChartVo;
+import com.sunlights.core.vo.FundVo;
+import com.sunlights.core.vo.Point;
+import com.sunlights.core.vo.ProductVo;
+import models.Fund;
+import models.FundCompany;
+import models.FundHistory;
+import models.FundNavHistory;
 
 import java.util.Date;
 import java.util.List;

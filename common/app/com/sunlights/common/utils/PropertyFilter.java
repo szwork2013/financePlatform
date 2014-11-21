@@ -33,11 +33,11 @@ public final class PropertyFilter {
    * NE: Not Equivalent with, !=
    */
   public enum MatchType {
-    EQ, LIKE, LT, GT, LE, GE, NE;
+    EQ, LIKE, LT, GT, LE, GE, NE
   }
 
   public enum LikeMatchPatten {
-    P, S, ALL;
+    P, S, ALL
   }
 
   public enum PropertyType {

@@ -1,7 +1,6 @@
 package com.sunlights.account.service;
 
 import com.sunlights.account.vo.HoldRewardVo;
-import models.HoldReward;
 
 import java.math.BigDecimal;
 

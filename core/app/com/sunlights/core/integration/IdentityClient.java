@@ -1,11 +1,8 @@
 package com.sunlights.core.integration;
 
-import play.Logger;
-import play.libs.Json;
 import cn.com.nciic.www.SimpleCheckByJson;
 import cn.com.nciic.www.SimpleCheckByJsonResponse;
 import cn.com.nciic.www.service.IdentifierServiceStub;
-
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.sunlights.common.AppConst;
 import com.sunlights.common.MsgCode;
@@ -13,6 +10,8 @@ import com.sunlights.common.ParameterConst;
 import com.sunlights.common.service.ParameterService;
 import com.sunlights.common.utils.CommonUtil;
 import com.sunlights.core.vo.IdentifierVo;
+import play.Logger;
+import play.libs.Json;
 
 /**
  * <p>Project: fsp</p>

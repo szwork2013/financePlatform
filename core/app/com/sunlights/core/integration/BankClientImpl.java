@@ -1,7 +1,6 @@
 package com.sunlights.core.integration;
 
 import com.sunlights.core.vo.BankVo;
-import org.springframework.stereotype.Component;
 
 /**
  * <p>Project: fsp</p>

@@ -70,12 +70,6 @@ public class MD5Helper {
 
   private byte[] buffer = new byte[64]; // input buffer
 
-	/*
-   * digestHexStr是MD5的唯一一个公共成员，是最新一次计算结果的 16进制ASCII表示.
-	 */
-
-  private String digestHexStr;
-
   /*
    * digest,是最新一次计算结果的2进制内部表示，表示128bit的MD5值.
    */
@@ -89,7 +83,8 @@ public class MD5Helper {
     md5Init();
     md5Update(inbuf.getBytes(), inbuf.length());
     md5Final();
-    digestHexStr = "";
+    //digestHexStr是MD5的唯一一个公共成员，是最新一次计算结果的 16进制ASCII表示.
+    String digestHexStr = "";
     for (int i = 0; i < 16; i++) {
       digestHexStr += byteHEX(digest[i]);
     }

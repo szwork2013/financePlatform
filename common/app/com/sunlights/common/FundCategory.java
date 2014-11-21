@@ -15,6 +15,8 @@ package com.sunlights.common;
  * CFP 	        集合理财(Collection Financial Product)
  */
 public enum FundCategory {
+
+
     ALL(0,0, ""),
     OPEN(2, 0, "开放式基金"),
     BOND(2, 6, "债券型基金"),
@@ -25,7 +27,7 @@ public enum FundCategory {
     INNOVATION(6, 0, "创新型"),
     HYBIRD(2, 3, "混合型"),
     MONETARY(7, 0, "货币型"),
-    LOF(0, 9910, "短期理财"),
+    LOF(0, FundCategory.LOF_INVESTMENT_TYPE, "短期理财"),
     CFP(8, 0, "集合理财");
 
     public static final String SPLITER = "|";
@@ -33,6 +35,7 @@ public enum FundCategory {
     private int fundType;
     private int investmentType;
     private String description;
+    public static final int LOF_INVESTMENT_TYPE = 9910;
 
     FundCategory(int fundType, int investmentType, String description) {
         this.fundType = fundType;
@@ -73,7 +76,7 @@ public enum FundCategory {
      * @param investmentType
      * @return
      */
-    public static final FundCategory from(String fundType, String investmentType){
+    public static FundCategory from(String fundType, String investmentType){
         if(fundType==null){
             fundType = "";
         }

@@ -1,7 +1,6 @@
 package com.sunlights.account.web;
 
 
-import com.sunlights.account.AccountConstant;
 import com.sunlights.account.service.ActivityService;
 import com.sunlights.account.service.impl.ActivityServiceImpl;
 import com.sunlights.account.service.rewardrules.IObtainRewardRule;
@@ -14,7 +13,6 @@ import com.sunlights.common.MsgCode;
 import com.sunlights.common.Severity;
 import com.sunlights.common.vo.Message;
 import com.sunlights.common.vo.PageVo;
-import models.Activity;
 import models.CustomerSession;
 import play.Logger;
 import play.db.jpa.Transactional;
@@ -79,7 +77,7 @@ public class ActivityController extends ActivityBaseController  {
 
         //5:解析结果并发往客户端
         Message returnMessage = rewardResultVo.getReturnMessage();
-        if(MsgCode.OBTAIN_SUCC.getCode().equals(returnMessage.getCode())) {;
+        if(MsgCode.OBTAIN_SUCC.getCode().equals(returnMessage.getCode())) {
             obtainRewardVo.setScene(scene);
             obtainRewardVo.setObtainReward(rewardResultVo.getRewards());
             obtainRewardVo.setCanNotObtain(true);

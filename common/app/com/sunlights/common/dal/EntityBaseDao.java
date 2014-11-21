@@ -104,7 +104,7 @@ public class EntityBaseDao {
 
   public <T> T find(Class<T> entityClass, final Serializable id) {
     Validate.notNull(id, "id不能为空");
-    return (T) em.find(entityClass, id);
+    return em.find(entityClass, id);
   }
 
   /**
@@ -324,7 +324,7 @@ public class EntityBaseDao {
     }
 
     TypedQuery<T> finalCriteriaQuery = em.createQuery(criteriaQuery);
-    return (List<T>) finalCriteriaQuery.getResultList();
+    return finalCriteriaQuery.getResultList();
   }
 
   /**

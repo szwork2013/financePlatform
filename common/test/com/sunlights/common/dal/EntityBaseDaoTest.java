@@ -1,15 +1,10 @@
 package com.sunlights.common.dal;
 
-import com.google.common.collect.Lists;
 import models.Fund;
-import org.junit.Assert;
 import org.junit.Test;
 import play.db.jpa.JPA;
 import play.libs.F;
 
-import java.util.List;
-
-import static org.junit.Assert.*;
 import static play.test.Helpers.fakeApplication;
 import static play.test.Helpers.running;
 

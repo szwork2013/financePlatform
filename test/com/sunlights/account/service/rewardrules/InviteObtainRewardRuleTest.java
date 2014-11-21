@@ -8,7 +8,6 @@ import play.db.jpa.JPA;
 import play.libs.F;
 
 import static org.fest.assertions.Assertions.assertThat;
-import static org.junit.Assert.*;
 import static play.test.Helpers.fakeApplication;
 import static play.test.Helpers.running;
 

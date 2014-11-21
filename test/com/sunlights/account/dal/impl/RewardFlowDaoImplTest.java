@@ -1,9 +1,6 @@
 package com.sunlights.account.dal.impl;
 
 import com.sunlights.account.dal.RewardFlowDao;
-import com.sunlights.account.service.rewardrules.SignInObtainRewardRule;
-import com.sunlights.account.vo.RewardResultVo;
-import com.sunlights.common.MsgCode;
 import models.RewardFlow;
 import org.junit.Test;
 import play.Logger;
@@ -12,8 +9,6 @@ import play.libs.F;
 
 import java.util.List;
 
-import static org.fest.assertions.Assertions.assertThat;
-import static org.junit.Assert.*;
 import static play.test.Helpers.fakeApplication;
 import static play.test.Helpers.running;
 

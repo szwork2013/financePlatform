@@ -1,11 +1,11 @@
 package com.sunlights.core.vo;
 
 import com.sunlights.common.FundDict;
-import com.sunlights.common.service.CommonService;
 import com.sunlights.common.utils.ArithUtil;
 import com.sunlights.common.utils.CommonUtil;
-import models.*;
-import play.libs.Json;
+import models.FundCompany;
+import models.FundNav;
+import models.ProductManage;
 
 import java.math.BigDecimal;
 import java.util.Date;

@@ -10,11 +10,11 @@ import com.sunlights.core.dal.BankDao;
 import com.sunlights.core.dal.impl.BankDaoImpl;
 import com.sunlights.core.integration.BankClient;
 import com.sunlights.core.integration.BankClientImpl;
-import models.Bank;
 import com.sunlights.core.service.BankService;
 import com.sunlights.core.vo.BankCardVo;
 import com.sunlights.core.vo.BankVo;
 import com.sunlights.customer.service.impl.CustomerService;
+import models.Bank;
 import models.Customer;
 import org.apache.commons.lang3.StringUtils;
 

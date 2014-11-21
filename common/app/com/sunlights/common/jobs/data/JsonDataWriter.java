@@ -3,8 +3,6 @@ package com.sunlights.common.jobs.data;
 
 import play.Logger;
 
-import java.sql.Timestamp;
-import java.util.Date;
 import java.util.List;
 
 /**

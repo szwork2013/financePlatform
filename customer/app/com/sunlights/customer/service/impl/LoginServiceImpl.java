@@ -14,7 +14,10 @@ import com.sunlights.customer.dal.impl.LoginDaoImpl;
 import com.sunlights.customer.service.LoginService;
 import com.sunlights.customer.vo.CustomerFormVo;
 import com.sunlights.customer.vo.CustomerVo;
-import models.*;
+import models.Customer;
+import models.CustomerGesture;
+import models.CustomerSession;
+import models.LoginHistory;
 import play.Logger;
 
 import java.math.BigDecimal;

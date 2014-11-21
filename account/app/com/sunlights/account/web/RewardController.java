@@ -9,7 +9,10 @@ import com.sunlights.account.service.impl.HoldRewardServiceImpl;
 import com.sunlights.account.service.impl.ObtainRewardRuleServiceImpl;
 import com.sunlights.account.service.rewardrules.IObtainRewardRule;
 import com.sunlights.account.service.rewardrules.RewardRuleFactory;
-import com.sunlights.account.vo.*;
+import com.sunlights.account.vo.ActivityParamter;
+import com.sunlights.account.vo.HoldRewardVo;
+import com.sunlights.account.vo.ObtainRewardVo;
+import com.sunlights.account.vo.RewardResultVo;
 import com.sunlights.common.MsgCode;
 import com.sunlights.common.Severity;
 import com.sunlights.common.vo.Message;
@@ -41,7 +44,7 @@ public class RewardController extends ActivityBaseController {
         RewardResultVo rewardResultVo = getCanObtainRewards(scene);
 
         Message returnMessage = rewardResultVo.getReturnMessage();
-        if(MsgCode.ACTIVITY_QUERY_SUCC.getCode().equals(returnMessage.getCode())) {;
+        if(MsgCode.ACTIVITY_QUERY_SUCC.getCode().equals(returnMessage.getCode())) {
             obtainRewardVo.setScene(scene);
             obtainRewardVo.setObtainReward(rewardResultVo.getRewards());
             obtainRewardVo.setCanNotObtain(rewardResultVo.isCanNotObtain());

@@ -78,9 +78,7 @@ public abstract class AbstractObtainRewardRule implements IObtainRewardRule{
         ExchangeRewardRule exchangeRewardRule = exchangeRewardRuleService.findByRewardType(rewardType);
 
         BigDecimal rate = exchangeRewardRule.getRate();
-        BigDecimal money = rate.multiply(BigDecimal.valueOf(rewardAmtResult));
-
-        return money;
+        return rate.multiply(BigDecimal.valueOf(rewardAmtResult));
     }
 
     /**
@@ -116,15 +114,14 @@ public abstract class AbstractObtainRewardRule implements IObtainRewardRule{
 
 
     @Override
-    public RewardResultVo getCanObtainRewards(String custId) {
-        RewardResultVo vo = new RewardResultVo();
-        Message message = null;
-        vo = validate(custId);
-        message = vo.getReturnMessage();
+    public RewardResultVo getCanObtainRewards(final String custId) {
+        RewardResultVo vo = validate(custId);
+        Message message = vo.getReturnMessage();
         if(!MsgCode.ACTIVITY_QUERY_SUCC.getCode().equals(message.getCode())) {
             Logger.info("签到失败 ：" + message.getSummary());
             vo.setCanNotObtain(false);
         }
+
         //1：根据活动场景获取活动主键
         List<Activity> activities = activityService.getActivityByScene(this.getScene());
         if(activities == null || activities.isEmpty()) {
@@ -132,6 +129,7 @@ public abstract class AbstractObtainRewardRule implements IObtainRewardRule{
             vo.setReturnMessage(message);
             return vo;
         }
+
         //2:根据活动主键获取该活动下获取奖励的所有规则，将所有规则中的应发奖励相加便是该场景下可以获取的奖励数
         List<ObtainRewardRule> obtainRewardRules = obtainRewardRuleService.getByActivityId(activities.get(0).getId());
         if(obtainRewardRules == null || obtainRewardRules.isEmpty()) {
@@ -139,6 +137,7 @@ public abstract class AbstractObtainRewardRule implements IObtainRewardRule{
             vo.setReturnMessage(message);
             return vo;
         }
+
         vo.setRewards(obtainRewardRules.get(0).getShouldReward());
         if(vo.isCanNotObtain()) {
             message = new Message(Severity.INFO, MsgCode.ACTIVITY_QUERY_SUCC);

@@ -1,6 +1,5 @@
 package com.sunlights.account.service.impl;
 
-import com.sunlights.account.AccountConstant;
 import com.sunlights.account.dal.ActivityDao;
 import com.sunlights.account.dal.impl.ActivityDaoImpl;
 import com.sunlights.account.service.ActivityService;

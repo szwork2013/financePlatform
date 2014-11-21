@@ -1,6 +1,5 @@
 package com.sunlights.account.service;
 
-import com.sunlights.account.dal.RewardTypeDao;
 import models.RewardType;
 
 /**

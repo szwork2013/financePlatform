@@ -8,8 +8,6 @@ import com.sunlights.common.vo.MessageVo;
 import com.sunlights.common.vo.PageVo;
 import com.sunlights.core.vo.FundVo;
 import com.sunlights.core.vo.ProductParameter;
-import models.FundHistory;
-import models.FundNav;
 import models.FundNavHistory;
 import org.junit.Test;
 import play.Logger;
@@ -20,7 +18,6 @@ import play.libs.Json;
 import play.test.FakeRequest;
 import web.TestUtil;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 

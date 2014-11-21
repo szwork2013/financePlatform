@@ -5,8 +5,6 @@ import com.sunlights.account.dal.impl.ExchangeRewardRuleDaoImpl;
 import com.sunlights.account.service.ExchangeRewardRuleService;
 import models.ExchangeRewardRule;
 
-import java.math.BigDecimal;
-
 /**
  * Created by tangweiqun on 2014/11/19.
  */

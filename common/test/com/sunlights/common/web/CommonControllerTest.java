@@ -9,9 +9,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import static org.fest.assertions.Assertions.assertThat;
-import static org.junit.Assert.*;
 import static play.test.Helpers.*;
-import static play.test.Helpers.contentAsString;
 
 public class CommonControllerTest {
 

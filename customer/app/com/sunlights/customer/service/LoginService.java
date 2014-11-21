@@ -1,9 +1,9 @@
 package com.sunlights.customer.service;
 
-import models.Customer;
-import models.CustomerSession;
 import com.sunlights.customer.vo.CustomerFormVo;
 import com.sunlights.customer.vo.CustomerVo;
+import models.Customer;
+import models.CustomerSession;
 
 /**
  * <p>Project: fsp</p>

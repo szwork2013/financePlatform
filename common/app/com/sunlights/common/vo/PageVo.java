@@ -1,7 +1,5 @@
 package com.sunlights.common.vo;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
