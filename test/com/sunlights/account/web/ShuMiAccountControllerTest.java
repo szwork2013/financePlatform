@@ -65,7 +65,7 @@ public class ShuMiAccountControllerTest extends BaseTest {
                 params.put("shumi_email", shumi_email);
 
                 Logger.info("-------------------testSaveShuMiAccount start------");
-                
+
                 Result result = getResult("/account/saveshumiaccount", params, cookie);
 
                 Logger.info("-------------------testSaveShuMiAccount end---------------\n" + contentAsString(result));
@@ -86,7 +86,7 @@ public class ShuMiAccountControllerTest extends BaseTest {
                         query.setParameter(1, customer.getCustomerId());
                         ShuMiAccount shuMiAccount = (ShuMiAccount)query.getSingleResult();
 
-//                        JPA.em().remove(shuMiAccount);
+                        JPA.em().remove(shuMiAccount);
                     }
                 });
 

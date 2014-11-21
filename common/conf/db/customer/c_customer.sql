@@ -12,7 +12,7 @@ CREATE TABLE c_customer
   login_id character varying(20), -- 登陆号
   login_password character varying(40), -- 登陆密码
   mobile character varying(11), -- 绑定手机
-  nick_name character varying(20), -- 昵称
+  nick_name character varying(50), -- 昵称
   pic_way character varying(40), -- 用户图像存放路径
   property character varying(50), -- 用户属性
   qq character varying(20), -- 绑定QQ
