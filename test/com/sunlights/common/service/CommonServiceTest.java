@@ -25,7 +25,7 @@ public class CommonServiceTest {
                         CommonService commonService = new CommonService();
                         String value = commonService.findValueByCatPointKey("FP.RECOMMEND.TYPE");
                         Logger.info("[value]" + value);
-                        assertThat(value).isEqualTo("推荐");
+                        assertThat(value).isEqualTo("推荐类型");
                     }
                 });
             }

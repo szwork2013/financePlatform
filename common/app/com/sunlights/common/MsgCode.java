@@ -84,7 +84,11 @@ public enum MsgCode {
     SUPPLIER_EXIST_ERROR("2500", "操作失败：", "已存在的供应商。"),
     FUND_EXIST_ERROR("2600", "操作失败：", "已存在的基金。"),
     PRODUCT_MANAGE_EXIST_ERROR("2700", "操作失败：", "已存在的产品管理。"),
-    NOT_NULL("2001", "操作失败：", "传入参数'{0}'不能为空"),
+    JOB_CLASS_NOT_FOUND_ERROR("2800", "操作失败：", "没有找到任务执行类。"),
+    JOB_NUMBER_FORMAT_ERROR("2801", "操作失败：", "请输入有效的时间间隔。"),
+    JOB_DATE_PARSING_ERROR("2802", "操作失败：", "请输入有效的时间。"),
+    JOB_SCHEDULER_ERROR("2803", "操作失败：", "请重新操作。"),
+    NOT_NULL("2001", "操作失败：", "传入参数'{0}'不能为空。"),
 
     //活动积分模块
     OBTAIN_SUCC("0220", "获取积分成功"),
