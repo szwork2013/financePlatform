@@ -22,7 +22,7 @@ public class Code extends IdEntity {
     private String code;
     @Column(name = "value")
     private String value;
-    @Column(name = "DESC")
+    @Column(name="\"DESC\"")
     private String desc;
 
     public String getCategory() {
