@@ -1,13 +1,9 @@
 package com.sunlights.common.utils;
 
-import java.util.HashMap;
-import java.util.Map;
-
+import com.fasterxml.jackson.databind.JsonNode;
 import com.sunlights.common.vo.Message;
 import com.sunlights.common.vo.MessageVo;
 import play.libs.Json;
-
-import com.fasterxml.jackson.databind.JsonNode;
 
 /**
  * Created by yuan on 9/22/14.

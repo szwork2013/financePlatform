@@ -1,9 +1,9 @@
 package com.sunlights.account.web;
 
-import com.sunlights.common.MsgCode;
-import com.sunlights.common.utils.MessageUtil;
+import play.Logger;
 import play.data.Form;
 import play.db.jpa.Transactional;
+import play.libs.Json;
 import play.mvc.Controller;
 import play.mvc.Result;
 
@@ -11,7 +11,9 @@ import com.sunlights.account.service.ShuMiAccountService;
 import com.sunlights.account.service.impl.ShuMiAccountServiceImpl;
 import com.sunlights.account.vo.ShuMiAccountVo;
 import com.sunlights.common.AppConst;
+import com.sunlights.common.MsgCode;
 import com.sunlights.common.exceptions.ConverterException;
+import com.sunlights.common.utils.MessageUtil;
 import com.sunlights.common.vo.Message;
 import com.sunlights.customer.service.impl.CustomerService;
 
@@ -32,19 +34,21 @@ public class ShuMiAccountController extends Controller{
     private ShuMiAccountService shuMiAccountService = new ShuMiAccountServiceImpl();
     private CustomerService customerService = new CustomerService();
 
-    public Result saveShuMiAccount() {
+    public Result saveShuMiAccount() throws ConverterException{
+        Logger.debug("---------------saveShuMiAccount start---------------");
         customerService.validateCustomerSession(request(), session(), response());
 
         String token = request().cookie(AppConst.TOKEN).value();
         ShuMiAccountVo shuMiAccountVo = shuMiAccountVoForm.bindFromRequest().get();
-
+        
         try {
             shuMiAccountService.saveShuMiAccount(shuMiAccountVo, token);
         } catch (ConverterException e) {
             e.printStackTrace();
+            Logger.debug("---------------saveShuMiAccount error---------------\n" + Json.toJson(shuMiAccountVo).toString());
             MessageUtil.getInstance().setMessage(new Message(MsgCode.CONVERTER_FAIL));
         }
-
+        Logger.debug("---------------saveShuMiAccount end---------------\n" + MessageUtil.getInstance().toJson());
         return ok(MessageUtil.getInstance().toJson());
     }
 

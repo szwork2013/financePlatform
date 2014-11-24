@@ -1,6 +1,5 @@
 package com.sunlights.account.dal;
 
-import com.sunlights.account.vo.ActivityVo;
 import com.sunlights.common.vo.PageVo;
 import models.Activity;
 

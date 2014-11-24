@@ -1,6 +1,9 @@
 package com.sunlights.account.service;
 
-import com.sunlights.account.vo.*;
+import com.sunlights.account.vo.AcctChangeFlowVo;
+import com.sunlights.account.vo.Capital4Product;
+import com.sunlights.account.vo.CapitalVo;
+import com.sunlights.account.vo.TotalCapitalInfo;
 import com.sunlights.common.vo.PageVo;
 import models.HoldCapital;
 

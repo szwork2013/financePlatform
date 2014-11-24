@@ -3,7 +3,6 @@ package com.sunlights.account.vo;
 import com.google.common.collect.Lists;
 
 import java.io.Serializable;
-import java.math.BigDecimal;
 import java.util.List;
 
 /**

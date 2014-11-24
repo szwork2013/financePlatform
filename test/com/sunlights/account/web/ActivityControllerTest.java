@@ -4,25 +4,20 @@ import com.sunlights.BaseTest;
 import com.sunlights.account.AccountConstant;
 import com.sunlights.account.service.RewardFlowService;
 import com.sunlights.account.service.impl.RewardFlowServiceImpl;
-import com.sunlights.account.vo.ActivityParamter;
 import com.sunlights.common.MsgCode;
 import com.sunlights.common.vo.MessageVo;
-import com.sunlights.common.vo.PageVo;
 import models.RewardFlow;
 import org.junit.Before;
 import org.junit.Test;
 import play.Logger;
 import play.db.jpa.JPA;
 import play.libs.F;
-import play.libs.Json;
 import play.mvc.Http;
-import play.test.FakeRequest;
 
 import java.util.HashMap;
 import java.util.Map;
 
 import static org.fest.assertions.Assertions.assertThat;
-import static org.junit.Assert.*;
 import static play.mvc.Http.Status.OK;
 import static play.test.Helpers.*;
 

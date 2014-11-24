@@ -18,9 +18,9 @@ import java.util.Date;
 public class ShuMiAccount extends IdEntity{
     @Column(name = "customer_id",length = 30)
     private String customerId;
-    @Column(name = "shumi_tokenKey",length = 200)
+    @Column(name = "shumi_tokenKey",length = 500)
     private String shumi_tokenKey;
-    @Column(name = "shumi_tokenSecret",length = 200)
+    @Column(name = "shumi_tokenSecret",length = 500)
     private String shumi_tokenSecret;
     @Column(name = "shumi_userName",length = 50)
     private String shumi_userName;

@@ -2,7 +2,6 @@ package com.sunlights.account.dal;
 
 import models.RewardFlow;
 
-import java.util.Date;
 import java.util.List;
 
 /**

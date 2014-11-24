@@ -2,8 +2,8 @@ create table f_shumi_account
 (
    id                   bigint                         null,
    customer_id          varchar(30)                    null,
-   shumi_tokenKey       varchar(200)                   null,
-   shumi_tokenSecret    varchar(200)                   null,
+   shumi_tokenKey       varchar(500)                   null,
+   shumi_tokenSecret    varchar(500)                   null,
    shumi_userName       varchar(50)                    null,
    shumi_realName       varchar(50)                    null,
    shumi_idNumber       varchar(100)                   null,

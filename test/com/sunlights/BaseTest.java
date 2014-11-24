@@ -46,9 +46,10 @@ public class BaseTest {
     protected Result getResult(String routes, Map formParams){
         formParams.put("deviceNo", getDeviceNo());
         FakeRequest fakeRequest = fakeRequest(POST, routes).withHeader(CONTENT_TYPE, APPLICATION_X_WWW_FORM_URLENCODED).withFormUrlEncodedBody(formParams);
-        play.mvc.Result result = route(fakeRequest);
-        return result;
+        return route(fakeRequest);
     }
+
+
     protected Result getResult(String routes, Map formParams, Http.Cookie cookie){
         formParams.put("deviceNo", getDeviceNo());
         FakeRequest fakeRequest = fakeRequest(POST, routes).withHeader(CONTENT_TYPE, APPLICATION_X_WWW_FORM_URLENCODED).withCookies(cookie).withFormUrlEncodedBody(formParams);

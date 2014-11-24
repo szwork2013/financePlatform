@@ -1,6 +1,5 @@
 package com.sunlights.core.web;
 
-import com.sunlights.common.DictConst;
 import com.sunlights.common.MsgCode;
 import com.sunlights.common.Severity;
 import com.sunlights.common.utils.MessageUtil;

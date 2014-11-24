@@ -21,7 +21,7 @@ public class Customer extends IdEntity {
   @Column(length = 20, name = "LOGIN_ID")
   private String loginId;
 
-  @Column(length = 20, name = "NICK_NAME")
+  @Column(length = 50, name = "NICK_NAME")
   private String nickName;
 
   @Column(length = 40, name = "LOGIN_PASSWORD")

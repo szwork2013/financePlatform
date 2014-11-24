@@ -262,7 +262,7 @@ public class PersistenceUtils {
                                                        final String propertyName, final Object propertyValue, final MatchType matchType,
                                                        final LikeMatchPatten likeMatchPatten) {
     Predicate predicate = null;
-    Expression expression = (Expression) entity.get(entityType.getSingularAttribute(propertyName));
+    Expression expression = entity.get(entityType.getSingularAttribute(propertyName));
     try {
       if (MatchType.EQ.equals(matchType)) {
         predicate = criteriaBuilder.equal(expression, propertyValue);

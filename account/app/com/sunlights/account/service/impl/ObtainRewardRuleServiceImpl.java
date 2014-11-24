@@ -5,7 +5,6 @@ import com.sunlights.account.dal.impl.ObtainRewardRuleDaoImpl;
 import com.sunlights.account.service.ObtainRewardRuleService;
 import models.ObtainRewardRule;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**

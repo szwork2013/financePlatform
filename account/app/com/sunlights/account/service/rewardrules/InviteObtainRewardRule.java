@@ -1,10 +1,6 @@
 package com.sunlights.account.service.rewardrules;
 
 import com.sunlights.account.AccountConstant;
-import com.sunlights.account.vo.RewardResultVo;
-import com.sunlights.common.MsgCode;
-import com.sunlights.common.Severity;
-import com.sunlights.common.vo.Message;
 
 /**
  * 邀请好友获取金豆

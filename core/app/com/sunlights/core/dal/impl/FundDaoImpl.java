@@ -7,7 +7,6 @@ import models.Fund;
 import models.FundCompany;
 import models.FundHistory;
 import models.FundNavHistory;
-import play.db.jpa.JPA;
 
 import javax.persistence.Query;
 import java.util.List;

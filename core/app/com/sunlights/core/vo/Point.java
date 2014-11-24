@@ -1,9 +1,5 @@
 package com.sunlights.core.vo;
 
-import com.sunlights.common.utils.ArithUtil;
-
-import java.math.BigDecimal;
-
 /**
  * <p>Project: financePlatform</p>
  * <p>Title: Point.java</p>

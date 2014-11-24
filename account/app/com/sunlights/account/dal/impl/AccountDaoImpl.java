@@ -57,10 +57,7 @@ public class AccountDaoImpl extends EntityBaseDao implements AccountDao {
         query.setParameter(0, customerId);
         query.setParameter(1, fundCompanyId);
         List list = query.getResultList();
-        if (list.isEmpty()) {
-            return false;
-        }
-        return true;
+        return !list.isEmpty();
     }
 
     @Override
@@ -80,10 +77,7 @@ public class AccountDaoImpl extends EntityBaseDao implements AccountDao {
         query.setParameter(0, prdType);
         query.setParameter(1, subAccountNo);
         List list = query.getResultList();
-        if (list.isEmpty()) {
-            return false;
-        }
-        return true;
+        return !list.isEmpty();
     }
 
     public void savePrdAccountConfig(String subAccountNo, String prdType){

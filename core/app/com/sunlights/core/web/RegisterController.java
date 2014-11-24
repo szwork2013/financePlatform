@@ -1,7 +1,15 @@
 package com.sunlights.core.web;
 
+import com.fasterxml.jackson.databind.JsonNode;
+import com.sunlights.account.service.AccountService;
+import com.sunlights.account.service.impl.AccountServiceImpl;
 import com.sunlights.common.MsgCode;
+import com.sunlights.common.utils.MessageUtil;
 import com.sunlights.common.vo.Message;
+import com.sunlights.customer.service.LoginService;
+import com.sunlights.customer.service.impl.CustomerService;
+import com.sunlights.customer.service.impl.LoginServiceImpl;
+import com.sunlights.customer.vo.CustomerFormVo;
 import com.sunlights.customer.vo.CustomerVo;
 import models.Customer;
 import models.CustomerSession;
@@ -10,15 +18,6 @@ import play.data.Form;
 import play.db.jpa.Transactional;
 import play.mvc.Controller;
 import play.mvc.Result;
-
-import com.fasterxml.jackson.databind.JsonNode;
-import com.sunlights.account.service.AccountService;
-import com.sunlights.account.service.impl.AccountServiceImpl;
-import com.sunlights.common.utils.MessageUtil;
-import com.sunlights.customer.service.LoginService;
-import com.sunlights.customer.service.impl.CustomerService;
-import com.sunlights.customer.service.impl.LoginServiceImpl;
-import com.sunlights.customer.vo.CustomerFormVo;
 
 /**
  * <p>Project: financeplatform</p>

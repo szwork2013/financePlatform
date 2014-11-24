@@ -8,8 +8,14 @@ import com.sunlights.common.vo.PageVo;
 import com.sunlights.core.dal.FundDao;
 import com.sunlights.core.dal.impl.FundDaoImpl;
 import com.sunlights.core.service.ProductService;
-import com.sunlights.core.vo.*;
-import models.*;
+import com.sunlights.core.vo.ChartVo;
+import com.sunlights.core.vo.FundVo;
+import com.sunlights.core.vo.Point;
+import com.sunlights.core.vo.ProductVo;
+import models.Fund;
+import models.FundCompany;
+import models.FundHistory;
+import models.FundNavHistory;
 
 import java.util.Date;
 import java.util.List;
@@ -102,7 +108,7 @@ public class ProductServiceImpl implements ProductService {
             chartVo.setPrdName(fundHistories.get(0).getFundname());
         }
         for (FundNavHistory fundHistory : fundHistories) {
-            chartVo.getPoints().add(new Point(CommonUtil.dateToString(fundHistory.getCreateTime(), CommonUtil.DATE_FORMAT_SHORT), ArithUtil.mul(fundHistory.getPercentSevenDays().doubleValue(), 100) + ""));
+            chartVo.getPoints().add(new Point(CommonUtil.dateToString(fundHistory.getCreateTime(), CommonUtil.DATE_FORMAT_SHORT),  ArithUtil.mul(fundHistory.getPercentSevenDays().doubleValue(), 100) + ""));
         }
         return chartVo;
     }
@@ -118,7 +124,7 @@ public class ProductServiceImpl implements ProductService {
             chartVo.setPrdName(fundHistories.get(0).getFundname());
         }
         for (FundNavHistory fundHistory : fundHistories) {
-            chartVo.getPoints().add(new Point(CommonUtil.dateToString(fundHistory.getCreateTime(), CommonUtil.DATE_FORMAT_SHORT), fundHistory.getIncomePerTenThousand() + ""));
+            chartVo.getPoints().add(new Point(CommonUtil.dateToString(fundHistory.getCreateTime(), CommonUtil.DATE_FORMAT_SHORT), ArithUtil.bigUpScale4(fundHistory.getIncomePerTenThousand()) + ""));
         }
         return chartVo;
     }

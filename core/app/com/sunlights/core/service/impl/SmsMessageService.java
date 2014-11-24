@@ -45,6 +45,9 @@ public class SmsMessageService {
 
   public void sendSms(SmsMessage smsMessage) {
     String result = smsMessageClient.sendSms(smsMessage);
+    if ("0,成功".equals(result)) {
+        smsMessage.setSuccessInd(AppConst.STATUS_VALID);
+    }
     smsMessage.setReturnMsg(result);
     smsMessage.setUpdateTime(DBHelper.getCurrentTime());
     smsMessageDao.updateSmsMessage(smsMessage);

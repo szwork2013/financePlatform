@@ -123,7 +123,7 @@ public class CustomerDaoImpl extends EntityBaseDao implements CustomerDao {
 
 
         String keys = "mobilePhoneNo,userName,nickName,email,idCardNo,gestureOpened,certify,tradePwdFlag,bankCardCount,customerId";
-        List<CustomerVo> customerVos = (List<CustomerVo>)ConverterUtil.convert(keys, list, CustomerVo.class);
+        List<CustomerVo> customerVos = ConverterUtil.convert(keys, list, CustomerVo.class);
         CustomerVo customerVo = customerVos.get(0);
         findShuMiAccount(customerVo);
 

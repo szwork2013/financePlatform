@@ -1,7 +1,10 @@
 package com.sunlights.core.dal;
 
 import com.sunlights.core.vo.FundDetailVo;
-import models.*;
+import models.Fund;
+import models.FundCompany;
+import models.FundHistory;
+import models.FundNavHistory;
 
 import java.util.List;
 

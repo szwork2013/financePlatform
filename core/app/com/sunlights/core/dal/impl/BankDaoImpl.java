@@ -1,8 +1,8 @@
 package com.sunlights.core.dal.impl;
 
 import com.sunlights.common.dal.EntityBaseDao;
-import models.Bank;
 import com.sunlights.core.dal.BankDao;
+import models.Bank;
 
 /**
  * <p>Project: fsp</p>

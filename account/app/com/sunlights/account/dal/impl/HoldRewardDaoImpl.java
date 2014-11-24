@@ -2,10 +2,8 @@ package com.sunlights.account.dal.impl;
 
 import com.sunlights.account.dal.HoldRewardDao;
 import com.sunlights.common.dal.EntityBaseDao;
-import models.CustomerSession;
 import models.HoldReward;
 
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;

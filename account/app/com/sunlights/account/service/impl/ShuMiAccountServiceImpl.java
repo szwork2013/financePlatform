@@ -56,7 +56,7 @@ public class ShuMiAccountServiceImpl implements ShuMiAccountService{
         Customer customer = customerService.getCustomerByToken(token);
 
         Timestamp currentTime = DBHelper.getCurrentTime();
-        customer.setNickName(shuMiAccountVo.getShumi_userName());
+//        customer.setNickName(shuMiAccountVo.getShumi_userName());
         customer.setRealName(shuMiAccountVo.getShumi_realName());
         customer.setIdentityTyper(DictConst.CERTIFICATE_TYPE_1);
         customer.setIdentityNumber(shuMiAccountVo.getShumi_idNumber());

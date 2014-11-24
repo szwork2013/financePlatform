@@ -1,6 +1,5 @@
 package com.sunlights.common.vo;
 
-import com.fasterxml.jackson.annotation.JsonGetter;
 import com.sunlights.common.MsgCode;
 import com.sunlights.common.Severity;
 
