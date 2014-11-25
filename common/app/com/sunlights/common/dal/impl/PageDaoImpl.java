@@ -68,7 +68,7 @@ public class PageDaoImpl extends EntityBaseDao implements PageDao {
   public <X> List<X> findNativeXsqlBy(String xsql, PageVo pager) {
     String countHql = prepareCountHql(xsql);
     Query countNativeQuery = createNativeQueryByMap(countHql, pager.getFilter());
-    Query nativeQuery = createQueryByMap(xsql, pager.getFilter());
+    Query nativeQuery = createNativeQueryByMap(xsql, pager.getFilter());
     int count = Integer.valueOf(String.valueOf(countNativeQuery.getResultList().get(0)));
     int first = pager.getIndex();
     int pageSize = pager.getPageSize();

@@ -1,77 +1,37 @@
 package models;
 
-
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
-
+import javax.persistence.*;
 
 /**
- * Created by yuan on 9/26/14.
+ * <p>Project: financePlatform</p>
+ * <p>Title: LoggingEvent.java</p>
+ * <p>Description: </p>
+ * <p>Copyright (c) 2014 Sunlights.cc</p>
+ * <p>All Rights Reserved.</p>
+ *
+ * @author <a href="mailto:zhencai.yuan@sunlights.cc">yuanzhencai</a>
  */
 @Entity
-@Table(name = "M_LOGGING_EVENT")
+@Table(name = "logging_event", schema = "public")
 public class LoggingEvent {
-    /**
-    * constructors
-    * just delete never create for cur
-    */
-    public LoggingEvent() {
-    }
-    /**
-    * data field
-    */
-    @Column(name="log_event_timestmp" ,length=10)
-    private Long  timestmp;
-    @Column(name="log_event_format_msg" ,length=10)
+    private Long timestmp;
     private String formattedMessage;
-//    @Column(length = 254)
-    @Column(name="log_event_logger_name" ,length=10)
     private String loggerName;
-//    @Column(length = 254)
-    @Column(name="log_event_level" ,length=10)
     private String levelString;
-//    @Column(length = 254)
-    @Column(name="log_event_thread_name" ,length=10)
     private String threadName;
-    @Column(name="log_event_ref_flag" ,length=10)
-    private int referenceFlag;
-//    @Column(length = 254)
-    @Column(name="log_event_arg0" ,length=10)
+    private Long referenceFlag;
     private String arg0;
-//    @Column(length = 254)
-    @Column(name="log_event_arg1" ,length=10)
     private String arg1;
-//    @Column(length = 254)
-    @Column(name="log_event_arg2" ,length=10)
     private String arg2;
-//    @Column(length = 254)
-    @Column(name="log_event_arg3" ,length=10)
     private String arg3;
-//    @Column(length = 254)
-    @Column(name="log_event_caller_filename" ,length=10)
     private String callerFilename;
-//    @Column(length = 254)
-    @Column(name="log_event_caller_class" ,length=10)
     private String callerClass;
-//    @Column(length = 254)
-    @Column(name="log_event_caller_method" ,length=10)
     private String callerMethod;
-//    @Column(length = 4)
-    @Column(name="log_event_caller_line" ,length=10)
     private String callerLine;
-    @Id
-    @Column(name="log_event_id")
     private Long eventId;
-//
-//    @Version
-//    public long version;
-    /**
-    * functions
-    * setter getter s
-    * finder
-    */
+
+    @Basic
+    @Column(name = "timestmp")
     public Long getTimestmp() {
         return timestmp;
     }
@@ -80,6 +40,8 @@ public class LoggingEvent {
         this.timestmp = timestmp;
     }
 
+    @Basic
+    @Column(name = "formatted_message")
     public String getFormattedMessage() {
         return formattedMessage;
     }
@@ -88,14 +50,8 @@ public class LoggingEvent {
         this.formattedMessage = formattedMessage;
     }
 
-    public String getLevelString() {
-        return levelString;
-    }
-
-    public void setLevelString(String levelString) {
-        this.levelString = levelString;
-    }
-
+    @Basic
+    @Column(name = "logger_name")
     public String getLoggerName() {
         return loggerName;
     }
@@ -104,6 +60,18 @@ public class LoggingEvent {
         this.loggerName = loggerName;
     }
 
+    @Basic
+    @Column(name = "level_string")
+    public String getLevelString() {
+        return levelString;
+    }
+
+    public void setLevelString(String levelString) {
+        this.levelString = levelString;
+    }
+
+    @Basic
+    @Column(name = "thread_name")
     public String getThreadName() {
         return threadName;
     }
@@ -112,14 +80,18 @@ public class LoggingEvent {
         this.threadName = threadName;
     }
 
-    public int getReferenceFlag() {
+    @Basic
+    @Column(name = "reference_flag")
+    public Long getReferenceFlag() {
         return referenceFlag;
     }
 
-    public void setReferenceFlag(int referenceFlag) {
+    public void setReferenceFlag(Long referenceFlag) {
         this.referenceFlag = referenceFlag;
     }
 
+    @Basic
+    @Column(name = "arg0")
     public String getArg0() {
         return arg0;
     }
@@ -128,6 +100,8 @@ public class LoggingEvent {
         this.arg0 = arg0;
     }
 
+    @Basic
+    @Column(name = "arg1")
     public String getArg1() {
         return arg1;
     }
@@ -136,6 +110,8 @@ public class LoggingEvent {
         this.arg1 = arg1;
     }
 
+    @Basic
+    @Column(name = "arg2")
     public String getArg2() {
         return arg2;
     }
@@ -144,6 +120,8 @@ public class LoggingEvent {
         this.arg2 = arg2;
     }
 
+    @Basic
+    @Column(name = "arg3")
     public String getArg3() {
         return arg3;
     }
@@ -152,6 +130,8 @@ public class LoggingEvent {
         this.arg3 = arg3;
     }
 
+    @Basic
+    @Column(name = "caller_filename")
     public String getCallerFilename() {
         return callerFilename;
     }
@@ -160,6 +140,8 @@ public class LoggingEvent {
         this.callerFilename = callerFilename;
     }
 
+    @Basic
+    @Column(name = "caller_class")
     public String getCallerClass() {
         return callerClass;
     }
@@ -168,6 +150,8 @@ public class LoggingEvent {
         this.callerClass = callerClass;
     }
 
+    @Basic
+    @Column(name = "caller_method")
     public String getCallerMethod() {
         return callerMethod;
     }
@@ -176,6 +160,8 @@ public class LoggingEvent {
         this.callerMethod = callerMethod;
     }
 
+    @Basic
+    @Column(name = "caller_line")
     public String getCallerLine() {
         return callerLine;
     }
@@ -184,6 +170,8 @@ public class LoggingEvent {
         this.callerLine = callerLine;
     }
 
+    @Id
+    @Column(name = "event_id")
     public Long getEventId() {
         return eventId;
     }
@@ -191,5 +179,6 @@ public class LoggingEvent {
     public void setEventId(Long eventId) {
         this.eventId = eventId;
     }
+
 
 }
