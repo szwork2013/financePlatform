@@ -1550,4 +1550,6 @@ CREATE TABLE logging_event_exception
   FOREIGN KEY (event_id) REFERENCES logging_event(event_id)
 );
 
-
+DROP TABLE    m_logging_event_property;
+DROP TABLE    m_logging_event_exception;
+DROP TABLE    m_logging_event;
