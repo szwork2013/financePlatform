@@ -79,6 +79,8 @@ public enum MsgCode {
     CREATE_FAILURE("2001", "创建失败", ""),
     UPDATE_FAILURE("2002", "更新失败", ""),
     DELETE_FAILURE("2003", "删除失败", ""),
+    DATA_EXPORT_ERROR("2010", "{0}该文件不可写(是否文件已打开),终止数据导出!"),
+    FILE_EXIST_ERROR("2011", "{0}该文件已存在!"),
     CODE_EXIST_ERROR("2300", "操作失败：", "已存在的字典表。"),
     FUND_COMPANY_EXIST_ERROR("2400", "操作失败：", "已存在的基金公司。"),
     SUPPLIER_EXIST_ERROR("2500", "操作失败：", "已存在的供应商。"),
@@ -89,6 +91,7 @@ public enum MsgCode {
     JOB_DATE_PARSING_ERROR("2802", "操作失败：", "请输入有效的时间。"),
     JOB_SCHEDULER_ERROR("2803", "操作失败：", "请重新操作。"),
     NOT_NULL("2001", "操作失败：", "传入参数'{0}'不能为空。"),
+
 
     //活动积分模块
     OBTAIN_SUCC("0220", "获取积分成功"),

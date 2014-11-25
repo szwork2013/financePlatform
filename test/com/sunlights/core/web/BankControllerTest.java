@@ -76,10 +76,9 @@ public class BankControllerTest extends BaseTest {
         running(fakeApplication(inMemoryDatabase("test")), new Runnable() {
             public void run() {
                 BankCardFormVo bankCardVo = new BankCardFormVo();
-                bankCardVo.setBankCode("CCB");
-                bankCardVo.setNo(BANK_CARD_NO);
-                bankCardVo.setBankCardPassword("11111111111");
-
+                bankCardVo.setBankName("招商银行");
+                bankCardVo.setBankSerial("002");
+                bankCardVo.setBankCardNo(BANK_CARD_NO);
 
                 play.mvc.Result result = null;
                 // create bank card
