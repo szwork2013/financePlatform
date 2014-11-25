@@ -93,6 +93,7 @@ public enum MsgCode {
     //活动积分模块
     OBTAIN_SUCC("0220", "获取积分成功"),
     ACTIVITY_QUERY_SUCC("0221", "查询成功"),
+    REWARD_QUERY_SUCC("0222", "查询成功"),
     ALREADY_SIGN("2220", "重复签到"),
     NOT_CONFIG_ACTIVITY_SCENE("2221", "没有配置活动场景");
 

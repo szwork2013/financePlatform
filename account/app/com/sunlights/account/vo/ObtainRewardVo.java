@@ -13,14 +13,19 @@ public class ObtainRewardVo implements Serializable {
     private String scene;
 
     /**
-     * 可获得的奖励
+     * 状态， N表示开放   F表示关闭
      */
-    private Long obtainReward;
+    private String status;
 
     /**
-     * 触发点击事件是否可以获取到奖励  true表示可以  false表示不可以
+     * 客户在这个活动已经获取的金豆数
      */
-    private boolean isCanNotObtain;
+    private Long alreadyGet;
+
+    /**
+     * 客户在这个活动还未领取的金豆数
+     */
+    private Long notGet;
 
     public String getScene() {
         return scene;
@@ -30,19 +35,27 @@ public class ObtainRewardVo implements Serializable {
         this.scene = scene;
     }
 
-    public Long getObtainReward() {
-        return obtainReward;
+    public String getStatus() {
+        return status;
     }
 
-    public void setObtainReward(Long obtainReward) {
-        this.obtainReward = obtainReward;
+    public void setStatus(String status) {
+        this.status = status;
     }
 
-    public boolean isCanNotObtain() {
-        return isCanNotObtain;
+    public Long getAlreadyGet() {
+        return alreadyGet;
     }
 
-    public void setCanNotObtain(boolean isCanNotObtain) {
-        this.isCanNotObtain = isCanNotObtain;
+    public void setAlreadyGet(Long alreadyGet) {
+        this.alreadyGet = alreadyGet;
+    }
+
+    public Long getNotGet() {
+        return notGet;
+    }
+
+    public void setNotGet(Long notGet) {
+        this.notGet = notGet;
     }
 }

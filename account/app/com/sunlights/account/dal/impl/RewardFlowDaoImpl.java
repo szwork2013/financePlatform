@@ -27,7 +27,8 @@ public class RewardFlowDaoImpl extends EntityBaseDao implements RewardFlowDao {
                 .append("/~  and h.rewardType  = {rewardType} ~/")
                 .append("/~  and h.scene  = {scene} ~/")
                 .append("/~  and h.createTime  >= {startDate} ~/")
-                .append("/~  and h.createTime  <= {endDate} ~/");
+                .append("/~  and h.createTime  <= {endDate} ~/")
+                .append(" order by h.createTime ");
         Map<String, Object> params = new HashMap<String, Object>();
         params.put("EQS_custId", rewardFlow.getCustId());
         params.put("EQS_scene", rewardFlow.getScene());
