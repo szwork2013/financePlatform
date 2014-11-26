@@ -31,6 +31,12 @@ public class RewardResultVo implements Serializable {
 
     private String operatorType;
 
+    private String status;
+
+    private Long alreadyGet;
+
+    private Long notGet;
+
     /**
      * 处罚点击事件是否可以获取到奖励  true表示可以  false表示不可以
      */
@@ -98,6 +104,30 @@ public class RewardResultVo implements Serializable {
 
     public void setCanNotObtain(boolean isCanNotObtain) {
         this.isCanNotObtain = isCanNotObtain;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
+
+    public Long getAlreadyGet() {
+        return alreadyGet;
+    }
+
+    public void setAlreadyGet(Long alreadyGet) {
+        this.alreadyGet = alreadyGet;
+    }
+
+    public Long getNotGet() {
+        return notGet;
+    }
+
+    public void setNotGet(Long notGet) {
+        this.notGet = notGet;
     }
 
     @Override

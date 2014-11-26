@@ -67,6 +67,10 @@ public class BankServiceImpl implements BankService {
     return bankDao.findBankByBankCode(bankCode);
   }
 
+    public Bank findBankByBankName(String bankName){
+        return bankDao.findBankByBankName(bankName);
+    }
+
   @Override
   public boolean validateBankCard(String token, BankCardVo bankCardVo) {
     Customer customer = customerService.getCustomerByToken(token);

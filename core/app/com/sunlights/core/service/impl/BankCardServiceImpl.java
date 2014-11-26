@@ -15,7 +15,6 @@ import com.sunlights.customer.service.impl.CustomerService;
 import models.Bank;
 import models.BankCard;
 import models.CustomerSession;
-import org.apache.commons.lang3.StringUtils;
 import play.db.jpa.Transactional;
 
 import java.sql.Timestamp;
@@ -64,18 +63,24 @@ public class BankCardServiceImpl implements BankCardService {
         CustomerSession customerSession = customerService.getCustomerSession(token);
         BankCard bankCard = new BankCard();
         bankCard.setCustomerId(customerSession.getCustomerId());
-        if (StringUtils.isEmpty(bankCardVo.getBankCode())) {
-            MessageUtil.getInstance().setMessage(new Message(Severity.ERROR, MsgCode.BIND_CARD_FAIL_EMPTY_BANK));
-            return null;
-        }
+//        if (StringUtils.isEmpty(bankCardVo.getBankCode())) {
+//            MessageUtil.getInstance().setMessage(new Message(Severity.ERROR, MsgCode.BIND_CARD_FAIL_EMPTY_BANK));
+//            return null;
+//        }
         if (bankCardDao.hasBankCard(bankCardVo.getNo())) {
             MessageUtil.getInstance().setMessage(new Message(Severity.ERROR, MsgCode.BIND_CARD_FAIL_ALREADY_BIND));
             return null;
         }
-        Bank bank = bankService.findBankByBankCode(bankCardVo.getBankCode());
-        bankCard.setBankCardNo(bankCardVo.getNo());
-        bankCard.setBankCode(bank.getBankCode());
-        bankCard.setBankId(bank.getId());
+//        Bank bank = bankService.findBankByBankCode(bankCardVo.getBankCode());
+//        bankCard.setBankCode(bank.getBankCode());
+//        bankCard.setBankId(bank.getId());
+        Bank bank = bankService.findBankByBankName(bankCardVo.getBankName());
+        if (bank != null) {
+            bankCard.setBankCode(bank.getBankCode());
+            bankCard.setBankId(bank.getId());
+        }
+        bankCard.setBankCardNo(bankCardVo.getBankCardNo());
+        bankCard.setBankSerial(bankCardVo.getBankSerial());
         bankCard.setCreateTime(new Timestamp(new Date().getTime()));
         bankCard.setStatus(bankCardVo.getValidateStatus());
         bankCard.setUpdateTime(new Timestamp(new Date().getTime()));

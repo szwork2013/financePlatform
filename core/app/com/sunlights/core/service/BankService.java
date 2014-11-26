@@ -23,5 +23,7 @@ public interface BankService {
 
   public Bank findBankByBankCode(String bankCode);
 
+  public Bank findBankByBankName(String bankName);
+
   public boolean validateBankCard(String token, BankCardVo bankCardVo);
 }

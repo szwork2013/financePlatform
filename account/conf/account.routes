@@ -18,13 +18,14 @@ POST        /saveshumiaccount                   @com.sunlights.account.web.ShuMi
 
 #Activity
 POST        /activity/list                      @com.sunlights.account.web.ActivityController.getActivityList
-POST        /activity/obtainRward               @com.sunlights.account.web.ActivityController.obtainReward
+POST        /activity/signin                    @com.sunlights.account.web.ActivityController.obtainReward
+POST        /activity/invite                    @com.sunlights.account.web.ActivityController.obtainReward
+POST        /activity/register               @com.sunlights.account.web.ActivityController.obtainReward
 
 
 #Reward
-POST        /reward/signInAmt                   @com.sunlights.account.web.RewardController.getSingInCanObtainRewards
-POST        /reward/total                       @com.sunlights.account.web.RewardController.getMyRewardTotal
-POST        /reward/myReward                       @com.sunlights.account.web.RewardController.getMyRewardDetail
+POST        /reward/get_signin                  @com.sunlights.account.web.RewardController.getSingInCanObtainRewards
+POST        /reward/get_golden                  @com.sunlights.account.web.RewardController.getMyRewardDetail
 
 # Map static resources from the /public folder to the /assets URL path
 GET         /assets/*file                       controllers.Assets.at(path="/public", file)
