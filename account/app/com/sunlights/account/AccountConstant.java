@@ -42,7 +42,12 @@ public interface AccountConstant {
     /**
      * 活动中的注册场景的编码
      */
-    String ACTIVITY_REGISTER_SCENE_CODE = "ASC004";
+  String ACTIVITY_REGISTER_SCENE_CODE = "ASC004";
+
+    /**
+     * 活动中的注册场景的编码
+     */
+  String ACTIVITY_FIRST_PURCHASE_SCENE_CODE = "ASC005";
 
     /**
      * 生成奖励流水的时候操作--获取

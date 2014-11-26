@@ -17,6 +17,8 @@ public class RewardRuleFactory {
             return new SignInObtainRewardRule();
         } else if(AccountConstant.ACTIVITY_REGISTER_SCENE_CODE.equals(scene)) {
             return new RegisterObtainRewardRule();
+        } else if(AccountConstant.ACTIVITY_FIRST_PURCHASE_SCENE_CODE.equals(scene)) {
+            return new FirstPurchseObtainRewardRule();
         }
         return null;
     }

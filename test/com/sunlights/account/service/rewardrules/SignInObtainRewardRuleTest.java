@@ -22,7 +22,7 @@ public class SignInObtainRewardRuleTest {
                     @Override
                     public void invoke() throws Throwable {
                         iObtainRewardRule = new SignInObtainRewardRule();
-                        RewardResultVo vo = iObtainRewardRule.obtainReward("testtang");
+                        RewardResultVo vo = iObtainRewardRule.obtainReward("testtang", null);
                         Logger.info("rewardResultVo = " + vo);
                         assertThat(vo.getReturnMessage().getCode()).isEqualTo(MsgCode.OBTAIN_SUCC.getCode());
                     }
@@ -41,7 +41,7 @@ public class SignInObtainRewardRuleTest {
                     @Override
                     public void invoke() throws Throwable {
                         iObtainRewardRule = new SignInObtainRewardRule();
-                        RewardResultVo vo = iObtainRewardRule.getCanObtainRewards("testtang");
+                        RewardResultVo vo = iObtainRewardRule.getCanObtainRewards("testtang", null);
                         Logger.info("rewardResultVo = " + vo);
                         assertThat(vo.getReturnMessage().getCode()).isEqualTo(MsgCode.ACTIVITY_QUERY_SUCC.getCode());
                     }

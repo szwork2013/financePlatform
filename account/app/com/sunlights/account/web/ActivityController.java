@@ -27,10 +27,7 @@ import java.util.List;
  */
 @Transactional
 public class ActivityController extends ActivityBaseController  {
-
-
     private ActivityService activityService = new ActivityServiceImpl();
-
 
     public Result getActivityList() {
         ActivityParamter activityParamter = getActivityParamter();
@@ -50,15 +47,22 @@ public class ActivityController extends ActivityBaseController  {
         return ok(messageUtil.toJson());
     }
 
+    /**
+     * 用户获取奖励接口
+     * 调用这个接口需要将活动场景参数送过来
+     * @return
+     */
+    public Result obtainReward() {
+        return obtainReward(null);
+    }
+
 
     /**
      * 用户获取奖励接口
      *
      * @return
      */
-    public Result obtainReward() {
-
-        Logger.info("this controller == " + this);
+    public Result obtainReward(String scene) {
         //1：获取请求参数
         String token = getToken();
         ActivityParamter activityParamter = getActivityParamter();
@@ -66,10 +70,9 @@ public class ActivityController extends ActivityBaseController  {
         //2:获取获取奖励需要的参数
         CustomerSession customerSession = customerService.getCustomerSession(token);
         String custNo = customerSession.getCustomerId();
-        String scene = activityParamter.getScene();
-
-
-
+        if(StringUtils.isEmpty(scene)) {
+            scene = activityParamter.getScene();
+        }
         //3:获取相对应场景的奖励获取规则的处理类
         IObtainRewardRule iObtainRewardRule = RewardRuleFactory.getIObtainRuleHandler(scene);
         ObtainRewardVo obtainRewardVo = new ObtainRewardVo();
@@ -83,15 +86,17 @@ public class ActivityController extends ActivityBaseController  {
 
         //5:解析结果并发往客户端
         Message returnMessage = rewardResultVo.getReturnMessage();
-        //if(MsgCode.OBTAIN_SUCC.getCode().equals(returnMessage.getCode()) || MsgCode.ALREADY_SIGN.getCode().equals(returnMessage.getCode())) {
         obtainRewardVo.setScene(scene);
         obtainRewardVo.setStatus(rewardResultVo.getStatus());
         obtainRewardVo.setAlreadyGet(rewardResultVo.getAlreadyGet());
             //TODO还未获取的规则怎么定义
         obtainRewardVo.setNotGet(rewardResultVo.getNotGet());
-       // }
+
         messageUtil.setMessage(returnMessage, obtainRewardVo);
         return ok(messageUtil.toJson());
     }
 
+    public Result registerObtainReward() {
+        return obtainReward(AccountConstant.ACTIVITY_REGISTER_SCENE_CODE);
+    }
 }
