@@ -67,7 +67,7 @@ public class BankCardServiceImpl implements BankCardService {
 //            MessageUtil.getInstance().setMessage(new Message(Severity.ERROR, MsgCode.BIND_CARD_FAIL_EMPTY_BANK));
 //            return null;
 //        }
-        if (bankCardDao.hasBankCard(bankCardVo.getNo())) {
+        if (bankCardDao.hasBankCard(bankCardVo.getBankCardNo())) {
             MessageUtil.getInstance().setMessage(new Message(Severity.ERROR, MsgCode.BIND_CARD_FAIL_ALREADY_BIND));
             return null;
         }

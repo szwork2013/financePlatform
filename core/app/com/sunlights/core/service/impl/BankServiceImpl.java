@@ -78,6 +78,6 @@ public class BankServiceImpl implements BankService {
       MessageUtil.getInstance().setMessage(new Message(Severity.ERROR, MsgCode.BANK_NAME_CERTIFY_FAIL, "验证失败", "请先实名认证。"));
       return false;
     }
-    return bankClient.validateBankCard(customer.getIdentityNumber(), bankCardVo.getNo());
+    return bankClient.validateBankCard(customer.getIdentityNumber(), bankCardVo.getBankCardNo());
   }
 }
