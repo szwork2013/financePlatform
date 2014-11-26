@@ -1,6 +1,7 @@
 package com.sunlights.core.vo;
 
 
+import com.sunlights.common.FundCategory;
 import com.sunlights.common.service.CommonService;
 import com.sunlights.common.utils.ArithUtil;
 import models.FundNav;
@@ -47,7 +48,7 @@ public class FundVo extends ProductVo {
         this.sevenDaysIncome = ArithUtil.bigUpScale4(fundNav.getPercentSevenDays());
         this.millionIncome = ArithUtil.bigUpScale4(fundNav.getIncomePerTenThousand());
         this.purchasedAmount = ArithUtil.bigUpScale4(fundNav.getPurchaseLimitMin());
-        this.purchasedMethod = fundNav.getInvestmentType() + "";
+        this.purchasedMethod = FundCategory.MONETARY.getFundType() == fundNav.getFundType() ? "随买随卖" : "";
         this.discount = getDiscountValueByfund(fundNav);
     }
 
@@ -58,7 +59,7 @@ public class FundVo extends ProductVo {
         if (chargeRateValue == null || BigDecimal.ZERO.compareTo(chargeRateValue) == 0) {
             value = "免手续费";
         } else {
-            value = fundNavDiscount == null ? "免手续费" : fundNavDiscount.multiply(new BigDecimal("100"))+"折";
+            value = fundNavDiscount == null ? "免手续费" : fundNavDiscount.multiply(new BigDecimal("100")) + "折";
         }
         return value;
     }
