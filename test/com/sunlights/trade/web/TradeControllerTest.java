@@ -1,45 +1,33 @@
-package com.sunlights.trade.web;
-
-import com.sunlights.common.vo.MessageVo;
-import org.junit.Before;
-import org.junit.Test;
-import play.Logger;
-
-import java.util.HashMap;
-import java.util.Map;
-
-import static play.test.Helpers.running;
-
-
+//package com.sunlights.trade.web;
 //
-import com.sunlights.BaseTest;
+//import com.sunlights.BaseTest;
 //import com.sunlights.common.vo.MessageVo;
 //import org.junit.Before;
 //import org.junit.Test;
 //import play.Logger;
-import play.mvc.Http;
+//import play.mvc.Http;
 //
 //import java.util.HashMap;
 //import java.util.Map;
 //
-import static org.fest.assertions.Assertions.assertThat;
-import static play.mvc.Http.Status.OK;
-import static play.test.Helpers.*;
+//import static org.fest.assertions.Assertions.assertThat;
+//import static play.mvc.Http.Status.OK;
+//import static play.test.Helpers.*;
 //
-public class TradeControllerTest extends BaseTest {
+//public class TradeControllerTest extends BaseTest {
 //
-    private static Http.Cookie cookie;
+//    private static Http.Cookie cookie;
 //
-    @Before
-    public void getCookie(){
-        final String mobilePhoneNo = "13811599308";
-        final String password = "1";
-       running(fakeApplication(), new Runnable() {
-            public void run() {
-                cookie = getCookieAfterLogin(mobilePhoneNo, password);
-            }
-        });
-    }
+//    @Before
+//    public void getCookie(){
+//        final String mobilePhoneNo = "13811599308";
+//        final String password = "1";
+//        running(fakeApplication(), new Runnable() {
+//            public void run() {
+//                cookie = getCookieAfterLogin(mobilePhoneNo, password);
+//            }
+//        });
+//    }
 //
 //
 //    @Test
@@ -78,33 +66,30 @@ public class TradeControllerTest extends BaseTest {
 //        });
 //    }
 //
-
-
-
-    @Test
-    public void testTradeOrder() throws Exception {
-        running(fakeApplication(), new Runnable() {
-            public void run() {
-                Logger.info("=============testTradeOrder start======");
-                Map<String, String> formParams = new HashMap<String, String>();
-                formParams.put("bankCardNo", "6225885105575635");
-               formParams.put("prdType", "0");
-                formParams.put("mobilePhoneNo", "13811599308");
-                formParams.put("prdCode", "350004");
-               formParams.put("tradeAmount", "100");
-                formParams.put("quantity", "1");
-
-                play.mvc.Result result = getResult("/trade/tradeorder", formParams, cookie);
-                Logger.info("=============testTradeOrder result======\n" + contentAsString(result));
-                assertThat(status(result)).isEqualTo(OK);
-                MessageVo message = toMessageVo(result);
-                assertThat(message.getMessage().getCode()).isEqualTo("0400");
-                assertThat(message.getMessage().getSummary()).isEqualTo("下单成功");
-
-            }
-        });
-
-   }
+//    @Test
+//    public void testTradeOrder() throws Exception {
+//        running(fakeApplication(), new Runnable() {
+//            public void run() {
+//                Logger.info("=============testTradeOrder start======");
+//                Map<String, String> formParams = new HashMap<String, String>();
+//                formParams.put("bankCardNo", "6225885105575635");
+//                formParams.put("prdType", "0");
+//                formParams.put("mobilePhoneNo", "13811599308");
+//                formParams.put("prdCode", "350004");
+//                formParams.put("tradeAmount", "100");
+//                formParams.put("quantity", "1");
+//
+//                play.mvc.Result result = getResult("/trade/tradeorder", formParams, cookie);
+//                Logger.info("=============testTradeOrder result======\n" + contentAsString(result));
+//                assertThat(status(result)).isEqualTo(OK);
+//                MessageVo message = toMessageVo(result);
+//                assertThat(message.getMessage().getCode()).isEqualTo("0400");
+//                assertThat(message.getMessage().getSummary()).isEqualTo("下单成功");
+//
+//            }
+//        });
+//
+//    }
 //
 //    @Test
 //    public void testTradeRedeem() throws Exception {
@@ -129,4 +114,4 @@ public class TradeControllerTest extends BaseTest {
 //        });
 //
 //    }
-}
+//}
