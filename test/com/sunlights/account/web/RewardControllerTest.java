@@ -39,44 +39,27 @@ public class RewardControllerTest extends BaseTest {
     public void testGetSingInCanObtainRewards() throws Exception {
         running(fakeApplication(), new Runnable() {
             public void run() {
-                Logger.info("============testGetSingInCanObtainRewards start====");
-                Map<String, String> formParams = new HashMap<String, String>();
-                play.mvc.Result result = getResult("/account/reward/signInAmt", formParams, cookie);
-                Logger.info("============testGetSingInCanObtainRewards result====\n" + contentAsString(result));
-                assertThat(status(result)).isEqualTo(OK);
-                final MessageVo message = toMessageVo(result);
-
                 JPA.withTransaction(new F.Callback0() {
                     @Override
                     public void invoke() throws Throwable {
                         RewardFlowService rewardFlowService = new RewardFlowServiceImpl();
                         RewardFlow rewardFlows = rewardFlowService.findTodayFlowByCustIdAndScene("20141119102210010000000029", AccountConstant.ACTIVITY_SIGNIN_SCENE_CODE);
+
+                        Logger.info("============testGetSingInCanObtainRewards start====");
+                        Map<String, String> formParams = new HashMap<String, String>();
+                        play.mvc.Result result = getResult("/account/reward/get_signin", formParams, cookie);
+                        Logger.info("============testGetSingInCanObtainRewards result====\n" + contentAsString(result));
+                        assertThat(status(result)).isEqualTo(OK);
+                        final MessageVo message = toMessageVo(result);
+
                         if (rewardFlows != null) {
                             assertThat(message.getMessage().getCode()).isEqualTo(MsgCode.ALREADY_SIGN.getCode());
-                            StringBuilder sb = new StringBuilder();
-                            //sb.append("delete from RewardFlow").append(" where id =").append(rewardFlows.getId());
-                            //JPA.em().createQuery(sb.toString()).executeUpdate();
                             assertThat("20141119102210010000000029").isEqualTo(rewardFlows.getCustId());
                         } else {
                             assertThat(message.getMessage().getCode()).isEqualTo(MsgCode.ACTIVITY_QUERY_SUCC.getCode());
                         }
                     }
                 });
-
-            }
-        });
-    }
-    @Test
-    public void testGetMyRewardTotal() {
-        running(fakeApplication(), new Runnable() {
-            public void run() {
-                Logger.info("============testGetMyRewardTotal start====");
-                Map<String, String> formParams = new HashMap<String, String>();
-                play.mvc.Result result = getResult("/account/reward/total", formParams, cookie);
-                Logger.info("============testGetMyRewardTotal result====\n" + contentAsString(result));
-                assertThat(status(result)).isEqualTo(OK);
-                MessageVo message = toMessageVo(result);
-                assertThat(message.getMessage().getCode()).isEqualTo(MsgCode.ACTIVITY_QUERY_SUCC.getCode());
 
             }
         });
@@ -88,7 +71,7 @@ public class RewardControllerTest extends BaseTest {
             public void run() {
                 Logger.info("============testGetMyRewardDetail start====");
                 Map<String, String> formParams = new HashMap<String, String>();
-                play.mvc.Result result = getResult("/account/reward/myReward", formParams, cookie);
+                play.mvc.Result result = getResult("/account/reward/get_golden", formParams, cookie);
                 Logger.info("============testGetMyRewardDetail result====\n" + contentAsString(result));
                 assertThat(status(result)).isEqualTo(OK);
                 MessageVo message = toMessageVo(result);

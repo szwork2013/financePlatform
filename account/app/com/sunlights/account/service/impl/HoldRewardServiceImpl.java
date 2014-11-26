@@ -68,8 +68,8 @@ public class HoldRewardServiceImpl implements HoldRewardService {
         HoldRewardVo holdRewardVo = new HoldRewardVo();
         if(holdReward == null) {
             holdRewardVo.setTotalReward("0");
-            holdRewardVo.setObtain("0");
-            holdRewardVo.setExchange("0");
+            holdRewardVo.setGots("0");
+            holdRewardVo.setPayed("0");
             holdRewardVo.setTotalCash("0.00");
             return holdRewardVo;
         }
@@ -81,7 +81,7 @@ public class HoldRewardServiceImpl implements HoldRewardService {
 
         transRewardFlow(rewardFlows, list);
 
-        holdRewardVo.setRewardFlowVos(list);
+        holdRewardVo.setRecords(list);
 
         return holdRewardVo;
     }
@@ -111,8 +111,8 @@ public class HoldRewardServiceImpl implements HoldRewardService {
 
     public void transf(HoldReward holdReward, HoldRewardVo holdRewardVo) {
         holdRewardVo.setTotalReward(takePrefix(holdReward.getHoldReward(),"+"));
-        holdRewardVo.setObtain(takePrefix(holdReward.getGetReward(),"+"));
-        holdRewardVo.setExchange(takePrefix((holdReward.getGetReward() - holdReward.getHoldReward()), "-"));
+        holdRewardVo.setGots(takePrefix(holdReward.getGetReward(),"+"));
+        holdRewardVo.setPayed(takePrefix((holdReward.getGetReward() - holdReward.getHoldReward()), "-"));
         holdRewardVo.setTotalCash(holdReward.getHoldMoney().toString());
     }
 

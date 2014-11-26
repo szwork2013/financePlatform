@@ -22,13 +22,13 @@ public interface IObtainRewardRule {
      * @param custId    客户号
      * @return  获取奖励的结果
      */
-    public RewardResultVo obtainReward(String custId);
+    public RewardResultVo obtainReward(String custId, Long activityId);
 
     /**
      * 获取该场景下能获取到的奖励数
      *  @param custId    客户号
      * @return
      */
-    public RewardResultVo getCanObtainRewards(String custId);
+    public RewardResultVo getCanObtainRewards(String custId, Long activityId);
 
 }

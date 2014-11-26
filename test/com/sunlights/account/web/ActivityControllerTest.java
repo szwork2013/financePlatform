@@ -46,16 +46,17 @@ public class ActivityControllerTest extends BaseTest{
                         Map<String, String> formParams = new HashMap<String, String>();
                         play.mvc.Result result = null;
 
+                        RewardFlowService rewardFlowService = new RewardFlowServiceImpl();
+                        RewardFlow rewardFlows = rewardFlowService.findTodayFlowByCustIdAndScene("20141119102210010000000029", AccountConstant.ACTIVITY_SIGNIN_SCENE_CODE);
+
                         //2:签到获取金豆正常测试
                         formParams = new HashMap<String, String>();
                         formParams.put("scene", AccountConstant.ACTIVITY_SIGNIN_SCENE_CODE);
-                        result = getResult("/account/activity/obtainRward", formParams, cookie);
+                        result = getResult("/account/activity/signin", formParams, cookie);
                         assertThat(status(result)).isEqualTo(OK);
 
                         final MessageVo message = toMessageVo(result);
 
-                        RewardFlowService rewardFlowService = new RewardFlowServiceImpl();
-                        RewardFlow rewardFlows = rewardFlowService.findTodayFlowByCustIdAndScene("20141119102210010000000029", AccountConstant.ACTIVITY_SIGNIN_SCENE_CODE);
                         if(rewardFlows != null) {
                             assertThat(message.getMessage().getCode()).isEqualTo(MsgCode.ALREADY_SIGN.getCode());
                             assertThat("20141119102210010000000029").isEqualTo(rewardFlows.getCustId());
@@ -90,8 +91,6 @@ public class ActivityControllerTest extends BaseTest{
 
             }
         });
-
-
     }
 
     @Test
@@ -102,12 +101,30 @@ public class ActivityControllerTest extends BaseTest{
                 //1：邀请好友获取金豆测试
                 Map<String, String> formParams = new HashMap<String, String>();
                 formParams.put("scene", AccountConstant.ACTIVITY_INVITE_SCENE_CODE);
-                play.mvc.Result result = getResult("/account/activity/obtainRward", formParams, cookie);
+                play.mvc.Result result = getResult("/account/activity/invite", formParams, cookie);
                 assertThat(status(result)).isEqualTo(OK);
                 MessageVo message = toMessageVo(result);
                 assertThat(message.getMessage().getCode()).isEqualTo(MsgCode.OBTAIN_SUCC.getCode());
 
                 Logger.info("============testInviteObtainReward result====\n" + contentAsString(result));
+            }
+        });
+    }
+
+    @Test
+    public void testRegisterObtainReward() {
+        running(fakeApplication(), new Runnable() {
+            public void run() {
+                Logger.info("============testRegisterObtainReward start====");
+                //1：注册获取金豆测试
+                Map<String, String> formParams = new HashMap<String, String>();
+                formParams.put("scene", AccountConstant.ACTIVITY_REGISTER_SCENE_CODE);
+                play.mvc.Result result = getResult("/account/activity/register", formParams, cookie);
+                assertThat(status(result)).isEqualTo(OK);
+                MessageVo message = toMessageVo(result);
+                assertThat(message.getMessage().getCode()).isEqualTo(MsgCode.OBTAIN_SUCC.getCode());
+
+                Logger.info("============testRegisterObtainReward result====\n" + contentAsString(result));
             }
         });
     }

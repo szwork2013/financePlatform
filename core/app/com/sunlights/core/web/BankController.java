@@ -11,6 +11,7 @@ import com.sunlights.core.service.BankService;
 import com.sunlights.core.service.impl.BankCardServiceImpl;
 import com.sunlights.core.service.impl.BankServiceImpl;
 import com.sunlights.core.vo.BankCardFormVo;
+import com.sunlights.core.vo.BankCardVo;
 import com.sunlights.core.vo.BankVo;
 import com.sunlights.customer.service.impl.CustomerService;
 import play.data.Form;
@@ -42,18 +43,17 @@ public class BankController extends Controller {
     private CustomerService customerService = new CustomerService();
 
     public Result createBankCard() {
-        BankCardFormVo bankCardVo = null;
+        BankCardVo bankCardVo = null;
         Http.RequestBody body = request().body();
         if (body.asJson() != null) {
             bankCardVo = Json.fromJson(body.asJson(), BankCardFormVo.class);
         }
         if (body.asFormUrlEncoded() != null) {
-            bankCardVo = bankCardForm.bindFromRequest().get();
+            bankCardVo = Form.form(BankCardVo.class).bindFromRequest().get();
         }
         play.Logger.info("[bankCardVo]" + Json.toJson(bankCardVo));
-        Http.Cookie cookie = Controller.request().cookie(AppConst.TOKEN);
-        String token = cookie == null ? null : cookie.value();
         customerService.validateCustomerSession(request(), session(), response());
+        String token = request().cookie(AppConst.TOKEN).value();
         bankCardService.createBankCard(token, bankCardVo);
         return ok(MessageUtil.getInstance().toJson());
     }
@@ -124,7 +124,7 @@ public class BankController extends Controller {
             bankCardVo = bankCardForm.bindFromRequest().get();
         }
         play.Logger.info("[bankCardVo]" + Json.toJson(bankCardVo));
-        BankVo bankVo = bankService.findBankByBankCardNo(bankCardVo.getNo());
+        BankVo bankVo = bankService.findBankByBankCardNo(bankCardVo.getBankCardNo());
         MessageUtil.getInstance().setMessage(new Message(Severity.INFO, MsgCode.OPERATE_SUCCESS), bankVo);
         return ok(MessageUtil.getInstance().toJson());
     }

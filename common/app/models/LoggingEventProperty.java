@@ -1,43 +1,20 @@
 package models;
 
-
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
-
 /**
- * Created by yuan on 9/26/14.
+ * <p>Project: financePlatform</p>
+ * <p>Title: LoggingEventProperty.java</p>
+ * <p>Description: </p>
+ * <p>Copyright (c) 2014 Sunlights.cc</p>
+ * <p>All Rights Reserved.</p>
+ *
+ * @author <a href="mailto:zhencai.yuan@sunlights.cc">yuanzhencai</a>
  */
-@Entity
-@Table(name = "M_LOGGING_EVENT_PROPERTY")
-public class LoggingEventProperty  {
-
-    /**
-    * constructor
-    * just read & delete
-    */
-    public LoggingEventProperty() {
-    }
-
-    /**
-    * data field
-    */
-     @Id
-    @Column(name="log_event_id" ,length=10)
+public class LoggingEventProperty {
     private Long eventId;
-//    @Column(length = 254)
-    @Column(name="log_mapped_key" ,length=10)
     private String mappedKey;
-//    @Column(length = 1024)
-    @Column(name="log_mapped_value" ,length=10)
-    private String mapped_value;
+    private String mappedValue;
 
-    /**
-    * function
-    * getter setter
-    * finder
-    */
+
     public Long getEventId() {
         return eventId;
     }
@@ -45,6 +22,7 @@ public class LoggingEventProperty  {
     public void setEventId(Long eventId) {
         this.eventId = eventId;
     }
+
 
     public String getMappedKey() {
         return mappedKey;
@@ -54,12 +32,12 @@ public class LoggingEventProperty  {
         this.mappedKey = mappedKey;
     }
 
-    public String getMapped_value() {
-        return mapped_value;
+    public String getMappedValue() {
+        return mappedValue;
     }
 
-    public void setMapped_value(String mapped_value) {
-        this.mapped_value = mapped_value;
+    public void setMappedValue(String mappedValue) {
+        this.mappedValue = mappedValue;
     }
 
 }

@@ -1,6 +1,7 @@
 package com.sunlights.account.service.rewardrules;
 
 import com.google.common.collect.Lists;
+import com.sunlights.account.AccountConstant;
 
 import java.util.List;
 
@@ -8,19 +9,16 @@ import java.util.List;
  * Created by tangweiqun on 2014/11/19.
  */
 public class RewardRuleFactory {
-    private static List<IObtainRewardRule> obtainRuleHandlerList = Lists.newArrayList();
-
-    static {
-        obtainRuleHandlerList.add(new SignInObtainRewardRule());
-        obtainRuleHandlerList.add(new InviteObtainRewardRule());
-    }
-
 
     public static IObtainRewardRule getIObtainRuleHandler(String scene) {
-        for(IObtainRewardRule obtainRewardRule : obtainRuleHandlerList) {
-            if(obtainRewardRule.getScene().equals(scene)) {
-                return obtainRewardRule;
-            }
+        if(AccountConstant.ACTIVITY_INVITE_SCENE_CODE.equals(scene)) {
+            return new InviteObtainRewardRule();
+        } else if(AccountConstant.ACTIVITY_SIGNIN_SCENE_CODE.equals(scene)) {
+            return new SignInObtainRewardRule();
+        } else if(AccountConstant.ACTIVITY_REGISTER_SCENE_CODE.equals(scene)) {
+            return new RegisterObtainRewardRule();
+        } else if(AccountConstant.ACTIVITY_FIRST_PURCHASE_SCENE_CODE.equals(scene)) {
+            return new FirstPurchseObtainRewardRule();
         }
         return null;
     }

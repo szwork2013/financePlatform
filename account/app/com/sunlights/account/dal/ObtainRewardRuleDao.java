@@ -1,6 +1,7 @@
 package com.sunlights.account.dal;
 
 import models.ObtainRewardRule;
+import models.Trade;
 
 import java.util.List;
 
@@ -10,4 +11,7 @@ import java.util.List;
 public interface ObtainRewardRuleDao {
 
     public List<ObtainRewardRule> getByActivityId(Long activityId);
+
+    public List<Trade> getTradesByCustId(String custId);
+
 }

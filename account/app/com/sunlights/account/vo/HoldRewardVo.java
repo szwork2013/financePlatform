@@ -12,13 +12,13 @@ public class HoldRewardVo implements Serializable{
     //总金豆数量
     private String totalReward;
     //总赚取
-    private String obtain;
+    private String gots;
     //等价现金
     private String totalCash;
     //已兑换
-    private String exchange;
+    private String payed;
 
-    private List<RewardFlowVo> rewardFlowVos = Lists.newArrayList();
+    private List<RewardFlowVo> records = Lists.newArrayList();
 
     public String getTotalReward() {
         return totalReward;
@@ -28,13 +28,6 @@ public class HoldRewardVo implements Serializable{
         this.totalReward = totalReward;
     }
 
-    public String getObtain() {
-        return obtain;
-    }
-
-    public void setObtain(String obtain) {
-        this.obtain = obtain;
-    }
 
     public String getTotalCash() {
         return totalCash;
@@ -44,19 +37,28 @@ public class HoldRewardVo implements Serializable{
         this.totalCash = totalCash;
     }
 
-    public String getExchange() {
-        return exchange;
+
+    public List<RewardFlowVo> getRecords() {
+        return records;
     }
 
-    public void setExchange(String exchange) {
-        this.exchange = exchange;
+    public void setRecords(List<RewardFlowVo> records) {
+        this.records = records;
     }
 
-    public List<RewardFlowVo> getRewardFlowVos() {
-        return rewardFlowVos;
+    public String getGots() {
+        return gots;
     }
 
-    public void setRewardFlowVos(List<RewardFlowVo> rewardFlowVos) {
-        this.rewardFlowVos = rewardFlowVos;
+    public void setGots(String gots) {
+        this.gots = gots;
+    }
+
+    public String getPayed() {
+        return payed;
+    }
+
+    public void setPayed(String payed) {
+        this.payed = payed;
     }
 }

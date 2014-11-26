@@ -22,7 +22,7 @@ public class ActivityDaoImpl extends EntityBaseDao implements ActivityDao{
     @Override
     public List<Activity> getActivityVos(PageVo pageVo) {
         String currentDate = CommonUtil.dateToString(new Date(), CommonUtil.DATE_FORMAT_SHORT);
-        String jpql = " select a from Activity a where a.status = 'N' and a.scene = '"+ AccountConstant.ACTIVITY_PICTURE_SCENE_CODE +"'  and a.beginTime <= '" +currentDate+ "' and a.endTime >= '" + currentDate + "' order by a.createTime desc ";
+        String jpql = " select a from Activity a where a.status = 'N' and a.image is not null and a.url is not null  and a.beginTime <= '" +currentDate+ "' and a.endTime >= '" + currentDate + "' order by a.createTime desc ";
         List<Activity> activities = pageDao.findXsqlBy(jpql, pageVo);
         return activities;
     }

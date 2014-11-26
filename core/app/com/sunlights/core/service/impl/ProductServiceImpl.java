@@ -60,7 +60,6 @@ public class ProductServiceImpl implements ProductService {
                 " from FundNav f , ProductManage pm" +
                 " where f.fundcode = pm.productCode" +
                 " and pm.productStatus = '" + DictConst.FP_PRODUCT_MANAGE_STATUS_1 + "'" +
-                " and pm.recommendFlag <> '" + DictConst.FP_RECOMMEND_FLAG_1 + "'" +
                 " and pm.productType = :productType" +
                 " and pm.upBeginTime < '" + currentDate + "'" +
                 " and pm.downEndTime >= '" + currentDate + "'" +

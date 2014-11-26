@@ -786,120 +786,119 @@ DROP TABLE IF EXISTS F_ACTIVITY;
 /*==============================================================*/
 /* Table: F_ACTIVITY                                            */
 /*==============================================================*/
-create table F_ACTIVITY
+CREATE TABLE F_ACTIVITY
 (
-   ID                   INT8                           not null,
-   STATUS               VARCHAR(2)                     not null,
-   TITLE                VARCHAR(700)                   not null,
-   BEGIN_TIME           DATE                           null,
-   END_TIME             DATE                           null,
-   SCENE                VARCHAR(10)                    not null,
-   APP_ID               VARCHAR(16)                    null,
-   IMAGE                VARCHAR(50)                    null,
-   URL                  VARCHAR(50)                    null,
-   CLICK_TIME           INT8                           null,
-   TYPE                 VARCHAR(10)                    null,
-   STYLE                VARCHAR(10)                    null,
-   CLICK_EVENT          VARCHAR(6)                     null,
-   CREATE_TIME          TIMESTAMP                      null,
-   UPDATE_TIME          TIMESTAMP                      null,
-   CREATE_BY            VARCHAR(30)                    null,
-   UPDATE_BY            VARCHAR(30)                    null,
-   constraint PK_F_ACTIVITY primary key (ID)
+  ID          INT8         NOT NULL,
+  STATUS      VARCHAR(2)   NOT NULL,
+  TITLE       VARCHAR(700) NOT NULL,
+  BEGIN_TIME  DATE         NULL,
+  END_TIME    DATE         NULL,
+  SCENE       VARCHAR(10)  NOT NULL,
+  APP_ID      VARCHAR(16)  NULL,
+  IMAGE       VARCHAR(50)  NULL,
+  URL         VARCHAR(50)  NULL,
+  CLICK_TIME  INT8         NULL,
+  TYPE        VARCHAR(10)  NULL,
+  STYLE       VARCHAR(10)  NULL,
+  CLICK_EVENT VARCHAR(6)   NULL,
+  CREATE_TIME TIMESTAMP    NULL,
+  UPDATE_TIME TIMESTAMP    NULL,
+  CREATE_BY   VARCHAR(30)  NULL,
+  UPDATE_BY   VARCHAR(30)  NULL,
+  CONSTRAINT PK_F_ACTIVITY PRIMARY KEY (ID)
 );
 
-comment on column F_ACTIVITY.ID is
+COMMENT ON COLUMN F_ACTIVITY.ID IS
 '主键';
 
-comment on column F_ACTIVITY.STATUS is
+COMMENT ON COLUMN F_ACTIVITY.STATUS IS
 'N表示正常   F表示禁用';
 
-comment on column F_ACTIVITY.TITLE is
+COMMENT ON COLUMN F_ACTIVITY.TITLE IS
 '活动标题';
 
-comment on column F_ACTIVITY.BEGIN_TIME is
+COMMENT ON COLUMN F_ACTIVITY.BEGIN_TIME IS
 '活动开始时间';
 
-comment on column F_ACTIVITY.END_TIME is
+COMMENT ON COLUMN F_ACTIVITY.END_TIME IS
 '活动结束时间';
 
-comment on column F_ACTIVITY.SCENE is
+COMMENT ON COLUMN F_ACTIVITY.SCENE IS
 '应用场景';
 
-comment on column F_ACTIVITY.APP_ID is
+COMMENT ON COLUMN F_ACTIVITY.APP_ID IS
 '投放产品ID';
 
-comment on column F_ACTIVITY.IMAGE is
+COMMENT ON COLUMN F_ACTIVITY.IMAGE IS
 '活动图片';
 
-comment on column F_ACTIVITY.URL is
+COMMENT ON COLUMN F_ACTIVITY.URL IS
 'html5名称';
 
-comment on column F_ACTIVITY.CLICK_TIME is
+COMMENT ON COLUMN F_ACTIVITY.CLICK_TIME IS
 '点击次数';
 
-comment on column F_ACTIVITY.TYPE is
+COMMENT ON COLUMN F_ACTIVITY.TYPE IS
 '活动类型';
 
-comment on column F_ACTIVITY.STYLE is
+COMMENT ON COLUMN F_ACTIVITY.STYLE IS
 '活动形式';
 
-comment on column F_ACTIVITY.CLICK_EVENT is
+COMMENT ON COLUMN F_ACTIVITY.CLICK_EVENT IS
 '点击事件';
 
-comment on column F_ACTIVITY.CREATE_TIME is
+COMMENT ON COLUMN F_ACTIVITY.CREATE_TIME IS
 '创建时间';
 
-comment on column F_ACTIVITY.UPDATE_TIME is
+COMMENT ON COLUMN F_ACTIVITY.UPDATE_TIME IS
 '修改时间';
 
-comment on column F_ACTIVITY.CREATE_BY is
+COMMENT ON COLUMN F_ACTIVITY.CREATE_BY IS
 '创建人';
 
-comment on column F_ACTIVITY.UPDATE_BY is
+COMMENT ON COLUMN F_ACTIVITY.UPDATE_BY IS
 '修改人';
-
 
 
 DROP TABLE IF EXISTS F_REWARD_TYPE;
 /*==============================================================*/
 /* Table: F_REWARD_TYPE                                         */
 /*==============================================================*/
-create table F_REWARD_TYPE
+CREATE TABLE F_REWARD_TYPE
 (
-   ID                   INT8                           not null,
-   CODE                 VARCHAR(6)                     not null,
-   NAME                 VARCHAR(16)                    not null,
-   UNIT                 INT8                           not null,
-   CREATE_TIME          TIMESTAMP                      null,
-   UPDATE_TIME          TIMESTAMP                      null,
-   CREATE_BY            VARCHAR(30)                    null,
-   UPDATE_BY            VARCHAR(30)                    null,
-   constraint PK_F_REWARD_TYPE primary key (ID)
+  ID          INT8        NOT NULL,
+  CODE        VARCHAR(6)  NOT NULL,
+  NAME        VARCHAR(16) NOT NULL,
+  UNIT        INT8        NOT NULL,
+  CREATE_TIME TIMESTAMP   NULL,
+  UPDATE_TIME TIMESTAMP   NULL,
+  CREATE_BY   VARCHAR(30) NULL,
+  UPDATE_BY   VARCHAR(30) NULL,
+  CONSTRAINT PK_F_REWARD_TYPE PRIMARY KEY (ID)
 );
 
-comment on column F_REWARD_TYPE.ID is
+COMMENT ON COLUMN F_REWARD_TYPE.ID IS
 '主键';
 
-comment on column F_REWARD_TYPE.CODE is
+COMMENT ON COLUMN F_REWARD_TYPE.CODE IS
 '奖励类型编码';
 
-comment on column F_REWARD_TYPE.NAME is
+COMMENT ON COLUMN F_REWARD_TYPE.NAME IS
 '奖励类型名称';
 
-comment on column F_REWARD_TYPE.UNIT is
+COMMENT ON COLUMN F_REWARD_TYPE.UNIT IS
 '单位';
 
-comment on column F_REWARD_TYPE.CREATE_TIME is
+COMMENT ON COLUMN F_REWARD_TYPE.CREATE_TIME IS
 '创建时间';
 
-comment on column F_REWARD_TYPE.UPDATE_TIME is
+COMMENT ON COLUMN F_REWARD_TYPE.UPDATE_TIME IS
 '更新时间';
 
-comment on column F_REWARD_TYPE.CREATE_BY is
+COMMENT ON COLUMN F_REWARD_TYPE.CREATE_BY IS
 '创建人';
 
-comment on column F_REWARD_TYPE.UPDATE_BY is
+COMMENT ON COLUMN F_REWARD_TYPE.UPDATE_BY IS
 '修改人';
 
 
@@ -908,59 +907,58 @@ DROP TABLE IF EXISTS F_EXCHANGE_REWARD_RULE;
 /*==============================================================*/
 /* Table: F_EXCHANGE_REWARD_RULE                                */
 /*==============================================================*/
-create table F_EXCHANGE_REWARD_RULE
+CREATE TABLE F_EXCHANGE_REWARD_RULE
 (
-   ID                   INT8                           not null,
-   REWARD_TYPE          VARCHAR(6)                     null,
-   STATUS               VARCHAR(2)                     null,
-   EXCHAGE_TYPE         VARCHAR(6)                     null,
-   RATE                 DECIMAL(18,4)                  not null,
-   LIMIT_TIME           INT4                           null,
-   NOTICE_TIME          INT4                           null,
-   DELAY_TIME           INT4                           null,
-   CREATE_TIME          TIMESTAMP                      null,
-   UPDATE_TIME          TIMESTAMP                      null,
-   CREATE_BY            VARCHAR(30)                    null,
-   UPDATE_BY            VARCHAR(30)                    null,
-   constraint PK_F_EXCHANGE_REWARD_RULE primary key (ID)
+  ID           INT8           NOT NULL,
+  REWARD_TYPE  VARCHAR(6)     NULL,
+  STATUS       VARCHAR(2)     NULL,
+  EXCHAGE_TYPE VARCHAR(6)     NULL,
+  RATE         DECIMAL(18, 4) NOT NULL,
+  LIMIT_TIME   INT4           NULL,
+  NOTICE_TIME  INT4           NULL,
+  DELAY_TIME   INT4           NULL,
+  CREATE_TIME  TIMESTAMP      NULL,
+  UPDATE_TIME  TIMESTAMP      NULL,
+  CREATE_BY    VARCHAR(30)    NULL,
+  UPDATE_BY    VARCHAR(30)    NULL,
+  CONSTRAINT PK_F_EXCHANGE_REWARD_RULE PRIMARY KEY (ID)
 );
 
-comment on column F_EXCHANGE_REWARD_RULE.ID is
+COMMENT ON COLUMN F_EXCHANGE_REWARD_RULE.ID IS
 '主键';
 
-comment on column F_EXCHANGE_REWARD_RULE.REWARD_TYPE is
+COMMENT ON COLUMN F_EXCHANGE_REWARD_RULE.REWARD_TYPE IS
 '奖励类型';
 
-comment on column F_EXCHANGE_REWARD_RULE.STATUS is
+COMMENT ON COLUMN F_EXCHANGE_REWARD_RULE.STATUS IS
 '状态 N表示正常  F表示禁止使用';
 
-comment on column F_EXCHANGE_REWARD_RULE.EXCHAGE_TYPE is
+COMMENT ON COLUMN F_EXCHANGE_REWARD_RULE.EXCHAGE_TYPE IS
 '兑换类型';
 
-comment on column F_EXCHANGE_REWARD_RULE.RATE is
+COMMENT ON COLUMN F_EXCHANGE_REWARD_RULE.RATE IS
 '兑换率';
 
-comment on column F_EXCHANGE_REWARD_RULE.LIMIT_TIME is
+COMMENT ON COLUMN F_EXCHANGE_REWARD_RULE.LIMIT_TIME IS
 '兑换期限  1-1个月；2-2个月；3-3个月 4-6个月 5-两周';
 
-comment on column F_EXCHANGE_REWARD_RULE.NOTICE_TIME is
+COMMENT ON COLUMN F_EXCHANGE_REWARD_RULE.NOTICE_TIME IS
 '兑换到期提醒  1-提前1星期通知 2-提前3天通知';
 
-comment on column F_EXCHANGE_REWARD_RULE.DELAY_TIME is
+COMMENT ON COLUMN F_EXCHANGE_REWARD_RULE.DELAY_TIME IS
 '兑换期限延长 1-积分有效期延长1周 2-积分有效期延长1月，并分享活动';
 
-comment on column F_EXCHANGE_REWARD_RULE.CREATE_TIME is
+COMMENT ON COLUMN F_EXCHANGE_REWARD_RULE.CREATE_TIME IS
 '创建时间';
 
-comment on column F_EXCHANGE_REWARD_RULE.UPDATE_TIME is
+COMMENT ON COLUMN F_EXCHANGE_REWARD_RULE.UPDATE_TIME IS
 '修改时间';
 
-comment on column F_EXCHANGE_REWARD_RULE.CREATE_BY is
+COMMENT ON COLUMN F_EXCHANGE_REWARD_RULE.CREATE_BY IS
 '创建人';
 
-comment on column F_EXCHANGE_REWARD_RULE.UPDATE_BY is
+COMMENT ON COLUMN F_EXCHANGE_REWARD_RULE.UPDATE_BY IS
 '修改人';
-
 
 
 DROP TABLE IF EXISTS F_GET_REWARD_RULE;
@@ -969,26 +967,26 @@ DROP TABLE IF EXISTS F_GET_REWARD_RULE;
 /* Table: F_GET_REWARD_RULE                                     */
 /*==============================================================*/
 CREATE TABLE F_GET_REWARD_RULE (
-    ID                   INT8                           not null,
-   activity_id          INT8                           null,
-   reward_type          VARCHAR(6)                     null,
-   status               VARCHAR(2)                     not null,
-   should_reward        INT8                           not null,
-   real_reward          INT8                           null,
-   back_reward          INT8                           null,
-   effect_time          INT4                           null,
-   valid_time           INT4                           null,
-   total_limit_amt      INT8                           null,
-   product_type         VARCHAR(30)                    null,
-   product_code         VARCHAR(16)                    null,
-   activity_channel     INT4                           null,
-   trade_amt            NUMERIC(18,2)                  null,
-   back_funds           NUMERIC(18,2)                  null,
-   create_time          TIMESTAMP                      null,
-   update_time          TIMESTAMP                      null,
-   create_by            VARCHAR(30)                    null,
-   update_by            VARCHAR(30)                    null,
-   constraint PK_F_GET_REWARD_RULE primary key (ID)
+  ID               INT8           NOT NULL,
+  activity_id      INT8           NULL,
+  reward_type      VARCHAR(6)     NULL,
+  status           VARCHAR(2)     NOT NULL,
+  should_reward    INT8           NOT NULL,
+  real_reward      INT8           NULL,
+  back_reward      INT8           NULL,
+  effect_time      INT4           NULL,
+  valid_time       INT4           NULL,
+  total_limit_amt  INT8           NULL,
+  product_type     VARCHAR(30)    NULL,
+  product_code     VARCHAR(16)    NULL,
+  activity_channel INT4           NULL,
+  trade_amt        NUMERIC(18, 2) NULL,
+  back_funds       NUMERIC(18, 2) NULL,
+  create_time      TIMESTAMP      NULL,
+  update_time      TIMESTAMP      NULL,
+  create_by        VARCHAR(30)    NULL,
+  update_by        VARCHAR(30)    NULL,
+  CONSTRAINT PK_F_GET_REWARD_RULE PRIMARY KEY (ID)
 );
 
 COMMENT ON COLUMN F_GET_REWARD_RULE.ID IS
@@ -1053,50 +1051,50 @@ DROP TABLE IF EXISTS F_REWARD_COUNT;
 /*==============================================================*/
 /* Table: F_REWARD_COUNT                                        */
 /*==============================================================*/
-create table F_REWARD_COUNT
+CREATE TABLE F_REWARD_COUNT
 (
-   ID                   INT8                           not null,
-   customer_Id          VARCHAR(30)                    null,
-   REWARD_TYPE          VARCHAR(6)                     null,
-   GET_AMOUNT           INT8                           null,
-   HOLD_REWARD          INT8                           null,
-   FROZEN_REWARD        INT8                           null,
-   GET_MONEY            DECIMAL(18,2)                  null,
-   HOLD_MONEY           DECIMAL(18,2)                  null,
-   FROZEN_MONEY         DECIMAL(18,2)                  null,
-   CREATE_TIME          TIMESTAMP                      null,
-   UPDATE_TIME          TIMESTAMP                      null,
-   constraint PK_F_REWARD_COUNT primary key (ID)
+  ID            INT8           NOT NULL,
+  customer_Id   VARCHAR(30)    NULL,
+  REWARD_TYPE   VARCHAR(6)     NULL,
+  GET_AMOUNT    INT8           NULL,
+  HOLD_REWARD   INT8           NULL,
+  FROZEN_REWARD INT8           NULL,
+  GET_MONEY     DECIMAL(18, 2) NULL,
+  HOLD_MONEY    DECIMAL(18, 2) NULL,
+  FROZEN_MONEY  DECIMAL(18, 2) NULL,
+  CREATE_TIME   TIMESTAMP      NULL,
+  UPDATE_TIME   TIMESTAMP      NULL,
+  CONSTRAINT PK_F_REWARD_COUNT PRIMARY KEY (ID)
 );
 
-comment on column F_REWARD_COUNT.ID is
+COMMENT ON COLUMN F_REWARD_COUNT.ID IS
 '主键';
 
-comment on column F_REWARD_COUNT.REWARD_TYPE is
+COMMENT ON COLUMN F_REWARD_COUNT.REWARD_TYPE IS
 '奖励类型';
 
-comment on column F_REWARD_COUNT.GET_AMOUNT is
+COMMENT ON COLUMN F_REWARD_COUNT.GET_AMOUNT IS
 '获取奖励数量：获取各种奖励类型的奖励的总和';
 
-comment on column F_REWARD_COUNT.HOLD_REWARD is
+COMMENT ON COLUMN F_REWARD_COUNT.HOLD_REWARD IS
 '持有奖励数量：现持有各种奖励类型的奖励的总和';
 
-comment on column F_REWARD_COUNT.FROZEN_REWARD is
+COMMENT ON COLUMN F_REWARD_COUNT.FROZEN_REWARD IS
 '冻结奖励数量';
 
-comment on column F_REWARD_COUNT.GET_MONEY is
+COMMENT ON COLUMN F_REWARD_COUNT.GET_MONEY IS
 '获取奖励折现';
 
-comment on column F_REWARD_COUNT.HOLD_MONEY is
+COMMENT ON COLUMN F_REWARD_COUNT.HOLD_MONEY IS
 '持有奖励折现';
 
-comment on column F_REWARD_COUNT.FROZEN_MONEY is
+COMMENT ON COLUMN F_REWARD_COUNT.FROZEN_MONEY IS
 '冻结奖励折现';
 
-comment on column F_REWARD_COUNT.CREATE_TIME is
+COMMENT ON COLUMN F_REWARD_COUNT.CREATE_TIME IS
 '创建时间';
 
-comment on column F_REWARD_COUNT.UPDATE_TIME is
+COMMENT ON COLUMN F_REWARD_COUNT.UPDATE_TIME IS
 '修改时间';
 
 
@@ -1107,52 +1105,51 @@ DROP TABLE IF EXISTS F_REWARD_FLOW;
 /*==============================================================*/
 /* Table: F_REWARD_FLOW                                         */
 /*==============================================================*/
-create table F_REWARD_FLOW
+CREATE TABLE F_REWARD_FLOW
 (
-   ID                   INT8                           not null,
-   customer_Id          VARCHAR(30)                    null,
-   ACTIVITY_ID          INT8                           null,
-   Activity_title       varchar(700)                   null,
-   SCENE                varchar(10)                    null,
-   STATUS               INT4                           null,
-   REWARD_TYPE          VARCHAR(6)                     null,
-   OPERATOR_TYPE        INT4                           null,
-   REWARD_AMT           INT8                           null,
-   MONEY                DECIMAL(18,2)                  null,
-   CREATE_TIME          TIMESTAMP                      null,
-   constraint PK_F_REWARD_FLOW primary key (ID)
+  ID             INT8           NOT NULL,
+  customer_Id    VARCHAR(30)    NULL,
+  ACTIVITY_ID    INT8           NULL,
+  Activity_title VARCHAR(700)   NULL,
+  SCENE          VARCHAR(10)    NULL,
+  STATUS         INT4           NULL,
+  REWARD_TYPE    VARCHAR(6)     NULL,
+  OPERATOR_TYPE  INT4           NULL,
+  REWARD_AMT     INT8           NULL,
+  MONEY          DECIMAL(18, 2) NULL,
+  CREATE_TIME    TIMESTAMP      NULL,
+  CONSTRAINT PK_F_REWARD_FLOW PRIMARY KEY (ID)
 );
 
-comment on column F_REWARD_FLOW.ID is
+COMMENT ON COLUMN F_REWARD_FLOW.ID IS
 '主键';
 
-comment on column F_REWARD_FLOW.ACTIVITY_ID is
+COMMENT ON COLUMN F_REWARD_FLOW.ACTIVITY_ID IS
 '活动ID';
 
-comment on column F_REWARD_FLOW.Activity_title is
+COMMENT ON COLUMN F_REWARD_FLOW.Activity_title IS
 '活动标题';
 
-comment on column F_REWARD_FLOW.SCENE is
+COMMENT ON COLUMN F_REWARD_FLOW.SCENE IS
 '应用场景';
 
-comment on column F_REWARD_FLOW.STATUS is
+COMMENT ON COLUMN F_REWARD_FLOW.STATUS IS
 '状态 0-未发放，1-已发放，2-发放失败，4-撤回成功，5-撤回失败 6-已兑换';
 
-comment on column F_REWARD_FLOW.REWARD_TYPE is
+COMMENT ON COLUMN F_REWARD_FLOW.REWARD_TYPE IS
 '奖励类型';
 
-comment on column F_REWARD_FLOW.OPERATOR_TYPE is
+COMMENT ON COLUMN F_REWARD_FLOW.OPERATOR_TYPE IS
 '1表示获取  2表示兑换';
 
-comment on column F_REWARD_FLOW.REWARD_AMT is
+COMMENT ON COLUMN F_REWARD_FLOW.REWARD_AMT IS
 '奖励数量';
 
-comment on column F_REWARD_FLOW.MONEY is
+COMMENT ON COLUMN F_REWARD_FLOW.MONEY IS
 '奖励折现';
 
-comment on column F_REWARD_FLOW.CREATE_TIME is
+COMMENT ON COLUMN F_REWARD_FLOW.CREATE_TIME IS
 '创建时间';
-
 
 
 -- ----------------------------
@@ -1322,31 +1319,30 @@ DROP TABLE IF EXISTS P_FUND_COMPANY;
 CREATE TABLE
   P_FUND_COMPANY
 (
-  ID BIGINT NOT NULL,
-  COMPANY_NAME CHARACTER VARYING(50),
-  FUND_COMPANY_ID CHARACTER VARYING(100),
-  PIN_YIN_CODE CHARACTER VARYING(30),
-  ABBR_NAME CHARACTER VARYING(50),
-  BACKGROUND TEXT,
-  CONTACT_ADDR CHARACTER VARYING(500),
-  DIRECT_SELL_URL CHARACTER VARYING(500),
-  EMAIL CHARACTER VARYING(50),
+  ID                 BIGINT NOT NULL,
+  COMPANY_NAME       CHARACTER VARYING(50),
+  FUND_COMPANY_ID    CHARACTER VARYING(100),
+  PIN_YIN_CODE       CHARACTER VARYING(30),
+  ABBR_NAME          CHARACTER VARYING(50),
+  BACKGROUND         TEXT,
+  CONTACT_ADDR       CHARACTER VARYING(500),
+  DIRECT_SELL_URL    CHARACTER VARYING(500),
+  EMAIL              CHARACTER VARYING(50),
   ESTABLISHMENT_DATE TIMESTAMP(6) WITHOUT TIME ZONE,
-  FAX CHARACTER VARYING(100),
-  GENERAL_MANAGER CHARACTER VARYING(20),
-  LEGAL_REPR CHARACTER VARYING(20),
-  LINK_MAN CHARACTER VARYING(20),
-  OFFICE_ADDR CHARACTER VARYING(500),
-  REG_ADDR CHARACTER VARYING(500),
-  REG_CAPITAL NUMERIC(16,5),
-  SERVICE_LINE CHARACTER VARYING(20),
-  TEL CHARACTER VARYING(100),
-  WEB_SITE CHARACTER VARYING(200),
-  ZIP_CODE CHARACTER VARYING(10),
-  IS_FUND_COMPANY CHARACTER VARYING(50),
+  FAX                CHARACTER VARYING(100),
+  GENERAL_MANAGER    CHARACTER VARYING(20),
+  LEGAL_REPR         CHARACTER VARYING(20),
+  LINK_MAN           CHARACTER VARYING(20),
+  OFFICE_ADDR        CHARACTER VARYING(500),
+  REG_ADDR           CHARACTER VARYING(500),
+  REG_CAPITAL        NUMERIC(16, 5),
+  SERVICE_LINE       CHARACTER VARYING(20),
+  TEL                CHARACTER VARYING(100),
+  WEB_SITE           CHARACTER VARYING(200),
+  ZIP_CODE           CHARACTER VARYING(10),
+  IS_FUND_COMPANY    CHARACTER VARYING(50),
   CONSTRAINT PK_P_FUND_COMPANY PRIMARY KEY (ID)
 );
-
 
 
 --2014-11-19-Y
@@ -1356,48 +1352,47 @@ CREATE TABLE
 DROP TABLE IF EXISTS FUNDNAV;
 CREATE TABLE FUNDNAV
 (
-  FUNDCODE             VARCHAR(30)                    NOT NULL,
-  ALIASCODE            VARCHAR(30)                    NULL,
-  FUNDNAME             TEXT                           NULL,
-  FUNDNAMEABBR         TEXT                           NULL,
-  CURR_DATE            TEXT                           NULL,
-  FUND_TYPE            INT                            NULL,
-  INVESTMENT_TYPE      INT                            NULL,
-  NETVALUE             DECIMAL(16,5)                  NULL,
-  TOTAL_NETVALUE       DECIMAL(16,5)                  NULL,
-  PERCENT              DECIMAL(16,5)                  NULL,
-  INCOME_PER_TEN_THOUSAND DECIMAL(16,5)                  NULL,
-  PERCENT_SEVEN_DAYS   DECIMAL(16,5)                  NULL,
-  YIELD_1M             DECIMAL(16,5)                  NULL,
-  YIELD_3M             DECIMAL(16,5)                  NULL,
-  YIELD_6M             DECIMAL(16,5)                  NULL,
-  YIELD_12M            DECIMAL(16,5)                  NULL,
-  YIELD_THIS_YEAR      DECIMAL(16,5)                  NULL,
-  CGS_3_YEAR           DECIMAL(16,5)                  NULL,
-  LASTEST_TOTAL_ASSET  DECIMAL(16,5)                  NULL,
-  ON_SALE              INT                            NULL,
-  RISK_LEVEL           VARCHAR(50)                    NULL,
-  SHARE_TYPE           VARCHAR(50)                    NULL,
-  PURCHASE_STATE       INT                            NULL,
-  SUBSCRIBE_STATE      INT                            NULL,
-  AIP_STATE            INT                            NULL,
-  RECOMMENDATION       INT                            NULL,
-  CHARGE_RATE_VALUE    DECIMAL(16,5)                  NULL,
-  DISCOUNT             DECIMAL(16,5)                  NULL,
-  SALE_CHARGE_RATE_VALUE DECIMAL(16,5)                  NULL,
-  IS_MONETARY          INT                            NULL,
-  IS_STF               INT                            NULL,
-  PURCHASE_LIMIT_MIN   DECIMAL(16,5)                  NULL,
-  REDEEM_LIMIT_MIN     DECIMAL(16,5)                  NULL,
-  RAPID_REDEEM         INT                            NULL,
-  IA_GUID              VARCHAR(100)                   NULL,
-  FUND_MANAGEMENT_FEES TEXT                           NULL,
-  FUND_TRUSTEE_FEES    TEXT                           NULL,
-  CREATE_TIME          TIMESTAMP                      NULL,
-  UPDATE_TIME          TIMESTAMP                      NULL,
+  FUNDCODE                VARCHAR(30)    NOT NULL,
+  ALIASCODE               VARCHAR(30)    NULL,
+  FUNDNAME                TEXT           NULL,
+  FUNDNAMEABBR            TEXT           NULL,
+  CURR_DATE               TEXT           NULL,
+  FUND_TYPE               INT            NULL,
+  INVESTMENT_TYPE         INT            NULL,
+  NETVALUE                DECIMAL(16, 5) NULL,
+  TOTAL_NETVALUE          DECIMAL(16, 5) NULL,
+  PERCENT                 DECIMAL(16, 5) NULL,
+  INCOME_PER_TEN_THOUSAND DECIMAL(16, 5) NULL,
+  PERCENT_SEVEN_DAYS      DECIMAL(16, 5) NULL,
+  YIELD_1M                DECIMAL(16, 5) NULL,
+  YIELD_3M                DECIMAL(16, 5) NULL,
+  YIELD_6M                DECIMAL(16, 5) NULL,
+  YIELD_12M               DECIMAL(16, 5) NULL,
+  YIELD_THIS_YEAR         DECIMAL(16, 5) NULL,
+  CGS_3_YEAR              DECIMAL(16, 5) NULL,
+  LASTEST_TOTAL_ASSET     DECIMAL(16, 5) NULL,
+  ON_SALE                 INT            NULL,
+  RISK_LEVEL              VARCHAR(50)    NULL,
+  SHARE_TYPE              VARCHAR(50)    NULL,
+  PURCHASE_STATE          INT            NULL,
+  SUBSCRIBE_STATE         INT            NULL,
+  AIP_STATE               INT            NULL,
+  RECOMMENDATION          INT            NULL,
+  CHARGE_RATE_VALUE       DECIMAL(16, 5) NULL,
+  DISCOUNT                DECIMAL(16, 5) NULL,
+  SALE_CHARGE_RATE_VALUE  DECIMAL(16, 5) NULL,
+  IS_MONETARY             INT            NULL,
+  IS_STF                  INT            NULL,
+  PURCHASE_LIMIT_MIN      DECIMAL(16, 5) NULL,
+  REDEEM_LIMIT_MIN        DECIMAL(16, 5) NULL,
+  RAPID_REDEEM            INT            NULL,
+  IA_GUID                 VARCHAR(100)   NULL,
+  FUND_MANAGEMENT_FEES    TEXT           NULL,
+  FUND_TRUSTEE_FEES       TEXT           NULL,
+  CREATE_TIME             TIMESTAMP      NULL,
+  UPDATE_TIME             TIMESTAMP      NULL,
   PRIMARY KEY (FUNDCODE)
 );
-
 
 
 /*==============================================================*/
@@ -1407,79 +1402,154 @@ CREATE TABLE FUNDNAV
 DROP TABLE IF EXISTS FUNDNAV_HISTORY;
 CREATE TABLE FUNDNAV_HISTORY
 (
-  FUNDCODE             VARCHAR(30)                    NOT NULL,
-  ALIASCODE            VARCHAR(30)                    NULL,
-  FUNDNAME             TEXT                           NULL,
-  FUNDNAMEABBR         TEXT                           NULL,
-  CURR_DATE            TEXT                           NULL,
-  FUND_TYPE            INT                            NULL,
-  INVESTMENT_TYPE      INT                            NULL,
-  NETVALUE             DECIMAL(16,5)                  NULL,
-  TOTAL_NETVALUE       DECIMAL(16,5)                  NULL,
-  PERCENT              DECIMAL(16,5)                  NULL,
-  INCOME_PER_TEN_THOUSAND DECIMAL(16,5)                  NULL,
-  PERCENT_SEVEN_DAYS   DECIMAL(16,5)                  NULL,
-  YIELD_1M             DECIMAL(16,5)                  NULL,
-  YIELD_3M             DECIMAL(16,5)                  NULL,
-  YIELD_6M             DECIMAL(16,5)                  NULL,
-  YIELD_12M            DECIMAL(16,5)                  NULL,
-  YIELD_THIS_YEAR      DECIMAL(16,5)                  NULL,
-  CGS_3_YEAR           DECIMAL(16,5)                  NULL,
-  LASTEST_TOTAL_ASSET  DECIMAL(16,5)                  NULL,
-  ON_SALE              INT                            NULL,
-  RISK_LEVEL           VARCHAR(50)                    NULL,
-  SHARE_TYPE           VARCHAR(50)                    NULL,
-  PURCHASE_STATE       INT                            NULL,
-  SUBSCRIBE_STATE      INT                            NULL,
-  AIP_STATE            INT                            NULL,
-  RECOMMENDATION       INT                            NULL,
-  CHARGE_RATE_VALUE    DECIMAL(16,5)                  NULL,
-  DISCOUNT             DECIMAL(16,5)                  NULL,
-  SALE_CHARGE_RATE_VALUE DECIMAL(16,5)                  NULL,
-  IS_MONETARY          INT                            NULL,
-  IS_STF               INT                            NULL,
-  PURCHASE_LIMIT_MIN   DECIMAL(16,5)                  NULL,
-  REDEEM_LIMIT_MIN     DECIMAL(16,5)                  NULL,
-  RAPID_REDEEM         INT                            NULL,
-  IA_GUID              VARCHAR(100)                   NULL,
-  FUND_MANAGEMENT_FEES TEXT                           NULL,
-  FUND_TRUSTEE_FEES    TEXT                           NULL,
-  CREATE_TIME          TIMESTAMP                      NULL,
-  UPDATE_TIME          TIMESTAMP                      NULL,
+  FUNDCODE                VARCHAR(30)    NOT NULL,
+  ALIASCODE               VARCHAR(30)    NULL,
+  FUNDNAME                TEXT           NULL,
+  FUNDNAMEABBR            TEXT           NULL,
+  CURR_DATE               TEXT           NULL,
+  FUND_TYPE               INT            NULL,
+  INVESTMENT_TYPE         INT            NULL,
+  NETVALUE                DECIMAL(16, 5) NULL,
+  TOTAL_NETVALUE          DECIMAL(16, 5) NULL,
+  PERCENT                 DECIMAL(16, 5) NULL,
+  INCOME_PER_TEN_THOUSAND DECIMAL(16, 5) NULL,
+  PERCENT_SEVEN_DAYS      DECIMAL(16, 5) NULL,
+  YIELD_1M                DECIMAL(16, 5) NULL,
+  YIELD_3M                DECIMAL(16, 5) NULL,
+  YIELD_6M                DECIMAL(16, 5) NULL,
+  YIELD_12M               DECIMAL(16, 5) NULL,
+  YIELD_THIS_YEAR         DECIMAL(16, 5) NULL,
+  CGS_3_YEAR              DECIMAL(16, 5) NULL,
+  LASTEST_TOTAL_ASSET     DECIMAL(16, 5) NULL,
+  ON_SALE                 INT            NULL,
+  RISK_LEVEL              VARCHAR(50)    NULL,
+  SHARE_TYPE              VARCHAR(50)    NULL,
+  PURCHASE_STATE          INT            NULL,
+  SUBSCRIBE_STATE         INT            NULL,
+  AIP_STATE               INT            NULL,
+  RECOMMENDATION          INT            NULL,
+  CHARGE_RATE_VALUE       DECIMAL(16, 5) NULL,
+  DISCOUNT                DECIMAL(16, 5) NULL,
+  SALE_CHARGE_RATE_VALUE  DECIMAL(16, 5) NULL,
+  IS_MONETARY             INT            NULL,
+  IS_STF                  INT            NULL,
+  PURCHASE_LIMIT_MIN      DECIMAL(16, 5) NULL,
+  REDEEM_LIMIT_MIN        DECIMAL(16, 5) NULL,
+  RAPID_REDEEM            INT            NULL,
+  IA_GUID                 VARCHAR(100)   NULL,
+  FUND_MANAGEMENT_FEES    TEXT           NULL,
+  FUND_TRUSTEE_FEES       TEXT           NULL,
+  CREATE_TIME             TIMESTAMP      NULL,
+  UPDATE_TIME             TIMESTAMP      NULL,
   PRIMARY KEY (FUNDCODE)
 );
 
+--Y
 /*==============================================================*/
 /* Table: p_product_manage                                      */
 /*==============================================================*/
 DROP TABLE IF EXISTS P_PRODUCT_MANAGE;
 CREATE TABLE P_PRODUCT_MANAGE
 (
-  ID                   BIGINT                         NOT NULL,
-  PRODUCT_CODE         VARCHAR(30)                    NULL,
-  PRODUCT_NAME         VARCHAR(100)                   NULL,
-  PRODUCT_TYPE         VARCHAR(50)                    NULL,
-  PRODUCT_STATUS       VARCHAR(50)                    NULL,
-  BEGIN_DATE           TIMESTAMP                      NULL,
-  END_DATE             TIMESTAMP                      NULL,
-  TEMP_STOP_DATE       TIMESTAMP                      NULL,
-  PRIORITY_LEVEL       INT                            NULL,
-  RECOMMEND_TYPE       VARCHAR(50)                     NULL,
-  RECOMMEND_FLAG       VARCHAR(50)                    NULL,
-  RECOMMEND_DESC       VARCHAR(50)                    NULL,
-  SUPPLIER_CODE        VARCHAR(20)                    NULL,
-  URL                  VARCHAR(300)                   NULL,
-  IS_GRAB              VARCHAR(50)                    NULL,
-  UP_BEGIN_TIME        TIMESTAMP                      NULL,
-  DOWN_END_TIME        TIMESTAMP                      NULL,
-  PRODUCT_DESC         VARCHAR(100)                   NULL,
-  INIT_BUYED_COUNT     INT                            NULL,
-  ONE_MONTH_BUYED_COUNT INT                            NULL,
-  CREATE_TIME          TIMESTAMP                      NULL,
-  UPDATE_TIME          TIMESTAMP                      NULL,
-  CREATE_BY            VARCHAR(20)                    NULL,
-  UPDATE_BY            VARCHAR(20)                    NULL,
+  ID                    BIGINT       NOT NULL,
+  PRODUCT_CODE          VARCHAR(30)  NULL,
+  PRODUCT_NAME          VARCHAR(100) NULL,
+  PRODUCT_TYPE          VARCHAR(50)  NULL,
+  PRODUCT_STATUS        VARCHAR(50)  NULL,
+  BEGIN_DATE            TIMESTAMP    NULL,
+  END_DATE              TIMESTAMP    NULL,
+  TEMP_STOP_DATE        TIMESTAMP    NULL,
+  PRIORITY_LEVEL        INT          NULL,
+  RECOMMEND_TYPE        VARCHAR(50)  NULL,
+  RECOMMEND_FLAG        VARCHAR(50)  NULL,
+  RECOMMEND_DESC        VARCHAR(50)  NULL,
+  SUPPLIER_CODE         VARCHAR(20)  NULL,
+  URL                   VARCHAR(300) NULL,
+  IS_GRAB               VARCHAR(50)  NULL,
+  UP_BEGIN_TIME         TIMESTAMP    NULL,
+  DOWN_END_TIME         TIMESTAMP    NULL,
+  PRODUCT_DESC          VARCHAR(100) NULL,
+  INIT_BUYED_COUNT      INT          NULL,
+  ONE_MONTH_BUYED_COUNT INT          NULL,
+  CREATE_TIME           TIMESTAMP    NULL,
+  UPDATE_TIME           TIMESTAMP    NULL,
+  CREATE_BY             VARCHAR(20)  NULL,
+  UPDATE_BY             VARCHAR(20)  NULL,
   PRIMARY KEY (ID)
 );
 
+--Y
+/*==============================================================*/
+/* TABLE: CODE                                                  */
+/*==============================================================*/
+DROP TABLE IF EXISTS CODE;
+CREATE TABLE CODE
+(
+  ID       BIGINT      NOT NULL,
+  CATEGORY VARCHAR(10) NULL,
+  CODE     VARCHAR(10) NULL,
+  VALUE    VARCHAR(20) NULL,
+  "DESC"   VARCHAR(50) NULL,
+  CONSTRAINT PK_CODE PRIMARY KEY (ID)
+);
 
+-- Logback: the reliable, generic, fast and flexible logging framework.
+-- Copyright (C) 1999-2010, QOS.ch. All rights reserved.
+--
+-- See http://logback.qos.ch/license.html for the applicable licensing
+-- conditions.
+
+-- This SQL script creates the required tables by ch.qos.logback.classic.db.DBAppender
+--
+-- It is intended for PostgreSQL databases.
+
+--Y
+DROP TABLE    logging_event_property;
+DROP TABLE    logging_event_exception;
+DROP TABLE    logging_event;
+DROP SEQUENCE logging_event_id_seq;
+
+
+CREATE SEQUENCE logging_event_id_seq MINVALUE 1 START 1;
+
+
+CREATE TABLE logging_event
+(
+  timestmp         BIGINT NOT NULL,
+  formatted_message  TEXT NOT NULL,
+  logger_name       VARCHAR(254) NOT NULL,
+  level_string      VARCHAR(254) NOT NULL,
+  thread_name       VARCHAR(254),
+  reference_flag    SMALLINT,
+  arg0              VARCHAR(254),
+  arg1              VARCHAR(254),
+  arg2              VARCHAR(254),
+  arg3              VARCHAR(254),
+  caller_filename   VARCHAR(254) NOT NULL,
+  caller_class      VARCHAR(254) NOT NULL,
+  caller_method     VARCHAR(254) NOT NULL,
+  caller_line       CHAR(4) NOT NULL,
+  event_id          BIGINT DEFAULT nextval('logging_event_id_seq') PRIMARY KEY
+);
+
+CREATE TABLE logging_event_property
+(
+  event_id	      BIGINT NOT NULL,
+  mapped_key        VARCHAR(254) NOT NULL,
+  mapped_value      VARCHAR(1024),
+  PRIMARY KEY(event_id, mapped_key),
+  FOREIGN KEY (event_id) REFERENCES logging_event(event_id)
+);
+
+CREATE TABLE logging_event_exception
+(
+  event_id         BIGINT NOT NULL,
+  i                SMALLINT NOT NULL,
+  trace_line       VARCHAR(254) NOT NULL,
+  PRIMARY KEY(event_id, i),
+  FOREIGN KEY (event_id) REFERENCES logging_event(event_id)
+);
+
+DROP TABLE    m_logging_event_property;
+DROP TABLE    m_logging_event_exception;
+DROP TABLE    m_logging_event;
