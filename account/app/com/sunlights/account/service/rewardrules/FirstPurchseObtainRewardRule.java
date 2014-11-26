@@ -31,6 +31,8 @@ public class FirstPurchseObtainRewardRule extends AbstractObtainRewardRule{
             Message message = new Message(Severity.INFO, MsgCode.ALREADY_PURCHASE);
             vo.setStatus(AccountConstant.ACTIVITY_CUSTONER_STATUS_FORBIDDEN);
             vo.setReturnMessage(message);
+            vo.setNotGet(0L);
+            vo.setAlreadyGet(0L);
             return vo;
         }
         return super.validate(custId);
