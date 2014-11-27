@@ -18,7 +18,7 @@ POST        /saveshumiaccount                   @com.sunlights.account.web.ShuMi
 
 #Activity
 POST        /activity/list                      @com.sunlights.account.web.ActivityController.getActivityList
-POST        /activity/signin                    @com.sunlights.account.web.ActivityController.obtainReward
+POST        /activity/signin                    @com.sunlights.account.web.ActivityController.signinObtainReward
 POST        /activity/register                  @com.sunlights.account.web.ActivityController.registerObtainReward
 POST        /activity/purchase                  @com.sunlights.account.web.ActivityController.purchaseObtainReward
 
