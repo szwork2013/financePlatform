@@ -17,7 +17,7 @@ import java.util.Date;
 public class FundAgreement extends IdEntity {
   @Column(name = "customer_id", length = 30)
   private String customerId;
-  @Column(name = "fund_company_id", length = 20)
+  @Column(name = "fund_company_id", length = 100)
   private String fundCompanyId;
   @Temporal(TemporalType.TIMESTAMP)
   @Column(name = "create_time")

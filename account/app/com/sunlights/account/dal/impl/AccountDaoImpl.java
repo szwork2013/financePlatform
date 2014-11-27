@@ -52,12 +52,15 @@ public class AccountDaoImpl extends EntityBaseDao implements AccountDao {
 
     @Override
     public boolean findFundAgreementExist(String customerId, String fundCompanyId){
-        String sql = "select 1 from f_fund_Agreement fa where fa.customer_id = ?0 and fund_company_id = ?1";
+        String sql = "select count(1) from f_fund_Agreement fa where fa.customer_id = ?0 and fund_company_id = ?1";
         Query query = em.createNativeQuery(sql);
         query.setParameter(0, customerId);
         query.setParameter(1, fundCompanyId);
-        List list = query.getResultList();
-        return !list.isEmpty();
+        int count = Integer.valueOf(query.getSingleResult().toString());
+        if (count > 0) {
+            return true;
+        }
+        return false;
     }
 
     @Override
@@ -72,12 +75,15 @@ public class AccountDaoImpl extends EntityBaseDao implements AccountDao {
     }
 
     public boolean findPrdAccountConfigExist(String prdType, String subAccountNo){
-        String sql = "select 1 from prd_account_config fa where fa.prd_type_code = ?0 and sub_account = ?1";
+        String sql = "select count(1) from prd_account_config fa where fa.prd_type_code = ?0 and sub_account = ?1";
         Query query = em.createNativeQuery(sql);
         query.setParameter(0, prdType);
         query.setParameter(1, subAccountNo);
-        List list = query.getResultList();
-        return !list.isEmpty();
+        int count = Integer.valueOf(query.getSingleResult().toString());
+        if (count > 0) {
+            return true;
+        }
+        return false;
     }
 
     public void savePrdAccountConfig(String subAccountNo, String prdType){
