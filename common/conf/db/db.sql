@@ -1576,3 +1576,7 @@ CREATE TABLE logging_event_exception
 DROP TABLE    m_logging_event_property;
 DROP TABLE    m_logging_event_exception;
 DROP TABLE    m_logging_event;
+
+
+ALTER TABLE fundnav ALTER COLUMN lastest_total_asset type numeric(18, 5);
+ALTER TABLE fundnav_history ALTER COLUMN lastest_total_asset type numeric(18, 5);
