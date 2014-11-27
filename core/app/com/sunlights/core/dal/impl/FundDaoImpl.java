@@ -3,10 +3,7 @@ package com.sunlights.core.dal.impl;
 import com.sunlights.common.dal.EntityBaseDao;
 import com.sunlights.core.dal.FundDao;
 import com.sunlights.core.vo.FundDetailVo;
-import models.Fund;
-import models.FundCompany;
-import models.FundHistory;
-import models.FundNavHistory;
+import models.*;
 
 import javax.persistence.Query;
 import java.util.List;
@@ -24,6 +21,11 @@ public class FundDaoImpl extends EntityBaseDao implements FundDao {
     @Override
     public Fund findFundByCode(String code) {
         List<Fund> funds = super.findBy(Fund.class, "fundCode", code);
+        return funds.isEmpty() ? null : funds.get(0);
+    }
+
+    public FundNav findFundNavByCode(String code){
+        List<FundNav> funds = super.findBy(FundNav.class, "fundcode", code);
         return funds.isEmpty() ? null : funds.get(0);
     }
 

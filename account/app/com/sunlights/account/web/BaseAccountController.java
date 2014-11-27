@@ -6,6 +6,7 @@ import com.sunlights.account.service.impl.AccountServiceImpl;
 import com.sunlights.common.AppConst;
 import com.sunlights.common.MsgCode;
 import com.sunlights.common.service.VerifyCodeService;
+import com.sunlights.common.utils.MessageUtil;
 import com.sunlights.common.vo.CustomerVerifyCodeVo;
 import com.sunlights.common.vo.Message;
 import com.sunlights.common.vo.MessageVo;
@@ -55,10 +56,12 @@ public class BaseAccountController extends Controller {
         customerVerifyCodeVo.setVerifyType(AppConst.VERIFY_CODE_RESET_ACCOUNT);
         customerVerifyCodeVo.setDeviceNo(customerFormVo.getDeviceNo());
         customerVerifyCodeVo.setVerifyCode(customerFormVo.getVerifyCode());
-        MsgCode msgCode = verifyCodeService.validateVerifyCode(customerVerifyCodeVo);
-        MessageVo messageVo = new MessageVo(new Message(msgCode));
+        boolean success = verifyCodeService.validateVerifyCode(customerVerifyCodeVo);
+        if (success) {
+            MessageUtil.getInstance().setMessage(new Message(MsgCode.OPERATE_SUCCESS));
+        }
 
-        return ok(Json.toJson(messageVo));
+        return ok(MessageUtil.getInstance().toJson());
     }
 
     /**

@@ -21,7 +21,7 @@ public class Trade extends IdEntity {
   private Long holdCapitalId;
   @Column(length = 30, name = "cust_id")
   private String custId;//客户号
-  @Column(length = 20, name = "trade_no")
+  @Column(length = 100, name = "trade_no")
   private String tradeNo;//交易流水号
   @Column(precision = 18, scale = 4, name = "product_price")
   private BigDecimal productPrice;//产品单价
@@ -35,13 +35,13 @@ public class Trade extends IdEntity {
   private BigDecimal tradeAmount;//交易金额
   @Column(precision = 18, scale = 4, name = "fee")
   private BigDecimal fee;//手续费
-  @Column(name = "type", length = 1)
+  @Column(name = "type", length = 50)
   private String type;//1:申购 2:赎回 3:分红
-  @Column(name = "trade_status", length = 1)
+  @Column(name = "trade_status", length = 50)
   private String tradeStatus;//1：存/取钱中、2：存/取钱成功、3：存/取失败【失败原因】
-  @Column(name = "pay_status", length = 1)
+  @Column(name = "pay_status", length = 50)
   private String payStatus;//'交易付款标志 0-不需付款；1-未付款；2-付款成功；3-付款失败；4-付款中；
-  @Column(name = "confirm_status", length = 1)
+  @Column(name = "confirm_status", length = 50)
   private String confirmStatus;//'0-不需发送；1-待确认；2-待确认；3-部分确认；4-确认完成；5-确认失败
   @Column(name = "bank_name", length = 50)
   private String bankName;

@@ -12,10 +12,7 @@ import com.sunlights.core.vo.ChartVo;
 import com.sunlights.core.vo.FundVo;
 import com.sunlights.core.vo.Point;
 import com.sunlights.core.vo.ProductVo;
-import models.Fund;
-import models.FundCompany;
-import models.FundHistory;
-import models.FundNavHistory;
+import models.*;
 
 import java.util.Date;
 import java.util.List;
@@ -73,6 +70,10 @@ public class ProductServiceImpl implements ProductService {
     public Fund findFundByCode(String fundCode) {
         Fund fund = fundDao.findFundByCode(fundCode);
         return fund;
+    }
+
+    public FundNav findFundNavByCode(String fundCode){
+        return fundDao.findFundNavByCode(fundCode);
     }
 
     public FundHistory findFundHistoryByCode(String productCode) {
