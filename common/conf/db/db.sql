@@ -115,6 +115,7 @@ CREATE TABLE "public"."c_bank_card" (
   "bank_type"    VARCHAR(1) COLLATE "default",
   "create_time"  TIMESTAMP(6),
   "customer_id"  VARCHAR(30) COLLATE "default",
+  "bank_serial"  VARCHAR(100) COLLATE "default",
   "update_time"  TIMESTAMP(6),
   "bank_id"      INT8
 )
@@ -135,7 +136,7 @@ CREATE TABLE "public"."c_customer" (
   "login_id"        VARCHAR(20) COLLATE "default",
   "login_password"  VARCHAR(40) COLLATE "default",
   "mobile"          VARCHAR(11) COLLATE "default",
-  "nick_name"       VARCHAR(20) COLLATE "default",
+  "nick_name"       VARCHAR(50) COLLATE "default",
   "pic_way"         VARCHAR(40) COLLATE "default",
   "property"        VARCHAR(1) COLLATE "default",
   "qq"              VARCHAR(20) COLLATE "default",
@@ -401,7 +402,7 @@ DROP TABLE IF EXISTS "public"."f_fund_agreement";
 CREATE TABLE "public"."f_fund_agreement" (
   "id"           INT8                          NOT NULL,
   "customer_id"  VARCHAR(30) COLLATE "default",
-  "company_code" VARCHAR(20) COLLATE "default" NOT NULL,
+  "fund_company_id" VARCHAR(100) COLLATE "default" NOT NULL,
   "create_time"  TIMESTAMP(6),
   "update_time"  TIMESTAMP(6)
 )
@@ -701,7 +702,7 @@ COMMENT ON COLUMN "public"."parameter"."status" IS 'Y有效 N失效';
 DROP TABLE IF EXISTS "public"."prd_account_config";
 CREATE TABLE "public"."prd_account_config" (
   "id"            INT8 NOT NULL,
-  "prd_type_code" VARCHAR(8) COLLATE "default",
+  "prd_type_code" VARCHAR(50) COLLATE "default",
   "sub_account"   VARCHAR(10) COLLATE "default",
   "create_time"   TIMESTAMP(6),
   "update_time"   TIMESTAMP(6),
@@ -728,6 +729,29 @@ CREATE TABLE "public"."sms_message" (
   "rec_status"  VARCHAR(40) COLLATE "default",
   "return_msg"  VARCHAR(200) COLLATE "default",
   "smsid"       VARCHAR(40) COLLATE "default",
+  "success_ind" CHAR(1) COLLATE "default",
+  "create_time" TIMESTAMP(6),
+  "update_time" TIMESTAMP(6)
+)
+WITH (OIDS = FALSE);
+
+-- ----------------------------
+-- Table structure for sms_message
+-- ----------------------------
+DROP TABLE IF EXISTS "public"."f_shumi_account";
+CREATE TABLE "public"."f_shumi_account" (
+  "id"          INT8 NOT NULL,
+  "customer_id"     VARCHAR(30) COLLATE "default",
+  "shumi_tokenkey"      VARCHAR(500) COLLATE "default",
+  "shumi_tokensecret"  VARCHAR(500) COLLATE "default",
+  "shumi_username"  VARCHAR(50) COLLATE "default",
+  "shumi_realname"       VARCHAR(50) COLLATE "default",
+  "shumi_idnumber" VARCHAR(100) COLLATE "default",
+  "shumi_bankname" VARCHAR(100) COLLATE "default",
+  "shumi_bankcardno" VARCHAR(100) COLLATE "default",
+  "shumi_bankserial" VARCHAR(100) COLLATE "default",
+  "shumi_phonenum" VARCHAR(20) COLLATE "default",
+  "shumi_email" VARCHAR(50) COLLATE "default",
   "create_time" TIMESTAMP(6),
   "update_time" TIMESTAMP(6)
 )
@@ -739,11 +763,11 @@ WITH (OIDS = FALSE);
 DROP TABLE IF EXISTS "public"."t_trade";
 CREATE TABLE "public"."t_trade" (
   "id"             INT8 NOT NULL,
-  "trade_no"       VARCHAR(20) COLLATE "default",
+  "trade_no"       VARCHAR(100) COLLATE "default",
   "fee"            NUMERIC(18, 4),
-  "type"           CHAR(1) COLLATE "default",
-  "trade_status"   CHAR(1) COLLATE "default",
-  "confirm_status" CHAR(1) COLLATE "default",
+  "type"           VARCHAR(50) COLLATE "default",
+  "trade_status"   VARCHAR(50) COLLATE "default",
+  "confirm_status" VARCHAR(50) COLLATE "default",
   "trade_time"     TIMESTAMP(6),
   "create_time"    TIMESTAMP(6),
   "update_time"    TIMESTAMP(6),
@@ -751,7 +775,7 @@ CREATE TABLE "public"."t_trade" (
   "cust_id"        VARCHAR(30) COLLATE "default",
   "bank_card_no"   VARCHAR(40) COLLATE "default",
   "bank_name"      VARCHAR(50) COLLATE "default",
-  "pay_status"     VARCHAR(1) COLLATE "default",
+  "pay_status"     VARCHAR(50) COLLATE "default",
   "trade_amount"   NUMERIC(18, 4),
   "product_code"   VARCHAR(8) COLLATE "default",
   "product_name"   VARCHAR(100) COLLATE "default",

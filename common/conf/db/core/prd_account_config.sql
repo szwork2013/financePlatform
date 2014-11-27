@@ -1,7 +1,7 @@
 CREATE TABLE prd_account_config
 (
   id bigint NOT NULL, -- 主键Id
-  prd_type_code character varying(8), -- 产品类型编码
+  prd_type_code character varying(50), -- 产品类型编码
   sub_account character varying(10), -- 子账户号
   create_time timestamp without time zone, -- 创建时间
   update_time timestamp without time zone, -- 修改时间
