@@ -41,7 +41,7 @@ public class ShuMiTradeController extends Controller{
 
         shuMiTradeService.shuMiTradeOrder(tradeFormVo, token);
 
-        MessageUtil.getInstance().setMessage(new Message(MsgCode.OPERATE_SUCCESS));
+        MessageUtil.getInstance().setMessage(new Message(MsgCode.TRADE_ORDER_SUCCESS));
 
         Logger.info("----------tradeOrder end: ------------\n");
 
@@ -58,7 +58,7 @@ public class ShuMiTradeController extends Controller{
 
         shuMiTradeService.shuMiTradeRedeem(tradeFormVo, token);
 
-        MessageUtil.getInstance().setMessage(new Message(MsgCode.OPERATE_SUCCESS));
+        MessageUtil.getInstance().setMessage(new Message(MsgCode.TRADE_REDEEM_SUCCESS));
 
         Logger.info("----------tradeRedeem end: ------------\n");
 
