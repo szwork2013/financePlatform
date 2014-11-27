@@ -98,7 +98,9 @@ public enum MsgCode {
     ACTIVITY_QUERY_SUCC("0221", "查询成功"),
     REWARD_QUERY_SUCC("0222", "查询成功"),
     ALREADY_SIGN("2220", "重复签到"),
-    NOT_CONFIG_ACTIVITY_SCENE("2221", "没有配置活动场景");
+    NOT_CONFIG_ACTIVITY_SCENE("2221", "没有配置活动场景"),
+    ALREADY_PURCHASE("2222", "不是首次购买"),
+    ALREADY_REGISTER("2223", "已经注册");
 
 
     private String code;

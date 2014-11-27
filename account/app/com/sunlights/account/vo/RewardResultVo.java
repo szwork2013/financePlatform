@@ -134,9 +134,9 @@ public class RewardResultVo implements Serializable {
     public String toString() {
         StringBuilder sb = new StringBuilder();
         sb.append("[ scene = ").append(scene).append(",")
-                .append(" rewards = ").append(rewards).append(",")
+                .append(" alreadyGet = ").append(alreadyGet).append(",")
                 .append(" rewardType = ").append(rewardType).append(",")
-                .append(" operatorType = ").append(operatorType).append(",")
+                .append(" notGet = ").append(notGet).append(",")
                 .append(" activityId = ").append(activityId).append(",")
                 .append(" code = ").append(returnMessage.getCode()).append("]");
         return sb.toString();

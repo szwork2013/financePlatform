@@ -45,7 +45,7 @@ public class CustomerVo implements Serializable {
     private String shumi_phoneNum;//
     private String shumi_email;
 
-    private Map<String, String> ext = new HashMap<String, String>();
+
 
 
 
@@ -223,19 +223,4 @@ public class CustomerVo implements Serializable {
         this.shumi_email = shumi_email;
     }
 
-    public Map<String, String> getExt() {
-        return ext;
-    }
-
-    public void setExt(Map<String, String> ext) {
-        this.ext = ext;
-    }
-
-    public void put(String key, String value) {
-        ext.put(key, value);
-    }
-
-    public String get(String key) {
-        return ext.get(key);
-    }
 }

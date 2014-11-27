@@ -15,6 +15,7 @@ import play.db.jpa.JPA;
 import play.libs.F;
 import play.libs.Json;
 import play.mvc.Http;
+import play.mvc.Result;
 import play.test.FakeRequest;
 import web.TestUtil;
 
@@ -75,19 +76,16 @@ public class BankControllerTest extends BaseTest {
     public void testCreateBankCard() throws Exception {
         running(fakeApplication(inMemoryDatabase("test")), new Runnable() {
             public void run() {
-                BankCardFormVo bankCardVo = new BankCardFormVo();
-                bankCardVo.setBankName("招商银行");
-                bankCardVo.setBankSerial("002");
-                bankCardVo.setBankCardNo(BANK_CARD_NO);
+                String bankName = "招商银行";
+                String bankSerial = "002";
 
-                play.mvc.Result result = null;
                 // create bank card
-                FakeRequest bankCardCreateRequest = fakeRequest(POST, "/core/bank/bankcard/create");
-                Map<String, String> paramMap = bankCardForm.bind(Json.toJson(bankCardVo)).data();
+                Map<String, String> paramMap = new HashMap<String, String>();
+                paramMap.put("bankName", bankName);
+                paramMap.put("bankSerial", bankSerial);
+                paramMap.put("bankCardNo", BANK_CARD_NO);
 
-                FakeRequest formBankCardCreateRequest = bankCardCreateRequest.withHeader("Content-Type", TestUtil.APPLICATION_X_WWW_FORM_URLENCODED).withFormUrlEncodedBody(paramMap);
-                formBankCardCreateRequest.withCookies(cookie);
-                result = route(formBankCardCreateRequest);
+                Result result = getResult("/core/bank/bankcard/create", paramMap, cookie);
 
                 Logger.info("result is " + contentAsString(result));
                 assertThat(contentAsString(result)).contains(MsgCode.BANK_CARD_ADD_SUCCESS.getCode());
@@ -103,7 +101,7 @@ public class BankControllerTest extends BaseTest {
         running(fakeApplication(inMemoryDatabase("test")), new Runnable() {
             public void run() {
                 BankCardFormVo bankCardVo = new BankCardFormVo();
-                bankCardVo.setNo(BANK_CARD_NO);
+                bankCardVo.setBankCardNo(BANK_CARD_NO);
                 bankCardVo.setBankCode("CCB");
 
                 play.mvc.Result result = null;
@@ -170,7 +168,7 @@ public class BankControllerTest extends BaseTest {
         running(fakeApplication(inMemoryDatabase("test")), new Runnable() {
             public void run() {
                 BankCardVo bankCardVo = new BankCardVo();
-                bankCardVo.setNo("6225885105574736");
+                bankCardVo.setBankCardNo("6225885105574736");
                 FakeRequest findBankRequest = fakeRequest(POST, "/core/bank/findbybankcard");
                 play.mvc.Result result = null;
                 // form request

@@ -3,11 +3,14 @@ package com.sunlights.common.service;
 import com.sunlights.common.AppConst;
 import com.sunlights.common.MsgCode;
 import com.sunlights.common.ParameterConst;
+import com.sunlights.common.Severity;
 import com.sunlights.common.dal.CustomerVerifyCodeDao;
 import com.sunlights.common.dal.impl.CustomerVerifyCodeDaoImpl;
 import com.sunlights.common.utils.CommonUtil;
 import com.sunlights.common.utils.DBHelper;
+import com.sunlights.common.utils.MessageUtil;
 import com.sunlights.common.vo.CustomerVerifyCodeVo;
+import com.sunlights.common.vo.Message;
 import models.CustomerVerifyCode;
 import play.Logger;
 
@@ -85,31 +88,35 @@ public class VerifyCodeService {
      * 验证码验证
      * @return
      */
-    public MsgCode validateVerifyCode(CustomerVerifyCodeVo customerVerifyCodeVo){
+    public boolean validateVerifyCode(CustomerVerifyCodeVo customerVerifyCodeVo){
         CustomerVerifyCode customerVerifyCode = customerVerifyCodeDao.findVerifyCodeByType(customerVerifyCodeVo.getMobile(), customerVerifyCodeVo.getVerifyType());
-        if (customerVerifyCode == null) {
-            return MsgCode.CERTIFY_NONE;
-        }
-        if (!customerVerifyCode.getVerifyCode().equals(customerVerifyCodeVo.getVerifyCode())){
-            return MsgCode.CERTIFY_ERROR;
-        }
 
+        if (customerVerifyCode == null) {
+            MessageUtil.getInstance().setMessage(new Message(Severity.ERROR, MsgCode.CERTIFY_NONE));
+            return false;
+        }
+        if (!customerVerifyCode.getVerifyCode().equals(customerVerifyCodeVo.getVerifyCode())) {
+            MessageUtil.getInstance().setMessage(new Message(Severity.ERROR, MsgCode.CERTIFY_ERROR));
+            return false;
+        }
         Timestamp currentTime = DBHelper.getCurrentTime();
         long verifyCodeExpiry = parameterService.getParameterNumeric(ParameterConst.VERIFYCODE_EXPIRY);
         if (currentTime.getTime() - customerVerifyCode.getCreateTime().getTime() >= verifyCodeExpiry * AppConst.ONE_MINUTE) {// 验证码有效时间超时
             customerVerifyCode.setStatus(AppConst.STATUS_INVALID);
             customerVerifyCode.setUpdateTime(currentTime);
             customerVerifyCodeDao.updateCustomerVerifyCode(customerVerifyCode);
-            return  MsgCode.CERTIFY_TIMEOUT;
+            MessageUtil.getInstance().setMessage(new Message(Severity.ERROR, MsgCode.CERTIFY_TIMEOUT));
+            return false;
         }
         if (!customerVerifyCode.getDeviceNo().equals(customerVerifyCodeVo.getDeviceNo())) {
-            return MsgCode.CERTIFY_DEVICE_NOT_MATCH;
+            MessageUtil.getInstance().setMessage(new Message(Severity.ERROR, MsgCode.CERTIFY_DEVICE_NOT_MATCH));
+            return false;
         }
 
         customerVerifyCode.setStatus(AppConst.STATUS_INVALID);
         customerVerifyCode.setUpdateTime(currentTime);
         customerVerifyCodeDao.updateCustomerVerifyCode(customerVerifyCode);
 
-        return MsgCode.OPERATE_SUCCESS;
+        return true;
     }
 }

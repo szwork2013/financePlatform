@@ -58,6 +58,10 @@ public class RewardController extends ActivityBaseController {
         return ok(messageUtil.toJson());
     }
 
+
+
+
+
     /**
      * 获取客户点击一个活动场景可以获取到的奖励数
      *
