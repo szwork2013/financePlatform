@@ -9,7 +9,7 @@ import java.sql.Timestamp;
  * Created by guxuelong on 2014/11/27.
  */
 @Entity
-public class FundProfitHistoryEntity extends IdEntity {
+public class FundProfitHistory extends IdEntity {
     @Column(name = "fundcode")
     private String fundcode;
     @Column(name = "fundname")
@@ -86,7 +86,7 @@ public class FundProfitHistoryEntity extends IdEntity {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
 
-        FundProfitHistoryEntity that = (FundProfitHistoryEntity) o;
+        FundProfitHistory that = (FundProfitHistory) o;
 
         if (createTime != null ? !createTime.equals(that.createTime) : that.createTime != null) return false;
         if (dateTime != null ? !dateTime.equals(that.dateTime) : that.dateTime != null) return false;
