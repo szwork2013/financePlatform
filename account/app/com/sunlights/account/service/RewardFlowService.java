@@ -1,5 +1,6 @@
 package com.sunlights.account.service;
 
+import com.sunlights.account.vo.RewardResultVo;
 import models.RewardFlow;
 
 import java.util.List;
@@ -14,5 +15,7 @@ public interface RewardFlowService {
     public RewardFlow findTodayFlowByCustIdAndScene(String custId, String scene);
 
     public List<RewardFlow> findByCustIdAndRewardType(String custId, String rewardType);
+
+    public RewardResultVo getLastObtainRewars(String custId, String scene);
 
 }

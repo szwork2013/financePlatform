@@ -18,6 +18,23 @@ public class RegisterObtainRewardRule extends AbstractObtainRewardRule{
 
 
     @Override
+    public RewardResultVo validate(String custId) {
+        RewardResultVo rewardResultVo = rewardFlowService.getLastObtainRewars(custId, this.getScene());
+
+        if(rewardResultVo != null) {
+            RewardResultVo vo = new RewardResultVo();
+            Message message = new Message(Severity.INFO, MsgCode.ALREADY_REGISTER);
+            vo.setStatus(AccountConstant.ACTIVITY_CUSTONER_STATUS_FORBIDDEN);
+            vo.setReturnMessage(message);
+            vo.setNotGet(0L);
+            vo.setAlreadyGet(0L);
+            return vo;
+        }
+
+        return super.validate(custId);
+    }
+
+    @Override
     public RewardResultVo signValue4Obtain(RewardResultVo vo, Long rewardAmtResult) {
         Message message = new Message(Severity.INFO, MsgCode.OBTAIN_SUCC);
         vo.setReturnMessage(message);

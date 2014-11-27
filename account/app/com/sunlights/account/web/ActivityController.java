@@ -99,4 +99,8 @@ public class ActivityController extends ActivityBaseController  {
     public Result registerObtainReward() {
         return obtainReward(AccountConstant.ACTIVITY_REGISTER_SCENE_CODE);
     }
+
+    public Result purchaseObtainReward() {
+        return obtainReward(AccountConstant.ACTIVITY_FIRST_PURCHASE_SCENE_CODE);
+    }
 }
