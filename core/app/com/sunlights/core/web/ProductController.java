@@ -73,24 +73,16 @@ public class ProductController extends Controller {
     }
 
     public Result findChartBy() {
-        ProductParameter productParameter = null;
+        ProductParameter prodPara = null;
         Http.RequestBody body = request().body();
         if (body.asJson() != null) {
-            productParameter = Json.fromJson(body.asJson(), ProductParameter.class);
+            prodPara = Json.fromJson(body.asJson(), ProductParameter.class);
         }
-
         if (body.asFormUrlEncoded() != null) {
-            productParameter = productParameterForm.bindFromRequest().get();
+            prodPara = productParameterForm.bindFromRequest().get();
         }
-
-        ChartVo chartVo = null;
-        String chartType = productParameter.getChartType();
-        if ("1".equals(chartType)) {
-            chartVo = productService.findMillionOfProfitsByDays(productParameter.getPrdCode(), productParameter.getDays());
-        }
-        if ("2".equals(chartType)) {
-            chartVo = productService.findOneWeekProfitsByDays(productParameter.getPrdCode(), productParameter.getDays());
-        }
+        String chartType = prodPara.getChartType();
+        ChartVo chartVo = productService.findProfitHistoryByDays(chartType,prodPara.getPrdCode(), prodPara.getDays());
         messageUtil.setMessage(new Message(Severity.INFO, MsgCode.OPERATE_SUCCESS), chartVo);
         return ok(messageUtil.toJson());
     }
