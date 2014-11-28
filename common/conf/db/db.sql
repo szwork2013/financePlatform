@@ -1580,3 +1580,16 @@ DROP TABLE    m_logging_event;
 
 ALTER TABLE fundnav ALTER COLUMN lastest_total_asset type numeric(18, 5);
 ALTER TABLE fundnav_history ALTER COLUMN lastest_total_asset type numeric(18, 5);
+
+
+create table fund_profit_history
+(
+   id                   bigint                         not null,
+   fund_code             varchar(30)                    null,
+   date_time            timestamp                      null,
+   percent_seven_days   decimal(16,5)                  null,
+   income_per_ten_thousand decimal(16,5)                  null,
+   create_time          timestamp                      null,
+   update_time          timestamp                      null,
+   constraint PK_FUND_PROFIT_HISTORY primary key  (id)
+);
