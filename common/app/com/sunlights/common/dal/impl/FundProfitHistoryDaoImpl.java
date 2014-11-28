@@ -4,6 +4,7 @@ import com.sunlights.common.dal.EntityBaseDao;
 import com.sunlights.common.dal.FundProfitHistoryDao;
 import models.FundProfitHistory;
 
+import java.sql.Timestamp;
 import java.util.List;
 
 /**
@@ -26,8 +27,9 @@ public class FundProfitHistoryDaoImpl  extends EntityBaseDao implements FundProf
     }
 
     @Override
-    public FundProfitHistory findFundProfitHistoryByDateTime(FundProfitHistory fundProfitHistory) {
-        return null;
+    public FundProfitHistory findFundProfitHistoryByDateTime(Timestamp dateTime) {
+        List<FundProfitHistory> result = super.findBy(FundProfitHistory.class, "dateTime", dateTime);
+        return result.isEmpty() ? null : result.get(0);
     }
 
     @Override

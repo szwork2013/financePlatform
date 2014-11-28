@@ -3,22 +3,23 @@ package com.sunlights.core.web;
 import com.sunlights.BaseTest;
 import com.sunlights.common.DictConst;
 import com.sunlights.common.MsgCode;
-import com.sunlights.common.dal.EntityBaseDao;
+import com.sunlights.common.exceptions.ConverterException;
+import com.sunlights.common.utils.ConverterUtil;
 import com.sunlights.common.vo.MessageVo;
 import com.sunlights.common.vo.PageVo;
+import com.sunlights.core.vo.ChartVo;
 import com.sunlights.core.vo.FundVo;
 import com.sunlights.core.vo.ProductParameter;
-import models.FundNavHistory;
+import org.fest.assertions.Assertions;
 import org.junit.Test;
 import play.Logger;
 import play.data.Form;
-import play.db.jpa.JPA;
 import play.db.jpa.Transactional;
 import play.libs.Json;
 import play.test.FakeRequest;
 import web.TestUtil;
 
-import java.util.List;
+import java.util.LinkedHashMap;
 import java.util.Map;
 
 import static org.fest.assertions.Assertions.assertThat;
@@ -37,31 +38,27 @@ public class ProductControllerTest extends BaseTest {
                 final ProductParameter parameter = new ProductParameter();
                 parameter.setChartType("1");
                 parameter.setDays(7);
-                JPA.withTransaction(new play.libs.F.Callback0() {
-                    public void invoke() {
-                        EntityBaseDao entityBaseDao = new EntityBaseDao();
-                        List<FundNavHistory> fundHistories = entityBaseDao.findAll(FundNavHistory.class, "createTime", false);
-                        if (!fundHistories.isEmpty()) {
-                            parameter.setPrdCode(fundHistories.get(0).getFundcode());
-                        }
-                    }
-                });
-
+                parameter.setPrdCode("000009");
                 FakeRequest chartRequest = fakeRequest(POST, "/core/product/chart");
                 // form request
                 Map<String, String> paramMap = parameterForm.bind(Json.toJson(parameter)).data();
                 Logger.info("[paramMap]" + paramMap);
                 FakeRequest formRequest = chartRequest.withHeader("Content-Type", "application/x-www-form-urlencoded").withFormUrlEncodedBody(paramMap);
                 play.mvc.Result result = route(formRequest);
-                Logger.info("result is " + contentAsString(result));
-                assertThat(contentAsString(result)).contains("0000");
-
+                MessageVo<LinkedHashMap> vo = toMessageVo(result);
+                LinkedHashMap map = vo.getValue();
+                try {
+                    ChartVo chartVo = ConverterUtil.convertMap2Object(map, new ChartVo());
+                    Logger.info(chartVo.getPoints().toString());
+                    Logger.info("result is :"+ chartVo.getPoints().size());
+                    Assertions.assertThat(chartVo.getPoints().size()).isEqualTo(7);
+                } catch (ConverterException e) {
+                    e.printStackTrace();
+                }
             }
 
         });
     }
-
-
 
 
     @Test

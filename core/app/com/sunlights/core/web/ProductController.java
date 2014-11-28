@@ -84,11 +84,12 @@ public class ProductController extends Controller {
         }
 
         ChartVo chartVo = null;
-        if ("1".equals(productParameter.getChartType())) {
-            chartVo = productService.findMillionOfProfitsByDays(productParameter.getPrdCode(), productParameter.getInterval());
+        String chartType = productParameter.getChartType();
+        if ("1".equals(chartType)) {
+            chartVo = productService.findMillionOfProfitsByDays(productParameter.getPrdCode(), productParameter.getDays());
         }
-        if ("2".equals(productParameter.getChartType())) {
-            chartVo = productService.findOneWeekProfitsByDays(productParameter.getPrdCode(), productParameter.getInterval());
+        if ("2".equals(chartType)) {
+            chartVo = productService.findOneWeekProfitsByDays(productParameter.getPrdCode(), productParameter.getDays());
         }
         messageUtil.setMessage(new Message(Severity.INFO, MsgCode.OPERATE_SUCCESS), chartVo);
         return ok(messageUtil.toJson());
