@@ -18,6 +18,7 @@ import models.Customer;
 import models.CustomerGesture;
 import models.CustomerSession;
 import models.LoginHistory;
+import play.Configuration;
 import play.Logger;
 
 import java.math.BigDecimal;
@@ -155,6 +156,10 @@ public class LoginServiceImpl implements LoginService {
         customerVerifyCodeVo.setDeviceNo(deviceNo);
         customerVerifyCodeVo.setVerifyCode(verifyCode);
         boolean success = verifyCodeService.validateVerifyCode(customerVerifyCodeVo);
+        //方便测试
+        if("true".equals(Configuration.root().getString("mock"))) {
+            success = true;
+        }
         if (!success) {
             return null;
         }
