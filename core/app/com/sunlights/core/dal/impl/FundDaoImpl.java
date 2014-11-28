@@ -4,6 +4,7 @@ import com.sunlights.common.dal.EntityBaseDao;
 import com.sunlights.core.dal.FundDao;
 import com.sunlights.core.vo.FundDetailVo;
 import models.*;
+import play.Logger;
 
 import javax.persistence.Query;
 import java.util.List;
@@ -57,11 +58,15 @@ public class FundDaoImpl extends EntityBaseDao implements FundDao {
 
     @Override
     public List<FundProfitHistory> findFundProfitHistoryByDays(String fundCode, int days) {
+        Logger.info("findFundProfitHistoryByDays start....");
 
-        String jpql = " select fh from FundProfitHistory fh ,Code c where  fh.fundCode=c.code  and fh.fundCode = '" + fundCode + "' order by fh.dateTime desc";
+        String jpql = " select fh from FundProfitHistory fh ,Code c where  fh.fundCode=c.code  and fh.fundCode = :fundCode order by fh.dateTime desc";
 
         Query query = super.createQuery(jpql);
+        query.setParameter("fundCode", fundCode);
+        Logger.info("days: "+days);
         if (days > 0) {
+            query.setFirstResult(0);
             query.setMaxResults(days);
         }
         return query.getResultList();
