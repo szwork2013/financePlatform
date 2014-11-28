@@ -104,6 +104,15 @@ public class ArithUtil {
         return b.divide(one, scale, BigDecimal.ROUND_HALF_UP).doubleValue();
     }
 
+    public static BigDecimal round(BigDecimal initData, int scale) {
+
+        if(initData == null) {
+            return null;
+        }
+
+        return initData.setScale(scale, BigDecimal.ROUND_HALF_UP);
+    }
+
     /**
      * 提供精确的类型转换(Float)
      *

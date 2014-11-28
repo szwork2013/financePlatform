@@ -8,6 +8,7 @@ import play.Logger;
 import play.mvc.Http;
 import play.mvc.Result;
 
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -27,7 +28,8 @@ public class ShuMiTradeControllerTest extends BaseTest {
     @Test
     @Before
     public void testTradeOrder() throws Exception {
-        String applySerial = "1288478324852";// -->申请编号
+
+        String applySerial = new Date().toString();// -->申请编号
         String fundCode = "000009"; //-->基金代码
         String fundName = "易方达天天A";// -->基金名称
         String applySum = "100";// -->认购金额
@@ -59,8 +61,8 @@ public class ShuMiTradeControllerTest extends BaseTest {
 
                 assertThat(status(result)).isEqualTo(OK);
                 MessageVo message = toMessageVo(result);
-                assertThat(message.getMessage().getCode()).isEqualTo("0000");
-                assertThat(message.getMessage().getSummary()).isEqualTo("操作成功");
+                assertThat(message.getMessage().getCode()).isEqualTo("0400");
+                assertThat(message.getMessage().getSummary()).isEqualTo("下单成功");
             }
         });
 
@@ -95,8 +97,8 @@ public class ShuMiTradeControllerTest extends BaseTest {
 
                 assertThat(status(result)).isEqualTo(OK);
                 MessageVo message = toMessageVo(result);
-                assertThat(message.getMessage().getCode()).isEqualTo("0000");
-                assertThat(message.getMessage().getSummary()).isEqualTo("操作成功");
+                assertThat(message.getMessage().getCode()).isEqualTo("0401");
+                assertThat(message.getMessage().getSummary()).isEqualTo("赎回成功");
 
             }
         });

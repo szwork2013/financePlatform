@@ -19,3 +19,8 @@ alter table t_trade alter column confirm_status type character varying(50);
 alter table t_trade alter column trade_status type character varying(50);
 alter table t_trade alter column pay_status type character varying(50);
 
+
+
+update dict set code_val='在途' where code_cat= 'FP.TRADE.STATUS' and code_key ='1';
+update dict set code_val='成功' where code_cat||code_key ='FP.TRADE.STATUS.2';
+update dict set code_val='失败' where code_cat||code_key ='FP.TRADE.STATUS.3';

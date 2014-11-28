@@ -1,6 +1,7 @@
 package models;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
+import com.sunlights.common.utils.ArithUtil;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
@@ -240,7 +241,7 @@ public class FundNav {
     }
 
     public void setNetvalue(BigDecimal netvalue) {
-        this.netvalue = netvalue;
+        this.netvalue = ArithUtil.round(netvalue, 5);
     }
 
     public BigDecimal getTotalNetvalue() {
@@ -248,7 +249,7 @@ public class FundNav {
     }
 
     public void setTotalNetvalue(BigDecimal totalNetvalue) {
-        this.totalNetvalue = totalNetvalue;
+        this.totalNetvalue = ArithUtil.round(totalNetvalue, 5);
     }
 
     public BigDecimal getPercent() {
@@ -256,7 +257,7 @@ public class FundNav {
     }
 
     public void setPercent(BigDecimal percent) {
-        this.percent = percent;
+        this.percent = ArithUtil.round(percent, 5);
     }
 
     public BigDecimal getIncomePerTenThousand() {
@@ -264,7 +265,7 @@ public class FundNav {
     }
 
     public void setIncomePerTenThousand(BigDecimal incomePerTenThousand) {
-        this.incomePerTenThousand = incomePerTenThousand;
+        this.incomePerTenThousand = ArithUtil.round(incomePerTenThousand, 5);
     }
 
     public BigDecimal getPercentSevenDays() {
@@ -272,7 +273,7 @@ public class FundNav {
     }
 
     public void setPercentSevenDays(BigDecimal percentSevenDays) {
-        this.percentSevenDays = percentSevenDays;
+        this.percentSevenDays = ArithUtil.round(percentSevenDays, 5);
     }
 
     public BigDecimal getYield1M() {
@@ -280,7 +281,7 @@ public class FundNav {
     }
 
     public void setYield1M(BigDecimal yield1M) {
-        this.yield1M = yield1M;
+        this.yield1M = ArithUtil.round(yield1M, 5);
     }
 
     public BigDecimal getYield3M() {
@@ -288,7 +289,7 @@ public class FundNav {
     }
 
     public void setYield3M(BigDecimal yield3M) {
-        this.yield3M = yield3M;
+        this.yield3M = ArithUtil.round(yield3M, 5);
     }
 
     public BigDecimal getYield6M() {
@@ -296,7 +297,7 @@ public class FundNav {
     }
 
     public void setYield6M(BigDecimal yield6M) {
-        this.yield6M = yield6M;
+        this.yield6M = ArithUtil.round(yield6M, 5);
     }
 
     public BigDecimal getYield12M() {
@@ -304,7 +305,7 @@ public class FundNav {
     }
 
     public void setYield12M(BigDecimal yield12M) {
-        this.yield12M = yield12M;
+        this.yield12M = ArithUtil.round(yield12M, 5);
     }
 
     public BigDecimal getYieldThisYear() {
@@ -312,7 +313,7 @@ public class FundNav {
     }
 
     public void setYieldThisYear(BigDecimal yieldThisYear) {
-        this.yieldThisYear = yieldThisYear;
+        this.yieldThisYear = ArithUtil.round(yieldThisYear, 5);
     }
 
     public BigDecimal getCgs3Year() {
@@ -320,7 +321,7 @@ public class FundNav {
     }
 
     public void setCgs3Year(BigDecimal cgs3Year) {
-        this.cgs3Year = cgs3Year;
+        this.cgs3Year = ArithUtil.round(cgs3Year, 5);
     }
 
     public BigDecimal getLastestTotalAsset() {
@@ -328,7 +329,7 @@ public class FundNav {
     }
 
     public void setLastestTotalAsset(BigDecimal lastestTotalAsset) {
-        this.lastestTotalAsset = lastestTotalAsset;
+        this.lastestTotalAsset = ArithUtil.round(lastestTotalAsset, 5);
     }
 
     public Integer getOnSale() {
@@ -392,7 +393,7 @@ public class FundNav {
     }
 
     public void setChargeRateValue(BigDecimal chargeRateValue) {
-        this.chargeRateValue = chargeRateValue;
+        this.chargeRateValue = ArithUtil.round(chargeRateValue, 5);
     }
 
     public BigDecimal getDiscount() {
@@ -400,7 +401,7 @@ public class FundNav {
     }
 
     public void setDiscount(BigDecimal discount) {
-        this.discount = discount;
+        this.discount = ArithUtil.round(discount, 5);
     }
 
     public BigDecimal getSaleChargeRateValue() {
@@ -408,7 +409,7 @@ public class FundNav {
     }
 
     public void setSaleChargeRateValue(BigDecimal saleChargeRateValue) {
-        this.saleChargeRateValue = saleChargeRateValue;
+        this.saleChargeRateValue = ArithUtil.round(saleChargeRateValue, 5);
     }
 
     public Integer getIsMonetary() {
@@ -432,7 +433,7 @@ public class FundNav {
     }
 
     public void setPurchaseLimitMin(BigDecimal purchaseLimitMin) {
-        this.purchaseLimitMin = purchaseLimitMin;
+        this.purchaseLimitMin = ArithUtil.round(purchaseLimitMin, 5);
     }
 
     public BigDecimal getRedeemLimitMin() {
@@ -440,7 +441,7 @@ public class FundNav {
     }
 
     public void setRedeemLimitMin(BigDecimal redeemLimitMin) {
-        this.redeemLimitMin = redeemLimitMin;
+        this.redeemLimitMin = ArithUtil.round(redeemLimitMin, 5);
     }
 
     public Integer getRapidRedeem() {
