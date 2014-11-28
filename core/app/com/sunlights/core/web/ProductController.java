@@ -82,7 +82,7 @@ public class ProductController extends Controller {
             prodPara = productParameterForm.bindFromRequest().get();
         }
         String chartType = prodPara.getChartType();
-        ChartVo chartVo = productService.findProfitHistoryByDays(chartType,prodPara.getPrdCode(), prodPara.getDays());
+        ChartVo chartVo = productService.findProfitHistoryByDays(chartType,prodPara.getPrdCode(), prodPara.getInterval());
         messageUtil.setMessage(new Message(Severity.INFO, MsgCode.OPERATE_SUCCESS), chartVo);
         return ok(messageUtil.toJson());
     }
