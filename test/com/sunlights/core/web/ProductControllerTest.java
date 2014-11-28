@@ -36,7 +36,7 @@ public class ProductControllerTest extends BaseTest {
 
             public void run() {
                 final ProductParameter parameter = new ProductParameter();
-                parameter.setChartType("1");
+                parameter.setChartType("2");
                 parameter.setInterval(7);
                 parameter.setPrdCode("482002");
                 FakeRequest chartRequest = fakeRequest(POST, "/core/product/chart");

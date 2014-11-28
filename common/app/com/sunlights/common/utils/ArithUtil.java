@@ -239,7 +239,7 @@ public class ArithUtil {
         if (big == null) {
             return null;
         }
-        big = big.setScale(4, BigDecimal.ROUND_DOWN);
+        big = big.setScale(4, BigDecimal.ROUND_HALF_UP);
         return big;
     }
 
