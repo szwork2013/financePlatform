@@ -20,7 +20,7 @@ public class RewardFlowDaoImpl extends EntityBaseDao implements RewardFlowDao {
     }
 
     @Override
-    public List<RewardFlow> findByCondition(RewardFlow rewardFlow, String startDate, String endDate) throws Exception {
+    public List<RewardFlow> findByCondition(RewardFlow rewardFlow, String startDate, String endDate, boolean isAsc) throws Exception {
         StringBuilder jpql = new StringBuilder();
         jpql.append("select h from RewardFlow h where 1 =1")
                 .append("/~  and h.custId  = {custId} ~/")
@@ -29,6 +29,9 @@ public class RewardFlowDaoImpl extends EntityBaseDao implements RewardFlowDao {
                 .append("/~  and h.createTime  >= {startDate} ~/")
                 .append("/~  and h.createTime  <= {endDate} ~/")
                 .append(" order by h.createTime ");
+        if(!isAsc) {
+            jpql.append(" desc ");
+        }
         Map<String, Object> params = new HashMap<String, Object>();
         params.put("EQS_custId", rewardFlow.getCustId());
         params.put("EQS_scene", rewardFlow.getScene());
@@ -41,7 +44,7 @@ public class RewardFlowDaoImpl extends EntityBaseDao implements RewardFlowDao {
 
     @Override
     public RewardFlow findOneByCondition(RewardFlow rewardFlow, String startDate, String endDate) throws Exception {
-        List<RewardFlow> rewardFlows = findByCondition(rewardFlow, startDate, endDate);
+        List<RewardFlow> rewardFlows = findByCondition(rewardFlow, startDate, endDate, true);
         if(rewardFlows == null || rewardFlows.isEmpty()) {
             return null;
         }
@@ -50,6 +53,6 @@ public class RewardFlowDaoImpl extends EntityBaseDao implements RewardFlowDao {
 
     @Override
     public List<RewardFlow> findByCondition(RewardFlow rewardFlow) throws Exception {
-        return findByCondition(rewardFlow, null, null);
+        return findByCondition(rewardFlow, null, null, false);
     }
 }

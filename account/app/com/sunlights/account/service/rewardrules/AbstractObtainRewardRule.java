@@ -139,7 +139,7 @@ public abstract class AbstractObtainRewardRule implements IObtainRewardRule{
             isNotConfig = true;
         }
 
-        if(isNotConfig) {
+        if(isNotConfig || AccountConstant.ACTIVITY_STATUS_FORBIDDEN.equals(activities.get(0).getStatus())) {
             message = new Message(Severity.INFO, MsgCode.NOT_CONFIG_ACTIVITY_SCENE);
             vo.setReturnMessage(message);
             vo.setAlreadyGet(0L);

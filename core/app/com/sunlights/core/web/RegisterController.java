@@ -74,11 +74,11 @@ public class RegisterController extends Controller {
             Message message = new Message(MsgCode.REGISTRY_SUCCESS);
             CustomerVo customerVo = customerService.getCustomerVoByPhoneNo(customer.getMobile(), customerFormVo.getDeviceNo());
             MessageUtil.getInstance().setMessage(message, customerVo);
-            try {
+            /*try {
                 obtainRewardFacade.obtainReward(customerVo.getCustomerId(), AccountConstant.ACTIVITY_REGISTER_SCENE_CODE, null);
             } catch (Exception e) {
                 Logger.error("获取积分失败");
-            }
+            }*/
         }
 
         JsonNode json = MessageUtil.getInstance().toJson();
