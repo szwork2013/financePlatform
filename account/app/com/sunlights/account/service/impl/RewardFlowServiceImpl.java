@@ -1,8 +1,10 @@
 package com.sunlights.account.service.impl;
 
+import com.sunlights.account.AccountConstant;
 import com.sunlights.account.dal.RewardFlowDao;
 import com.sunlights.account.dal.impl.RewardFlowDaoImpl;
 import com.sunlights.account.service.RewardFlowService;
+import com.sunlights.account.vo.RewardResultVo;
 import com.sunlights.common.utils.CommonUtil;
 import models.RewardFlow;
 import play.Logger;
@@ -54,6 +56,30 @@ public class RewardFlowServiceImpl implements RewardFlowService {
         } catch (Exception e) {
             Logger.error("查询奖励流水错误", e);
         }
+        return null;
+    }
+
+    @Override
+    public RewardResultVo getLastObtainRewars(String custId, String scene) {
+        try {
+            RewardResultVo vo = new RewardResultVo();
+            vo.setStatus(AccountConstant.ACTIVITY_CUSTONER_STATUS_NOMAL);
+            RewardFlow rewardFlow = new RewardFlow();
+            rewardFlow.setCustId(custId);
+            rewardFlow.setScene(scene);
+            List<RewardFlow> result = rewardFlowDao.findByCondition(rewardFlow);
+            if(result != null && result.size() > 0) {
+                rewardFlow = result.get(0);
+            }
+            if(rewardFlow != null) {
+                vo.setAlreadyGet(rewardFlow.getRewardAmt());
+                vo.setNotGet(0L);
+            }
+            return vo;
+        } catch (Exception e) {
+            Logger.error("获取客户最近金豆收益错误", e);
+        }
+
         return null;
     }
 }

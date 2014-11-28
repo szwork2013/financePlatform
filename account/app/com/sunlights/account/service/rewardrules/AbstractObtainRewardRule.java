@@ -8,6 +8,7 @@ import com.sunlights.common.MsgCode;
 import com.sunlights.common.Severity;
 import com.sunlights.common.vo.Message;
 import models.*;
+import play.Configuration;
 import play.Logger;
 
 import java.math.BigDecimal;
@@ -53,6 +54,8 @@ public abstract class AbstractObtainRewardRule implements IObtainRewardRule{
 
     public RewardResultVo signValue4Obtain(RewardResultVo vo, Long rewardAmtResult) {
         Message message = new Message(Severity.INFO, MsgCode.OBTAIN_SUCC);
+        message.setSummary(Configuration.root().getString("golden.summary"));
+        message.setDetail(Configuration.root().getString("golden.detail"));
         vo.setReturnMessage(message);
         vo.setScene(this.getScene());
         vo.setStatus(AccountConstant.ACTIVITY_CUSTONER_STATUS_NOMAL);
@@ -139,7 +142,7 @@ public abstract class AbstractObtainRewardRule implements IObtainRewardRule{
             isNotConfig = true;
         }
 
-        if(isNotConfig) {
+        if(isNotConfig || AccountConstant.ACTIVITY_STATUS_FORBIDDEN.equals(activities.get(0).getStatus())) {
             message = new Message(Severity.INFO, MsgCode.NOT_CONFIG_ACTIVITY_SCENE);
             vo.setReturnMessage(message);
             vo.setAlreadyGet(0L);

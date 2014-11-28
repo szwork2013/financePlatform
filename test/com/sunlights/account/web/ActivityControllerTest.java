@@ -4,6 +4,7 @@ import com.sunlights.BaseTest;
 import com.sunlights.account.AccountConstant;
 import com.sunlights.account.service.RewardFlowService;
 import com.sunlights.account.service.impl.RewardFlowServiceImpl;
+import com.sunlights.account.vo.RewardResultVo;
 import com.sunlights.common.MsgCode;
 import com.sunlights.common.vo.MessageVo;
 import models.RewardFlow;
@@ -93,41 +94,77 @@ public class ActivityControllerTest extends BaseTest{
         });
     }
 
-    @Test
-    public void testInviteObtainReward() {
-        running(fakeApplication(), new Runnable() {
-            public void run() {
-                Logger.info("============testInviteObtainReward start====");
-                //1：邀请好友获取金豆测试
-                Map<String, String> formParams = new HashMap<String, String>();
-                formParams.put("scene", AccountConstant.ACTIVITY_INVITE_SCENE_CODE);
-                play.mvc.Result result = getResult("/account/activity/invite", formParams, cookie);
-                assertThat(status(result)).isEqualTo(OK);
-                MessageVo message = toMessageVo(result);
-                assertThat(message.getMessage().getCode()).isEqualTo(MsgCode.OBTAIN_SUCC.getCode());
 
-                Logger.info("============testInviteObtainReward result====\n" + contentAsString(result));
-            }
-        });
-    }
 
     @Test
     public void testRegisterObtainReward() {
         running(fakeApplication(), new Runnable() {
             public void run() {
-                Logger.info("============testRegisterObtainReward start====");
-                //1：注册获取金豆测试
-                Map<String, String> formParams = new HashMap<String, String>();
-                formParams.put("scene", AccountConstant.ACTIVITY_REGISTER_SCENE_CODE);
-                play.mvc.Result result = getResult("/account/activity/register", formParams, cookie);
-                assertThat(status(result)).isEqualTo(OK);
-                MessageVo message = toMessageVo(result);
-                assertThat(message.getMessage().getCode()).isEqualTo(MsgCode.OBTAIN_SUCC.getCode());
+                JPA.withTransaction(new F.Callback0() {
+                    @Override
+                    public void invoke() throws Throwable {
+                        Logger.info("============testRegisterObtainReward start====");
+                        Map<String, String> formParams = new HashMap<String, String>();
+                        play.mvc.Result result = null;
 
-                Logger.info("============testRegisterObtainReward result====\n" + contentAsString(result));
+                        RewardFlowService rewardFlowService = new RewardFlowServiceImpl();
+                        RewardResultVo rewardResultVo = rewardFlowService.getLastObtainRewars("20141119102210010000000029", AccountConstant.ACTIVITY_REGISTER_SCENE_CODE);
+
+                        //2:签到获取金豆正常测试
+                        formParams = new HashMap<String, String>();
+
+                        result = getResult("/account/activity/register", formParams, cookie);
+                        assertThat(status(result)).isEqualTo(OK);
+                        final MessageVo message = toMessageVo(result);
+
+                        if(rewardResultVo != null) {
+                            assertThat(message.getMessage().getCode()).isEqualTo(MsgCode.ALREADY_REGISTER.getCode());
+                            Logger.info("已经注册过。。。获取积分失败");
+                        } else {
+                            assertThat(message.getMessage().getCode()).isEqualTo(MsgCode.OBTAIN_SUCC.getCode());
+                            Logger.info("注册成功获取积分成功");
+                        }
+                        Logger.info("============testRegisterObtainReward result====\n" + contentAsString(result));
+                    }
+                });
             }
         });
     }
 
+    @Test
+    public void testPurchaseObtainReward() {
+        running(fakeApplication(), new Runnable() {
+            public void run() {
+                Logger.info("============testPurchaseObtainReward start====");
+                JPA.withTransaction(new F.Callback0() {
+                    @Override
+                    public void invoke() throws Throwable {
+                        Map<String, String> formParams = new HashMap<String, String>();
+                        play.mvc.Result result = null;
+
+                        RewardFlowService rewardFlowService = new RewardFlowServiceImpl();
+                        RewardResultVo rewardResultVo = rewardFlowService.getLastObtainRewars("20141119102210010000000029", AccountConstant.ACTIVITY_FIRST_PURCHASE_SCENE_CODE);
+
+                        //2:签到获取金豆正常测试
+                        formParams = new HashMap<String, String>();
+
+                        result = getResult("/account/activity/purchase", formParams, cookie);
+                        assertThat(status(result)).isEqualTo(OK);
+                        final MessageVo message = toMessageVo(result);
+
+                        if(rewardResultVo != null) {
+                            assertThat(message.getMessage().getCode()).isEqualTo(MsgCode.ALREADY_PURCHASE.getCode());
+                            Logger.info("已经购买过。。。获取积分失败");
+                        } else {
+                            assertThat(message.getMessage().getCode()).isEqualTo(MsgCode.OBTAIN_SUCC.getCode());
+                            Logger.info("首次购买获取积分成功");
+                        }
+
+                        Logger.info("============testPurchaseObtainReward result====\n" + contentAsString(result));
+                    }
+                });
+            }
+        });
+    }
 
 }

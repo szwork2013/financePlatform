@@ -80,9 +80,9 @@ public final class DictConst {
     public static String TRADE_TYPE_3 = TRADE_TYPE + doc + "3";//分红
 
     public static String TRADE_STATUS = "FP.TRADE.STATUS";//交易状态
-    public static String TRADE_STATUS_1 = TRADE_STATUS + doc + "1";//存/取钱中
-    public static String TRADE_STATUS_2 = TRADE_STATUS + doc + "2";//存/取钱成功
-    public static String TRADE_STATUS_3 = TRADE_STATUS + doc + "3";//存/取失败
+    public static String TRADE_STATUS_1 = TRADE_STATUS + doc + "1";//在途
+    public static String TRADE_STATUS_2 = TRADE_STATUS + doc + "2";//成功
+    public static String TRADE_STATUS_3 = TRADE_STATUS + doc + "3";//失败
 
     public static String PAYMENT_STATUS = "FP.PAYMENT.STATUS";//付款状态
     public static String PAYMENT_STATUS_1 = PAYMENT_STATUS + doc + "1";//不需付款

@@ -4,7 +4,6 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.sunlights.account.AccountConstant;
 import com.sunlights.account.service.AccountService;
 import com.sunlights.account.service.impl.AccountServiceImpl;
-import com.sunlights.account.service.rewardrules.ObtainRewardFacade;
 import com.sunlights.common.MsgCode;
 import com.sunlights.common.utils.MessageUtil;
 import com.sunlights.common.vo.Message;
@@ -38,7 +37,6 @@ public class RegisterController extends Controller {
     private AccountService accountService = new AccountServiceImpl();
     private CustomerService customerService = new CustomerService();
 
-    private ObtainRewardFacade obtainRewardFacade = new ObtainRewardFacade();
 
     /**
      * 注册客户
@@ -74,11 +72,11 @@ public class RegisterController extends Controller {
             Message message = new Message(MsgCode.REGISTRY_SUCCESS);
             CustomerVo customerVo = customerService.getCustomerVoByPhoneNo(customer.getMobile(), customerFormVo.getDeviceNo());
             MessageUtil.getInstance().setMessage(message, customerVo);
-            try {
+            /*try {
                 obtainRewardFacade.obtainReward(customerVo.getCustomerId(), AccountConstant.ACTIVITY_REGISTER_SCENE_CODE, null);
             } catch (Exception e) {
                 Logger.error("获取积分失败");
-            }
+            }*/
         }
 
         JsonNode json = MessageUtil.getInstance().toJson();

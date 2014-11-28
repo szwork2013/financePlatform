@@ -52,8 +52,8 @@ public class ActivityController extends ActivityBaseController  {
      * 调用这个接口需要将活动场景参数送过来
      * @return
      */
-    public Result obtainReward() {
-        return obtainReward(null);
+    public Result signinObtainReward() {
+        return obtainReward(AccountConstant.ACTIVITY_SIGNIN_SCENE_CODE);
     }
 
 
@@ -98,5 +98,9 @@ public class ActivityController extends ActivityBaseController  {
 
     public Result registerObtainReward() {
         return obtainReward(AccountConstant.ACTIVITY_REGISTER_SCENE_CODE);
+    }
+
+    public Result purchaseObtainReward() {
+        return obtainReward(AccountConstant.ACTIVITY_FIRST_PURCHASE_SCENE_CODE);
     }
 }

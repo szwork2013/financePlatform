@@ -7,6 +7,7 @@ import com.sunlights.core.vo.ProductVo;
 import models.Fund;
 import models.FundCompany;
 import models.FundHistory;
+import models.FundNav;
 
 import java.util.List;
 
@@ -29,6 +30,8 @@ public interface ProductService {
 
     public Fund findFundByCode(String productCode);
 
+    public FundNav findFundNavByCode(String fundCode);
+
     public FundHistory findFundHistoryByCode(String productCode);
 
     public FundCompany findFundCompanyById(String id);
@@ -36,4 +39,13 @@ public interface ProductService {
     public ChartVo findOneWeekProfitsByDays(String fundCode, int days);
 
     public ChartVo findMillionOfProfitsByDays(String fundCode, int days);
+
+    /**
+     * 根据基金代码查询相应天数的万份收益和七日年华利率
+     * @param chartType
+     * @param fundCode
+     * @param days
+     * @return
+     */
+    public ChartVo findProfitHistoryByDays(String chartType,String fundCode,int days);
 }

@@ -3,10 +3,8 @@ package com.sunlights.core.dal.impl;
 import com.sunlights.common.dal.EntityBaseDao;
 import com.sunlights.core.dal.FundDao;
 import com.sunlights.core.vo.FundDetailVo;
-import models.Fund;
-import models.FundCompany;
-import models.FundHistory;
-import models.FundNavHistory;
+import models.*;
+import play.Logger;
 
 import javax.persistence.Query;
 import java.util.List;
@@ -24,6 +22,11 @@ public class FundDaoImpl extends EntityBaseDao implements FundDao {
     @Override
     public Fund findFundByCode(String code) {
         List<Fund> funds = super.findBy(Fund.class, "fundCode", code);
+        return funds.isEmpty() ? null : funds.get(0);
+    }
+
+    public FundNav findFundNavByCode(String code){
+        List<FundNav> funds = super.findBy(FundNav.class, "fundcode", code);
         return funds.isEmpty() ? null : funds.get(0);
     }
 
@@ -54,22 +57,25 @@ public class FundDaoImpl extends EntityBaseDao implements FundDao {
 
 
     @Override
-    public List<FundHistory> findFundHistoriesByDays(String fundCode, int days) {
+    public List<FundProfitHistory> findFundProfitHistoryByDays(String fundCode, int days) {
+        Logger.info("findFundProfitHistoryByDays start....");
 
-        String jpql = " select fh from FundHistory fh where fh.fundCode = '" + fundCode + "' order by fh.createTime desc";
+        String jpql = " select fh from FundProfitHistory fh ,Code c where  fh.fundCode=c.code  and fh.fundCode = :fundCode order by fh.dateTime desc";
 
         Query query = super.createQuery(jpql);
+        query.setParameter("fundCode", fundCode);
+        Logger.info("days: "+days);
         if (days > 0) {
+            query.setFirstResult(0);
             query.setMaxResults(days);
         }
         return query.getResultList();
     }
 
     @Override
-    public List<FundNavHistory> findFundNavHistoriesByDays(String fundCode, int days) {
-        String jpql = " select fh from FundNavHistory fh where fh.fundcode = '" + fundCode + "' order by fh.createTime desc";
-        List<FundNavHistory> fundNavHistories = super.find(jpql);
-        return fundNavHistories;
+    public Code findFundNameByFundCode(String fundCode) {
+        List<Code> funds = super.findBy(Code.class, "code", fundCode);
+        return funds.isEmpty() ? null : funds.get(0);
     }
 
 

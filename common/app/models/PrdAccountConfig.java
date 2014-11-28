@@ -17,7 +17,7 @@ import java.util.Date;
 @Entity
 @Table(name = "PRD_ACCOUNT_CONFIG")
 public class PrdAccountConfig extends IdEntity {
-  @Column(name = "PRD_TYPE_CODE", length = 8)
+  @Column(name = "PRD_TYPE_CODE", length = 50)
   private String prdTypeCode;
   @Column(name = "SUB_ACCOUNT", length = 10)
   private String subAccount;

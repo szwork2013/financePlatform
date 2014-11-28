@@ -18,6 +18,7 @@ import models.Customer;
 import models.CustomerGesture;
 import models.CustomerSession;
 import models.LoginHistory;
+import play.Configuration;
 import play.Logger;
 
 import java.math.BigDecimal;
@@ -154,10 +155,12 @@ public class LoginServiceImpl implements LoginService {
         customerVerifyCodeVo.setVerifyType(AppConst.VERIFY_CODE_REGISTER);
         customerVerifyCodeVo.setDeviceNo(deviceNo);
         customerVerifyCodeVo.setVerifyCode(verifyCode);
-        MsgCode msgCode = verifyCodeService.validateVerifyCode(customerVerifyCodeVo);
-        if(msgCode != MsgCode.OPERATE_SUCCESS){
-            Message message = new Message(msgCode);
-            MessageUtil.getInstance().setMessage(message);
+        boolean success = verifyCodeService.validateVerifyCode(customerVerifyCodeVo);
+        //方便测试
+        if("true".equals(Configuration.root().getString("mock"))) {
+            success = true;
+        }
+        if (!success) {
             return null;
         }
 
@@ -215,9 +218,9 @@ public class LoginServiceImpl implements LoginService {
         customerVerifyCodeVo.setVerifyType(AppConst.VERIFY_CODE_RESETPWD);
         customerVerifyCodeVo.setDeviceNo(deviceNo);
         customerVerifyCodeVo.setVerifyCode(verifyCode);
-        MsgCode msgCode = verifyCodeService.validateVerifyCode(customerVerifyCodeVo);
-        MessageUtil.getInstance().setMessage(new Message(msgCode));
-        return true;
+        boolean success = verifyCodeService.validateVerifyCode(customerVerifyCodeVo);
+
+        return success;
 	}
 	/**
 	 * 重置密码
