@@ -106,11 +106,7 @@ public class ShuMiTradeServiceImpl implements ShuMiTradeService{
         Trade trade = new Trade();
         trade.setTradeNo(applySerial);
         trade.setType(type);
-        if (DictConst.TRADE_TYPE_1.equals(type)) {//申购
-            trade.setTradeAmount(new BigDecimal(applySum));
-        }else{//赎回
-            trade.setTradeAmount(new BigDecimal(applySum).negate());
-        }
+        trade.setTradeAmount(new BigDecimal(applySum));
         trade.setTradeStatus(DictConst.TRADE_STATUS_1);//途中
         trade.setConfirmStatus(DictConst.VERIFY_STATUS_1);//1-待确认
         trade.setTradeTime(dateTime == null ? currentTime : dateTime);
