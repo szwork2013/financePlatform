@@ -4,7 +4,6 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.sunlights.account.AccountConstant;
 import com.sunlights.account.service.AccountService;
 import com.sunlights.account.service.impl.AccountServiceImpl;
-import com.sunlights.account.service.rewardrules.ObtainRewardFacade;
 import com.sunlights.common.MsgCode;
 import com.sunlights.common.utils.MessageUtil;
 import com.sunlights.common.vo.Message;
@@ -38,7 +37,6 @@ public class RegisterController extends Controller {
     private AccountService accountService = new AccountServiceImpl();
     private CustomerService customerService = new CustomerService();
 
-    private ObtainRewardFacade obtainRewardFacade = new ObtainRewardFacade();
 
     /**
      * 注册客户

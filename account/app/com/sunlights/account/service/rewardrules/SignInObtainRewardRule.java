@@ -9,6 +9,7 @@ import com.sunlights.common.Severity;
 import com.sunlights.common.vo.Message;
 import models.ObtainRewardRule;
 import models.RewardFlow;
+import play.Configuration;
 
 import java.util.List;
 
@@ -42,6 +43,8 @@ public class SignInObtainRewardRule extends AbstractObtainRewardRule{
     @Override
     public RewardResultVo signValue4Obtain(RewardResultVo vo, Long rewardAmtResult) {
         Message message = new Message(Severity.INFO, MsgCode.OBTAIN_SUCC);
+        message.setSummary(Configuration.root().getString("golden.summary"));
+        message.setDetail(Configuration.root().getString("golden.detail"));
         vo.setReturnMessage(message);
         vo.setScene(this.getScene());
         vo.setAlreadyGet(rewardAmtResult);
