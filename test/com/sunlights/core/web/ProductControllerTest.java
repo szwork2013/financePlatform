@@ -36,15 +36,17 @@ public class ProductControllerTest extends BaseTest {
 
             public void run() {
                 final ProductParameter parameter = new ProductParameter();
-                parameter.setChartType("1");
-                parameter.setDays(7);
-                parameter.setPrdCode("000009");
+                parameter.setChartType("2");
+                parameter.setInterval(7);
+                parameter.setPrdCode("482002");
                 FakeRequest chartRequest = fakeRequest(POST, "/core/product/chart");
                 // form request
                 Map<String, String> paramMap = parameterForm.bind(Json.toJson(parameter)).data();
                 Logger.info("[paramMap]" + paramMap);
                 FakeRequest formRequest = chartRequest.withHeader("Content-Type", "application/x-www-form-urlencoded").withFormUrlEncodedBody(paramMap);
                 play.mvc.Result result = route(formRequest);
+                String contentAsString = contentAsString(result);
+                Logger.info("result is " + contentAsString);
                 MessageVo<LinkedHashMap> vo = toMessageVo(result);
                 LinkedHashMap map = vo.getValue();
                 try {
