@@ -8,6 +8,7 @@ import com.sunlights.common.MsgCode;
 import com.sunlights.common.Severity;
 import com.sunlights.common.vo.Message;
 import models.*;
+import play.Configuration;
 import play.Logger;
 
 import java.math.BigDecimal;
@@ -24,35 +25,43 @@ public abstract class AbstractObtainRewardRule implements IObtainRewardRule{
 
     private RewardTypeService rewardTypeService = new RewardTypeServiceImpl();
 
-    private RewardFlowService rewardFlowService = new RewardFlowServiceImpl();
+    protected RewardFlowService rewardFlowService = new RewardFlowServiceImpl();
 
     private HoldRewardService holdRewardService = new HoldRewardServiceImpl();
 
     private ExchangeRewardRuleService exchangeRewardRuleService = new ExchangeRewardRuleServiceImpl();
 
     @Override
-    public RewardResultVo obtainReward(String custId) {
-        RewardResultVo rewardResultVo = new RewardResultVo();
-        //1:获取该场景下该给客户多少奖励数
-        rewardResultVo = getCanObtainRewards(custId);
+    public RewardResultVo obtainReward(String custId, Long activityId) {
+        RewardResultVo rewardResultVo = getCanObtainRewards(custId, activityId);
         Message message = rewardResultVo.getReturnMessage();
         if(!MsgCode.ACTIVITY_QUERY_SUCC.getCode().equals(message.getCode())) {
             Logger.info("获取金豆失败 ：" + message.getSummary());
             return rewardResultVo;
         }
 
-        Long rewardAmt = rewardResultVo.getRewards();
+        Long rewardAmt = rewardResultVo.getNotGet();
         String rewardType = rewardResultVo.getRewardType();
         Long rewardAmtResult = calRewardAmt(rewardAmt, rewardType);
         BigDecimal moneyResult = calMoney(rewardAmtResult, rewardType);
 
         genRewardFlow(custId, rewardResultVo, rewardType, rewardAmtResult, moneyResult);
 
-        message = new Message(Severity.INFO, MsgCode.OBTAIN_SUCC);
-        rewardResultVo.setRewards(rewardAmtResult);
-        rewardResultVo.setReturnMessage(message);
-        rewardResultVo.setRewardType(rewardType);
+        rewardResultVo = signValue4Obtain(rewardResultVo, rewardAmtResult);
+
         return rewardResultVo;
+    }
+
+    public RewardResultVo signValue4Obtain(RewardResultVo vo, Long rewardAmtResult) {
+        Message message = new Message(Severity.INFO, MsgCode.OBTAIN_SUCC);
+        message.setSummary(Configuration.root().getString("golden.summary"));
+        message.setDetail(Configuration.root().getString("golden.detail"));
+        vo.setReturnMessage(message);
+        vo.setScene(this.getScene());
+        vo.setStatus(AccountConstant.ACTIVITY_CUSTONER_STATUS_NOMAL);
+        vo.setAlreadyGet(rewardAmtResult);
+        vo.setNotGet(rewardAmtResult);
+        return vo;
     }
 
     /**
@@ -114,39 +123,52 @@ public abstract class AbstractObtainRewardRule implements IObtainRewardRule{
 
 
     @Override
-    public RewardResultVo getCanObtainRewards(final String custId) {
+    public RewardResultVo getCanObtainRewards(final String custId, Long activityId) {
         RewardResultVo vo = validate(custId);
         Message message = vo.getReturnMessage();
         if(!MsgCode.ACTIVITY_QUERY_SUCC.getCode().equals(message.getCode())) {
-            Logger.info("签到失败 ：" + message.getSummary());
-            vo.setCanNotObtain(false);
+            Logger.info("获取金豆失败 ：" + message.getSummary());
         }
 
         //1：根据活动场景获取活动主键
+        boolean isNotConfig = false;
         List<Activity> activities = activityService.getActivityByScene(this.getScene());
         if(activities == null || activities.isEmpty()) {
-            message = new Message(Severity.INFO, MsgCode.NOT_CONFIG_ACTIVITY_SCENE);
-            vo.setReturnMessage(message);
-            return vo;
+            isNotConfig = true;
         }
-
         //2:根据活动主键获取该活动下获取奖励的所有规则，将所有规则中的应发奖励相加便是该场景下可以获取的奖励数
         List<ObtainRewardRule> obtainRewardRules = obtainRewardRuleService.getByActivityId(activities.get(0).getId());
         if(obtainRewardRules == null || obtainRewardRules.isEmpty()) {
+            isNotConfig = true;
+        }
+
+        if(isNotConfig || AccountConstant.ACTIVITY_STATUS_FORBIDDEN.equals(activities.get(0).getStatus())) {
             message = new Message(Severity.INFO, MsgCode.NOT_CONFIG_ACTIVITY_SCENE);
             vo.setReturnMessage(message);
+            vo.setAlreadyGet(0L);
+            vo.setNotGet(0L);
+            vo.setStatus(AccountConstant.ACTIVITY_CUSTONER_STATUS_FORBIDDEN);
             return vo;
         }
 
-        vo.setRewards(obtainRewardRules.get(0).getShouldReward());
-        if(vo.isCanNotObtain()) {
-            message = new Message(Severity.INFO, MsgCode.ACTIVITY_QUERY_SUCC);
-            vo.setReturnMessage(message);
-            vo.setScene(this.getScene());
-            vo.setActivityId(activities.get(0).getId());
-            vo.setActivityTitle(activities.get(0).getTitle());
-            vo.setRewardType(obtainRewardRules.get(0).getRewardType());
+        vo.setActivityId(activities.get(0).getId());
+        vo.setActivityTitle(activities.get(0).getTitle());
+
+        if(AccountConstant.ACTIVITY_CUSTONER_STATUS_NOMAL.equals(vo.getStatus())) {
+            vo = signValue4Query(vo, obtainRewardRules);
         }
+        return vo;
+    }
+
+    public RewardResultVo signValue4Query(RewardResultVo vo, List<ObtainRewardRule> obtainRewardRules) {
+        Message message = new Message(Severity.INFO, MsgCode.ACTIVITY_QUERY_SUCC);
+        vo.setReturnMessage(message);
+        vo.setScene(this.getScene());
+
+        vo.setStatus(AccountConstant.ACTIVITY_CUSTONER_STATUS_NOMAL);
+        vo.setAlreadyGet(0L);
+        vo.setNotGet(obtainRewardRules.get(0).getShouldReward());
+        vo.setRewardType(obtainRewardRules.get(0).getRewardType());
         return vo;
     }
 
@@ -158,9 +180,8 @@ public abstract class AbstractObtainRewardRule implements IObtainRewardRule{
      */
     public RewardResultVo validate(String custId) {
         RewardResultVo vo = new RewardResultVo();
-        Message message = null;
-        message = new Message(Severity.INFO, MsgCode.ACTIVITY_QUERY_SUCC);
-        vo.setCanNotObtain(true);
+        Message message = new Message(Severity.INFO, MsgCode.ACTIVITY_QUERY_SUCC);
+        vo.setStatus(AccountConstant.ACTIVITY_CUSTONER_STATUS_NOMAL);
         vo.setReturnMessage(message);
         return vo;
     }

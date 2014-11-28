@@ -13,4 +13,6 @@ import models.Bank;
  */
 public interface BankDao {
   public Bank findBankByBankCode(String bankCode);
+
+  public Bank findBankByBankName(String bankName);
 }

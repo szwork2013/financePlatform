@@ -45,13 +45,22 @@ public class RewardController extends ActivityBaseController {
 
         Message returnMessage = rewardResultVo.getReturnMessage();
         if(MsgCode.ACTIVITY_QUERY_SUCC.getCode().equals(returnMessage.getCode())) {
-            obtainRewardVo.setScene(scene);
-            obtainRewardVo.setObtainReward(rewardResultVo.getRewards());
-            obtainRewardVo.setCanNotObtain(rewardResultVo.isCanNotObtain());
+            obtainRewardVo.setAlreadyGet(0L);
+            obtainRewardVo.setNotGet(rewardResultVo.getNotGet());
+            obtainRewardVo.setStatus(AccountConstant.ACTIVITY_CUSTONER_STATUS_NOMAL);
+        } else {
+            obtainRewardVo.setAlreadyGet(rewardResultVo.getAlreadyGet());
+            obtainRewardVo.setNotGet(0L);
+            obtainRewardVo.setStatus(AccountConstant.ACTIVITY_CUSTONER_STATUS_FORBIDDEN);
         }
+        returnMessage = new Message(Severity.INFO, MsgCode.ACTIVITY_QUERY_SUCC);
         messageUtil.setMessage(returnMessage, obtainRewardVo);
         return ok(messageUtil.toJson());
     }
+
+
+
+
 
     /**
      * 获取客户点击一个活动场景可以获取到的奖励数
@@ -79,23 +88,8 @@ public class RewardController extends ActivityBaseController {
             rewardResultVo.setReturnMessage(message);
             return rewardResultVo;
         }
-        rewardResultVo = iObtainRewardRule.getCanObtainRewards(custNo);
+        rewardResultVo = iObtainRewardRule.getCanObtainRewards(custNo, null);
         return rewardResultVo;
-    }
-
-    /**
-     *  我的财富--》我的金豆
-     * @return
-     */
-    public Result getMyRewardTotal() {
-        CustomerSession customerSession = getCustomerSession();
-        String custNo = customerSession.getCustomerId();
-
-        Long totalHoldReward = holdRewardService.getHoldRewardByCustId(custNo, AccountConstant.REWARD_TYPE_JINDOU);
-
-        messageUtil.setMessage(new Message(Severity.INFO, MsgCode.ACTIVITY_QUERY_SUCC), totalHoldReward);
-
-        return ok(messageUtil.toJson());
     }
 
     /**
@@ -108,7 +102,7 @@ public class RewardController extends ActivityBaseController {
 
         HoldRewardVo holdRewardVo = holdRewardService.getMyRewardDetail(custNo, AccountConstant.REWARD_TYPE_JINDOU);
 
-        messageUtil.setMessage(new Message(Severity.INFO, MsgCode.ACTIVITY_QUERY_SUCC), holdRewardVo);
+        messageUtil.setMessage(new Message(Severity.INFO, MsgCode.REWARD_QUERY_SUCC), holdRewardVo);
 
         return ok(messageUtil.toJson());
     }

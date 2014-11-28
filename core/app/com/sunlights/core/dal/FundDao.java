@@ -1,10 +1,7 @@
 package com.sunlights.core.dal;
 
 import com.sunlights.core.vo.FundDetailVo;
-import models.Fund;
-import models.FundCompany;
-import models.FundHistory;
-import models.FundNavHistory;
+import models.*;
 
 import java.util.List;
 
@@ -20,13 +17,15 @@ import java.util.List;
 public interface FundDao {
     public Fund findFundByCode(String code);
 
+    public FundNav findFundNavByCode(String code);
+
     public FundDetailVo findFundDetailByCode(String code);
 
     public FundHistory findFundHistoryByCode(String code);
 
     public FundCompany findFundCompanyById(String id);
 
-    public List<FundHistory> findFundHistoriesByDays(String fundCode, int days);
+    public List<FundProfitHistory> findFundProfitHistoryByDays(String fundCode, int days);
 
-    public List<FundNavHistory> findFundNavHistoriesByDays(String fundCode, int days);
+    public Code findFundNameByFundCode(String fundCode);
 }

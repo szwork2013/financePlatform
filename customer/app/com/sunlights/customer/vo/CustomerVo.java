@@ -4,6 +4,8 @@ package com.sunlights.customer.vo;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import java.io.Serializable;
+import java.util.HashMap;
+import java.util.Map;
 
 
 /**
@@ -45,9 +47,13 @@ public class CustomerVo implements Serializable {
 
 
 
+
+
     public CustomerVo() {
 
     }
+
+
 
     public String getUserName() {
         return userName;
@@ -216,4 +222,5 @@ public class CustomerVo implements Serializable {
     public void setShumi_email(String shumi_email) {
         this.shumi_email = shumi_email;
     }
+
 }

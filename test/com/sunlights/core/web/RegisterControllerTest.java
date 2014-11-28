@@ -51,6 +51,7 @@ public class RegisterControllerTest extends BaseTest {
                         VerifyCodeService verifyCodeService = new VerifyCodeService();
                         String verifyCode = verifyCodeService.genVerificationCode(mobilePhoneNo, type, deviceNo);
                         formParams.put("verifyCode", verifyCode);
+//                        formParams.put("verifyCode", "3333");
                     }
                 });
 

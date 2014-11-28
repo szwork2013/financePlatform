@@ -27,6 +27,7 @@ public final class FundDict {
     }
 
     public static String getRiskLevel(String riskLevel) {
+        riskLevel = riskLevel == null ? "0" : riskLevel;
         RiskLevel level = Enum.valueOf(RiskLevel.class, "R" + riskLevel);
         return level == null ? riskLevel : level.getDescription();
     }
@@ -48,8 +49,9 @@ public final class FundDict {
     }
 
     public static String getRapidRedeem(Integer rapidRedeem) {
+        rapidRedeem = rapidRedeem == null ? 0 : rapidRedeem;
         RapidRedeem redeem = Enum.valueOf(RapidRedeem.class, "R" + rapidRedeem);
-        return redeem == null ? rapidRedeem.toString() : redeem.getDescription();
+        return redeem == null ? "0" : redeem.getDescription();
     }
 
 

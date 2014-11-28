@@ -36,7 +36,7 @@ public class ProductControllerTest extends BaseTest {
             public void run() {
                 final ProductParameter parameter = new ProductParameter();
                 parameter.setChartType("1");
-
+                parameter.setDays(7);
                 JPA.withTransaction(new play.libs.F.Callback0() {
                     public void invoke() {
                         EntityBaseDao entityBaseDao = new EntityBaseDao();

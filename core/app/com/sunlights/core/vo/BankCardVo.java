@@ -1,6 +1,5 @@
 package com.sunlights.core.vo;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import models.Bank;
 import models.BankCard;
 
@@ -9,115 +8,114 @@ import models.BankCard;
  * Created by Yuan on 2014/9/15.
  */
 public class BankCardVo {
-  private String id;
-  private String bankName;
-  private String bankId;
-  private String bankCode;
-  private String accountId;
-  private String displayNo;
-  private String no;
-  // 0：验证为通过  1：验证通过  2：验证中
-  private String validateStatus;
+    private String id;
+    private String bankName;
+    private String bankId;
+    private String bankCode;
+    private String accountId;
+    private String displayNo;
+    // 0：验证为通过  1：验证通过  2：验证中
+    private String validateStatus;
 
-  @JsonIgnore
-  private String bankCardNo;
+    private String bankCardNo;
+    private String bankSerial;//银行序列号
 
-  public BankCardVo() {
-    super();
-  }
-
-  public BankCardVo(BankCard bankCard, Bank bank) {
-    inBankCard(bankCard, bank);
-  }
-
-  private void inBankCard(BankCard bankCard, Bank bank) {
-    this.id = String.valueOf(bankCard.getId());
-    this.bankId = String.valueOf(bank.getId());
-    this.bankName = bank.getBankName();
-    this.bankCode = bank.getBankCode();
-    this.accountId = bankCard.getCustomerId();
-    String bankCardNo = "";
-    String cardNo = bankCard.getBankCardNo();
-    if (cardNo != null && cardNo.length() > 4) {
-      for (int i = 0; i < cardNo.length() - 4; i++) {
-        bankCardNo += "*";
-      }
-
-      this.displayNo = bankCardNo + cardNo.substring(cardNo.length() - 4);
+    public BankCardVo() {
+        super();
     }
-    this.validateStatus = bankCard.getStatus();
-    this.bankCardNo = bankCard.getBankCardNo();
-  }
 
-  public String getId() {
-    return id;
-  }
+    public BankCardVo(BankCard bankCard, Bank bank) {
+        inBankCard(bankCard, bank);
+    }
 
-  public void setId(String id) {
-    this.id = id;
-  }
+    private void inBankCard(BankCard bankCard, Bank bank) {
+        this.id = String.valueOf(bankCard.getId());
+        this.bankId = String.valueOf(bank.getId());
+        this.bankName = bank.getBankName();
+        this.bankCode = bank.getBankCode();
+        this.accountId = bankCard.getCustomerId();
+        String bankCardNo = "";
+        String cardNo = bankCard.getBankCardNo();
+        if (cardNo != null && cardNo.length() > 4) {
+            for (int i = 0; i < cardNo.length() - 4; i++) {
+                bankCardNo += "*";
+            }
 
-  public String getBankName() {
-    return bankName;
-  }
+            this.displayNo = bankCardNo + cardNo.substring(cardNo.length() - 4);
+        }
+        this.validateStatus = bankCard.getStatus();
+        this.bankCardNo = bankCard.getBankCardNo();
+    }
 
-  public void setBankName(String bankName) {
-    this.bankName = bankName;
-  }
+    public String getBankSerial() {
+        return bankSerial;
+    }
 
-  public String getBankId() {
-    return bankId;
-  }
+    public void setBankSerial(String bankSerial) {
+        this.bankSerial = bankSerial;
+    }
 
-  public void setBankId(String bankId) {
-    this.bankId = bankId;
-  }
+    public String getId() {
+        return id;
+    }
 
-  public String getBankCode() {
-    return bankCode;
-  }
+    public void setId(String id) {
+        this.id = id;
+    }
 
-  public void setBankCode(String bankCode) {
-    this.bankCode = bankCode;
-  }
+    public String getBankName() {
+        return bankName;
+    }
 
-  public String getAccountId() {
-    return accountId;
-  }
+    public void setBankName(String bankName) {
+        this.bankName = bankName;
+    }
 
-  public void setAccountId(String accountId) {
-    this.accountId = accountId;
-  }
+    public String getBankId() {
+        return bankId;
+    }
 
-  public String getDisplayNo() {
-    return displayNo;
-  }
+    public void setBankId(String bankId) {
+        this.bankId = bankId;
+    }
 
-  public void setDisplayNo(String displayNo) {
-    this.displayNo = displayNo;
-  }
+    public String getBankCode() {
+        return bankCode;
+    }
 
-  public String getValidateStatus() {
-    return validateStatus;
-  }
+    public void setBankCode(String bankCode) {
+        this.bankCode = bankCode;
+    }
 
-  public void setValidateStatus(String validateStatus) {
-    this.validateStatus = validateStatus;
-  }
+    public String getAccountId() {
+        return accountId;
+    }
 
-  public String getNo() {
-    return no;
-  }
+    public void setAccountId(String accountId) {
+        this.accountId = accountId;
+    }
 
-  public void setNo(String no) {
-    this.no = no;
-  }
+    public String getDisplayNo() {
+        return displayNo;
+    }
 
-  public String getBankCardNo() {
-    return bankCardNo;
-  }
+    public void setDisplayNo(String displayNo) {
+        this.displayNo = displayNo;
+    }
 
-  public void setBankCardNo(String bankCardNo) {
-    this.bankCardNo = bankCardNo;
-  }
+    public String getValidateStatus() {
+        return validateStatus;
+    }
+
+    public void setValidateStatus(String validateStatus) {
+        this.validateStatus = validateStatus;
+    }
+
+    public String getBankCardNo() {
+        return bankCardNo;
+    }
+
+    public void setBankCardNo(String bankCardNo) {
+        this.bankCardNo = bankCardNo;
+    }
 }

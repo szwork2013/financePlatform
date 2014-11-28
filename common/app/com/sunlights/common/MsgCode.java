@@ -79,6 +79,8 @@ public enum MsgCode {
     CREATE_FAILURE("2001", "创建失败", ""),
     UPDATE_FAILURE("2002", "更新失败", ""),
     DELETE_FAILURE("2003", "删除失败", ""),
+    DATA_EXPORT_ERROR("2010", "{0}该文件不可写(是否文件已打开),终止数据导出!"),
+    FILE_EXIST_ERROR("2011", "{0}该文件已存在!"),
     CODE_EXIST_ERROR("2300", "操作失败：", "已存在的字典表。"),
     FUND_COMPANY_EXIST_ERROR("2400", "操作失败：", "已存在的基金公司。"),
     SUPPLIER_EXIST_ERROR("2500", "操作失败：", "已存在的供应商。"),
@@ -90,11 +92,15 @@ public enum MsgCode {
     JOB_SCHEDULER_ERROR("2803", "操作失败：", "请重新操作。"),
     NOT_NULL("2001", "操作失败：", "传入参数'{0}'不能为空。"),
 
+
     //活动积分模块
     OBTAIN_SUCC("0220", "获取积分成功"),
     ACTIVITY_QUERY_SUCC("0221", "查询成功"),
+    REWARD_QUERY_SUCC("0222", "查询成功"),
     ALREADY_SIGN("2220", "重复签到"),
-    NOT_CONFIG_ACTIVITY_SCENE("2221", "没有配置活动场景");
+    NOT_CONFIG_ACTIVITY_SCENE("2221", "没有配置活动场景"),
+    ALREADY_PURCHASE("2222", "不是首次购买"),
+    ALREADY_REGISTER("2223", "已经注册");
 
 
     private String code;

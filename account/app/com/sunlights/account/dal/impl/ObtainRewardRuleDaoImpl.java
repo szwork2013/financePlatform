@@ -3,6 +3,7 @@ package com.sunlights.account.dal.impl;
 import com.sunlights.account.dal.ObtainRewardRuleDao;
 import com.sunlights.common.dal.EntityBaseDao;
 import models.ObtainRewardRule;
+import models.Trade;
 
 import java.util.List;
 
@@ -13,5 +14,10 @@ public class ObtainRewardRuleDaoImpl extends EntityBaseDao implements ObtainRewa
     @Override
     public List<ObtainRewardRule> getByActivityId(Long activityId) {
         return findBy(ObtainRewardRule.class, "activityId", activityId);
+    }
+
+    @Override
+    public List<Trade> getTradesByCustId(String custId) {
+        return findBy(Trade.class, "custId", custId);
     }
 }

@@ -154,10 +154,8 @@ public class LoginServiceImpl implements LoginService {
         customerVerifyCodeVo.setVerifyType(AppConst.VERIFY_CODE_REGISTER);
         customerVerifyCodeVo.setDeviceNo(deviceNo);
         customerVerifyCodeVo.setVerifyCode(verifyCode);
-        MsgCode msgCode = verifyCodeService.validateVerifyCode(customerVerifyCodeVo);
-        if(msgCode != MsgCode.OPERATE_SUCCESS){
-            Message message = new Message(msgCode);
-            MessageUtil.getInstance().setMessage(message);
+        boolean success = verifyCodeService.validateVerifyCode(customerVerifyCodeVo);
+        if (!success) {
             return null;
         }
 
@@ -215,9 +213,9 @@ public class LoginServiceImpl implements LoginService {
         customerVerifyCodeVo.setVerifyType(AppConst.VERIFY_CODE_RESETPWD);
         customerVerifyCodeVo.setDeviceNo(deviceNo);
         customerVerifyCodeVo.setVerifyCode(verifyCode);
-        MsgCode msgCode = verifyCodeService.validateVerifyCode(customerVerifyCodeVo);
-        MessageUtil.getInstance().setMessage(new Message(msgCode));
-        return true;
+        boolean success = verifyCodeService.validateVerifyCode(customerVerifyCodeVo);
+
+        return success;
 	}
 	/**
 	 * 重置密码

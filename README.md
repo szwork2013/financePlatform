@@ -39,6 +39,22 @@ trade->core
 # 代码规范
 请安装IDEA的checkstyle， PMD， findBugs插件
 
+# Bug 管理原则
+我们现在用 GitLab 中得 Issues 做简单的 bug/defect/issue 追踪管理。 GitLab 的这个功能相比 bugzilla, mantis 或者 redmine 的 issue 管理要弱很多，但目前对我们还够用，所以在 issue 管理上，还是要做一些必要的流程要求:
+
+1. 一个 issue 创建以后，创建人(creator)应尽快 assign 给相关项目的 leader (目前 iOS app 的 leader 是承朝，后端和官网的 leader 是罗奎)
+2. 创建 issue 时，分配对应的 label (功能错误，功能缺失，等等);
+3. 项目 leader 应尽快将 issue 再分配给对应的工程师；
+4. 工程师修正了 issue 以后，添加 Fixed 标签，并且 re-assign 给项目 leader;
+5. 待新版本发布，项目 leader 将 Fixed 的 issue 重新分配给创建人 (creator)；
+6. issue 的创建人重新测试以后，或者 Close 该 issue；或者没有测试通过，那么 re-open 并且 re-assign给项目 leader，同时去除 Fixed 标签；
+
+有几个原则整个团队需要共同遵守:
+1. issue 撰写的方式: 要足够详细，能够根据描述重现；
+2. 谁创建，谁关闭；
+3. 先解决 issue，再做新功能；
+
+
 # Guava库使用
 * [Guava教程](http://outofmemory.cn/java/guava/)
 
