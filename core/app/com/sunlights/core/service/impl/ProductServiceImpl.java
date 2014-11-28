@@ -32,7 +32,6 @@ public class ProductServiceImpl implements ProductService {
 
     private FundDao fundDao = new FundDaoImpl();
 
-
     @Override
     public List<ProductVo> findProductIndex(PageVo pageVo) {
         String currentDate = CommonUtil.dateToString(new Date(), CommonUtil.DATE_FORMAT_LONG);
@@ -99,32 +98,34 @@ public class ProductServiceImpl implements ProductService {
     @Override
     public ChartVo findOneWeekProfitsByDays(String fundCode, int days) {
 
-        List<FundNavHistory> fundHistories = fundDao.findFundNavHistoriesByDays(fundCode, days);
+        List<FundProfitHistory> fundHistories = fundDao.findFundProfitHistoryByDays(fundCode, days);
         ChartVo chartVo = new ChartVo();
         chartVo.setChartName("七日年化走势");
         chartVo.setChartType("2");
         chartVo.setPrdCode(fundCode);
         if (!fundHistories.isEmpty()) {
-            chartVo.setPrdName(fundHistories.get(0).getFundname());
+            Code fundInfo = fundDao.findFundNameByFundCode(fundCode);
+            chartVo.setPrdName(fundInfo.getValue());
         }
-        for (FundNavHistory fundHistory : fundHistories) {
-            chartVo.getPoints().add(new Point(CommonUtil.dateToString(fundHistory.getCreateTime(), CommonUtil.DATE_FORMAT_SHORT),  ArithUtil.mul(fundHistory.getPercentSevenDays().doubleValue(), 100) + ""));
+        for (FundProfitHistory fundHistory : fundHistories) {
+            chartVo.getPoints().add(new Point(CommonUtil.dateToString(fundHistory.getDateTime(), CommonUtil.DATE_FORMAT_SHORT),  ArithUtil.mul(fundHistory.getPercentSevenDays().doubleValue(), 100) + ""));
         }
         return chartVo;
     }
 
     @Override
     public ChartVo findMillionOfProfitsByDays(String fundCode, int days) {
-        List<FundNavHistory> fundHistories = fundDao.findFundNavHistoriesByDays(fundCode, days);
+        List<FundProfitHistory> fundHistories = fundDao.findFundProfitHistoryByDays(fundCode, days);
         ChartVo chartVo = new ChartVo();
         chartVo.setChartName("万份收益走势");
         chartVo.setChartType("1");
         chartVo.setPrdCode(fundCode);
         if (!fundHistories.isEmpty()) {
-            chartVo.setPrdName(fundHistories.get(0).getFundname());
+            Code fundInfo = fundDao.findFundNameByFundCode(fundCode);
+            chartVo.setPrdName(fundInfo.getValue());
         }
-        for (FundNavHistory fundHistory : fundHistories) {
-            chartVo.getPoints().add(new Point(CommonUtil.dateToString(fundHistory.getCreateTime(), CommonUtil.DATE_FORMAT_SHORT), ArithUtil.bigUpScale4(fundHistory.getIncomePerTenThousand()) + ""));
+        for (FundProfitHistory fundHistory : fundHistories) {
+            chartVo.getPoints().add(new Point(CommonUtil.dateToString(fundHistory.getDateTime(), CommonUtil.DATE_FORMAT_SHORT), ArithUtil.bigUpScale4(fundHistory.getIncomePerTenThousand()) + ""));
         }
         return chartVo;
     }

@@ -9,12 +9,9 @@ import java.sql.Timestamp;
  */
 @Entity
 @Table(name = "fund_profit_history", schema = "public", catalog = "sunlightsdev")
-public class FundProfitHistory {
-    @Id
-    @Column(name = "id")
-    private long id;
+public class FundProfitHistory extends IdEntity{
     @Column(name = "fundcode")
-    private String fundcode;
+    private String fundCode;
     @Column(name = "date_time")
     private Timestamp dateTime;
     @Column(name = "percent_seven_days")
@@ -26,21 +23,23 @@ public class FundProfitHistory {
     @Column(name = "update_time")
     private Timestamp updateTime;
 
+    @Transient
+    private String fundname;
 
-    public long getId() {
-        return id;
+    public String getFundname() {
+        return fundname;
     }
 
-    public void setId(long id) {
-        this.id = id;
+    public void setFundname(String fundname) {
+        this.fundname = fundname;
     }
 
-    public String getFundcode() {
-        return fundcode;
+    public String getFundCode() {
+        return fundCode;
     }
 
-    public void setFundcode(String fundcode) {
-        this.fundcode = fundcode;
+    public void setFundCode(String fundcode) {
+        this.fundCode = fundcode;
     }
 
     public Timestamp getDateTime() {
@@ -89,11 +88,10 @@ public class FundProfitHistory {
         if (o == null || getClass() != o.getClass()) return false;
 
         FundProfitHistory that = (FundProfitHistory) o;
-
-        if (id != that.id) return false;
+        if (getId() != that.getId()) return false;
         if (createTime != null ? !createTime.equals(that.createTime) : that.createTime != null) return false;
         if (dateTime != null ? !dateTime.equals(that.dateTime) : that.dateTime != null) return false;
-        if (fundcode != null ? !fundcode.equals(that.fundcode) : that.fundcode != null) return false;
+        if (fundCode != null ? !fundCode.equals(that.fundCode) : that.fundCode != null) return false;
         if (incomePerTenThousand != null ? !incomePerTenThousand.equals(that.incomePerTenThousand) : that.incomePerTenThousand != null)
             return false;
         if (percentSevenDays != null ? !percentSevenDays.equals(that.percentSevenDays) : that.percentSevenDays != null)
@@ -105,8 +103,8 @@ public class FundProfitHistory {
 
     @Override
     public int hashCode() {
-        int result = (int) (id ^ (id >>> 32));
-        result = 31 * result + (fundcode != null ? fundcode.hashCode() : 0);
+        int result = (int) (getId() != null ? getId() ^ (getId() >>> 32) : 0);
+        result = 31 * result + (fundCode != null ? fundCode.hashCode() : 0);
         result = 31 * result + (dateTime != null ? dateTime.hashCode() : 0);
         result = 31 * result + (percentSevenDays != null ? percentSevenDays.hashCode() : 0);
         result = 31 * result + (incomePerTenThousand != null ? incomePerTenThousand.hashCode() : 0);

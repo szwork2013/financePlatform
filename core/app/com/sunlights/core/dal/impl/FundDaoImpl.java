@@ -56,9 +56,9 @@ public class FundDaoImpl extends EntityBaseDao implements FundDao {
 
 
     @Override
-    public List<FundHistory> findFundHistoriesByDays(String fundCode, int days) {
+    public List<FundProfitHistory> findFundProfitHistoryByDays(String fundCode, int days) {
 
-        String jpql = " select fh from FundHistory fh where fh.fundCode = '" + fundCode + "' order by fh.createTime desc";
+        String jpql = " select fh from FundProfitHistory fh ,Code c where  fh.fundCode=c.code  and fh.fundCode = '" + fundCode + "' order by fh.dateTime desc";
 
         Query query = super.createQuery(jpql);
         if (days > 0) {
@@ -68,10 +68,9 @@ public class FundDaoImpl extends EntityBaseDao implements FundDao {
     }
 
     @Override
-    public List<FundNavHistory> findFundNavHistoriesByDays(String fundCode, int days) {
-        String jpql = " select fh from FundNavHistory fh where fh.fundcode = '" + fundCode + "' order by fh.createTime desc";
-        List<FundNavHistory> fundNavHistories = super.find(jpql);
-        return fundNavHistories;
+    public Code findFundNameByFundCode(String fundCode) {
+        List<Code> funds = super.findBy(Code.class, "code", fundCode);
+        return funds.isEmpty() ? null : funds.get(0);
     }
 
 
