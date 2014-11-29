@@ -87,6 +87,11 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
+    public void addProductPurchasedNum(String productCode) {
+        fundDao.addProductPurchasedNum(productCode);
+    }
+
+    @Override
     public ProductVo findProductDetailBy(String productCode, String type) {
         ProductVo productVo = null;
         // 基金

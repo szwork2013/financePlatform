@@ -61,7 +61,10 @@ public class ShuMiTradeServiceImpl implements ShuMiTradeService{
         accountService.createSubAccount(customerId, fundNav.getIaGuid(), DictConst.FP_PRODUCT_TYPE_1);
 
         //下单记录
-        Trade trade = createTrade(shuMiTradeFormVo, customerId, DictConst.TRADE_TYPE_1);
+        Trade trade = createTrade(shuMiTradeFormVo, customerId, DictConst.TRADE_TYPE_1, fundNav);
+
+        //产品申购人数+1
+        productService.addProductPurchasedNum(shuMiTradeFormVo.getFundCode());
 
     }
 
@@ -69,7 +72,8 @@ public class ShuMiTradeServiceImpl implements ShuMiTradeService{
     public void shuMiTradeRedeem(ShuMiTradeFormVo shuMiTradeFormVo, String token) {
         CustomerSession customerSession = customerService.getCustomerSession(token);
         String customerId = customerSession.getCustomerId();
-        createTrade(shuMiTradeFormVo, customerId, DictConst.TRADE_TYPE_2);
+        FundNav fundNav = productService.findFundNavByCode(shuMiTradeFormVo.getFundCode());
+        createTrade(shuMiTradeFormVo, customerId, DictConst.TRADE_TYPE_2, fundNav);
     }
 
     private void createOpenAccountBankInfo(ShuMiTradeFormVo shuMiTradeFormVo, String customerId) {
@@ -84,7 +88,7 @@ public class ShuMiTradeServiceImpl implements ShuMiTradeService{
         openAccountPactService.createFundOpenAccount(customerId, bankCardVo);
     }
 
-    private Trade createTrade(ShuMiTradeFormVo shuMiTradeFormVo, String customerId, String type){
+    private Trade createTrade(ShuMiTradeFormVo shuMiTradeFormVo, String customerId, String type, FundNav fundNav){
         String applySum = shuMiTradeFormVo.getApplySum();
         String fundCode = shuMiTradeFormVo.getFundCode();
         String fundName = shuMiTradeFormVo.getFundName();
@@ -117,9 +121,17 @@ public class ShuMiTradeServiceImpl implements ShuMiTradeService{
         trade.setPayStatus(DictConst.PAYMENT_STATUS_2);//未付款
         trade.setProductCode(fundCode);
         trade.setProductName(fundName);
-//        trade.setProductPrice(fundNav.getPurchaseLimitMin());
-//        trade.setQuantity(Integer.valueOf(new BigDecimal(applySum).divide(fundNav.getPurchaseLimitMin()).toString()));
-//        trade.setFee(BigDecimal.valueOf(fundNav.getCharge()));
+
+        trade.setProductPrice(fundNav.getPurchaseLimitMin());
+        trade.setQuantity(Integer.valueOf(new BigDecimal(applySum).divide(fundNav.getPurchaseLimitMin()).toString()));
+        BigDecimal fee = BigDecimal.ZERO;
+        BigDecimal chargeRateValue = fundNav.getChargeRateValue();
+        BigDecimal fundNavDiscount = fundNav.getDiscount();
+        if (chargeRateValue != null && BigDecimal.ZERO.compareTo(chargeRateValue) != 0 && fundNavDiscount != null) {
+            fee = fundNavDiscount;
+        }
+        trade.setFee(fee);
+
         return tradeDao.saveTrade(trade);
     }
 

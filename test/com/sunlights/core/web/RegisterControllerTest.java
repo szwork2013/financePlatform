@@ -29,6 +29,7 @@ public class RegisterControllerTest extends BaseTest {
         running(fakeApplication(), new Runnable() {
             public void run() {
                 final String mobilePhoneNo = "18522222241";
+//                final String mobilePhoneNo = "15821948594";
                 final String deviceNo = getDeviceNo();
                 final String type = "REGISTER";
 
