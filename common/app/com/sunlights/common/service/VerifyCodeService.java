@@ -12,6 +12,7 @@ import com.sunlights.common.utils.MessageUtil;
 import com.sunlights.common.vo.CustomerVerifyCodeVo;
 import com.sunlights.common.vo.Message;
 import models.CustomerVerifyCode;
+import play.Configuration;
 import play.Logger;
 
 import java.sql.Timestamp;
@@ -89,6 +90,9 @@ public class VerifyCodeService {
      * @return
      */
     public boolean validateVerifyCode(CustomerVerifyCodeVo customerVerifyCodeVo){
+        if("true".equals(Configuration.root().getString("mock"))) {
+            return true;
+        }
         CustomerVerifyCode customerVerifyCode = customerVerifyCodeDao.findVerifyCodeByType(customerVerifyCodeVo.getMobile(), customerVerifyCodeVo.getVerifyType());
 
         if (customerVerifyCode == null) {
