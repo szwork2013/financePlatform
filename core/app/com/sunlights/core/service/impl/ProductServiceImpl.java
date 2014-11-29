@@ -14,6 +14,7 @@ import com.sunlights.core.vo.Point;
 import com.sunlights.core.vo.ProductVo;
 import models.*;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -159,16 +160,27 @@ public class ProductServiceImpl implements ProductService {
     }
 
     private void setPoints(String chartType, List<FundProfitHistory> fundHisLst, ChartVo chartVo) {
+
+        List<Point> points = chartVo.getPoints();
         for (FundProfitHistory fundHis : fundHisLst) {
             String date = CommonUtil.dateToString(fundHis.getDateTime(), CommonUtil.DATE_FORMAT_SHORT);
-            List<Point> points = chartVo.getPoints();
+
             if(CHART_TYPE.equals(chartType)){
                 points.add(new Point(date, ArithUtil.bigUpScale4(fundHis.getIncomePerTenThousand()) + ""));
             }else {
                 points.add(new Point(date, ArithUtil.mul(fundHis.getPercentSevenDays().doubleValue(), 100) + ""));
             }
         }
+        chartVo.setPoints(sortPoints(points));
+
     }
 
+    private List<Point> sortPoints(List<Point> points) {
+        List<Point> pointsTemp = new ArrayList<>();
+        for(int i=points.size()-1;i>=0;i--){
+            pointsTemp.add(points.get(i));
+        }
+        return pointsTemp;
+    }
 
 }

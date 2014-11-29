@@ -128,23 +128,23 @@ DROP TABLE IF EXISTS "public"."c_customer";
 CREATE TABLE "public"."c_customer" (
   "id"              INT8 NOT NULL,
   "customer_id"     VARCHAR(30) COLLATE "default",
-  "customer_type"   VARCHAR(1) COLLATE "default",
+  "customer_type"   VARCHAR(50) COLLATE "default",
   "device_no"       VARCHAR(50) COLLATE "default",
   "email"           VARCHAR(50) COLLATE "default",
   "identity_number" VARCHAR(30) COLLATE "default",
-  "identity_typer"  VARCHAR(1) COLLATE "default",
+  "identity_typer"  VARCHAR(50) COLLATE "default",
   "login_id"        VARCHAR(20) COLLATE "default",
   "login_password"  VARCHAR(40) COLLATE "default",
   "mobile"          VARCHAR(11) COLLATE "default",
   "nick_name"       VARCHAR(50) COLLATE "default",
   "pic_way"         VARCHAR(40) COLLATE "default",
-  "property"        VARCHAR(1) COLLATE "default",
+  "property"        VARCHAR(50) COLLATE "default",
   "qq"              VARCHAR(20) COLLATE "default",
   "real_name"       VARCHAR(20) COLLATE "default",
   "referral_code"   VARCHAR(10) COLLATE "default",
-  "reg_channel"     VARCHAR(1) COLLATE "default",
-  "reg_way"         VARCHAR(1) COLLATE "default",
-  "status"          VARCHAR(1) COLLATE "default",
+  "reg_channel"     VARCHAR(50) COLLATE "default",
+  "reg_way"         VARCHAR(50) COLLATE "default",
+  "status"          VARCHAR(50) COLLATE "default",
   "weibo"           VARCHAR(30) COLLATE "default",
   "weixin"          VARCHAR(30) COLLATE "default",
   "create_by"       VARCHAR(30) COLLATE "default",
@@ -1580,3 +1580,16 @@ DROP TABLE    m_logging_event;
 
 ALTER TABLE fundnav ALTER COLUMN lastest_total_asset type numeric(18, 5);
 ALTER TABLE fundnav_history ALTER COLUMN lastest_total_asset type numeric(18, 5);
+
+
+create table fund_profit_history
+(
+   id                   bigint                         not null,
+   fund_code             varchar(30)                    null,
+   date_time            timestamp                      null,
+   percent_seven_days   decimal(16,5)                  null,
+   income_per_ten_thousand decimal(16,5)                  null,
+   create_time          timestamp                      null,
+   update_time          timestamp                      null,
+   constraint PK_FUND_PROFIT_HISTORY primary key  (id)
+);
