@@ -14,6 +14,7 @@ import com.sunlights.core.vo.Point;
 import com.sunlights.core.vo.ProductVo;
 import models.*;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -28,6 +29,7 @@ import java.util.List;
  */
 public class ProductServiceImpl implements ProductService {
 
+    public static final String CHART_TYPE = "1";
     private PageService pageService = new PageService();
 
     private FundDao fundDao = new FundDaoImpl();
@@ -130,5 +132,55 @@ public class ProductServiceImpl implements ProductService {
         return chartVo;
     }
 
+    /**
+     * 根据基金代码查询相应天数的万份收益和七日年华利率
+     * @param chartType
+     * @param fundCode
+     * @param days
+     * @return
+     */
+    @Override
+    public ChartVo findProfitHistoryByDays(String chartType, String fundCode, int days) {
+        List<FundProfitHistory> fundHisLst = fundDao.findFundProfitHistoryByDays(fundCode, days);
+        if (fundHisLst==null ||fundHisLst.isEmpty()) {
+            return null;
+        }
+        return getChartVo(chartType, fundCode, fundHisLst);
+    }
+
+    private ChartVo getChartVo(String chartType, String fundCode, List<FundProfitHistory> fundHisLst) {
+        ChartVo chartVo = new ChartVo();
+        Code fundInfo = fundDao.findFundNameByFundCode(fundCode);
+        chartVo.setPrdName(fundInfo.getValue());
+        chartVo.setChartName(CHART_TYPE.equals(chartType)? "万份收益走势":"七日年化走势");
+        chartVo.setChartType(chartType);
+        chartVo.setPrdCode(fundCode);
+        setPoints(chartType, fundHisLst, chartVo);
+        return chartVo;
+    }
+
+    private void setPoints(String chartType, List<FundProfitHistory> fundHisLst, ChartVo chartVo) {
+
+        List<Point> points = chartVo.getPoints();
+        for (FundProfitHistory fundHis : fundHisLst) {
+            String date = CommonUtil.dateToString(fundHis.getDateTime(), CommonUtil.DATE_FORMAT_SHORT);
+
+            if(CHART_TYPE.equals(chartType)){
+                points.add(new Point(date, ArithUtil.bigUpScale4(fundHis.getIncomePerTenThousand()) + ""));
+            }else {
+                points.add(new Point(date, ArithUtil.mul(fundHis.getPercentSevenDays().doubleValue(), 100) + ""));
+            }
+        }
+        chartVo.setPoints(sortPoints(points));
+
+    }
+
+    private List<Point> sortPoints(List<Point> points) {
+        List<Point> pointsTemp = new ArrayList<>();
+        for(int i=points.size()-1;i>=0;i--){
+            pointsTemp.add(points.get(i));
+        }
+        return pointsTemp;
+    }
 
 }

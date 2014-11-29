@@ -66,6 +66,8 @@ public class BaseTest {
         
         play.mvc.Result result = getResult("/customer/login", formParams);
         assertThat(status(result)).isEqualTo(OK);
+        Http.Cookie tokenCookie = cookie("token", result);
+        Logger.info("token = " + tokenCookie.value());
         MessageVo message = toMessageVo(result);
         assertThat(message.getMessage().getCode()).isEqualTo("0101");
         assertThat(message.getMessage().getSummary()).isEqualTo("登录成功");

@@ -8,9 +8,9 @@ import java.sql.Timestamp;
  * Created by guxuelong on 2014/11/27.
  */
 @Entity
-@Table(name = "fund_profit_history", schema = "public", catalog = "sunlightsdev")
+@Table(name = "fund_profit_history")
 public class FundProfitHistory extends IdEntity{
-    @Column(name = "fundcode")
+    @Column(name = "fund_code")
     private String fundCode;
     @Column(name = "date_time")
     private Timestamp dateTime;

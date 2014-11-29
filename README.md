@@ -97,6 +97,13 @@ trade->core
              )
 
 
+# 数据库脚本维护：
+
+    1.在/common/conf/db/db.sql中增加数据库脚本语句
+    
+    2.在http://earth/sunlights/documents /Version-1/设计文档/设计文档2.0/表设计/db/db.xlsx
+      中维护好单个数据库脚本，写好描述，和各个环境到是否执行的状态，详细的可以看下db.xlsx里到书写要求
+
 
 
 

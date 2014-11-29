@@ -32,5 +32,6 @@ public class BankVo {
     this.bankName = bank.getBankName();
     this.enName = bank.getEnName();
     this.status = bank.getStatus();
+
   }
 }

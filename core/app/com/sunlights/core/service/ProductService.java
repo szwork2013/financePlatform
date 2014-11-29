@@ -39,4 +39,13 @@ public interface ProductService {
     public ChartVo findOneWeekProfitsByDays(String fundCode, int days);
 
     public ChartVo findMillionOfProfitsByDays(String fundCode, int days);
+
+    /**
+     * 根据基金代码查询相应天数的万份收益和七日年华利率
+     * @param chartType
+     * @param fundCode
+     * @param days
+     * @return
+     */
+    public ChartVo findProfitHistoryByDays(String chartType,String fundCode,int days);
 }
