@@ -27,8 +27,8 @@ public class ActivityControllerTest extends BaseTest{
 
     @Before
     public void getCookie(){
-        final String mobilePhoneNo = "13811599307";
-        final String password = "1";
+        final String mobilePhoneNo = "10000000014";
+        final String password = "111111";
         running(fakeApplication(), new Runnable() {
             public void run() {
                 cookie = getCookieAfterLogin(mobilePhoneNo, password);
@@ -108,7 +108,7 @@ public class ActivityControllerTest extends BaseTest{
                         play.mvc.Result result = null;
 
                         RewardFlowService rewardFlowService = new RewardFlowServiceImpl();
-                        RewardResultVo rewardResultVo = rewardFlowService.getLastObtainRewars("20141119102210010000000029", AccountConstant.ACTIVITY_REGISTER_SCENE_CODE);
+                        RewardResultVo rewardResultVo = rewardFlowService.getLastObtainRewars("20141129090152010000000066", AccountConstant.ACTIVITY_REGISTER_SCENE_CODE);
 
                         //2:签到获取金豆正常测试
                         formParams = new HashMap<String, String>();

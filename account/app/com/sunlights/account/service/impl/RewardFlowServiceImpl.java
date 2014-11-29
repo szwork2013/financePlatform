@@ -62,17 +62,19 @@ public class RewardFlowServiceImpl implements RewardFlowService {
     @Override
     public RewardResultVo getLastObtainRewars(String custId, String scene) {
         try {
-            RewardResultVo vo = new RewardResultVo();
-            vo.setStatus(AccountConstant.ACTIVITY_CUSTONER_STATUS_NOMAL);
+            RewardResultVo vo = null;
+
             RewardFlow rewardFlow = new RewardFlow();
             rewardFlow.setCustId(custId);
             rewardFlow.setScene(scene);
             List<RewardFlow> result = rewardFlowDao.findByCondition(rewardFlow);
+            RewardFlow temp = null;
             if(result != null && result.size() > 0) {
-                rewardFlow = result.get(0);
+                temp = result.get(0);
             }
-            if(rewardFlow != null) {
-                vo.setAlreadyGet(rewardFlow.getRewardAmt());
+            if(temp != null) {
+                vo.setStatus(AccountConstant.ACTIVITY_CUSTONER_STATUS_NOMAL);
+                vo.setAlreadyGet(temp.getRewardAmt());
                 vo.setNotGet(0L);
             }
             return vo;
