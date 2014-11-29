@@ -92,7 +92,7 @@ public class CommonUtil {
             return new Date();
         }
 
-        if (format != null) {
+        if (format != null && format.length > 0) {
             return new SimpleDateFormat(format[0]).parse(dateString);
         } else {
             return DATE_FORMAT.parse(dateString);
