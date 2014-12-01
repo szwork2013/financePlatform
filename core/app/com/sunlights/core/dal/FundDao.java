@@ -25,6 +25,8 @@ public interface FundDao {
 
     public FundCompany findFundCompanyById(String id);
 
+    public void addProductPurchasedNum(String productCode);
+
     public List<FundProfitHistory> findFundProfitHistoryByDays(String fundCode, int days);
 
     public Code findFundNameByFundCode(String fundCode);

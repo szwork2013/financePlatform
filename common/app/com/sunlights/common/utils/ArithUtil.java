@@ -235,13 +235,12 @@ public class ArithUtil {
      * @param big
      * @return
      */
-    public static BigDecimal bigUpScale4(BigDecimal big) {
+    public static String bigUpScale4(BigDecimal big) {
         if (big == null) {
-            return null;
+            return "";
         }
         big = big.setScale(4, BigDecimal.ROUND_HALF_UP);
-        return big;
+        return big.toString();
     }
-
 
 }
