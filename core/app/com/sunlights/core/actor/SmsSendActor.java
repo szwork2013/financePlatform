@@ -3,6 +3,7 @@ package com.sunlights.core.actor;
 import akka.actor.UntypedActor;
 import com.sunlights.core.service.impl.SmsMessageService;
 import models.SmsMessage;
+import play.Logger;
 import play.db.jpa.JPA;
 import play.libs.F;
 
@@ -19,10 +20,12 @@ public class SmsSendActor extends UntypedActor {
   @Override
   public void onReceive(Object message) throws Exception {
     if (message instanceof SmsMessage) {
+      Logger.info("==============smsSendActor onReceive =====");
       final SmsMessage sm = (SmsMessage) message;
       JPA.withTransaction(new F.Callback0() {
         @Override
         public void invoke() throws Throwable {
+          Logger.info("==============smsSendActor invoke =====");
           SmsMessageService smsMessageService = new SmsMessageService();
           smsMessageService.sendSms(sm);
         }
