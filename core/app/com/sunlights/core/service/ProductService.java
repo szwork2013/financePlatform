@@ -44,10 +44,35 @@ public interface ProductService {
 
     /**
      * 根据基金代码查询相应天数的万份收益和七日年华利率
+     *
      * @param chartType
      * @param fundCode
      * @param days
      * @return
      */
-    public ChartVo findProfitHistoryByDays(String chartType,String fundCode,int days);
+    public ChartVo findProfitHistoryByDays(String chartType, String fundCode, int days);
+
+
+    /**
+     * 批量关注产品
+     *
+     * @param productVos
+     */
+    public void createProductAttention(List<ProductVo> productVos, String customerId);
+
+    /**
+     * 取消关注产品
+     *
+     * @param productVo
+     */
+    public void cancelProductAttention(ProductVo productVo);
+
+
+    /**
+     * 查找关注产品
+     *
+     * @param pageVo
+     * @return
+     */
+    public List<ProductVo> findProductAttentions(PageVo pageVo, String customerId);
 }

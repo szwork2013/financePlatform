@@ -19,6 +19,7 @@ public class ProductAttention extends IdEntity {
     private String productCode;
     @Column(name = "product_type")
     private String productType;
+    @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "create_time")
     private Date createTime;
     @Column(name = "customer_id")

@@ -1,5 +1,7 @@
 package com.sunlights.core.web;
 
+import com.fasterxml.jackson.databind.JsonNode;
+import com.sunlights.common.DictConst;
 import com.sunlights.common.MsgCode;
 import com.sunlights.common.Severity;
 import com.sunlights.common.utils.MessageUtil;
@@ -11,6 +13,8 @@ import com.sunlights.core.vo.ChartVo;
 import com.sunlights.core.vo.FundVo;
 import com.sunlights.core.vo.ProductParameter;
 import com.sunlights.core.vo.ProductVo;
+import com.sunlights.customer.service.impl.CustomerService;
+import models.CustomerSession;
 import play.data.Form;
 import play.db.jpa.Transactional;
 import play.libs.Json;
@@ -18,6 +22,7 @@ import play.mvc.Controller;
 import play.mvc.Http;
 import play.mvc.Result;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -35,6 +40,65 @@ public class ProductController extends Controller {
     private MessageUtil messageUtil = MessageUtil.getInstance();
 
     private ProductService productService = new ProductServiceImpl();
+    private CustomerService customerService = new CustomerService();
+
+    public Result createAttentions() {
+        Http.RequestBody body = request().body();
+        List<ProductVo> productVos = new ArrayList<ProductVo>();
+        if (body.asJson() != null) {
+            for (JsonNode jsonNode : body.asJson()) {
+                productVos.add(Json.fromJson(jsonNode, ProductVo.class));
+            }
+        }
+        CustomerSession customerSession = customerService.validateCustomerSession(request(), session(), response());
+        productService.createProductAttention(productVos, customerSession.getCustomerId());
+        messageUtil.setMessage(new Message(Severity.INFO, MsgCode.OPERATE_SUCCESS));
+        return ok(messageUtil.toJson());
+    }
+
+    public Result cancelAttention() {
+        ProductVo productVo = new ProductVo();
+        Http.RequestBody body = request().body();
+        if (body.asJson() != null) {
+            productVo = Json.fromJson(body.asJson(), ProductVo.class);
+            // 基金
+            productService.cancelProductAttention(productVo);
+            messageUtil.setMessage(new Message(Severity.INFO, MsgCode.OPERATE_SUCCESS));
+            return ok(messageUtil.toJson());
+        }
+        messageUtil.setMessage(new Message(Severity.ERROR, MsgCode.OPERATE_FAILURE));
+        return ok(messageUtil.toJson());
+    }
+
+    public Result createAttention() {
+        ProductVo productVo = new ProductVo();
+        Http.RequestBody body = request().body();
+        List<ProductVo> productVos = new ArrayList<ProductVo>();
+        if (body.asJson() != null) {
+            productVo = Json.fromJson(body.asJson(), ProductVo.class);
+            // 基金
+            productVo.setType(DictConst.FP_PRODUCT_TYPE_1);
+            productVos.add(productVo);
+        }
+        CustomerSession customerSession = customerService.validateCustomerSession(request(), session(), response());
+        productService.createProductAttention(productVos, customerSession.getCustomerId());
+        messageUtil.setMessage(new Message(Severity.INFO, MsgCode.OPERATE_SUCCESS));
+        return ok(messageUtil.toJson());
+    }
+
+    public Result findAttentions() {
+        PageVo pageVo = new PageVo();
+        Http.RequestBody body = request().body();
+        if (body.asJson() != null) {
+            pageVo = Json.fromJson(body.asJson(), PageVo.class);
+        }
+        CustomerSession customerSession = customerService.validateCustomerSession(request(), session(), response());
+
+        List<ProductVo> productVos = productService.findProductAttentions(pageVo, customerSession.getCustomerId());
+        pageVo.setList(productVos);
+        messageUtil.setMessage(new Message(Severity.INFO, MsgCode.OPERATE_SUCCESS), pageVo);
+        return ok(messageUtil.toJson());
+    }
 
     public Result findProductsBy() {
         PageVo pageVo = new PageVo();
@@ -82,7 +146,7 @@ public class ProductController extends Controller {
             prodPara = productParameterForm.bindFromRequest().get();
         }
         String chartType = prodPara.getChartType();
-        ChartVo chartVo = productService.findProfitHistoryByDays(chartType,prodPara.getPrdCode(), prodPara.getInterval());
+        ChartVo chartVo = productService.findProfitHistoryByDays(chartType, prodPara.getPrdCode(), prodPara.getInterval());
         messageUtil.setMessage(new Message(Severity.INFO, MsgCode.OPERATE_SUCCESS), chartVo);
         return ok(messageUtil.toJson());
     }

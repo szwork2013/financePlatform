@@ -57,7 +57,7 @@ public class CustomerService {
         return customer;
     }
 
-    public void validateCustomerSession(Http.Request request, Http.Session session, Http.Response response) {
+    public CustomerSession validateCustomerSession(Http.Request request, Http.Session session, Http.Response response) {
         Http.Cookie cookie = request.cookie(AppConst.TOKEN);
         String token = cookie == null ? null : cookie.value();
         Logger.info("===============token:" + token);
@@ -68,6 +68,7 @@ public class CustomerService {
         } else {
             sessionLoginSessionId(session, response, userSession);
         }
+        return userSession;
     }
 
     /**
