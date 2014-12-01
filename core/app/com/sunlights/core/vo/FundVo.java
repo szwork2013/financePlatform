@@ -14,10 +14,10 @@ import java.math.BigDecimal;
  */
 public class FundVo extends ProductVo {
     private Integer peopleOfPurchased;//已申购人数
-    private BigDecimal sevenDaysIncome;//七日年化收益率
-    private BigDecimal millionIncome;//万分收益
+    private String sevenDaysIncome;//七日年化收益率
+    private String millionIncome;//万分收益
     private String purchasedMethod;//买卖方式，比如:随买随卖
-    private BigDecimal purchasedAmount;//起购金额
+    private String purchasedAmount;//起购金额
     private String discount;
 
     public FundVo() {
@@ -72,20 +72,19 @@ public class FundVo extends ProductVo {
         this.peopleOfPurchased = peopleOfPurchased;
     }
 
-    public BigDecimal getSevenDaysIncome() {
+    public String getSevenDaysIncome() {
         return sevenDaysIncome;
     }
 
-    public void setSevenDaysIncome(BigDecimal sevenDaysIncome) {
+    public void setSevenDaysIncome(String sevenDaysIncome) {
         this.sevenDaysIncome = sevenDaysIncome;
     }
 
-
-    public BigDecimal getMillionIncome() {
+    public String getMillionIncome() {
         return millionIncome;
     }
 
-    public void setMillionIncome(BigDecimal millionIncome) {
+    public void setMillionIncome(String millionIncome) {
         this.millionIncome = millionIncome;
     }
 
@@ -97,11 +96,11 @@ public class FundVo extends ProductVo {
         this.purchasedMethod = purchasedMethod;
     }
 
-    public BigDecimal getPurchasedAmount() {
+    public String getPurchasedAmount() {
         return purchasedAmount;
     }
 
-    public void setPurchasedAmount(BigDecimal purchasedAmount) {
+    public void setPurchasedAmount(String purchasedAmount) {
         this.purchasedAmount = purchasedAmount;
     }
 

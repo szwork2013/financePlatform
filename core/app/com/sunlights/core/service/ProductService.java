@@ -36,6 +36,8 @@ public interface ProductService {
 
     public FundCompany findFundCompanyById(String id);
 
+    public void addProductPurchasedNum(String productCode);
+
     public ChartVo findOneWeekProfitsByDays(String fundCode, int days);
 
     public ChartVo findMillionOfProfitsByDays(String fundCode, int days);

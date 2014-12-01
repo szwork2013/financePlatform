@@ -87,6 +87,11 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
+    public void addProductPurchasedNum(String productCode) {
+        fundDao.addProductPurchasedNum(productCode);
+    }
+
+    @Override
     public ProductVo findProductDetailBy(String productCode, String type) {
         ProductVo productVo = null;
         // 基金
@@ -127,7 +132,7 @@ public class ProductServiceImpl implements ProductService {
             chartVo.setPrdName(fundInfo.getValue());
         }
         for (FundProfitHistory fundHistory : fundHistories) {
-            chartVo.getPoints().add(new Point(CommonUtil.dateToString(fundHistory.getDateTime(), CommonUtil.DATE_FORMAT_SHORT), ArithUtil.bigUpScale4(fundHistory.getIncomePerTenThousand()) + ""));
+            chartVo.getPoints().add(new Point(CommonUtil.dateToString(fundHistory.getDateTime(), CommonUtil.DATE_FORMAT_SHORT), ArithUtil.bigUpScale4(fundHistory.getIncomePerTenThousand())));
         }
         return chartVo;
     }
