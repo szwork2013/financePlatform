@@ -12,6 +12,7 @@
         <class>models.TChkErrEntity</class>
         <class>models.TChkInfoEntity</class>
         <class>models.TChkResultEntity</class>
+        <class>models.ProductAttention</class>
 
         <properties>
             <property name="hibernate.dialect" value="org.hibernate.dialect.PostgreSQL9Dialect"/>
