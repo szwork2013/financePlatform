@@ -9,9 +9,9 @@
         <class>models.LoggingEvent</class>
         <class>models.LoggingEventException</class>
         <class>models.LoggingEventProperty</class>
-        <class>models.ChkErrEntity</class>
-        <class>models.ChkInfoEntity</class>
-        <class>models.ChkResultEntity</class>
+        <class>models.CheckError</class>
+        <class>models.CheckInfo</class>
+        <class>models.CheckResult</class>
         <class>models.ProductAttention</class>
 
         <properties>
