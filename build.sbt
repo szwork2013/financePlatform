@@ -23,7 +23,7 @@ libraryDependencies ++= Seq(
   "org.webjars" % "ng-grid" % "2.0.14",
   "org.webjars" % "angular-ui-bootstrap" % "0.11.2",
   "org.webjars" % "angular-ui-date" % "0.0.5",
-  "com.google.zxing" % "core" % "3.1.0"
+  "com.sunlights" % "QRCode" % "1.0"
 )
 
 sources in(Compile, doc) := Seq.empty
