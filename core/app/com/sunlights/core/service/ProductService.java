@@ -65,7 +65,7 @@ public interface ProductService {
      *
      * @param productVo
      */
-    public void cancelProductAttention(ProductVo productVo);
+    public void cancelProductAttention(ProductVo productVo, String customerId);
 
 
     /**

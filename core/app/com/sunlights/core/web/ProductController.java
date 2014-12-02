@@ -15,6 +15,8 @@ import com.sunlights.core.vo.ProductParameter;
 import com.sunlights.core.vo.ProductVo;
 import com.sunlights.customer.service.impl.CustomerService;
 import models.CustomerSession;
+import org.apache.commons.beanutils.ConvertUtils;
+import play.Logger;
 import play.data.Form;
 import play.db.jpa.Transactional;
 import play.libs.Json;
@@ -24,6 +26,7 @@ import play.mvc.Result;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 /**
  * <p>Project: fsp</p>
@@ -37,6 +40,8 @@ import java.util.List;
 @Transactional
 public class ProductController extends Controller {
     private Form<ProductParameter> productParameterForm = Form.form(ProductParameter.class);
+    private Form<ProductVo> productForm = Form.form(ProductVo.class);
+    private Form<PageVo> pageForm = Form.form(PageVo.class);
     private MessageUtil messageUtil = MessageUtil.getInstance();
 
     private ProductService productService = new ProductServiceImpl();
@@ -45,9 +50,15 @@ public class ProductController extends Controller {
     public Result createAttentions() {
         Http.RequestBody body = request().body();
         List<ProductVo> productVos = new ArrayList<ProductVo>();
-        if (body.asJson() != null) {
-            for (JsonNode jsonNode : body.asJson()) {
-                productVos.add(Json.fromJson(jsonNode, ProductVo.class));
+        if (body.asFormUrlEncoded() != null) {
+            ProductParameter parameter = productParameterForm.bindFromRequest().get();
+            List<String> codes = parameter.getCodes();
+            for (String code : codes) {
+                ProductVo productVo = new ProductVo();
+                productVo.setCode(code);
+                // 基金
+                productVo.setType(DictConst.FP_PRODUCT_TYPE_1);
+                productVos.add(productVo);
             }
         }
         CustomerSession customerSession = customerService.validateCustomerSession(request(), session(), response());
@@ -59,10 +70,10 @@ public class ProductController extends Controller {
     public Result cancelAttention() {
         ProductVo productVo = new ProductVo();
         Http.RequestBody body = request().body();
-        if (body.asJson() != null) {
-            productVo = Json.fromJson(body.asJson(), ProductVo.class);
-            // 基金
-            productService.cancelProductAttention(productVo);
+        if (body.asFormUrlEncoded() != null) {
+            productVo = productForm.bindFromRequest().get();
+            CustomerSession customerSession = customerService.validateCustomerSession(request(), session(), response());
+            productService.cancelProductAttention(productVo, customerSession.getCustomerId());
             messageUtil.setMessage(new Message(Severity.INFO, MsgCode.OPERATE_SUCCESS));
             return ok(messageUtil.toJson());
         }
@@ -74,8 +85,8 @@ public class ProductController extends Controller {
         ProductVo productVo = new ProductVo();
         Http.RequestBody body = request().body();
         List<ProductVo> productVos = new ArrayList<ProductVo>();
-        if (body.asJson() != null) {
-            productVo = Json.fromJson(body.asJson(), ProductVo.class);
+        if (body.asFormUrlEncoded() != null) {
+            productVo = productForm.bindFromRequest().get();
             // 基金
             productVo.setType(DictConst.FP_PRODUCT_TYPE_1);
             productVos.add(productVo);
@@ -89,8 +100,8 @@ public class ProductController extends Controller {
     public Result findAttentions() {
         PageVo pageVo = new PageVo();
         Http.RequestBody body = request().body();
-        if (body.asJson() != null) {
-            pageVo = Json.fromJson(body.asJson(), PageVo.class);
+        if (body.asFormUrlEncoded() != null) {
+            pageVo = pageForm.bindFromRequest().get();
         }
         CustomerSession customerSession = customerService.validateCustomerSession(request(), session(), response());
 

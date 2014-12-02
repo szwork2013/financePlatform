@@ -5,6 +5,7 @@ import com.sunlights.common.dal.EntityBaseDao;
 import com.sunlights.common.service.PageService;
 import com.sunlights.common.utils.ArithUtil;
 import com.sunlights.common.utils.CommonUtil;
+import com.sunlights.common.utils.PropertyFilter;
 import com.sunlights.common.vo.PageVo;
 import com.sunlights.core.dal.FundDao;
 import com.sunlights.core.dal.impl.FundDaoImpl;
@@ -159,19 +160,34 @@ public class ProductServiceImpl extends EntityBaseDao implements ProductService 
     @Override
     public void createProductAttention(List<ProductVo> productVos, String customerId) {
         Date date = new Date();
+
         for (ProductVo productVo : productVos) {
-            ProductAttention productAttention = new ProductAttention();
+            ProductAttention productAttention = findProductAttentionBy(customerId, productVo.getCode());
+            if (productAttention == null) {
+                productAttention = new ProductAttention();
+            }
             productAttention.setCreateTime(date);
             productAttention.setCustomerId(customerId);
             productAttention.setProductCode(productVo.getCode());
             productAttention.setProductType(productVo.getType());
-            super.create(productAttention);
+            super.update(productAttention);
         }
     }
 
+    private ProductAttention findProductAttentionBy(String customerId, String productCode) {
+        List<PropertyFilter> filters = new ArrayList<PropertyFilter>();
+        PropertyFilter customerIdFilter = new PropertyFilter("EQS_customerId", customerId);
+        PropertyFilter productCodeFilter = new PropertyFilter("EQS_productCode", productCode);
+        filters.add(customerIdFilter);
+        filters.add(productCodeFilter);
+        List<ProductAttention> productAttentions = super.find(ProductAttention.class, filters);
+        return productAttentions.isEmpty() ? null : productAttentions.get(0);
+    }
+
     @Override
-    public void cancelProductAttention(ProductVo productVo) {
-        super.delete(ProductAttention.class, productVo.getId());
+    public void cancelProductAttention(ProductVo productVo, String customerId) {
+        ProductAttention productAttention = findProductAttentionBy(customerId, productVo.getCode());
+        super.delete(productAttention);
     }
 
     @Override
@@ -185,6 +201,8 @@ public class ProductServiceImpl extends EntityBaseDao implements ProductService 
         jpql.append(" and pm.downEndTime >= '" + currentDate + "'");
         jpql.append(" and pm.productStatus = '" + DictConst.FP_PRODUCT_MANAGE_STATUS_1 + "'");
         jpql.append(" and f.fundcode = pa.productCode and pa.productType = '" + DictConst.FP_PRODUCT_TYPE_1 + "'");
+        jpql.append(" order by pm.productType,pm.recommendType,pa.createTime desc");
+
         List<ProductVo> productVos = pageService.findXsqlBy(jpql.toString(), pageVo);
         return productVos;
     }

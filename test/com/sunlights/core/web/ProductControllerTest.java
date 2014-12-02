@@ -27,8 +27,9 @@ import static play.test.Helpers.*;
 
 @Transactional
 public class ProductControllerTest extends BaseTest {
-    private static Form<PageVo> pagerForm = Form.form(PageVo.class);
     private static Form<ProductParameter> parameterForm = Form.form(ProductParameter.class);
+
+
 
     @Test
     public void testFindChartBy() throws Exception {
@@ -52,7 +53,7 @@ public class ProductControllerTest extends BaseTest {
                 try {
                     ChartVo chartVo = ConverterUtil.convertMap2Object(map, new ChartVo());
                     Logger.info(chartVo.getPoints().toString());
-                    Logger.info("result is :"+ chartVo.getPoints().size());
+                    Logger.info("result is :" + chartVo.getPoints().size());
                     Assertions.assertThat(chartVo.getPoints().size()).isEqualTo(7);
                 } catch (ConverterException e) {
                     e.printStackTrace();
