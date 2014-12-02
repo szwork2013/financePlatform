@@ -34,39 +34,12 @@ public class BankControllerTest extends BaseTest {
     private static Form<BankCardFormVo> bankCardForm = Form.form(BankCardFormVo.class);
 
     private static String BANK_CARD_NO = "6225885105575635";
-    Http.Cookie cookie = null;
 
     @Before
     public void init() {
         running(fakeApplication(inMemoryDatabase("test")), new Runnable() {
             public void run() {
-                final String mobilePhoneNo = "13811599308";
-                final String deviceNo = "1111";
-
-                final Map<String, String> formParams = new HashMap<>();
-                formParams.put("mobilePhoneNo", mobilePhoneNo);
-                formParams.put("deviceNo", deviceNo);
-                formParams.put("passWord", "1");
-
-                Logger.info("===============login=====Test=============");
-                FakeRequest formRequest = fakeRequest(POST, "/customer/login").withHeader("Content-Type", "application/x-www-form-urlencoded").withFormUrlEncodedBody(formParams);
-                play.mvc.Result result = route(formRequest);
-                assertThat(status(result)).isEqualTo(OK);
-                MessageVo message = toMessageVo(result);
-                assertThat(message.getMessage().getCode()).isEqualTo("0101");
-                assertThat(message.getMessage().getSummary()).isEqualTo("登录成功");
-
-                JPA.withTransaction(new F.Callback0() {
-                    @Override
-                    public void invoke() throws Throwable {
-                        Query query = JPA.em().createNativeQuery("select cs.* FROM c_customer_session cs,c_customer c where c.mobile = ?0 and c.customer_id = cs.CUSTOMER_ID order by cs.create_time desc limit 1 offset 0", CustomerSession.class);
-                        query.setParameter(0, mobilePhoneNo);
-                        CustomerSession customerSession = (CustomerSession) query.getSingleResult();
-                        formParams.put("token", customerSession.getToken());
-                        Logger.info("===============search===customoerSession===============");
-                    }
-                });
-                cookie = new Http.Cookie("token", formParams.get("token"), null, null, null, false, false);
+                login("13811599308", "1");
             }
         });
 

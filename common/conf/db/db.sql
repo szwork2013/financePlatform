@@ -1593,3 +1593,19 @@ create table fund_profit_history
    update_time          timestamp                      null,
    constraint PK_FUND_PROFIT_HISTORY primary key  (id)
 );
+
+
+/*==============================================================*/
+/* Table: product_attention                                     */
+/*==============================================================*/
+DROP TABLE IF EXISTS P_PRODUCT_ATTENTION;
+CREATE TABLE P_PRODUCT_ATTENTION
+(
+  ID                   BIGINT                         NOT NULL,
+  PRODUCT_CODE         VARCHAR(30)                    NULL,
+  PRODUCT_TYPE         VARCHAR(50)                    NULL,
+  CREATE_TIME          TIMESTAMP                      NULL,
+  CUSTOMER_ID          VARCHAR(30)                    NULL,
+  CONSTRAINT PK_P_PRODUCT_ATTENTION PRIMARY KEY  (ID)
+);
+

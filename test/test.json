@@ -4,19 +4,4 @@
     "summary": "操作成功",
     "detail": "",
     "fields": {}
-}, "value": {
-    "prdName": "易方达天天B",
-    "prdCode": "000010",
-    "chartType": "1",
-    "chartName": "万份收益走势",
-    "points": [
-        {
-            "date": "2014-11-20",
-            "value": "1.41440"
-        },
-        {
-            "date": "2014-11-20",
-            "value": "1.41440"
-        }
-    ]
-}}
+}, "value": null}

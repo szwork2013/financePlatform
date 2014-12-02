@@ -9,9 +9,9 @@
         <class>models.LoggingEvent</class>
         <class>models.LoggingEventException</class>
         <class>models.LoggingEventProperty</class>
-        <class>models.ChkErrEntity</class>
-        <class>models.ChkInfoEntity</class>
-        <class>models.ChkResultEntity</class>
+        <class>models.TChkErrEntity</class>
+        <class>models.TChkInfoEntity</class>
+        <class>models.TChkResultEntity</class>
 
         <properties>
             <property name="hibernate.dialect" value="org.hibernate.dialect.PostgreSQL9Dialect"/>
