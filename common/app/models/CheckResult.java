@@ -1,8 +1,10 @@
 package models;
 
-import javax.persistence.*;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Table;
 import java.math.BigDecimal;
-import java.sql.Timestamp;
+import java.util.Date;
 
 /**
  * Created by guxuelong on 2014/12/2.
@@ -11,13 +13,13 @@ import java.sql.Timestamp;
 @Table(name = "t_chk_result")
 public class CheckResult extends  IdEntity{
     @Column(name = "chk_date")
-    private Timestamp chkDate;
+    private Date chkDate;
     @Column(name = "trade_no")
     private String tradeNo;
     @Column(name = "partner_id")
     private String partnerId;
     @Column(name = "trade_date")
-    private Timestamp tradeDate;
+    private Date tradeDate;
     @Column(name = "product_name")
     private String productName;
     @Column(name = "product_type")
@@ -33,16 +35,16 @@ public class CheckResult extends  IdEntity{
     @Column(name = "err_detail")
     private String errDetail;
     @Column(name = "create_time")
-    private Timestamp createTime;
+    private Date createTime;
     @Column(name = "update_time")
-    private Timestamp updateTime;
+    private Date updateTime;
 
 
-    public Timestamp getChkDate() {
+    public Date getChkDate() {
         return chkDate;
     }
 
-    public void setChkDate(Timestamp chkDate) {
+    public void setChkDate(Date chkDate) {
         this.chkDate = chkDate;
     }
 
@@ -65,11 +67,11 @@ public class CheckResult extends  IdEntity{
     }
 
 
-    public Timestamp getTradeDate() {
+    public Date getTradeDate() {
         return tradeDate;
     }
 
-    public void setTradeDate(Timestamp tradeDate) {
+    public void setTradeDate(Date tradeDate) {
         this.tradeDate = tradeDate;
     }
 
@@ -137,20 +139,20 @@ public class CheckResult extends  IdEntity{
     }
 
 
-    public Timestamp getCreateTime() {
+    public Date getCreateTime() {
         return createTime;
     }
 
-    public void setCreateTime(Timestamp createTime) {
+    public void setCreateTime(Date createTime) {
         this.createTime = createTime;
     }
 
 
-    public Timestamp getUpdateTime() {
+    public Date getUpdateTime() {
         return updateTime;
     }
 
-    public void setUpdateTime(Timestamp updateTime) {
+    public void setUpdateTime(Date updateTime) {
         this.updateTime = updateTime;
     }
 
