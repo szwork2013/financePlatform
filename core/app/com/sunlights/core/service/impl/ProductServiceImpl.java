@@ -1,11 +1,16 @@
 package com.sunlights.core.service.impl;
 
 import com.sunlights.common.DictConst;
+import com.sunlights.common.FundCategory;
+import com.sunlights.common.MsgCode;
+import com.sunlights.common.Severity;
 import com.sunlights.common.dal.EntityBaseDao;
+import com.sunlights.common.exceptions.BusinessRuntimeException;
 import com.sunlights.common.service.PageService;
 import com.sunlights.common.utils.ArithUtil;
 import com.sunlights.common.utils.CommonUtil;
 import com.sunlights.common.utils.PropertyFilter;
+import com.sunlights.common.vo.Message;
 import com.sunlights.common.vo.PageVo;
 import com.sunlights.core.dal.FundDao;
 import com.sunlights.core.dal.impl.FundDaoImpl;
@@ -15,6 +20,8 @@ import com.sunlights.core.vo.FundVo;
 import com.sunlights.core.vo.Point;
 import com.sunlights.core.vo.ProductVo;
 import models.*;
+import org.apache.commons.lang3.StringUtils;
+import play.libs.Json;
 
 import javax.persistence.Query;
 import java.util.ArrayList;
@@ -56,19 +63,43 @@ public class ProductServiceImpl extends EntityBaseDao implements ProductService 
 
     @Override
     public List<FundVo> findFunds(PageVo pageVo) {
+        this.convertPageVo(pageVo);
         String currentDate = CommonUtil.dateToString(new Date(), CommonUtil.DATE_FORMAT_LONG);
         String jpql = " select new com.sunlights.core.vo.FundVo(f,pm)" +
                 " from FundNav f , ProductManage pm" +
                 " where f.fundcode = pm.productCode" +
                 " and pm.productStatus = '" + DictConst.FP_PRODUCT_MANAGE_STATUS_1 + "'" +
-                " and pm.productType = :productType" +
                 " and pm.upBeginTime < '" + currentDate + "'" +
                 " and pm.downEndTime >= '" + currentDate + "'" +
-                " and f.fundType = :fundType" +
+                "/~ and pm.productType = {productType} ~/" +
+                "/~ and f.fundType = {fundType} ~/" +
+                "/~ and f.isMonetary = {isMonetary} ~/" +
+                "/~ and f.isStf = {isStf} ~/" +
                 " order by pm.recommendType,pm.priorityLevel desc";
 
-        List<FundVo> fundVos = pageService.findBy(jpql, pageVo);
+        List<FundVo> fundVos = pageService.findXsqlBy(jpql, pageVo);
         return fundVos;
+    }
+
+    private void convertPageVo(PageVo pageVo) {
+        String category = (String) pageVo.get("EQS_category");
+        System.out.println();
+        FundCategory fundCategory = FundCategory.findFundCategoryBy(category);
+        if(fundCategory == null) {
+            throw new BusinessRuntimeException(new Message(Severity.ERROR, MsgCode.SEARCH_FAIL_FUND_CATEGORY_EMPTY));
+        }
+        if (FundCategory.MONETARY.equals(fundCategory)) {
+            pageVo.put("EQI_fundType", 7);
+            pageVo.put("EQI_isMonetary", 1);
+            pageVo.put("EQI_isStf", 0);
+        } else if (FundCategory.LOF.equals(fundCategory)) {
+            pageVo.put("EQI_fundType", 7);
+            pageVo.put("EQI_isMonetary", 0);
+            pageVo.put("EQI_isStf", 1);
+        }
+
+        System.out.println("[pageVo]" + Json.toJson(pageVo));
+
     }
 
     public Fund findFundByCode(String fundCode) {

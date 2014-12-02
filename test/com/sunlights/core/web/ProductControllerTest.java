@@ -50,13 +50,15 @@ public class ProductControllerTest extends BaseTest {
                 Logger.info("result is " + contentAsString);
                 MessageVo<LinkedHashMap> vo = toMessageVo(result);
                 LinkedHashMap map = vo.getValue();
-                try {
-                    ChartVo chartVo = ConverterUtil.convertMap2Object(map, new ChartVo());
-                    Logger.info(chartVo.getPoints().toString());
-                    Logger.info("result is :" + chartVo.getPoints().size());
-                    Assertions.assertThat(chartVo.getPoints().size()).isEqualTo(7);
-                } catch (ConverterException e) {
-                    e.printStackTrace();
+                if (map != null) {
+                    try {
+                        ChartVo chartVo = ConverterUtil.convertMap2Object(map, new ChartVo());
+                        Logger.info(chartVo.getPoints().toString());
+                        Logger.info("result is :" + chartVo.getPoints().size());
+                        Assertions.assertThat(chartVo.getPoints().size()).isEqualTo(7);
+                    } catch (ConverterException e) {
+                        e.printStackTrace();
+                    }
                 }
             }
 
@@ -101,7 +103,7 @@ public class ProductControllerTest extends BaseTest {
                 parameter.setIndex(0);
                 parameter.setPageSize(10);
                 parameter.setType(DictConst.FP_PRODUCT_TYPE_1);
-                parameter.setCategory(7);
+                parameter.setCategory("MONETARY");
 
                 // Products Request
                 FakeRequest fundsRequest = fakeRequest(POST, "/core/products");
@@ -136,6 +138,37 @@ public class ProductControllerTest extends BaseTest {
                         assertThat(contentAsString(result)).contains(MsgCode.OPERATE_SUCCESS.getCode());
                     }
                 }
+
+            }
+
+        });
+    }
+
+    @Test
+    public void testFindLofProducts() throws Exception {
+        running(fakeApplication(inMemoryDatabase("test")), new Runnable() {
+
+            public void run() {
+
+                ProductParameter parameter = new ProductParameter();
+                parameter.setIndex(0);
+                parameter.setPageSize(10);
+                parameter.setType(DictConst.FP_PRODUCT_TYPE_1);
+                parameter.setCategory("LOF");
+
+                // Products Request
+                FakeRequest fundsRequest = fakeRequest(POST, "/core/products");
+                // form request
+                Map<String, String> paramMap = parameterForm.bind(Json.toJson(parameter)).data();
+                Logger.info("[paramMap]" + paramMap);
+
+                FakeRequest formProductsRequest = fundsRequest.withHeader(CONTENT_TYPE, TestUtil.APPLICATION_X_WWW_FORM_URLENCODED).withFormUrlEncodedBody(paramMap);
+                play.mvc.Result result = route(formProductsRequest);
+
+                String contentAsString = contentAsString(result);
+                Logger.info("result is " + contentAsString);
+
+                assertThat(contentAsString).contains(MsgCode.OPERATE_SUCCESS.getCode());
 
             }
 
