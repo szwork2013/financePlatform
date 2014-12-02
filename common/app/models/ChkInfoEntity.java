@@ -9,7 +9,7 @@ import java.sql.Timestamp;
  */
 @Entity
 @Table(name = "t_chk_info")
-public class TChkInfoEntity extends  IdEntity{
+public class ChkInfoEntity extends  IdEntity{
     @Column(name = "trade_no")
     private String tradeNo;
     @Column(name = "partner_id")
@@ -116,7 +116,7 @@ public class TChkInfoEntity extends  IdEntity{
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
 
-        TChkInfoEntity that = (TChkInfoEntity) o;
+        ChkInfoEntity that = (ChkInfoEntity) o;
 
         if (getId() != that.getId()) return false;
         if (chkStatus != null ? !chkStatus.equals(that.chkStatus) : that.chkStatus != null) return false;

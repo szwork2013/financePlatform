@@ -8,7 +8,7 @@ import java.sql.Timestamp;
  */
 @Entity
 @Table(name = "t_chk_err")
-public class TChkErrEntity extends IdEntity {
+public class ChkErrEntity extends IdEntity {
     @Column(name = "chk_date")
     private Timestamp chkDate;
     @Column(name = "trade_no")
@@ -87,7 +87,7 @@ public class TChkErrEntity extends IdEntity {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
 
-        TChkErrEntity that = (TChkErrEntity) o;
+        ChkErrEntity that = (ChkErrEntity) o;
 
         if (getId() != that.getId()) return false;
         if (chkDate != null ? !chkDate.equals(that.chkDate) : that.chkDate != null) return false;

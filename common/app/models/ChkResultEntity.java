@@ -9,7 +9,7 @@ import java.sql.Timestamp;
  */
 @Entity
 @Table(name = "t_chk_result")
-public class TChkResultEntity extends  IdEntity{
+public class ChkResultEntity extends  IdEntity{
     @Column(name = "chk_date")
     private Timestamp chkDate;
     @Column(name = "trade_no")
@@ -159,7 +159,7 @@ public class TChkResultEntity extends  IdEntity{
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
 
-        TChkResultEntity that = (TChkResultEntity) o;
+        ChkResultEntity that = (ChkResultEntity) o;
 
         if (getId() != that.getId()) return false;
         if (chkDate != null ? !chkDate.equals(that.chkDate) : that.chkDate != null) return false;
