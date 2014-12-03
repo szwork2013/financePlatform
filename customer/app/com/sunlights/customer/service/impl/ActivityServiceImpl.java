@@ -53,6 +53,6 @@ public class ActivityServiceImpl implements ActivityService{
 
     @Override
     public List<String> getActivityTitles(String prdCode) {
-        return null;
+        return new ArrayList<String>();
     }
 }

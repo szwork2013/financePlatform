@@ -1609,3 +1609,5 @@ CREATE TABLE P_PRODUCT_ATTENTION
   CONSTRAINT PK_P_PRODUCT_ATTENTION PRIMARY KEY  (ID)
 );
 
+ALTER TABLE fundnav add COLUMN investment_duration INT;
+ALTER TABLE fundnav_history add COLUMN investment_duration INT;

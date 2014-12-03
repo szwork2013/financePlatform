@@ -126,8 +126,8 @@ public class ProductController extends Controller {
         if (productParameter != null) {
             pageVo.setIndex(productParameter.getIndex());
             pageVo.setPageSize(productParameter.getPageSize());
-            pageVo.put("fundType", productParameter.getCategory());
-            pageVo.put("productType", productParameter.getType());
+            pageVo.put("EQS_category", productParameter.getCategory());
+            pageVo.put("EQS_productType", productParameter.getType());
             List<FundVo> funds = productService.findFunds(pageVo);
             pageVo.setList(funds);
             messageUtil.setMessage(new Message(Severity.INFO, MsgCode.OPERATE_SUCCESS), pageVo);

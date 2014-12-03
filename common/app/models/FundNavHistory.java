@@ -46,6 +46,9 @@ public class FundNavHistory {
     @javax.persistence.Column(name = "investment_type")
     private Integer investmentType;
 
+    @javax.persistence.Column(name = "investment_duration")
+    private Integer investmentDuration;
+
     @javax.persistence.Column(name = "netvalue")
     private BigDecimal netvalue;
 
@@ -454,5 +457,13 @@ public class FundNavHistory {
 
     public void setUpdateTime(Date updateTime) {
         this.updateTime = updateTime;
+    }
+
+    public Integer getInvestmentDuration() {
+        return investmentDuration;
+    }
+
+    public void setInvestmentDuration(Integer investmentDuration) {
+        this.investmentDuration = investmentDuration;
     }
 }

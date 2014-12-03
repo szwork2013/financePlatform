@@ -4,10 +4,13 @@ package com.sunlights.core.vo;
 import com.sunlights.common.FundCategory;
 import com.sunlights.common.service.CommonService;
 import com.sunlights.common.utils.ArithUtil;
+import com.sunlights.customer.service.ActivityService;
+import com.sunlights.customer.service.impl.ActivityServiceImpl;
 import models.FundNav;
 import models.ProductManage;
 
 import java.math.BigDecimal;
+import java.util.List;
 
 /**
  * Created by Yuan on 2014/9/1.
@@ -19,6 +22,7 @@ public class FundVo extends ProductVo {
     private String purchasedMethod;//买卖方式，比如:随买随卖
     private String purchasedAmount;//起购金额
     private String discount;
+    private String activity;
 
     public FundVo() {
 
@@ -50,6 +54,10 @@ public class FundVo extends ProductVo {
         this.purchasedAmount = ArithUtil.bigUpScale4(fundNav.getPurchaseLimitMin());
         this.purchasedMethod = FundCategory.MONETARY.getFundType() == fundNav.getFundType() ? "随买随卖" : "";
         this.discount = getDiscountValueByfund(fundNav);
+        this.purchasedMethod = getInvestmentDurationBy(fundNav);
+        ActivityService activityService = new ActivityServiceImpl();
+        List<String> activities = activityService.getActivityTitles(fundNav.getFundcode());
+        this.activity = activities.isEmpty() ? "" : activities.get(0);
     }
 
     private String getDiscountValueByfund(FundNav fundNav) {
@@ -63,6 +71,13 @@ public class FundVo extends ProductVo {
         }
         return value;
     }
+
+    private String getInvestmentDurationBy(FundNav fundNav) {
+        Integer isMonetary = fundNav.getIsMonetary();
+        Integer isStf = fundNav.getIsStf();
+        return isMonetary == 1 ? "随买随卖" : (isStf == 1 ? "7天" : "");
+    }
+
 
     public Integer getPeopleOfPurchased() {
         return peopleOfPurchased;
@@ -110,5 +125,13 @@ public class FundVo extends ProductVo {
 
     public void setDiscount(String discount) {
         this.discount = discount;
+    }
+
+    public String getActivity() {
+        return activity;
+    }
+
+    public void setActivity(String activity) {
+        this.activity = activity;
     }
 }
