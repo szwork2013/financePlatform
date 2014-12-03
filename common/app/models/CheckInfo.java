@@ -1,8 +1,10 @@
 package models;
 
-import javax.persistence.*;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Table;
 import java.math.BigDecimal;
-import java.sql.Timestamp;
+import java.util.Date;
 
 /**
  * Created by guxuelong on 2014/12/2.
@@ -15,7 +17,7 @@ public class CheckInfo extends  IdEntity{
     @Column(name = "partner_id")
     private String partnerId;
     @Column(name = "trade_date")
-    private Timestamp tradeDate;
+    private Date tradeDate;
     @Column(name = "product_name")
     private String productName;
     @Column(name = "product_code")
@@ -29,9 +31,9 @@ public class CheckInfo extends  IdEntity{
     @Column(name = "chk_status")
     private String chkStatus;
     @Column(name = "create_time")
-    private Timestamp createTime;
+    private Date createTime;
     @Column(name = "update_time")
-    private Timestamp updateTime;
+    private Date updateTime;
 
     public String getTradeNo() {
         return tradeNo;
@@ -47,10 +49,10 @@ public class CheckInfo extends  IdEntity{
         this.partnerId = partnerId;
     }
 
-    public Timestamp getTradeDate() {
+    public Date getTradeDate() {
         return tradeDate;
     }
-    public void setTradeDate(Timestamp tradeDate) {
+    public void setTradeDate(Date tradeDate) {
         this.tradeDate = tradeDate;
     }
 
@@ -96,18 +98,18 @@ public class CheckInfo extends  IdEntity{
         this.chkStatus = chkStatus;
     }
 
-    public Timestamp getCreateTime() {
+    public Date getCreateTime() {
         return createTime;
     }
-    public void setCreateTime(Timestamp createTime) {
+    public void setCreateTime(Date createTime) {
         this.createTime = createTime;
     }
 
 
-    public Timestamp getUpdateTime() {
+    public Date getUpdateTime() {
         return updateTime;
     }
-    public void setUpdateTime(Timestamp updateTime) {
+    public void setUpdateTime(Date updateTime) {
         this.updateTime = updateTime;
     }
 
