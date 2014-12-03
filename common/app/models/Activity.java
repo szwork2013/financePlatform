@@ -28,6 +28,8 @@ public class Activity extends IdEntity {
     private String image;
     @Column(name = "URL")
     private String url;
+    @Column(name = "SHARE_URL")
+    private String shareUrl;
     @Column(name = "SHARE_TEXT")
     private String shareText;
     @Column(name = "CLICK_TIME")
@@ -177,5 +179,13 @@ public class Activity extends IdEntity {
 
     public void setScene(String scene) {
         this.scene = scene;
+    }
+
+    public String getShareUrl() {
+        return shareUrl;
+    }
+
+    public void setShareUrl(String shareUrl) {
+        this.shareUrl = shareUrl;
     }
 }

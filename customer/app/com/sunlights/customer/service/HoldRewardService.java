@@ -19,7 +19,7 @@ public interface HoldRewardService {
 
     public void genRewardFlow(RewardFlowRecordVo rewardFlowRecordVo);
 
-    public void frozenReward(String custId, String rewardType, Long frozenAmt);
+    public void frozenReward(String custId, String rewardType, Long frozenAmt, BigDecimal exchangeMoney);
 
 
 }

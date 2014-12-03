@@ -27,18 +27,19 @@ public class ExchangeFlowHandler extends AbstractExchangeRuleHandler{
 
     @Override
     public void exchangeInternal(ActivityRequestVo requestVo, ActivityResponseVo responseVo) throws Exception {
-        Long exchangeAmt = requestVo.get("exchangeAmt", Long.class);
-        RewardType rewardType = requestVo.get("rewardType", RewardType.class);
-        holdRewardService.frozenReward(requestVo.getCustId(), requestVo.getRewardType(), exchangeAmt);
+        BigDecimal exchangeMoney = requestVo.get("exchangeMoney", BigDecimal.class);
+        Long subRewardAmt = requestVo.get("subRewardAmt", Long.class);
 
+
+        holdRewardService.frozenReward(requestVo.getCustId(), requestVo.getRewardType(), subRewardAmt, exchangeMoney);
         RewardFlowRecordVo rewardFlowRecordVo = new RewardFlowRecordVo();
-        rewardFlowRecordVo.setRewardAmtResult(exchangeAmt * rewardType.getUnit());
+        rewardFlowRecordVo.setRewardAmtResult(subRewardAmt);
 
         rewardFlowRecordVo.setCustId(requestVo.getCustId());
         rewardFlowRecordVo.setOperatorType(ActivityConstant.REWARD_FLOW_EXCHANGE);
         rewardFlowRecordVo.setRewardType(requestVo.getRewardType());
         rewardFlowRecordVo.setScene(requestVo.getScene());
-        rewardFlowRecordVo.setMoneyResult(BigDecimal.valueOf(exchangeAmt));
+        rewardFlowRecordVo.setMoneyResult(exchangeMoney);
 
         holdRewardService.genRewardFlow(rewardFlowRecordVo);
 

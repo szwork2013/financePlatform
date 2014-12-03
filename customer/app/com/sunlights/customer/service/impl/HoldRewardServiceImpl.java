@@ -143,7 +143,22 @@ public class HoldRewardServiceImpl implements HoldRewardService {
     }
 
     @Override
-    public void frozenReward(String custId, String rewardType, Long frozenAmt) {
-
+    public void frozenReward(String custId, String rewardType, Long frozenAmt, BigDecimal exchangeMoney) {
+        List<HoldReward> list = holdRewardDao.findListByCustIdAndRewardType(custId, rewardType);
+        if(list == null || list.isEmpty()) {
+            return;
+        }
+        for(HoldReward holdReward : list) {
+            if(holdReward.getHoldReward() <= frozenAmt) {
+                holdReward.setFrozenReward(holdReward.getHoldReward());
+                holdReward.setFrozenMoney(holdReward.getHoldMoney());
+            } else {
+                holdReward.setFrozenReward(frozenAmt);
+                holdReward.setFrozenMoney(exchangeMoney);
+                frozenAmt = holdReward.getHoldReward() - frozenAmt;
+                exchangeMoney = holdReward.getHoldMoney().subtract(exchangeMoney);
+            }
+            holdRewardDao.doUpdate(holdReward);
+        }
     }
 }

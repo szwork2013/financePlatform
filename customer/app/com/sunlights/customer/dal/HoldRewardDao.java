@@ -13,6 +13,8 @@ public interface HoldRewardDao {
 
     public HoldReward findByCustIdAndRewardType(String custId, String rewardType);
 
+    public List<HoldReward> findListByCustIdAndRewardType(String custId, String rewardType);
+
     public void doInsert(HoldReward holdReward);
 
     public void doUpdate(HoldReward holdReward);

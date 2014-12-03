@@ -11,6 +11,7 @@ import play.Logger;
 import play.db.jpa.JPA;
 import play.libs.F;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 import static org.junit.Assert.*;
@@ -31,7 +32,8 @@ public class ActivityHandlerServiceTest {
 
                         ActivityRequestVo requestVo = new ActivityRequestVo();
                         ActivityResponseVo responseVo = new ActivityResponseVo();
-
+                        requestVo.set("exchangeAmt", BigDecimal.valueOf(0.1));
+                        requestVo.setRewardType("ART002");
                         requestVo.setCustId("20141027100357461");
                         requestVo.setScene(ActivityConstant.ACTIVITY_EXCHANGE_RED_PACKET_SCENE_CODE);
 
