@@ -50,6 +50,7 @@ public class FundVo extends ProductVo {
         this.purchasedAmount = ArithUtil.bigUpScale4(fundNav.getPurchaseLimitMin());
         this.purchasedMethod = FundCategory.MONETARY.getFundType() == fundNav.getFundType() ? "随买随卖" : "";
         this.discount = getDiscountValueByfund(fundNav);
+        this.purchasedMethod = getInvestmentDurationBy(fundNav);
     }
 
     private String getDiscountValueByfund(FundNav fundNav) {
@@ -63,6 +64,13 @@ public class FundVo extends ProductVo {
         }
         return value;
     }
+
+    private String getInvestmentDurationBy(FundNav fundNav) {
+        Integer isMonetary = fundNav.getIsMonetary();
+        Integer isStf = fundNav.getIsStf();
+        return isMonetary == 1 ? "随买随卖" : (isStf == 1 ? "7天" : "");
+    }
+
 
     public Integer getPeopleOfPurchased() {
         return peopleOfPurchased;

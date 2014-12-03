@@ -20,10 +20,8 @@ import com.sunlights.core.vo.FundVo;
 import com.sunlights.core.vo.Point;
 import com.sunlights.core.vo.ProductVo;
 import models.*;
-import org.apache.commons.lang3.StringUtils;
 import play.libs.Json;
 
-import javax.persistence.Query;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -83,22 +81,17 @@ public class ProductServiceImpl extends EntityBaseDao implements ProductService 
 
     private void convertPageVo(PageVo pageVo) {
         String category = (String) pageVo.get("EQS_category");
-        System.out.println();
         FundCategory fundCategory = FundCategory.findFundCategoryBy(category);
         if(fundCategory == null) {
             throw new BusinessRuntimeException(new Message(Severity.ERROR, MsgCode.SEARCH_FAIL_FUND_CATEGORY_EMPTY));
         }
         if (FundCategory.MONETARY.equals(fundCategory)) {
-            pageVo.put("EQI_fundType", 7);
             pageVo.put("EQI_isMonetary", 1);
             pageVo.put("EQI_isStf", 0);
-        } else if (FundCategory.LOF.equals(fundCategory)) {
-            pageVo.put("EQI_fundType", 7);
+        } else if (FundCategory.STF.equals(fundCategory)) {
             pageVo.put("EQI_isMonetary", 0);
             pageVo.put("EQI_isStf", 1);
         }
-
-        System.out.println("[pageVo]" + Json.toJson(pageVo));
 
     }
 
