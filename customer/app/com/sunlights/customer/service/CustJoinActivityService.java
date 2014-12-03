@@ -11,7 +11,9 @@ public interface CustJoinActivityService {
 
     public CustJoinActivity getByCustAndActivity(String custId, Long activityId, String scene);
 
-    public String getShortUrl(String custId, Long activity);
+    public void saveCustJoinActivity(CustJoinActivity custJoinActivity);
+
+    public String getShortUrl(String custId, Long activityId);
 
     public void saveShortUrl(String custId, Long activityId, String shortUrl);
 
