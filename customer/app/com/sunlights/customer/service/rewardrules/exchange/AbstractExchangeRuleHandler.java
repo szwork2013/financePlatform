@@ -31,7 +31,7 @@ public abstract class AbstractExchangeRuleHandler implements ExchangeRuleHandler
     @Override
     public void exchange(ActivityRequestVo requestVo, ActivityResponseVo responseVo) throws Exception {
         if(responseVo.isFlowStop()) {
-            Logger.debug("退出获取奖励流程：" + toString());
+            Logger.debug("退出获取奖励流程：" + toString() + " responseVo = " + responseVo.getMessage().getSummary());
             return;
         }
         long start = System.currentTimeMillis();

@@ -1,31 +1,31 @@
 package models;
 
-import javax.persistence.Column;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
+import javax.persistence.*;
 import java.util.Date;
 
 /**
  * Created by tangweiqun on 2014/12/3.
  */
+@Entity
+@Table(name = "F_EXCAHNGE_SCENE")
 public class ExchangeScene extends IdEntity {
-
+    @Column(name = "SCENE")
     private String scene;
-
+    @Column(name = "TITLE")
     private String title;
-
+    @Column(name = "STATUS")
     private String status;
-
+    @Column(name = "REWARD_TYPE")
     private String rewardType;
-
+    @Column(name = "EXCHANGE_TYPE")
     private String exchangeType;
-
+    @Column(name = "AMOUNT")
     private Long requireAmt;
-
+    @Column(name = "EXCHANGED_AMT")
     private Long exchangedAmt;
-
+    @Column(name = "EXCHANGE_LIMIT")
     private Long exchangeLimit;
-
+    @Column(name = "TIME_LIMIT")
     private Integer timeLimit;
     @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "CREATE_TIME")

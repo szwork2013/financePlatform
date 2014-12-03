@@ -1,12 +1,13 @@
 package com.sunlights.account.web;
 
 import com.sunlights.BaseTest;
-import com.sunlights.account.AccountConstant;
-import com.sunlights.account.service.RewardFlowService;
-import com.sunlights.account.service.impl.RewardFlowServiceImpl;
-import com.sunlights.account.vo.RewardResultVo;
+
 import com.sunlights.common.MsgCode;
 import com.sunlights.common.vo.MessageVo;
+import com.sunlights.customer.ActivityConstant;
+import com.sunlights.customer.service.RewardFlowService;
+import com.sunlights.customer.service.impl.RewardFlowServiceImpl;
+import com.sunlights.customer.vo.RewardResultVo;
 import models.RewardFlow;
 import org.junit.Before;
 import org.junit.Test;
@@ -48,11 +49,11 @@ public class ActivityControllerTest extends BaseTest{
                         play.mvc.Result result = null;
 
                         RewardFlowService rewardFlowService = new RewardFlowServiceImpl();
-                        RewardFlow rewardFlows = rewardFlowService.findTodayFlowByCustIdAndScene("20141119102210010000000029", AccountConstant.ACTIVITY_SIGNIN_SCENE_CODE);
+                        RewardFlow rewardFlows = rewardFlowService.findTodayFlowByCustIdAndScene("20141119102210010000000029", ActivityConstant.ACTIVITY_SIGNIN_SCENE_CODE);
 
                         //2:签到获取金豆正常测试
                         formParams = new HashMap<String, String>();
-                        formParams.put("scene", AccountConstant.ACTIVITY_SIGNIN_SCENE_CODE);
+                        formParams.put("scene", ActivityConstant.ACTIVITY_SIGNIN_SCENE_CODE);
                         result = getResult("/account/activity/signin", formParams, cookie);
                         assertThat(status(result)).isEqualTo(OK);
 
@@ -108,7 +109,7 @@ public class ActivityControllerTest extends BaseTest{
                         play.mvc.Result result = null;
 
                         RewardFlowService rewardFlowService = new RewardFlowServiceImpl();
-                        RewardResultVo rewardResultVo = rewardFlowService.getLastObtainRewars("20141119102210010000000029", AccountConstant.ACTIVITY_REGISTER_SCENE_CODE);
+                        RewardResultVo rewardResultVo = rewardFlowService.getLastObtainRewars("20141119102210010000000029", ActivityConstant.ACTIVITY_REGISTER_SCENE_CODE);
 
                         //2:签到获取金豆正常测试
                         formParams = new HashMap<String, String>();
@@ -143,7 +144,7 @@ public class ActivityControllerTest extends BaseTest{
                         play.mvc.Result result = null;
 
                         RewardFlowService rewardFlowService = new RewardFlowServiceImpl();
-                        RewardResultVo rewardResultVo = rewardFlowService.getLastObtainRewars("20141119102210010000000029", AccountConstant.ACTIVITY_FIRST_PURCHASE_SCENE_CODE);
+                        RewardResultVo rewardResultVo = rewardFlowService.getLastObtainRewars("20141119102210010000000029", ActivityConstant.ACTIVITY_FIRST_PURCHASE_SCENE_CODE);
 
                         //2:签到获取金豆正常测试
                         formParams = new HashMap<String, String>();

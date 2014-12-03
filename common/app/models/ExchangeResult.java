@@ -1,28 +1,28 @@
 package models;
 
-import javax.persistence.Column;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
+import javax.persistence.*;
 import java.math.BigDecimal;
 import java.util.Date;
 
 /**
  * Created by tangweiqun on 2014/12/3.
  */
+@Entity
+@Table(name = "F_EXCAHNGE_SCENE")
 public class ExchangeResult extends IdEntity {
-
+    @Column(name = "CUSTOMER_ID")
     private String custId;
-
+    @Column(name = "EXCHANGE_SCENE")
     private String exchangeScene;
-
+    @Column(name = "STATUS")
     private String status;
-
+    @Column(name = "PHONE")
     private String phone;
-
+    @Column(name = "BANK_CODE")
     private String bankCode;
-
+    @Column(name = "BANK_CARD_NO")
     private String bankCardNo;
-
+    @Column(name = "AMOUNT")
     private BigDecimal amount;
 
     @Temporal(TemporalType.TIMESTAMP)
