@@ -23,7 +23,7 @@ public class ActivityHandlerServiceTest {
     private ActivityHandlerService activityHandlerService = null;
 
     @Test
-    public void testService() throws Exception {
+    public void testRedPacketExchangeService() throws Exception {
         running(fakeApplication(), new Runnable() {
             public void run() {
                 JPA.withTransaction(new F.Callback0() {
@@ -39,6 +39,31 @@ public class ActivityHandlerServiceTest {
 
                         activityHandlerService = new ActivityHandlerService();
 
+                        activityHandlerService.service(requestVo, responseVo);
+
+                    }
+                });
+
+            }
+        });
+    }
+
+    @Test
+    public void testPurchaseObtainService() throws Exception {
+        running(fakeApplication(), new Runnable() {
+            public void run() {
+                JPA.withTransaction(new F.Callback0() {
+                    @Override
+                    public void invoke() throws Throwable {
+
+                        ActivityRequestVo requestVo = new ActivityRequestVo();
+                        ActivityResponseVo responseVo = new ActivityResponseVo();
+                        requestVo.setCustId("20141027100357461");
+                        requestVo.set("prdCode", "");
+                        requestVo.set("supplySum", BigDecimal.valueOf(300));
+                        requestVo.setScene(ActivityConstant.ACTIVITY_PURCHASE_SCENE_CODE);
+
+                        activityHandlerService = new ActivityHandlerService();
                         activityHandlerService.service(requestVo, responseVo);
 
                     }

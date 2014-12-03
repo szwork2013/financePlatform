@@ -14,4 +14,6 @@ public interface ActivitySceneDao {
 
 
     public List<ActivityScene> getScenesByActivityType(String activityType);
+
+    public List<ActivityScene> getScenes(ActivityScene activityScene);
 }

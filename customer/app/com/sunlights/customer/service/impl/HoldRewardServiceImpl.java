@@ -61,7 +61,7 @@ public class HoldRewardServiceImpl implements HoldRewardService {
         if (holdReward == null) {
             return 0L;
         }
-        return holdReward.getHoldReward();
+        return holdReward.getHoldReward() - holdReward.getFrozenReward();
     }
 
     @Override

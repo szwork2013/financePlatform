@@ -28,7 +28,11 @@ public class CustJoinActivityServiceImpl implements CustJoinActivityService {
     }
 
     @Override
-    public String getShortUrl(String custId, Long activity) {
+    public String getShortUrl(String custId, Long activityId) {
+        CustJoinActivity custJoinActivity = getByCustAndActivity(custId, activityId, null);
+        if(custJoinActivity != null) {
+            return custJoinActivity.getShortUrl();
+        }
         return null;
     }
 
@@ -39,6 +43,10 @@ public class CustJoinActivityServiceImpl implements CustJoinActivityService {
 
     @Override
     public void saveShortUrl(String custId, Long activityId, String shortUrl) {
-
+        CustJoinActivity custJoinActivity = new CustJoinActivity();
+        custJoinActivity.setCustId(custId);
+        custJoinActivity.setActivityId(activityId);
+        custJoinActivity.setShortUrl(shortUrl);
+        custJoinActivityDao.doInsert(custJoinActivity);
     }
 }

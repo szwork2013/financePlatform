@@ -6,6 +6,7 @@ import com.sunlights.customer.service.impl.HoldRewardServiceImpl;
 import com.sunlights.customer.service.rewardrules.vo.ActivityRequestVo;
 import com.sunlights.customer.service.rewardrules.vo.ActivityResponseVo;
 import com.sunlights.customer.service.rewardrules.vo.RewardFlowRecordVo;
+import models.ActivityScene;
 import models.RewardType;
 
 import java.math.BigDecimal;
@@ -30,6 +31,8 @@ public class ExchangeFlowHandler extends AbstractExchangeRuleHandler{
         BigDecimal exchangeMoney = requestVo.get("exchangeMoney", BigDecimal.class);
         Long subRewardAmt = requestVo.get("subRewardAmt", Long.class);
 
+        ActivityScene activityScene = requestVo.get("activityScene", ActivityScene.class);
+
 
         holdRewardService.frozenReward(requestVo.getCustId(), requestVo.getRewardType(), subRewardAmt, exchangeMoney);
         RewardFlowRecordVo rewardFlowRecordVo = new RewardFlowRecordVo();
@@ -40,7 +43,7 @@ public class ExchangeFlowHandler extends AbstractExchangeRuleHandler{
         rewardFlowRecordVo.setRewardType(requestVo.getRewardType());
         rewardFlowRecordVo.setScene(requestVo.getScene());
         rewardFlowRecordVo.setMoneyResult(exchangeMoney);
-
+        rewardFlowRecordVo.setActivityTitle(activityScene.getTitle());
         holdRewardService.genRewardFlow(rewardFlowRecordVo);
 
     }

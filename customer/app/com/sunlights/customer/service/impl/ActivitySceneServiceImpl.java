@@ -38,6 +38,6 @@ public class ActivitySceneServiceImpl implements ActivitySceneService {
 
     @Override
     public List<ActivityScene> getScenesByActivityType(String activityType) {
-        return null;
+        return activitySceneDao.getScenesByActivityType(activityType);
     }
 }
