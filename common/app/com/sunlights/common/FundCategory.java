@@ -27,7 +27,7 @@ public enum FundCategory {
     INNOVATION(6, 0, "创新型"),
     HYBIRD(2, 3, "混合型"),
     MONETARY(7, 0, "货币型"),
-    LOF(0, FundCategory.LOF_INVESTMENT_TYPE, "短期理财"),
+    STF(2, FundCategory.LOF_INVESTMENT_TYPE, "短期理财"),
     CFP(8, 0, "集合理财");
 
     public static final String SPLITER = "|";
