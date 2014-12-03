@@ -51,7 +51,8 @@ public class FundVo extends ProductVo {
         super.setCode(fundNav.getFundcode());
         this.sevenDaysIncome = ArithUtil.bigUpScale4(fundNav.getPercentSevenDays());
         this.millionIncome = ArithUtil.bigUpScale4(fundNav.getIncomePerTenThousand());
-        this.purchasedAmount = ArithUtil.bigUpScale4(fundNav.getPurchaseLimitMin());
+        BigDecimal purchaseLimitMin = ArithUtil.bigUpScale0(fundNav.getPurchaseLimitMin());
+        this.purchasedAmount = purchaseLimitMin == null ? "" : purchaseLimitMin.toString();
         this.purchasedMethod = FundCategory.MONETARY.getFundType() == fundNav.getFundType() ? "随买随卖" : "";
         this.discount = getDiscountValueByfund(fundNav);
         this.purchasedMethod = getInvestmentDurationBy(fundNav);
