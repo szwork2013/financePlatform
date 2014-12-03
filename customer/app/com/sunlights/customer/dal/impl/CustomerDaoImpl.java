@@ -1,6 +1,7 @@
 package com.sunlights.customer.dal.impl;
 
 import com.google.common.base.Strings;
+import com.google.common.collect.Maps;
 import com.sunlights.common.AppConst;
 import com.sunlights.common.DictConst;
 import com.sunlights.common.dal.EntityBaseDao;
@@ -12,6 +13,8 @@ import models.Customer;
 import models.CustomerGesture;
 import models.CustomerSession;
 import models.ShuMiAccount;
+import org.apache.commons.lang3.StringUtils;
+import org.omg.CORBA.OBJECT_NOT_EXIST;
 import play.Logger;
 
 import javax.persistence.Query;
@@ -210,5 +213,27 @@ public class CustomerDaoImpl extends EntityBaseDao implements CustomerDao {
         return list.get(0);
     }
 
+    @Override
+    public Customer findRecommenderInfo(String customerId) {
+       if(StringUtils.isEmpty(customerId)) {
+           return null;
+       }
 
+        StringBuilder sb = new StringBuilder();
+
+        String columns = "c2.customer_id  ";
+        sb.append("select ").append(columns)
+                .append("from c_customer c1 join c_customer c2 on c2.mobile = c1.recommend_phone where 1 = 1 and  /~c1.customer_id = {customerId}~/");
+
+        Map<String, Object> filterMap = Maps.newHashMapWithExpectedSize(5);
+
+        filterMap.put("EQS_customerId", customerId);
+        List<String> resultRows = createNativeQueryByMap(sb.toString(), filterMap).getResultList();
+        if(resultRows == null || resultRows.isEmpty()) {
+            return null;
+        }
+        Customer customer = new Customer();
+        customer.setCustomerId(resultRows.get(0));
+        return customer;
+    }
 }

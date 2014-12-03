@@ -100,7 +100,8 @@ public enum MsgCode {
     ALREADY_SIGN("2220", "重复签到"),
     NOT_CONFIG_ACTIVITY_SCENE("2221", "没有配置活动场景"),
     ALREADY_PURCHASE("2222", "不是首次购买"),
-    ALREADY_REGISTER("2223", "已经注册");
+    ALREADY_REGISTER("2223", "已经注册"),
+    EXCHANG_OVER_LIMIT("2224", "兑换数量超额");
 
 
     private String code;

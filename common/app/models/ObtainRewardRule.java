@@ -28,16 +28,12 @@ public class ObtainRewardRule extends IdEntity{
     private Integer validTime;
     @Column(name = "TOTAL_LIMIT_AMT")
     private Long totalLimitAmt;
-    @Column(name = "PRODUCT_TYPE")
-    private String prdType;
-    @Column(name = "PRODUCT_CODE")
-    private String prdCode;
+    @Column(name = "IS_INVITER")
+    private Integer inviter;
+
     @Column(name = "ACTIVITY_CHANNEL")
     private Integer activityChannel;
-    @Column(name = "TRADE_AMT")
-    private BigDecimal tradeMoney;
-    @Column(name = "BACK_FUNDS")
-    private BigDecimal backFunds;
+
 
     @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "CREATE_TIME")
@@ -76,7 +72,13 @@ public class ObtainRewardRule extends IdEntity{
         this.status = status;
     }
 
+    public Integer getInviter() {
+        return inviter;
+    }
 
+    public void setInviter(Integer inviter) {
+        this.inviter = inviter;
+    }
 
     public Integer getEffectTime() {
         return effectTime;
@@ -126,21 +128,7 @@ public class ObtainRewardRule extends IdEntity{
         this.totalLimitAmt = totalLimitAmt;
     }
 
-    public String getPrdType() {
-        return prdType;
-    }
 
-    public void setPrdType(String prdType) {
-        this.prdType = prdType;
-    }
-
-    public String getPrdCode() {
-        return prdCode;
-    }
-
-    public void setPrdCode(String prdCode) {
-        this.prdCode = prdCode;
-    }
 
     public Integer getActivityChannel() {
         return activityChannel;
@@ -150,21 +138,7 @@ public class ObtainRewardRule extends IdEntity{
         this.activityChannel = activityChannel;
     }
 
-    public BigDecimal getTradeMoney() {
-        return tradeMoney;
-    }
 
-    public void setTradeMoney(BigDecimal tradeMoney) {
-        this.tradeMoney = tradeMoney;
-    }
-
-    public BigDecimal getBackFunds() {
-        return backFunds;
-    }
-
-    public void setBackFunds(BigDecimal backFunds) {
-        this.backFunds = backFunds;
-    }
 
     public Date getCreateTime() {
         return createTime;

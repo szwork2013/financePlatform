@@ -1,8 +1,6 @@
-package com.sunlights.customer.service;
-
+package com.sunlights.customer.dal;
 
 import com.sunlights.common.vo.PageVo;
-import com.sunlights.customer.vo.ActivityVo;
 import models.Activity;
 
 import java.util.List;
@@ -10,9 +8,9 @@ import java.util.List;
 /**
  * Created by tangweiqun on 2014/11/17.
  */
-public interface ActivityService {
+public interface ActivityDao {
 
-    public List<ActivityVo> getActivityVos(PageVo pageVo);
+    public List<Activity> getActivityVos(PageVo pageVo);
 
     /**
      * 根据活动的应用场景查处这个场景下的所有活动
@@ -20,8 +18,5 @@ public interface ActivityService {
      * @return
      */
     public List<Activity> getActivityByScene(String scene);
-
-
-    public List<String> getActivityTitles(String prdCode);
 
 }
