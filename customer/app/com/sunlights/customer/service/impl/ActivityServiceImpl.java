@@ -60,26 +60,6 @@ public class ActivityServiceImpl implements ActivityService{
 
     @Override
     public List<String> getActivityTitles(String prdCode) {
-        if(prdCode == null) {
-            return null;
-        }
-        ActivityScene activityScene = new ActivityScene();
-        activityScene.setActivityType(ActivityConstant.ACTIVITY_TYPE_PURCHASE);
-        activityScene.setPrdCode(prdCode);
-
-        List<ActivityScene> activityScenes = activitySceneDao.getScenes(activityScene);
-        if(activityScenes == null || activityScenes.isEmpty()) {
-            return null;
-        }
-        activityScene = activityScenes.get(0);
-        List<Activity> activities = getActivityByScene(activityScene.getScene());
-        if(activities == null || activities.isEmpty()) {
-            return null;
-        }
-        List<String> titles = new ArrayList<String>();
-        for(Activity activity : activities) {
-            titles.add(activity.getTitle());
-        }
-        return titles;
+        return null;
     }
 }

@@ -52,6 +52,7 @@ public enum MsgCode {
     SEARCH_FAIL_PROTOCOL_NONE("2301","查询失败","没有该协议"),
     SEARCH_FAIL_TYPE_EMPTY("2401", "查询失败", "类型不能为空"),
     SEARCH_FAIL_PRODUCT_DETAIL("2402", "查询产品详情失败", "请重新查询"),
+    SEARCH_FAIL_FUND_CATEGORY_EMPTY("2403", "查询失败", "基金种类不能为空"),
     BANK_CARD_ADD_SUCCESS("0210","操作成功","银行卡添加成功"),
     BANK_CARD_DELETE_SUCCESS("0211","操作成功","银行卡删除成功"),
     BANK_NAME_CERTIFY_FAIL("2210","请先实名认证",""),
