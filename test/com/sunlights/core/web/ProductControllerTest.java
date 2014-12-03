@@ -145,7 +145,7 @@ public class ProductControllerTest extends BaseTest {
     }
 
     @Test
-    public void testFindLofProducts() throws Exception {
+    public void testFindSTFProducts() throws Exception {
         running(fakeApplication(inMemoryDatabase("test")), new Runnable() {
 
             public void run() {
