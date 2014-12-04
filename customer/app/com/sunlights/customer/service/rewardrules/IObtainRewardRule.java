@@ -9,7 +9,7 @@ import com.sunlights.customer.vo.RewardResultVo;
  *
  * Created by tangweiqun on 2014/11/19.
  */
-
+@Deprecated
 public interface IObtainRewardRule {
 
     /**

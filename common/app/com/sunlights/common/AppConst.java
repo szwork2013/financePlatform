@@ -41,4 +41,6 @@ public final class AppConst {
 
     public static long ONE_MINUTE = 60 * 1000;
     public static String TOKEN = "token";
+    public static String FUND_CATEGORY_MONETARY = "MONETARY";
+    public static String FUND_CATEGORY_STF= "STF";
 }

@@ -100,6 +100,7 @@ public class ActivityController extends ActivityBaseController  {
         return obtainReward(AccountConstant.ACTIVITY_REGISTER_SCENE_CODE);
     }
 
+    @Deprecated
     public Result purchaseObtainReward() {
         return obtainReward(AccountConstant.ACTIVITY_FIRST_PURCHASE_SCENE_CODE);
     }

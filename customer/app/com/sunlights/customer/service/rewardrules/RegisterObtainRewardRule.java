@@ -11,6 +11,7 @@ import play.Configuration;
 /**
  * Created by tangweiqun on 2014/11/24.
  */
+@Deprecated
 public class RegisterObtainRewardRule extends AbstractObtainRewardRule{
 
     @Override

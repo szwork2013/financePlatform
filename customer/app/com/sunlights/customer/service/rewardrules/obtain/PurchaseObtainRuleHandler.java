@@ -29,8 +29,8 @@ public class PurchaseObtainRuleHandler extends AbstractObtainRuleHandler{
 
         setNextHandler(
                 new PurchaseObtainValideHandler(
-                        new ReCommendHandler(
-                            new ObtainRuleGainHandler(
+                        new ObtainRuleGainHandler(
+                            new ReCommendHandler(
                                     new RewardFlowHandler(
                                             new CustJoinActivityHandler(
                                                     new ResultAssignHandler()))))));

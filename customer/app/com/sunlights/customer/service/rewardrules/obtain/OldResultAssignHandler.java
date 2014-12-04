@@ -1,6 +1,5 @@
 package com.sunlights.customer.service.rewardrules.obtain;
 
-
 import com.sunlights.common.MsgCode;
 import com.sunlights.common.Severity;
 import com.sunlights.common.vo.Message;
@@ -12,22 +11,15 @@ import com.sunlights.customer.vo.ObtainRewardVo;
 import play.Configuration;
 import play.Logger;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
- * 获取奖励成功后结果赋值
- * Created by tangweiqun on 2014/12/2.
+ *
+ * 为了兼容注册和签到送金豆的接口，这个返回接口所需要的数据结构
+ *
+ * Created by tangweiqun on 2014/12/4.
  */
-public class ResultAssignHandler extends AbstractObtainRuleHandler {
-
-    public ResultAssignHandler() {
-
-    }
-
-    public ResultAssignHandler(ObtainRuleHandler nextHandler) {
-        super(nextHandler);
-    }
+public class OldResultAssignHandler extends AbstractObtainRuleHandler{
 
     @Override
     public void obtainInternal(ActivityRequestVo requestVo, ActivityResponseVo responseVo) throws Exception {
@@ -44,26 +36,27 @@ public class ResultAssignHandler extends AbstractObtainRuleHandler {
 
 
         for(RewardFlowRecordVo rewardFlowRecordVo : rewardFlowRecordVos) {
+            ObtainRewardVo obtainRewardVo = new ObtainRewardVo();
+            obtainRewardVo.setScene(rewardFlowRecordVo.getScene());
+            obtainRewardVo.setStatus(rewardFlowRecordVo.getStatus());
+            obtainRewardVo.setAlreadyGet(rewardFlowRecordVo.getRewardAmtResult());
+            obtainRewardVo.setNotGet(rewardFlowRecordVo.getNotGet());
 
-            String detail = rewardFlowRecordVo.getRewardAmtFromTrans() + Configuration.root().getString("detail." + rewardFlowRecordVo.getRewardType());
+            responseVo.addObtainRewardVo(obtainRewardVo);
 
-            ActivityResultVo activityResultVo = new ActivityResultVo();
-            activityResultVo.setTitle(rewardFlowRecordVo.getActivityTitle());
-            activityResultVo.setRewardType(rewardFlowRecordVo.getRewardType());
-            activityResultVo.setDetail(detail);
-            activityResultVo.setRuleUrl(rewardFlowRecordVo.getRuleUrl());
-            responseVo.addActivityResultVo(activityResultVo);
+            Message message = responseVo.getMessage();
+            message.setSummary(Configuration.root().getString("summary." + rewardFlowRecordVo.getRewardType() + "." + rewardFlowRecordVo.getScene()));
+            message.setDetail(Configuration.root().getString("detail." + rewardFlowRecordVo.getRewardType() + "." + rewardFlowRecordVo.getScene()));
 
+            responseVo.setMessage(message);
 
         }
-
 
 
     }
 
     @Override
     public String toString() {
-        return "ResultAssignHandler";
+        return "OldResultAssignHandler";
     }
-
 }

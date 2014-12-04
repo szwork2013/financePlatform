@@ -181,56 +181,6 @@ public class ProductServiceImpl extends EntityBaseDao implements ProductService 
         return getChartVo(chartType, fundCode, fundHisLst);
     }
 
-    @Override
-    public void createProductAttention(List<ProductVo> productVos, String customerId) {
-        Date date = new Date();
-
-        for (ProductVo productVo : productVos) {
-            ProductAttention productAttention = findProductAttentionBy(customerId, productVo.getCode());
-            if (productAttention == null) {
-                productAttention = new ProductAttention();
-            }
-            productAttention.setCreateTime(date);
-            productAttention.setCustomerId(customerId);
-            productAttention.setProductCode(productVo.getCode());
-            productAttention.setProductType(productVo.getType());
-            super.update(productAttention);
-        }
-    }
-
-    private ProductAttention findProductAttentionBy(String customerId, String productCode) {
-        List<PropertyFilter> filters = new ArrayList<PropertyFilter>();
-        PropertyFilter customerIdFilter = new PropertyFilter("EQS_customerId", customerId);
-        PropertyFilter productCodeFilter = new PropertyFilter("EQS_productCode", productCode);
-        filters.add(customerIdFilter);
-        filters.add(productCodeFilter);
-        List<ProductAttention> productAttentions = super.find(ProductAttention.class, filters);
-        return productAttentions.isEmpty() ? null : productAttentions.get(0);
-    }
-
-    @Override
-    public void cancelProductAttention(ProductVo productVo, String customerId) {
-        ProductAttention productAttention = findProductAttentionBy(customerId, productVo.getCode());
-        super.delete(productAttention);
-    }
-
-    @Override
-    public List<ProductVo> findProductAttentions(PageVo pageVo, String customerId) {
-        String currentDate = CommonUtil.dateToString(new Date(), CommonUtil.DATE_FORMAT_LONG);
-        StringBuffer jpql = new StringBuffer();
-        jpql.append(" select new com.sunlights.core.vo.FundVo(f,pm)");
-        jpql.append(" from FundNav f , ProductManage pm, ProductAttention pa");
-        jpql.append(" where f.fundcode = pm.productCode");
-        jpql.append(" and pm.upBeginTime < '" + currentDate + "'");
-        jpql.append(" and pm.downEndTime >= '" + currentDate + "'");
-        jpql.append(" and pm.productStatus = '" + DictConst.FP_PRODUCT_MANAGE_STATUS_1 + "'");
-        jpql.append(" and f.fundcode = pa.productCode and pa.productType = '" + DictConst.FP_PRODUCT_TYPE_1 + "'");
-        jpql.append(" order by pm.productType,pm.recommendType,pa.createTime desc");
-
-        List<ProductVo> productVos = pageService.findXsqlBy(jpql.toString(), pageVo);
-        return productVos;
-    }
-
     private ChartVo getChartVo(String chartType, String fundCode, List<FundProfitHistory> fundHisLst) {
         ChartVo chartVo = new ChartVo();
         Code fundInfo = fundDao.findFundNameByFundCode(fundCode);

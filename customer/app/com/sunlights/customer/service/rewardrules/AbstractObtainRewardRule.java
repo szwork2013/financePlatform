@@ -19,6 +19,7 @@ import java.util.List;
 /**
  * Created by tangweiqun on 2014/11/20.
  */
+@Deprecated
 public abstract class AbstractObtainRewardRule implements IObtainRewardRule{
     private ActivityService activityService = new ActivityServiceImpl();
 
