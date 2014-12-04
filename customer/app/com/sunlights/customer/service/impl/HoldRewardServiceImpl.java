@@ -112,7 +112,7 @@ public class HoldRewardServiceImpl implements HoldRewardService {
 
 
     public void transf(HoldReward holdReward, HoldRewardVo holdRewardVo) {
-        holdRewardVo.setTotalReward(takePrefix(holdReward.getHoldReward(),"+"));
+        holdRewardVo.setTotalReward(takePrefix(holdReward.getHoldReward() - holdReward.getFrozenReward(),"+"));
         holdRewardVo.setGots(takePrefix(holdReward.getGetReward(),"+"));
         holdRewardVo.setPayed(takePrefix((holdReward.getGetReward() - holdReward.getHoldReward()), "-"));
         holdRewardVo.setTotalCash(holdReward.getHoldMoney().toString());
