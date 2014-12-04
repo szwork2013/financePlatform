@@ -144,7 +144,7 @@ public class LoginServiceImpl implements LoginService {
         Logger.info("=============mobilePhoneNo:" + mobilePhoneNo);
         Logger.info("=============deviceNo:" + deviceNo);
         Logger.info("=============recommendPhone:" + vo.getRecommendPhone());
-        CommonUtil.getInstance().validateParams(mobilePhoneNo, passWord, deviceNo);
+        CommonUtil.getInstance().validateParams(mobilePhoneNo, passWord);
         
         Customer oldUserMstr = getCustomerByMobilePhoneNo(mobilePhoneNo);
         if (oldUserMstr != null) {
