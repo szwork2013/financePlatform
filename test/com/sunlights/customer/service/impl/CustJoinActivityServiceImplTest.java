@@ -6,6 +6,7 @@ import com.sunlights.customer.service.rewardrules.ActivityHandlerService;
 import com.sunlights.customer.service.rewardrules.vo.ActivityRequestVo;
 import com.sunlights.customer.service.rewardrules.vo.ActivityResponseVo;
 import org.junit.Test;
+import play.Logger;
 import play.db.jpa.JPA;
 import play.libs.F;
 
@@ -26,7 +27,7 @@ public class CustJoinActivityServiceImplTest {
                     public void invoke() throws Throwable {
 
                         CustJoinActivityService custJoinActivityService = new CustJoinActivityServiceImpl();
-                        custJoinActivityService.getShortUrl("20141119102210010000000029", 1L, ActivityConstant.ACTIVITY_INVITE_SCENE_CODE);
+                        Logger.info(custJoinActivityService.getShortUrl("20141119102210010000000029", 1L, ActivityConstant.ACTIVITY_INVITE_SCENE_CODE));
 
                     }
                 });
@@ -43,8 +44,8 @@ public class CustJoinActivityServiceImplTest {
                     @Override
                     public void invoke() throws Throwable {
 
-
-
+                        CustJoinActivityService custJoinActivityService = new CustJoinActivityServiceImpl();
+                        custJoinActivityService.saveShortUrl("20141119102210010000000029", 1L, ActivityConstant.ACTIVITY_INVITE_SCENE_CODE, "httptest");
                     }
                 });
 

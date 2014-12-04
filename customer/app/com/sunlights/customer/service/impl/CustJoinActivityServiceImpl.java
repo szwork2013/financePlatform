@@ -44,7 +44,7 @@ public class CustJoinActivityServiceImpl implements CustJoinActivityService {
     }
 
     @Override
-    public void saveShortUrl(String custId, Long activityId, String shortUrl, String scene) {
+    public void saveShortUrl(String custId, Long activityId, String scene, String shortUrl) {
         CustJoinActivity custJoinActivity = new CustJoinActivity();
         custJoinActivity.setCustId(custId);
         custJoinActivity.setActivityId(activityId);
