@@ -176,6 +176,8 @@ COMMENT ON COLUMN "public"."c_customer"."weixin" IS '绑定微信号';
 COMMENT ON COLUMN "public"."c_customer"."create_by" IS '创建人';
 COMMENT ON COLUMN "public"."c_customer"."create_time" IS '创建时间';
 
+ALTER TABLE c_customer ADD COLUMN recommend_phone VARCHAR(19);
+
 -- ----------------------------
 -- Table structure for c_customer_gesture
 -- ----------------------------
@@ -1176,6 +1178,276 @@ COMMENT ON COLUMN F_REWARD_FLOW.CREATE_TIME IS
 '创建时间';
 
 
+DROP TABLE IF EXISTS F_ACTIVITY_SCENE;
+/*==============================================================*/
+/* Table: F_ACTIVITY_SCENE                                      */
+/*==============================================================*/
+create table F_ACTIVITY_SCENE
+(
+   ID                   bigint                         not null,
+   CODE                 varchar(10)                    not null,
+   NAME                 varchar(100)                   null,
+   STATUS               varchar(2)                     null,
+   ACTIVITY_TYPE        varchar(10)                    null,
+   PRD_TYPE             varchar(20)                    null,
+   PRD_CODE             varchar(20)                    null,
+   CREATE_TIME          timestamp                      null,
+   UPDATE_TIME          timestamp                      null,
+   constraint PK_F_ACTIVITY_SCENE primary key  (ID),
+   constraint AK_KEY_2_F_ACTIVI unique (CODE)
+);
+
+comment on column F_ACTIVITY_SCENE.ID is
+'主键ID';
+
+comment on column F_ACTIVITY_SCENE.CODE is
+'场景编码';
+
+comment on column F_ACTIVITY_SCENE.NAME is
+'场景名称';
+
+comment on column F_ACTIVITY_SCENE.STATUS is
+'状态  N表示正常  F表示禁止';
+
+comment on column F_ACTIVITY_SCENE.ACTIVITY_TYPE is
+'活动类型';
+
+comment on column F_ACTIVITY_SCENE.PRD_TYPE is
+'产品类型';
+
+comment on column F_ACTIVITY_SCENE.PRD_CODE is
+'产品编码';
+
+comment on column F_ACTIVITY_SCENE.CREATE_TIME is
+'创建时间';
+
+comment on column F_ACTIVITY_SCENE.UPDATE_TIME is
+'更新时间';
+
+DROP TABLE IF EXISTS F_CUST_ACTIVITY_JOIN;
+/*==============================================================*/
+/* Table: F_CUST_ACTIVITY_JOIN                                  */
+/*==============================================================*/
+create table F_CUST_ACTIVITY_JOIN
+(
+   ID                   bigint                         not null,
+   CUSTOMER_ID          varchar(30)                    null,
+   ACTIVITY_ID          bigint                         null,
+   SCENE                varchar(10)                    null,
+   ISJOINED             int                            null,
+   ISCONTINUED          int                            null,
+   ISTIME_RELATE        int                            null,
+   JOIN_TIME            timestamp                      null,
+   SHORT_URL            varchar(200)                   null,
+   CREATE_TIME          timestamp                      null,
+   UPDATE_TIME          timestamp                      null,
+   constraint PK_F_CUST_ACTIVITY_JOIN primary key  (ID)
+);
+
+comment on column F_CUST_ACTIVITY_JOIN.ID is
+'主键';
+
+comment on column F_CUST_ACTIVITY_JOIN.CUSTOMER_ID is
+'客户号';
+
+comment on column F_CUST_ACTIVITY_JOIN.ACTIVITY_ID is
+'活动ID';
+
+comment on column F_CUST_ACTIVITY_JOIN.SCENE is
+'应用场景';
+
+comment on column F_CUST_ACTIVITY_JOIN.ISJOINED is
+'是否已经参加 0表示没有参加 1表示已经参加';
+
+comment on column F_CUST_ACTIVITY_JOIN.ISCONTINUED is
+'是否可以继续参加 0表示不可以继续参加 1表示可以继续参加';
+
+comment on column F_CUST_ACTIVITY_JOIN.ISTIME_RELATE is
+'是否与时间有关 0表示没有关系  1表示有关系';
+
+comment on column F_CUST_ACTIVITY_JOIN.JOIN_TIME is
+'参加时间';
+
+comment on column F_CUST_ACTIVITY_JOIN.SHORT_URL is
+'分享短URL';
+
+comment on column F_CUST_ACTIVITY_JOIN.CREATE_TIME is
+'创建时间';
+
+comment on column F_CUST_ACTIVITY_JOIN.UPDATE_TIME is
+'修改时间';
+
+
+DROP TABLE IF EXISTS F_ACTIVITY_STEP;
+/*==============================================================*/
+/* Table: F_ACTIVITY_STEP                                       */
+/*==============================================================*/
+create table F_ACTIVITY_STEP
+(
+   ID                   bigint                         not null,
+   OBTAIN_RULE_ID       bigint                         null,
+   MIN_VALUE            decimal                        null,
+   MAX_VALUE            decimal                        null,
+   SHOULD_REWARD        bigint                         null,
+   CREATE_TIME          TIMESTAMP                      null,
+   UPDATE_TIME          TIMESTAMP                      null,
+   constraint PK_F_ACTIVITY_STEP primary key  (ID)
+);
+
+comment on column F_ACTIVITY_STEP.ID is
+'主键ID';
+
+comment on column F_ACTIVITY_STEP.OBTAIN_RULE_ID is
+'获取规则ID';
+
+comment on column F_ACTIVITY_STEP.MIN_VALUE is
+'最小值';
+
+comment on column F_ACTIVITY_STEP.MAX_VALUE is
+'最大值';
+
+comment on column F_ACTIVITY_STEP.SHOULD_REWARD is
+'获取的奖励';
+
+comment on column F_ACTIVITY_STEP.CREATE_TIME is
+'创建时间';
+
+comment on column F_ACTIVITY_STEP.UPDATE_TIME is
+'修改时间';
+
+DROP TABLE IF EXISTS F_EXCAHNGE_SCENE;
+/*==============================================================*/
+/* Table: F_EXCAHNGE_SCENE                                      */
+/*==============================================================*/
+create table F_EXCAHNGE_SCENE
+(
+   ID                   bigint                         not null,
+   SCENE                varchar(10)                    null,
+   TITLE                varchar(50)                    null,
+   STATUS               varchar(1)                     null,
+   REWARD_TYPE          varchar(10)                    null,
+   EXCHANGE_TYPE        varchar(10)                    null,
+   AMOUNT               bigint                         null,
+   EXCHANGED_AMT        bigint                         null,
+   EXCHANGE_LIMIT       bigint                         null,
+   TIME_LIMIT           bigint                         null,
+   CREATE_TIME          timestamp                      null,
+   UPDATE_TIME          timestamp                      null,
+   constraint PK_F_EXCAHNGE_SCENE primary key  (ID),
+   constraint AK_SCENE_F_EXCAHN unique (SCENE)
+);
+
+comment on column F_EXCAHNGE_SCENE.ID is
+'主键ID';
+
+comment on column F_EXCAHNGE_SCENE.SCENE is
+'兑换场景编码';
+
+comment on column F_EXCAHNGE_SCENE.TITLE is
+'标题';
+
+comment on column F_EXCAHNGE_SCENE.STATUS is
+'状态 N表示正常  F表是废弃';
+
+comment on column F_EXCAHNGE_SCENE.REWARD_TYPE is
+'奖励类型';
+
+comment on column F_EXCAHNGE_SCENE.EXCHANGE_TYPE is
+'兑换类型';
+
+comment on column F_EXCAHNGE_SCENE.AMOUNT is
+'所需兑换数量';
+
+comment on column F_EXCAHNGE_SCENE.EXCHANGED_AMT is
+'兑换到的数量';
+
+comment on column F_EXCAHNGE_SCENE.EXCHANGE_LIMIT is
+'兑换限额';
+
+comment on column F_EXCAHNGE_SCENE.TIME_LIMIT is
+'到账期限';
+
+comment on column F_EXCAHNGE_SCENE.CREATE_TIME is
+'创建时间';
+
+comment on column F_EXCAHNGE_SCENE.UPDATE_TIME is
+'修改时间';
+
+DROP TABLE IF EXISTS F_EXCHANGE_RESULT;
+/*==============================================================*/
+/* Table: F_EXCHANGE_RESULT                                     */
+/*==============================================================*/
+create table F_EXCHANGE_RESULT
+(
+   ID                   bigint                         not null,
+   CUSTOMER_ID          varchar(30)                    null,
+   EXCHANGE_SCENE       varchar(10)                    null,
+   STATUS               int                            null,
+   PHONE                varchar(15)                    null,
+   BANK_CODE            varchar(20)                    null,
+   BANK_CARD_NO         varchar(25)                    null,
+   AMOUNT               decimal(18,2)                  null,
+   CREATE_TIME          timestamp                      null,
+   UPDATE_TIME          timestamp                      null,
+   constraint PK_F_EXCHANGE_RESULT primary key  (ID)
+);
+
+comment on column F_EXCHANGE_RESULT.ID is
+'主键ID';
+
+comment on column F_EXCHANGE_RESULT.CUSTOMER_ID is
+'客户号';
+
+comment on column F_EXCHANGE_RESULT.EXCHANGE_SCENE is
+'兑换场景编码';
+
+comment on column F_EXCHANGE_RESULT.STATUS is
+'状态  0表示未审核 1表示审核通过  2表示审核不通过  3表示兑换成功 4表示兑换失败';
+
+comment on column F_EXCHANGE_RESULT.PHONE is
+'手机号';
+
+comment on column F_EXCHANGE_RESULT.BANK_CODE is
+'银行编码';
+
+comment on column F_EXCHANGE_RESULT.BANK_CARD_NO is
+'银行卡号';
+
+comment on column F_EXCHANGE_RESULT.AMOUNT is
+'兑换得到的数量';
+
+comment on column F_EXCHANGE_RESULT.CREATE_TIME is
+'创建时间';
+
+comment on column F_EXCHANGE_RESULT.UPDATE_TIME is
+'修改时间';
+
+ALTER TABLE f_activity DROP COLUMN type;
+
+ALTER TABLE f_activity ADD COLUMN IS_INVITER INT2;
+
+ALTER TABLE f_activity ADD COLUMN SHARE_URL VARCHAR(200);
+
+ALTER TABLE f_activity ADD COLUMN SHARE_TEXT varchar(3000);
+
+ALTER TABLE f_activity DROP COLUMN type;
+
+ALTER TABLE f_activity DROP COLUMN IS_INVITER;
+
+ALTER TABLE F_GET_REWARD_RULE DROP COLUMN product_code;
+ALTER TABLE F_GET_REWARD_RULE DROP COLUMN product_type;
+
+ALTER TABLE F_GET_REWARD_RULE DROP COLUMN trade_amt;
+
+ALTER TABLE F_GET_REWARD_RULE DROP COLUMN back_funds;
+
+ALTER TABLE F_GET_REWARD_RULE ADD COLUMN IS_INVITER INT2;
+
+ALTER TABLE F_REWARD_COUNT ADD COLUMN ACTIVITY_TYPE varchar(10);
+
+ALTER TABLE F_EXCHANGE_REWARD_RULE ADD COLUMN MAX_EXCHANGE INT8;
+
+
 -- ----------------------------
 -- Alter Sequences Owned By 
 -- ----------------------------
@@ -1593,3 +1865,42 @@ create table fund_profit_history
    update_time          timestamp                      null,
    constraint PK_FUND_PROFIT_HISTORY primary key  (id)
 );
+
+
+/*==============================================================*/
+/* Table: product_attention                                     */
+/*==============================================================*/
+DROP TABLE IF EXISTS P_PRODUCT_ATTENTION;
+CREATE TABLE P_PRODUCT_ATTENTION
+(
+  ID                   BIGINT                         NOT NULL,
+  PRODUCT_CODE         VARCHAR(30)                    NULL,
+  PRODUCT_TYPE         VARCHAR(50)                    NULL,
+  CREATE_TIME          TIMESTAMP                      NULL,
+  CUSTOMER_ID          VARCHAR(30)                    NULL,
+  CONSTRAINT PK_P_PRODUCT_ATTENTION PRIMARY KEY  (ID)
+);
+
+ALTER TABLE fundnav add COLUMN investment_duration INT;
+ALTER TABLE fundnav_history add COLUMN investment_duration INT;
+
+
+DROP TABLE c_question_record;
+CREATE TABLE c_question_record
+(
+  id bigint NOT NULL,
+  problem text,
+  phone_no character varying(20),
+  customer_name character varying(20),
+  remark text,
+  status character varying(50),
+  create_time timestamp without time zone,
+  update_time timestamp without time zone,
+  create_by character varying(10),
+  update_by character varying(10),
+  CONSTRAINT c_question_record_pkey PRIMARY KEY (id)
+);
+
+
+
+

@@ -4,6 +4,7 @@ import com.sunlights.account.AccountConstant;
 import com.sunlights.account.dal.RewardFlowDao;
 import com.sunlights.account.dal.impl.RewardFlowDaoImpl;
 import com.sunlights.account.service.RewardFlowService;
+
 import com.sunlights.account.vo.RewardResultVo;
 import com.sunlights.common.utils.CommonUtil;
 import models.RewardFlow;
@@ -73,6 +74,7 @@ public class RewardFlowServiceImpl implements RewardFlowService {
                 temp = result.get(0);
             }
             if(temp != null) {
+                vo = new RewardResultVo();
                 vo.setStatus(AccountConstant.ACTIVITY_CUSTONER_STATUS_NOMAL);
                 vo.setAlreadyGet(temp.getRewardAmt());
                 vo.setNotGet(0L);
@@ -84,4 +86,6 @@ public class RewardFlowServiceImpl implements RewardFlowService {
 
         return null;
     }
+
+
 }

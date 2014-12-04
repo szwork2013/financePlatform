@@ -1,17 +1,12 @@
 package com.sunlights.account.service.rewardrules;
 
 import com.sunlights.account.AccountConstant;
-import com.sunlights.account.service.RewardFlowService;
-import com.sunlights.account.service.impl.RewardFlowServiceImpl;
 import com.sunlights.account.vo.RewardResultVo;
 import com.sunlights.common.MsgCode;
 import com.sunlights.common.Severity;
 import com.sunlights.common.vo.Message;
-import models.ObtainRewardRule;
 import models.RewardFlow;
 import play.Configuration;
-
-import java.util.List;
 
 /**
  * 签到场景获取奖励规则

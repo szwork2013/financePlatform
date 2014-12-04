@@ -8,5 +8,8 @@ POST        /savegespwd             @com.sunlights.customer.web.CustomerControll
 POST        /getusermstr            @com.sunlights.customer.web.CustomerController.getCustomerByMobilePhoneNo
 POST        /logout                 @com.sunlights.customer.web.CustomerController.logout
 
+#share
+POST        /activity/sharecontent                @com.sunlights.customer.web.ShareContorller.sendFriend
+
 #feedBack
 POST        /addfeedback            @com.sunlights.customer.web.FeedBackController.saveFeedBack

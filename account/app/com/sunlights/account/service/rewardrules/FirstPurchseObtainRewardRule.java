@@ -1,18 +1,10 @@
 package com.sunlights.account.service.rewardrules;
 
 import com.sunlights.account.AccountConstant;
-import com.sunlights.account.dal.ObtainRewardRuleDao;
-import com.sunlights.account.dal.impl.ObtainRewardRuleDaoImpl;
-import com.sunlights.account.service.RewardFlowService;
-import com.sunlights.account.service.impl.RewardFlowServiceImpl;
 import com.sunlights.account.vo.RewardResultVo;
 import com.sunlights.common.MsgCode;
 import com.sunlights.common.Severity;
 import com.sunlights.common.vo.Message;
-import models.RewardFlow;
-import models.Trade;
-
-import java.util.List;
 
 /**
  * Created by tangweiqun on 2014/11/25.

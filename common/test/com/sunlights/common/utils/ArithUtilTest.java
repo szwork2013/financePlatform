@@ -18,7 +18,8 @@ public class ArithUtilTest {
 
     @Test
     public void testFormmater() throws Exception {
-        BigDecimal b2 = new BigDecimal("1.207");
-        System.out.println("[bigDecimal]" + Json.toJson(ArithUtil.bigUpScale4(b2)));
+        BigDecimal b2 = new BigDecimal("100.00");
+        BigDecimal bigDecimal = ArithUtil.bigUpScale0(b2);
+        System.out.println("[bigDecimal]" + Json.toJson(bigDecimal.toString()));
     }
 }

@@ -50,3 +50,5 @@ comment on column F_REWARD_COUNT.CREATE_TIME is
 
 comment on column F_REWARD_COUNT.UPDATE_TIME is
 '修改时间';
+
+ALTER TABLE F_REWARD_COUNT ADD COLUMN ACTIVITY_TYPE varchar(10);

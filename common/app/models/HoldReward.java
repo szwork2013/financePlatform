@@ -14,6 +14,8 @@ import java.util.Date;
 public class HoldReward extends IdEntity {
     @Column(name = "customer_Id")
     private String custId;
+    @Column(name = "ACTIVITY_TYPE")
+    private String activityType;
     @Column(name = "REWARD_TYPE")
     private String rewardType;
     @Column(name = "GET_AMOUNT")
@@ -111,5 +113,13 @@ public class HoldReward extends IdEntity {
 
     public void setUpdateTime(Date updateTime) {
         this.updateTime = updateTime;
+    }
+
+    public String getActivityType() {
+        return activityType;
+    }
+
+    public void setActivityType(String activityType) {
+        this.activityType = activityType;
     }
 }

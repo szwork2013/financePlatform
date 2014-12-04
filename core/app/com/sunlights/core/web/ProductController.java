@@ -1,5 +1,7 @@
 package com.sunlights.core.web;
 
+import com.fasterxml.jackson.databind.JsonNode;
+import com.sunlights.common.DictConst;
 import com.sunlights.common.MsgCode;
 import com.sunlights.common.Severity;
 import com.sunlights.common.utils.MessageUtil;
@@ -11,6 +13,10 @@ import com.sunlights.core.vo.ChartVo;
 import com.sunlights.core.vo.FundVo;
 import com.sunlights.core.vo.ProductParameter;
 import com.sunlights.core.vo.ProductVo;
+import com.sunlights.customer.service.impl.CustomerService;
+import models.CustomerSession;
+import org.apache.commons.beanutils.ConvertUtils;
+import play.Logger;
 import play.data.Form;
 import play.db.jpa.Transactional;
 import play.libs.Json;
@@ -18,7 +24,9 @@ import play.mvc.Controller;
 import play.mvc.Http;
 import play.mvc.Result;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 /**
  * <p>Project: fsp</p>
@@ -32,9 +40,76 @@ import java.util.List;
 @Transactional
 public class ProductController extends Controller {
     private Form<ProductParameter> productParameterForm = Form.form(ProductParameter.class);
+    private Form<ProductVo> productForm = Form.form(ProductVo.class);
+    private Form<PageVo> pageForm = Form.form(PageVo.class);
     private MessageUtil messageUtil = MessageUtil.getInstance();
 
     private ProductService productService = new ProductServiceImpl();
+    private CustomerService customerService = new CustomerService();
+
+    public Result createAttentions() {
+        Http.RequestBody body = request().body();
+        List<ProductVo> productVos = new ArrayList<ProductVo>();
+        if (body.asFormUrlEncoded() != null) {
+            ProductParameter parameter = productParameterForm.bindFromRequest().get();
+            List<String> codes = parameter.getCodes();
+            for (String code : codes) {
+                ProductVo productVo = new ProductVo();
+                productVo.setCode(code);
+                // 基金
+                productVo.setType(DictConst.FP_PRODUCT_TYPE_1);
+                productVos.add(productVo);
+            }
+        }
+        CustomerSession customerSession = customerService.validateCustomerSession(request(), session(), response());
+        productService.createProductAttention(productVos, customerSession.getCustomerId());
+        messageUtil.setMessage(new Message(Severity.INFO, MsgCode.OPERATE_SUCCESS));
+        return ok(messageUtil.toJson());
+    }
+
+    public Result cancelAttention() {
+        ProductVo productVo = new ProductVo();
+        Http.RequestBody body = request().body();
+        if (body.asFormUrlEncoded() != null) {
+            productVo = productForm.bindFromRequest().get();
+            CustomerSession customerSession = customerService.validateCustomerSession(request(), session(), response());
+            productService.cancelProductAttention(productVo, customerSession.getCustomerId());
+            messageUtil.setMessage(new Message(Severity.INFO, MsgCode.OPERATE_SUCCESS));
+            return ok(messageUtil.toJson());
+        }
+        messageUtil.setMessage(new Message(Severity.ERROR, MsgCode.OPERATE_FAILURE));
+        return ok(messageUtil.toJson());
+    }
+
+    public Result createAttention() {
+        ProductVo productVo = new ProductVo();
+        Http.RequestBody body = request().body();
+        List<ProductVo> productVos = new ArrayList<ProductVo>();
+        if (body.asFormUrlEncoded() != null) {
+            productVo = productForm.bindFromRequest().get();
+            // 基金
+            productVo.setType(DictConst.FP_PRODUCT_TYPE_1);
+            productVos.add(productVo);
+        }
+        CustomerSession customerSession = customerService.validateCustomerSession(request(), session(), response());
+        productService.createProductAttention(productVos, customerSession.getCustomerId());
+        messageUtil.setMessage(new Message(Severity.INFO, MsgCode.OPERATE_SUCCESS));
+        return ok(messageUtil.toJson());
+    }
+
+    public Result findAttentions() {
+        PageVo pageVo = new PageVo();
+        Http.RequestBody body = request().body();
+        if (body.asFormUrlEncoded() != null) {
+            pageVo = pageForm.bindFromRequest().get();
+        }
+        CustomerSession customerSession = customerService.validateCustomerSession(request(), session(), response());
+
+        List<ProductVo> productVos = productService.findProductAttentions(pageVo, customerSession.getCustomerId());
+        pageVo.setList(productVos);
+        messageUtil.setMessage(new Message(Severity.INFO, MsgCode.OPERATE_SUCCESS), pageVo);
+        return ok(messageUtil.toJson());
+    }
 
     public Result findProductsBy() {
         PageVo pageVo = new PageVo();
@@ -51,8 +126,8 @@ public class ProductController extends Controller {
         if (productParameter != null) {
             pageVo.setIndex(productParameter.getIndex());
             pageVo.setPageSize(productParameter.getPageSize());
-            pageVo.put("fundType", productParameter.getCategory());
-            pageVo.put("productType", productParameter.getType());
+            pageVo.put("EQS_category", productParameter.getCategory());
+            pageVo.put("EQS_productType", productParameter.getType());
             List<FundVo> funds = productService.findFunds(pageVo);
             pageVo.setList(funds);
             messageUtil.setMessage(new Message(Severity.INFO, MsgCode.OPERATE_SUCCESS), pageVo);
@@ -82,7 +157,7 @@ public class ProductController extends Controller {
             prodPara = productParameterForm.bindFromRequest().get();
         }
         String chartType = prodPara.getChartType();
-        ChartVo chartVo = productService.findProfitHistoryByDays(chartType,prodPara.getPrdCode(), prodPara.getInterval());
+        ChartVo chartVo = productService.findProfitHistoryByDays(chartType, prodPara.getPrdCode(), prodPara.getInterval());
         messageUtil.setMessage(new Message(Severity.INFO, MsgCode.OPERATE_SUCCESS), chartVo);
         return ok(messageUtil.toJson());
     }

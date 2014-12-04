@@ -46,4 +46,7 @@ public interface CustomerDao {
   public CustomerGesture findCustomerGestureByDeviceNo(String customerId, String deviceNo);
 
 
+  public Customer findRecommenderInfo(String customerId);
+
+
 }

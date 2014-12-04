@@ -3,6 +3,7 @@ package com.sunlights.account.service.impl;
 import com.sunlights.account.dal.ObtainRewardRuleDao;
 import com.sunlights.account.dal.impl.ObtainRewardRuleDaoImpl;
 import com.sunlights.account.service.ObtainRewardRuleService;
+
 import models.ObtainRewardRule;
 
 import java.util.List;
@@ -19,4 +20,6 @@ public class ObtainRewardRuleServiceImpl implements ObtainRewardRuleService{
 
         return obtainRewardRuleDao.getByActivityId(activityId);
     }
+
+
 }

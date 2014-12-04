@@ -1,14 +1,14 @@
 package com.sunlights.core.integration;
 
-import com.sunlights.common.ParameterConst;
-import com.sunlights.common.service.ParameterService;
-import com.sunlights.common.utils.MD5Helper;
+import com.fasterxml.jackson.databind.JsonNode;
+import com.sunlights.common.vo.MessageVo;
 import models.SmsMessage;
-import org.apache.commons.httpclient.HttpClient;
-import org.apache.commons.httpclient.HttpStatus;
-import org.apache.commons.httpclient.NameValuePair;
-import org.apache.commons.httpclient.methods.PostMethod;
 import play.Logger;
+import play.Play;
+import play.libs.F;
+import play.libs.Json;
+import play.libs.ws.WS;
+import play.libs.ws.WSResponse;
 
 /**
  * <p>Project: tradingsystem</p>
@@ -22,58 +22,32 @@ import play.Logger;
 
 public class SmsMessageClient {
 
-  private ParameterService parameterService = new ParameterService();
-
   public String sendSms(SmsMessage smsMessage) {
-    HttpClient httpClient = new HttpClient();
-    String result = null;
+      Logger.info("========sendSms ws interface start===============");
 
-    try {
-      String url = parameterService.getParameterByName(ParameterConst.SMS_URL);
-      String account = parameterService.getParameterByName(ParameterConst.SMS_ACCOUNT);
-      String password = parameterService.getParameterByName(ParameterConst.SMS_PASSWORD);
-      String channel = parameterService.getParameterByName(ParameterConst.SMS_CHANNEL);
-      String warrantyCode = parameterService.getParameterByName(ParameterConst.SMS_WARRANTYCODE);
-      PostMethod postMethod = new PostMethod(url);
-      postMethod.addRequestHeader("Content-Type", "application/x-www-form-urlencoded;charset=gbk");// 在头文件中设置转码
+      JsonNode json = Json.newObject()
+              .put("mobile", smsMessage.getMobile())
+              .put("content", smsMessage.getContent())
+              .put("smsid", smsMessage.getSmsId());
 
-      NameValuePair[] data = {
-          new NameValuePair("account", account),
-          new NameValuePair("password", formatPwd(password, warrantyCode)),
-          new NameValuePair("mobile", smsMessage.getMobile()),
-          new NameValuePair("content", smsMessage.getContent()),
-          new NameValuePair("channel", channel),
-          new NameValuePair("smsid", smsMessage.getSmsId()),
-          new NameValuePair("sendType", "1")};
-      postMethod.setRequestBody(data);
-      int statusCode = httpClient.executeMethod(postMethod);
-      Logger.info("调用短信接口返回statusCode：" + statusCode);
+      String smsUrl = Play.application().configuration().getString("sms_url");
+      F.Promise<WSResponse> wsRequestHolder = WS.url(smsUrl).post(json);
 
-      result = postMethod.getResponseBodyAsString();
-      if (statusCode == HttpStatus.SC_OK) {
-        Logger.info("调用短信接口结果为：" + result);
-      } else {
-        Logger.info("调用短信接口失败：" + result);
-      }
-      postMethod.releaseConnection();
+      F.Promise<String> jsonPromise = wsRequestHolder.map(
+              new F.Function<WSResponse, String>() {
+                  public String apply(WSResponse response) {
+                      JsonNode json = response.asJson();
+                      MessageVo messageVo = Json.fromJson(json, MessageVo.class);
+                      String result = (String)messageVo.getValue();
 
-    } catch (Exception e) {
-      e.printStackTrace();
-      Logger.info(e.getMessage());
-    }
+                      Logger.info("========sendSms ws interface end===============" + result);
 
-    return result;
+                      return result;
+                  }
+              }
+      );
+
+      return jsonPromise.get(9000);
   }
-
-  private static String formatPwd(String pwd, String warrantyCode) {
-    String pwdFormat = new MD5Helper().encrypt(pwd + warrantyCode);
-    pwdFormat = pwdFormat.toLowerCase();
-    String zero = "";
-    for (int i = 0; i < 32 - pwdFormat.length(); i++) {
-      zero += "0";
-    }
-    return zero + pwdFormat;
-  }
-
 
 }

@@ -15,6 +15,8 @@ public class CustomerFormVo implements Serializable {
   private String gesturePassWord;//手势密码
   private String gestureOpened;//手势开启/关闭
 
+  private String recommendPhone;//推荐人手机号
+
   public CustomerFormVo() {
 
   }
@@ -98,4 +100,12 @@ public class CustomerFormVo implements Serializable {
   public void setGestureOpened(String gestureOpened) {
     this.gestureOpened = gestureOpened;
   }
+
+    public String getRecommendPhone() {
+        return recommendPhone;
+    }
+
+    public void setRecommendPhone(String recommendPhone) {
+        this.recommendPhone = recommendPhone;
+    }
 }

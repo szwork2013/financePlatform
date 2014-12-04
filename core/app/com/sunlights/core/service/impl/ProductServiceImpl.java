@@ -1,9 +1,16 @@
 package com.sunlights.core.service.impl;
 
 import com.sunlights.common.DictConst;
+import com.sunlights.common.FundCategory;
+import com.sunlights.common.MsgCode;
+import com.sunlights.common.Severity;
+import com.sunlights.common.dal.EntityBaseDao;
+import com.sunlights.common.exceptions.BusinessRuntimeException;
 import com.sunlights.common.service.PageService;
 import com.sunlights.common.utils.ArithUtil;
 import com.sunlights.common.utils.CommonUtil;
+import com.sunlights.common.utils.PropertyFilter;
+import com.sunlights.common.vo.Message;
 import com.sunlights.common.vo.PageVo;
 import com.sunlights.core.dal.FundDao;
 import com.sunlights.core.dal.impl.FundDaoImpl;
@@ -13,6 +20,7 @@ import com.sunlights.core.vo.FundVo;
 import com.sunlights.core.vo.Point;
 import com.sunlights.core.vo.ProductVo;
 import models.*;
+import play.libs.Json;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -27,7 +35,7 @@ import java.util.List;
  *
  * @author <a href="mailto:zhencai.yuan@sunlights.cc">yuanzhencai</a>
  */
-public class ProductServiceImpl implements ProductService {
+public class ProductServiceImpl extends EntityBaseDao implements ProductService {
 
     public static final String CHART_TYPE = "1";
     private PageService pageService = new PageService();
@@ -53,19 +61,38 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public List<FundVo> findFunds(PageVo pageVo) {
+        this.convertPageVo(pageVo);
         String currentDate = CommonUtil.dateToString(new Date(), CommonUtil.DATE_FORMAT_LONG);
         String jpql = " select new com.sunlights.core.vo.FundVo(f,pm)" +
                 " from FundNav f , ProductManage pm" +
                 " where f.fundcode = pm.productCode" +
                 " and pm.productStatus = '" + DictConst.FP_PRODUCT_MANAGE_STATUS_1 + "'" +
-                " and pm.productType = :productType" +
                 " and pm.upBeginTime < '" + currentDate + "'" +
                 " and pm.downEndTime >= '" + currentDate + "'" +
-                " and f.fundType = :fundType" +
+                "/~ and pm.productType = {productType} ~/" +
+                "/~ and f.fundType = {fundType} ~/" +
+                "/~ and f.isMonetary = {isMonetary} ~/" +
+                "/~ and f.isStf = {isStf} ~/" +
                 " order by pm.recommendType,pm.priorityLevel desc";
 
-        List<FundVo> fundVos = pageService.findBy(jpql, pageVo);
+        List<FundVo> fundVos = pageService.findXsqlBy(jpql, pageVo);
         return fundVos;
+    }
+
+    private void convertPageVo(PageVo pageVo) {
+        String category = (String) pageVo.get("EQS_category");
+        FundCategory fundCategory = FundCategory.findFundCategoryBy(category);
+        if(fundCategory == null) {
+            throw new BusinessRuntimeException(new Message(Severity.ERROR, MsgCode.SEARCH_FAIL_FUND_CATEGORY_EMPTY));
+        }
+        if (FundCategory.MONETARY.equals(fundCategory)) {
+            pageVo.put("EQI_isMonetary", 1);
+            pageVo.put("EQI_isStf", 0);
+        } else if (FundCategory.STF.equals(fundCategory)) {
+            pageVo.put("EQI_isMonetary", 0);
+            pageVo.put("EQI_isStf", 1);
+        }
+
     }
 
     public Fund findFundByCode(String fundCode) {
@@ -73,7 +100,7 @@ public class ProductServiceImpl implements ProductService {
         return fund;
     }
 
-    public FundNav findFundNavByCode(String fundCode){
+    public FundNav findFundNavByCode(String fundCode) {
         return fundDao.findFundNavByCode(fundCode);
     }
 
@@ -115,7 +142,7 @@ public class ProductServiceImpl implements ProductService {
             chartVo.setPrdName(fundInfo.getValue());
         }
         for (FundProfitHistory fundHistory : fundHistories) {
-            chartVo.getPoints().add(new Point(CommonUtil.dateToString(fundHistory.getDateTime(), CommonUtil.DATE_FORMAT_SHORT),  ArithUtil.mul(fundHistory.getPercentSevenDays().doubleValue(), 100) + ""));
+            chartVo.getPoints().add(new Point(CommonUtil.dateToString(fundHistory.getDateTime(), CommonUtil.DATE_FORMAT_SHORT), ArithUtil.mul(fundHistory.getPercentSevenDays().doubleValue(), 100) + ""));
         }
         return chartVo;
     }
@@ -139,6 +166,7 @@ public class ProductServiceImpl implements ProductService {
 
     /**
      * 根据基金代码查询相应天数的万份收益和七日年华利率
+     *
      * @param chartType
      * @param fundCode
      * @param days
@@ -147,17 +175,67 @@ public class ProductServiceImpl implements ProductService {
     @Override
     public ChartVo findProfitHistoryByDays(String chartType, String fundCode, int days) {
         List<FundProfitHistory> fundHisLst = fundDao.findFundProfitHistoryByDays(fundCode, days);
-        if (fundHisLst==null ||fundHisLst.isEmpty()) {
+        if (fundHisLst == null || fundHisLst.isEmpty()) {
             return null;
         }
         return getChartVo(chartType, fundCode, fundHisLst);
+    }
+
+    @Override
+    public void createProductAttention(List<ProductVo> productVos, String customerId) {
+        Date date = new Date();
+
+        for (ProductVo productVo : productVos) {
+            ProductAttention productAttention = findProductAttentionBy(customerId, productVo.getCode());
+            if (productAttention == null) {
+                productAttention = new ProductAttention();
+            }
+            productAttention.setCreateTime(date);
+            productAttention.setCustomerId(customerId);
+            productAttention.setProductCode(productVo.getCode());
+            productAttention.setProductType(productVo.getType());
+            super.update(productAttention);
+        }
+    }
+
+    private ProductAttention findProductAttentionBy(String customerId, String productCode) {
+        List<PropertyFilter> filters = new ArrayList<PropertyFilter>();
+        PropertyFilter customerIdFilter = new PropertyFilter("EQS_customerId", customerId);
+        PropertyFilter productCodeFilter = new PropertyFilter("EQS_productCode", productCode);
+        filters.add(customerIdFilter);
+        filters.add(productCodeFilter);
+        List<ProductAttention> productAttentions = super.find(ProductAttention.class, filters);
+        return productAttentions.isEmpty() ? null : productAttentions.get(0);
+    }
+
+    @Override
+    public void cancelProductAttention(ProductVo productVo, String customerId) {
+        ProductAttention productAttention = findProductAttentionBy(customerId, productVo.getCode());
+        super.delete(productAttention);
+    }
+
+    @Override
+    public List<ProductVo> findProductAttentions(PageVo pageVo, String customerId) {
+        String currentDate = CommonUtil.dateToString(new Date(), CommonUtil.DATE_FORMAT_LONG);
+        StringBuffer jpql = new StringBuffer();
+        jpql.append(" select new com.sunlights.core.vo.FundVo(f,pm)");
+        jpql.append(" from FundNav f , ProductManage pm, ProductAttention pa");
+        jpql.append(" where f.fundcode = pm.productCode");
+        jpql.append(" and pm.upBeginTime < '" + currentDate + "'");
+        jpql.append(" and pm.downEndTime >= '" + currentDate + "'");
+        jpql.append(" and pm.productStatus = '" + DictConst.FP_PRODUCT_MANAGE_STATUS_1 + "'");
+        jpql.append(" and f.fundcode = pa.productCode and pa.productType = '" + DictConst.FP_PRODUCT_TYPE_1 + "'");
+        jpql.append(" order by pm.productType,pm.recommendType,pa.createTime desc");
+
+        List<ProductVo> productVos = pageService.findXsqlBy(jpql.toString(), pageVo);
+        return productVos;
     }
 
     private ChartVo getChartVo(String chartType, String fundCode, List<FundProfitHistory> fundHisLst) {
         ChartVo chartVo = new ChartVo();
         Code fundInfo = fundDao.findFundNameByFundCode(fundCode);
         chartVo.setPrdName(fundInfo.getValue());
-        chartVo.setChartName(CHART_TYPE.equals(chartType)? "万份收益走势":"七日年化走势");
+        chartVo.setChartName(CHART_TYPE.equals(chartType) ? "万份收益走势" : "七日年化走势");
         chartVo.setChartType(chartType);
         chartVo.setPrdCode(fundCode);
         setPoints(chartType, fundHisLst, chartVo);
@@ -170,9 +248,9 @@ public class ProductServiceImpl implements ProductService {
         for (FundProfitHistory fundHis : fundHisLst) {
             String date = CommonUtil.dateToString(fundHis.getDateTime(), CommonUtil.DATE_FORMAT_SHORT);
 
-            if(CHART_TYPE.equals(chartType)){
+            if (CHART_TYPE.equals(chartType)) {
                 points.add(new Point(date, ArithUtil.bigUpScale4(fundHis.getIncomePerTenThousand()) + ""));
-            }else {
+            } else {
                 points.add(new Point(date, ArithUtil.mul(fundHis.getPercentSevenDays().doubleValue(), 100) + ""));
             }
         }
@@ -182,7 +260,7 @@ public class ProductServiceImpl implements ProductService {
 
     private List<Point> sortPoints(List<Point> points) {
         List<Point> pointsTemp = new ArrayList<>();
-        for(int i=points.size()-1;i>=0;i--){
+        for (int i = points.size() - 1; i >= 0; i--) {
             pointsTemp.add(points.get(i));
         }
         return pointsTemp;

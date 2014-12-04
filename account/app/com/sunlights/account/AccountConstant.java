@@ -77,4 +77,9 @@ public interface AccountConstant {
   String ACTIVITY_CUSTONER_STATUS_NOMAL = "N";
 
   String ACTIVITY_CUSTONER_STATUS_FORBIDDEN = "F";
+
+
+  int ACCOUNT_COMMON_ZERO = 0;
+
+  int ACCOUNT_COMMON_ONE = 1;
 }

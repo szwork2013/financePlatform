@@ -1,5 +1,8 @@
 package com.sunlights.core.vo;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * <p>Project: fsp</p>
  * <p>Title: ProductParamter.java</p>
@@ -12,13 +15,14 @@ package com.sunlights.core.vo;
 public class ProductParameter {
     private int index;
     private int pageSize;
-    private Integer category;
+    private String category;
     private String type;
     private String code;
     private String chartType;
     private String prdCode;
     private int interval;
     private int days;
+    private List<String> codes = new ArrayList<String>();
 
     public int getIndex() {
         return index;
@@ -36,11 +40,11 @@ public class ProductParameter {
         this.pageSize = pageSize;
     }
 
-    public Integer getCategory() {
+    public String getCategory() {
         return category;
     }
 
-    public void setCategory(Integer category) {
+    public void setCategory(String category) {
         this.category = category;
     }
 
@@ -90,5 +94,13 @@ public class ProductParameter {
 
     public void setDays(int days) {
         this.days = days;
+    }
+
+    public List<String> getCodes() {
+        return codes;
+    }
+
+    public void setCodes(List<String> codes) {
+        this.codes = codes;
     }
 }

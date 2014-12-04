@@ -112,7 +112,8 @@ public class VerifyCodeService {
             MessageUtil.getInstance().setMessage(new Message(Severity.ERROR, MsgCode.CERTIFY_TIMEOUT));
             return false;
         }
-        if (!customerVerifyCode.getDeviceNo().equals(customerVerifyCodeVo.getDeviceNo())) {
+        if (customerVerifyCode.getDeviceNo() != null && customerVerifyCodeVo.getDeviceNo() != null
+                && !customerVerifyCode.getDeviceNo().equals(customerVerifyCodeVo.getDeviceNo())) {
             MessageUtil.getInstance().setMessage(new Message(Severity.ERROR, MsgCode.CERTIFY_DEVICE_NOT_MATCH));
             return false;
         }
