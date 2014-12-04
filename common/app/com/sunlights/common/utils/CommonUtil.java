@@ -80,7 +80,7 @@ public class CommonUtil {
             return "";
         }
 
-        if (format != null) {
+        if (format != null && format.length > 0) {
             return new SimpleDateFormat(format[0]).format(date);
         } else {
             return DATE_FORMAT.format(date);
