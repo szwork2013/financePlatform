@@ -24,6 +24,8 @@ public class RewardFlowRecordVo {
      * 本次活动得到的奖励数
      */
     private Long rewardAmtResult;
+
+    private BigDecimal rewardAmtFromTrans;
     /**
      * 奖励对应着折现
      */
@@ -140,5 +142,13 @@ public class RewardFlowRecordVo {
 
     public void setDetail(String detail) {
         this.detail = detail;
+    }
+
+    public BigDecimal getRewardAmtFromTrans() {
+        return rewardAmtFromTrans;
+    }
+
+    public void setRewardAmtFromTrans(BigDecimal rewardAmtFromTrans) {
+        this.rewardAmtFromTrans = rewardAmtFromTrans;
     }
 }

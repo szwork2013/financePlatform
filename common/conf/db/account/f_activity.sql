@@ -74,3 +74,15 @@ comment on column F_ACTIVITY.CREATE_BY is
 
 comment on column F_ACTIVITY.UPDATE_BY is 
 '修改人';
+
+ALTER TABLE f_activity DROP COLUMN type;
+
+ALTER TABLE f_activity ADD COLUMN IS_INVITER INT2;
+
+ALTER TABLE f_activity ADD COLUMN SHARE_URL VARCHAR(200);
+
+ALTER TABLE f_activity ADD COLUMN SHARE_TEXT varchar(3000);
+
+ALTER TABLE f_activity DROP COLUMN type;
+
+ALTER TABLE f_activity DROP COLUMN IS_INVITER;

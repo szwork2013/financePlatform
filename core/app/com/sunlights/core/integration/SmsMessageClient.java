@@ -1,7 +1,6 @@
 package com.sunlights.core.integration;
 
 import com.fasterxml.jackson.databind.JsonNode;
-import com.sunlights.common.service.ParameterService;
 import com.sunlights.common.vo.MessageVo;
 import models.SmsMessage;
 import play.Logger;
@@ -22,8 +21,6 @@ import play.libs.ws.WSResponse;
  */
 
 public class SmsMessageClient {
-
-  private ParameterService parameterService = new ParameterService();
 
   public String sendSms(SmsMessage smsMessage) {
       Logger.info("========sendSms ws interface start===============");

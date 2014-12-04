@@ -162,13 +162,40 @@ public class ActivityControllerTest extends BaseTest{
                         Logger.info("============testPurchaseObtainReward result====\n" + contentAsString(result));
                         if(custJoinActivity != null) {
                             assertThat(message.getMessage().getCode()).isEqualTo(MsgCode.NOT_CONFIG_ACTIVITY_SCENE.getCode());
-                            Logger.info("已经购买过。。。获取积分失败");
+                            Logger.info("没有配置活动场景");
                         } else {
                             assertThat(message.getMessage().getCode()).isEqualTo(MsgCode.OBTAIN_SUCC.getCode());
                             Logger.info("首次购买获取积分成功");
                         }
 
 
+                    }
+                });
+            }
+        });
+    }
+
+    @Test
+    public void testExchangeReward() {
+        running(fakeApplication(), new Runnable() {
+            public void run() {
+                Logger.info("============testPurchaseObtainReward start====");
+                JPA.withTransaction(new F.Callback0() {
+                    @Override
+                    public void invoke() throws Throwable {
+                        Map<String, String> formParams = new HashMap<String, String>();
+                        play.mvc.Result result = null;
+
+                        //2:签到获取金豆正常测试
+                        formParams = new HashMap<String, String>();
+                        formParams.put("scene", ActivityConstant.ACTIVITY_EXCHANGE_RED_PACKET_SCENE_CODE);
+                        formParams.put("exchangeAmt", "20");
+                        formParams.put("rewardType", "ART00H");
+                        formParams.put("bankCardNo", "111111111111111");
+                        result = getResult("/account/activity/exchange", formParams, cookie);
+                        assertThat(status(result)).isEqualTo(OK);
+
+                        Logger.info("============testPurchaseObtainReward result====\n" + contentAsString(result));
                     }
                 });
             }

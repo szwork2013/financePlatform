@@ -19,6 +19,7 @@ import models.CustomerSession;
 import org.apache.commons.lang3.StringUtils;
 import play.Logger;
 import play.db.jpa.Transactional;
+import play.libs.Json;
 import play.mvc.Result;
 
 import java.util.List;
@@ -106,7 +107,6 @@ public class ActivityController extends ActivityBaseController  {
     }
 
     public Result purchaseObtainReward() {
-
         //1：获取请求参数
         String token = getToken();
         ActivityParamter activityParamter = getActivityParamter();
@@ -157,5 +157,44 @@ public class ActivityController extends ActivityBaseController  {
         }
 
         return ok(messageUtil.toJson());
+    }
+
+    /**
+     * 奖励的兑换
+     *
+     * @return
+     */
+    public Result exchangeReward() {
+
+        String token = getToken();
+        ActivityParamter activityParamter = getActivityParamter();
+        String scene = activityParamter.getScene();
+        Message message = null;
+
+        CustomerSession customerSession = customerService.getCustomerSession(token);
+        String custNo = customerSession.getCustomerId();
+
+        ActivityRequestVo requestVo = new ActivityRequestVo();
+        ActivityResponseVo responseVo = new ActivityResponseVo();
+
+        requestVo.setCustId(custNo);
+        requestVo.setScene(scene);
+        requestVo.setRewardType(activityParamter.getRewardType());
+
+        requestVo.set("bankCardNo", activityParamter.getBankCardNo());
+        requestVo.set("exchangeAmt", activityParamter.getExchangeAmt());
+        requestVo.set("phone", activityParamter.getPhone());
+
+        activityHandlerService.service(requestVo, responseVo);
+
+        message = responseVo.getMessage();
+
+        if(MsgCode.OBTAIN_SUCC.getCode().equals(message.getCode())) {
+            Logger.info("兑换成功");
+        } else {
+            Logger.debug("兑换失败 ：" + message.getSummary());
+        }
+
+        return ok(Json.toJson("succ"));
     }
 }

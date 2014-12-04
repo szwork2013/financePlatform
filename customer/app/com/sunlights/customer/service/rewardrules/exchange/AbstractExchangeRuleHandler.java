@@ -5,6 +5,13 @@ import com.sunlights.customer.service.rewardrules.vo.ActivityResponseVo;
 import play.Logger;
 
 /**
+ * 兑换奖励功能链上节点处理类的模版方法
+ * 负责：
+ * 1：判断流程是否结束
+ * 2：如果流程没有结束则执行当前所在的处理类
+ * 3：判断是否这个处理类的下一个处理类是否为空，不为空的话则执行下一个处理类
+ * 4：如果需要做性能统计则打印当前处理类执行耗费的时间
+ *
  * Created by tangweiqun on 2014/12/3.
  */
 public abstract class AbstractExchangeRuleHandler implements ExchangeRuleHandler {

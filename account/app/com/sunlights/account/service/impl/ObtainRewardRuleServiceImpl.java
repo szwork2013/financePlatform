@@ -3,7 +3,7 @@ package com.sunlights.account.service.impl;
 import com.sunlights.account.dal.ObtainRewardRuleDao;
 import com.sunlights.account.dal.impl.ObtainRewardRuleDaoImpl;
 import com.sunlights.account.service.ObtainRewardRuleService;
-import com.sunlights.account.service.rewardrules.vo.ObtainRewardRuleVo;
+
 import models.ObtainRewardRule;
 
 import java.util.List;
@@ -21,8 +21,5 @@ public class ObtainRewardRuleServiceImpl implements ObtainRewardRuleService{
         return obtainRewardRuleDao.getByActivityId(activityId);
     }
 
-    @Override
-    public List<ObtainRewardRuleVo> getByVosActivityId(Long activityId) {
-        return null;
-    }
+
 }
