@@ -49,3 +49,5 @@ COMMENT ON COLUMN c_customer.reg_way IS '注册方式';
 COMMENT ON COLUMN c_customer.status IS '用户状态';
 COMMENT ON COLUMN c_customer.weibo IS '绑定微博号';
 COMMENT ON COLUMN c_customer.weixin IS '绑定微信号';
+
+ALTER TABLE c_customer ADD COLUMN recommend_phone VARCHAR(19);
