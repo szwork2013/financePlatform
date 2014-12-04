@@ -44,8 +44,8 @@ public class Customer extends IdEntity {
   private String property;//用户属性1.买家  2. 卖家  一期默认为买家
   @Column(length = 50, name = "DEVICE_NO")
   private String deviceNo;//注册设备号
-  @Column(length = 10, name = "REFERRAL_CODE")
-  private String referralCode;//推荐码
+  @Column(length = 11, name = "REFERRAL_MOBILE")
+  private String referralMobile;//推荐人手机号
   @Column(length = 50, name = "EMAIL")
   private String email;//绑定邮箱
   @Column(length = 20, name = "QQ")
@@ -178,14 +178,6 @@ public class Customer extends IdEntity {
     this.deviceNo = deviceNo;
   }
 
-  public String getReferralCode() {
-    return referralCode;
-  }
-
-  public void setReferralCode(String referralCode) {
-    this.referralCode = referralCode;
-  }
-
   public String getEmail() {
     return email;
   }
@@ -272,5 +264,13 @@ public class Customer extends IdEntity {
 
     public void setRecommendPhone(String recommendPhone) {
         this.recommendPhone = recommendPhone;
+    }
+
+    public String getReferralMobile() {
+        return referralMobile;
+    }
+
+    public void setReferralMobile(String referralMobile) {
+        this.referralMobile = referralMobile;
     }
 }
