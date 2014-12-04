@@ -53,13 +53,10 @@ public class RewardControllerTest extends BaseTest {
                         assertThat(status(result)).isEqualTo(OK);
                         final MessageVo message = toMessageVo(result);
 
-                        if (rewardFlows != null) {
-                            assertThat(message.getMessage().getCode()).isEqualTo(MsgCode.ALREADY_SIGN.getCode());
-                            assertThat("20141119102210010000000029").isEqualTo(rewardFlows.getCustId());
-                        } else {
+
                             assertThat(message.getMessage().getCode()).isEqualTo(MsgCode.ACTIVITY_QUERY_SUCC.getCode());
                         }
-                    }
+
                 });
 
             }

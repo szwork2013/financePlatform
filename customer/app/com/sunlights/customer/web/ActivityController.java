@@ -19,6 +19,7 @@ import models.CustomerSession;
 import org.apache.commons.lang3.StringUtils;
 import play.Logger;
 import play.db.jpa.Transactional;
+import play.libs.Json;
 import play.mvc.Result;
 
 import java.util.List;
@@ -194,6 +195,6 @@ public class ActivityController extends ActivityBaseController  {
             Logger.debug("兑换失败 ：" + message.getSummary());
         }
 
-        return ok();
+        return ok(Json.toJson("succ"));
     }
 }

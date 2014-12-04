@@ -162,7 +162,7 @@ public class ActivityControllerTest extends BaseTest{
                         Logger.info("============testPurchaseObtainReward result====\n" + contentAsString(result));
                         if(custJoinActivity != null) {
                             assertThat(message.getMessage().getCode()).isEqualTo(MsgCode.NOT_CONFIG_ACTIVITY_SCENE.getCode());
-                            Logger.info("已经购买过。。。获取积分失败");
+                            Logger.info("没有配置活动场景");
                         } else {
                             assertThat(message.getMessage().getCode()).isEqualTo(MsgCode.OBTAIN_SUCC.getCode());
                             Logger.info("首次购买获取积分成功");
@@ -194,7 +194,7 @@ public class ActivityControllerTest extends BaseTest{
                         formParams.put("bankCardNo", "111111111111111");
                         result = getResult("/account/activity/exchange", formParams, cookie);
                         assertThat(status(result)).isEqualTo(OK);
-                        final MessageVo message = toMessageVo(result);
+
                         Logger.info("============testPurchaseObtainReward result====\n" + contentAsString(result));
                     }
                 });

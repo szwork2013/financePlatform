@@ -1,6 +1,6 @@
 package com.sunlights.account.service;
 
-import com.sunlights.account.service.rewardrules.vo.RewardFlowRecordVo;
+
 import com.sunlights.account.vo.RewardResultVo;
 import models.RewardFlow;
 
@@ -19,6 +19,6 @@ public interface RewardFlowService {
 
     public RewardResultVo getLastObtainRewars(String custId, String scene);
 
-    public void genRewardFlow(RewardFlowRecordVo rewardFlowRecordVo);
+
 
 }
