@@ -26,6 +26,7 @@ import java.util.Map;
 
 /**
  * 生成资金流水（分邀请人和被邀请人）
+ *
  * Created by tangweiqun on 2014/12/2.
  */
 public class RewardFlowHandler extends AbstractObtainRuleHandler{
@@ -70,14 +71,17 @@ public class RewardFlowHandler extends AbstractObtainRuleHandler{
                 rewardFlowRecordVo.setRuleUrl(activityService.getFileFuleUrl(activity.getUrl(), "activity.html5Path"));
 
                 ObtainRewardCalculator calculator = RewardCalculatorFactory.getCalculator(activityScene.getScene());
+                Integer unit = obtainRewardRuleVo.getRewardTypeModel().getUnit();
                 if(calculator == null) {
                     rewardFlowRecordVo.setRewardAmtResult(obtainRewardRuleVo.getShouldReward());
+                    rewardFlowRecordVo.setRewardAmtFromTrans(BigDecimal.valueOf(obtainRewardRuleVo.getShouldReward()).divide(BigDecimal.valueOf(unit)));
                     rewardFlowRecordVo.setMoneyResult(obtainRewardRuleVo.getExchangeRewardRule().getRate().multiply(BigDecimal.valueOf(rewardFlowRecordVo.getRewardAmtResult())));
                     rewardFlowRecordVo.setNotGet(obtainRewardRuleVo.getShouldReward());
                     rewardFlowRecordVo.setStatus(ActivityConstant.ACTIVITY_CUSTONER_STATUS_NOMAL);
                 } else {
                     ObtainRewardCalcVo calcVo = calculator.calcObtainReward(requestVo, obtainRewardRuleVo);
                     rewardFlowRecordVo.setRewardAmtResult(calcVo.getRewardAmtResult());
+                    rewardFlowRecordVo.setRewardAmtFromTrans(BigDecimal.valueOf(calcVo.getRewardAmtResult()).divide(BigDecimal.valueOf(unit)));
                     rewardFlowRecordVo.setMoneyResult(calcVo.getRewardMoneyResult());
                     rewardFlowRecordVo.setNotGet(calcVo.getNotGet());
                     rewardFlowRecordVo.setStatus(calcVo.getStatus());

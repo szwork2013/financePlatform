@@ -16,11 +16,15 @@ import models.RewardType;
 import java.math.BigDecimal;
 
 /**
+ * 兑换奖励的校验节点处理类
+ * 1：检验兑换奖励的数量是否超限，超限的话则终止流程
+ * 2：判断兑换奖励的数量是否大于客户持有数量-冻结数量  如果大于的话则终止流程
+ *
  * Created by tangweiqun on 2014/12/3.
  */
 public class ExchangeValidHandler extends AbstractExchangeRuleHandler{
 
-    private ExchangeSceneService exchangeSceneService = new ExchangeSceneServiceImpl();
+
 
     private HoldRewardService holdRewardService = new HoldRewardServiceImpl();
 
@@ -34,27 +38,16 @@ public class ExchangeValidHandler extends AbstractExchangeRuleHandler{
 
     @Override
     public void exchangeInternal(ActivityRequestVo requestVo, ActivityResponseVo responseVo) throws Exception {
-
-        ExchangeScene exchangeScene = exchangeSceneService.findByscene(requestVo.getScene());
-        if(exchangeScene == null) {
-            Message message = new Message(Severity.INFO, MsgCode.NOT_CONFIG_ACTIVITY_SCENE);
-            responseVo.setMessage(message);
-            responseVo.setStatus(ActivityConstant.ACTIVITY_CUSTONER_STATUS_FORBIDDEN);
-            responseVo.setNotGet(0L);
-            responseVo.setAlreadyGet(0L);
-            responseVo.setFlowStop(true);
-            return;
-        }
+        ExchangeScene exchangeScene =requestVo.get("exchangeScene", ExchangeScene.class);
         RewardType rewardType = requestVo.get("rewardType", RewardType.class);
-        BigDecimal exchangeMoney = requestVo.get("exchangeAmt", BigDecimal.class);
+        String exchangeMoneyStr = requestVo.get("exchangeAmt", String.class);
+        BigDecimal exchangeMoney = BigDecimal.valueOf(Double.valueOf(exchangeMoneyStr));
+        //单位转换
         Long subRewardAmt = exchangeMoney.multiply(BigDecimal.valueOf(rewardType.getUnit())).longValue();
 
         if(subRewardAmt > exchangeScene.getExchangeLimit()) {
             Message message = new Message(Severity.INFO, MsgCode.EXCHANGE_OVER_LIMIT);
             responseVo.setMessage(message);
-            responseVo.setStatus(ActivityConstant.ACTIVITY_CUSTONER_STATUS_FORBIDDEN);
-            responseVo.setNotGet(0L);
-            responseVo.setAlreadyGet(0L);
             responseVo.setFlowStop(true);
             return;
         }
@@ -63,14 +56,11 @@ public class ExchangeValidHandler extends AbstractExchangeRuleHandler{
         if(totalReward < subRewardAmt) {
             Message message = new Message(Severity.INFO, MsgCode.EXCHANGE_OVER_LIMIT);
             responseVo.setMessage(message);
-            responseVo.setStatus(ActivityConstant.ACTIVITY_CUSTONER_STATUS_FORBIDDEN);
-            responseVo.setNotGet(0L);
-            responseVo.setAlreadyGet(0L);
+
             responseVo.setFlowStop(true);
             return;
         }
 
-        requestVo.set("exchangeScene", exchangeScene);
         requestVo.set("exchangeMoney", exchangeMoney);
         requestVo.set("subRewardAmt", subRewardAmt);
     }

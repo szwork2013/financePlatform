@@ -175,4 +175,31 @@ public class ActivityControllerTest extends BaseTest{
         });
     }
 
+    @Test
+    public void testExchangeReward() {
+        running(fakeApplication(), new Runnable() {
+            public void run() {
+                Logger.info("============testPurchaseObtainReward start====");
+                JPA.withTransaction(new F.Callback0() {
+                    @Override
+                    public void invoke() throws Throwable {
+                        Map<String, String> formParams = new HashMap<String, String>();
+                        play.mvc.Result result = null;
+
+                        //2:签到获取金豆正常测试
+                        formParams = new HashMap<String, String>();
+                        formParams.put("scene", ActivityConstant.ACTIVITY_EXCHANGE_RED_PACKET_SCENE_CODE);
+                        formParams.put("exchangeAmt", "20");
+                        formParams.put("rewardType", "ART00H");
+                        formParams.put("bankCardNo", "111111111111111");
+                        result = getResult("/account/activity/exchange", formParams, cookie);
+                        assertThat(status(result)).isEqualTo(OK);
+                        final MessageVo message = toMessageVo(result);
+                        Logger.info("============testPurchaseObtainReward result====\n" + contentAsString(result));
+                    }
+                });
+            }
+        });
+    }
+
 }

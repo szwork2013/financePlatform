@@ -2,6 +2,9 @@ package com.sunlights.customer.service.rewardrules;
 
 
 
+import com.sunlights.common.MsgCode;
+import com.sunlights.common.Severity;
+import com.sunlights.common.vo.Message;
 import com.sunlights.customer.service.rewardrules.vo.ActivityRequestVo;
 import com.sunlights.customer.service.rewardrules.vo.ActivityResponseVo;
 import play.Logger;
@@ -10,6 +13,17 @@ import java.util.List;
 
 /**
  * 活动处理服务
+ * 对外提供服务：1：参加活动获取奖励 2：兑换奖励
+ * 不管是获取奖励还是兑换奖励调用这个接口都必须传responseVo.setScene()（场景：对应着活动场景和兑换场景）
+ * 流程：
+ * 1：对请求特殊化处理
+ * 2：根据请求获取活动处理执行链（包括前过滤器，处理功能链，后过滤器）
+ * 3：适配我们当前系统是否支持这条功能链，如果支持的话则返回适配到的适配器，没有的话则直接返回
+ * 4：执行执行链中的前过滤器，执行返回false的话则直接返回
+ * 5：执行执行链中的处理功能链的逻辑
+ * 6：执行执行链中的后过滤器
+ * 7：清理请求对象中所占有的资源
+ *
  * Created by tangweiqun on 2014/12/1.
  */
 public class ActivityHandlerService {
@@ -22,7 +36,9 @@ public class ActivityHandlerService {
             mappedHandler = getHandler(requestVo);
 
             if(mappedHandler == null || mappedHandler.getHandler() == null) {
-                //TODO 没有找到处理类
+                Message message = new Message(Severity.INFO, MsgCode.NOT_CONFIG_ACTIVITY_SCENE);
+                responseVo.setMessage(message);
+                responseVo.setFlowStop(true);
                 return;
             }
 

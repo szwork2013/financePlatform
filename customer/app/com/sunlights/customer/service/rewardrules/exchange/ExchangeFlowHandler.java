@@ -12,6 +12,9 @@ import models.RewardType;
 import java.math.BigDecimal;
 
 /**
+ * 兑换奖励流程中的节点
+ * 负责冻结用户需要兑换的奖励，并产生兑换流水
+ *
  * Created by tangweiqun on 2014/12/3.
  */
 public class ExchangeFlowHandler extends AbstractExchangeRuleHandler{
@@ -30,14 +33,12 @@ public class ExchangeFlowHandler extends AbstractExchangeRuleHandler{
     public void exchangeInternal(ActivityRequestVo requestVo, ActivityResponseVo responseVo) throws Exception {
         BigDecimal exchangeMoney = requestVo.get("exchangeMoney", BigDecimal.class);
         Long subRewardAmt = requestVo.get("subRewardAmt", Long.class);
-
         ActivityScene activityScene = requestVo.get("activityScene", ActivityScene.class);
 
-
         holdRewardService.frozenReward(requestVo.getCustId(), requestVo.getRewardType(), subRewardAmt, exchangeMoney);
+
         RewardFlowRecordVo rewardFlowRecordVo = new RewardFlowRecordVo();
         rewardFlowRecordVo.setRewardAmtResult(subRewardAmt);
-
         rewardFlowRecordVo.setCustId(requestVo.getCustId());
         rewardFlowRecordVo.setOperatorType(ActivityConstant.REWARD_FLOW_EXCHANGE);
         rewardFlowRecordVo.setRewardType(requestVo.getRewardType());

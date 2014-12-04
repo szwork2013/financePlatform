@@ -7,6 +7,12 @@ import play.Logger;
 
 
 /**
+ * 获取奖励处理节点的模版方法类：
+ * 1：判断流程是否结束，如果结束则退出流程
+ * 2：执行当前节点处理类的逻辑
+ * 3：判断当前节点是否有下一个处理类，有的话则执行下一个处理类的逻辑
+ * 4：性能统计
+ *
  * Created by tangweiqun on 2014/12/2.
  */
 public abstract class AbstractObtainRuleHandler implements ObtainRuleHandler{
