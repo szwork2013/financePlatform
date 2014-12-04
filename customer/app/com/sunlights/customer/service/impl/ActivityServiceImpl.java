@@ -45,7 +45,8 @@ public class ActivityServiceImpl implements ActivityService{
         return activityVos;
     }
 
-    private String getFileFuleUrl(String fileName, String remotDir) {
+    @Override
+    public String getFileFuleUrl(String fileName, String remotDir) {
         String server = Configuration.root().getString("activity.server");
         String port = Configuration.root().getString("activity.port");
         String remoteDir = Configuration.root().getString(remotDir);

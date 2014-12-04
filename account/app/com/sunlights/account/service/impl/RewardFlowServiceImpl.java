@@ -4,6 +4,7 @@ import com.sunlights.account.AccountConstant;
 import com.sunlights.account.dal.RewardFlowDao;
 import com.sunlights.account.dal.impl.RewardFlowDaoImpl;
 import com.sunlights.account.service.RewardFlowService;
+import com.sunlights.account.service.rewardrules.vo.RewardFlowRecordVo;
 import com.sunlights.account.vo.RewardResultVo;
 import com.sunlights.common.utils.CommonUtil;
 import models.RewardFlow;
@@ -83,5 +84,10 @@ public class RewardFlowServiceImpl implements RewardFlowService {
         }
 
         return null;
+    }
+
+    @Override
+    public void genRewardFlow(RewardFlowRecordVo rewardFlowRecordVo) {
+
     }
 }

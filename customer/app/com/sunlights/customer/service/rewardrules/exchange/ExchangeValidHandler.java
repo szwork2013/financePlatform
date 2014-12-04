@@ -50,7 +50,7 @@ public class ExchangeValidHandler extends AbstractExchangeRuleHandler{
         Long subRewardAmt = exchangeMoney.multiply(BigDecimal.valueOf(rewardType.getUnit())).longValue();
 
         if(subRewardAmt > exchangeScene.getExchangeLimit()) {
-            Message message = new Message(Severity.INFO, MsgCode.EXCHANG_OVER_LIMIT);
+            Message message = new Message(Severity.INFO, MsgCode.EXCHANGE_OVER_LIMIT);
             responseVo.setMessage(message);
             responseVo.setStatus(ActivityConstant.ACTIVITY_CUSTONER_STATUS_FORBIDDEN);
             responseVo.setNotGet(0L);
@@ -61,7 +61,7 @@ public class ExchangeValidHandler extends AbstractExchangeRuleHandler{
 
         Long totalReward = holdRewardService.getHoldRewardByCustId(requestVo.getCustId(), requestVo.getRewardType());
         if(totalReward < subRewardAmt) {
-            Message message = new Message(Severity.INFO, MsgCode.EXCHANG_OVER_LIMIT);
+            Message message = new Message(Severity.INFO, MsgCode.EXCHANGE_OVER_LIMIT);
             responseVo.setMessage(message);
             responseVo.setStatus(ActivityConstant.ACTIVITY_CUSTONER_STATUS_FORBIDDEN);
             responseVo.setNotGet(0L);

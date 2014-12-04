@@ -102,7 +102,9 @@ public enum MsgCode {
     NOT_CONFIG_ACTIVITY_SCENE("2221", "没有配置活动场景"),
     ALREADY_PURCHASE("2222", "不是首次购买"),
     ALREADY_REGISTER("2223", "已经注册"),
-    EXCHANG_OVER_LIMIT("2224", "兑换数量超额");
+    EXCHANGE_OVER_LIMIT("2224", "兑换数量超额"),
+    NOT_CAN_ATTEND_ACTIVITY("2225", "该客户不能参加此活动"),
+    NOT_SUPPORT_TRADE_TYPE("2226", "不支持的交易类型");
 
 
     private String code;

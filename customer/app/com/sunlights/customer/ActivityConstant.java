@@ -99,4 +99,7 @@ public interface ActivityConstant {
 
     int ACCOUNT_COMMON_ONE = 1;
 
+    String TRADE_TYPE_PURCHASE = "0";
+    String TRADE_TYPE_REDEEM = "1";
+
 }

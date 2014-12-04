@@ -1,5 +1,6 @@
 package com.sunlights.account.service;
 
+import com.sunlights.account.service.rewardrules.vo.ObtainRewardRuleVo;
 import models.ObtainRewardRule;
 
 import java.util.List;
@@ -10,6 +11,8 @@ import java.util.List;
 public interface ObtainRewardRuleService {
 
     public List<ObtainRewardRule> getByActivityId(Long activityId);
+
+    public List<ObtainRewardRuleVo> getByVosActivityId(Long activityId);
 
 
 }

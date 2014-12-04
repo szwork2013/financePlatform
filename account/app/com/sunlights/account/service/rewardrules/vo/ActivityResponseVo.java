@@ -1,10 +1,6 @@
-package com.sunlights.customer.service.rewardrules.vo;
+package com.sunlights.account.service.rewardrules.vo;
 
-import com.sunlights.common.MsgCode;
-import com.sunlights.common.Severity;
 import com.sunlights.common.vo.Message;
-import com.sunlights.customer.vo.ActivityResultVo;
-import com.sunlights.customer.vo.ObtainRewardVo;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -19,15 +15,11 @@ public class ActivityResponseVo {
 
     private String status;
 
-    private Message message = new Message(Severity.INFO, MsgCode.OBTAIN_SUCC);
+    private Message message;
 
     private boolean isFlowStop;
 
     private List<RewardFlowRecordVo> rewardFlowRecordVos;
-
-    private List<ObtainRewardVo>  obtainRewardVos ;
-
-    private List<ActivityResultVo> activityResultVos;
 
     public Long getAlreadyGet() {
         return alreadyGet;
@@ -83,29 +75,5 @@ public class ActivityResponseVo {
         }
 
         rewardFlowRecordVos.add(rewardFlowRecordVo);
-    }
-
-    public List<ObtainRewardVo> getObtainRewardVo() {
-        return obtainRewardVos;
-    }
-
-    public void addObtainRewardVo(ObtainRewardVo obtainRewardVo) {
-        if(this.obtainRewardVos == null) {
-            obtainRewardVos = new ArrayList<ObtainRewardVo>();
-        }
-
-        obtainRewardVos.add(obtainRewardVo);
-    }
-
-    public void addActivityResultVo(ActivityResultVo activityResultVo) {
-        if(this.activityResultVos == null) {
-            activityResultVos = new ArrayList<ActivityResultVo>();
-        }
-
-        activityResultVos.add(activityResultVo);
-    }
-
-    public List<ActivityResultVo> getActivityResultVos() {
-        return activityResultVos;
     }
 }

@@ -2,12 +2,15 @@ package com.sunlights.account.web;
 
 import com.sunlights.BaseTest;
 
+import com.sunlights.account.service.CustJoinActivityService;
 import com.sunlights.common.MsgCode;
 import com.sunlights.common.vo.MessageVo;
 import com.sunlights.customer.ActivityConstant;
 import com.sunlights.customer.service.RewardFlowService;
+import com.sunlights.customer.service.impl.CustJoinActivityServiceImpl;
 import com.sunlights.customer.service.impl.RewardFlowServiceImpl;
 import com.sunlights.customer.vo.RewardResultVo;
+import models.CustJoinActivity;
 import models.RewardFlow;
 import org.junit.Before;
 import org.junit.Test;
@@ -145,23 +148,27 @@ public class ActivityControllerTest extends BaseTest{
 
                         RewardFlowService rewardFlowService = new RewardFlowServiceImpl();
                         RewardResultVo rewardResultVo = rewardFlowService.getLastObtainRewars("20141119102210010000000029", ActivityConstant.ACTIVITY_FIRST_PURCHASE_SCENE_CODE);
-
+                        com.sunlights.customer.service.CustJoinActivityService custJoinActivityService = new CustJoinActivityServiceImpl();
+                        CustJoinActivity custJoinActivity = custJoinActivityService.getByCustAndActivity("20141119102210010000000029", null, ActivityConstant.ACTIVITY_FIRST_PURCHASE_SCENE_CODE);
                         //2:签到获取金豆正常测试
                         formParams = new HashMap<String, String>();
+                        formParams.put("tradeType", "0");
+                        formParams.put("fundCode", "33376");
+                        formParams.put("supplySum", "20");
 
-                        result = getResult("/account/activity/purchase", formParams, cookie);
+                        result = getResult("/account/activity/trade", formParams, cookie);
                         assertThat(status(result)).isEqualTo(OK);
                         final MessageVo message = toMessageVo(result);
-
-                        if(rewardResultVo != null) {
-                            assertThat(message.getMessage().getCode()).isEqualTo(MsgCode.ALREADY_PURCHASE.getCode());
+                        Logger.info("============testPurchaseObtainReward result====\n" + contentAsString(result));
+                        if(custJoinActivity != null) {
+                            assertThat(message.getMessage().getCode()).isEqualTo(MsgCode.NOT_CONFIG_ACTIVITY_SCENE.getCode());
                             Logger.info("已经购买过。。。获取积分失败");
                         } else {
                             assertThat(message.getMessage().getCode()).isEqualTo(MsgCode.OBTAIN_SUCC.getCode());
                             Logger.info("首次购买获取积分成功");
                         }
 
-                        Logger.info("============testPurchaseObtainReward result====\n" + contentAsString(result));
+
                     }
                 });
             }

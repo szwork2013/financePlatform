@@ -1,4 +1,4 @@
-package com.sunlights.customer.service.rewardrules.calculate;
+package com.sunlights.account.service.rewardrules.calculate;
 
 import java.math.BigDecimal;
 
@@ -16,30 +16,6 @@ public class ObtainRewardCalcVo {
      */
     private BigDecimal rewardMoneyResult;
 
-    private String detail;
-
-
-    private Long notGet;
-
-
-    private String status;
-
-    public String getStatus() {
-        return status;
-    }
-
-    public void setStatus(String status) {
-        this.status = status;
-    }
-
-    public Long getNotGet() {
-        return notGet;
-    }
-
-    public void setNotGet(Long notGet) {
-        this.notGet = notGet;
-    }
-
     public Long getRewardAmtResult() {
         return rewardAmtResult;
     }
@@ -54,13 +30,5 @@ public class ObtainRewardCalcVo {
 
     public void setRewardMoneyResult(BigDecimal rewardMoneyResult) {
         this.rewardMoneyResult = rewardMoneyResult;
-    }
-
-    public String getDetail() {
-        return detail;
-    }
-
-    public void setDetail(String detail) {
-        this.detail = detail;
     }
 }

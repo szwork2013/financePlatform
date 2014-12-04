@@ -13,9 +13,11 @@ public class ActivityParamter {
      */
     private String scene;
 
-    private String prdCode;
+    private String fundCode;
 
-    private String prdType;
+    private String supplySum;
+
+    private String tradeType;
 
     private int index;
     private int pageSize;
@@ -53,19 +55,27 @@ public class ActivityParamter {
         this.scene = scene;
     }
 
-    public String getPrdCode() {
-        return prdCode;
+    public String getFundCode() {
+        return fundCode;
     }
 
-    public void setPrdCode(String prdCode) {
-        this.prdCode = prdCode;
+    public void setFundCode(String fundCode) {
+        this.fundCode = fundCode;
     }
 
-    public String getPrdType() {
-        return prdType;
+    public String getSupplySum() {
+        return supplySum;
     }
 
-    public void setPrdType(String prdType) {
-        this.prdType = prdType;
+    public void setSupplySum(String supplySum) {
+        this.supplySum = supplySum;
+    }
+
+    public String getTradeType() {
+        return tradeType;
+    }
+
+    public void setTradeType(String tradeType) {
+        this.tradeType = tradeType;
     }
 }

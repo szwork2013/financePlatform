@@ -1,4 +1,4 @@
-package com.sunlights.customer.service.rewardrules.vo;
+package com.sunlights.account.service.rewardrules.vo;
 
 import java.math.BigDecimal;
 
@@ -6,8 +6,6 @@ import java.math.BigDecimal;
  * Created by tangweiqun on 2014/12/2.
  */
 public class RewardFlowRecordVo {
-
-    private String scene;
 
     private String custId;
 
@@ -18,8 +16,6 @@ public class RewardFlowRecordVo {
     private String activityType;
 
     private String rewardType;
-
-    private Integer operatorType;
     /**
      * 本次活动得到的奖励数
      */
@@ -28,23 +24,6 @@ public class RewardFlowRecordVo {
      * 奖励对应着折现
      */
     private BigDecimal moneyResult;
-
-
-    private Long notGet;
-
-    private String status;
-
-    private String ruleUrl;
-
-    private String detail;
-
-    public String getStatus() {
-        return status;
-    }
-
-    public void setStatus(String status) {
-        this.status = status;
-    }
 
     public String getCustId() {
         return custId;
@@ -100,45 +79,5 @@ public class RewardFlowRecordVo {
 
     public void setMoneyResult(BigDecimal moneyResult) {
         this.moneyResult = moneyResult;
-    }
-
-    public String getScene() {
-        return scene;
-    }
-
-    public void setScene(String scene) {
-        this.scene = scene;
-    }
-
-    public Long getNotGet() {
-        return notGet;
-    }
-
-    public void setNotGet(Long notGet) {
-        this.notGet = notGet;
-    }
-
-    public Integer getOperatorType() {
-        return operatorType;
-    }
-
-    public void setOperatorType(Integer operatorType) {
-        this.operatorType = operatorType;
-    }
-
-    public String getRuleUrl() {
-        return ruleUrl;
-    }
-
-    public void setRuleUrl(String ruleUrl) {
-        this.ruleUrl = ruleUrl;
-    }
-
-    public String getDetail() {
-        return detail;
-    }
-
-    public void setDetail(String detail) {
-        this.detail = detail;
     }
 }

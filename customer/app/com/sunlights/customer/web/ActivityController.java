@@ -14,10 +14,7 @@ import com.sunlights.customer.service.rewardrules.IObtainRewardRule;
 import com.sunlights.customer.service.rewardrules.RewardRuleFactory;
 import com.sunlights.customer.service.rewardrules.vo.ActivityRequestVo;
 import com.sunlights.customer.service.rewardrules.vo.ActivityResponseVo;
-import com.sunlights.customer.vo.ActivityParamter;
-import com.sunlights.customer.vo.ActivityVo;
-import com.sunlights.customer.vo.ObtainRewardVo;
-import com.sunlights.customer.vo.RewardResultVo;
+import com.sunlights.customer.vo.*;
 import models.CustomerSession;
 import org.apache.commons.lang3.StringUtils;
 import play.Logger;
@@ -85,9 +82,7 @@ public class ActivityController extends ActivityBaseController  {
         requestVo.setCustId(custNo);
         requestVo.setScene(scene);
 
-        //购买场景时会用到的字段
-        requestVo.set("prdCode", activityParamter.getPrdCode());
-        requestVo.set("prdType", activityParamter.getPrdType());
+
 
         activityHandlerService.service(requestVo, responseVo);
 
@@ -111,6 +106,56 @@ public class ActivityController extends ActivityBaseController  {
     }
 
     public Result purchaseObtainReward() {
-        return obtainReward(ActivityConstant.ACTIVITY_PURCHASE_SCENE_CODE);
+
+        //1：获取请求参数
+        String token = getToken();
+        ActivityParamter activityParamter = getActivityParamter();
+        String scene = "";
+        Message message = null;
+        if(ActivityConstant.TRADE_TYPE_PURCHASE.equals(activityParamter.getTradeType())) {
+            scene = ActivityConstant.ACTIVITY_PURCHASE_SCENE_CODE;
+        } else {
+            Logger.debug("不支持的交易类型tradeType = " + activityParamter.getTradeType());
+            message = new Message(Severity.INFO, MsgCode.NOT_SUPPORT_TRADE_TYPE);
+            TradeObtainRewardFailVo tradeObtainRewardFailVo = new TradeObtainRewardFailVo();
+            tradeObtainRewardFailVo.setFundCode(activityParamter.getFundCode());
+            tradeObtainRewardFailVo.setSupplySum(activityParamter.getSupplySum());
+            messageUtil.setMessage(message, tradeObtainRewardFailVo);
+            return ok(messageUtil.toJson());
+        }
+
+        //2:获取获取奖励需要的参数
+        CustomerSession customerSession = customerService.getCustomerSession(token);
+        String custNo = customerSession.getCustomerId();
+
+        ActivityRequestVo requestVo = new ActivityRequestVo();
+        ActivityResponseVo responseVo = new ActivityResponseVo();
+
+        requestVo.setCustId(custNo);
+        requestVo.setScene(scene);
+
+        //购买场景时会用到的字段
+        requestVo.set("prdCode", activityParamter.getFundCode());
+        requestVo.set("supplySum", activityParamter.getSupplySum());
+
+        activityHandlerService.service(requestVo, responseVo);
+
+        message = responseVo.getMessage();
+        List<ActivityResultVo> activityResultVos = responseVo.getActivityResultVos();
+
+        if(MsgCode.OBTAIN_SUCC.getCode().equals(message.getCode())) {
+            TradeObtainRewardSuccVo tradeObtainRewardSuccVo = new TradeObtainRewardSuccVo();
+            tradeObtainRewardSuccVo.setFundCode(activityParamter.getFundCode());
+            tradeObtainRewardSuccVo.setSupplySum(activityParamter.getSupplySum());
+            tradeObtainRewardSuccVo.setRecords(activityResultVos);
+            messageUtil.setMessage(responseVo.getMessage(), tradeObtainRewardSuccVo);
+        } else {
+            TradeObtainRewardFailVo tradeObtainRewardFailVo = new TradeObtainRewardFailVo();
+            tradeObtainRewardFailVo.setFundCode(activityParamter.getFundCode());
+            tradeObtainRewardFailVo.setSupplySum(activityParamter.getSupplySum());
+            messageUtil.setMessage(responseVo.getMessage(), tradeObtainRewardFailVo);
+        }
+
+        return ok(messageUtil.toJson());
     }
 }

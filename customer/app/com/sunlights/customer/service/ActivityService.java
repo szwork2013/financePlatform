@@ -23,5 +23,7 @@ public interface ActivityService {
 
 
     public List<String> getActivityTitles(String prdCode);
+    public String getFileFuleUrl(String fileName, String remotDir);
+
 
 }

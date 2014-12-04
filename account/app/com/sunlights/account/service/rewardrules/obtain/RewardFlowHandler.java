@@ -1,24 +1,16 @@
-package com.sunlights.customer.service.rewardrules.obtain;
+package com.sunlights.account.service.rewardrules.obtain;
 
-
-import com.sunlights.customer.ActivityConstant;
-import com.sunlights.customer.service.ActivityService;
-import com.sunlights.customer.service.HoldRewardService;
-import com.sunlights.customer.service.RewardFlowService;
-import com.sunlights.customer.service.impl.ActivityServiceImpl;
-import com.sunlights.customer.service.impl.HoldRewardServiceImpl;
-import com.sunlights.customer.service.impl.RewardFlowServiceImpl;
-import com.sunlights.customer.service.rewardrules.calculate.ObtainRewardCalcVo;
-import com.sunlights.customer.service.rewardrules.calculate.ObtainRewardCalculator;
-import com.sunlights.customer.service.rewardrules.calculate.RewardCalculatorFactory;
-import com.sunlights.customer.service.rewardrules.vo.ActivityRequestVo;
-import com.sunlights.customer.service.rewardrules.vo.ActivityResponseVo;
-import com.sunlights.customer.service.rewardrules.vo.ObtainRewardRuleVo;
-import com.sunlights.customer.service.rewardrules.vo.RewardFlowRecordVo;
+import com.sunlights.account.AccountConstant;
+import com.sunlights.account.service.RewardFlowService;
+import com.sunlights.account.service.rewardrules.calculate.ObtainRewardCalcVo;
+import com.sunlights.account.service.rewardrules.calculate.ObtainRewardCalculator;
+import com.sunlights.account.service.rewardrules.calculate.RewardCalculatorFactory;
+import com.sunlights.account.service.rewardrules.vo.ActivityRequestVo;
+import com.sunlights.account.service.rewardrules.vo.ActivityResponseVo;
+import com.sunlights.account.service.rewardrules.vo.ObtainRewardRuleVo;
+import com.sunlights.account.service.rewardrules.vo.RewardFlowRecordVo;
 import models.Activity;
 import models.ActivityScene;
-import org.apache.commons.lang3.StringUtils;
-import play.Logger;
 
 import java.math.BigDecimal;
 import java.util.List;
@@ -29,9 +21,7 @@ import java.util.Map;
  * Created by tangweiqun on 2014/12/2.
  */
 public class RewardFlowHandler extends AbstractObtainRuleHandler{
-    private HoldRewardService holdRewardService = new HoldRewardServiceImpl();
-
-    private ActivityService activityService = new ActivityServiceImpl();
+    private RewardFlowService rewardFlowService = null;
 
     public RewardFlowHandler() {
 
@@ -53,39 +43,29 @@ public class RewardFlowHandler extends AbstractObtainRuleHandler{
             }
             for(ObtainRewardRuleVo obtainRewardRuleVo : obtainRewardRuleVos) {
                 RewardFlowRecordVo rewardFlowRecordVo = new RewardFlowRecordVo();
-                if(obtainRewardRuleVo.getInviter() == ActivityConstant.ACCOUNT_COMMON_ONE && StringUtils.isNotEmpty(requestVo.getRecommendCustId())) {
+                if(obtainRewardRuleVo.getInviter() == AccountConstant.ACCOUNT_COMMON_ONE) {
                     rewardFlowRecordVo.setCustId(requestVo.getRecommendCustId());
-                } else if (obtainRewardRuleVo.getInviter() == ActivityConstant.ACCOUNT_COMMON_ZERO){
-                    rewardFlowRecordVo.setCustId(requestVo.getCustId());
                 } else {
-                    Logger.info("没有推荐人，继续下一个获取规则的执行");
-                    continue;
+                    rewardFlowRecordVo.setCustId(requestVo.getCustId());
                 }
                 rewardFlowRecordVo.setActivityId(activity.getId());
                 rewardFlowRecordVo.setActivityTitle(activity.getTitle());
                 rewardFlowRecordVo.setActivityType(activityScene.getActivityType());
                 rewardFlowRecordVo.setRewardType(obtainRewardRuleVo.getRewardType());
-                rewardFlowRecordVo.setScene(requestVo.getScene());
-                rewardFlowRecordVo.setOperatorType(ActivityConstant.REWARD_FLOW_OBTAIN);
-                rewardFlowRecordVo.setRuleUrl(activityService.getFileFuleUrl(activity.getUrl(), "activity.html5Path"));
 
                 ObtainRewardCalculator calculator = RewardCalculatorFactory.getCalculator(activityScene.getScene());
                 if(calculator == null) {
                     rewardFlowRecordVo.setRewardAmtResult(obtainRewardRuleVo.getShouldReward());
                     rewardFlowRecordVo.setMoneyResult(obtainRewardRuleVo.getExchangeRewardRule().getRate().multiply(BigDecimal.valueOf(rewardFlowRecordVo.getRewardAmtResult())));
-                    rewardFlowRecordVo.setNotGet(obtainRewardRuleVo.getShouldReward());
-                    rewardFlowRecordVo.setStatus(ActivityConstant.ACTIVITY_CUSTONER_STATUS_NOMAL);
                 } else {
                     ObtainRewardCalcVo calcVo = calculator.calcObtainReward(requestVo, obtainRewardRuleVo);
                     rewardFlowRecordVo.setRewardAmtResult(calcVo.getRewardAmtResult());
                     rewardFlowRecordVo.setMoneyResult(calcVo.getRewardMoneyResult());
-                    rewardFlowRecordVo.setNotGet(calcVo.getNotGet());
-                    rewardFlowRecordVo.setStatus(calcVo.getStatus());
                 }
 
                 responseVo.addRewardFlowRecordVo(rewardFlowRecordVo);
 
-                holdRewardService.genRewardFlow(rewardFlowRecordVo);
+                rewardFlowService.genRewardFlow(rewardFlowRecordVo);
             }
         }
     }
