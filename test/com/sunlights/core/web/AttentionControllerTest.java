@@ -76,9 +76,9 @@ public class AttentionControllerTest extends BaseTest {
                 try {
                     ConverterUtil.convertMap2Object(map, pageVo);
                     if (!pageVo.getList().isEmpty()) {
-                        ProductVo productVo = (ProductVo) pageVo.getList().get(0);
+                        LinkedHashMap<String,String> productVoMap = (LinkedHashMap<String, String>) pageVo.getList().get(0);
                         paramMap = new HashMap<String, String>();
-                        paramMap.put("code",productVo.getCode());
+                        paramMap.put("code",productVoMap.get("code"));
                         FakeRequest cancelAttentionRequest = fakeRequest(POST, "/core/product/attention/cancel");
                         FakeRequest cancelAttentionFormRequest = cancelAttentionRequest.withHeader(CONTENT_TYPE, APPLICATION_X_WWW_FORM_URLENCODED).withFormUrlEncodedBody(paramMap);
                         cancelAttentionFormRequest.withCookies(cookie);

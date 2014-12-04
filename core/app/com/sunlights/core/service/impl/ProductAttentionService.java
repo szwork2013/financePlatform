@@ -30,8 +30,17 @@ public class ProductAttentionService extends EntityBaseDao implements AttentionS
     @Override
     public void createAttentions(List<AttentionVo> attentionVos) {
 
+        Date date = new Date();
+
         for (AttentionVo attentionVo : attentionVos) {
             ProductAttention productAttention = findAttentionBy(attentionVo);
+            if(productAttention == null) {
+                productAttention = new ProductAttention();
+                productAttention.setCreateTime(date);
+                productAttention.setCustomerId(attentionVo.getCustomerId());
+                productAttention.setProductCode(attentionVo.getCode());
+                productAttention.setProductType(attentionVo.getProductType());
+            }
             super.update(productAttention);
         }
     }
