@@ -1,8 +1,5 @@
 package com.sunlights.core.vo;
 
-import java.util.ArrayList;
-import java.util.List;
-
 /**
  * <p>Project: fsp</p>
  * <p>Title: ProductParamter.java</p>
@@ -22,7 +19,6 @@ public class ProductParameter {
     private String prdCode;
     private int interval;
     private int days;
-    private List<String> codes = new ArrayList<String>();
 
     public int getIndex() {
         return index;
@@ -96,11 +92,4 @@ public class ProductParameter {
         this.days = days;
     }
 
-    public List<String> getCodes() {
-        return codes;
-    }
-
-    public void setCodes(List<String> codes) {
-        this.codes = codes;
-    }
 }

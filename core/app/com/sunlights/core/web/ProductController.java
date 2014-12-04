@@ -40,76 +40,9 @@ import java.util.Map;
 @Transactional
 public class ProductController extends Controller {
     private Form<ProductParameter> productParameterForm = Form.form(ProductParameter.class);
-    private Form<ProductVo> productForm = Form.form(ProductVo.class);
-    private Form<PageVo> pageForm = Form.form(PageVo.class);
     private MessageUtil messageUtil = MessageUtil.getInstance();
 
     private ProductService productService = new ProductServiceImpl();
-    private CustomerService customerService = new CustomerService();
-
-    public Result createAttentions() {
-        Http.RequestBody body = request().body();
-        List<ProductVo> productVos = new ArrayList<ProductVo>();
-        if (body.asFormUrlEncoded() != null) {
-            ProductParameter parameter = productParameterForm.bindFromRequest().get();
-            List<String> codes = parameter.getCodes();
-            for (String code : codes) {
-                ProductVo productVo = new ProductVo();
-                productVo.setCode(code);
-                // 基金
-                productVo.setType(DictConst.FP_PRODUCT_TYPE_1);
-                productVos.add(productVo);
-            }
-        }
-        CustomerSession customerSession = customerService.validateCustomerSession(request(), session(), response());
-        productService.createProductAttention(productVos, customerSession.getCustomerId());
-        messageUtil.setMessage(new Message(Severity.INFO, MsgCode.OPERATE_SUCCESS));
-        return ok(messageUtil.toJson());
-    }
-
-    public Result cancelAttention() {
-        ProductVo productVo = new ProductVo();
-        Http.RequestBody body = request().body();
-        if (body.asFormUrlEncoded() != null) {
-            productVo = productForm.bindFromRequest().get();
-            CustomerSession customerSession = customerService.validateCustomerSession(request(), session(), response());
-            productService.cancelProductAttention(productVo, customerSession.getCustomerId());
-            messageUtil.setMessage(new Message(Severity.INFO, MsgCode.OPERATE_SUCCESS));
-            return ok(messageUtil.toJson());
-        }
-        messageUtil.setMessage(new Message(Severity.ERROR, MsgCode.OPERATE_FAILURE));
-        return ok(messageUtil.toJson());
-    }
-
-    public Result createAttention() {
-        ProductVo productVo = new ProductVo();
-        Http.RequestBody body = request().body();
-        List<ProductVo> productVos = new ArrayList<ProductVo>();
-        if (body.asFormUrlEncoded() != null) {
-            productVo = productForm.bindFromRequest().get();
-            // 基金
-            productVo.setType(DictConst.FP_PRODUCT_TYPE_1);
-            productVos.add(productVo);
-        }
-        CustomerSession customerSession = customerService.validateCustomerSession(request(), session(), response());
-        productService.createProductAttention(productVos, customerSession.getCustomerId());
-        messageUtil.setMessage(new Message(Severity.INFO, MsgCode.OPERATE_SUCCESS));
-        return ok(messageUtil.toJson());
-    }
-
-    public Result findAttentions() {
-        PageVo pageVo = new PageVo();
-        Http.RequestBody body = request().body();
-        if (body.asFormUrlEncoded() != null) {
-            pageVo = pageForm.bindFromRequest().get();
-        }
-        CustomerSession customerSession = customerService.validateCustomerSession(request(), session(), response());
-
-        List<ProductVo> productVos = productService.findProductAttentions(pageVo, customerSession.getCustomerId());
-        pageVo.setList(productVos);
-        messageUtil.setMessage(new Message(Severity.INFO, MsgCode.OPERATE_SUCCESS), pageVo);
-        return ok(messageUtil.toJson());
-    }
 
     public Result findProductsBy() {
         PageVo pageVo = new PageVo();

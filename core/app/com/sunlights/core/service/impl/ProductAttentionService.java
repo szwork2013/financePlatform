@@ -63,6 +63,7 @@ public class ProductAttentionService extends EntityBaseDao implements AttentionS
         jpql.append(" and pm.downEndTime >= '" + currentDate + "'");
         jpql.append(" and pm.productStatus = '" + DictConst.FP_PRODUCT_MANAGE_STATUS_1 + "'");
         jpql.append(" and f.fundcode = pa.productCode and pa.productType = '" + DictConst.FP_PRODUCT_TYPE_1 + "'");
+        jpql.append(" /~ and pa.customerId = {customerId} ~/ ");
         jpql.append(" order by pm.productType,pm.recommendType,pa.createTime desc");
         return pageService.findXsqlBy(jpql.toString(), pageVo);
     }
