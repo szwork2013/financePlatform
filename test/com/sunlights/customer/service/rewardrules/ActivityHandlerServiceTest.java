@@ -1,7 +1,6 @@
 package com.sunlights.customer.service.rewardrules;
 
-import com.sunlights.account.dal.RewardFlowDao;
-import com.sunlights.account.dal.impl.RewardFlowDaoImpl;
+
 import com.sunlights.customer.ActivityConstant;
 import com.sunlights.customer.service.rewardrules.vo.ActivityRequestVo;
 import com.sunlights.customer.service.rewardrules.vo.ActivityResponseVo;

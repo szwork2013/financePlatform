@@ -223,8 +223,10 @@ public class ActivityController extends ActivityBaseController  {
         message = responseVo.getMessage();
 
         if(MsgCode.OBTAIN_SUCC.getCode().equals(message.getCode())) {
+            //TODO
             Logger.info("兑换成功");
         } else {
+            //TODO
             Logger.debug("兑换失败 ：" + message.getSummary());
         }
 
