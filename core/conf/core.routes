@@ -8,10 +8,10 @@ POST        /product/detail                   @com.sunlights.core.web.ProductCon
 POST        /product/chart                    @com.sunlights.core.web.ProductController.findChartBy
 POST        /product/index                    @com.sunlights.core.web.ProductController.findProductIndex
 POST        /products                         @com.sunlights.core.web.ProductController.findProductsBy
-POST        /product/attentions               @com.sunlights.core.web.ProductController.findAttentions
-POST        /product/attention/create         @com.sunlights.core.web.ProductController.createAttention
-POST        /product/attentions/create        @com.sunlights.core.web.ProductController.createAttentions
-POST        /product/attention/cancel         @com.sunlights.core.web.ProductController.cancelAttention
+POST        /product/attentions               @com.sunlights.core.web.AttentionController.findProductAttentions
+POST        /product/attention/create         @com.sunlights.core.web.AttentionController.createProductAttention
+POST        /product/attentions/create        @com.sunlights.core.web.AttentionController.createProductAttentions
+POST        /product/attention/cancel         @com.sunlights.core.web.AttentionController.cancelProductAttention
 
 #bank
 POST        /banks                            @com.sunlights.core.web.BankController.findBanks
