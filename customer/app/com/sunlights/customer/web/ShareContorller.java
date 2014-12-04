@@ -58,7 +58,7 @@ public class ShareContorller extends ActivityBaseController{
         String url=activity.getShareUrl();//活动路径
         Logger.debug("获得的活动路径url为:"+url);
         Long activatyid=activity.getId();//活动id
-        String getShortUrl=custjoinService.getShortUrl(custNo,activatyid);
+        String getShortUrl=custjoinService.getShortUrl(custNo,activatyid,scene);
         String shorturl=null;
         if(StringUtils.isNotEmpty(getShortUrl)){//首先查询有无短链接（无则生成，有则直接拿）
             shorturl=getShortUrl;
@@ -69,7 +69,7 @@ public class ShareContorller extends ActivityBaseController{
             //通过长链接生成短链接
             shorturl=ShortURLUtil.getShortURL(longurl);
             Logger.debug("生成的短链接:"+shorturl);
-            custjoinService.saveShortUrl(custNo,activatyid,shorturl);//保存短链接
+            custjoinService.saveShortUrl(custNo,activatyid,shorturl,scene);//保存短链接
         }
         String sharetext=activity.getShareText();//获得分享描述内容
         Logger.debug("获得分享描述内容:"+sharetext);
@@ -111,7 +111,7 @@ public class ShareContorller extends ActivityBaseController{
         Logger.debug("获得的活动路径url为:"+url);
         Long activatyid=activity.getId();//活动id
 
-        String getShortUrl=custjoinService.getShortUrl(custNo,activatyid);
+        String getShortUrl=custjoinService.getShortUrl(custNo,activatyid,scene);
         Logger.debug("活动id:"+activatyid+",客户号："+custNo+"，数据库的短链接："+getShortUrl);
         String shorturl=null;
         if(StringUtils.isNotEmpty(getShortUrl)){//首先查询有无短链接（无则生成，有则直接拿）
@@ -124,7 +124,7 @@ public class ShareContorller extends ActivityBaseController{
             //通过长链接生成短链接
             shorturl=ShortURLUtil.getShortURL(longurl);
             Logger.debug("生成的短链接:"+shorturl);
-            custjoinService.saveShortUrl(custNo,activatyid,shorturl);//保存短链接
+            custjoinService.saveShortUrl(custNo,activatyid,shorturl,scene);//保存短链接
         }
 
         QRcodeByte qrcode = new QRcodeByte();
