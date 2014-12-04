@@ -141,7 +141,7 @@ CREATE TABLE "public"."c_customer" (
   "property"        VARCHAR(50) COLLATE "default",
   "qq"              VARCHAR(20) COLLATE "default",
   "real_name"       VARCHAR(20) COLLATE "default",
-  "referral_mobile" VARCHAR(11) COLLATE "default",
+  "referral_code"   VARCHAR(10) COLLATE "default",
   "reg_channel"     VARCHAR(50) COLLATE "default",
   "reg_way"         VARCHAR(50) COLLATE "default",
   "status"          VARCHAR(50) COLLATE "default",
@@ -167,7 +167,7 @@ COMMENT ON COLUMN "public"."c_customer"."pic_way" IS '用户图像存放路径';
 COMMENT ON COLUMN "public"."c_customer"."property" IS '用户属性';
 COMMENT ON COLUMN "public"."c_customer"."qq" IS '绑定QQ';
 COMMENT ON COLUMN "public"."c_customer"."real_name" IS '真实姓名';
-COMMENT ON COLUMN "public"."c_customer"."referral_mobile" IS '推荐人手机号';
+COMMENT ON COLUMN "public"."c_customer"."referral_code" IS '推荐码';
 COMMENT ON COLUMN "public"."c_customer"."reg_channel" IS '注册渠道';
 COMMENT ON COLUMN "public"."c_customer"."reg_way" IS '注册方式';
 COMMENT ON COLUMN "public"."c_customer"."status" IS '用户状态';

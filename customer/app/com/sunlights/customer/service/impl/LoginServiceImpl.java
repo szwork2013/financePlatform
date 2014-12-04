@@ -143,7 +143,7 @@ public class LoginServiceImpl implements LoginService {
         Logger.info("====nickName:" + vo.getNickName());
         Logger.info("=============mobilePhoneNo:" + mobilePhoneNo);
         Logger.info("=============deviceNo:" + deviceNo);
-        Logger.info("=============referralMobile:" + vo.getReferralMobile());
+        Logger.info("=============recommendPhone:" + vo.getRecommendPhone());
         CommonUtil.getInstance().validateParams(mobilePhoneNo, passWord, deviceNo);
         
         Customer oldUserMstr = getCustomerByMobilePhoneNo(mobilePhoneNo);
@@ -176,7 +176,7 @@ public class LoginServiceImpl implements LoginService {
         String passWord = vo.getPassWord();
         String nickName = vo.getNickName();
         String deviceNo = vo.getDeviceNo();
-        String referralMobile = vo.getReferralMobile();
+        String recommendPhone = vo.getRecommendPhone();
 
         Timestamp currentTime = DBHelper.getCurrentTime();
         Customer customer = new Customer();
@@ -190,7 +190,7 @@ public class LoginServiceImpl implements LoginService {
         customer.setProperty(DictConst.CUSTOMER_PROPERTY_1);
         customer.setDeviceNo(deviceNo);
         customer.setStatus(DictConst.CUSTOMER_STATUS_2);
-        customer.setReferralMobile(referralMobile);
+        customer.setRecommendPhone(recommendPhone);
         customer.setCreateTime(currentTime);
         customer.setUpdateTime(currentTime);
         customerService.saveCustomer(customer);

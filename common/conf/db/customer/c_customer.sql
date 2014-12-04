@@ -17,7 +17,7 @@ CREATE TABLE c_customer
   property character varying(50), -- 用户属性
   qq character varying(20), -- 绑定QQ
   real_name character varying(20), -- 真实姓名
-  referral_mobile character varying(10), -- 推荐码
+  referral_code character varying(10), -- 推荐码
   reg_channel character varying(50), -- 注册渠道
   reg_way character varying(50), -- 注册方式
   status character varying(50), -- 用户状态
@@ -43,7 +43,7 @@ COMMENT ON COLUMN c_customer.pic_way IS '用户图像存放路径';
 COMMENT ON COLUMN c_customer.property IS '用户属性';
 COMMENT ON COLUMN c_customer.qq IS '绑定QQ';
 COMMENT ON COLUMN c_customer.real_name IS '真实姓名';
-COMMENT ON COLUMN c_customer.referral_mobile IS '推荐人手机号';
+COMMENT ON COLUMN c_customer.referral_code IS '推荐码';
 COMMENT ON COLUMN c_customer.reg_channel IS '注册渠道';
 COMMENT ON COLUMN c_customer.reg_way IS '注册方式';
 COMMENT ON COLUMN c_customer.status IS '用户状态';
