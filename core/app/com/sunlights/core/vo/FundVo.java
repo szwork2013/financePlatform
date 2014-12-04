@@ -1,6 +1,7 @@
 package com.sunlights.core.vo;
 
 
+import com.sunlights.common.AppConst;
 import com.sunlights.common.FundCategory;
 import com.sunlights.common.service.CommonService;
 import com.sunlights.common.utils.ArithUtil;
@@ -46,8 +47,11 @@ public class FundVo extends ProductVo {
 
 
     public void inFundNav(FundNav fundNav) {
+        Integer isMonetary = fundNav.getIsMonetary();
+        Integer isStf = fundNav.getIsStf();
+
         super.setName(fundNav.getFundname());
-        super.setCategory(fundNav.getFundType() + "");
+        super.setCategory(isMonetary == 1 ? AppConst.FUND_CATEGORY_MONETARY : (isStf == 1 ? AppConst.FUND_CATEGORY_STF : ""));
         super.setCode(fundNav.getFundcode());
         this.sevenDaysIncome = ArithUtil.bigUpScale4(fundNav.getPercentSevenDays());
         this.millionIncome = ArithUtil.bigUpScale4(fundNav.getIncomePerTenThousand());
@@ -55,7 +59,7 @@ public class FundVo extends ProductVo {
         this.purchasedAmount = purchaseLimitMin == null ? "" : purchaseLimitMin.toString();
         this.purchasedMethod = FundCategory.MONETARY.getFundType() == fundNav.getFundType() ? "随买随卖" : "";
         this.discount = getDiscountValueByfund(fundNav);
-        this.purchasedMethod = getInvestmentDurationBy(fundNav);
+        this.purchasedMethod = isMonetary == 1 ? "随买随卖" : (isStf == 1 ? "7天" : "");
         ActivityService activityService = new ActivityServiceImpl();
         List<String> activities = activityService.getActivityTitles(fundNav.getFundcode());
         this.activity = activities.isEmpty() ? "" : activities.get(0);
