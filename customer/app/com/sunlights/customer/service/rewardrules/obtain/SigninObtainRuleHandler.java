@@ -18,7 +18,7 @@ import play.Logger;
 public class SigninObtainRuleHandler extends AbstractObtainRuleHandler {
 
     @Override
-    public void obtainInternal(ActivityRequestVo requestVo, ActivityResponseVo responseVo) throws Exception {
+    public void obtain(ActivityRequestVo requestVo, ActivityResponseVo responseVo) throws Exception {
         Logger.debug("签到送奖励开始 requestVo = " + requestVo);
 
         setNextHandler(
@@ -26,9 +26,19 @@ public class SigninObtainRuleHandler extends AbstractObtainRuleHandler {
                         new ObtainRuleGainHandler(
                                 new RewardFlowHandler(
                                         new CustJoinActivityHandler(
-                                                new ResultAssignHandler())))));
+                                                new OldResultAssignHandler())))));
         getNextHandler().obtain(requestVo, responseVo);
 
         Logger.debug("签到送奖励结束 responseVo = " + responseVo);
+    }
+
+    @Override
+    public void obtainInternal(ActivityRequestVo requestVo, ActivityResponseVo responseVo) throws Exception {
+
+    }
+
+    @Override
+    public String toString() {
+        return "SigninObtainRuleHandler";
     }
 }

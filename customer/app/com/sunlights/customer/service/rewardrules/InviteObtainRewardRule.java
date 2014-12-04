@@ -7,6 +7,7 @@ import com.sunlights.customer.ActivityConstant;
  * 邀请好友获取金豆
  * Created by tangweiqun on 2014/11/20.
  */
+@Deprecated
 public class InviteObtainRewardRule extends AbstractObtainRewardRule{
 
     @Override

@@ -33,6 +33,7 @@ public class ActivityController extends ActivityBaseController  {
 
     private ActivityHandlerService activityHandlerService = new ActivityHandlerService();
 
+    @Deprecated
     public Result getActivityList() {
         ActivityParamter activityParamter = getActivityParamter();
         PageVo pageVo = new PageVo();
@@ -56,8 +57,38 @@ public class ActivityController extends ActivityBaseController  {
      * 调用这个接口需要将活动场景参数送过来
      * @return
      */
+
     public Result signinObtainReward() {
-        return obtainReward(ActivityConstant.ACTIVITY_SIGNIN_SCENE_CODE);
+        //1：获取请求参数
+        String token = getToken();
+        ActivityParamter activityParamter = getActivityParamter();
+        String scene = ActivityConstant.ACTIVITY_SIGNIN_SCENE_CODE;
+
+        //2:获取获取奖励需要的参数
+        CustomerSession customerSession = customerService.getCustomerSession(token);
+        String custNo = customerSession.getCustomerId();
+
+        ActivityRequestVo requestVo = new ActivityRequestVo();
+        ActivityResponseVo responseVo = new ActivityResponseVo();
+
+        requestVo.setCustId(custNo);
+        requestVo.setScene(scene);
+
+        activityHandlerService.service(requestVo, responseVo);
+
+        List<ObtainRewardVo> obtainRewardVos = responseVo.getObtainRewardVo();
+        ObtainRewardVo obtainRewardVo = null;
+        if(obtainRewardVos == null || obtainRewardVos.isEmpty()) {
+            obtainRewardVo = new ObtainRewardVo();
+            obtainRewardVo.setAlreadyGet(0L);
+            obtainRewardVo.setNotGet(0L);
+            obtainRewardVo.setScene(scene);
+            obtainRewardVo.setStatus(ActivityConstant.ACTIVITY_CUSTONER_STATUS_FORBIDDEN);
+        } else {
+            obtainRewardVo = obtainRewardVos.get(0);
+        }
+        messageUtil.setMessage(responseVo.getMessage(), obtainRewardVo);
+        return ok(messageUtil.toJson());
     }
 
     /**
@@ -65,6 +96,7 @@ public class ActivityController extends ActivityBaseController  {
      *
      * @return
      */
+    @Deprecated
     public Result obtainReward(String scene) {
         //1：获取请求参数
         String token = getToken();
@@ -102,6 +134,7 @@ public class ActivityController extends ActivityBaseController  {
         return ok(messageUtil.toJson());
     }
 
+    @Deprecated
     public Result registerObtainReward() {
         return obtainReward(ActivityConstant.ACTIVITY_REGISTER_SCENE_CODE);
     }

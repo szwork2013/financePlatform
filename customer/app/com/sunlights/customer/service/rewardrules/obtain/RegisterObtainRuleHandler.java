@@ -27,7 +27,7 @@ public class RegisterObtainRuleHandler extends AbstractObtainRuleHandler {
                         new ObtainRuleGainHandler(
                                 new RewardFlowHandler(
                                         new CustJoinActivityHandler(
-                                                new ResultAssignHandler())))));
+                                                new OldResultAssignHandler())))));
         getNextHandler().obtain(requestVo, responseVo);
         Logger.debug("注册送奖励结束 responseVo = " + responseVo);
 

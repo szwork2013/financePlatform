@@ -25,7 +25,7 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * 生成资金流水（分邀请人和被邀请人）
+ * 生成奖励流水（分邀请人和被邀请人）
  *
  * Created by tangweiqun on 2014/12/2.
  */
@@ -53,6 +53,10 @@ public class RewardFlowHandler extends AbstractObtainRuleHandler{
                 continue;
             }
             for(ObtainRewardRuleVo obtainRewardRuleVo : obtainRewardRuleVos) {
+                if(ActivityConstant.ACTIVITY_CUSTONER_STATUS_FORBIDDEN.equals(obtainRewardRuleVo.getStatus())) {
+                    Logger.debug("获取规则无效");
+                    continue;
+                }
                 RewardFlowRecordVo rewardFlowRecordVo = new RewardFlowRecordVo();
                 if(obtainRewardRuleVo.getInviter() == ActivityConstant.ACCOUNT_COMMON_ONE && StringUtils.isNotEmpty(requestVo.getRecommendCustId())) {
                     rewardFlowRecordVo.setCustId(requestVo.getRecommendCustId());

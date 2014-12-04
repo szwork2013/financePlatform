@@ -13,6 +13,7 @@ import com.sunlights.customer.service.rewardrules.vo.ActivityRequestVo;
 import com.sunlights.customer.service.rewardrules.vo.ActivityResponseVo;
 import com.sunlights.customer.vo.RewardResultVo;
 import models.CustJoinActivity;
+import play.Logger;
 
 /**
  * 校验注册场景的活动是否需要参加
@@ -39,12 +40,11 @@ public class RegisterObtainValideHandler extends AbstractObtainRuleHandler{
         CustJoinActivity custJoinActivity = custJoinActivityService.getByCustAndActivity(requestVo.getCustId(), requestVo.getActivityId(), ActivityConstant.ACTIVITY_REGISTER_SCENE_CODE);
 
         if(custJoinActivity != null) {
+            Logger.debug("已经注册了");
             Message message = new Message(Severity.INFO, MsgCode.ALREADY_REGISTER);
             responseVo.setMessage(message);
-            responseVo.setStatus(ActivityConstant.ACTIVITY_CUSTONER_STATUS_FORBIDDEN);
-            responseVo.setNotGet(0L);
-            responseVo.setAlreadyGet(0L);
             responseVo.setFlowStop(true);
+            return;
         }
 
     }
