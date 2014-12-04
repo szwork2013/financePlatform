@@ -50,10 +50,9 @@ public class ActivityControllerTest extends BaseTest{
                     public void invoke() throws Throwable {
                         Map<String, String> formParams = new HashMap<String, String>();
                         play.mvc.Result result = null;
+                        com.sunlights.customer.service.CustJoinActivityService custJoinActivityService = new CustJoinActivityServiceImpl();
 
-                        RewardFlowService rewardFlowService = new RewardFlowServiceImpl();
-                        RewardFlow rewardFlows = rewardFlowService.findTodayFlowByCustIdAndScene("20141119102210010000000029", ActivityConstant.ACTIVITY_SIGNIN_SCENE_CODE);
-
+                        CustJoinActivity custJoinActivity = custJoinActivityService.getByCustAndActivity("20141119102210010000000029", null, ActivityConstant.ACTIVITY_SIGNIN_SCENE_CODE);
                         //2:签到获取金豆正常测试
                         formParams = new HashMap<String, String>();
                         formParams.put("scene", ActivityConstant.ACTIVITY_SIGNIN_SCENE_CODE);
@@ -62,9 +61,8 @@ public class ActivityControllerTest extends BaseTest{
 
                         final MessageVo message = toMessageVo(result);
 
-                        if(rewardFlows != null) {
+                        if(custJoinActivity != null) {
                             assertThat(message.getMessage().getCode()).isEqualTo(MsgCode.ALREADY_SIGN.getCode());
-                            assertThat("20141119102210010000000029").isEqualTo(rewardFlows.getCustId());
                         } else {
                             assertThat(message.getMessage().getCode()).isEqualTo(MsgCode.OBTAIN_SUCC.getCode());
                         }
@@ -110,9 +108,9 @@ public class ActivityControllerTest extends BaseTest{
                         Logger.info("============testRegisterObtainReward start====");
                         Map<String, String> formParams = new HashMap<String, String>();
                         play.mvc.Result result = null;
+                        com.sunlights.customer.service.CustJoinActivityService custJoinActivityService = new CustJoinActivityServiceImpl();
 
-                        RewardFlowService rewardFlowService = new RewardFlowServiceImpl();
-                        RewardResultVo rewardResultVo = rewardFlowService.getLastObtainRewars("20141119102210010000000029", ActivityConstant.ACTIVITY_REGISTER_SCENE_CODE);
+                        CustJoinActivity custJoinActivity = custJoinActivityService.getByCustAndActivity("20141119102210010000000029", null, ActivityConstant.ACTIVITY_REGISTER_SCENE_CODE);
 
                         //2:签到获取金豆正常测试
                         formParams = new HashMap<String, String>();
@@ -121,7 +119,7 @@ public class ActivityControllerTest extends BaseTest{
                         assertThat(status(result)).isEqualTo(OK);
                         final MessageVo message = toMessageVo(result);
 
-                        if(rewardResultVo != null) {
+                        if(custJoinActivity != null) {
                             assertThat(message.getMessage().getCode()).isEqualTo(MsgCode.ALREADY_REGISTER.getCode());
                             Logger.info("已经注册过。。。获取积分失败");
                         } else {

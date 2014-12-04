@@ -1,10 +1,12 @@
 package com.sunlights.customer.service.impl;
 
+import com.sunlights.customer.ActivityConstant;
 import com.sunlights.customer.dal.CustJoinActivityDao;
 import com.sunlights.customer.dal.impl.CustJoinActivityDaoImpl;
 import com.sunlights.customer.service.CustJoinActivityService;
 import models.CustJoinActivity;
 
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -28,8 +30,8 @@ public class CustJoinActivityServiceImpl implements CustJoinActivityService {
     }
 
     @Override
-    public String getShortUrl(String custId, Long activityId) {
-        CustJoinActivity custJoinActivity = getByCustAndActivity(custId, activityId, null);
+    public String getShortUrl(String custId, Long activityId, String scene) {
+        CustJoinActivity custJoinActivity = getByCustAndActivity(custId, activityId, scene);
         if(custJoinActivity != null) {
             return custJoinActivity.getShortUrl();
         }
@@ -42,11 +44,15 @@ public class CustJoinActivityServiceImpl implements CustJoinActivityService {
     }
 
     @Override
-    public void saveShortUrl(String custId, Long activityId, String shortUrl) {
+    public void saveShortUrl(String custId, Long activityId, String shortUrl, String scene) {
         CustJoinActivity custJoinActivity = new CustJoinActivity();
         custJoinActivity.setCustId(custId);
         custJoinActivity.setActivityId(activityId);
         custJoinActivity.setShortUrl(shortUrl);
+        custJoinActivity.setScene(scene);
+        custJoinActivity.setJoined(ActivityConstant.ACCOUNT_COMMON_ZERO);
+        custJoinActivity.setContinued(ActivityConstant.ACCOUNT_COMMON_ONE);
+
         custJoinActivityDao.doInsert(custJoinActivity);
     }
 }
