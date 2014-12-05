@@ -5,7 +5,10 @@ import com.google.common.collect.Lists;
 import com.sunlights.common.utils.CommonUtil;
 import com.sunlights.customer.ActivityConstant;
 import com.sunlights.customer.dal.HoldRewardDao;
+import com.sunlights.customer.dal.RewardTypeDao;
 import com.sunlights.customer.dal.impl.HoldRewardDaoImpl;
+import com.sunlights.customer.dal.impl.RewardTypeDaoImpl;
+import com.sunlights.customer.service.ActivityService;
 import com.sunlights.customer.service.HoldRewardService;
 import com.sunlights.customer.service.RewardFlowService;
 import com.sunlights.customer.service.rewardrules.vo.RewardFlowRecordVo;
@@ -13,6 +16,7 @@ import com.sunlights.customer.vo.HoldRewardVo;
 import com.sunlights.customer.vo.RewardFlowVo;
 import models.HoldReward;
 import models.RewardFlow;
+import models.RewardType;
 import play.Logger;
 
 import java.math.BigDecimal;
@@ -25,6 +29,10 @@ import java.util.List;
 public class HoldRewardServiceImpl implements HoldRewardService {
 
     private HoldRewardDao holdRewardDao = new HoldRewardDaoImpl();
+
+    private RewardTypeDao rewardTypeDao = new RewardTypeDaoImpl();
+
+    private ActivityService activityService = new ActivityServiceImpl();
 
     private RewardFlowService rewardFlowService = new RewardFlowServiceImpl();
 
@@ -67,6 +75,7 @@ public class HoldRewardServiceImpl implements HoldRewardService {
     @Override
     public HoldRewardVo getMyRewardDetail(String custId, String rewardType) {
         HoldReward holdReward = holdRewardDao.findByCustIdAndRewardType(custId, rewardType);
+        RewardType rewardTypeModel = rewardTypeDao.findByTypeCode(rewardType);
         HoldRewardVo holdRewardVo = new HoldRewardVo();
         if(holdReward == null) {
             holdRewardVo.setTotalReward("0");
@@ -77,6 +86,8 @@ public class HoldRewardServiceImpl implements HoldRewardService {
         }
 
         transf(holdReward, holdRewardVo);
+
+        holdRewardVo.setRuleUrl(activityService.getFileFuleUrl(rewardTypeModel.getRuleUrl(), "activity.html5Path"));
 
         List<RewardFlowVo> list = Lists.newArrayList();
         List<RewardFlow> rewardFlows = rewardFlowService.findByCustIdAndRewardType(custId, rewardType);

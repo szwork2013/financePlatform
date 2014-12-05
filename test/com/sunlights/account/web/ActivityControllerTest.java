@@ -2,7 +2,7 @@ package com.sunlights.account.web;
 
 import com.sunlights.BaseTest;
 
-import com.sunlights.account.service.CustJoinActivityService;
+
 import com.sunlights.common.MsgCode;
 import com.sunlights.common.vo.MessageVo;
 import com.sunlights.customer.ActivityConstant;
@@ -52,7 +52,7 @@ public class ActivityControllerTest extends BaseTest{
                         play.mvc.Result result = null;
                         com.sunlights.customer.service.CustJoinActivityService custJoinActivityService = new CustJoinActivityServiceImpl();
 
-                        CustJoinActivity custJoinActivity = custJoinActivityService.getByCustAndActivity("20141119102210010000000029", null, ActivityConstant.ACTIVITY_SIGNIN_SCENE_CODE);
+                        CustJoinActivity custJoinActivity = custJoinActivityService.getTodayRecordByCustAndActivity("20141119102210010000000029", null, ActivityConstant.ACTIVITY_SIGNIN_SCENE_CODE);
                         //2:签到获取金豆正常测试
                         formParams = new HashMap<String, String>();
                         formParams.put("scene", ActivityConstant.ACTIVITY_SIGNIN_SCENE_CODE);
@@ -144,8 +144,7 @@ public class ActivityControllerTest extends BaseTest{
                         Map<String, String> formParams = new HashMap<String, String>();
                         play.mvc.Result result = null;
 
-                        RewardFlowService rewardFlowService = new RewardFlowServiceImpl();
-                        RewardResultVo rewardResultVo = rewardFlowService.getLastObtainRewars("20141119102210010000000029", ActivityConstant.ACTIVITY_FIRST_PURCHASE_SCENE_CODE);
+
                         com.sunlights.customer.service.CustJoinActivityService custJoinActivityService = new CustJoinActivityServiceImpl();
                         CustJoinActivity custJoinActivity = custJoinActivityService.getByCustAndActivity("20141119102210010000000029", null, ActivityConstant.ACTIVITY_FIRST_PURCHASE_SCENE_CODE);
                         //2:签到获取金豆正常测试
@@ -168,7 +167,8 @@ public class ActivityControllerTest extends BaseTest{
 
 
                     }
-                });
+
+                            });
             }
         });
     }
@@ -195,7 +195,8 @@ public class ActivityControllerTest extends BaseTest{
 
                         Logger.info("============testPurchaseObtainReward result====\n" + contentAsString(result));
                     }
-                });
+
+                            });
             }
         });
     }

@@ -1,6 +1,8 @@
 package com.sunlights.account.service.impl;
 
-import com.sunlights.account.service.RewardFlowService;
+
+import com.sunlights.customer.service.RewardFlowService;
+import com.sunlights.customer.service.impl.RewardFlowServiceImpl;
 import models.RewardFlow;
 import org.junit.Test;
 import play.db.jpa.JPA;

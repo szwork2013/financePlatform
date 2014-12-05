@@ -75,7 +75,7 @@ public class CommonUtil {
 
     private static final DateFormat DATE_FORMAT = new SimpleDateFormat(DATE_FORMAT_SHORT);
 
-    public static String dateToString(Date date, String... format) {
+    public static synchronized String dateToString(Date date, String... format) {
         if (date == null) {
             return "";
         }
@@ -87,7 +87,7 @@ public class CommonUtil {
         }
     }
 
-    public static Date stringToDate(String dateString, String... format) throws ParseException {
+    public static synchronized Date stringToDate(String dateString, String... format) throws ParseException {
         if (StringUtils.isEmpty(dateString)) {
             return new Date();
         }

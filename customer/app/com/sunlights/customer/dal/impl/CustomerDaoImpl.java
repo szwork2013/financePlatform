@@ -14,7 +14,6 @@ import models.CustomerGesture;
 import models.CustomerSession;
 import models.ShuMiAccount;
 import org.apache.commons.lang3.StringUtils;
-import org.omg.CORBA.OBJECT_NOT_EXIST;
 import play.Logger;
 
 import javax.persistence.Query;
@@ -69,21 +68,29 @@ public class CustomerDaoImpl extends EntityBaseDao implements CustomerDao {
     }
 
     public CustomerVo getCustomerVoByPhoneNo(String mobilePhoneNo, String deviceNo) {
-        String sql = "select c.mobile,c.real_name,c.nick_name,c.email,c.identity_number," +
-                "case when EXISTS (select 1 from c_customer_gesture cg where cg.customer_id = c.customer_id and cg.status = 'Y' and cg.device_no = :deviceNo) THEN '1' ELSE '0' END as gestureOpened," +
-                "case when c.identity_typer = :identityTyper and c.identity_number is not null THEN '1' ELSE '0' END as certify," +
-                "case when a.trade_password is null THEN '0' ELSE '1' END as tradePwdFlag," +
-                "(select count(1) from c_bank_card bc where bc.customer_id = c.customer_id) as bankCardCount " +
-                ",c.customer_id " +
-                "from   c_customer c,f_basic_account a " +
-                "where  c.customer_id = a.cust_id " +
-                "and  c.mobile = :mobilePhoneNo ";
+        StringBuffer sb = new StringBuffer();
+        sb.append("select c.mobile,c.real_name,c.nick_name,c.email,c.identity_number,");
+        if (deviceNo == null) {
+            sb.append(" 0 || '' as  gestureOpened,");
+        }else{
+            sb.append(" case when EXISTS (select 1 from c_customer_gesture cg where cg.customer_id = c.customer_id and cg.status = 'Y' and cg.device_no = :deviceNo) THEN '1' ELSE '0' END as gestureOpened,");
+        }
+        sb.append(" case when c.identity_typer = :identityTyper and c.identity_number is not null THEN '1' ELSE '0' END as certify,")
+          .append(" case when a.trade_password is null THEN '0' ELSE '1' END as tradePwdFlag,")
+          .append(" (select count(1) from c_bank_card bc where bc.customer_id = c.customer_id) as bankCardCount, ")
+          .append(" c.customer_id")
+          .append(" from c_customer c,f_basic_account a ")
+          .append(" where  c.customer_id = a.cust_id ")
+          .append(" and  c.mobile = :mobilePhoneNo ");
 
+        String sql = sb.toString();
         Logger.debug(sql);
 
         Query query = em.createNativeQuery(sql);
         query.setParameter("identityTyper", DictConst.CERTIFICATE_TYPE_1);
-        query.setParameter("deviceNo", deviceNo);
+        if (deviceNo != null) {
+            query.setParameter("deviceNo", deviceNo);
+        }
         query.setParameter("mobilePhoneNo", mobilePhoneNo);
 
         List<Object[]> list = query.getResultList();
