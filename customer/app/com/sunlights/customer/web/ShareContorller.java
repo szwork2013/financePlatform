@@ -11,6 +11,7 @@ import com.sunlights.customer.service.ActivityService;
 import com.sunlights.customer.service.CustJoinActivityService;
 import com.sunlights.customer.service.impl.ActivityServiceImpl;
 import com.sunlights.customer.service.impl.CustJoinActivityServiceImpl;
+import com.sunlights.customer.vo.ActivityParamter;
 import com.sunlights.customer.vo.QRcodeVo;
 import com.sunlights.customer.vo.ShareVo;
 import models.Activity;
@@ -49,7 +50,11 @@ public class ShareContorller extends ActivityBaseController{
         Logger.debug("获得的手机号为:"+mobile);
 
         //2、获得活动路径及获得分享描述内容
-        String scene= ActivityConstant.ACTIVITY_INVITE_SCENE_CODE;//邀请好友配置场景
+        ActivityParamter activityParamter = getActivityParamter();
+        String scene = activityParamter.getScene();
+        if(StringUtils.isEmpty(scene)){
+            scene= ActivityConstant.ACTIVITY_INVITE_SCENE_CODE;//邀请好友配置场景
+        }
         List<Activity> list=activityService.getActivityByScene(scene);
         if(list.size()<1){
             return notFound("暂时没有活动");
@@ -102,7 +107,11 @@ public class ShareContorller extends ActivityBaseController{
         Logger.debug("获得的手机号为:"+mobile);
 
         //2、获得活动路径及获得分享描述内容
-        String scene= ActivityConstant.ACTIVITY_FIRST_PURCHASE_SCENE_CODE;//配置场景
+        ActivityParamter activityParamter = getActivityParamter();
+        String scene = activityParamter.getScene();
+        if(StringUtils.isEmpty(scene)){
+            scene= ActivityConstant.ACTIVITY_INVITE_SCENE_CODE;//邀请好友配置场景
+        }
         List<Activity> list=activityService.getActivityByScene(scene);
         if(list.size()<1){
             return notFound("暂时没有活动");
