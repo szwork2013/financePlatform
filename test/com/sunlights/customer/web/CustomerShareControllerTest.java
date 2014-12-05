@@ -28,7 +28,7 @@ public class CustomerShareControllerTest extends BaseTest {
 
 
     @Test
-    public void testShare111() throws Exception {//分享好友
+    public void testsendFriend() throws Exception {//分享好友
         running(fakeApplication(), new Runnable() {
             public void run() {
                 Map<String, String> formParams = new HashMap<>();
@@ -48,7 +48,7 @@ public class CustomerShareControllerTest extends BaseTest {
 
 
     @Test
-    public void testShare112() throws Exception {//base64二维码
+    public void testgetQRcodeToBase64() throws Exception {//base64二维码
         running(fakeApplication(), new Runnable() {
             public void run() {
                 Map<String, String> formParams = new HashMap<>();
