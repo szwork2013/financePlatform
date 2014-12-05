@@ -17,20 +17,6 @@ import java.util.Map;
  */
 public class RewardRuleFactory {
 
-    @Deprecated
-    public static IObtainRewardRule getIObtainRuleHandler(String scene) {
-        if(ActivityConstant.ACTIVITY_INVITE_SCENE_CODE.equals(scene)) {
-            return new InviteObtainRewardRule();
-        } else if(ActivityConstant.ACTIVITY_SIGNIN_SCENE_CODE.equals(scene)) {
-            return new SignInObtainRewardRule();
-        } else if(ActivityConstant.ACTIVITY_REGISTER_SCENE_CODE.equals(scene)) {
-            return new RegisterObtainRewardRule();
-        } else if(ActivityConstant.ACTIVITY_FIRST_PURCHASE_SCENE_CODE.equals(scene)) {
-            return new FirstPurchseObtainRewardRule();
-        }
-        return null;
-    }
-
     public static List<HandlerAdapter> getHandlerAdapters() {
         List<HandlerAdapter> list = new ArrayList<HandlerAdapter>();
         list.add(new ObtainHandlerAdapter());

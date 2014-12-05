@@ -11,7 +11,6 @@ import com.sunlights.customer.service.ObtainRewardRuleService;
 import com.sunlights.customer.service.impl.ActivityServiceImpl;
 import com.sunlights.customer.service.impl.HoldRewardServiceImpl;
 import com.sunlights.customer.service.impl.ObtainRewardRuleServiceImpl;
-import com.sunlights.customer.service.rewardrules.IObtainRewardRule;
 import com.sunlights.customer.service.rewardrules.RewardRuleFactory;
 import com.sunlights.customer.service.rewardrules.query.QueryRewardHandler;
 import com.sunlights.customer.service.rewardrules.query.QueryRewardHandlerImpl;
