@@ -69,7 +69,7 @@ public class ShareContorller extends ActivityBaseController{
             //通过长链接生成短链接
             shorturl=ShortURLUtil.getShortURL(longurl);
             Logger.debug("生成的短链接:"+shorturl);
-            custjoinService.saveShortUrl(custNo,activatyid,shorturl,scene);//保存短链接
+            custjoinService.saveShortUrl(custNo,activatyid,scene, shorturl);//保存短链接
         }
         String sharetext=activity.getShareText();//获得分享描述内容
         Logger.debug("获得分享描述内容:"+sharetext);
@@ -78,7 +78,8 @@ public class ShareContorller extends ActivityBaseController{
         ShareVo shareVo=new ShareVo();
         shareVo.setShorturl(shorturl);
         shareVo.setTemplate(sharetext);
-        messageUtil.setMessage(new Message(Severity.INFO, MsgCode.REWARD_QUERY_SUCC), shareVo);
+        shareVo.setStaticurl("");
+        messageUtil.setMessage(new Message(Severity.INFO, MsgCode.SHARE_QUERY_SUCC), shareVo);
         Logger.debug("返回给前端的内容----》:"+messageUtil.toJson());
         return ok(messageUtil.toJson());
     }
@@ -124,7 +125,7 @@ public class ShareContorller extends ActivityBaseController{
             //通过长链接生成短链接
             shorturl=ShortURLUtil.getShortURL(longurl);
             Logger.debug("生成的短链接:"+shorturl);
-            custjoinService.saveShortUrl(custNo,activatyid,shorturl,scene);//保存短链接
+            custjoinService.saveShortUrl(custNo,activatyid,scene, shorturl);//保存短链接
         }
 
         QRcodeByte qrcode = new QRcodeByte();
