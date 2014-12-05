@@ -18,6 +18,8 @@ public class HoldRewardVo implements Serializable{
     //已兑换
     private String payed;
 
+    private String ruleUrl;
+
     private List<RewardFlowVo> records = Lists.newArrayList();
 
     public String getTotalReward() {
@@ -60,5 +62,13 @@ public class HoldRewardVo implements Serializable{
 
     public void setPayed(String payed) {
         this.payed = payed;
+    }
+
+    public String getRuleUrl() {
+        return ruleUrl;
+    }
+
+    public void setRuleUrl(String ruleUrl) {
+        this.ruleUrl = ruleUrl;
     }
 }

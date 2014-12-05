@@ -87,7 +87,7 @@ public interface ActivityConstant {
     /**
      * 奖励类型
      */
-    String REWARD_TYPE_JINDOU = "ART001";
+    String REWARD_TYPE_JINDOU = "ART00J";
 
 
     String ACTIVITY_CUSTONER_STATUS_NOMAL = "N";

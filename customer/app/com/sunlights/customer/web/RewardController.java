@@ -66,6 +66,8 @@ public class RewardController extends ActivityBaseController {
 
         HoldRewardVo holdRewardVo = holdRewardService.getMyRewardDetail(custNo, ActivityConstant.REWARD_TYPE_JINDOU);
 
+        //holdRewardVo.setRuleUrl("http://192.168.1.97/activity/signin.html");
+
         messageUtil.setMessage(new Message(Severity.INFO, MsgCode.REWARD_QUERY_SUCC), holdRewardVo);
 
         return ok(messageUtil.toJson());
