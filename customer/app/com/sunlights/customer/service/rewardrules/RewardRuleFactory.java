@@ -5,10 +5,7 @@ import com.sunlights.customer.ActivityConstant;
 import com.sunlights.customer.service.rewardrules.exchange.ExchangeHandlerAdapter;
 import com.sunlights.customer.service.rewardrules.exchange.ExchangeHandlerMapping;
 import com.sunlights.customer.service.rewardrules.exchange.RedPacketExchangeRuleHandler;
-import com.sunlights.customer.service.rewardrules.obtain.ObtainHandlerAdapter;
-import com.sunlights.customer.service.rewardrules.obtain.ObtainHandlerMapping;
-import com.sunlights.customer.service.rewardrules.obtain.PurchaseObtainRuleHandler;
-import com.sunlights.customer.service.rewardrules.obtain.RegisterObtainRuleHandler;
+import com.sunlights.customer.service.rewardrules.obtain.*;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -20,6 +17,7 @@ import java.util.Map;
  */
 public class RewardRuleFactory {
 
+    @Deprecated
     public static IObtainRewardRule getIObtainRuleHandler(String scene) {
         if(ActivityConstant.ACTIVITY_INVITE_SCENE_CODE.equals(scene)) {
             return new InviteObtainRewardRule();
@@ -51,7 +49,7 @@ public class RewardRuleFactory {
         Map<String, Object> map = new HashMap<String, Object>();
         map.put(ActivityConstant.ACTIVITY_REGISTER_SCENE_CODE, new RegisterObtainRuleHandler());
         map.put(ActivityConstant.ACTIVITY_PURCHASE_SCENE_CODE, new PurchaseObtainRuleHandler());
-
+        map.put(ActivityConstant.ACTIVITY_SIGNIN_SCENE_CODE, new SigninObtainRuleHandler());
 
         map.put(ActivityConstant.ACTIVITY_EXCHANGE_RED_PACKET_SCENE_CODE, new RedPacketExchangeRuleHandler());
         return map;

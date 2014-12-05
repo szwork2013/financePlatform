@@ -16,6 +16,7 @@ import com.sunlights.customer.service.rewardrules.vo.ActivityResponseVo;
 import com.sunlights.customer.service.rewardrules.vo.ObtainRewardRuleVo;
 import models.Activity;
 import models.ActivityScene;
+import play.Logger;
 
 import java.util.HashMap;
 import java.util.List;
@@ -48,7 +49,7 @@ public class ObtainRuleGainHandler extends AbstractObtainRuleHandler {
             activityScene = activitySceneService.getSceneByCode(requestVo.getScene());
         }
 
-        if(activityScene != null) {
+        if(activityScene != null && ActivityConstant.ACTIVITY_CUSTONER_STATUS_NOMAL.equals(activityScene.getStatus())) {
             requestVo.setActivityScene(activityScene);
             List<Activity> activities = activityService.getActivityByScene(activityScene.getScene());
             if(activities == null || activities.isEmpty()) {
@@ -58,7 +59,7 @@ public class ObtainRuleGainHandler extends AbstractObtainRuleHandler {
                 Map<Long, List<ObtainRewardRuleVo>> obtainRewardRuleMap = new HashMap<Long, List<ObtainRewardRuleVo>>();
                 for(Activity activity : activities) {
                     List<ObtainRewardRuleVo> obtainRewardRules = obtainRewardRuleService.getByVosActivityId(activity.getId());
-                    if(obtainRewardRules == null || obtainRewardRules.isEmpty()) {
+                    if(obtainRewardRules == null || obtainRewardRules.isEmpty() || ActivityConstant.ACTIVITY_CUSTONER_STATUS_FORBIDDEN.equals(activity.getStatus())) {
                         continue;
                     }
                     obtainRewardRuleMap.put(activity.getId(), obtainRewardRules);
@@ -74,6 +75,7 @@ public class ObtainRuleGainHandler extends AbstractObtainRuleHandler {
         }
 
         if(isNotConfig) {
+            Logger.debug("还没有配置的活动场景");
             Message message = new Message(Severity.INFO, MsgCode.NOT_CONFIG_ACTIVITY_SCENE);
             responseVo.setMessage(message);
             responseVo.setStatus(ActivityConstant.ACTIVITY_CUSTONER_STATUS_FORBIDDEN);

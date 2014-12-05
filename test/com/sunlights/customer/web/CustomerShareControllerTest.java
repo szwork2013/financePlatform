@@ -5,7 +5,6 @@ import com.sunlights.common.vo.MessageVo;
 import org.junit.Before;
 import org.junit.Test;
 import play.Logger;
-import play.mvc.Http;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -29,7 +28,7 @@ public class CustomerShareControllerTest extends BaseTest {
 
 
     @Test
-    public void testShare111() throws Exception {
+    public void testShare111() throws Exception {//分享好友
         running(fakeApplication(), new Runnable() {
             public void run() {
                 Map<String, String> formParams = new HashMap<>();
@@ -48,6 +47,23 @@ public class CustomerShareControllerTest extends BaseTest {
 
 
 
+    @Test
+    public void testShare112() throws Exception {//base64二维码
+        running(fakeApplication(), new Runnable() {
+            public void run() {
+                Map<String, String> formParams = new HashMap<>();
+                formParams.put("mobilePhoneNo", "13811599307");
+                formParams.put("deviceNo", getDeviceNo());
+
+                play.mvc.Result  result = getResult("/customer/activity/getqrcode", formParams, cookie);
+
+                Logger.info(contentAsString(result));
+                assertThat(status(result)).isEqualTo(OK);
+                MessageVo message = toMessageVo(result);
+
+            }
+        });
+    }
 
 
 

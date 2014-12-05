@@ -14,6 +14,7 @@ import play.Configuration;
  *
  * Created by tangweiqun on 2014/11/19.
  */
+@Deprecated
 public class SignInObtainRewardRule extends AbstractObtainRewardRule{
     @Override
     public String getScene() {

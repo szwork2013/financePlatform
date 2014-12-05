@@ -1,6 +1,8 @@
 package com.sunlights.account.dal.impl;
 
-import com.sunlights.account.dal.RewardFlowDao;
+
+import com.sunlights.customer.dal.RewardFlowDao;
+import com.sunlights.customer.dal.impl.RewardFlowDaoImpl;
 import models.RewardFlow;
 import org.junit.Test;
 import play.Logger;

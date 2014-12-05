@@ -5,6 +5,7 @@ import com.sunlights.common.MsgCode;
 import com.sunlights.common.utils.ConverterUtil;
 import com.sunlights.common.vo.MessageVo;
 import com.sunlights.common.vo.PageVo;
+import com.sunlights.core.vo.AttentionVo;
 import com.sunlights.core.vo.ProductParameter;
 import com.sunlights.core.vo.ProductVo;
 import org.junit.Before;
@@ -34,6 +35,7 @@ public class AttentionControllerTest extends BaseTest {
     private static Form<PageVo> pagerForm = Form.form(PageVo.class);
     private static Form<ProductVo> productForm = Form.form(ProductVo.class);
     private static Form<ProductParameter> parameterForm = Form.form(ProductParameter.class);
+    private static Form<AttentionVo> attentionForm = Form.form(AttentionVo.class);
 
 
     @Before
@@ -74,7 +76,9 @@ public class AttentionControllerTest extends BaseTest {
                 try {
                     ConverterUtil.convertMap2Object(map, pageVo);
                     if (!pageVo.getList().isEmpty()) {
-                        paramMap = productForm.bind(Json.toJson(pageVo.getList().get(0))).data();
+                        LinkedHashMap<String,String> productVoMap = (LinkedHashMap<String, String>) pageVo.getList().get(0);
+                        paramMap = new HashMap<String, String>();
+                        paramMap.put("code",productVoMap.get("code"));
                         FakeRequest cancelAttentionRequest = fakeRequest(POST, "/core/product/attention/cancel");
                         FakeRequest cancelAttentionFormRequest = cancelAttentionRequest.withHeader(CONTENT_TYPE, APPLICATION_X_WWW_FORM_URLENCODED).withFormUrlEncodedBody(paramMap);
                         cancelAttentionFormRequest.withCookies(cookie);
@@ -96,10 +100,10 @@ public class AttentionControllerTest extends BaseTest {
         running(fakeApplication(inMemoryDatabase("test")), new Runnable() {
 
             public void run() {
-                ProductVo productVo = new ProductVo();
-                productVo.setCode("519505");
+                AttentionVo attentionVo = new AttentionVo();
+                attentionVo.setCode("000855");
 
-                Map<String, String> paramMap = productForm.bind(Json.toJson(productVo)).data();
+                Map<String, String> paramMap = attentionForm.bind(Json.toJson(attentionVo)).data();
                 Logger.info("[paramMap]" + paramMap);
 
                 FakeRequest attentionsRequest = fakeRequest(POST, "/core/product/attention/create");
@@ -122,14 +126,13 @@ public class AttentionControllerTest extends BaseTest {
         running(fakeApplication(inMemoryDatabase("test")), new Runnable() {
 
             public void run() {
-                ProductParameter parameter = new ProductParameter();
+                AttentionVo attentionVo = new AttentionVo();
                 List<String> codes = new ArrayList<String>();
-                codes.add("519505");
-                codes.add("202301");
-                codes.add("161608");
-                parameter.setCodes(codes);
+                codes.add("000855");
+                codes.add("090023");
+                attentionVo.setCodes(codes);
 
-                Map<String, String> paramMap = parameterForm.bind(Json.toJson(parameter)).data();
+                Map<String, String> paramMap = attentionForm.bind(Json.toJson(attentionVo)).data();
 
                 Logger.info("[paramMap]" + paramMap);
 

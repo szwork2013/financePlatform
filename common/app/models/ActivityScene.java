@@ -17,9 +17,9 @@ public class ActivityScene extends IdEntity {
     private String status;
     @Column(name = "ACTIVITY_TYPE")
     private String activityType;
-    @Column(name = "PRD_TYPE")
-    private String prdCode;
     @Column(name = "PRD_CODE")
+    private String prdCode;
+    @Column(name = "PRD_TYPE")
     private String prdType;
     @Column(name = "CREATE_TIME")
     private Date createTime;

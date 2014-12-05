@@ -27,6 +27,7 @@ import play.mvc.Result;
 /**
  * Created by tangweiqun on 2014/11/19.
  */
+@Deprecated
 @Transactional
 public class RewardController extends ActivityBaseController {
     private ActivityService activityService = new ActivityServiceImpl();

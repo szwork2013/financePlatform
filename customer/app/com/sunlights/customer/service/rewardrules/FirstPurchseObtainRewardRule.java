@@ -10,6 +10,7 @@ import com.sunlights.customer.vo.RewardResultVo;
 /**
  * Created by tangweiqun on 2014/11/25.
  */
+@Deprecated
 public class FirstPurchseObtainRewardRule extends AbstractObtainRewardRule{
 
     @Override

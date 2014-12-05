@@ -13,8 +13,8 @@ public interface CustJoinActivityService {
 
     public void saveCustJoinActivity(CustJoinActivity custJoinActivity);
 
-    public String getShortUrl(String custId, Long activityId);
+    public String getShortUrl(String custId, Long activityId, String scene);
 
-    public void saveShortUrl(String custId, Long activityId, String shortUrl);
+    public void saveShortUrl(String custId, Long activityId, String scene, String shortUrl);
 
 }

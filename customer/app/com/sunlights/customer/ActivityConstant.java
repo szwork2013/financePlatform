@@ -60,10 +60,10 @@ public interface ActivityConstant {
     /**
      * 以下是活动类型
      */
-    String ACTIVITY_TYPE_REGISTER = "AT001";
-    String ACTIVITY_TYPE_FIRST_PURCHASE = "AT002";
-    String ACTIVITY_TYPE_PURCHASE = "AT003";
-    String ACTIVITY_TYPE_SIGNIN = "AT004";
+    String ACTIVITY_TYPE_REGISTER = "ATT001";
+    String ACTIVITY_TYPE_FIRST_PURCHASE = "ATT002";
+    String ACTIVITY_TYPE_PURCHASE = "ATT003";
+    String ACTIVITY_TYPE_SIGNIN = "ATT004";
 
     /**
      * 生成奖励流水的时候操作--获取
