@@ -50,7 +50,7 @@ public class VerifyCodeService {
             }
         }
 
-        verifyCode = randomVerifyCode(6);
+        verifyCode = randomVerifyCode(4);
         CustomerVerifyCode newUserVefiryCode = new CustomerVerifyCode();
         newUserVefiryCode.setVerifyType(type);
         newUserVefiryCode.setMobile(mobilePhoneNo);
@@ -108,8 +108,9 @@ public class VerifyCodeService {
             MessageUtil.getInstance().setMessage(new Message(Severity.ERROR, MsgCode.CERTIFY_TIMEOUT));
             return false;
         }
-        if (customerVerifyCode.getDeviceNo() != null && customerVerifyCodeVo.getDeviceNo() != null
-                && !customerVerifyCode.getDeviceNo().equals(customerVerifyCodeVo.getDeviceNo())) {
+        if (customerVerifyCode.getDeviceNo() == null && customerVerifyCodeVo.getDeviceNo() == null) {
+        }else if (customerVerifyCode.getDeviceNo() != null && customerVerifyCode.getDeviceNo().equals(customerVerifyCodeVo.getDeviceNo())) {
+        }else{
             MessageUtil.getInstance().setMessage(new Message(Severity.ERROR, MsgCode.CERTIFY_DEVICE_NOT_MATCH));
             return false;
         }
