@@ -60,6 +60,7 @@ public class ObtainRuleGainHandler extends AbstractObtainRuleHandler {
                 for(Activity activity : activities) {
                     List<ObtainRewardRuleVo> obtainRewardRules = obtainRewardRuleService.getByVosActivityId(activity.getId());
                     if(obtainRewardRules == null || obtainRewardRules.isEmpty() || ActivityConstant.ACTIVITY_CUSTONER_STATUS_FORBIDDEN.equals(activity.getStatus())) {
+                        Logger.debug("获取规则无效");
                         continue;
                     }
                     obtainRewardRuleMap.put(activity.getId(), obtainRewardRules);

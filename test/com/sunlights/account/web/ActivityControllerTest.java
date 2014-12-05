@@ -52,7 +52,7 @@ public class ActivityControllerTest extends BaseTest{
                         play.mvc.Result result = null;
                         com.sunlights.customer.service.CustJoinActivityService custJoinActivityService = new CustJoinActivityServiceImpl();
 
-                        CustJoinActivity custJoinActivity = custJoinActivityService.getByCustAndActivity("20141119102210010000000029", null, ActivityConstant.ACTIVITY_SIGNIN_SCENE_CODE);
+                        CustJoinActivity custJoinActivity = custJoinActivityService.getTodayRecordByCustAndActivity("20141119102210010000000029", null, ActivityConstant.ACTIVITY_SIGNIN_SCENE_CODE);
                         //2:签到获取金豆正常测试
                         formParams = new HashMap<String, String>();
                         formParams.put("scene", ActivityConstant.ACTIVITY_SIGNIN_SCENE_CODE);

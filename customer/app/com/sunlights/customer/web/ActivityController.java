@@ -136,7 +136,36 @@ public class ActivityController extends ActivityBaseController  {
 
     @Deprecated
     public Result registerObtainReward() {
-        return obtainReward(ActivityConstant.ACTIVITY_REGISTER_SCENE_CODE);
+        //1：获取请求参数
+        String token = getToken();
+        ActivityParamter activityParamter = getActivityParamter();
+        String scene = ActivityConstant.ACTIVITY_REGISTER_SCENE_CODE;
+
+        //2:获取获取奖励需要的参数
+        CustomerSession customerSession = customerService.getCustomerSession(token);
+        String custNo = customerSession.getCustomerId();
+
+        ActivityRequestVo requestVo = new ActivityRequestVo();
+        ActivityResponseVo responseVo = new ActivityResponseVo();
+
+        requestVo.setCustId(custNo);
+        requestVo.setScene(scene);
+
+        activityHandlerService.service(requestVo, responseVo);
+
+        List<ObtainRewardVo> obtainRewardVos = responseVo.getObtainRewardVo();
+        ObtainRewardVo obtainRewardVo = null;
+        if(obtainRewardVos == null || obtainRewardVos.isEmpty()) {
+            obtainRewardVo = new ObtainRewardVo();
+            obtainRewardVo.setAlreadyGet(0L);
+            obtainRewardVo.setNotGet(0L);
+            obtainRewardVo.setScene(scene);
+            obtainRewardVo.setStatus(ActivityConstant.ACTIVITY_CUSTONER_STATUS_FORBIDDEN);
+        } else {
+            obtainRewardVo = obtainRewardVos.get(0);
+        }
+        messageUtil.setMessage(responseVo.getMessage(), obtainRewardVo);
+        return ok(messageUtil.toJson());
     }
 
     public Result purchaseObtainReward() {

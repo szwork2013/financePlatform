@@ -8,6 +8,7 @@ import java.util.List;
 import java.util.Map;
 
 /**
+ *
  * Created by tangweiqun on 2014/12/1.
  */
 public class ActivityRequestVo {

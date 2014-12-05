@@ -45,7 +45,7 @@ public class ResultAssignHandler extends AbstractObtainRuleHandler {
 
         for(RewardFlowRecordVo rewardFlowRecordVo : rewardFlowRecordVos) {
 
-            String detail = rewardFlowRecordVo.getRewardAmtFromTrans() + Configuration.root().getString("detail." + rewardFlowRecordVo.getRewardType());
+            String detail = rewardFlowRecordVo.getRewardAmtFromTrans() + Configuration.root().getString("detail-" + rewardFlowRecordVo.getRewardType());
 
             ActivityResultVo activityResultVo = new ActivityResultVo();
             activityResultVo.setTitle(rewardFlowRecordVo.getActivityTitle());

@@ -28,7 +28,7 @@ public class SigninObtainValideHandler extends AbstractObtainRuleHandler {
     @Override
     public void obtainInternal(ActivityRequestVo requestVo, ActivityResponseVo responseVo) throws Exception {
 
-        CustJoinActivity custJoinActivity = custJoinActivityService.getByCustAndActivity(requestVo.getCustId(), requestVo.getActivityId(), requestVo.getScene());
+        CustJoinActivity custJoinActivity = custJoinActivityService.getTodayRecordByCustAndActivity(requestVo.getCustId(), requestVo.getActivityId(), requestVo.getScene());
         if(custJoinActivity != null) {
             Logger.debug("您今天已经签过到了");
             Message message = new Message(Severity.INFO, MsgCode.ALREADY_SIGN);
