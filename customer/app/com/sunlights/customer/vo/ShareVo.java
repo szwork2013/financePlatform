@@ -1,7 +1,5 @@
 package com.sunlights.customer.vo;
 
-import models.Activity;
-
 import java.io.Serializable;
 
 /**
@@ -13,15 +11,6 @@ public class ShareVo implements Serializable {
 
     private String shorturl;
 
-    private String staticurl;
-
-    public String getStaticurl() {
-        return staticurl;
-    }
-
-    public void setStaticurl(String staticurl) {
-        this.staticurl = staticurl;
-    }
 
     public String getTemplate() {
         return template;
