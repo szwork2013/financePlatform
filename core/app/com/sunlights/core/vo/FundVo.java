@@ -58,14 +58,14 @@ public class FundVo extends ProductVo {
         BigDecimal purchaseLimitMin = ArithUtil.bigUpScale0(fundNav.getPurchaseLimitMin());
         this.purchasedAmount = purchaseLimitMin == null ? "" : purchaseLimitMin.toString();
         this.purchasedMethod = FundCategory.MONETARY.getFundType() == fundNav.getFundType() ? "随买随卖" : "";
-        this.discount = getDiscountValueByfund(fundNav);
+        this.discount = getDiscountValueByFund(fundNav);
         this.purchasedMethod = isMonetary == 1 ? "随买随卖" : (isStf == 1 ? "7天" : "");
         ActivityService activityService = new ActivityServiceImpl();
         List<String> activities = activityService.getActivityTitles(fundNav.getFundcode());
         this.activity = activities.isEmpty() ? "" : activities.get(0);
     }
 
-    private String getDiscountValueByfund(FundNav fundNav) {
+    private String getDiscountValueByFund(FundNav fundNav) {
         String value = "";
         BigDecimal chargeRateValue = fundNav.getChargeRateValue();
         BigDecimal fundNavDiscount = fundNav.getDiscount();

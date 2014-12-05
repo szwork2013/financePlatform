@@ -29,6 +29,9 @@ public final class DictConst {
     public static final String FP_RECOMMEND_FLAG = "FP.RECOMMEND.FLAG";// 推荐标志
     public static final String FP_RECOMMEND_FLAG_1 = "FP.RECOMMEND.FLAG.1";// 首页
 
+    public static final String FP_RECOMMEND_TYPE = "FP.RECOMMEND.TYPE";// 推荐标志
+    public static final String FP_RECOMMEND_TYPE_1 = "FP.RECOMMEND.TYPE.1";// 首页
+
     public static final String FP_PRODUCT_MANAGE_STATUS = "FP.PRODUCT.MANAGE.STATUS";// 产品管理状态
     public static final String FP_PRODUCT_MANAGE_STATUS_1 = "FP.PRODUCT.MANAGE.STATUS.1"; //上架
 

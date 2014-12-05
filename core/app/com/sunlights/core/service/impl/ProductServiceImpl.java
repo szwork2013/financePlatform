@@ -51,9 +51,9 @@ public class ProductServiceImpl extends EntityBaseDao implements ProductService 
         xsql.append(" where f.fundcode = pm.productCode");
         xsql.append(" and pm.upBeginTime < '" + currentDate + "'");
         xsql.append(" and pm.downEndTime >= '" + currentDate + "'");
-        xsql.append(" and pm.recommendFlag = '" + DictConst.FP_RECOMMEND_FLAG_1 + "'");
+        xsql.append(" and pm.recommendType = '" + DictConst.FP_RECOMMEND_TYPE_1 + "'");
         xsql.append(" and pm.productStatus = '" + DictConst.FP_PRODUCT_MANAGE_STATUS_1 + "'");
-        xsql.append(" order by pm.priorityLevel desc");
+        xsql.append(" order by pm.priorityLevel");
 
         List<ProductVo> fundVos = pageService.findXsqlBy(xsql.toString(), pageVo);
         return fundVos;
@@ -73,7 +73,7 @@ public class ProductServiceImpl extends EntityBaseDao implements ProductService 
                 "/~ and f.fundType = {fundType} ~/" +
                 "/~ and f.isMonetary = {isMonetary} ~/" +
                 "/~ and f.isStf = {isStf} ~/" +
-                " order by pm.recommendType,pm.priorityLevel desc";
+                " order by pm.recommendType,pm.recommendFlag,pm.priorityLevel";
 
         List<FundVo> fundVos = pageService.findXsqlBy(jpql, pageVo);
         return fundVos;
