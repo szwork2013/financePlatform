@@ -22,8 +22,9 @@ public class FundVo extends ProductVo {
     private String millionIncome;//万分收益
     private String purchasedMethod;//买卖方式，比如:随买随卖
     private String purchasedAmount;//起购金额
-    private String discount;
-    private String activity;
+    private String discount;//手续费
+    private String activity;//活动
+    private Integer purchaseState;//是否可申购
 
     public FundVo() {
 
@@ -63,6 +64,7 @@ public class FundVo extends ProductVo {
         ActivityService activityService = new ActivityServiceImpl();
         List<String> activities = activityService.getActivityTitles(fundNav.getFundcode());
         this.activity = activities.isEmpty() ? "" : activities.get(0);
+        this.purchaseState = fundNav.getPurchaseState();
     }
 
     private String getDiscountValueByFund(FundNav fundNav) {
@@ -138,5 +140,13 @@ public class FundVo extends ProductVo {
 
     public void setActivity(String activity) {
         this.activity = activity;
+    }
+
+    public Integer getPurchaseState() {
+        return purchaseState;
+    }
+
+    public void setPurchaseState(Integer purchaseState) {
+        this.purchaseState = purchaseState;
     }
 }
