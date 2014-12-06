@@ -14,11 +14,13 @@ public @interface Cacheable {
 
     /**
      * The cache key to store the result in
+     * 最好不要一样哟
      */
     String key();
 
     /**
      * The duration the action should be cached for.  Defaults to 0.
+     * 如果是0的话则永久缓存，等待挤出
      */
     int duration() default 0;
 
