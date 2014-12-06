@@ -44,7 +44,7 @@ public class AccountServiceImpl implements AccountService {
 	@Override
 	public void createSubAccount(String custId, String fundCompanyId, String prdType) {
         //与基金公司开户
-        if (DictConst.FP_PRODUCT_TYPE_1.equals(prdType)) {
+        if (fundCompanyId != null && DictConst.FP_PRODUCT_TYPE_1.equals(prdType)) {
             boolean isExist = accountDao.findFundAgreementExist(custId, fundCompanyId);
             if (isExist){
                 return ;

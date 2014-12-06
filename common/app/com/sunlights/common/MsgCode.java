@@ -66,7 +66,9 @@ public enum MsgCode {
 
 
     TRADE_ORDER_SUCCESS("0400", "下单成功"),
+    TRADE_ORDER_NOCODE("1400", "下单成功，该产品为其它商户产品", "未查询到此产品"),
     TRADE_REDEEM_SUCCESS("0401", "赎回成功"),
+    TRADE_REDEEM_NOCODE("1401", "赎回成功，该产品为其它商户产品", "未查询到此产品"),
     TRADE_AMOUNT_VALIDATE("2400", "申购金额超出总资产", "请重新输入"),
 
 
