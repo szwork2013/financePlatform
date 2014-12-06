@@ -99,6 +99,7 @@ public enum MsgCode {
     ACTIVITY_QUERY_SUCC("0221", "查询成功"),
     REWARD_QUERY_SUCC("0222", "查询成功"),
     SHARE_QUERY_SUCC("0223", "分享查询成功"),
+    ABOUT_QUERY_SUCC("0224", "获取二维码成功"),
     ALREADY_SIGN("2220", "重复签到"),
     NOT_CONFIG_ACTIVITY_SCENE("2221", "没有配置活动场景"),
     ALREADY_PURCHASE("2222", "不是首次购买"),
