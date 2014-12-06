@@ -57,7 +57,7 @@ public class ShuMiTradeController extends Controller{
 
         String token = request().cookie(AppConst.TOKEN).value();
         ShuMiTradeFormVo tradeFormVo = shuMiTradeFormVoForm.bindFromRequest().get();
-
+        Logger.debug("tradeFormVo:" + Json.toJson(tradeFormVo).toString());
         shuMiTradeService.shuMiTradeRedeem(tradeFormVo, token);
 
         MessageUtil.getInstance().setMessage(new Message(MsgCode.TRADE_REDEEM_SUCCESS));

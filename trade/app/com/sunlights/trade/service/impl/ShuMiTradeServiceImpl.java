@@ -55,7 +55,9 @@ public class ShuMiTradeServiceImpl implements ShuMiTradeService{
         String customerId = customerSession.getCustomerId();
 
         //开户银行卡信息
-        createOpenAccountBankInfo(shuMiTradeFormVo, customerId);
+        if (shuMiTradeFormVo.getBankAcco() != null) {
+            createOpenAccountBankInfo(shuMiTradeFormVo, customerId);
+        }
 
         FundNav fundNav = productService.findFundNavByCode(shuMiTradeFormVo.getFundCode());
         //子帐号
@@ -96,7 +98,7 @@ public class ShuMiTradeServiceImpl implements ShuMiTradeService{
         String applySum = shuMiTradeFormVo.getApplySum();
         String fundCode = shuMiTradeFormVo.getFundCode();
         String fundName = shuMiTradeFormVo.getFundName();
-        String bankName = shuMiTradeFormVo.getBankName();
+        String bankName = shuMiTradeFormVo.getBankName() == null ? shuMiTradeFormVo.getBankCardInfo() : shuMiTradeFormVo.getBankName();
         String bankCardNo = shuMiTradeFormVo.getBankAcco();
         String applySerial = shuMiTradeFormVo.getApplySerial();
 
@@ -122,7 +124,8 @@ public class ShuMiTradeServiceImpl implements ShuMiTradeService{
         trade.setCustId(customerId);
         trade.setBankCardNo(bankCardNo);
         trade.setBankName(bankName);
-        trade.setPayStatus(DictConst.PAYMENT_STATUS_2);//未付款
+        //数米 直接付款成功
+        trade.setPayStatus(DictConst.PAYMENT_STATUS_3);//未付款
         trade.setProductCode(fundCode);
         trade.setProductName(fundName);
 
