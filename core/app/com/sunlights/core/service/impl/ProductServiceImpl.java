@@ -9,7 +9,6 @@ import com.sunlights.common.exceptions.BusinessRuntimeException;
 import com.sunlights.common.service.PageService;
 import com.sunlights.common.utils.ArithUtil;
 import com.sunlights.common.utils.CommonUtil;
-import com.sunlights.common.utils.PropertyFilter;
 import com.sunlights.common.vo.Message;
 import com.sunlights.common.vo.PageVo;
 import com.sunlights.core.dal.FundDao;
@@ -20,8 +19,8 @@ import com.sunlights.core.vo.FundVo;
 import com.sunlights.core.vo.Point;
 import com.sunlights.core.vo.ProductVo;
 import models.*;
-import play.libs.Json;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -51,9 +50,9 @@ public class ProductServiceImpl extends EntityBaseDao implements ProductService 
         xsql.append(" where f.fundcode = pm.productCode");
         xsql.append(" and pm.upBeginTime < '" + currentDate + "'");
         xsql.append(" and pm.downEndTime >= '" + currentDate + "'");
-        xsql.append(" and pm.recommendFlag = '" + DictConst.FP_RECOMMEND_FLAG_1 + "'");
+        xsql.append(" and pm.recommendType = '" + DictConst.FP_RECOMMEND_TYPE_1 + "'");
         xsql.append(" and pm.productStatus = '" + DictConst.FP_PRODUCT_MANAGE_STATUS_1 + "'");
-        xsql.append(" order by pm.priorityLevel desc");
+        xsql.append(" order by pm.priorityLevel");
 
         List<ProductVo> fundVos = pageService.findXsqlBy(xsql.toString(), pageVo);
         return fundVos;
@@ -73,7 +72,7 @@ public class ProductServiceImpl extends EntityBaseDao implements ProductService 
                 "/~ and f.fundType = {fundType} ~/" +
                 "/~ and f.isMonetary = {isMonetary} ~/" +
                 "/~ and f.isStf = {isStf} ~/" +
-                " order by pm.recommendType,pm.priorityLevel desc";
+                " order by pm.recommendType,pm.recommendFlag,pm.priorityLevel";
 
         List<FundVo> fundVos = pageService.findXsqlBy(jpql, pageVo);
         return fundVos;
@@ -199,9 +198,9 @@ public class ProductServiceImpl extends EntityBaseDao implements ProductService 
             String date = CommonUtil.dateToString(fundHis.getDateTime(), CommonUtil.DATE_FORMAT_SHORT);
 
             if (CHART_TYPE.equals(chartType)) {
-                points.add(new Point(date, ArithUtil.bigUpScale4(fundHis.getIncomePerTenThousand()) + ""));
+                points.add(new Point(date, ArithUtil.bigUpScale4(fundHis.getIncomePerTenThousand())));
             } else {
-                points.add(new Point(date, ArithUtil.mul(fundHis.getPercentSevenDays().doubleValue(), 100) + ""));
+                points.add(new Point(date, ArithUtil.bigToScale2(fundHis.getPercentSevenDays().multiply(new BigDecimal(100)))));
             }
         }
         chartVo.setPoints(sortPoints(points));
