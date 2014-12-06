@@ -9,7 +9,6 @@ import com.sunlights.common.exceptions.BusinessRuntimeException;
 import com.sunlights.common.service.PageService;
 import com.sunlights.common.utils.ArithUtil;
 import com.sunlights.common.utils.CommonUtil;
-import com.sunlights.common.utils.PropertyFilter;
 import com.sunlights.common.vo.Message;
 import com.sunlights.common.vo.PageVo;
 import com.sunlights.core.dal.FundDao;
@@ -20,8 +19,8 @@ import com.sunlights.core.vo.FundVo;
 import com.sunlights.core.vo.Point;
 import com.sunlights.core.vo.ProductVo;
 import models.*;
-import play.libs.Json;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -199,9 +198,9 @@ public class ProductServiceImpl extends EntityBaseDao implements ProductService 
             String date = CommonUtil.dateToString(fundHis.getDateTime(), CommonUtil.DATE_FORMAT_SHORT);
 
             if (CHART_TYPE.equals(chartType)) {
-                points.add(new Point(date, ArithUtil.bigUpScale4(fundHis.getIncomePerTenThousand()) + ""));
+                points.add(new Point(date, ArithUtil.bigUpScale4(fundHis.getIncomePerTenThousand())));
             } else {
-                points.add(new Point(date, ArithUtil.mul(fundHis.getPercentSevenDays().doubleValue(), 100) + ""));
+                points.add(new Point(date, ArithUtil.bigToScale2(fundHis.getPercentSevenDays().multiply(new BigDecimal(100)))));
             }
         }
         chartVo.setPoints(sortPoints(points));
