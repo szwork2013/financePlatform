@@ -22,6 +22,7 @@ import com.sunlights.trade.dal.TradeDao;
 import com.sunlights.trade.dal.impl.TradeDaoImpl;
 import com.sunlights.trade.service.ShuMiTradeService;
 import com.sunlights.trade.vo.ShuMiTradeFormVo;
+import play.Logger;
 
 import java.math.BigDecimal;
 import java.sql.Timestamp;
@@ -79,6 +80,9 @@ public class ShuMiTradeServiceImpl implements ShuMiTradeService{
     private void createOpenAccountBankInfo(ShuMiTradeFormVo shuMiTradeFormVo, String customerId) {
         String bankName = shuMiTradeFormVo.getBankName();
         String bankCardNo = shuMiTradeFormVo.getBankAcco();
+
+        Logger.debug("bankName:" + bankName);
+        Logger.debug("bankCardNo:" + bankCardNo);
 
         BankCardVo bankCardVo = new BankCardVo();
         bankCardVo.setBankCardNo(bankCardNo);

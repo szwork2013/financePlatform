@@ -30,7 +30,7 @@ public class VerifyCodeService {
      * <P>Description: 获取验证码</p>
      * @return
      */
-    public String genVerificationCode(String mobilePhoneNo, String type, String deviceNo) {
+    public synchronized String genVerificationCode(final String mobilePhoneNo, String type, String deviceNo) {
         CommonUtil.getInstance().validateParams(mobilePhoneNo, type);
         checkValidVerifyCode(type);
 
@@ -54,6 +54,7 @@ public class VerifyCodeService {
         verifyCode = randomVerifyCode(4);
         CustomerVerifyCode newUserVefiryCode = new CustomerVerifyCode();
         newUserVefiryCode.setVerifyType(type);
+        Logger.info("========save===mobilePhoneNo:" + mobilePhoneNo);
         newUserVefiryCode.setMobile(mobilePhoneNo);
         newUserVefiryCode.setVerifyCode(verifyCode);
         newUserVefiryCode.setCreateTime(currentTimestamp);
