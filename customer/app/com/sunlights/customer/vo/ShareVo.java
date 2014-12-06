@@ -1,7 +1,5 @@
 package com.sunlights.customer.vo;
 
-import models.Activity;
-
 import java.io.Serializable;
 
 /**

@@ -10,8 +10,6 @@ import com.sunlights.customer.ActivityConstant;
 import com.sunlights.customer.service.ActivityService;
 import com.sunlights.customer.service.impl.ActivityServiceImpl;
 import com.sunlights.customer.service.rewardrules.ActivityHandlerService;
-import com.sunlights.customer.service.rewardrules.IObtainRewardRule;
-import com.sunlights.customer.service.rewardrules.RewardRuleFactory;
 import com.sunlights.customer.service.rewardrules.vo.ActivityRequestVo;
 import com.sunlights.customer.service.rewardrules.vo.ActivityResponseVo;
 import com.sunlights.customer.vo.*;
@@ -59,36 +57,7 @@ public class ActivityController extends ActivityBaseController  {
      */
 
     public Result signinObtainReward() {
-        //1：获取请求参数
-        String token = getToken();
-        ActivityParamter activityParamter = getActivityParamter();
-        String scene = ActivityConstant.ACTIVITY_SIGNIN_SCENE_CODE;
-
-        //2:获取获取奖励需要的参数
-        CustomerSession customerSession = customerService.getCustomerSession(token);
-        String custNo = customerSession.getCustomerId();
-
-        ActivityRequestVo requestVo = new ActivityRequestVo();
-        ActivityResponseVo responseVo = new ActivityResponseVo();
-
-        requestVo.setCustId(custNo);
-        requestVo.setScene(scene);
-
-        activityHandlerService.service(requestVo, responseVo);
-
-        List<ObtainRewardVo> obtainRewardVos = responseVo.getObtainRewardVo();
-        ObtainRewardVo obtainRewardVo = null;
-        if(obtainRewardVos == null || obtainRewardVos.isEmpty()) {
-            obtainRewardVo = new ObtainRewardVo();
-            obtainRewardVo.setAlreadyGet(0L);
-            obtainRewardVo.setNotGet(0L);
-            obtainRewardVo.setScene(scene);
-            obtainRewardVo.setStatus(ActivityConstant.ACTIVITY_CUSTONER_STATUS_FORBIDDEN);
-        } else {
-            obtainRewardVo = obtainRewardVos.get(0);
-        }
-        messageUtil.setMessage(responseVo.getMessage(), obtainRewardVo);
-        return ok(messageUtil.toJson());
+        return obtainReward(ActivityConstant.ACTIVITY_SIGNIN_SCENE_CODE);
     }
 
     /**
@@ -96,7 +65,6 @@ public class ActivityController extends ActivityBaseController  {
      *
      * @return
      */
-    @Deprecated
     public Result obtainReward(String scene) {
         //1：获取请求参数
         String token = getToken();

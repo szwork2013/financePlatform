@@ -25,7 +25,7 @@ public class SigninObtainRuleHandler extends AbstractObtainRuleHandler {
                 new SigninObtainValideHandler(
                         new ObtainRuleGainHandler(
                                 new RewardFlowHandler(
-                                        new CustJoinActivityHandler(
+                                        new SignInCustJoinActivityHandler(
                                                 new OldResultAssignHandler())))));
         getNextHandler().obtain(requestVo, responseVo);
 

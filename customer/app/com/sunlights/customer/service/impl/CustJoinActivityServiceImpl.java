@@ -1,5 +1,6 @@
 package com.sunlights.customer.service.impl;
 
+import com.sunlights.common.utils.CommonUtil;
 import com.sunlights.customer.ActivityConstant;
 import com.sunlights.customer.dal.CustJoinActivityDao;
 import com.sunlights.customer.dal.impl.CustJoinActivityDaoImpl;
@@ -54,5 +55,22 @@ public class CustJoinActivityServiceImpl implements CustJoinActivityService {
         custJoinActivity.setContinued(ActivityConstant.ACCOUNT_COMMON_ONE);
 
         custJoinActivityDao.doInsert(custJoinActivity);
+    }
+
+    @Override
+    public CustJoinActivity getTodayRecordByCustAndActivity(String custId, Long activityId, String scene) {
+        CustJoinActivity custJoinActivity = new CustJoinActivity();
+        custJoinActivity.setCustId(custId);
+        custJoinActivity.setActivityId(activityId);
+        custJoinActivity.setScene(scene);
+
+        String dateStr = CommonUtil.dateToString(new Date(), CommonUtil.DATE_FORMAT_SHORT);
+        String startDate = dateStr + " 00:00:00";
+        String endDate = dateStr + " 23:59:59";
+        List<CustJoinActivity> custJoinActivityList = custJoinActivityDao.queryByCondition(custJoinActivity, startDate, endDate);
+        if(custJoinActivityList != null && !custJoinActivityList.isEmpty()) {
+            return custJoinActivityList.get(0);
+        }
+        return null;
     }
 }
