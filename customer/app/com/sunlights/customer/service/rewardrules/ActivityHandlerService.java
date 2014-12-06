@@ -65,6 +65,8 @@ public class ActivityHandlerService {
             }
 
         } catch (Exception e) {
+            Message message = new Message(Severity.INFO, MsgCode.ACTIVITY_SYS_ERROR);
+            responseVo.setMessage(message);
             Logger.error("活动操作失败", e);
         } finally {
             clearupRequest(processeRequest);

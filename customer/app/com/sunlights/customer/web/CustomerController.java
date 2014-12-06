@@ -31,6 +31,8 @@ import play.mvc.Result;
 public class CustomerController extends Controller {
   private Form<CustomerFormVo> customerForm = Form.form(CustomerFormVo.class);
 
+    private Form<JudjeTokenVo> judjeTokenVoForm = Form.form(JudjeTokenVo.class);
+
   private LoginService loginService = new LoginServiceImpl();
 
   private CustomerService customerService = new CustomerService();
@@ -244,14 +246,16 @@ public class CustomerController extends Controller {
   }
 
   public Result getToken() {
-      CustomerFormVo customerFormVo = customerForm.bindFromRequest().get();
-      String token = customerFormVo.getToken();
+      JudjeTokenVo judjeTokenVoF = judjeTokenVoForm.bindFromRequest().get();
+      String token = judjeTokenVoF.getToken();
+      Logger.debug("token = " + token);
       Object obj = Cache.get(token);
       JudjeTokenVo judjeTokenVo = new JudjeTokenVo();
       if(obj == null) {
-          judjeTokenVo.setToken(false);
+          judjeTokenVo.setExistToken(false);
       } else {
-          judjeTokenVo.setToken(true);
+          Logger.debug("obj = " + obj);
+          judjeTokenVo.setExistToken(true);
       }
       messageUtil.setMessage(new Message(Severity.INFO, MsgCode.OPERATE_SUCCESS), judjeTokenVo);
       Controller.response().setHeader("Access-Control-Allow-Origin","*");
