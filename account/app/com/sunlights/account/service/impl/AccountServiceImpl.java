@@ -60,6 +60,7 @@ public class AccountServiceImpl implements AccountService {
         subAccount.setBasicAccount(baseAccount.getBaseAccountNo());
         SimpleDateFormat sdf = new SimpleDateFormat("MMddHHmmss");
         subAccount.setSubAccount(sdf.format(currentTime));
+        subAccount.setStatus("0");
         subAccount.setCreateTime(currentTime);
         subAccount.setUpdateTime(currentTime);
         accountDao.saveSubAccount(subAccount);

@@ -22,6 +22,7 @@ import com.sunlights.trade.dal.TradeDao;
 import com.sunlights.trade.dal.impl.TradeDaoImpl;
 import com.sunlights.trade.service.ShuMiTradeService;
 import com.sunlights.trade.vo.ShuMiTradeFormVo;
+import play.Logger;
 
 import java.math.BigDecimal;
 import java.sql.Timestamp;
@@ -54,7 +55,9 @@ public class ShuMiTradeServiceImpl implements ShuMiTradeService{
         String customerId = customerSession.getCustomerId();
 
         //开户银行卡信息
-        createOpenAccountBankInfo(shuMiTradeFormVo, customerId);
+        if (shuMiTradeFormVo.getBankAcco() != null) {
+            createOpenAccountBankInfo(shuMiTradeFormVo, customerId);
+        }
 
         FundNav fundNav = productService.findFundNavByCode(shuMiTradeFormVo.getFundCode());
         //子帐号
@@ -80,6 +83,9 @@ public class ShuMiTradeServiceImpl implements ShuMiTradeService{
         String bankName = shuMiTradeFormVo.getBankName();
         String bankCardNo = shuMiTradeFormVo.getBankAcco();
 
+        Logger.debug("bankName:" + bankName);
+        Logger.debug("bankCardNo:" + bankCardNo);
+
         BankCardVo bankCardVo = new BankCardVo();
         bankCardVo.setBankCardNo(bankCardNo);
         bankCardVo.setBankName(bankName);
@@ -92,7 +98,7 @@ public class ShuMiTradeServiceImpl implements ShuMiTradeService{
         String applySum = shuMiTradeFormVo.getApplySum();
         String fundCode = shuMiTradeFormVo.getFundCode();
         String fundName = shuMiTradeFormVo.getFundName();
-        String bankName = shuMiTradeFormVo.getBankName();
+        String bankName = shuMiTradeFormVo.getBankName() == null ? shuMiTradeFormVo.getBankCardInfo() : shuMiTradeFormVo.getBankName();
         String bankCardNo = shuMiTradeFormVo.getBankAcco();
         String applySerial = shuMiTradeFormVo.getApplySerial();
 
@@ -118,7 +124,12 @@ public class ShuMiTradeServiceImpl implements ShuMiTradeService{
         trade.setCustId(customerId);
         trade.setBankCardNo(bankCardNo);
         trade.setBankName(bankName);
-        trade.setPayStatus(DictConst.PAYMENT_STATUS_2);//未付款
+        //数米 申购付款成功才回调
+        if (DictConst.TRADE_TYPE_1.equals(type)) {
+            trade.setPayStatus(DictConst.PAYMENT_STATUS_3);//未付款
+        }else{//赎回 TODO 付款状态
+            trade.setPayStatus(DictConst.PAYMENT_STATUS_2);
+        }
         trade.setProductCode(fundCode);
         trade.setProductName(fundName);
 

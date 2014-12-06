@@ -11,6 +11,7 @@ import com.sunlights.trade.vo.ShuMiTradeFormVo;
 import play.Logger;
 import play.data.Form;
 import play.db.jpa.Transactional;
+import play.libs.Json;
 import play.mvc.Controller;
 import play.mvc.Result;
 
@@ -38,6 +39,7 @@ public class ShuMiTradeController extends Controller{
 
         String token = request().cookie(AppConst.TOKEN).value();
         ShuMiTradeFormVo tradeFormVo = shuMiTradeFormVoForm.bindFromRequest().get();
+        Logger.debug("tradeFormVo:" + Json.toJson(tradeFormVo).toString());
 
         shuMiTradeService.shuMiTradeOrder(tradeFormVo, token);
 
@@ -55,7 +57,7 @@ public class ShuMiTradeController extends Controller{
 
         String token = request().cookie(AppConst.TOKEN).value();
         ShuMiTradeFormVo tradeFormVo = shuMiTradeFormVoForm.bindFromRequest().get();
-
+        Logger.debug("tradeFormVo:" + Json.toJson(tradeFormVo).toString());
         shuMiTradeService.shuMiTradeRedeem(tradeFormVo, token);
 
         MessageUtil.getInstance().setMessage(new Message(MsgCode.TRADE_REDEEM_SUCCESS));

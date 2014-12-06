@@ -156,10 +156,7 @@ public class LoginServiceImpl implements LoginService {
         customerVerifyCodeVo.setDeviceNo(deviceNo);
         customerVerifyCodeVo.setVerifyCode(verifyCode);
         boolean success = verifyCodeService.validateVerifyCode(customerVerifyCodeVo);
-        //方便测试
-        if("true".equals(Configuration.root().getString("mock"))) {
-            success = true;
-        }
+
         if (!success) {
             return null;
         }
