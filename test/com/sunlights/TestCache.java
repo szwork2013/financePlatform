@@ -142,7 +142,7 @@ public class TestCache {
     }
 
     @Test
-    public void testCacheableSpeed() {
+        public void testCacheableSpeed() {
         running(fakeApplication(), new Runnable() {
             public void run() {
                 JPA.withTransaction(new F.Callback0() {
@@ -160,9 +160,7 @@ public class TestCache {
 
                         Logger.info("花费时间：" + (System.currentTimeMillis() - start));
 
-                        while(true) {
 
-                        }
 
                         //String title = activities.get(0).getTitle();
                         //Logger.info("缓存到内存场景活动 = " + title);
@@ -170,6 +168,30 @@ public class TestCache {
                         //Logger.info("缓存到内存根据prdCode获得title = " + titles.get(0));
                     }
                 });
+
+                Long start = System.currentTimeMillis();
+                for(int i = 0; i < 10000; i++) {
+                    JPA.withTransaction(new F.Callback0() {
+                        @Override
+                        public void invoke() throws Throwable {
+
+
+                         ActivityService activityService = ActivityServiceFactory.getActivityService();
+                         List<Activity> activities = activityService.getActivityByScene(ActivityConstant.ACTIVITY_INVITE_SCENE_CODE);
+
+
+
+                        }
+                    });
+                }
+                Logger.info("花费时间：" + (System.currentTimeMillis() - start));
+
+
+
+
+                while(true) {
+
+                }
             }
         });
     }
