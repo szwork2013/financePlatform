@@ -12,6 +12,8 @@ public class CustomerFormVo implements Serializable {
   private String verifyCode;//验证码
   private String type;//验证码类型
 
+  private String token;
+
   private String gesturePassWord;//手势密码
   private String gestureOpened;//手势开启/关闭
 
@@ -21,7 +23,15 @@ public class CustomerFormVo implements Serializable {
 
   }
 
-  public String getMobilePhoneNo() {
+    public String getToken() {
+        return token;
+    }
+
+    public void setToken(String token) {
+        this.token = token;
+    }
+
+    public String getMobilePhoneNo() {
     return mobilePhoneNo;
   }
 
