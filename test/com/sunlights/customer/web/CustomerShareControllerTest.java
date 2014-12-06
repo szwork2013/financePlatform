@@ -48,7 +48,7 @@ public class CustomerShareControllerTest extends BaseTest {
 
 
     @Test
-    public void testgetQRcodeToBase64() throws Exception {//base64二维码
+    public void testgetQRcodeToByte() throws Exception {//byte二维码
         running(fakeApplication(), new Runnable() {
             public void run() {
                 Map<String, String> formParams = new HashMap<>();

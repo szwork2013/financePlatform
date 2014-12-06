@@ -10,7 +10,7 @@ POST        /logout                       @com.sunlights.customer.web.CustomerCo
 
 #share
 POST        /activity/sharecontent        @com.sunlights.customer.web.ShareContorller.sendFriend
-POST        /activity/getqrcode        @com.sunlights.customer.web.ShareContorller.getQRcodeToBase64
+POST        /activity/getqrcode        @com.sunlights.customer.web.ShareContorller.getQRcodeToByte
 
 #feedBack
 POST        /addfeedback                  @com.sunlights.customer.web.FeedBackController.saveFeedBack

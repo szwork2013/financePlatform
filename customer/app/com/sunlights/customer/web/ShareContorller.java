@@ -78,10 +78,10 @@ public class ShareContorller extends ActivityBaseController{
 
 
     /**
-     * 获得base64编码的字符串图片
+     * 获得byte流图片
      * @return
      */
-    public Result getQRcodeToBase64(){
+    public Result getQRcodeToByte(){
 
         //1、首先获得手机号
         CustomerSession customerSession = getCustomerSession();
@@ -112,10 +112,10 @@ public class ShareContorller extends ActivityBaseController{
         byte[] pngData = qrcode.getQRcodeByte(shorturl);//加入短路径如："http://t.cn/RzJWtFA"
         //3、将内容存入对象
         QRcodeVo qRcodeVo=new QRcodeVo();
-        qRcodeVo.setQrcodeStr(new BASE64Encoder().encode(pngData));
+        qRcodeVo.setQrcodeByte(pngData);
 
         messageUtil.setMessage(new Message(Severity.INFO, MsgCode.SHARE_QUERY_SUCC), qRcodeVo);
-        Logger.debug("返回给前端的内容----》:"+messageUtil.toJson());
+        Logger.debug("返回给前端的内容----:"+messageUtil.toJson());
         return ok(messageUtil.toJson());
 
     }
