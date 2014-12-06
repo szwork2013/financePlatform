@@ -108,13 +108,15 @@ public class ShareContorller extends ActivityBaseController{
         if(StringUtils.isEmpty(shorturl)){
             return notFound("获取短路径失败");
         }
+
+        //3、将内容存入对象
         QRcodeByte qrcode = new QRcodeByte();
         byte[] pngData = qrcode.getQRcodeByte(shorturl);//加入短路径如："http://t.cn/RzJWtFA"
-        //3、将内容存入对象
         QRcodeVo qRcodeVo=new QRcodeVo();
         qRcodeVo.setQrcodeByte(pngData);
+        Logger.debug("图片二进制流:"+qRcodeVo.getQrcodeByte());
 
-        messageUtil.setMessage(new Message(Severity.INFO, MsgCode.SHARE_QUERY_SUCC), qRcodeVo);
+        messageUtil.setMessage(new Message(Severity.INFO, MsgCode.ABOUT_QUERY_SUCC), qRcodeVo);
         Logger.debug("返回给前端的内容----:"+messageUtil.toJson());
         return ok(messageUtil.toJson());
 
