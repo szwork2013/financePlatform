@@ -5,13 +5,23 @@ package com.sunlights.customer.vo;
  */
 public class JudjeTokenVo {
 
-    private boolean isToken;
+    private String token;
 
-    public boolean isToken() {
-        return isToken;
+    private boolean existToken;
+
+    public boolean isExistToken() {
+        return existToken;
     }
 
-    public void setToken(boolean isToken) {
-        this.isToken = isToken;
+    public void setExistToken(boolean existToken) {
+        this.existToken = existToken;
+    }
+
+    public String getToken() {
+        return token;
+    }
+
+    public void setToken(String token) {
+        this.token = token;
     }
 }
