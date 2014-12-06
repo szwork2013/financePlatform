@@ -58,7 +58,6 @@ public class FundVo extends ProductVo {
         this.millionIncome = ArithUtil.bigUpScale4(fundNav.getIncomePerTenThousand());
         BigDecimal purchaseLimitMin = ArithUtil.bigUpScale0(fundNav.getPurchaseLimitMin());
         this.purchasedAmount = purchaseLimitMin == null ? "" : purchaseLimitMin.toString();
-        this.purchasedMethod = FundCategory.MONETARY.getFundType() == fundNav.getFundType() ? "随买随卖" : "";
         this.discount = getDiscountValueByFund(fundNav);
         this.purchasedMethod = isMonetary == 1 ? "随买随卖" : (isStf == 1 ? "7天" : "");
         ActivityService activityService = new ActivityServiceImpl();
@@ -78,13 +77,6 @@ public class FundVo extends ProductVo {
         }
         return value;
     }
-
-    private String getInvestmentDurationBy(FundNav fundNav) {
-        Integer isMonetary = fundNav.getIsMonetary();
-        Integer isStf = fundNav.getIsStf();
-        return isMonetary == 1 ? "随买随卖" : (isStf == 1 ? "7天" : "");
-    }
-
 
     public Integer getPeopleOfPurchased() {
         return peopleOfPurchased;
