@@ -124,8 +124,12 @@ public class ShuMiTradeServiceImpl implements ShuMiTradeService{
         trade.setCustId(customerId);
         trade.setBankCardNo(bankCardNo);
         trade.setBankName(bankName);
-        //数米 直接付款成功
-        trade.setPayStatus(DictConst.PAYMENT_STATUS_3);//未付款
+        //数米 申购付款成功才回调
+        if (DictConst.TRADE_TYPE_1.equals(type)) {
+            trade.setPayStatus(DictConst.PAYMENT_STATUS_3);//未付款
+        }else{//赎回 TODO 付款状态
+            trade.setPayStatus(DictConst.PAYMENT_STATUS_2);
+        }
         trade.setProductCode(fundCode);
         trade.setProductName(fundName);
 
