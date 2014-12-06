@@ -169,32 +169,29 @@ public class TestCache {
                     }
                 });
 
+                Long start = System.currentTimeMillis();
+                for(int i = 0; i < 10000; i++) {
+                    JPA.withTransaction(new F.Callback0() {
+                        @Override
+                        public void invoke() throws Throwable {
 
-                JPA.withTransaction(new F.Callback0() {
-                    @Override
-                    public void invoke() throws Throwable {
-                        try{
-                            TimeUnit.SECONDS.sleep(30);
-                        } catch (Exception e) {
 
-                        }
-                        Long start = System.currentTimeMillis();
+                         ActivityService activityService = ActivityServiceFactory.getActivityService();
+                         List<Activity> activities = activityService.getActivityByScene(ActivityConstant.ACTIVITY_INVITE_SCENE_CODE);
 
-                        ActivityService activityService = ActivityServiceFactory.getActivityService();
-                        List<Activity> activities = activityService.getActivityByScene(ActivityConstant.ACTIVITY_INVITE_SCENE_CODE);
 
-                        Logger.info("花费时间：" + (System.currentTimeMillis() - start));
-
-                        while(true) {
 
                         }
+                    });
+                }
+                Logger.info("花费时间：" + (System.currentTimeMillis() - start));
 
-                        //String title = activities.get(0).getTitle();
-                        //Logger.info("缓存到内存场景活动 = " + title);
 
-                        //Logger.info("缓存到内存根据prdCode获得title = " + titles.get(0));
-                    }
-                });
+
+
+                while(true) {
+
+                }
             }
         });
     }
