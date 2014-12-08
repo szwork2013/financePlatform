@@ -16,7 +16,7 @@ public class ActivityShareInfo extends IdEntity {
     @Column(name = "CONTENT")
     private String content;
     @Column(name = "SHARE_URL")
-    private String shortUrl;
+    private String shareUrl;
     @Column(name = "ICON_URL")
     private String iocnUrl;
 
@@ -52,12 +52,12 @@ public class ActivityShareInfo extends IdEntity {
         this.content = content;
     }
 
-    public String getShortUrl() {
-        return shortUrl;
+    public String getShareUrl() {
+        return shareUrl;
     }
 
-    public void setShortUrl(String shortUrl) {
-        this.shortUrl = shortUrl;
+    public void setShareUrl(String shareUrl) {
+        this.shareUrl = shareUrl;
     }
 
     public String getIocnUrl() {

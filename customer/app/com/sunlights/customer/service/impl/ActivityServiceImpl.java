@@ -96,6 +96,7 @@ public class ActivityServiceImpl implements ActivityService{
         if(activityShareInfos == null || activityShareInfos.isEmpty()) {
             return null;
         }
+
         return activityShareInfos.get(0);
     }
 }
