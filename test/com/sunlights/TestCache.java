@@ -5,6 +5,7 @@ import com.sunlights.customer.factory.ActivityServiceFactory;
 import com.sunlights.customer.service.ActivityService;
 import com.sunlights.customer.service.impl.ActivityServiceImpl;
 import models.Activity;
+import org.fest.assertions.Assertions;
 import org.junit.Test;
 import play.Logger;
 import play.cache.Cache;
@@ -18,7 +19,6 @@ import static play.test.Helpers.fakeApplication;
 import static play.test.Helpers.running;
 
 /**
- * TODO: @tang, 你需要把这个单元测试类好好整一下。加上assert，去掉死循环。
  * Created by Administrator on 2014/12/5.
  */
 public class TestCache {
@@ -27,45 +27,27 @@ public class TestCache {
     public void testCache() {
 
         running(fakeApplication(), new Runnable() {
+            private String title = "";
             public void run() {
                 JPA.withTransaction(new F.Callback0() {
                     @Override
                     public void invoke() throws Throwable {
                         ActivityService activityService = new ActivityServiceImpl();
                         List<Activity> activities = activityService.getActivityByScene(ActivityConstant.ACTIVITY_INVITE_SCENE_CODE);
-                        String title = activities.get(0).getTitle();
+                        title = activities.get(0).getTitle();
                         Logger.info("缓存到内存 = " + title);
                         Cache.set(ActivityConstant.ACTIVITY_INVITE_SCENE_CODE, activities);
-                        try{
-                            TimeUnit.SECONDS.sleep(30);
-                        } catch (Exception e) {
-
-                        }
 
                         List<Activity> activitiesNew = activityService.getActivityByScene(ActivityConstant.ACTIVITY_INVITE_SCENE_CODE);
                         String old = activitiesNew.get(0).getTitle();
                         Logger.info("同一个事物里的值(不是缓存的) = " + old);
-
-                        //List<Activity> activitiesLater = (List<Activity>)Cache.get(ActivityConstant.ACTIVITY_INVITE_SCENE_CODE);
-                        //String titleLater = activitiesLater.get(0).getTitle();
-
-                       // Logger.info("cache = " + title + " : new = " + titleLater);
                     }
                 });
-
-
 
                 JPA.withTransaction(new F.Callback0() {
                     @Override
                     public void invoke() throws Throwable {
                         ActivityService activityService = new ActivityServiceImpl();
-
-                        //
-                        try{
-                            TimeUnit.SECONDS.sleep(30);
-                        } catch (Exception e) {
-
-                        }
 
                         List<Activity> activitiesNew = activityService.getActivityByScene(ActivityConstant.ACTIVITY_INVITE_SCENE_CODE);
                         String old = activitiesNew.get(0).getTitle();
@@ -75,91 +57,82 @@ public class TestCache {
                         String titleLater = activitiesLater.get(0).getTitle();
 
                         Logger.info(" : 从不同事物中的缓存中cache = " + titleLater);
+                        Assertions.assertThat(titleLater).isEqualTo(title);
                     }
                 });
-
-
-
-
             }
         });
-
-
     }
 
     @Test
     public void testCacheable() {
 
         running(fakeApplication(), new Runnable() {
+            String title = "";
+            Activity activity = null;
             public void run() {
                 JPA.withTransaction(new F.Callback0() {
                     @Override
                     public void invoke() throws Throwable {
                         ActivityService activityService = ActivityServiceFactory.getActivityService();
                         List<Activity> activities = activityService.getActivityByScene(ActivityConstant.ACTIVITY_INVITE_SCENE_CODE);
-
-                        List<String> titles = activityService.getActivityTitles("3333");
-
-                        String title = activities.get(0).getTitle();
+                        activity = activities.get(0);
+                        title = activities.get(0).getTitle();
                         Logger.info("缓存到内存场景活动 = " + title);
-
-                        Logger.info("缓存到内存根据prdCode获得title = " + titles.get(0));
 
 
                     }
                 });
-                try{
-                    TimeUnit.SECONDS.sleep(30);
-                } catch (Exception e) {
 
-                }
+                JPA.withTransaction(new F.Callback0() {
+                    @Override
+                    public void invoke() throws Throwable {
+
+                        String sql = "update f_activity set title = '" + activity.getTitle() + "111" + "' where id = " + activity.getId();
+                        JPA.em().createNativeQuery(sql).executeUpdate();
+                    }
+                });
 
                 JPA.withTransaction(new F.Callback0() {
                     @Override
                     public void invoke() throws Throwable {
                         ActivityService activityService = ActivityServiceFactory.getActivityService();
                         List<Activity> activities = activityService.getActivityByScene(ActivityConstant.ACTIVITY_INVITE_SCENE_CODE);
-                        String title = activities.get(0).getTitle();
-                        Logger.info("得到缓存的内容 = " + title);
+                        String titleCache = activities.get(0).getTitle();
+                        Logger.info("得到缓存的内容 = " + titleCache);
 
-                        List<String> titles = activityService.getActivityTitles("3333");
-                        Logger.info("缓存到内存根据prdCode获得title = " + titles.get(0));
-
+                        Assertions.assertThat(titleCache).isEqualTo(title);
 
                     }
                 });
 
+                JPA.withTransaction(new F.Callback0() {
+                    @Override
+                    public void invoke() throws Throwable {
 
-
+                        String sql = "update f_activity set title = '" + activity.getTitle() + "' where id = " + activity.getId();
+                        JPA.em().createNativeQuery(sql).executeUpdate();
+                    }
+                });
             }
         });
     }
 
     @Test
-        public void testCacheableSpeed() {
+    public void testCacheableSpeed() {
         running(fakeApplication(), new Runnable() {
             public void run() {
                 JPA.withTransaction(new F.Callback0() {
                     @Override
                     public void invoke() throws Throwable {
-                        try{
-                            TimeUnit.SECONDS.sleep(30);
-                        } catch (Exception e) {
 
-                        }
                         Long start = System.currentTimeMillis();
 
-                            ActivityService activityService = ActivityServiceFactory.getActivityService();
-                            List<Activity> activities = activityService.getActivityByScene(ActivityConstant.ACTIVITY_INVITE_SCENE_CODE);
+                        ActivityService activityService = ActivityServiceFactory.getActivityService();
+                        List<Activity> activities = activityService.getActivityByScene(ActivityConstant.ACTIVITY_INVITE_SCENE_CODE);
 
                         Logger.info("花费时间：" + (System.currentTimeMillis() - start));
 
-
-
-                        //String title = activities.get(0).getTitle();
-                        //Logger.info("缓存到内存场景活动 = " + title);
-
-                        //Logger.info("缓存到内存根据prdCode获得title = " + titles.get(0));
                     }
                 });
 
@@ -168,24 +141,12 @@ public class TestCache {
                     JPA.withTransaction(new F.Callback0() {
                         @Override
                         public void invoke() throws Throwable {
-
-
-                         ActivityService activityService = ActivityServiceFactory.getActivityService();
-                         List<Activity> activities = activityService.getActivityByScene(ActivityConstant.ACTIVITY_INVITE_SCENE_CODE);
-
-
-
+                            ActivityService activityService = ActivityServiceFactory.getActivityService();
+                            List<Activity> activities = activityService.getActivityByScene(ActivityConstant.ACTIVITY_INVITE_SCENE_CODE);
                         }
                     });
                 }
                 Logger.info("花费时间：" + (System.currentTimeMillis() - start));
-
-
-
-
-                while(true) {
-
-                }
             }
         });
     }
