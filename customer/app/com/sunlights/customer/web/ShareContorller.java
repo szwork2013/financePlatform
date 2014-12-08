@@ -15,6 +15,7 @@ import com.sunlights.customer.vo.ActivityParamter;
 import com.sunlights.customer.vo.QRcodeVo;
 import com.sunlights.customer.vo.ShareVo;
 import models.Activity;
+import models.ActivityShareInfo;
 import models.Customer;
 import models.CustomerSession;
 import org.apache.commons.lang3.StringUtils;
@@ -53,17 +54,18 @@ public class ShareContorller extends ActivityBaseController{
         if(StringUtils.isEmpty(scene)){
             scene= ActivityConstant.ACTIVITY_INVITE_SCENE_CODE;//邀请好友配置场景
         }
-        List<Activity> list=activityService.getActivityByScene(scene);
-        if(list.size()<1){
+        ActivityShareInfo activityShareInfo=activityService.getShareInfoByScene(scene);
+        if(activityShareInfo==null){
             return notFound("暂时没有活动");
         }
-        Activity activity=list.get(0);
-        String url=activity.getShareUrl();//活动路径
+        //Activity activity=list.get(0);
+        String url=activityShareInfo.getShortUrl();//活动路径
         Logger.debug("获得的活动路径url为:"+url);
-        String sharetext=activity.getShareText();//获得分享描述内容
+        String sharetext=activityShareInfo.getContent();//获得分享描述内容
         Logger.debug("获得分享描述内容:"+sharetext);
-        Long activatyid=activity.getId();//活动id
-        String shorturl= getShortUrl(custNo,activatyid,scene,mobile,url);  //获得短路径
+        String shorturl=activityShareInfo.getShortUrl(); //获得短路径
+        String title=activityShareInfo.getTitle(); //获得title
+       // String shorturl= getShortUrl(custNo,activatyid,scene,mobile,url);  //获得短路径
         if(StringUtils.isEmpty(shorturl)){
             return notFound("获取短路径失败");
         }
@@ -96,15 +98,16 @@ public class ShareContorller extends ActivityBaseController{
         if(StringUtils.isEmpty(scene)){
             scene= ActivityConstant.ACTIVITY_INVITE_SCENE_CODE;//邀请好友配置场景
         }
-        List<Activity> list=activityService.getActivityByScene(scene);
-        if(list.size()<1){
+
+        ActivityShareInfo activityShareInfo=activityService.getShareInfoByScene(scene);
+        if(activityShareInfo==null){
             return notFound("暂时没有活动");
         }
-        Activity activity=list.get(0);
-        String url=activity.getShareUrl();//活动路径
-        Logger.debug("获得的活动路径url为:"+url);
-        Long activatyid=activity.getId();//活动id
-        String shorturl= getShortUrl(custNo,activatyid,scene,mobile,url);//获得短路径
+
+
+        String shorturl=activityShareInfo.getShortUrl(); //获得短路径
+
+
         if(StringUtils.isEmpty(shorturl)){
             return notFound("获取短路径失败");
         }
