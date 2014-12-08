@@ -14,6 +14,7 @@ import com.sunlights.customer.service.ActivityService;
 import com.sunlights.customer.vo.ActivityVo;
 import models.Activity;
 import models.ActivityScene;
+import models.ActivityShareInfo;
 import play.Configuration;
 
 import java.util.ArrayList;
@@ -87,5 +88,10 @@ public class ActivityServiceImpl implements ActivityService{
             titles.add(activity.getTitle());
         }
         return titles;
+    }
+
+    @Override
+    public ActivityShareInfo getShareInfoByScene(String scene) {
+        return null;
     }
 }
