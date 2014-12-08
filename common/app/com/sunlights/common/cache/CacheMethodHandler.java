@@ -6,6 +6,8 @@ import play.cache.Cache;
 import java.lang.reflect.Method;
 
 /**
+ * 处理打了Cacheable注解的方法
+ *
  * Created by tangweiqun on 2014/12/6.
  */
 class CacheMethodHandler implements MethodHandler {

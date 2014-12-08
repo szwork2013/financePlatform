@@ -55,14 +55,14 @@ public class ActivityServiceImpl implements ActivityService{
         return new StringBuilder().append("http://").append(server).append(":").append(port).append(remoteDir).append("/").append(fileName).toString();
     }
 
-    @Cacheable(key="scene", duration = 15)
+    @Cacheable(key="scene", duration = 150)
     @Override
     public List<Activity> getActivityByScene(String scene) {
         //TODO
         return activityDao.getActivityByScene(scene);
     }
 
-    @Cacheable(key="activityTitleByPrdCode", duration = 10)
+    @Cacheable(key="activityTitleByPrdCode", duration = 100)
     @Override
     public List<String> getActivityTitles(String prdCode) {
         List<String> titles = new ArrayList<String>();
