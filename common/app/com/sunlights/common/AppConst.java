@@ -43,4 +43,7 @@ public final class AppConst {
     public static String TOKEN = "token";
     public static String FUND_CATEGORY_MONETARY = "MONETARY";
     public static String FUND_CATEGORY_STF= "STF";
+    public static String FUND_GRAB_STATUS_NULL= "FUND-GRAB-STATUS-NULL";
+    public static String FUND_GRAB_STATUS_OVERDUE= "FUND-GRAB-STATUS-OVERDUE";
+    public static String FUND_GRAB_STATUS_SYNCHRONIZED= "FUND-GRAB-STATUS-SYNCHRONIZED";
 }
