@@ -92,6 +92,10 @@ public class ActivityServiceImpl implements ActivityService{
 
     @Override
     public ActivityShareInfo getShareInfoByScene(String scene) {
-        return null;
+        List<ActivityShareInfo> activityShareInfos = activityDao.getShareInfoByScene(scene);
+        if(activityShareInfos == null || activityShareInfos.isEmpty()) {
+            return null;
+        }
+        return activityShareInfos.get(0);
     }
 }
