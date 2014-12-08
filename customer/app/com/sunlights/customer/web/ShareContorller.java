@@ -70,7 +70,7 @@ public class ShareContorller extends ActivityBaseController{
         //3、将内容存入对象
         ShareVo shareVo=new ShareVo();
         shareVo.setShorturl(shorturl);
-        shareVo.setTemplate(sharetext);
+        shareVo.setDescription(sharetext);
         messageUtil.setMessage(new Message(Severity.INFO, MsgCode.SHARE_QUERY_SUCC), shareVo);
         Logger.debug("返回给前端的内容----》:"+messageUtil.toJson());
         return ok(messageUtil.toJson());
