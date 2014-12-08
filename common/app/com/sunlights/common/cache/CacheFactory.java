@@ -16,7 +16,6 @@ public class CacheFactory {
 
     private static final MethodFilter methodFilter = new CacheMethodFilter();
 
-
     public static<T> T getProxyCacheObject(Class<T> clazz) {
         ProxyFactory factory = new ProxyFactory();
         factory.setSuperclass(clazz);

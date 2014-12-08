@@ -8,7 +8,7 @@ import java.lang.reflect.Method;
 /**
  * Created by tangweiqun on 2014/12/6.
  */
-public class CacheMethodHandler implements MethodHandler {
+class CacheMethodHandler implements MethodHandler {
 
     @Override
     public Object invoke(Object self, Method thisMethod, Method proceed, Object[] args) throws Throwable {

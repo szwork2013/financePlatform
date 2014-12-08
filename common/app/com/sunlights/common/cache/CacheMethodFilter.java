@@ -7,7 +7,7 @@ import java.lang.reflect.Method;
 /**
  * Created by tangweiqun on 2014/12/6.
  */
-public class CacheMethodFilter implements MethodFilter {
+class CacheMethodFilter implements MethodFilter {
 
     @Override
     public boolean isHandled(Method method) {
