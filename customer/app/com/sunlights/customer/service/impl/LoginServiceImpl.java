@@ -138,13 +138,13 @@ public class LoginServiceImpl implements LoginService {
 		String mobilePhoneNo = vo.getMobilePhoneNo();
 		String passWord = vo.getPassWord();
 		String verifyCode = vo.getVerifyCode();
-		String nickName = vo.getNickName();
 		String deviceNo = vo.getDeviceNo();
 
-        Logger.info("====nickName:" + nickName);
+        Logger.info("====nickName:" + vo.getNickName());
         Logger.info("=============mobilePhoneNo:" + mobilePhoneNo);
         Logger.info("=============deviceNo:" + deviceNo);
-        CommonUtil.getInstance().validateParams(mobilePhoneNo, passWord, deviceNo);
+        Logger.info("=============recommendPhone:" + vo.getRecommendPhone());
+        CommonUtil.getInstance().validateParams(mobilePhoneNo, passWord);
         
         Customer oldUserMstr = getCustomerByMobilePhoneNo(mobilePhoneNo);
         if (oldUserMstr != null) {
@@ -156,22 +156,25 @@ public class LoginServiceImpl implements LoginService {
         customerVerifyCodeVo.setDeviceNo(deviceNo);
         customerVerifyCodeVo.setVerifyCode(verifyCode);
         boolean success = verifyCodeService.validateVerifyCode(customerVerifyCodeVo);
-        //方便测试
-        if("true".equals(Configuration.root().getString("mock"))) {
-            success = true;
-        }
+
         if (!success) {
             return null;
         }
 
-        Customer customer = saveCustomer(mobilePhoneNo, passWord, nickName, deviceNo);
+        Customer customer = saveCustomer(vo);
 
         saveLoginHistory(customer, deviceNo);
 
         return customer;
 	}
 
-    private Customer saveCustomer(String mobilePhoneNo, String passWord, String nickName, String deviceNo) {
+    private Customer saveCustomer(CustomerFormVo vo) {
+        String mobilePhoneNo = vo.getMobilePhoneNo();
+        String passWord = vo.getPassWord();
+        String nickName = vo.getNickName();
+        String deviceNo = vo.getDeviceNo();
+        String recommendPhone = vo.getRecommendPhone();
+
         Timestamp currentTime = DBHelper.getCurrentTime();
         Customer customer = new Customer();
         customer.setLoginId(mobilePhoneNo);
@@ -184,6 +187,7 @@ public class LoginServiceImpl implements LoginService {
         customer.setProperty(DictConst.CUSTOMER_PROPERTY_1);
         customer.setDeviceNo(deviceNo);
         customer.setStatus(DictConst.CUSTOMER_STATUS_2);
+        customer.setRecommendPhone(recommendPhone);
         customer.setCreateTime(currentTime);
         customer.setUpdateTime(currentTime);
         customerService.saveCustomer(customer);

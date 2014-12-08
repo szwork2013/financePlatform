@@ -52,6 +52,7 @@ public enum MsgCode {
     SEARCH_FAIL_PROTOCOL_NONE("2301","查询失败","没有该协议"),
     SEARCH_FAIL_TYPE_EMPTY("2401", "查询失败", "类型不能为空"),
     SEARCH_FAIL_PRODUCT_DETAIL("2402", "查询产品详情失败", "请重新查询"),
+    SEARCH_FAIL_FUND_CATEGORY_EMPTY("2403", "查询失败", "基金种类不能为空"),
     BANK_CARD_ADD_SUCCESS("0210","操作成功","银行卡添加成功"),
     BANK_CARD_DELETE_SUCCESS("0211","操作成功","银行卡删除成功"),
     BANK_NAME_CERTIFY_FAIL("2210","请先实名认证",""),
@@ -65,7 +66,9 @@ public enum MsgCode {
 
 
     TRADE_ORDER_SUCCESS("0400", "下单成功"),
+    TRADE_ORDER_NOCODE("1400", "下单成功，该产品为其它商户产品", "未查询到此产品"),
     TRADE_REDEEM_SUCCESS("0401", "赎回成功"),
+    TRADE_REDEEM_NOCODE("1401", "赎回成功，该产品为其它商户产品", "未查询到此产品"),
     TRADE_AMOUNT_VALIDATE("2400", "申购金额超出总资产", "请重新输入"),
 
 
@@ -97,10 +100,16 @@ public enum MsgCode {
     OBTAIN_SUCC("0220", "获取积分成功"),
     ACTIVITY_QUERY_SUCC("0221", "查询成功"),
     REWARD_QUERY_SUCC("0222", "查询成功"),
+    SHARE_QUERY_SUCC("0223", "分享查询成功"),
+    ABOUT_QUERY_SUCC("0224", "获取二维码成功"),
     ALREADY_SIGN("2220", "重复签到"),
     NOT_CONFIG_ACTIVITY_SCENE("2221", "没有配置活动场景"),
     ALREADY_PURCHASE("2222", "不是首次购买"),
-    ALREADY_REGISTER("2223", "已经注册");
+    ALREADY_REGISTER("2223", "已经注册"),
+    EXCHANGE_OVER_LIMIT("2224", "兑换数量超额"),
+    NOT_CAN_ATTEND_ACTIVITY("2225", "该客户不能参加此活动"),
+    NOT_SUPPORT_TRADE_TYPE("2226", "不支持的交易类型"),
+    ACTIVITY_SYS_ERROR("3201", "不支持的交易类型");
 
 
     private String code;

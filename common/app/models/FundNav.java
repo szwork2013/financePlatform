@@ -82,6 +82,9 @@ public class FundNav {
     @javax.persistence.Column(name = "investment_type")
     private Integer investmentType;
 
+    @javax.persistence.Column(name = "investment_duration")
+    private Integer investmentDuration;
+
     @javax.persistence.Column(name = "netvalue")
     private BigDecimal netvalue;
 
@@ -492,114 +495,12 @@ public class FundNav {
         this.updateTime = updateTime;
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-
-        FundNav fundNav = (FundNav) o;
-
-        if (aipState != null ? !aipState.equals(fundNav.aipState) : fundNav.aipState != null) return false;
-        if (aliascode != null ? !aliascode.equals(fundNav.aliascode) : fundNav.aliascode != null) return false;
-        if (cgs3Year != null ? !cgs3Year.equals(fundNav.cgs3Year) : fundNav.cgs3Year != null) return false;
-        if (chargeRateValue != null ? !chargeRateValue.equals(fundNav.chargeRateValue) : fundNav.chargeRateValue != null)
-            return false;
-        if (createTime != null ? !createTime.equals(fundNav.createTime) : fundNav.createTime != null) return false;
-        if (currDate != null ? !currDate.equals(fundNav.currDate) : fundNav.currDate != null) return false;
-        if (discount != null ? !discount.equals(fundNav.discount) : fundNav.discount != null) return false;
-        if (fundManagementFees != null ? !fundManagementFees.equals(fundNav.fundManagementFees) : fundNav.fundManagementFees != null)
-            return false;
-        if (fundTrusteeFees != null ? !fundTrusteeFees.equals(fundNav.fundTrusteeFees) : fundNav.fundTrusteeFees != null)
-            return false;
-        if (fundType != null ? !fundType.equals(fundNav.fundType) : fundNav.fundType != null) return false;
-        if (fundcode != null ? !fundcode.equals(fundNav.fundcode) : fundNav.fundcode != null) return false;
-        if (fundname != null ? !fundname.equals(fundNav.fundname) : fundNav.fundname != null) return false;
-        if (fundnameabbr != null ? !fundnameabbr.equals(fundNav.fundnameabbr) : fundNav.fundnameabbr != null)
-            return false;
-        if (iaGuid != null ? !iaGuid.equals(fundNav.iaGuid) : fundNav.iaGuid != null) return false;
-        if (incomePerTenThousand != null ? !incomePerTenThousand.equals(fundNav.incomePerTenThousand) : fundNav.incomePerTenThousand != null)
-            return false;
-        if (investmentType != null ? !investmentType.equals(fundNav.investmentType) : fundNav.investmentType != null)
-            return false;
-        if (isMonetary != null ? !isMonetary.equals(fundNav.isMonetary) : fundNav.isMonetary != null) return false;
-        if (isStf != null ? !isStf.equals(fundNav.isStf) : fundNav.isStf != null) return false;
-        if (lastestTotalAsset != null ? !lastestTotalAsset.equals(fundNav.lastestTotalAsset) : fundNav.lastestTotalAsset != null)
-            return false;
-        if (netvalue != null ? !netvalue.equals(fundNav.netvalue) : fundNav.netvalue != null) return false;
-        if (onSale != null ? !onSale.equals(fundNav.onSale) : fundNav.onSale != null) return false;
-        if (percent != null ? !percent.equals(fundNav.percent) : fundNav.percent != null) return false;
-        if (percentSevenDays != null ? !percentSevenDays.equals(fundNav.percentSevenDays) : fundNav.percentSevenDays != null)
-            return false;
-        if (purchaseLimitMin != null ? !purchaseLimitMin.equals(fundNav.purchaseLimitMin) : fundNav.purchaseLimitMin != null)
-            return false;
-        if (purchaseState != null ? !purchaseState.equals(fundNav.purchaseState) : fundNav.purchaseState != null)
-            return false;
-        if (rapidRedeem != null ? !rapidRedeem.equals(fundNav.rapidRedeem) : fundNav.rapidRedeem != null) return false;
-        if (recommendation != null ? !recommendation.equals(fundNav.recommendation) : fundNav.recommendation != null)
-            return false;
-        if (redeemLimitMin != null ? !redeemLimitMin.equals(fundNav.redeemLimitMin) : fundNav.redeemLimitMin != null)
-            return false;
-        if (riskLevel != null ? !riskLevel.equals(fundNav.riskLevel) : fundNav.riskLevel != null) return false;
-        if (saleChargeRateValue != null ? !saleChargeRateValue.equals(fundNav.saleChargeRateValue) : fundNav.saleChargeRateValue != null)
-            return false;
-        if (shareType != null ? !shareType.equals(fundNav.shareType) : fundNav.shareType != null) return false;
-        if (subscribeState != null ? !subscribeState.equals(fundNav.subscribeState) : fundNav.subscribeState != null)
-            return false;
-        if (totalNetvalue != null ? !totalNetvalue.equals(fundNav.totalNetvalue) : fundNav.totalNetvalue != null)
-            return false;
-        if (updateTime != null ? !updateTime.equals(fundNav.updateTime) : fundNav.updateTime != null) return false;
-        if (yield12M != null ? !yield12M.equals(fundNav.yield12M) : fundNav.yield12M != null) return false;
-        if (yield1M != null ? !yield1M.equals(fundNav.yield1M) : fundNav.yield1M != null) return false;
-        if (yield3M != null ? !yield3M.equals(fundNav.yield3M) : fundNav.yield3M != null) return false;
-        if (yield6M != null ? !yield6M.equals(fundNav.yield6M) : fundNav.yield6M != null) return false;
-        if (yieldThisYear != null ? !yieldThisYear.equals(fundNav.yieldThisYear) : fundNav.yieldThisYear != null)
-            return false;
-
-        return true;
+    public Integer getInvestmentDuration() {
+        return investmentDuration;
     }
 
-    @Override
-    public int hashCode() {
-        int result = fundcode != null ? fundcode.hashCode() : 0;
-        result = 31 * result + (aliascode != null ? aliascode.hashCode() : 0);
-        result = 31 * result + (fundname != null ? fundname.hashCode() : 0);
-        result = 31 * result + (fundnameabbr != null ? fundnameabbr.hashCode() : 0);
-        result = 31 * result + (currDate != null ? currDate.hashCode() : 0);
-        result = 31 * result + (fundType != null ? fundType.hashCode() : 0);
-        result = 31 * result + (investmentType != null ? investmentType.hashCode() : 0);
-        result = 31 * result + (netvalue != null ? netvalue.hashCode() : 0);
-        result = 31 * result + (totalNetvalue != null ? totalNetvalue.hashCode() : 0);
-        result = 31 * result + (percent != null ? percent.hashCode() : 0);
-        result = 31 * result + (incomePerTenThousand != null ? incomePerTenThousand.hashCode() : 0);
-        result = 31 * result + (percentSevenDays != null ? percentSevenDays.hashCode() : 0);
-        result = 31 * result + (yield1M != null ? yield1M.hashCode() : 0);
-        result = 31 * result + (yield3M != null ? yield3M.hashCode() : 0);
-        result = 31 * result + (yield6M != null ? yield6M.hashCode() : 0);
-        result = 31 * result + (yield12M != null ? yield12M.hashCode() : 0);
-        result = 31 * result + (yieldThisYear != null ? yieldThisYear.hashCode() : 0);
-        result = 31 * result + (cgs3Year != null ? cgs3Year.hashCode() : 0);
-        result = 31 * result + (lastestTotalAsset != null ? lastestTotalAsset.hashCode() : 0);
-        result = 31 * result + (onSale != null ? onSale.hashCode() : 0);
-        result = 31 * result + (riskLevel != null ? riskLevel.hashCode() : 0);
-        result = 31 * result + (shareType != null ? shareType.hashCode() : 0);
-        result = 31 * result + (purchaseState != null ? purchaseState.hashCode() : 0);
-        result = 31 * result + (subscribeState != null ? subscribeState.hashCode() : 0);
-        result = 31 * result + (aipState != null ? aipState.hashCode() : 0);
-        result = 31 * result + (recommendation != null ? recommendation.hashCode() : 0);
-        result = 31 * result + (chargeRateValue != null ? chargeRateValue.hashCode() : 0);
-        result = 31 * result + (discount != null ? discount.hashCode() : 0);
-        result = 31 * result + (saleChargeRateValue != null ? saleChargeRateValue.hashCode() : 0);
-        result = 31 * result + (isMonetary != null ? isMonetary.hashCode() : 0);
-        result = 31 * result + (isStf != null ? isStf.hashCode() : 0);
-        result = 31 * result + (purchaseLimitMin != null ? purchaseLimitMin.hashCode() : 0);
-        result = 31 * result + (redeemLimitMin != null ? redeemLimitMin.hashCode() : 0);
-        result = 31 * result + (rapidRedeem != null ? rapidRedeem.hashCode() : 0);
-        result = 31 * result + (iaGuid != null ? iaGuid.hashCode() : 0);
-        result = 31 * result + (fundManagementFees != null ? fundManagementFees.hashCode() : 0);
-        result = 31 * result + (fundTrusteeFees != null ? fundTrusteeFees.hashCode() : 0);
-        result = 31 * result + (createTime != null ? createTime.hashCode() : 0);
-        result = 31 * result + (updateTime != null ? updateTime.hashCode() : 0);
-        return result;
+    public void setInvestmentDuration(Integer investmentDuration) {
+        this.investmentDuration = investmentDuration;
     }
 }
 

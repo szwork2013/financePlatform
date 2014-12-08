@@ -71,6 +71,7 @@ public class SecurityController extends Controller {
 
         Message message = new Message(MsgCode.OPERATE_SUCCESS);
         MessageVo messageVo = new MessageVo(message);
+        Controller.response().setHeader("Access-Control-Allow-Origin","*");
         return Controller.ok(Json.toJson(messageVo));
     }
 

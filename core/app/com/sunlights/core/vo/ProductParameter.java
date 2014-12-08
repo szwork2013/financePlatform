@@ -12,7 +12,7 @@ package com.sunlights.core.vo;
 public class ProductParameter {
     private int index;
     private int pageSize;
-    private Integer category;
+    private String category;
     private String type;
     private String code;
     private String chartType;
@@ -36,11 +36,11 @@ public class ProductParameter {
         this.pageSize = pageSize;
     }
 
-    public Integer getCategory() {
+    public String getCategory() {
         return category;
     }
 
-    public void setCategory(Integer category) {
+    public void setCategory(String category) {
         this.category = category;
     }
 
@@ -91,4 +91,5 @@ public class ProductParameter {
     public void setDays(int days) {
         this.days = days;
     }
+
 }

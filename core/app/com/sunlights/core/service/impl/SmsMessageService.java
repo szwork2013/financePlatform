@@ -59,6 +59,7 @@ public class SmsMessageService {
 
 
     private SmsMessage createSmsMessage(String mobilePhoneNo, String verifyCode, String type) {
+
         String typeStr = "";
         if (AppConst.VERIFY_CODE_REGISTER.equals(type)) {
             typeStr = "注册";
@@ -67,9 +68,10 @@ public class SmsMessageService {
         } else if (AppConst.VERIFY_CODE_RESET_ACCOUNT.equals(type)) {
             typeStr = "修改交易密码";
         }
+        String mobileDisplayNo = mobilePhoneNo.substring(0, 3) + "****" + mobilePhoneNo.substring(7);
         long expriyTimes = parameterService.getParameterNumeric(ParameterConst.VERIFYCODE_EXPIRY);
-        String content = MessageFormat.format("您的{0}的验证码为： " +
-                "{1}（{2}分钟内有效）【艺岳投资】", typeStr, verifyCode, expriyTimes);
+        String content = MessageFormat.format("尊敬的用户({0})，您申请的{1}验证码为： " +
+                "{2}（{3}分钟内有效）。请勿泄露您的验证码。谢谢！【金豆荚】", mobileDisplayNo, typeStr, verifyCode, expriyTimes);
 
         Timestamp currentTime = DBHelper.getCurrentTime();
         SmsMessage smsMessage = new SmsMessage();

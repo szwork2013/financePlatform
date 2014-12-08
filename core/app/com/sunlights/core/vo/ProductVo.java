@@ -27,6 +27,10 @@ public class ProductVo {
     private String tag;
     private String tagDesc;
 
+    public ProductVo() {
+        super();
+    }
+
     public Long getId() {
         return id;
     }

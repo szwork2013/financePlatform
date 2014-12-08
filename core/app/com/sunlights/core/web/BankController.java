@@ -14,6 +14,8 @@ import com.sunlights.core.vo.BankCardFormVo;
 import com.sunlights.core.vo.BankCardVo;
 import com.sunlights.core.vo.BankVo;
 import com.sunlights.customer.service.impl.CustomerService;
+import models.CustomerSession;
+import play.Logger;
 import play.data.Form;
 import play.db.jpa.Transactional;
 import play.libs.Json;
@@ -22,6 +24,7 @@ import play.mvc.Http;
 import play.mvc.Result;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * <p>Project: fsp</p>
@@ -51,6 +54,10 @@ public class BankController extends Controller {
         if (body.asFormUrlEncoded() != null) {
             bankCardVo = Form.form(BankCardVo.class).bindFromRequest().get();
         }
+        
+        Map<String, String> params = Form.form().bindFromRequest().data();
+        Logger.debug("=====createBankCard params=====" + Json.toJson(params));
+        
         play.Logger.info("[bankCardVo]" + Json.toJson(bankCardVo));
         customerService.validateCustomerSession(request(), session(), response());
         String token = request().cookie(AppConst.TOKEN).value();
@@ -68,11 +75,13 @@ public class BankController extends Controller {
         if (body.asFormUrlEncoded() != null) {
             bankCardVo = bankCardForm.bindFromRequest().get();
         }
+
+        Map<String, String> params = Form.form().bindFromRequest().data();
+        Logger.debug("=====createBankCard params=====" + Json.toJson(params));
         play.Logger.info("[bankCardVo]" + Json.toJson(bankCardVo));
-        Http.Cookie cookie = Controller.request().cookie(AppConst.TOKEN);
-        String token = cookie == null ? null : cookie.value();
-        customerService.validateCustomerSession(request(), session(), response());
-        bankCardService.deleteBankCard(token, bankCardVo);
+
+        CustomerSession customerSession = customerService.validateCustomerSession(request(), session(), response());
+        bankCardService.deleteBankCard(customerSession.getToken(), bankCardVo);
         return ok(MessageUtil.getInstance().toJson());
     }
 

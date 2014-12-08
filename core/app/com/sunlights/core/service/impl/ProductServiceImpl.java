@@ -1,9 +1,15 @@
 package com.sunlights.core.service.impl;
 
 import com.sunlights.common.DictConst;
+import com.sunlights.common.FundCategory;
+import com.sunlights.common.MsgCode;
+import com.sunlights.common.Severity;
+import com.sunlights.common.dal.EntityBaseDao;
+import com.sunlights.common.exceptions.BusinessRuntimeException;
 import com.sunlights.common.service.PageService;
 import com.sunlights.common.utils.ArithUtil;
 import com.sunlights.common.utils.CommonUtil;
+import com.sunlights.common.vo.Message;
 import com.sunlights.common.vo.PageVo;
 import com.sunlights.core.dal.FundDao;
 import com.sunlights.core.dal.impl.FundDaoImpl;
@@ -14,6 +20,7 @@ import com.sunlights.core.vo.Point;
 import com.sunlights.core.vo.ProductVo;
 import models.*;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -27,7 +34,7 @@ import java.util.List;
  *
  * @author <a href="mailto:zhencai.yuan@sunlights.cc">yuanzhencai</a>
  */
-public class ProductServiceImpl implements ProductService {
+public class ProductServiceImpl extends EntityBaseDao implements ProductService {
 
     public static final String CHART_TYPE = "1";
     private PageService pageService = new PageService();
@@ -43,9 +50,9 @@ public class ProductServiceImpl implements ProductService {
         xsql.append(" where f.fundcode = pm.productCode");
         xsql.append(" and pm.upBeginTime < '" + currentDate + "'");
         xsql.append(" and pm.downEndTime >= '" + currentDate + "'");
-        xsql.append(" and pm.recommendFlag = '" + DictConst.FP_RECOMMEND_FLAG_1 + "'");
+        xsql.append(" and pm.recommendType = '" + DictConst.FP_RECOMMEND_TYPE_1 + "'");
         xsql.append(" and pm.productStatus = '" + DictConst.FP_PRODUCT_MANAGE_STATUS_1 + "'");
-        xsql.append(" order by pm.priorityLevel desc");
+        xsql.append(" order by pm.priorityLevel");
 
         List<ProductVo> fundVos = pageService.findXsqlBy(xsql.toString(), pageVo);
         return fundVos;
@@ -53,19 +60,38 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public List<FundVo> findFunds(PageVo pageVo) {
+        this.convertPageVo(pageVo);
         String currentDate = CommonUtil.dateToString(new Date(), CommonUtil.DATE_FORMAT_LONG);
         String jpql = " select new com.sunlights.core.vo.FundVo(f,pm)" +
                 " from FundNav f , ProductManage pm" +
                 " where f.fundcode = pm.productCode" +
                 " and pm.productStatus = '" + DictConst.FP_PRODUCT_MANAGE_STATUS_1 + "'" +
-                " and pm.productType = :productType" +
                 " and pm.upBeginTime < '" + currentDate + "'" +
                 " and pm.downEndTime >= '" + currentDate + "'" +
-                " and f.fundType = :fundType" +
-                " order by pm.recommendType,pm.priorityLevel desc";
+                "/~ and pm.productType = {productType} ~/" +
+                "/~ and f.fundType = {fundType} ~/" +
+                "/~ and f.isMonetary = {isMonetary} ~/" +
+                "/~ and f.isStf = {isStf} ~/" +
+                " order by pm.recommendType,pm.recommendFlag,pm.priorityLevel";
 
-        List<FundVo> fundVos = pageService.findBy(jpql, pageVo);
+        List<FundVo> fundVos = pageService.findXsqlBy(jpql, pageVo);
         return fundVos;
+    }
+
+    private void convertPageVo(PageVo pageVo) {
+        String category = (String) pageVo.get("EQS_category");
+        FundCategory fundCategory = FundCategory.findFundCategoryBy(category);
+        if(fundCategory == null) {
+            throw new BusinessRuntimeException(new Message(Severity.ERROR, MsgCode.SEARCH_FAIL_FUND_CATEGORY_EMPTY));
+        }
+        if (FundCategory.MONETARY.equals(fundCategory)) {
+            pageVo.put("EQI_isMonetary", 1);
+            pageVo.put("EQI_isStf", 0);
+        } else if (FundCategory.STF.equals(fundCategory)) {
+            pageVo.put("EQI_isMonetary", 0);
+            pageVo.put("EQI_isStf", 1);
+        }
+
     }
 
     public Fund findFundByCode(String fundCode) {
@@ -73,7 +99,7 @@ public class ProductServiceImpl implements ProductService {
         return fund;
     }
 
-    public FundNav findFundNavByCode(String fundCode){
+    public FundNav findFundNavByCode(String fundCode) {
         return fundDao.findFundNavByCode(fundCode);
     }
 
@@ -115,7 +141,7 @@ public class ProductServiceImpl implements ProductService {
             chartVo.setPrdName(fundInfo.getValue());
         }
         for (FundProfitHistory fundHistory : fundHistories) {
-            chartVo.getPoints().add(new Point(CommonUtil.dateToString(fundHistory.getDateTime(), CommonUtil.DATE_FORMAT_SHORT),  ArithUtil.mul(fundHistory.getPercentSevenDays().doubleValue(), 100) + ""));
+            chartVo.getPoints().add(new Point(CommonUtil.dateToString(fundHistory.getDateTime(), CommonUtil.DATE_FORMAT_SHORT), ArithUtil.mul(fundHistory.getPercentSevenDays().doubleValue(), 100) + ""));
         }
         return chartVo;
     }
@@ -139,6 +165,7 @@ public class ProductServiceImpl implements ProductService {
 
     /**
      * 根据基金代码查询相应天数的万份收益和七日年华利率
+     *
      * @param chartType
      * @param fundCode
      * @param days
@@ -147,7 +174,7 @@ public class ProductServiceImpl implements ProductService {
     @Override
     public ChartVo findProfitHistoryByDays(String chartType, String fundCode, int days) {
         List<FundProfitHistory> fundHisLst = fundDao.findFundProfitHistoryByDays(fundCode, days);
-        if (fundHisLst==null ||fundHisLst.isEmpty()) {
+        if (fundHisLst == null || fundHisLst.isEmpty()) {
             return null;
         }
         return getChartVo(chartType, fundCode, fundHisLst);
@@ -157,7 +184,7 @@ public class ProductServiceImpl implements ProductService {
         ChartVo chartVo = new ChartVo();
         Code fundInfo = fundDao.findFundNameByFundCode(fundCode);
         chartVo.setPrdName(fundInfo.getValue());
-        chartVo.setChartName(CHART_TYPE.equals(chartType)? "万份收益走势":"七日年化走势");
+        chartVo.setChartName(CHART_TYPE.equals(chartType) ? "万份收益走势" : "七日年化走势");
         chartVo.setChartType(chartType);
         chartVo.setPrdCode(fundCode);
         setPoints(chartType, fundHisLst, chartVo);
@@ -170,10 +197,10 @@ public class ProductServiceImpl implements ProductService {
         for (FundProfitHistory fundHis : fundHisLst) {
             String date = CommonUtil.dateToString(fundHis.getDateTime(), CommonUtil.DATE_FORMAT_SHORT);
 
-            if(CHART_TYPE.equals(chartType)){
-                points.add(new Point(date, ArithUtil.bigUpScale4(fundHis.getIncomePerTenThousand()) + ""));
-            }else {
-                points.add(new Point(date, ArithUtil.mul(fundHis.getPercentSevenDays().doubleValue(), 100) + ""));
+            if (CHART_TYPE.equals(chartType)) {
+                points.add(new Point(date, ArithUtil.bigUpScale4(fundHis.getIncomePerTenThousand())));
+            } else {
+                points.add(new Point(date, ArithUtil.bigToScale2(fundHis.getPercentSevenDays().multiply(new BigDecimal(100)))));
             }
         }
         chartVo.setPoints(sortPoints(points));
@@ -182,7 +209,7 @@ public class ProductServiceImpl implements ProductService {
 
     private List<Point> sortPoints(List<Point> points) {
         List<Point> pointsTemp = new ArrayList<>();
-        for(int i=points.size()-1;i>=0;i--){
+        for (int i = points.size() - 1; i >= 0; i--) {
             pointsTemp.add(points.get(i));
         }
         return pointsTemp;

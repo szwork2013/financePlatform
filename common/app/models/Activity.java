@@ -10,7 +10,8 @@ import java.util.Date;
 @Entity
 @Table(name = "F_ACTIVITY")
 public class Activity extends IdEntity {
-
+    @Column(name = "SCENE")
+    private String scene;
     @Column(name = "STATUS")
     private String status;
     @Column(name = "TITLE")
@@ -27,27 +28,22 @@ public class Activity extends IdEntity {
     private String image;
     @Column(name = "URL")
     private String url;
+
     @Column(name = "CLICK_TIME")
     private Long clickTime;
-    @Column(name = "TYPE")
-    private String type;
     @Column(name = "STYLE")
     private String style;
     @Column(name = "CLICK_EVENT")
     private String clickEvent;
-    @Column(name = "SCENE")
-    private String scene;
 
     @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "CREATE_TIME")
     private Date createTime;
     @Column(name = "CREATE_BY", length = 30)
     private String createBy;
-
     @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "UPDATE_TIME")
     private Date updateTime;
-
     @Column(name = "UPDATE_BY", length = 30)
     private String updateBy;
 
@@ -87,6 +83,8 @@ public class Activity extends IdEntity {
         return appId;
     }
 
+
+
     public void setAppId(Long appId) {
         this.appId = appId;
     }
@@ -115,13 +113,7 @@ public class Activity extends IdEntity {
         this.clickTime = clickTime;
     }
 
-    public String getType() {
-        return type;
-    }
 
-    public void setType(String type) {
-        this.type = type;
-    }
 
     public String getStyle() {
         return style;
@@ -179,4 +171,6 @@ public class Activity extends IdEntity {
     public void setScene(String scene) {
         this.scene = scene;
     }
+
+
 }

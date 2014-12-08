@@ -4,30 +4,34 @@
 
 
 # product
-POST        /product/detail                  @com.sunlights.core.web.ProductController.findProductDetail
-POST        /product/chart                   @com.sunlights.core.web.ProductController.findChartBy
-POST        /product/index                   @com.sunlights.core.web.ProductController.findProductIndex
-POST        /products                        @com.sunlights.core.web.ProductController.findProductsBy
+POST        /product/detail                   @com.sunlights.core.web.ProductController.findProductDetail
+POST        /product/chart                    @com.sunlights.core.web.ProductController.findChartBy
+POST        /product/index                    @com.sunlights.core.web.ProductController.findProductIndex
+POST        /products                         @com.sunlights.core.web.ProductController.findProductsBy
+POST        /product/attentions               @com.sunlights.core.web.AttentionController.findProductAttentions
+POST        /product/attention/create         @com.sunlights.core.web.AttentionController.createProductAttention
+POST        /product/attentions/create        @com.sunlights.core.web.AttentionController.createProductAttentions
+POST        /product/attention/cancel         @com.sunlights.core.web.AttentionController.cancelProductAttention
 
 #bank
-POST        /banks                           @com.sunlights.core.web.BankController.findBanks
-POST        /bank/findbybankcard             @com.sunlights.core.web.BankController.findBankByBankCardNo
-POST        /bank/bankcards                  @com.sunlights.core.web.BankController.findBankCards
-POST        /bank/bankcard/create            @com.sunlights.core.web.BankController.createBankCard
-POST        /bank/bankcard/delete            @com.sunlights.core.web.BankController.deleteBankCards
-POST        /bank/bankcard/validate          @com.sunlights.core.web.BankController.validateBankCard
+POST        /banks                            @com.sunlights.core.web.BankController.findBanks
+POST        /bank/findbybankcard              @com.sunlights.core.web.BankController.findBankByBankCardNo
+POST        /bank/bankcards                   @com.sunlights.core.web.BankController.findBankCards
+POST        /bank/bankcard/create             @com.sunlights.core.web.BankController.createBankCard
+POST        /bank/bankcard/delete             @com.sunlights.core.web.BankController.deleteBankCards
+POST        /bank/bankcard/validate           @com.sunlights.core.web.BankController.validateBankCard
 
 #agree
-POST        /agreement/findlinkbycode        @com.sunlights.core.web.AgreementController.findAgreementVoByAgreementNo
+POST        /agreement/findlinkbycode         @com.sunlights.core.web.AgreementController.findAgreementVoByAgreementNo
 
 #
-POST        /register                        @com.sunlights.core.web.RegisterController.register
+POST        /register                         @com.sunlights.core.web.RegisterController.register
 #security
-POST        /verificationcode                @com.sunlights.core.web.SecurityController.genVerificationCode
-POST        /certify                         @com.sunlights.core.web.SecurityController.certify
-POST        /certifytradepwd                 @com.sunlights.core.web.SecurityController.certifyAndResetTradePwd
+POST        /verificationcode                 @com.sunlights.core.web.SecurityController.genVerificationCode
+POST        /certify                          @com.sunlights.core.web.SecurityController.certify
+POST        /certifytradepwd                  @com.sunlights.core.web.SecurityController.certifyAndResetTradePwd
 
 
 # Map static resources from the /public folder to the /assets URL path
-GET         /assets/*file                    controllers.Assets.at(path="/public", file)
+GET         /assets/*file                     controllers.Assets.at(path="/public", file)
 

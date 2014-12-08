@@ -58,6 +58,8 @@ public class Customer extends IdEntity {
   private String mobile;// 绑定手机
   @Column(length = 50, name = "STATUS")
   private String status;//用户状态 T.正常 U.已锁定
+    @Column(length = 19, name = "recommend_phone")
+  private String recommendPhone;
   @Temporal(TemporalType.TIMESTAMP)
   @Column(name = "CREATE_TIME")
   private Date createTime;
@@ -263,4 +265,12 @@ public class Customer extends IdEntity {
   public void setStatus(String status) {
     this.status = status;
   }
+
+    public String getRecommendPhone() {
+        return recommendPhone;
+    }
+
+    public void setRecommendPhone(String recommendPhone) {
+        this.recommendPhone = recommendPhone;
+    }
 }

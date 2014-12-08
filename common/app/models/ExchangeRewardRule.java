@@ -22,6 +22,8 @@ public class ExchangeRewardRule extends IdEntity{
     private Integer limitTime;
     @Column(name = "NOTICE_TIME")
     private Integer noticeTime;
+    @Column(name = "MAX_EXCHANGE")
+    private Long maxExchange;
     @Column(name = "DELAY_TIME")
     private Integer delayTime;
     @Temporal(TemporalType.TIMESTAMP)
@@ -123,5 +125,13 @@ public class ExchangeRewardRule extends IdEntity{
 
     public void setUpdateBy(String updateBy) {
         this.updateBy = updateBy;
+    }
+
+    public Long getMaxExchange() {
+        return maxExchange;
+    }
+
+    public void setMaxExchange(Long maxExchange) {
+        this.maxExchange = maxExchange;
     }
 }

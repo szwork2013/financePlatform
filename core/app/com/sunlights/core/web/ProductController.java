@@ -1,5 +1,7 @@
 package com.sunlights.core.web;
 
+import com.fasterxml.jackson.databind.JsonNode;
+import com.sunlights.common.DictConst;
 import com.sunlights.common.MsgCode;
 import com.sunlights.common.Severity;
 import com.sunlights.common.utils.MessageUtil;
@@ -11,6 +13,10 @@ import com.sunlights.core.vo.ChartVo;
 import com.sunlights.core.vo.FundVo;
 import com.sunlights.core.vo.ProductParameter;
 import com.sunlights.core.vo.ProductVo;
+import com.sunlights.customer.service.impl.CustomerService;
+import models.CustomerSession;
+import org.apache.commons.beanutils.ConvertUtils;
+import play.Logger;
 import play.data.Form;
 import play.db.jpa.Transactional;
 import play.libs.Json;
@@ -18,7 +24,9 @@ import play.mvc.Controller;
 import play.mvc.Http;
 import play.mvc.Result;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 /**
  * <p>Project: fsp</p>
@@ -51,8 +59,8 @@ public class ProductController extends Controller {
         if (productParameter != null) {
             pageVo.setIndex(productParameter.getIndex());
             pageVo.setPageSize(productParameter.getPageSize());
-            pageVo.put("fundType", productParameter.getCategory());
-            pageVo.put("productType", productParameter.getType());
+            pageVo.put("EQS_category", productParameter.getCategory());
+            pageVo.put("EQS_productType", productParameter.getType());
             List<FundVo> funds = productService.findFunds(pageVo);
             pageVo.setList(funds);
             messageUtil.setMessage(new Message(Severity.INFO, MsgCode.OPERATE_SUCCESS), pageVo);
@@ -82,7 +90,7 @@ public class ProductController extends Controller {
             prodPara = productParameterForm.bindFromRequest().get();
         }
         String chartType = prodPara.getChartType();
-        ChartVo chartVo = productService.findProfitHistoryByDays(chartType,prodPara.getPrdCode(), prodPara.getInterval());
+        ChartVo chartVo = productService.findProfitHistoryByDays(chartType, prodPara.getPrdCode(), prodPara.getInterval());
         messageUtil.setMessage(new Message(Severity.INFO, MsgCode.OPERATE_SUCCESS), chartVo);
         return ok(messageUtil.toJson());
     }

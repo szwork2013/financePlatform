@@ -1,6 +1,7 @@
 package com.sunlights.customer.dal.impl;
 
 import com.google.common.base.Strings;
+import com.google.common.collect.Maps;
 import com.sunlights.common.AppConst;
 import com.sunlights.common.DictConst;
 import com.sunlights.common.dal.EntityBaseDao;
@@ -12,6 +13,7 @@ import models.Customer;
 import models.CustomerGesture;
 import models.CustomerSession;
 import models.ShuMiAccount;
+import org.apache.commons.lang3.StringUtils;
 import play.Logger;
 
 import javax.persistence.Query;
@@ -66,21 +68,29 @@ public class CustomerDaoImpl extends EntityBaseDao implements CustomerDao {
     }
 
     public CustomerVo getCustomerVoByPhoneNo(String mobilePhoneNo, String deviceNo) {
-        String sql = "select c.mobile,c.real_name,c.nick_name,c.email,c.identity_number," +
-                "case when EXISTS (select 1 from c_customer_gesture cg where cg.customer_id = c.customer_id and cg.status = 'Y' and cg.device_no = :deviceNo) THEN '1' ELSE '0' END as gestureOpened," +
-                "case when c.identity_typer = :identityTyper and c.identity_number is not null THEN '1' ELSE '0' END as certify," +
-                "case when a.trade_password is null THEN '0' ELSE '1' END as tradePwdFlag," +
-                "(select count(1) from c_bank_card bc where bc.customer_id = c.customer_id) as bankCardCount " +
-                ",c.customer_id " +
-                "from   c_customer c,f_basic_account a " +
-                "where  c.customer_id = a.cust_id " +
-                "and  c.mobile = :mobilePhoneNo ";
+        StringBuffer sb = new StringBuffer();
+        sb.append("select c.mobile,c.real_name,c.nick_name,c.email,c.identity_number,");
+        if (deviceNo == null) {
+            sb.append(" 0 || '' as  gestureOpened,");
+        }else{
+            sb.append(" case when EXISTS (select 1 from c_customer_gesture cg where cg.customer_id = c.customer_id and cg.status = 'Y' and cg.device_no = :deviceNo) THEN '1' ELSE '0' END as gestureOpened,");
+        }
+        sb.append(" case when c.identity_typer = :identityTyper and c.identity_number is not null THEN '1' ELSE '0' END as certify,")
+          .append(" case when a.trade_password is null THEN '0' ELSE '1' END as tradePwdFlag,")
+          .append(" (select count(1) from c_bank_card bc where bc.customer_id = c.customer_id) as bankCardCount, ")
+          .append(" c.customer_id")
+          .append(" from c_customer c,f_basic_account a ")
+          .append(" where  c.customer_id = a.cust_id ")
+          .append(" and  c.mobile = :mobilePhoneNo ");
 
+        String sql = sb.toString();
         Logger.debug(sql);
 
         Query query = em.createNativeQuery(sql);
         query.setParameter("identityTyper", DictConst.CERTIFICATE_TYPE_1);
-        query.setParameter("deviceNo", deviceNo);
+        if (deviceNo != null) {
+            query.setParameter("deviceNo", deviceNo);
+        }
         query.setParameter("mobilePhoneNo", mobilePhoneNo);
 
         List<Object[]> list = query.getResultList();
@@ -210,5 +220,27 @@ public class CustomerDaoImpl extends EntityBaseDao implements CustomerDao {
         return list.get(0);
     }
 
+    @Override
+    public Customer findRecommenderInfo(String customerId) {
+       if(StringUtils.isEmpty(customerId)) {
+           return null;
+       }
 
+        StringBuilder sb = new StringBuilder();
+
+        String columns = "c2.customer_id  ";
+        sb.append("select ").append(columns)
+                .append("from c_customer c1 join c_customer c2 on c2.mobile = c1.recommend_phone where 1 = 1 and  /~c1.customer_id = {customerId}~/");
+
+        Map<String, Object> filterMap = Maps.newHashMapWithExpectedSize(5);
+
+        filterMap.put("EQS_customerId", customerId);
+        List<String> resultRows = createNativeQueryByMap(sb.toString(), filterMap).getResultList();
+        if(resultRows == null || resultRows.isEmpty()) {
+            return null;
+        }
+        Customer customer = new Customer();
+        customer.setCustomerId(resultRows.get(0));
+        return customer;
+    }
 }

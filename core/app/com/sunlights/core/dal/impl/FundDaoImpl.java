@@ -57,7 +57,7 @@ public class FundDaoImpl extends EntityBaseDao implements FundDao {
 
     @Override
     public void addProductPurchasedNum(String productCode) {
-        String sql = "update p_product_manage set init_buyed_count = init_buyed_count + 1 where product_code = ?1";
+        String sql = "update p_product_manage set init_buyed_count = init_buyed_count + 1, one_month_buyed_count = one_month_buyed_count + 1  where product_code = ?1";
         Query query = em.createNativeQuery(sql, ProductManage.class);
         query.setParameter(1, productCode);
         query.executeUpdate();

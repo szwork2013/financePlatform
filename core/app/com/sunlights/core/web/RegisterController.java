@@ -82,6 +82,7 @@ public class RegisterController extends Controller {
         JsonNode json = MessageUtil.getInstance().toJson();
 
         Logger.info("==========register返回：" + json.toString());
+        Controller.response().setHeader("Access-Control-Allow-Origin","*");
         return Controller.ok(json);
     }
 }

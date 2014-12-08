@@ -15,6 +15,8 @@ public class RewardType extends IdEntity{
     private String name;
     @Column(name = "UNIT")
     private Integer unit;
+    @Column(name = "RULE_URL")
+    private String ruleUrl;
 
     @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "CREATE_TIME")
@@ -28,6 +30,14 @@ public class RewardType extends IdEntity{
 
     @Column(name = "UPDATE_BY", length = 30)
     private String updateBy;
+
+    public String getRuleUrl() {
+        return ruleUrl;
+    }
+
+    public void setRuleUrl(String ruleUrl) {
+        this.ruleUrl = ruleUrl;
+    }
 
     public String getCode() {
         return code;

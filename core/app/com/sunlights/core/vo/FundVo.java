@@ -1,13 +1,17 @@
 package com.sunlights.core.vo;
 
 
+import com.sunlights.common.AppConst;
 import com.sunlights.common.FundCategory;
 import com.sunlights.common.service.CommonService;
 import com.sunlights.common.utils.ArithUtil;
+import com.sunlights.customer.service.ActivityService;
+import com.sunlights.customer.service.impl.ActivityServiceImpl;
 import models.FundNav;
 import models.ProductManage;
 
 import java.math.BigDecimal;
+import java.util.List;
 
 /**
  * Created by Yuan on 2014/9/1.
@@ -18,7 +22,9 @@ public class FundVo extends ProductVo {
     private String millionIncome;//万分收益
     private String purchasedMethod;//买卖方式，比如:随买随卖
     private String purchasedAmount;//起购金额
-    private String discount;
+    private String discount;//手续费
+    private String activity;//活动
+    private Integer purchaseState;//是否可申购
 
     public FundVo() {
 
@@ -42,17 +48,25 @@ public class FundVo extends ProductVo {
 
 
     public void inFundNav(FundNav fundNav) {
+        Integer isMonetary = fundNav.getIsMonetary();
+        Integer isStf = fundNav.getIsStf();
+
         super.setName(fundNav.getFundname());
-        super.setCategory(fundNav.getFundType() + "");
+        super.setCategory(isMonetary == 1 ? AppConst.FUND_CATEGORY_MONETARY : (isStf == 1 ? AppConst.FUND_CATEGORY_STF : ""));
         super.setCode(fundNav.getFundcode());
         this.sevenDaysIncome = ArithUtil.bigUpScale4(fundNav.getPercentSevenDays());
         this.millionIncome = ArithUtil.bigUpScale4(fundNav.getIncomePerTenThousand());
-        this.purchasedAmount = ArithUtil.bigUpScale4(fundNav.getPurchaseLimitMin());
-        this.purchasedMethod = FundCategory.MONETARY.getFundType() == fundNav.getFundType() ? "随买随卖" : "";
-        this.discount = getDiscountValueByfund(fundNav);
+        BigDecimal purchaseLimitMin = ArithUtil.bigUpScale0(fundNav.getPurchaseLimitMin());
+        this.purchasedAmount = purchaseLimitMin == null ? "" : purchaseLimitMin.toString();
+        this.discount = getDiscountValueByFund(fundNav);
+        this.purchasedMethod = isMonetary == 1 ? "随买随卖" : (isStf == 1 ? "7天" : "");
+        ActivityService activityService = new ActivityServiceImpl();
+        List<String> activities = activityService.getActivityTitles(fundNav.getFundcode());
+        this.activity = activities.isEmpty() ? "" : activities.get(0);
+        this.purchaseState = fundNav.getPurchaseState();
     }
 
-    private String getDiscountValueByfund(FundNav fundNav) {
+    private String getDiscountValueByFund(FundNav fundNav) {
         String value = "";
         BigDecimal chargeRateValue = fundNav.getChargeRateValue();
         BigDecimal fundNavDiscount = fundNav.getDiscount();
@@ -110,5 +124,21 @@ public class FundVo extends ProductVo {
 
     public void setDiscount(String discount) {
         this.discount = discount;
+    }
+
+    public String getActivity() {
+        return activity;
+    }
+
+    public void setActivity(String activity) {
+        this.activity = activity;
+    }
+
+    public Integer getPurchaseState() {
+        return purchaseState;
+    }
+
+    public void setPurchaseState(Integer purchaseState) {
+        this.purchaseState = purchaseState;
     }
 }
