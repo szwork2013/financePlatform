@@ -7,17 +7,16 @@ import java.io.Serializable;
  */
 public class ShareVo implements Serializable {
 
-    private String description;
+    private String title;
 
     private String shorturl;
 
-
-    public String getDescription() {
-        return description;
+    public String getTitle() {
+        return title;
     }
 
-    public void setDescription(String description) {
-        this.description = description;
+    public void setTitle(String title) {
+        this.title = title;
     }
 
     public String getShorturl() {
