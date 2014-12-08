@@ -246,15 +246,19 @@ public class CustomerController extends Controller {
   }
 
   public Result getToken() {
-      JudjeTokenVo judjeTokenVoF = judjeTokenVoForm.bindFromRequest().get();
-      String token = judjeTokenVoF.getToken();
+      Http.Cookie cookie = request().cookie(AppConst.TOKEN);
+      String token = cookie == null ? null : cookie.value();
+      try {
+          //customerService.validateCustomerSession(request(),session(),response());
+      } catch (Exception e) {
+          Logger.error("还没登陆");
+          token = null;
+      }
       Logger.debug("token = " + token);
-      Object obj = Cache.get(token);
       JudjeTokenVo judjeTokenVo = new JudjeTokenVo();
-      if(obj == null) {
+      if(token == null) {
           judjeTokenVo.setExistToken(false);
       } else {
-          Logger.debug("obj = " + obj);
           judjeTokenVo.setExistToken(true);
       }
       messageUtil.setMessage(new Message(Severity.INFO, MsgCode.OPERATE_SUCCESS), judjeTokenVo);
