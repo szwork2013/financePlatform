@@ -41,7 +41,7 @@ public class ActivityDaoImpl extends EntityBaseDao implements ActivityDao {
     public List<ActivityShareInfo> getShareInfoByScene(String scene) {
         StringBuilder sb = new StringBuilder();
         String keys = "activityId,title,content,shortUrl,iocnUrl";
-        String columns = "  a.activity_id, g.title, g.content, g.share_url,g.icon_url  ";
+        String columns = "  a.id, g.title, g.content, g.share_url,g.icon_url  ";
         sb.append("select ").append(columns)
                 .append("from f_activity as a join f_activity_share_info as g on a.id=g.activity_id ");
         sb.append(" where 1 = 1 ");
