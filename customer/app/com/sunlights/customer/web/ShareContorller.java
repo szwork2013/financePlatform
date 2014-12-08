@@ -54,20 +54,18 @@ public class ShareContorller extends ActivityBaseController{
         if(StringUtils.isEmpty(scene)){
             scene= ActivityConstant.ACTIVITY_INVITE_SCENE_CODE;//邀请好友配置场景
         }
-        List<Activity> list=activityService.getActivityByScene(scene);
         ActivityShareInfo activityShareInfo=activityService.getShareInfoByScene(scene);
-
-        if(list.size()<1){
+        if(activityShareInfo == null){
             return notFound("暂时没有活动");
         }
-        Activity activity=list.get(0);
         String url=activityShareInfo.getShareUrl();//活动路径
         Logger.debug("获得的活动路径url为:"+url);
         String sharetext=activityShareInfo.getContent();//获得分享描述内容
-
         Logger.debug("获得分享描述内容:"+sharetext);
         String title=activityShareInfo.getTitle();//title
-        Long activatyid=activity.getId();//活动id
+        String imageurl=activityShareInfo.getIocnUrl();
+        Long activatyid=activityShareInfo.getActivityId();//活动id
+        Logger.debug("活动id:"+activatyid);
         String shorturl= getShortUrl(custNo, activatyid, scene, mobile, url);  //获得短路径
         if(StringUtils.isEmpty(shorturl)){
             return notFound("获取短路径失败");
@@ -75,7 +73,10 @@ public class ShareContorller extends ActivityBaseController{
         //3、将内容存入对象
         ShareVo shareVo=new ShareVo();
         shareVo.setShorturl(shorturl);
-        shareVo.setTitle(sharetext);
+        shareVo.setTitle(title);
+        shareVo.setContent(sharetext);
+        shareVo.setImageurl(imageurl);
+
         messageUtil.setMessage(new Message(Severity.INFO, MsgCode.SHARE_QUERY_SUCC), shareVo);
         Logger.debug("返回给前端的内容----》:"+messageUtil.toJson());
         return ok(messageUtil.toJson());
@@ -101,16 +102,16 @@ public class ShareContorller extends ActivityBaseController{
         if(StringUtils.isEmpty(scene)){
             scene= ActivityConstant.ACTIVITY_INVITE_SCENE_CODE;//邀请好友配置场景
         }
-        List<Activity> list=activityService.getActivityByScene(scene);
+
         ActivityShareInfo activityShareInfo=activityService.getShareInfoByScene(scene);
 
-        if(list.size()<1){
+        if(activityShareInfo == null){
             return notFound("暂时没有活动");
         }
-        Activity activity=list.get(0);
+
         String url=activityShareInfo.getShareUrl();//活动路径
         Logger.debug("获得的活动路径url为:"+url);
-        Long activatyid=activity.getId();//活动id
+        Long activatyid=activityShareInfo.getActivityId();//活动id
         String shorturl= getShortUrl(custNo, activatyid, scene, mobile, url);//获得短路径
         if(StringUtils.isEmpty(shorturl)){
             return notFound("获取短路径失败");
