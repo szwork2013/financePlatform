@@ -36,7 +36,7 @@ public final class FundDict {
      * 1:支持快速赎回 0:不支持快速赎回
      */
     public enum RapidRedeem {
-        R0("非快速赎回"), R1("快速赎回");
+        R0("普通赎回"), R1("快速赎回");
         private String description;
 
         RapidRedeem(String description) {
