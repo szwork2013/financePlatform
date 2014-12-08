@@ -11,6 +11,7 @@ import com.sunlights.trade.vo.ShuMiTradeFormVo;
 import play.Logger;
 import play.data.Form;
 import play.db.jpa.Transactional;
+import play.libs.Json;
 import play.mvc.Controller;
 import play.mvc.Result;
 
@@ -38,12 +39,13 @@ public class ShuMiTradeController extends Controller{
 
         String token = request().cookie(AppConst.TOKEN).value();
         ShuMiTradeFormVo tradeFormVo = shuMiTradeFormVoForm.bindFromRequest().get();
-
-        shuMiTradeService.shuMiTradeOrder(tradeFormVo, token);
+        Logger.debug("tradeFormVo:" + Json.toJson(tradeFormVo));
 
         MessageUtil.getInstance().setMessage(new Message(MsgCode.TRADE_ORDER_SUCCESS));
 
-        Logger.info("----------tradeOrder end: ------------\n");
+        shuMiTradeService.shuMiTradeOrder(tradeFormVo, token);
+
+        Logger.info("----------tradeOrder end: ------------\n" + MessageUtil.getInstance().toJson());
 
         return ok(MessageUtil.getInstance().toJson());
     }
@@ -55,12 +57,13 @@ public class ShuMiTradeController extends Controller{
 
         String token = request().cookie(AppConst.TOKEN).value();
         ShuMiTradeFormVo tradeFormVo = shuMiTradeFormVoForm.bindFromRequest().get();
-
-        shuMiTradeService.shuMiTradeRedeem(tradeFormVo, token);
+        Logger.debug("tradeFormVo:" + Json.toJson(tradeFormVo));
 
         MessageUtil.getInstance().setMessage(new Message(MsgCode.TRADE_REDEEM_SUCCESS));
 
-        Logger.info("----------tradeRedeem end: ------------\n");
+        shuMiTradeService.shuMiTradeRedeem(tradeFormVo, token);
+
+        Logger.info("----------tradeRedeem end: ------------\n" + MessageUtil.getInstance().toJson());
 
         return ok(MessageUtil.getInstance().toJson());
     }

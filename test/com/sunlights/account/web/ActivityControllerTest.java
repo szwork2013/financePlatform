@@ -31,8 +31,8 @@ public class ActivityControllerTest extends BaseTest{
 
     @Before
     public void getCookie(){
-        final String mobilePhoneNo = "13811599307";
-        final String password = "1";
+        final String mobilePhoneNo = "10000000014";
+        final String password = "111111";
         running(fakeApplication(), new Runnable() {
             public void run() {
                 cookie = getCookieAfterLogin(mobilePhoneNo, password);

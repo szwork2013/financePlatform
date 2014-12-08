@@ -66,7 +66,9 @@ public enum MsgCode {
 
 
     TRADE_ORDER_SUCCESS("0400", "下单成功"),
+    TRADE_ORDER_NOCODE("1400", "下单成功，该产品为其它商户产品", "未查询到此产品"),
     TRADE_REDEEM_SUCCESS("0401", "赎回成功"),
+    TRADE_REDEEM_NOCODE("1401", "赎回成功，该产品为其它商户产品", "未查询到此产品"),
     TRADE_AMOUNT_VALIDATE("2400", "申购金额超出总资产", "请重新输入"),
 
 
@@ -106,7 +108,8 @@ public enum MsgCode {
     ALREADY_REGISTER("2223", "已经注册"),
     EXCHANGE_OVER_LIMIT("2224", "兑换数量超额"),
     NOT_CAN_ATTEND_ACTIVITY("2225", "该客户不能参加此活动"),
-    NOT_SUPPORT_TRADE_TYPE("2226", "不支持的交易类型");
+    NOT_SUPPORT_TRADE_TYPE("2226", "不支持的交易类型"),
+    ACTIVITY_SYS_ERROR("3201", "不支持的交易类型");
 
 
     private String code;

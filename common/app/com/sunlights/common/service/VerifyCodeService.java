@@ -12,6 +12,7 @@ import com.sunlights.common.utils.MessageUtil;
 import com.sunlights.common.vo.CustomerVerifyCodeVo;
 import com.sunlights.common.vo.Message;
 import models.CustomerVerifyCode;
+import play.Configuration;
 import play.Logger;
 
 import java.sql.Timestamp;
@@ -29,7 +30,7 @@ public class VerifyCodeService {
      * <P>Description: 获取验证码</p>
      * @return
      */
-    public String genVerificationCode(String mobilePhoneNo, String type, String deviceNo) {
+    public synchronized String genVerificationCode(final String mobilePhoneNo, String type, String deviceNo) {
         CommonUtil.getInstance().validateParams(mobilePhoneNo, type);
         checkValidVerifyCode(type);
 
@@ -53,6 +54,7 @@ public class VerifyCodeService {
         verifyCode = randomVerifyCode(4);
         CustomerVerifyCode newUserVefiryCode = new CustomerVerifyCode();
         newUserVefiryCode.setVerifyType(type);
+        Logger.info("========save===mobilePhoneNo:" + mobilePhoneNo);
         newUserVefiryCode.setMobile(mobilePhoneNo);
         newUserVefiryCode.setVerifyCode(verifyCode);
         newUserVefiryCode.setCreateTime(currentTimestamp);
@@ -89,6 +91,9 @@ public class VerifyCodeService {
      * @return
      */
     public boolean validateVerifyCode(CustomerVerifyCodeVo customerVerifyCodeVo){
+        if("true".equals(Configuration.root().getString("mock"))) {
+            return true;
+        }
         CustomerVerifyCode customerVerifyCode = customerVerifyCodeDao.findVerifyCodeByType(customerVerifyCodeVo.getMobile(), customerVerifyCodeVo.getVerifyType());
 
         if (customerVerifyCode == null) {
