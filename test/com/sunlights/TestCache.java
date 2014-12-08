@@ -1,30 +1,24 @@
 package com.sunlights;
 
-import com.sunlights.common.vo.MessageVo;
 import com.sunlights.customer.ActivityConstant;
 import com.sunlights.customer.factory.ActivityServiceFactory;
 import com.sunlights.customer.service.ActivityService;
-import com.sunlights.customer.service.RewardFlowService;
 import com.sunlights.customer.service.impl.ActivityServiceImpl;
-import com.sunlights.customer.service.impl.RewardFlowServiceImpl;
 import models.Activity;
-import models.RewardFlow;
 import org.junit.Test;
 import play.Logger;
 import play.cache.Cache;
 import play.db.jpa.JPA;
 import play.libs.F;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
-import static org.fest.assertions.Assertions.assertThat;
-import static play.mvc.Http.Status.OK;
-import static play.test.Helpers.*;
+import static play.test.Helpers.fakeApplication;
+import static play.test.Helpers.running;
 
 /**
+ * TODO: @tang, 你需要把这个单元测试类好好整一下。加上assert，去掉死循环。
  * Created by Administrator on 2014/12/5.
  */
 public class TestCache {
