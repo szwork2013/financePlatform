@@ -17,7 +17,20 @@ class CacheMethodHandler implements MethodHandler {
         Class<?> clazz = thisMethod.getReturnType();
         Cacheable cacheable = thisMethod.getAnnotation(Cacheable.class);
         String key = cacheable.key();
-        int duration = cacheable.duration();
+
+        key = buildKey(self, thisMethod, args, key);
+        Object obj = Cache.get(key);
+        if(obj != null) {
+            return clazz.cast(obj);
+        } else {
+            Object objNew = proceed.invoke(self, args);
+            int duration = cacheable.duration();
+            setDuration(key, duration, objNew);
+            return clazz.cast(objNew);
+        }
+    }
+
+    private String buildKey(Object self, Method thisMethod, Object[] args, String key) {
         StringBuilder sb = new StringBuilder();
         sb.append(key).append("-").append(self.getClass().getSimpleName()).append("-").append(thisMethod.getName()).append("-");
         if(args != null) {
@@ -26,17 +39,14 @@ class CacheMethodHandler implements MethodHandler {
             }
         }
         key = sb.toString();
-        Object obj = Cache.get(key);
-        if(obj != null) {
-            return clazz.cast(obj);
+        return key;
+    }
+
+    private void setDuration(String key, int duration, Object objNew) {
+        if(duration <= 0) {
+            Cache.set(key, objNew);
         } else {
-            Object objNew = proceed.invoke(self, args);
-            if(duration <= 0) {
-                Cache.set(key, objNew);
-            } else {
-                Cache.set(key, objNew, duration);
-            }
-            return clazz.cast(objNew);
+            Cache.set(key, objNew, duration);
         }
     }
 }

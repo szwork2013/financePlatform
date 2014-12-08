@@ -1,6 +1,7 @@
 package com.sunlights.customer.factory;
 
 import com.sunlights.common.cache.CacheFactory;
+import com.sunlights.common.exceptions.ConverterException;
 import com.sunlights.customer.service.ActivityService;
 import com.sunlights.customer.service.impl.ActivityServiceImpl;
 
@@ -9,7 +10,7 @@ import com.sunlights.customer.service.impl.ActivityServiceImpl;
  */
 public class ActivityServiceFactory {
 
-    public static ActivityService getActivityService() {
+    public static ActivityService getActivityService() throws ConverterException {
         return CacheFactory.getProxyCacheObject(ActivityServiceImpl.class);
     }
 }
