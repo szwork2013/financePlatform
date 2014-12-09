@@ -52,9 +52,8 @@ public class RewardControllerTest extends BaseTest {
                         Logger.info("============testGetSingInCanObtainRewards result====\n" + contentAsString(result));
                         assertThat(status(result)).isEqualTo(OK);
                         final MessageVo message = toMessageVo(result);
-
-
-                            assertThat(message.getMessage().getCode()).isEqualTo(MsgCode.ACTIVITY_QUERY_SUCC.getCode());
+                        assertThat(message.getMessage().getCode()).isEqualTo(MsgCode.ACTIVITY_QUERY_SUCC.getCode());
+                        Logger.info("============testSignInObtainReward result====\n" + contentAsString(result));
                         }
 
                 });

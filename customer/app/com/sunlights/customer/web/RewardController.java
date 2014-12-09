@@ -51,6 +51,8 @@ public class RewardController extends ActivityBaseController {
         obtainRewardVo.setNotGet(rewardResultVo.getNotGet());
         obtainRewardVo.setStatus(rewardResultVo.getStatus());
 
+        Logger.debug("RewardResultVo = " + rewardResultVo.getReturnMessage().getSummary());
+
         messageUtil.setMessage(new Message(Severity.INFO, MsgCode.ACTIVITY_QUERY_SUCC), obtainRewardVo);
         return ok(messageUtil.toJson());
     }
