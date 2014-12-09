@@ -109,7 +109,9 @@ public enum MsgCode {
     EXCHANGE_OVER_LIMIT("2224", "兑换数量超额"),
     NOT_CAN_ATTEND_ACTIVITY("2225", "该客户不能参加此活动"),
     NOT_SUPPORT_TRADE_TYPE("2226", "不支持的交易类型"),
+    ACTIVITY_SCENE_EXIST_ERROR("2227", "操作失败：", "已存在到场景编码。"),
     ACTIVITY_SYS_ERROR("3201", "不支持的交易类型");
+
 
 
     private String code;
