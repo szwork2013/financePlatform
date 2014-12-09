@@ -64,6 +64,8 @@ public interface ActivityConstant {
     String ACTIVITY_TYPE_PURCHASE = "ATT003";
     /**签到类*/
     String ACTIVITY_TYPE_SIGNIN = "ATT004";
+    /**邀请类*/
+    String ACTIVITY_TYPE_INVITE = "ATT005";
 
     /**
      * 生成奖励流水的时候操作--获取
