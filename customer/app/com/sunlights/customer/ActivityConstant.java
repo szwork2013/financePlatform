@@ -48,10 +48,6 @@ public interface ActivityConstant {
      */
     String ACTIVITY_PURCHASE_SCENE_CODE = "ASC007";
 
-    
-
-
-
     /**
      * 兑换场景
      */
@@ -60,9 +56,13 @@ public interface ActivityConstant {
     /**
      * 以下是活动类型
      */
+    /**注册类*/
     String ACTIVITY_TYPE_REGISTER = "ATT001";
+    /**首次购买类*/
     String ACTIVITY_TYPE_FIRST_PURCHASE = "ATT002";
+    /**购买类*/
     String ACTIVITY_TYPE_PURCHASE = "ATT003";
+    /**签到类*/
     String ACTIVITY_TYPE_SIGNIN = "ATT004";
 
     /**
