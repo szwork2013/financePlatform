@@ -11,7 +11,7 @@ import java.math.BigDecimal;
  */
 public interface HoldRewardService {
 
-    public void modifyHoldReward(String custId, String rewardType, BigDecimal money, Long rewardAmt);
+    public void modifyHoldReward(String custId, String rewardType,String activityType, BigDecimal money, Long rewardAmt);
 
     public Long getHoldRewardByCustId(String custId, String rewardType);
 

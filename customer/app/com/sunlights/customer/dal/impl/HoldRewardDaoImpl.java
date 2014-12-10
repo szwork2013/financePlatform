@@ -76,4 +76,13 @@ public class HoldRewardDaoImpl extends EntityBaseDao implements HoldRewardDao {
     public List<HoldReward> findListByCustIdAndRewardType(String custId, String rewardType) {
         return findByCustIdAndRewardType(custId, rewardType, null);
     }
+
+    @Override
+    public HoldReward findByCondition(String custId, String rewardType, String activityType) {
+        List<HoldReward> holdRewards = findByCustIdAndRewardType(custId, rewardType, activityType);
+        if(holdRewards == null || holdRewards.isEmpty()) {
+            return null;
+        }
+        return holdRewards.get(0);
+    }
 }
