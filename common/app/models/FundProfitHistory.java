@@ -22,13 +22,13 @@ public class FundProfitHistory extends IdEntity{
     private Timestamp createTime;
     @Column(name = "update_time")
     private Timestamp updateTime;
+    @Column(name = "del_flag")
+    private String delFlag;
+    @Column(name = "sm_update_time")
+    private Timestamp smUpdateTime;
 
     @Transient
     private String fundname;
-    @Transient
-    private String delFlag;
-    @Transient
-    private String smUpdateTime;
 
     public String getFundname() {
         return fundname;
@@ -46,11 +46,11 @@ public class FundProfitHistory extends IdEntity{
         this.delFlag = delFlag;
     }
 
-    public String getSmUpdateTime() {
+    public Timestamp getSmUpdateTime() {
         return smUpdateTime;
     }
 
-    public void setSmUpdateTime(String smUpdateTime) {
+    public void setSmUpdateTime(Timestamp smUpdateTime) {
         this.smUpdateTime = smUpdateTime;
     }
 
@@ -118,6 +118,8 @@ public class FundProfitHistory extends IdEntity{
             return false;
         if (updateTime != null ? !updateTime.equals(that.updateTime) : that.updateTime != null) return false;
 
+        if (smUpdateTime != null ? !smUpdateTime.equals(that.smUpdateTime) : that.smUpdateTime != null) return false;
+        if (delFlag != null ? !delFlag.equals(that.delFlag) : that.delFlag != null) return false;
         return true;
     }
 
@@ -130,6 +132,8 @@ public class FundProfitHistory extends IdEntity{
         result = 31 * result + (incomePerTenThousand != null ? incomePerTenThousand.hashCode() : 0);
         result = 31 * result + (createTime != null ? createTime.hashCode() : 0);
         result = 31 * result + (updateTime != null ? updateTime.hashCode() : 0);
+        result = 31 * result + (smUpdateTime != null ? smUpdateTime.hashCode() : 0);
+        result = 31 * result + (delFlag != null ? delFlag.hashCode() : 0);
         return result;
     }
 }
