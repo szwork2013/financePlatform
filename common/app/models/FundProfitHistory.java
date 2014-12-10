@@ -25,6 +25,10 @@ public class FundProfitHistory extends IdEntity{
 
     @Transient
     private String fundname;
+    @Transient
+    private String delFlag;
+    @Transient
+    private String smUpdateTime;
 
     public String getFundname() {
         return fundname;
@@ -32,6 +36,22 @@ public class FundProfitHistory extends IdEntity{
 
     public void setFundname(String fundname) {
         this.fundname = fundname;
+    }
+
+    public String getDelFlag() {
+        return delFlag;
+    }
+
+    public void setDelFlag(String delFlag) {
+        this.delFlag = delFlag;
+    }
+
+    public String getSmUpdateTime() {
+        return smUpdateTime;
+    }
+
+    public void setSmUpdateTime(String smUpdateTime) {
+        this.smUpdateTime = smUpdateTime;
     }
 
     public String getFundCode() {
