@@ -94,4 +94,16 @@ public final class ParameterConst {
      * 短信接口-N真实调用/非N 测试模式
      */
     public static String SMS_TEST = "SMS_TEST";
+
+
+    /**
+     * "极光推送app_key"
+     */
+    public static String APP_KEY = "APP_KEY";
+    /**
+     * "极光推送secret_key"
+     */
+    public static String SECRET_KEY = "SECRET_KEY";
+
+
 }
