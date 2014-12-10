@@ -15,6 +15,7 @@ import com.sunlights.customer.vo.ActivityParamter;
 import com.sunlights.customer.vo.QRcodeVo;
 import com.sunlights.customer.vo.ShareVo;
 import models.Activity;
+import models.ActivityShareInfo;
 import models.Customer;
 import models.CustomerSession;
 import org.apache.commons.lang3.StringUtils;
@@ -53,24 +54,29 @@ public class ShareContorller extends ActivityBaseController{
         if(StringUtils.isEmpty(scene)){
             scene= ActivityConstant.ACTIVITY_INVITE_SCENE_CODE;//邀请好友配置场景
         }
-        List<Activity> list=activityService.getActivityByScene(scene);
-        if(list.size()<1){
+        ActivityShareInfo activityShareInfo=activityService.getShareInfoByScene(scene);
+        if(activityShareInfo == null){
             return notFound("暂时没有活动");
         }
-        Activity activity=list.get(0);
-        String url=activity.getShareUrl();//活动路径
+        String url=activityShareInfo.getShareUrl();//活动路径
         Logger.debug("获得的活动路径url为:"+url);
-        String sharetext=activity.getShareText();//获得分享描述内容
+        String sharetext=activityShareInfo.getContent();//获得分享描述内容
         Logger.debug("获得分享描述内容:"+sharetext);
-        Long activatyid=activity.getId();//活动id
-        String shorturl= getShortUrl(custNo,activatyid,scene,mobile,url);  //获得短路径
+        String title=activityShareInfo.getTitle();//title
+        String imageurl=activityShareInfo.getIocnUrl();
+        Long activatyid=activityShareInfo.getActivityId();//活动id
+        Logger.debug("活动id:"+activatyid);
+        String shorturl= getShortUrl(custNo, activatyid, scene, mobile, url);  //获得短路径
         if(StringUtils.isEmpty(shorturl)){
             return notFound("获取短路径失败");
         }
         //3、将内容存入对象
         ShareVo shareVo=new ShareVo();
         shareVo.setShorturl(shorturl);
-        shareVo.setTemplate(sharetext);
+        shareVo.setTitle(title);
+        shareVo.setContent(sharetext);
+        shareVo.setImageurl(imageurl);
+
         messageUtil.setMessage(new Message(Severity.INFO, MsgCode.SHARE_QUERY_SUCC), shareVo);
         Logger.debug("返回给前端的内容----》:"+messageUtil.toJson());
         return ok(messageUtil.toJson());
@@ -78,10 +84,10 @@ public class ShareContorller extends ActivityBaseController{
 
 
     /**
-     * 获得base64编码的字符串图片
+     * 获得byte流图片
      * @return
      */
-    public Result getQRcodeToBase64(){
+    public Result getQRcodeToByte(){
 
         //1、首先获得手机号
         CustomerSession customerSession = getCustomerSession();
@@ -96,26 +102,30 @@ public class ShareContorller extends ActivityBaseController{
         if(StringUtils.isEmpty(scene)){
             scene= ActivityConstant.ACTIVITY_INVITE_SCENE_CODE;//邀请好友配置场景
         }
-        List<Activity> list=activityService.getActivityByScene(scene);
-        if(list.size()<1){
+
+        ActivityShareInfo activityShareInfo=activityService.getShareInfoByScene(scene);
+
+        if(activityShareInfo == null){
             return notFound("暂时没有活动");
         }
-        Activity activity=list.get(0);
-        String url=activity.getShareUrl();//活动路径
+
+        String url=activityShareInfo.getShareUrl();//活动路径
         Logger.debug("获得的活动路径url为:"+url);
-        Long activatyid=activity.getId();//活动id
-        String shorturl= getShortUrl(custNo,activatyid,scene,mobile,url);//获得短路径
+        Long activatyid=activityShareInfo.getActivityId();//活动id
+        String shorturl= getShortUrl(custNo, activatyid, scene, mobile, url);//获得短路径
         if(StringUtils.isEmpty(shorturl)){
             return notFound("获取短路径失败");
         }
+
+        //3、将内容存入对象
         QRcodeByte qrcode = new QRcodeByte();
         byte[] pngData = qrcode.getQRcodeByte(shorturl);//加入短路径如："http://t.cn/RzJWtFA"
-        //3、将内容存入对象
         QRcodeVo qRcodeVo=new QRcodeVo();
-        qRcodeVo.setQrcodeStr(new BASE64Encoder().encode(pngData));
+        qRcodeVo.setQrcodeByte(pngData);
+        Logger.debug("图片二进制流:"+qRcodeVo.getQrcodeByte());
 
-        messageUtil.setMessage(new Message(Severity.INFO, MsgCode.SHARE_QUERY_SUCC), qRcodeVo);
-        Logger.debug("返回给前端的内容----》:"+messageUtil.toJson());
+        messageUtil.setMessage(new Message(Severity.INFO, MsgCode.ABOUT_QUERY_SUCC), qRcodeVo);
+        Logger.debug("返回给前端的内容----:"+messageUtil.toJson());
         return ok(messageUtil.toJson());
 
     }

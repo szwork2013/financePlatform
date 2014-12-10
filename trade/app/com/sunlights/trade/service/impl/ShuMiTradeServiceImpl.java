@@ -1,7 +1,11 @@
 package com.sunlights.trade.service.impl;
 
 import com.sunlights.common.DictConst;
+import com.sunlights.common.MsgCode;
+import com.sunlights.common.Severity;
 import com.sunlights.common.utils.DBHelper;
+import com.sunlights.common.utils.MessageUtil;
+import com.sunlights.common.vo.Message;
 import models.*;
 
 import com.sunlights.account.service.AccountService;
@@ -22,6 +26,7 @@ import com.sunlights.trade.dal.TradeDao;
 import com.sunlights.trade.dal.impl.TradeDaoImpl;
 import com.sunlights.trade.service.ShuMiTradeService;
 import com.sunlights.trade.vo.ShuMiTradeFormVo;
+import play.Logger;
 
 import java.math.BigDecimal;
 import java.sql.Timestamp;
@@ -54,11 +59,21 @@ public class ShuMiTradeServiceImpl implements ShuMiTradeService{
         String customerId = customerSession.getCustomerId();
 
         //开户银行卡信息
-        createOpenAccountBankInfo(shuMiTradeFormVo, customerId);
+        if (shuMiTradeFormVo.getBankAcco() != null) {
+            createOpenAccountBankInfo(shuMiTradeFormVo, customerId);
+        }
 
         FundNav fundNav = productService.findFundNavByCode(shuMiTradeFormVo.getFundCode());
+        String companyId = null;
+        if (fundNav == null) {
+            MessageUtil.getInstance().setMessage(new Message(Severity.WARN,
+                    MsgCode.TRADE_ORDER_NOCODE.getCode(), MsgCode.TRADE_ORDER_NOCODE.getMessage(),MsgCode.TRADE_ORDER_NOCODE.getDetail()));
+        }else{
+            companyId = fundNav.getIaGuid();
+        }
+
         //子帐号
-        accountService.createSubAccount(customerId, fundNav.getIaGuid(), DictConst.FP_PRODUCT_TYPE_1);
+        accountService.createSubAccount(customerId, companyId, DictConst.FP_PRODUCT_TYPE_1);
 
         //下单记录
         Trade trade = createTrade(shuMiTradeFormVo, customerId, DictConst.TRADE_TYPE_1, fundNav);
@@ -73,12 +88,19 @@ public class ShuMiTradeServiceImpl implements ShuMiTradeService{
         CustomerSession customerSession = customerService.getCustomerSession(token);
         String customerId = customerSession.getCustomerId();
         FundNav fundNav = productService.findFundNavByCode(shuMiTradeFormVo.getFundCode());
+        if (fundNav == null) {
+            MessageUtil.getInstance().setMessage(new Message(Severity.WARN,
+                    MsgCode.TRADE_REDEEM_NOCODE.getCode(), MsgCode.TRADE_REDEEM_NOCODE.getMessage(), MsgCode.TRADE_REDEEM_NOCODE.getDetail()));
+        }
         createTrade(shuMiTradeFormVo, customerId, DictConst.TRADE_TYPE_2, fundNav);
     }
 
     private void createOpenAccountBankInfo(ShuMiTradeFormVo shuMiTradeFormVo, String customerId) {
         String bankName = shuMiTradeFormVo.getBankName();
         String bankCardNo = shuMiTradeFormVo.getBankAcco();
+
+        Logger.debug("bankName:" + bankName);
+        Logger.debug("bankCardNo:" + bankCardNo);
 
         BankCardVo bankCardVo = new BankCardVo();
         bankCardVo.setBankCardNo(bankCardNo);
@@ -92,20 +114,12 @@ public class ShuMiTradeServiceImpl implements ShuMiTradeService{
         String applySum = shuMiTradeFormVo.getApplySum();
         String fundCode = shuMiTradeFormVo.getFundCode();
         String fundName = shuMiTradeFormVo.getFundName();
-        String bankName = shuMiTradeFormVo.getBankName();
+        String bankName = shuMiTradeFormVo.getBankName() == null ? shuMiTradeFormVo.getBankCardInfo() : shuMiTradeFormVo.getBankName();
         String bankCardNo = shuMiTradeFormVo.getBankAcco();
         String applySerial = shuMiTradeFormVo.getApplySerial();
 
         Timestamp currentTime = DBHelper.getCurrentTime();
-        Date dateTime = null;
-        try {
-            if (shuMiTradeFormVo.getDateTime() != null) {
-                SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.sss");
-                dateTime = sdf.parse(shuMiTradeFormVo.getDateTime());
-            }
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
+        Date dateTime = getTradeDate(shuMiTradeFormVo.getDateTime());
 
         Trade trade = new Trade();
         trade.setTradeNo(applySerial);
@@ -113,26 +127,46 @@ public class ShuMiTradeServiceImpl implements ShuMiTradeService{
         trade.setTradeAmount(new BigDecimal(applySum));
         trade.setTradeStatus(DictConst.TRADE_STATUS_1);//途中
         trade.setConfirmStatus(DictConst.VERIFY_STATUS_1);//1-待确认
-        trade.setTradeTime(dateTime == null ? currentTime : dateTime);
+        trade.setTradeTime(dateTime);
         trade.setCreateTime(currentTime);
         trade.setCustId(customerId);
         trade.setBankCardNo(bankCardNo);
         trade.setBankName(bankName);
-        trade.setPayStatus(DictConst.PAYMENT_STATUS_2);//未付款
+        //数米 申购付款成功才回调
+        if (DictConst.TRADE_TYPE_1.equals(type)) {
+            trade.setPayStatus(DictConst.PAYMENT_STATUS_3);//未付款
+        }else{//赎回
+            trade.setPayStatus(DictConst.PAYMENT_STATUS_2);
+        }
         trade.setProductCode(fundCode);
         trade.setProductName(fundName);
 
-        trade.setProductPrice(fundNav.getPurchaseLimitMin());
-        trade.setQuantity(Integer.valueOf(new BigDecimal(applySum).divide(fundNav.getPurchaseLimitMin()).toString()));
-        BigDecimal fee = BigDecimal.ZERO;
-        BigDecimal chargeRateValue = fundNav.getChargeRateValue();
-        BigDecimal fundNavDiscount = fundNav.getDiscount();
-        if (chargeRateValue != null && BigDecimal.ZERO.compareTo(chargeRateValue) != 0 && fundNavDiscount != null) {
-            fee = fundNavDiscount;
+        if (fundNav != null) {
+            trade.setProductPrice(fundNav.getPurchaseLimitMin());
+            trade.setQuantity(Integer.valueOf(new BigDecimal(applySum).divide(fundNav.getPurchaseLimitMin()).toString()));
+            BigDecimal fee = BigDecimal.ZERO;
+            BigDecimal chargeRateValue = fundNav.getChargeRateValue();
+            BigDecimal fundNavDiscount = fundNav.getDiscount();
+            if (chargeRateValue != null && BigDecimal.ZERO.compareTo(chargeRateValue) != 0 && fundNavDiscount != null) {
+                fee = fundNavDiscount;
+            }
+            trade.setFee(fee);
         }
-        trade.setFee(fee);
 
         return tradeDao.saveTrade(trade);
+    }
+
+    private Date getTradeDate(String shuMiDateTime) {
+        Date dateTime = null;
+        try {
+            if (dateTime != null) {
+                SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.sss");
+                dateTime = sdf.parse(shuMiDateTime);
+            }
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        return dateTime == null ? DBHelper.getCurrentTime() : dateTime;
     }
 
 }

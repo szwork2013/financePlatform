@@ -7,17 +7,36 @@ import java.io.Serializable;
  */
 public class ShareVo implements Serializable {
 
-    private String template;
+    private String title;
 
     private String shorturl;
 
+    private String content;
 
-    public String getTemplate() {
-        return template;
+    private String imageurl;
+
+    public String getContent() {
+        return content;
     }
 
-    public void setTemplate(String template) {
-        this.template = template;
+    public void setContent(String content) {
+        this.content = content;
+    }
+
+    public String getImageurl() {
+        return imageurl;
+    }
+
+    public void setImageurl(String imageurl) {
+        this.imageurl = imageurl;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
     }
 
     public String getShorturl() {

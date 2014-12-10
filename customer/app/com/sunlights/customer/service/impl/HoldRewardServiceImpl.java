@@ -37,8 +37,8 @@ public class HoldRewardServiceImpl implements HoldRewardService {
     private RewardFlowService rewardFlowService = new RewardFlowServiceImpl();
 
     @Override
-    public void modifyHoldReward(String custId, String rewardType, BigDecimal money, Long rewardAmt) {
-        HoldReward oldHoldReward = holdRewardDao.findByCustIdAndRewardType(custId, rewardType);
+    public void modifyHoldReward(String custId, String rewardType,String activityType, BigDecimal money, Long rewardAmt) {
+        HoldReward oldHoldReward = holdRewardDao.findByCondition(custId, rewardType, activityType);
         if(oldHoldReward == null) {
             HoldReward newHoldReward = new HoldReward();
             newHoldReward.setCustId(custId);
@@ -51,6 +51,7 @@ public class HoldRewardServiceImpl implements HoldRewardService {
             newHoldReward.setHoldReward(rewardAmt);
             newHoldReward.setFrozenReward(Long.valueOf(0));
             newHoldReward.setFrozenMoney(BigDecimal.ZERO);
+            newHoldReward.setActivityType(activityType);
             holdRewardDao.doInsert(newHoldReward);
         } else {
             oldHoldReward.setGetMoney(oldHoldReward.getGetMoney().add(money));
@@ -149,7 +150,7 @@ public class HoldRewardServiceImpl implements HoldRewardService {
             holdReward.setRewardType(rewardFlowRecordVo.getRewardType());
             holdReward.setGetMoney(rewardFlowRecordVo.getMoneyResult());
             holdReward.setGetReward(rewardFlowRecordVo.getRewardAmtResult());
-            modifyHoldReward(rewardFlowRecordVo.getCustId(), rewardFlowRecordVo.getRewardType(), rewardFlowRecordVo.getMoneyResult(), rewardFlowRecordVo.getRewardAmtResult());
+            modifyHoldReward(rewardFlowRecordVo.getCustId(), rewardFlowRecordVo.getRewardType(),rewardFlowRecordVo.getActivityType(), rewardFlowRecordVo.getMoneyResult(), rewardFlowRecordVo.getRewardAmtResult());
         }
     }
 

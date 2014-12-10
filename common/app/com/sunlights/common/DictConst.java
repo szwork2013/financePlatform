@@ -103,4 +103,22 @@ public final class DictConst {
     public static String VERIFY_STATUS_5 = VERIFY_STATUS + doc + "5";//确认失败
 
 
+    public static String PUSH_STATUS = "FP.PUSH.STATUS";//推送状态
+    public static String PUSH_STATUS_1 = PUSH_STATUS + doc + "1";//不需推送
+    public static String PUSH_STATUS_2 = PUSH_STATUS + doc + "2";//待推送
+    public static String PUSH_STATUS_3 = PUSH_STATUS + doc + "3";//推送成功
+    public static String PUSH_STATUS_4 = PUSH_STATUS + doc + "4";//推送失败
+
+
+    public static String PUSH_TYPE = "FP.PUSH.TYPE";//推送类型
+    public static String PUSH_TYPE_1 = PUSH_TYPE + doc + "1";//系统公告
+    public static String PUSH_TYPE_2 = PUSH_TYPE + doc + "2";//活动公告
+    public static String PUSH_TYPE_3 = PUSH_TYPE + doc + "3";//交易公告
+
+    public static String PUSH_PLATFORM = "FP.PUSH.PLATFORM";//推送平台
+    public static String PUSH_PLATFORM_ALL = PUSH_PLATFORM + doc + "1";//推送平台
+    public static String PUSH_PLATFORM_ANDROID = PUSH_PLATFORM + doc + "2";//推送平台
+    public static String PUSH_PLATFORM_IOS = PUSH_PLATFORM + doc + "3";//推送平台
+
+
 }

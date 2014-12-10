@@ -4,6 +4,7 @@ package com.sunlights.customer.service;
 import com.sunlights.common.vo.PageVo;
 import com.sunlights.customer.vo.ActivityVo;
 import models.Activity;
+import models.ActivityShareInfo;
 
 import java.util.List;
 
@@ -24,6 +25,9 @@ public interface ActivityService {
 
     public List<String> getActivityTitles(String prdCode);
     public String getFileFuleUrl(String fileName, String remotDir);
+
+
+    public ActivityShareInfo getShareInfoByScene(String scene);
 
 
 }

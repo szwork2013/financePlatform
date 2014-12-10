@@ -6,6 +6,7 @@ import com.sunlights.customer.dal.CustJoinActivityDao;
 import com.sunlights.customer.dal.impl.CustJoinActivityDaoImpl;
 import com.sunlights.customer.service.CustJoinActivityService;
 import models.CustJoinActivity;
+import play.Logger;
 
 import java.util.Date;
 import java.util.List;
@@ -67,6 +68,7 @@ public class CustJoinActivityServiceImpl implements CustJoinActivityService {
         String dateStr = CommonUtil.dateToString(new Date(), CommonUtil.DATE_FORMAT_SHORT);
         String startDate = dateStr + " 00:00:00";
         String endDate = dateStr + " 23:59:59";
+        Logger.debug("startDate = " + startDate + " endDate = " + endDate);
         List<CustJoinActivity> custJoinActivityList = custJoinActivityDao.queryByCondition(custJoinActivity, startDate, endDate);
         if(custJoinActivityList != null && !custJoinActivityList.isEmpty()) {
             return custJoinActivityList.get(0);

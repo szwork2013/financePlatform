@@ -27,8 +27,8 @@ public class RewardControllerTest extends BaseTest {
 
     @Before
     public void getCookie(){
-        final String mobilePhoneNo = "13811599307";
-        final String password = "1";
+        final String mobilePhoneNo = "10000000014";
+        final String password = "111111";
         running(fakeApplication(), new Runnable() {
             public void run() {
                 cookie = getCookieAfterLogin(mobilePhoneNo, password);
@@ -44,7 +44,7 @@ public class RewardControllerTest extends BaseTest {
                     @Override
                     public void invoke() throws Throwable {
                         RewardFlowService rewardFlowService = new RewardFlowServiceImpl();
-                        RewardFlow rewardFlows = rewardFlowService.findTodayFlowByCustIdAndScene("20141119102210010000000029", ActivityConstant.ACTIVITY_SIGNIN_SCENE_CODE);
+                        RewardFlow rewardFlows = rewardFlowService.findTodayFlowByCustIdAndScene("20141129090152010000000066", ActivityConstant.ACTIVITY_SIGNIN_SCENE_CODE);
 
                         Logger.info("============testGetSingInCanObtainRewards start====");
                         Map<String, String> formParams = new HashMap<String, String>();
@@ -52,9 +52,8 @@ public class RewardControllerTest extends BaseTest {
                         Logger.info("============testGetSingInCanObtainRewards result====\n" + contentAsString(result));
                         assertThat(status(result)).isEqualTo(OK);
                         final MessageVo message = toMessageVo(result);
-
-
-                            assertThat(message.getMessage().getCode()).isEqualTo(MsgCode.ACTIVITY_QUERY_SUCC.getCode());
+                        assertThat(message.getMessage().getCode()).isEqualTo(MsgCode.ACTIVITY_QUERY_SUCC.getCode());
+                        Logger.info("============testSignInObtainReward result====\n" + contentAsString(result));
                         }
 
                 });

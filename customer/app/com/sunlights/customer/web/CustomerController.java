@@ -3,6 +3,7 @@ package com.sunlights.customer.web;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.sunlights.common.AppConst;
 import com.sunlights.common.MsgCode;
+import com.sunlights.common.Severity;
 import com.sunlights.common.service.VerifyCodeService;
 import com.sunlights.common.utils.MessageUtil;
 import com.sunlights.common.vo.Message;
@@ -12,9 +13,11 @@ import com.sunlights.customer.service.impl.CustomerService;
 import com.sunlights.customer.service.impl.LoginServiceImpl;
 import com.sunlights.customer.vo.CustomerFormVo;
 import com.sunlights.customer.vo.CustomerVo;
+import com.sunlights.customer.vo.JudjeTokenVo;
 import models.Customer;
 import models.CustomerSession;
 import play.Logger;
+import play.cache.Cache;
 import play.data.Form;
 import play.db.jpa.Transactional;
 import play.mvc.Controller;
@@ -28,11 +31,15 @@ import play.mvc.Result;
 public class CustomerController extends Controller {
   private Form<CustomerFormVo> customerForm = Form.form(CustomerFormVo.class);
 
+    private Form<JudjeTokenVo> judjeTokenVoForm = Form.form(JudjeTokenVo.class);
+
   private LoginService loginService = new LoginServiceImpl();
 
   private CustomerService customerService = new CustomerService();
 
   private VerifyCodeService verifyCodeService = new VerifyCodeService();
+
+    protected MessageUtil messageUtil = MessageUtil.getInstance();
 
   /**
    * 查询手机号是否已注册
@@ -236,6 +243,29 @@ public class CustomerController extends Controller {
     MessageVo<CustomerVo> messageVo = new MessageVo<>(new Message(MsgCode.GESTURE_PASSWORD_SUCCESS));
     messageVo.setValue(customerVo);
     return Controller.ok(messageVo.toJson());
+  }
+
+  public Result getToken() {
+      Http.Cookie cookie = request().cookie(AppConst.TOKEN);
+      String token = cookie == null ? null : cookie.value();
+      try {
+          //customerService.validateCustomerSession(request(),session(),response());
+      } catch (Exception e) {
+          Logger.error("还没登陆");
+          token = null;
+      }
+      Logger.debug("token = " + token);
+      JudjeTokenVo judjeTokenVo = new JudjeTokenVo();
+      if(token == null) {
+          judjeTokenVo.setExistToken(false);
+      } else {
+          judjeTokenVo.setExistToken(true);
+      }
+      messageUtil.setMessage(new Message(Severity.INFO, MsgCode.OPERATE_SUCCESS), judjeTokenVo);
+      Controller.response().setHeader("Access-Control-Allow-Origin","*");
+      JsonNode jsonNode = messageUtil.toJson();
+      Logger.debug("jsonNode = " + jsonNode);
+      return ok(jsonNode);
   }
 
 }

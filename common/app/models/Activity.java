@@ -28,10 +28,7 @@ public class Activity extends IdEntity {
     private String image;
     @Column(name = "URL")
     private String url;
-    @Column(name = "SHARE_URL")
-    private String shareUrl;
-    @Column(name = "SHARE_TEXT")
-    private String shareText;
+
     @Column(name = "CLICK_TIME")
     private Long clickTime;
     @Column(name = "STYLE")
@@ -116,13 +113,7 @@ public class Activity extends IdEntity {
         this.clickTime = clickTime;
     }
 
-    public String getShareText() {
-        return shareText;
-    }
 
-    public void setShareText(String shareText) {
-        this.shareText = shareText;
-    }
 
     public String getStyle() {
         return style;
@@ -181,11 +172,5 @@ public class Activity extends IdEntity {
         this.scene = scene;
     }
 
-    public String getShareUrl() {
-        return shareUrl;
-    }
 
-    public void setShareUrl(String shareUrl) {
-        this.shareUrl = shareUrl;
-    }
 }

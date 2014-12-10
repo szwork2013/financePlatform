@@ -1,17 +1,20 @@
 package com.sunlights.customer.service.impl;
 
 
+import com.sunlights.common.cache.Cacheable;
 import com.sunlights.common.vo.PageVo;
 import com.sunlights.customer.ActivityConstant;
 import com.sunlights.customer.dal.ActivityDao;
 import com.sunlights.customer.dal.ActivitySceneDao;
 import com.sunlights.customer.dal.impl.ActivityDaoImpl;
 import com.sunlights.customer.dal.impl.ActivitySceneDaoImpl;
-import com.sunlights.customer.service.ActivitySceneService;
+
+
 import com.sunlights.customer.service.ActivityService;
 import com.sunlights.customer.vo.ActivityVo;
 import models.Activity;
 import models.ActivityScene;
+import models.ActivityShareInfo;
 import play.Configuration;
 
 import java.util.ArrayList;
@@ -53,12 +56,14 @@ public class ActivityServiceImpl implements ActivityService{
         return new StringBuilder().append("http://").append(server).append(":").append(port).append(remoteDir).append("/").append(fileName).toString();
     }
 
+    @Cacheable(key="scene", duration = 150)
     @Override
     public List<Activity> getActivityByScene(String scene) {
         //TODO
         return activityDao.getActivityByScene(scene);
     }
 
+    @Cacheable(key="activityTitleByPrdCode", duration = 100)
     @Override
     public List<String> getActivityTitles(String prdCode) {
         List<String> titles = new ArrayList<String>();
@@ -83,5 +88,15 @@ public class ActivityServiceImpl implements ActivityService{
             titles.add(activity.getTitle());
         }
         return titles;
+    }
+
+    @Override
+    public ActivityShareInfo getShareInfoByScene(String scene) {
+        List<ActivityShareInfo> activityShareInfos = activityDao.getShareInfoByScene(scene);
+        if(activityShareInfos == null || activityShareInfos.isEmpty()) {
+            return null;
+        }
+
+        return activityShareInfos.get(0);
     }
 }
