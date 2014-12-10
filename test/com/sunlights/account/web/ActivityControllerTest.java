@@ -52,7 +52,7 @@ public class ActivityControllerTest extends BaseTest{
                         play.mvc.Result result = null;
                         com.sunlights.customer.service.CustJoinActivityService custJoinActivityService = new CustJoinActivityServiceImpl();
 
-                        CustJoinActivity custJoinActivity = custJoinActivityService.getTodayRecordByCustAndActivity("20141119102210010000000029", null, ActivityConstant.ACTIVITY_SIGNIN_SCENE_CODE);
+                        CustJoinActivity custJoinActivity = custJoinActivityService.getTodayRecordByCustAndActivity("20141129090152010000000066", null, ActivityConstant.ACTIVITY_SIGNIN_SCENE_CODE);
                         //2:签到获取金豆正常测试
                         formParams = new HashMap<String, String>();
                         formParams.put("scene", ActivityConstant.ACTIVITY_SIGNIN_SCENE_CODE);
@@ -98,7 +98,7 @@ public class ActivityControllerTest extends BaseTest{
 
 
 
-    @Test
+    //@Test
     public void testRegisterObtainReward() {
         running(fakeApplication(), new Runnable() {
             public void run() {
@@ -110,7 +110,7 @@ public class ActivityControllerTest extends BaseTest{
                         play.mvc.Result result = null;
                         com.sunlights.customer.service.CustJoinActivityService custJoinActivityService = new CustJoinActivityServiceImpl();
 
-                        CustJoinActivity custJoinActivity = custJoinActivityService.getByCustAndActivity("20141119102210010000000029", null, ActivityConstant.ACTIVITY_REGISTER_SCENE_CODE);
+                        CustJoinActivity custJoinActivity = custJoinActivityService.getByCustAndActivity("20141129090152010000000066", null, ActivityConstant.ACTIVITY_REGISTER_SCENE_CODE);
 
                         //2:签到获取金豆正常测试
                         formParams = new HashMap<String, String>();
@@ -133,7 +133,7 @@ public class ActivityControllerTest extends BaseTest{
         });
     }
 
-    @Test
+   // @Test
     public void testPurchaseObtainReward() {
         running(fakeApplication(), new Runnable() {
             public void run() {
@@ -146,7 +146,7 @@ public class ActivityControllerTest extends BaseTest{
 
 
                         com.sunlights.customer.service.CustJoinActivityService custJoinActivityService = new CustJoinActivityServiceImpl();
-                        CustJoinActivity custJoinActivity = custJoinActivityService.getByCustAndActivity("20141119102210010000000029", null, ActivityConstant.ACTIVITY_FIRST_PURCHASE_SCENE_CODE);
+                        CustJoinActivity custJoinActivity = custJoinActivityService.getByCustAndActivity("20141129090152010000000066", null, ActivityConstant.ACTIVITY_FIRST_PURCHASE_SCENE_CODE);
                         //2:签到获取金豆正常测试
                         formParams = new HashMap<String, String>();
                         formParams.put("tradeType", "0");
@@ -173,7 +173,7 @@ public class ActivityControllerTest extends BaseTest{
         });
     }
 
-    @Test
+    //@Test
     public void testExchangeReward() {
         running(fakeApplication(), new Runnable() {
             public void run() {

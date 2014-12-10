@@ -5,7 +5,7 @@ import models.HoldReward;
 import java.util.List;
 
 /**
- * Created by Administrator on 2014/11/19.
+ * Created by tangweiqun on 2014/11/19.
  */
 public interface HoldRewardDao {
 
@@ -14,6 +14,8 @@ public interface HoldRewardDao {
     public HoldReward findByCustIdAndRewardType(String custId, String rewardType);
 
     public List<HoldReward> findListByCustIdAndRewardType(String custId, String rewardType);
+
+    public HoldReward findByCondition(String custId, String rewardType, String activityType);
 
     public void doInsert(HoldReward holdReward);
 
