@@ -14,4 +14,5 @@ public interface FundProfitHistoryDao {
     void deleteFundProfitHistory(FundProfitHistory fundProfitHistory);
     FundProfitHistory findFundProfitHistoryByDateTime(Timestamp dateTime);
     List<FundProfitHistory> findFundProfitHistory(FundProfitHistory fundProfitHistory);
+    FundProfitHistory findFundProfitHistoryByCodeAndDate(FundProfitHistory fundProfitHistories);
 }
