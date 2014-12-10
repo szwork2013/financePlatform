@@ -38,6 +38,7 @@ public class HoldRewardServiceImpl implements HoldRewardService {
 
     @Override
     public void modifyHoldReward(String custId, String rewardType,String activityType, BigDecimal money, Long rewardAmt) {
+        Logger.debug("custId = " + custId + " rewardType = " + rewardType + " activityType = " + activityType);
         HoldReward oldHoldReward = holdRewardDao.findByCondition(custId, rewardType, activityType);
         if(oldHoldReward == null) {
             HoldReward newHoldReward = new HoldReward();
