@@ -1,15 +1,19 @@
 package models;
 
+import com.sunlights.common.utils.CommonUtil;
+import org.apache.commons.lang3.StringUtils;
+
 import javax.persistence.*;
 import java.math.BigDecimal;
 import java.sql.Timestamp;
+import java.text.ParseException;
 
 /**
  * Created by guxuelong on 2014/11/27.
  */
 @Entity
 @Table(name = "fund_profit_history")
-public class FundProfitHistory extends IdEntity{
+public class FundProfitHistory extends IdEntity {
     @Column(name = "fund_code")
     private String fundCode;
     @Column(name = "date_time")
@@ -50,7 +54,16 @@ public class FundProfitHistory extends IdEntity{
         return smUpdateTime;
     }
 
-    public void setSmUpdateTime(Timestamp smUpdateTime) {
+    public void setSmUpdateTime(String updateTime1) {
+        Timestamp smUpdateTime = null;
+        try {
+            smUpdateTime = new Timestamp(CommonUtil.stringToDate(updateTime1, CommonUtil.DATE_FORMAT_ICU).getTime());
+            if (StringUtils.isEmpty(updateTime1)) {
+                smUpdateTime = null;
+            }
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
         this.smUpdateTime = smUpdateTime;
     }
 

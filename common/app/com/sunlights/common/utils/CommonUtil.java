@@ -69,7 +69,7 @@ public class CommonUtil {
 
     public static final String DATE_FORMAT_LONG = "yyyy-MM-dd HH:mm:ss";
 
-    public static final String DATE_FORMAT_ICU = "yyyy-MM-dd HH:mm:ss:SSS";
+    public static final String DATE_FORMAT_ICU = "yyyy-MM-dd HH:mm:ss.SSS";
 
     public static final String YYYYMMDDHHMMSS = "yyyyMMddHHmmss";
 
