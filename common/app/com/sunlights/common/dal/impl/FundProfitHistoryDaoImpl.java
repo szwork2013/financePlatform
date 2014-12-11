@@ -15,7 +15,7 @@ import java.util.List;
  * Created by guxuelong on 2014/11/27.
  */
 public class FundProfitHistoryDaoImpl  extends EntityBaseDao implements FundProfitHistoryDao {
-    private static final String QUERY_FUND_PROFIT_HISTORY = "select t from FundProfitHistory t where t.fundCode =: fundCode and t.dateTime >= :dateTimeStart  and t.dateTime <= :dateTimeEnd";
+    private static final String QUERY_FUND_PROFIT_HISTORY = "select t from FundProfitHistory t where t.fundCode = :fundCode and t.dateTime >= :dateTimeStart  and t.dateTime <= :dateTimeEnd";
     private static final String START_TIME = " 00:00:00";
     private static final String END_TIME = " 23:59:59";
 
