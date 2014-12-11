@@ -48,10 +48,6 @@ public class HoldRewardDaoImpl extends EntityBaseDao implements HoldRewardDao {
     @Override
     public HoldReward findByCustIdAndRewardType(String custId, String rewardType) {
         List<HoldReward> holdRewards = findByCustIdAndRewardType(custId, rewardType, null);
-
-        if(holdRewards == null || holdRewards.isEmpty()) {
-            return null;
-        }
         HoldReward holdReward = new HoldReward();
         holdReward.setFrozenMoney(BigDecimal.ZERO);
         holdReward.setFrozenReward(0L);
@@ -61,6 +57,10 @@ public class HoldRewardDaoImpl extends EntityBaseDao implements HoldRewardDao {
         holdReward.setHoldReward(0L);
         holdReward.setCustId(custId);
         holdReward.setRewardType(rewardType);
+        if(holdRewards == null || holdRewards.isEmpty()) {
+            return holdReward;
+        }
+
         for(HoldReward temp : holdRewards) {
             holdReward.setFrozenReward(temp.getFrozenReward() + holdReward.getFrozenReward());
             holdReward.setFrozenMoney(holdReward.getFrozenMoney().add(temp.getFrozenMoney()));

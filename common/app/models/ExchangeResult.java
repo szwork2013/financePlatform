@@ -15,7 +15,7 @@ public class ExchangeResult extends IdEntity {
     @Column(name = "EXCHANGE_SCENE")
     private String exchangeScene;
     @Column(name = "STATUS")
-    private String status;
+    private Integer status;
     @Column(name = "PHONE")
     private String phone;
     @Column(name = "BANK_CODE")
@@ -50,11 +50,11 @@ public class ExchangeResult extends IdEntity {
         this.exchangeScene = exchangeScene;
     }
 
-    public String getStatus() {
+    public Integer getStatus() {
         return status;
     }
 
-    public void setStatus(String status) {
+    public void setStatus(Integer status) {
         this.status = status;
     }
 
