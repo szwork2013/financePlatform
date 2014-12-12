@@ -24,7 +24,7 @@ public class MessageRule extends IdEntity {
     @Column(name = "content_ext")
     private String contentExt;
     @Column(name = "sms_ind", length = 1)
-    private String smeInd;
+    private String smsInd;
     @Column(name = "msg_center_ind", length = 1)
     private String msgCenterInd;
     @Column(name = "push_ind", length = 1)
@@ -88,12 +88,12 @@ public class MessageRule extends IdEntity {
         this.contentExt = contentExt;
     }
 
-    public String getSmeInd() {
-        return smeInd;
+    public String getSmsInd() {
+        return smsInd;
     }
 
-    public void setSmeInd(String smeInd) {
-        this.smeInd = smeInd;
+    public void setSmsInd(String smsInd) {
+        this.smsInd = smsInd;
     }
 
     public String getMsgCenterInd() {
