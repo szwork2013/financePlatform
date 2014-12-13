@@ -17,7 +17,7 @@ import java.util.Date;
 @Entity
 @Table(name = "c_customer_msg_setting")
 @NamedQueries({
-        @NamedQuery(name="findAliasByGroupId",query="select cms.alias from CustomerGroup cg,CustomerMsgSetting cms where cg.customerId = cms.customerId and cms.pushOpenStatus = 'Y' and g.id = ?1"),
+        @NamedQuery(name="findAliasByGroupId",query="select cms.alias from CustomerGroup cg,CustomerMsgSetting cms where cg.customerId = cms.customerId and cms.pushOpenStatus = 'Y' and cg.id = ?1"),
         @NamedQuery(name="findAliasByCustomerId",query="select cms.alias from CustomerMsgSetting cms where cms.pushOpenStatus = 'Y' and cms.customerId = ?1")
 })
 public class CustomerMsgSetting extends IdEntity {
