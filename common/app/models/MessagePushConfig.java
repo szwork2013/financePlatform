@@ -1,8 +1,7 @@
 package models;
 
-import java.util.Date;
-
 import javax.persistence.*;
+import java.util.Date;
 
 /**
  * <p>Project: thirdpartyservice</p>
@@ -20,16 +19,14 @@ public class MessagePushConfig extends IdEntity {
     @Column(name = "push_type", length = 50)
     private String pushType;
     private String remarks;
-    @Column(name = "group_id")
-    private Long groupId;
     @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "plan_begin_time")
     private Date planBeginTime;
     @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "plan_end_time")
     private Date planEndTime;
-    @Column(name = "push_expiry", length = 50)
-    private String pushExpiry;
+    @Column(name = "push_timed", length = 50)
+    private String pushTimed;//Y 定时 N及时
     @Column(length = 1)
     private String status;
     @Temporal(TemporalType.TIMESTAMP)
@@ -63,14 +60,6 @@ public class MessagePushConfig extends IdEntity {
         this.remarks = remarks;
     }
 
-    public Long getGroupId() {
-        return groupId;
-    }
-
-    public void setGroupId(Long groupId) {
-        this.groupId = groupId;
-    }
-
     public Date getPlanBeginTime() {
         return planBeginTime;
     }
@@ -87,12 +76,12 @@ public class MessagePushConfig extends IdEntity {
         this.planEndTime = planEndTime;
     }
 
-    public String getPushExpiry() {
-        return pushExpiry;
+    public String getPushTimed() {
+        return pushTimed;
     }
 
-    public void setPushExpiry(String pushExpiry) {
-        this.pushExpiry = pushExpiry;
+    public void setPushTimed(String pushTimed) {
+        this.pushTimed = pushTimed;
     }
 
     public String getStatus() {

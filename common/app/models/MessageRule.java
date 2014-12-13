@@ -23,6 +23,8 @@ public class MessageRule extends IdEntity {
     private String content;
     @Column(name = "content_ext")
     private String contentExt;
+    @Column(name = "group_id")
+    private Long groupId;
     @Column(name = "sms_ind", length = 1)
     private String smsInd;
     @Column(name = "msg_center_ind", length = 1)
@@ -142,5 +144,13 @@ public class MessageRule extends IdEntity {
 
     public void setUpdateTime(Date updateTime) {
         this.updateTime = updateTime;
+    }
+
+    public Long getGroupId() {
+        return groupId;
+    }
+
+    public void setGroupId(Long groupId) {
+        this.groupId = groupId;
     }
 }

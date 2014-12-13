@@ -32,7 +32,7 @@ public class ParameterService {
       List<Parameter> list = parameterDao.loadAllParameter();
       if (list != null && list.size() != 0) {
         for (Parameter parameter : list) {
-          params.put(parameter.getName(), parameter.getValue());
+          params.put(parameter.getName().trim(), parameter.getValue() == null ? null : parameter.getValue().trim());
         }
       }
     }

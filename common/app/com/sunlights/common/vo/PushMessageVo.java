@@ -1,6 +1,9 @@
 package com.sunlights.common.vo;
 
+import com.google.common.collect.Lists;
+
 import java.io.Serializable;
+import java.util.List;
 
 /**
  * <p>Project: thirdpartyservice</p>
@@ -12,29 +15,22 @@ import java.io.Serializable;
  * @author <a href="mailto:jiaming.wang@sunlights.cc">wangJiaMing</a>
  */
 public class PushMessageVo implements Serializable{
-    private Long pushMessageId;
-    private String platform; //推送平台
-    private String content;
+    private Long pushTxnId;
     private String title;
-    private Long timeToLive;
-    private boolean apnsProducation;
-    private Long bigPushDuration;
-    private String pushGroupId;
+    private String content;
+    private String contentExt;
+    private String sendNo;
+    private String platform; //推送平台
+    private Long groupId;
+    private String customerId;
+    private List<String> aliasList = Lists.newArrayList();
 
-    public String getPlatform() {
-        return platform;
+    public Long getPushTxnId() {
+        return pushTxnId;
     }
 
-    public void setPlatform(String platform) {
-        this.platform = platform;
-    }
-
-    public String getContent() {
-        return content;
-    }
-
-    public void setContent(String content) {
-        this.content = content;
+    public void setPushTxnId(Long pushTxnId) {
+        this.pushTxnId = pushTxnId;
     }
 
     public String getTitle() {
@@ -45,43 +41,59 @@ public class PushMessageVo implements Serializable{
         this.title = title;
     }
 
-    public Long getTimeToLive() {
-        return timeToLive;
+    public String getContent() {
+        return content;
     }
 
-    public void setTimeToLive(Long timeToLive) {
-        this.timeToLive = timeToLive;
+    public void setContent(String content) {
+        this.content = content;
     }
 
-    public boolean getApnsProducation() {
-        return apnsProducation;
+    public String getContentExt() {
+        return contentExt;
     }
 
-    public void setApnsProducation(boolean apnsProducation) {
-        this.apnsProducation = apnsProducation;
+    public void setContentExt(String contentExt) {
+        this.contentExt = contentExt;
     }
 
-    public Long getBigPushDuration() {
-        return bigPushDuration;
+    public String getSendNo() {
+        return sendNo;
     }
 
-    public void setBigPushDuration(Long bigPushDuration) {
-        this.bigPushDuration = bigPushDuration;
+    public void setSendNo(String sendNo) {
+        this.sendNo = sendNo;
     }
 
-    public String getPushGroupId() {
-        return pushGroupId;
+    public String getPlatform() {
+        return platform;
     }
 
-    public void setPushGroupId(String pushGroupId) {
-        this.pushGroupId = pushGroupId;
+    public void setPlatform(String platform) {
+        this.platform = platform;
     }
 
-    public Long getPushMessageId() {
-        return pushMessageId;
+    public Long getGroupId() {
+        return groupId;
     }
 
-    public void setPushMessageId(Long pushMessageId) {
-        this.pushMessageId = pushMessageId;
+    public void setGroupId(Long groupId) {
+        this.groupId = groupId;
+    }
+
+    public List<String> getAliasList() {
+        return aliasList;
+    }
+
+    public void setAliasList(List<String> aliasList) {
+        this.aliasList = aliasList;
+    }
+
+    public String getCustomerId() {
+        return customerId;
+    }
+
+    public void setCustomerId(String customerId) {
+        this.customerId = customerId;
     }
 }

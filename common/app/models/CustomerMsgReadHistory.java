@@ -1,9 +1,8 @@
 package models;
 
 
-import java.util.Date;
-
 import javax.persistence.*;
+import java.util.Date;
 
 /**
  * <p>Project: thirdpartyservice</p>
@@ -19,7 +18,10 @@ import javax.persistence.*;
 public class CustomerMsgReadHistory extends IdEntity {
     @Column(name = "customer_id", length = 30)
     private String customerId;
-    private Long messagePushId;
+    @Column(name = "customer_msg_push_txn_id")
+    private Long customerMsgPushTxnId;
+    @Column(name = "message_push_txn_id")
+    private Long messagePushTxnId;
     @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "read_time")
     private Date readTime;
@@ -38,12 +40,12 @@ public class CustomerMsgReadHistory extends IdEntity {
         this.customerId = customerId;
     }
 
-    public Long getMessagePushId() {
-        return messagePushId;
+    public Long getMessagePushTxnId() {
+        return messagePushTxnId;
     }
 
-    public void setMessagePushId(Long messagePushId) {
-        this.messagePushId = messagePushId;
+    public void setMessagePushTxnId(Long messagePushTxnId) {
+        this.messagePushTxnId = messagePushTxnId;
     }
 
     public Date getReadTime() {
@@ -68,5 +70,13 @@ public class CustomerMsgReadHistory extends IdEntity {
 
     public void setUpdateTime(Date updateTime) {
         this.updateTime = updateTime;
+    }
+
+    public Long getCustomerMsgPushTxnId() {
+        return customerMsgPushTxnId;
+    }
+
+    public void setCustomerMsgPushTxnId(Long customerMsgPushTxnId) {
+        this.customerMsgPushTxnId = customerMsgPushTxnId;
     }
 }

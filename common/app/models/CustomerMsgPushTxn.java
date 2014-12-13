@@ -1,33 +1,37 @@
 package models;
 
-import javax.persistence.*;
+import javax.persistence.Column;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 import java.util.Date;
 
 /**
- * <p>Project: thirdpartyservice</p>
- * <p>Title: MessagePushTxn.java</p>
+ * <p>Project: financeplatform</p>
+ * <p>Title: CustomerMsgPushTxn.java</p>
  * <p>Description: </p>
  * <p>Copyright (c) 2014 Sunlights.cc</p>
  * <p>All Rights Reserved.</p>
  *
  * @author <a href="mailto:jiaming.wang@sunlights.cc">wangJiaMing</a>
  */
-@Entity
-@Table(name = "c_message_push_txn")
-public class MessagePushTxn extends IdEntity {
+public class CustomerMsgPushTxn extends IdEntity{
     @Column(name = "message_rule_id")
     private Long messageRuleId;
-    @Column(name = "group_id")
-    private Long groupId;
+    private String title;
+    private String content;
+    @Column(name = "content_ext")
+    private String contentExt;
     @Column(name = "push_status", length = 50)
     private String pushStatus;
+    @Temporal(TemporalType.TIMESTAMP)
+    @Column(name = "PUSH_TIME")
+    private Date pushTime;
     @Column(name = "send_no")
     private String sendNo;
     @Column(name = "return_msg_id")
     private String returnMsgId;
-    @Temporal(TemporalType.TIMESTAMP)
-    @Column(name = "PUSH_TIME")
-    private Date pushTime;
+    @Column(name = "customer_id", length = 30)
+    private String customerId;
     @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "CREATE_TIME")
     private Date createTime;
@@ -43,12 +47,28 @@ public class MessagePushTxn extends IdEntity {
         this.messageRuleId = messageRuleId;
     }
 
-    public Long getGroupId() {
-        return groupId;
+    public String getTitle() {
+        return title;
     }
 
-    public void setGroupId(Long groupId) {
-        this.groupId = groupId;
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    public String getContent() {
+        return content;
+    }
+
+    public void setContent(String content) {
+        this.content = content;
+    }
+
+    public String getContentExt() {
+        return contentExt;
+    }
+
+    public void setContentExt(String contentExt) {
+        this.contentExt = contentExt;
     }
 
     public String getPushStatus() {
@@ -57,6 +77,14 @@ public class MessagePushTxn extends IdEntity {
 
     public void setPushStatus(String pushStatus) {
         this.pushStatus = pushStatus;
+    }
+
+    public Date getPushTime() {
+        return pushTime;
+    }
+
+    public void setPushTime(Date pushTime) {
+        this.pushTime = pushTime;
     }
 
     public String getSendNo() {
@@ -75,12 +103,12 @@ public class MessagePushTxn extends IdEntity {
         this.returnMsgId = returnMsgId;
     }
 
-    public Date getPushTime() {
-        return pushTime;
+    public String getCustomerId() {
+        return customerId;
     }
 
-    public void setPushTime(Date pushTime) {
-        this.pushTime = pushTime;
+    public void setCustomerId(String customerId) {
+        this.customerId = customerId;
     }
 
     public Date getCreateTime() {
