@@ -1,5 +1,7 @@
 package models;
 
+import com.sunlights.common.AppConst;
+
 import javax.persistence.*;
 import java.util.Date;
 
@@ -26,15 +28,15 @@ public class MessageRule extends IdEntity {
     @Column(name = "group_id")
     private Long groupId;
     @Column(name = "sms_ind", length = 1)
-    private String smsInd;
+    private String smsInd = AppConst.STATUS_INVALID;
     @Column(name = "msg_center_ind", length = 1)
-    private String msgCenterInd;
+    private String msgCenterInd = AppConst.STATUS_INVALID;;
     @Column(name = "push_ind", length = 1)
-    private String pushInd;
-    @Column(name = "message_push_config_id", length = 1)
+    private String pushInd = AppConst.STATUS_INVALID;;
+    @Column(name = "message_push_config_id")
     private Long messagePushConfigId;
     @Column(length = 1)
-    private String status;
+    private String status = AppConst.STATUS_VALID;
     @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "CREATE_TIME")
     private Date createTime;

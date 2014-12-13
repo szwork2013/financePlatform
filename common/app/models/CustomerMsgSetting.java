@@ -1,5 +1,7 @@
 package models;
 
+import com.sunlights.common.AppConst;
+
 import javax.persistence.*;
 import java.util.Date;
 
@@ -16,7 +18,7 @@ import java.util.Date;
 @Table(name = "c_customer_msg_setting")
 @NamedQueries({
         @NamedQuery(name="findAliasByGroupId",query="select cms.alias from CustomerGroup cg,CustomerMsgSetting cms where cg.customerId = cms.customerId and cms.pushOpenStatus = 'Y' and g.id = ?1"),
-        @NamedQuery(name="findAliasByCustomerId",query="select cms.alias from CustomerMsgSetting cms where cms.pushOpenStatus = 'Y' and cms.customerId = ?1"),
+        @NamedQuery(name="findAliasByCustomerId",query="select cms.alias from CustomerMsgSetting cms where cms.pushOpenStatus = 'Y' and cms.customerId = ?1")
 })
 public class CustomerMsgSetting extends IdEntity {
     @Column(name = "customer_id", length = 30)
@@ -26,7 +28,7 @@ public class CustomerMsgSetting extends IdEntity {
     @Column(name = "registration_id")
     private String registrationId;
     @Column(name = "push_open_status")
-    private String pushOpenStatus;//是否开启、关闭推送
+    private String pushOpenStatus = AppConst.STATUS_VALID;//Y开启、N关闭推送
     @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "create_time")
     private Date createTime;

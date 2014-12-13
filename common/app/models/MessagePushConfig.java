@@ -1,5 +1,7 @@
 package models;
 
+import com.sunlights.common.AppConst;
+
 import javax.persistence.*;
 import java.util.Date;
 
@@ -26,9 +28,9 @@ public class MessagePushConfig extends IdEntity {
     @Column(name = "plan_end_time")
     private Date planEndTime;
     @Column(name = "push_timed", length = 50)
-    private String pushTimed;//Y 定时 N及时
+    private String pushTimed = AppConst.STATUS_VALID;//Y 定时 N及时
     @Column(length = 1)
-    private String status;
+    private String status = AppConst.STATUS_VALID;
     @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "CREATE_TIME")
     private Date createTime;
