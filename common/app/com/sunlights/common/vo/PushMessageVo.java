@@ -23,6 +23,7 @@ public class PushMessageVo implements Serializable{
     private String platform; //推送平台
     private Long groupId;
     private String customerId;
+    private String personalInd;//个人、群发 信息来源标志
     private List<String> aliasList = Lists.newArrayList();
 
     public Long getPushTxnId() {
@@ -95,5 +96,13 @@ public class PushMessageVo implements Serializable{
 
     public void setCustomerId(String customerId) {
         this.customerId = customerId;
+    }
+
+    public String getPersonalInd() {
+        return personalInd;
+    }
+
+    public void setPersonalInd(String personalInd) {
+        this.personalInd = personalInd;
     }
 }

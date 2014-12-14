@@ -106,8 +106,9 @@ public final class DictConst {
     public static String PUSH_STATUS = "FP.PUSH.STATUS";//推送状态
     public static String PUSH_STATUS_1 = PUSH_STATUS + doc + "1";//不需推送
     public static String PUSH_STATUS_2 = PUSH_STATUS + doc + "2";//待推送
-    public static String PUSH_STATUS_3 = PUSH_STATUS + doc + "3";//推送成功
-    public static String PUSH_STATUS_4 = PUSH_STATUS + doc + "4";//推送失败
+    public static String PUSH_STATUS_3 = PUSH_STATUS + doc + "3";//正在推送
+    public static String PUSH_STATUS_4 = PUSH_STATUS + doc + "4";//推送成功
+    public static String PUSH_STATUS_5 = PUSH_STATUS + doc + "5";//推送失败
 
 
     public static String PUSH_TYPE = "FP.PUSH.TYPE";//推送类型

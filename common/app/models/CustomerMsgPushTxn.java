@@ -32,6 +32,8 @@ public class CustomerMsgPushTxn extends IdEntity{
     private String returnMsgId;
     @Column(name = "customer_id", length = 30)
     private String customerId;
+    @Column(name = "send_num")
+    private int sendNum;
     @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "CREATE_TIME")
     private Date createTime;
@@ -125,5 +127,13 @@ public class CustomerMsgPushTxn extends IdEntity{
 
     public void setUpdateTime(Date updateTime) {
         this.updateTime = updateTime;
+    }
+
+    public int getSendNum() {
+        return sendNum;
+    }
+
+    public void setSendNum(int sendNum) {
+        this.sendNum = sendNum;
     }
 }

@@ -23,6 +23,8 @@ public class MessagePushTxn extends IdEntity {
     private String pushStatus;
     @Column(name = "send_no")
     private String sendNo;
+    @Column(name = "send_num")
+    private int sendNum;
     @Column(name = "return_msg_id")
     private String returnMsgId;
     @Temporal(TemporalType.TIMESTAMP)
@@ -97,5 +99,13 @@ public class MessagePushTxn extends IdEntity {
 
     public void setUpdateTime(Date updateTime) {
         this.updateTime = updateTime;
+    }
+
+    public int getSendNum() {
+        return sendNum;
+    }
+
+    public void setSendNum(int sendNum) {
+        this.sendNum = sendNum;
     }
 }
