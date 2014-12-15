@@ -1,10 +1,9 @@
 package models;
 
-import java.util.Date;
+import com.sunlights.common.AppConst;
 
 import javax.persistence.*;
-
-import com.sunlights.common.AppConst;
+import java.util.Date;
 
 /**
  * <p>Project: thirdpartyservice</p>
@@ -18,12 +17,14 @@ import com.sunlights.common.AppConst;
 @Entity
 @Table(name = "c_message_sms_txn")
 public class MessageSmsTxn extends IdEntity {
+    @Column(name = "message_rule_id")
+    private Long messageRuleId;
     @Column(length = 40)
     private String smsId;
     @Column(length = 11)
     private String mobile;
-    @Column(name = "message_rule_id")
-    private Long messageRuleId;
+    private String title;
+    private String content;
     @Column(length = 40, name = "rec_status")
     private String recStatus;//回执状态
     @Column(length = 200, name = "return_msg")
@@ -100,5 +101,21 @@ public class MessageSmsTxn extends IdEntity {
 
     public void setUpdateTime(Date updateTime) {
         this.updateTime = updateTime;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    public String getContent() {
+        return content;
+    }
+
+    public void setContent(String content) {
+        this.content = content;
     }
 }

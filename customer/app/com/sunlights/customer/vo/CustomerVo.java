@@ -4,8 +4,6 @@ package com.sunlights.customer.vo;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import java.io.Serializable;
-import java.util.HashMap;
-import java.util.Map;
 
 
 /**
@@ -28,6 +26,7 @@ public class CustomerVo implements Serializable {
     private String idCardNo;//身份证号  实名认证才返回，非实名认证返回null
     private String bankCardCount = "0";//绑定的银行卡数量
     private String tradePwdFlag = "0";//交易密码是否设置 0 未  1已
+    private String gestureSetted = "0";//是否曾经设置过手势 0表示从未设置过，1表示曾设置过
 
     @JsonIgnore
     private String customerId;
@@ -223,4 +222,11 @@ public class CustomerVo implements Serializable {
         this.shumi_email = shumi_email;
     }
 
+    public String getGestureSetted() {
+        return gestureSetted;
+    }
+
+    public void setGestureSetted(String gestureSetted) {
+        this.gestureSetted = gestureSetted;
+    }
 }
