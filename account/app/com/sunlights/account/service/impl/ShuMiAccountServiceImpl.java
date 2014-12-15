@@ -33,16 +33,24 @@ public class ShuMiAccountServiceImpl implements ShuMiAccountService{
 
     @Override
     public ShuMiAccount saveShuMiAccount(ShuMiAccountVo shuMiAccountVo, String token) throws ConverterException {
+        Timestamp currentTime = DBHelper.getCurrentTime();
         Customer customer = updateCustomer(shuMiAccountVo, token);
 
         ShuMiAccount shuMiAccount = shuMiAccountDao.findShuMiAccountByCustomerId(customer.getCustomerId());
         if (shuMiAccount == null) {
             shuMiAccount = new ShuMiAccount();
             ConverterUtil.toEntity(shuMiAccount, shuMiAccountVo);
-            Timestamp currentTime = DBHelper.getCurrentTime();
             shuMiAccount.setCreate_time(currentTime);
             shuMiAccount.setCustomerId(customer.getCustomerId());
             shuMiAccountDao.saveShuMiAccount(shuMiAccount);
+        }else{
+            if (!shuMiAccount.getShumi_tokenKey().equals(shuMiAccountVo.getShumi_tokenKey())
+                    || !shuMiAccount.getShumi_tokenSecret().equals(shuMiAccountVo.getShumi_tokenSecret())) {
+                shuMiAccount.setShumi_tokenKey(shuMiAccountVo.getShumi_tokenKey());
+                shuMiAccount.setShumi_tokenSecret(shuMiAccountVo.getShumi_tokenSecret());
+                shuMiAccount.setUpdate_time(currentTime);
+                shuMiAccountDao.updateShuMiAccount(shuMiAccount);
+            }
         }
 
         CustomerVo customerVo = customerService.getCustomerVoByPhoneNo(customer.getMobile(), customer.getDeviceNo());
