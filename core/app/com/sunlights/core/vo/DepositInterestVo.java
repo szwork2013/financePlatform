@@ -1,67 +1,67 @@
-package models;
+package com.sunlights.core.vo;
 
-import javax.persistence.*;
+import com.sunlights.common.exceptions.ConverterException;
+import com.sunlights.common.utils.ConverterUtil;
+import models.DepositInterest;
+
 import java.math.BigDecimal;
 import java.util.Date;
 
 /**
  * Created by Yuan on 2014/12/15.
  */
-@Entity
-@javax.persistence.Table(name = "p_deposit_interest")
-public class DepositInterest extends IdEntity {
+public class DepositInterestVo {
 
-    @Temporal(TemporalType.TIMESTAMP)
-    @javax.persistence.Column(name = "\"DATE\"")
     private Date date;
-
-    @javax.persistence.Column(name = "\"CURRENT\"")
     private BigDecimal current;
 
-    @javax.persistence.Column(name = "full_three_months")
     private BigDecimal fullThreeMonths;
 
-    @javax.persistence.Column(name = "full_half_year")
+
     private BigDecimal fullHalfYear;
 
-    @javax.persistence.Column(name = "full_one_year")
+
     private BigDecimal fullOneYear;
 
-    @javax.persistence.Column(name = "full_two_year")
     private BigDecimal fullTwoYear;
 
-    @javax.persistence.Column(name = "full_three_year")
     private BigDecimal fullThreeYear;
 
-    @javax.persistence.Column(name = "full_five_year")
     private BigDecimal fullFiveYear;
 
-    @javax.persistence.Column(name = "shortage_one_year")
     private BigDecimal shortageOneYear;
 
-    @javax.persistence.Column(name = "shortage_three_year")
     private BigDecimal shortageThreeYear;
 
-    @javax.persistence.Column(name = "shortage_five_year")
     private BigDecimal shortageFiveYear;
 
-    @javax.persistence.Column(name = "agreement_savings")
     private BigDecimal agreementSavings;
 
-    @javax.persistence.Column(name = "call_deposit_one_day")
     private BigDecimal callDepositOneDay;
 
-    @javax.persistence.Column(name = "call_deposit_one_week")
     private BigDecimal callDepositOneWeek;
 
-    @Temporal(TemporalType.TIMESTAMP)
-    @javax.persistence.Column(name = "create_time")
     private Date createTime;
 
-    @Temporal(TemporalType.TIMESTAMP)
-    @javax.persistence.Column(name = "update_time")
     private Date updateTime;
 
+    public DepositInterestVo() {
+        super();
+    }
+
+
+    public DepositInterestVo(DepositInterest depositInterest) {
+        inDepositInterest(depositInterest);
+    }
+
+
+    public void inDepositInterest(DepositInterest depositInterest) {
+        try {
+            ConverterUtil.fromEntity(this,depositInterest);
+        } catch (ConverterException e) {
+            e.printStackTrace();
+        }
+    }
 
     public Date getDate() {
         return date;
