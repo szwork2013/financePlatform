@@ -18,6 +18,7 @@ public class FundProfitHistoryDaoImpl  extends EntityBaseDao implements FundProf
     private static final String QUERY_FUND_PROFIT_HISTORY = "select t from FundProfitHistory t where t.fundCode = :fundCode and t.dateTime >= :dateTimeStart  and t.dateTime <= :dateTimeEnd";
     private static final String START_TIME = " 00:00:00";
     private static final String END_TIME = " 23:59:59";
+    private static final String QUERY_BY_UPDATE_DATE = "select t from FundProfitHistory t where  t.updateTime >= :dateTimeStart  and t.updateTime <= :dateTimeEnd";
 
     @Override
     public void insertFundProfitHistory(FundProfitHistory fundProfitHistory) {
@@ -54,6 +55,19 @@ public class FundProfitHistoryDaoImpl  extends EntityBaseDao implements FundProf
             return null;
         }
         return (FundProfitHistory) query.getResultList().get(0);
+    }
+
+    /**
+     * 根据更新日期查询基金净值更新记录
+     *
+     * @param updateDate("yyyy-MM-dd")
+     * @return
+     */
+    @Override
+    public List<FundProfitHistory> findByUpdateDate(String updateDate) {
+        Query query = super.createQuery(QUERY_BY_UPDATE_DATE);
+        setTradeTimePara(updateDate,query);
+        return query.getResultList();
     }
 
     private void setTradeTimePara(String dateTime, Query query) {

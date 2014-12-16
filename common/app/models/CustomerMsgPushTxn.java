@@ -1,8 +1,6 @@
 package models;
 
-import javax.persistence.Column;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
+import javax.persistence.*;
 import java.util.Date;
 
 /**
@@ -14,6 +12,8 @@ import java.util.Date;
  *
  * @author <a href="mailto:jiaming.wang@sunlights.cc">wangJiaMing</a>
  */
+@Entity
+@Table(name = "c_customer_msg_push_txn")
 public class CustomerMsgPushTxn extends IdEntity{
     @Column(name = "message_rule_id")
     private Long messageRuleId;

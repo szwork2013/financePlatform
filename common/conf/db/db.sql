@@ -1901,6 +1901,30 @@ CREATE TABLE c_question_record
   CONSTRAINT c_question_record_pkey PRIMARY KEY (id)
 );
 
-
+/*==============================================================*/
+/* TABLE: P_DEPOSIT_INTEREST                                    */
+/*==============================================================*/
+DROP TABLE IF EXISTS P_DEPOSIT_INTEREST;
+CREATE TABLE P_DEPOSIT_INTEREST
+(
+  ID                   BIGINT                         NOT NULL,
+  "DATE"               TIMESTAMP                      NULL,
+  "CURRENT"            DECIMAL(16,5)                  NULL,
+  FULL_THREE_MONTHS    DECIMAL(16,5)                  NULL,
+  FULL_HALF_YEAR       DECIMAL(16,5)                  NULL,
+  FULL_ONE_YEAR        DECIMAL(16,5)                  NULL,
+  FULL_TWO_YEAR        DECIMAL(16,5)                  NULL,
+  FULL_THREE_YEAR      DECIMAL(16,5)                  NULL,
+  FULL_FIVE_YEAR       DECIMAL(16,5)                  NULL,
+  SHORTAGE_ONE_YEAR    DECIMAL(16,5)                  NULL,
+  SHORTAGE_THREE_YEAR  DECIMAL(16,5)                  NULL,
+  SHORTAGE_FIVE_YEAR   DECIMAL(16,5)                  NULL,
+  AGREEMENT_SAVINGS    DECIMAL(16,5)                  NULL,
+  CALL_DEPOSIT_ONE_DAY DECIMAL(16,5)                  NULL,
+  CALL_DEPOSIT_ONE_WEEK DECIMAL(16,5)                  NULL,
+  CREATE_TIME          TIMESTAMP                      NULL,
+  UPDATE_TIME          TIMESTAMP                      NULL,
+  CONSTRAINT PK_P_DEPOSIT_INTEREST PRIMARY KEY (ID)
+);
 
 

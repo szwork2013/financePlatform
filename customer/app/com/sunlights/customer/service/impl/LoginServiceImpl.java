@@ -18,7 +18,6 @@ import models.Customer;
 import models.CustomerGesture;
 import models.CustomerSession;
 import models.LoginHistory;
-import play.Configuration;
 import play.Logger;
 
 import java.math.BigDecimal;
@@ -340,8 +339,7 @@ public class LoginServiceImpl implements LoginService {
     }
 
     private void openGesture(String gesturePassWord, String deviceNo, Customer customer, Timestamp currentTime) {
-        CustomerGesture customerGesture;
-        customerGesture = new CustomerGesture();
+        CustomerGesture customerGesture = new CustomerGesture();
         customerGesture.setGesturePassword(new MD5Helper().encrypt(gesturePassWord));
         customerGesture.setCreateTime(currentTime);
         customerGesture.setUpdateTime(currentTime);

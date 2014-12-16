@@ -72,11 +72,7 @@ public class ProductController extends Controller {
 
     public Result findProductIndex() {
         List<ProductVo> productVos = productService.findProductIndex(new PageVo());
-        ProductVo productVo = null;
-        if (!productVos.isEmpty()) {
-            productVo = productVos.get(0);
-        }
-        messageUtil.setMessage(new Message(Severity.INFO, MsgCode.OPERATE_SUCCESS), productVo);
+        messageUtil.setMessage(new Message(Severity.INFO, MsgCode.OPERATE_SUCCESS), productVos);
         return ok(messageUtil.toJson());
     }
 
