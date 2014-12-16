@@ -28,8 +28,9 @@ public abstract class AbstractObtainRuleHandler implements ObtainRuleHandler{
     }
 
     @Override
-    public void setNextHandler(ObtainRuleHandler nextHandler) {
+    public ObtainRuleHandler setNextHandler(ObtainRuleHandler nextHandler) {
         this.nextHandler = nextHandler;
+        return nextHandler;
     }
 
     @Override

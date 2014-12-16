@@ -26,8 +26,10 @@ public abstract class AbstractExchangeRuleHandler implements ExchangeRuleHandler
         this.nextHandler = nextHandler;
     }
 
-    public void setNextHandler(ExchangeRuleHandler nextHandler) {
+    public ExchangeRuleHandler setNextHandler(ExchangeRuleHandler nextHandler) {
+
         this.nextHandler = nextHandler;
+        return nextHandler;
     }
 
     @Override

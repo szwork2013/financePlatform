@@ -22,12 +22,18 @@ public class RegisterObtainRuleHandler extends AbstractObtainRuleHandler {
     public void obtain(ActivityRequestVo requestVo, ActivityResponseVo responseVo) throws Exception {
         Logger.debug("注册送奖励开始 requestVo = " + requestVo);
 
-        setNextHandler(
-                new RegisterObtainValideHandler(
-                        new ObtainRuleGainHandler(
-                                new RewardFlowHandler(
-                                        new CustJoinActivityHandler(
-                                                new OldResultAssignHandler())))));
+        RegisterObtainValideHandler registerObtainValideHandler = new RegisterObtainValideHandler();
+        ObtainRuleGainHandler obtainRuleGainHandler = new ObtainRuleGainHandler();
+        RewardFlowHandler rewardFlowHandler = new RewardFlowHandler();
+        CustJoinActivityHandler custJoinActivityHandler = new CustJoinActivityHandler();
+        OldResultAssignHandler oldResultAssignHandler = new OldResultAssignHandler();
+
+        setNextHandler(registerObtainValideHandler)
+                .setNextHandler(obtainRuleGainHandler)
+                .setNextHandler(rewardFlowHandler)
+                .setNextHandler(custJoinActivityHandler)
+                .setNextHandler(oldResultAssignHandler);
+
         getNextHandler().obtain(requestVo, responseVo);
         Logger.debug("注册送奖励结束 responseVo = " + responseVo);
 

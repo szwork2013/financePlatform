@@ -9,18 +9,22 @@ import com.sunlights.customer.ActivityConstant;
 import com.sunlights.customer.dal.impl.CustomerDaoImpl;
 import com.sunlights.customer.service.ActivityService;
 import com.sunlights.customer.service.CustJoinActivityService;
+import com.sunlights.customer.service.ShareInfoService;
+import com.sunlights.customer.service.ShortUrlService;
 import com.sunlights.customer.service.impl.ActivityServiceImpl;
 import com.sunlights.customer.service.impl.CustJoinActivityServiceImpl;
+import com.sunlights.customer.service.impl.ShareInfoServiceImpl;
+import com.sunlights.customer.service.impl.ShortUrlServiceImpl;
 import com.sunlights.customer.vo.ActivityParamter;
 import com.sunlights.customer.vo.QRcodeVo;
 import com.sunlights.customer.vo.ShareVo;
-import models.Activity;
-import models.ActivityShareInfo;
-import models.Customer;
-import models.CustomerSession;
+import models.*;
 import org.apache.commons.lang3.StringUtils;
 import play.Logger;
+import play.data.Form;
 import play.db.jpa.Transactional;
+import play.libs.Json;
+import play.mvc.Http;
 import play.mvc.Result;
 import sun.misc.BASE64Encoder;
 
@@ -33,11 +37,17 @@ import java.util.List;
 public class ShareContorller extends ActivityBaseController{
     private ActivityService activityService =new ActivityServiceImpl();
     private CustJoinActivityService custjoinService=new CustJoinActivityServiceImpl();
+
+    private ShareInfoService shareInfoService = new ShareInfoServiceImpl();
+    private ShortUrlService shortUrlService = new ShortUrlServiceImpl();
+
+    private Form<ShareVo> shareParameterForm = Form.form(ShareVo.class);
     /**
      * 分享好友
      *
      * @return
      */
+    @Deprecated
     public Result sendFriend() {
 
         //1、首先获得手机号
@@ -171,5 +181,52 @@ public class ShareContorller extends ActivityBaseController{
             return shorturl;
         }
 
+    }
+
+    public Result share() {
+        //TODO 邀请好友需要登录才能成功
+        String custNo = "";
+        try {
+            CustomerSession customerSession = getCustomerSession();
+            custNo = customerSession.getCustomerId();//获得客户id
+        } catch (Exception e) {
+
+        }
+        String mobile = "";
+        if(!StringUtils.isEmpty(custNo)){
+            mobile= getMobile(custNo);
+        }
+
+        ShareVo shareVo = null;
+        Http.RequestBody body = request().body();
+        if (body.asJson() != null) {
+            shareVo = Json.fromJson(body.asJson(), ShareVo.class);
+        }
+
+        if (body.asFormUrlEncoded() != null) {
+            shareVo = shareParameterForm.bindFromRequest().get();
+        }
+        String type = shareVo.getType();
+        String id = shareVo.getId();
+        if(ActivityConstant.SHARE_TYPE_INVITER.equals(type)) {
+            id = mobile;
+        }
+
+        Logger.debug("type = " + type + " id = " + id);
+
+        ShareInfo shareInfo = shareInfoService.getShareInfoByType(type, id);
+        String shortUrl = shortUrlService.getShortUrl(type, id, shareInfo);
+
+        shareVo = new ShareVo();
+        shareVo.setId(id);
+        shareVo.setType(type);
+        shareVo.setShorturl(shortUrl);
+        shareVo.setContent(shareInfo.getContent());
+        shareVo.setImageurl(shareInfo.getImageUrl());
+        shareVo.setTitle(shareInfo.getTitle());
+
+        messageUtil.setMessage(new Message(Severity.INFO, MsgCode.SHARE_QUERY_SUCC), shareVo);
+        Logger.debug("返回给前端的内容----》:" + messageUtil.toJson());
+        return ok(messageUtil.toJson());
     }
 }

@@ -58,4 +58,13 @@ public class ActivityDaoImpl extends EntityBaseDao implements ActivityDao {
         List<ActivityShareInfo> activityShareInfos = ConverterUtil.convert(keys, resultRows, ActivityShareInfo.class);
         return activityShareInfos;
     }
+
+    @Override
+    public Activity findById(Long id) {
+        List<Activity> activities = findBy(Activity.class, "id", id);
+        if(activities == null || activities.isEmpty()) {
+            return null;
+        }
+        return activities.get(0);
+    }
 }
