@@ -31,7 +31,7 @@ public class ActivityController extends ActivityBaseController  {
 
     private ActivityHandlerService activityHandlerService = new ActivityHandlerService();
 
-    @Deprecated
+
     public Result getActivityList() {
         ActivityParamter activityParamter = getActivityParamter();
         PageVo pageVo = new PageVo();
@@ -51,7 +51,7 @@ public class ActivityController extends ActivityBaseController  {
     }
 
     /**
-     * 用户获取奖励接口
+     * 用户获取奖励接口(签到)
      * 调用这个接口需要将活动场景参数送过来
      * @return
      */
@@ -102,11 +102,18 @@ public class ActivityController extends ActivityBaseController  {
         return ok(messageUtil.toJson());
     }
 
-    @Deprecated
+    /**
+     * 注册获取奖励
+     * @return
+     */
     public Result registerObtainReward() {
         return obtainReward(ActivityConstant.ACTIVITY_REGISTER_SCENE_CODE);
     }
 
+    /**
+     * 购买获取奖励
+     * @return
+     */
     public Result purchaseObtainReward() {
         //1：获取请求参数
         String token = getToken();

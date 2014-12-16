@@ -26,14 +26,20 @@ public class PurchaseObtainRuleHandler extends AbstractObtainRuleHandler{
     @Override
     public void obtain(ActivityRequestVo requestVo, ActivityResponseVo responseVo) throws Exception {
         Logger.debug("申购送奖励开始 requestVo = " + requestVo);
+        PurchaseObtainValideHandler purchaseObtainValideHandler = new PurchaseObtainValideHandler();
+        ObtainRuleGainHandler obtainRuleGainHandler = new ObtainRuleGainHandler();
+        ReCommendHandler reCommendHandler = new ReCommendHandler();
+        RewardFlowHandler rewardFlowHandler = new RewardFlowHandler();
+        CustJoinActivityHandler custJoinActivityHandler = new CustJoinActivityHandler();
+        ResultAssignHandler resultAssignHandler = new ResultAssignHandler();
 
-        setNextHandler(
-                new PurchaseObtainValideHandler(
-                        new ObtainRuleGainHandler(
-                            new ReCommendHandler(
-                                    new RewardFlowHandler(
-                                            new CustJoinActivityHandler(
-                                                    new ResultAssignHandler()))))));
+        setNextHandler(purchaseObtainValideHandler)
+                .setNextHandler(obtainRuleGainHandler)
+                .setNextHandler(reCommendHandler)
+                .setNextHandler(rewardFlowHandler)
+                .setNextHandler(custJoinActivityHandler)
+                .setNextHandler(resultAssignHandler);
+
         getNextHandler().obtain(requestVo, responseVo);
 
         Logger.debug("申购送奖励结束 responseVo = " + responseVo);

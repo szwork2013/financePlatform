@@ -27,7 +27,7 @@ public class CustomerShareControllerTest extends BaseTest {
 
 
 
-    @Test
+    //@Test
     public void testsendFriend() throws Exception {//分享好友
         running(fakeApplication(), new Runnable() {
             public void run() {
@@ -47,7 +47,7 @@ public class CustomerShareControllerTest extends BaseTest {
 
 
 
-    @Test
+    //@Test
     public void testgetQRcodeToByte() throws Exception {//byte二维码
         running(fakeApplication(), new Runnable() {
             public void run() {
@@ -60,6 +60,26 @@ public class CustomerShareControllerTest extends BaseTest {
                 Logger.info(contentAsString(result));
                 assertThat(status(result)).isEqualTo(OK);
                 MessageVo message = toMessageVo(result);
+
+            }
+        });
+    }
+
+    @Test
+    public void testShare() throws Exception {//分享好友
+        running(fakeApplication(), new Runnable() {
+            public void run() {
+                Map<String, String> formParams = new HashMap<>();
+                formParams.put("type", "0");
+                formParams.put("id", "39540");
+
+                play.mvc.Result  result = getResult("/customer/activity/share", formParams, cookie);
+
+                Logger.info(contentAsString(result));
+                assertThat(status(result)).isEqualTo(OK);
+                MessageVo message = toMessageVo(result);
+
+                Logger.info("============testSignInObtainReward result====\n" + contentAsString(result));
 
             }
         });

@@ -21,12 +21,18 @@ public class SigninObtainRuleHandler extends AbstractObtainRuleHandler {
     public void obtain(ActivityRequestVo requestVo, ActivityResponseVo responseVo) throws Exception {
         Logger.debug("签到送奖励开始 requestVo = " + requestVo);
 
-        setNextHandler(
-                new SigninObtainValideHandler(
-                        new ObtainRuleGainHandler(
-                                new RewardFlowHandler(
-                                        new SignInCustJoinActivityHandler(
-                                                new OldResultAssignHandler())))));
+        SigninObtainValideHandler signinObtainValideHandler = new SigninObtainValideHandler();
+        ObtainRuleGainHandler obtainRuleGainHandler = new ObtainRuleGainHandler();
+        RewardFlowHandler rewardFlowHandler = new RewardFlowHandler();
+        SignInCustJoinActivityHandler signInCustJoinActivityHandler = new SignInCustJoinActivityHandler();
+        OldResultAssignHandler oldResultAssignHandler = new OldResultAssignHandler();
+
+        setNextHandler(signinObtainValideHandler)
+                .setNextHandler(obtainRuleGainHandler)
+                .setNextHandler(rewardFlowHandler)
+                .setNextHandler(signInCustJoinActivityHandler)
+                .setNextHandler(oldResultAssignHandler);
+
         getNextHandler().obtain(requestVo, responseVo);
 
         Logger.debug("签到送奖励结束 responseVo = " + responseVo);
