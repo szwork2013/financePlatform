@@ -115,6 +115,7 @@ public enum MsgCode {
     NOT_SUPPORT_TRADE_TYPE("2226", "不支持的交易类型"),
     ACTIVITY_SCENE_EXIST_ERROR("2227", "操作失败：", "已存在到场景编码。"),
     EXCHANGE_NOT_ENOUGH("2228", "兑换数量不足"),
+    NOT_SUPPORT_SHARE_TYPE("2229", "不支持的分享类型"),
     ACTIVITY_SYS_ERROR("3201", "系统异常");
 
 
