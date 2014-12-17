@@ -25,4 +25,6 @@ public interface ActivityDao {
 
     public Activity findById(Long id);
 
+    public List<Activity> getAll();
+
 }

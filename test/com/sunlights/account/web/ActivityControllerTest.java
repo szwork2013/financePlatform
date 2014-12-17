@@ -75,7 +75,7 @@ public class ActivityControllerTest extends BaseTest{
         });
     }
 
-    //@Test
+    @Test
     public void testGetActivityList() throws Exception {
         running(fakeApplication(), new Runnable() {
             public void run() {
@@ -87,9 +87,10 @@ public class ActivityControllerTest extends BaseTest{
                 Map<String, String> formParams = new HashMap<>();
                 formParams.put("index", index);
                 formParams.put("pageSize", pageSize);
+                formParams.put("filter", "1");
 
 
-                play.mvc.Result result = getResult("/account/activity/list", formParams);
+                play.mvc.Result result = getResult("/account/activity/list", formParams, cookie);
                 Logger.info("============testGetActivityList result====\n" + contentAsString(result));
 
             }
@@ -173,7 +174,7 @@ public class ActivityControllerTest extends BaseTest{
         });
     }
 
-    @Test
+    //@Test
     public void testExchangeReward() {
         running(fakeApplication(), new Runnable() {
             public void run() {

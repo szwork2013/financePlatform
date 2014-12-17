@@ -11,6 +11,7 @@ import com.sunlights.customer.dal.impl.RewardTypeDaoImpl;
 import com.sunlights.customer.service.ActivityService;
 import com.sunlights.customer.service.HoldRewardService;
 import com.sunlights.customer.service.RewardFlowService;
+import com.sunlights.customer.service.RewardTypeService;
 import com.sunlights.customer.service.rewardrules.vo.RewardFlowRecordVo;
 import com.sunlights.customer.vo.HoldRewardVo;
 import com.sunlights.customer.vo.RewardFlowVo;
@@ -30,7 +31,7 @@ public class HoldRewardServiceImpl implements HoldRewardService {
 
     private HoldRewardDao holdRewardDao = new HoldRewardDaoImpl();
 
-    private RewardTypeDao rewardTypeDao = new RewardTypeDaoImpl();
+    private RewardTypeService rewardTypeService = new RewardTypeServiceImpl();
 
     private ActivityService activityService = new ActivityServiceImpl();
 
@@ -76,12 +77,11 @@ public class HoldRewardServiceImpl implements HoldRewardService {
     @Override
     public HoldRewardVo getMyRewardDetail(String custId, String rewardType) {
         HoldReward holdReward = holdRewardDao.findByCustIdAndRewardType(custId, rewardType);
-        RewardType rewardTypeModel = rewardTypeDao.findByTypeCode(rewardType);
+        RewardType rewardTypeModel = rewardTypeService.findByTypeCode(rewardType);
         HoldRewardVo holdRewardVo = new HoldRewardVo();
         if(holdReward == null) {
             holdRewardVo.setTotalReward("0");
-            holdRewardVo.setGots("0");
-            holdRewardVo.setPayed("0");
+
             holdRewardVo.setTotalCash("0.00");
             return holdRewardVo;
         }
@@ -95,7 +95,7 @@ public class HoldRewardServiceImpl implements HoldRewardService {
 
         transRewardFlow(rewardFlows, list);
 
-        holdRewardVo.setRecords(list);
+
 
         return holdRewardVo;
     }
@@ -125,8 +125,7 @@ public class HoldRewardServiceImpl implements HoldRewardService {
 
     public void transf(HoldReward holdReward, HoldRewardVo holdRewardVo) {
         holdRewardVo.setTotalReward(takePrefix(holdReward.getHoldReward() - holdReward.getFrozenReward(),"+"));
-        holdRewardVo.setGots(takePrefix(holdReward.getGetReward(),"+"));
-        holdRewardVo.setPayed(takePrefix((holdReward.getGetReward() - holdReward.getHoldReward()), "-"));
+
         holdRewardVo.setTotalCash(holdReward.getHoldMoney().toString());
     }
 
@@ -172,5 +171,31 @@ public class HoldRewardServiceImpl implements HoldRewardService {
             }
             holdRewardDao.doUpdate(holdReward);
         }
+    }
+
+    @Override
+    public HoldRewardVo getTotalReward(String custId) {
+        List<HoldReward> holdRewards = holdRewardDao.findListByCustIdAndRewardType(custId, null);
+        Long totalGoldBean = Long.valueOf(0);
+        BigDecimal goldBeanCash = BigDecimal.ZERO;
+        BigDecimal redPacket = BigDecimal.ZERO;
+        for(HoldReward holdReward : holdRewards) {
+            if(ActivityConstant.REWARD_TYPE_JINDOU.equals(holdReward.getRewardType())) {
+                totalGoldBean += (holdReward.getGetReward() - holdReward.getFrozenReward());
+                goldBeanCash = goldBeanCash.add(holdReward.getGetMoney().subtract(holdReward.getFrozenMoney()));
+            }
+            if(ActivityConstant.REWARD_TYPE_REDPACKET.equals(holdReward.getRewardType())) {
+                redPacket = redPacket.add(holdReward.getGetMoney().subtract(holdReward.getFrozenMoney()));
+            }
+        }
+        RewardType rewardTypeModel = rewardTypeService.findByTypeCode(ActivityConstant.REWARD_TYPE_JINDOU);
+
+        HoldRewardVo holdRewardVo = new HoldRewardVo();
+        holdRewardVo.setRedPacket(redPacket.toString());
+        holdRewardVo.setTotalCash(goldBeanCash.toString());
+        holdRewardVo.setTotalReward(totalGoldBean.toString());
+        holdRewardVo.setRuleUrl(activityService.getFileFuleUrl(rewardTypeModel.getRuleUrl(), "activity.html5Path"));
+
+        return holdRewardVo;
     }
 }

@@ -106,6 +106,7 @@ public enum MsgCode {
     EXCHANGE_SCENE_QUERY_SUCC("0225", "兑换场景查询成功"),
     BEFORE_EXCHANGE_QUERY_SUCC("0226", "兑换前预准备成功"),
     EXCHANGE_SUCC("0227", "兑换成功"),
+    REWARD_FLOW_QUERY_SUCC("0228", "奖励流水查询成功"),
     ALREADY_SIGN("2220", "重复签到"),
     NOT_CONFIG_ACTIVITY_SCENE("2221", "没有配置活动场景"),
     ALREADY_PURCHASE("2222", "不是首次购买"),
