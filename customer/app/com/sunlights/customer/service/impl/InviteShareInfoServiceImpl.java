@@ -22,12 +22,14 @@ public class InviteShareInfoServiceImpl extends AbstractShareInfoService {
     @Override
     public void prepareShareInfo(ShareInfoContext context) {
 
-        if(StringUtils.isEmpty(context.getCustNo())) {
+        /*if(StringUtils.isEmpty(context.getCustNo())) {
             throw CommonUtil.getInstance().errorBusinessException(MsgCode.LOGIN_TIMEOUT);
+        }*/
+        if(StringUtils.isEmpty(context.getCustNo())) {
+            context.setRefId(ActivityConstant.NOT_LOGIN_CUSTOMER_NO);
+        } else {
+            context.setRefId(context.getCustNo());
         }
-        context.setRefId(context.getCustNo());
-
-
 
     }
 
@@ -49,6 +51,9 @@ public class InviteShareInfoServiceImpl extends AbstractShareInfoService {
      * @return
      */
     private String getMobile(String custNo){
+        if(StringUtils.isEmpty(custNo)) {
+            return "";
+        }
         Customer customer = customerDao.getCustomerByCustomerId(custNo);
         String mobile = customer.getMobile();//获得手机号
         Logger.debug("获得的手机号为:" + mobile);

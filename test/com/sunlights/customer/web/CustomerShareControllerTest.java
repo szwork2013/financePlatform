@@ -99,7 +99,7 @@ public class CustomerShareControllerTest extends BaseTest {
                 Logger.info(contentAsString(result));
                 assertThat(status(result)).isEqualTo(OK);
                 MessageVo message = toMessageVo(result);
-                assertThat(message.getMessage().getCode()).isEqualTo(MsgCode.LOGIN_TIMEOUT.getCode());
+                assertThat(message.getMessage().getCode()).isEqualTo(MsgCode.SHARE_QUERY_SUCC.getCode());
                 Logger.info("============testSignInObtainReward result====\n" + contentAsString(result));
 
             }

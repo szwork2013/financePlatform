@@ -111,4 +111,6 @@ public interface ActivityConstant {
 
     String APP_ID = "jdj";
 
+    String NOT_LOGIN_CUSTOMER_NO = "-1000000000";
+
 }
