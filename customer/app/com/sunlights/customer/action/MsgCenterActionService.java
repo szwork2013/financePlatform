@@ -38,8 +38,7 @@ public class MsgCenterActionService {
         supplementMessage(pushMessageVo, ruleCode);
         CustomerMsgPushTxn customerMsgPushTxn = createCustomerMsgPushTxn(pushMessageVo, customerId);
 
-        String pushTimed = pushMessageVo.getPushTimed();
-        if (AppConst.STATUS_INVALID.equals(pushTimed)) {//即时发送
+        if (sendNow(pushMessageVo)) {//即时发送
             //更新为正在发送中
             customerMsgPushTxn.setPushStatus(DictConst.PUSH_STATUS_3);
             customerMsgPushTxn.setUpdateTime(DBHelper.getCurrentTime());
@@ -53,6 +52,10 @@ public class MsgCenterActionService {
             executePush(pushMessageVo);
         }
 
+    }
+
+    private boolean sendNow(PushMessageVo pushMessageVo){
+        return AppConst.STATUS_INVALID.equals(pushMessageVo.getPushTimed());
     }
 
     private void executePush(PushMessageVo pushMessageVo) {

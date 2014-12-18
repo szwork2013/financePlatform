@@ -60,12 +60,7 @@ public class MsgCenterAction extends Action.Simple{
                         throw new BusinessRuntimeException(">>无效的token,非法入侵！");
                     }
                     String ruleCode = MsgCenterCategory.getRuleCodeByMethodName(routeActionMethod);
-                    MsgCenterDao centerDao = new MsgCenterDaoImpl();
-                    PushMessageVo pushMessageVo = centerDao.findMessageRuleByCode(ruleCode);
-                    if (pushMessageVo == null) {
-                        Logger.info(">>消息规则未配置！");
-                        throw new BusinessRuntimeException(">>消息规则未配置！");
-                    }
+                    PushMessageVo pushMessageVo = getPushMessageVo(ruleCode);
 
                     Long id = pushMessageVo.getGroupId();
                     if (id != null && id != 0) {//TODO 针对某个群组操作
@@ -91,6 +86,16 @@ public class MsgCenterAction extends Action.Simple{
         }
 
         return result;
+    }
+
+    private PushMessageVo getPushMessageVo(String ruleCode) {
+        MsgCenterDao centerDao = new MsgCenterDaoImpl();
+        PushMessageVo pushMessageVo = centerDao.findMessageRuleByCode(ruleCode);
+        if (pushMessageVo == null) {
+            Logger.info(">>消息规则未配置！");
+            throw new BusinessRuntimeException(">>消息规则未配置！");
+        }
+        return pushMessageVo;
     }
 
 
