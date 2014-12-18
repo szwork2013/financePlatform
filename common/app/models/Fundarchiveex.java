@@ -335,136 +335,136 @@ public class Fundarchiveex {
         this.profitDistributionRule = profitDistributionRule;
     }
 
-    private String assetAllocation;
+    private String asset_allocation;
 
     @Basic
     @javax.persistence.Column(name = "asset_allocation")
     public String getAssetAllocation() {
-        return assetAllocation;
+        return asset_allocation;
     }
 
     public void setAssetAllocation(String assetAllocation) {
-        this.assetAllocation = assetAllocation;
+        this.asset_allocation = assetAllocation;
     }
 
-    private String briefIntro;
+    private String brief_intro;
 
     @Basic
     @javax.persistence.Column(name = "brief_intro")
     public String getBriefIntro() {
-        return briefIntro;
+        return brief_intro;
     }
 
     public void setBriefIntro(String briefIntro) {
-        this.briefIntro = briefIntro;
+        this.brief_intro = briefIntro;
     }
 
-    private String riskReturnCharacter;
+    private String risk_return_character;
 
     @Basic
     @javax.persistence.Column(name = "risk_return_character")
     public String getRiskReturnCharacter() {
-        return riskReturnCharacter;
+        return risk_return_character;
     }
 
     public void setRiskReturnCharacter(String riskReturnCharacter) {
-        this.riskReturnCharacter = riskReturnCharacter;
+        this.risk_return_character = riskReturnCharacter;
     }
 
-    private String fundManagementFees;
+    private String fund_management_fees;
 
     @Basic
     @javax.persistence.Column(name = "fund_management_fees")
     public String getFundManagementFees() {
-        return fundManagementFees;
+        return fund_management_fees;
     }
 
     public void setFundManagementFees(String fundManagementFees) {
-        this.fundManagementFees = fundManagementFees;
+        this.fund_management_fees = fundManagementFees;
     }
 
-    private String fundTrusteeFees;
+    private String fund_trustee_fees;
 
     @Basic
     @javax.persistence.Column(name = "fund_trustee_fees")
     public String getFundTrusteeFees() {
-        return fundTrusteeFees;
+        return fund_trustee_fees;
     }
 
     public void setFundTrusteeFees(String fundTrusteeFees) {
-        this.fundTrusteeFees = fundTrusteeFees;
+        this.fund_trustee_fees = fundTrusteeFees;
     }
 
-    private BigDecimal foundedSize;
+    private BigDecimal founded_size;
 
     @Basic
     @javax.persistence.Column(name = "founded_size")
     public BigDecimal getFoundedSize() {
-        return foundedSize;
+        return founded_size;
     }
 
     public void setFoundedSize(BigDecimal foundedSize) {
-        this.foundedSize = foundedSize;
+        this.founded_size = foundedSize;
     }
 
-    private BigDecimal foundedHoldShares;
+    private BigDecimal founded_hold_shares;
 
     @Basic
     @javax.persistence.Column(name = "founded_hold_shares")
     public BigDecimal getFoundedHoldShares() {
-        return foundedHoldShares;
+        return founded_hold_shares;
     }
 
     public void setFoundedHoldShares(BigDecimal foundedHoldShares) {
-        this.foundedHoldShares = foundedHoldShares;
+        this.founded_hold_shares = foundedHoldShares;
     }
 
-    private BigDecimal foundedTotalAsset;
+    private BigDecimal founded_total_asset;
 
     @Basic
     @javax.persistence.Column(name = "founded_total_asset")
     public BigDecimal getFoundedTotalAsset() {
-        return foundedTotalAsset;
+        return founded_total_asset;
     }
 
     public void setFoundedTotalAsset(BigDecimal foundedTotalAsset) {
-        this.foundedTotalAsset = foundedTotalAsset;
+        this.founded_total_asset = foundedTotalAsset;
     }
 
-    private BigDecimal latestSize;
+    private BigDecimal latest_size;
 
     @Basic
     @javax.persistence.Column(name = "latest_size")
     public BigDecimal getLatestSize() {
-        return latestSize;
+        return latest_size;
     }
 
     public void setLatestSize(BigDecimal latestSize) {
-        this.latestSize = latestSize;
+        this.latest_size = latestSize;
     }
 
-    private BigDecimal latestHoldShares;
+    private BigDecimal latest_hold_shares;
 
     @Basic
     @javax.persistence.Column(name = "latest_hold_shares")
     public BigDecimal getLatestHoldShares() {
-        return latestHoldShares;
+        return latest_hold_shares;
     }
 
     public void setLatestHoldShares(BigDecimal latestHoldShares) {
-        this.latestHoldShares = latestHoldShares;
+        this.latest_hold_shares = latestHoldShares;
     }
 
-    private BigDecimal latestTotalAsset;
+    private BigDecimal latest_total_asset;
 
     @Basic
     @javax.persistence.Column(name = "latest_total_asset")
     public BigDecimal getLatestTotalAsset() {
-        return latestTotalAsset;
+        return latest_total_asset;
     }
 
     public void setLatestTotalAsset(BigDecimal latestTotalAsset) {
-        this.latestTotalAsset = latestTotalAsset;
+        this.latest_total_asset = latestTotalAsset;
     }
 
     private Integer isdeleted;
