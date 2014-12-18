@@ -1,6 +1,7 @@
 package com.sunlights.customer.web;
 
 import com.sunlights.BaseTest;
+import com.sunlights.common.MsgCode;
 import com.sunlights.common.vo.MessageVo;
 import org.junit.Before;
 import org.junit.Test;
@@ -60,6 +61,66 @@ public class CustomerShareControllerTest extends BaseTest {
                 Logger.info(contentAsString(result));
                 assertThat(status(result)).isEqualTo(OK);
                 MessageVo message = toMessageVo(result);
+
+            }
+        });
+    }
+
+    @Test
+    public void testInviteShare() throws Exception {//分享好友
+        running(fakeApplication(), new Runnable() {
+            public void run() {
+                Map<String, String> formParams = new HashMap<>();
+                formParams.put("type", "0");
+                //formParams.put("id", "41921");
+
+                play.mvc.Result  result = getResult("/customer/activity/share", formParams, cookie);
+
+                Logger.info(contentAsString(result));
+                assertThat(status(result)).isEqualTo(OK);
+                MessageVo message = toMessageVo(result);
+                assertThat(message.getMessage().getCode()).isEqualTo(MsgCode.SHARE_QUERY_SUCC.getCode());
+                Logger.info("============testSignInObtainReward result====\n" + contentAsString(result));
+
+            }
+        });
+    }
+
+    @Test
+    public void testNotLogginInviteShare() throws Exception {//分享好友
+        running(fakeApplication(), new Runnable() {
+            public void run() {
+                Map<String, String> formParams = new HashMap<>();
+                formParams.put("type", "0");
+                //formParams.put("id", "41921");
+
+                play.mvc.Result  result = getResult("/customer/activity/share", formParams);
+
+                Logger.info(contentAsString(result));
+                assertThat(status(result)).isEqualTo(OK);
+                MessageVo message = toMessageVo(result);
+                assertThat(message.getMessage().getCode()).isEqualTo(MsgCode.SHARE_QUERY_SUCC.getCode());
+                Logger.info("============testSignInObtainReward result====\n" + contentAsString(result));
+
+            }
+        });
+    }
+
+    @Test
+    public void testNotSupportShare() throws Exception {//分享好友
+        running(fakeApplication(), new Runnable() {
+            public void run() {
+                Map<String, String> formParams = new HashMap<>();
+                formParams.put("type", "1000");
+                //formParams.put("id", "41921");
+
+                play.mvc.Result  result = getResult("/customer/activity/share", formParams);
+
+                Logger.info(contentAsString(result));
+                assertThat(status(result)).isEqualTo(OK);
+                MessageVo message = toMessageVo(result);
+                assertThat(message.getMessage().getCode()).isEqualTo(MsgCode.NOT_SUPPORT_SHARE_TYPE.getCode());
+                Logger.info("============testSignInObtainReward result====\n" + contentAsString(result));
 
             }
         });

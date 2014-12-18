@@ -8,8 +8,7 @@ import com.sunlights.customer.service.CustJoinActivityService;
 import models.CustJoinActivity;
 import play.Logger;
 
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
 /**
  * Created by tangweiqun on 2014/12/2.
@@ -74,5 +73,24 @@ public class CustJoinActivityServiceImpl implements CustJoinActivityService {
             return custJoinActivityList.get(0);
         }
         return null;
+    }
+
+    @Override
+    public Map<String, List<CustJoinActivity>> mapWithScene(String custNo) {
+        CustJoinActivity custJoinActivity = new CustJoinActivity();
+        custJoinActivity.setCustId(custNo);
+        List<CustJoinActivity> custJoinActivityList = custJoinActivityDao.queryByCondition(custJoinActivity);
+        Map<String, List<CustJoinActivity>> mapResult = new HashMap<String, List<CustJoinActivity>>();
+        for(CustJoinActivity temp : custJoinActivityList) {
+            String scene = temp.getScene();
+            if(mapResult.containsKey(scene)) {
+                mapResult.get(scene).add(temp);
+            } else {
+                List<CustJoinActivity> list = new ArrayList<CustJoinActivity>();
+                list.add(temp);
+                mapResult.put(scene, list);
+            }
+        }
+        return mapResult;
     }
 }

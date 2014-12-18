@@ -22,4 +22,9 @@ public interface ActivityDao {
 
     public List<ActivityShareInfo> getShareInfoByScene(String scene);
 
+
+    public Activity findById(Long id);
+
+    public List<Activity> getAll();
+
 }

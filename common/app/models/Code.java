@@ -24,6 +24,8 @@ public class Code extends IdEntity {
     private String value;
     @Column(name="\"DESC\"")
     private String desc;
+    @Column(name="on_sale")
+    private String onSale;
 
     public String getCategory() {
         return category;
@@ -57,29 +59,11 @@ public class Code extends IdEntity {
         this.desc = desc;
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+	public String getOnSale () {
+		return onSale;
+	}
 
-        Code code1 = (Code) o;
-
-        if (getId() != code1.getId()) return false;
-        if (category != null ? !category.equals(code1.category) : code1.category != null) return false;
-        if (code != null ? !code.equals(code1.code) : code1.code != null) return false;
-        if (desc != null ? !desc.equals(code1.desc) : code1.desc != null) return false;
-        if (value != null ? !value.equals(code1.value) : code1.value != null) return false;
-
-        return true;
-    }
-
-    @Override
-    public int hashCode() {
-        int result = (int) (getId() != null ? getId() ^ (getId() >>> 32) : 0);
-        result = 31 * result + (category != null ? category.hashCode() : 0);
-        result = 31 * result + (code != null ? code.hashCode() : 0);
-        result = 31 * result + (value != null ? value.hashCode() : 0);
-        result = 31 * result + (desc != null ? desc.hashCode() : 0);
-        return result;
-    }
+	public void setOnSale (String onSale) {
+		this.onSale = onSale;
+	}
 }

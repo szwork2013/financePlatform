@@ -22,7 +22,8 @@ public class FundVo extends ProductVo {
     private String millionIncome;//万分收益
     private String purchasedMethod;//买卖方式，比如:随买随卖
     private String purchasedAmount;//起购金额
-    private String discount;//手续费
+    private String discount;//手续费描述
+    private String discountValue;//手续费
     private String activity;//活动
     private Integer purchaseState;//是否可申购
 
@@ -53,29 +54,30 @@ public class FundVo extends ProductVo {
 
         super.setName(fundNav.getFundname());
         super.setCategory(isMonetary == 1 ? AppConst.FUND_CATEGORY_MONETARY : (isStf == 1 ? AppConst.FUND_CATEGORY_STF : ""));
+		super.setCategoryDesc(FundCategory.findFundCategoryBy(getCategory()).getDescription());
         super.setCode(fundNav.getFundcode());
         this.sevenDaysIncome = ArithUtil.bigUpScale4(fundNav.getPercentSevenDays());
         this.millionIncome = ArithUtil.bigUpScale4(fundNav.getIncomePerTenThousand());
         BigDecimal purchaseLimitMin = ArithUtil.bigUpScale0(fundNav.getPurchaseLimitMin());
         this.purchasedAmount = purchaseLimitMin == null ? "" : purchaseLimitMin.toString();
-        this.discount = getDiscountValueByFund(fundNav);
         this.purchasedMethod = isMonetary == 1 ? "随买随卖" : (isStf == 1 ? "7天" : "");
         ActivityService activityService = new ActivityServiceImpl();
         List<String> activities = activityService.getActivityTitles(fundNav.getFundcode());
         this.activity = activities.isEmpty() ? "" : activities.get(0);
         this.purchaseState = fundNav.getPurchaseState();
+		convertDiscountValue(fundNav);
     }
 
-    private String getDiscountValueByFund(FundNav fundNav) {
-        String value = "";
+    private void convertDiscountValue(FundNav fundNav) {
         BigDecimal chargeRateValue = fundNav.getChargeRateValue();
         BigDecimal fundNavDiscount = fundNav.getDiscount();
         if (chargeRateValue == null || BigDecimal.ZERO.compareTo(chargeRateValue) == 0) {
-            value = "免手续费";
+            this.discount = "免手续费";
+			this.discountValue = null;
         } else {
-            value = fundNavDiscount == null ? "免手续费" : fundNavDiscount.multiply(new BigDecimal("100")) + "折";
+			this.discount = fundNavDiscount == null ? "免手续费" : fundNavDiscount.multiply(new BigDecimal("100")) + "折";
+			this.discountValue = fundNavDiscount == null ? null : fundNavDiscount.toString();
         }
-        return value;
     }
 
     public Integer getPeopleOfPurchased() {
@@ -141,4 +143,12 @@ public class FundVo extends ProductVo {
     public void setPurchaseState(Integer purchaseState) {
         this.purchaseState = purchaseState;
     }
+
+	public String getDiscountValue () {
+		return discountValue;
+	}
+
+	public void setDiscountValue (String discountValue) {
+		this.discountValue = discountValue;
+	}
 }

@@ -13,22 +13,15 @@ public class ActivityParamter {
      */
     private String scene;
 
+    private String filter;
+
     private String fundCode;
 
     private String supplySum;
 
     private String tradeType;
 
-    private String bankCardNo;
-
-    private String phone;
-
-    private String exchangeAmt;
-
     private String rewardType;
-
-
-
 
     private int index;
     private int pageSize;
@@ -90,35 +83,19 @@ public class ActivityParamter {
         this.tradeType = tradeType;
     }
 
-    public String getBankCardNo() {
-        return bankCardNo;
-    }
-
-    public void setBankCardNo(String bankCardNo) {
-        this.bankCardNo = bankCardNo;
-    }
-
-    public String getPhone() {
-        return phone;
-    }
-
-    public void setPhone(String phone) {
-        this.phone = phone;
-    }
-
-    public String getExchangeAmt() {
-        return exchangeAmt;
-    }
-
-    public void setExchangeAmt(String exchangeAmt) {
-        this.exchangeAmt = exchangeAmt;
-    }
-
     public String getRewardType() {
         return rewardType;
     }
 
     public void setRewardType(String rewardType) {
         this.rewardType = rewardType;
+    }
+
+    public String getFilter() {
+        return filter;
+    }
+
+    public void setFilter(String filter) {
+        this.filter = filter;
     }
 }

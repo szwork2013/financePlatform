@@ -26,7 +26,7 @@ public class MessageRule extends IdEntity {
     @Column(name = "content_ext")
     private String contentExt;
     @Column(name = "group_id")
-    private Long groupId;
+    private Long groupId;//每次推送时，此次要推送到的群发组。空值表示推送全部人
     @Column(name = "sms_ind", length = 1)
     private String smsInd = AppConst.STATUS_INVALID;
     @Column(name = "msg_center_ind", length = 1)

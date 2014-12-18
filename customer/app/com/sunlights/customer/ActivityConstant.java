@@ -11,7 +11,7 @@ public interface ActivityConstant {
     /**
      *  活动相关实体的状态--表示禁止状态
      */
-    String ACTIVITY_STATUS_FORBIDDEN = "Y";
+    String ACTIVITY_STATUS_FORBIDDEN = "F";
 
     /**
      * 活动中的签到场景的编码
@@ -91,6 +91,8 @@ public interface ActivityConstant {
      */
     String REWARD_TYPE_JINDOU = "ART00J";
 
+    String REWARD_TYPE_REDPACKET = "ART00H";
+
 
     String ACTIVITY_CUSTONER_STATUS_NOMAL = "N";
 
@@ -103,5 +105,19 @@ public interface ActivityConstant {
 
     String TRADE_TYPE_PURCHASE = "0";
     String TRADE_TYPE_REDEEM = "1";
+
+    String SHARE_TYPE_INVITER = "0";
+    String SHARE_TYPE_PRODUCT = "1";
+    String SHARE_TYPE_PROFIT = "2";
+    String SHARE_TYPE_ACTIVITY = "3";
+
+    String APP_ID = "jdj";
+
+    String NOT_LOGIN_CUSTOMER_NO = "-1000000000";
+
+
+    String ACTIVITY_QUERY_CENTER = "0";
+    String ACTIVITY_QUERY_JUBAOPEN = "1";
+
 
 }

@@ -1,6 +1,8 @@
 package com.sunlights.common.utils;
 
 import com.fasterxml.jackson.databind.JsonNode;
+import com.sunlights.common.MsgCode;
+import com.sunlights.common.Severity;
 import com.sunlights.common.vo.Message;
 import com.sunlights.common.vo.MessageVo;
 import play.libs.Json;
@@ -35,7 +37,13 @@ public class MessageUtil {
     mesageVo.setValue(value);
   }
 
-  public JsonNode toJson() {
+    public String getMessage() {
+        Message message =  mesageVo == null ? new Message(Severity.ERROR, MsgCode.OPERATE_FAILURE) : mesageVo.getMessage();
+        return Json.toJson(message).toString();
+    }
+
+
+    public JsonNode toJson() {
     return Json.toJson(mesageVo);
   }
 

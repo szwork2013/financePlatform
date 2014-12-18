@@ -15,6 +15,10 @@ public class ShareVo implements Serializable {
 
     private String imageurl;
 
+    private String type;
+
+    private String id;
+
     public String getContent() {
         return content;
     }
@@ -45,5 +49,21 @@ public class ShareVo implements Serializable {
 
     public void setShorturl(String shorturl) {
         this.shorturl = shorturl;
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
     }
 }

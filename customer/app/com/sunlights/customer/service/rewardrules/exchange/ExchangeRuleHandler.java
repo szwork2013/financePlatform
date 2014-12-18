@@ -14,6 +14,8 @@ import com.sunlights.customer.service.rewardrules.vo.ActivityResponseVo;
  */
 public interface ExchangeRuleHandler {
 
+    public ExchangeRuleHandler setNextHandler(ExchangeRuleHandler nextHandler);
+
     /**
      * 获取当前处理类的下一个处理类
      *

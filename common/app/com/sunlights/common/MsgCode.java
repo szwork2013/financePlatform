@@ -82,18 +82,19 @@ public enum MsgCode {
     CREATE_FAILURE("2001", "创建失败", ""),
     UPDATE_FAILURE("2002", "更新失败", ""),
     DELETE_FAILURE("2003", "删除失败", ""),
-    DATA_EXPORT_ERROR("2010", "{0}该文件不可写(是否文件已打开),终止数据导出!"),
-    FILE_EXIST_ERROR("2011", "{0}该文件已存在!"),
-    CODE_EXIST_ERROR("2300", "操作失败：", "已存在的字典表。"),
-    FUND_COMPANY_EXIST_ERROR("2400", "操作失败：", "已存在的基金公司。"),
-    SUPPLIER_EXIST_ERROR("2500", "操作失败：", "已存在的供应商。"),
-    FUND_EXIST_ERROR("2600", "操作失败：", "已存在的基金。"),
-    PRODUCT_MANAGE_EXIST_ERROR("2700", "操作失败：", "已存在的产品管理。"),
-    JOB_CLASS_NOT_FOUND_ERROR("2800", "操作失败：", "没有找到任务执行类。"),
-    JOB_NUMBER_FORMAT_ERROR("2801", "操作失败：", "请输入有效的时间间隔。"),
-    JOB_DATE_PARSING_ERROR("2802", "操作失败：", "请输入有效的时间。"),
-    JOB_SCHEDULER_ERROR("2803", "操作失败：", "请重新操作。"),
-    NOT_NULL("2001", "操作失败：", "传入参数'{0}'不能为空。"),
+    DATA_EXPORT_ERROR("2005", "{0}该文件不可写(是否文件已打开),终止数据导出!"),
+    FILE_EXIST_ERROR("2006", "{0}该文件已存在!"),
+    CODE_EXIST_ERROR("2007", "操作失败：", "已存在的字典表。"),
+    FUND_COMPANY_EXIST_ERROR("2008", "操作失败：", "已存在的基金公司。"),
+    SUPPLIER_EXIST_ERROR("2009", "操作失败：", "已存在的供应商。"),
+    FUND_EXIST_ERROR("2010", "操作失败：", "已存在的基金。"),
+    PRODUCT_MANAGE_EXIST_ERROR("2011", "操作失败：", "已存在的产品管理。"),
+    JOB_CLASS_NOT_FOUND_ERROR("2012", "操作失败：", "没有找到任务执行类。"),
+    JOB_NUMBER_FORMAT_ERROR("2013", "操作失败：", "请输入有效的时间间隔。"),
+    JOB_DATE_PARSING_ERROR("2014", "操作失败：", "请输入有效的时间。"),
+    JOB_SCHEDULER_ERROR("2015", "操作失败：", "请重新操作。"),
+	DEPOSIT_INTEREST_EXIST_ERROR("2016", "操作失败：", "已存在的活期利率。"),
+    NOT_NULL("2004", "操作失败：", "传入参数'{0}'不能为空。"),
 
 
     //活动积分模块
@@ -102,6 +103,10 @@ public enum MsgCode {
     REWARD_QUERY_SUCC("0222", "查询成功"),
     SHARE_QUERY_SUCC("0223", "分享查询成功"),
     ABOUT_QUERY_SUCC("0224", "获取二维码成功"),
+    EXCHANGE_SCENE_QUERY_SUCC("0225", "兑换场景查询成功"),
+    BEFORE_EXCHANGE_QUERY_SUCC("0226", "兑换前预准备成功"),
+    EXCHANGE_SUCC("0227", "兑换成功"),
+    REWARD_FLOW_QUERY_SUCC("0228", "奖励流水查询成功"),
     ALREADY_SIGN("2220", "重复签到"),
     NOT_CONFIG_ACTIVITY_SCENE("2221", "没有配置活动场景"),
     ALREADY_PURCHASE("2222", "不是首次购买"),
@@ -110,7 +115,9 @@ public enum MsgCode {
     NOT_CAN_ATTEND_ACTIVITY("2225", "该客户不能参加此活动"),
     NOT_SUPPORT_TRADE_TYPE("2226", "不支持的交易类型"),
     ACTIVITY_SCENE_EXIST_ERROR("2227", "操作失败：", "已存在到场景编码。"),
-    ACTIVITY_SYS_ERROR("3201", "不支持的交易类型");
+    EXCHANGE_NOT_ENOUGH("2228", "兑换数量不足"),
+    NOT_SUPPORT_SHARE_TYPE("2229", "不支持的分享类型"),
+    ACTIVITY_SYS_ERROR("3201", "系统异常");
 
 
 

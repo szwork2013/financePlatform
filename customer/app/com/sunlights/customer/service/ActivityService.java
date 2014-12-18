@@ -13,6 +13,8 @@ import java.util.List;
  */
 public interface ActivityService {
 
+    public List<Activity> getAllActivities();
+
     public List<ActivityVo> getActivityVos(PageVo pageVo);
 
     /**

@@ -15,11 +15,13 @@ public interface HoldRewardService {
 
     public Long getHoldRewardByCustId(String custId, String rewardType);
 
-    public HoldRewardVo getMyRewardDetail(String custI, String rewardType);
+    public HoldRewardVo getMyRewardDetail(String custId, String rewardType);
 
     public void genRewardFlow(RewardFlowRecordVo rewardFlowRecordVo);
 
     public void frozenReward(String custId, String rewardType, Long frozenAmt, BigDecimal exchangeMoney);
+
+    public HoldRewardVo getTotalReward(String custId);
 
 
 }
