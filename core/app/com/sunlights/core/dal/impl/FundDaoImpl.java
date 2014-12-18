@@ -58,7 +58,7 @@ public class FundDaoImpl extends EntityBaseDao implements FundDao {
 				+ "  fa.manager,"
 				+ "  fa.trustee_name"
 				+ "  FROM p_product_manage pm"
-				+ "  JOIN fundnav f ON pm.product_code = f.fundcode"
+				+ "  JOIN fundnav f ON pm.product_code = f.fundcode AND f.fundcode = ?1"
 				+ "  LEFT JOIN p_fund_company fc ON f.ia_guid = fc.fund_company_id"
 				+ "  LEFT JOIN fundarchiveex fa ON f.fundcode = fa.fund_code";
 
