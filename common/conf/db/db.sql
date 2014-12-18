@@ -1927,4 +1927,60 @@ CREATE TABLE P_DEPOSIT_INTEREST
   CONSTRAINT PK_P_DEPOSIT_INTEREST PRIMARY KEY (ID)
 );
 
+ALTER TABLE fund_profit_history add COLUMN del_flag VARCHAR(1);
+ALTER TABLE fund_profit_history add COLUMN sm_update_time TIMESTAMP;
+
+create table T_CHK_INFO
+(
+   ID                   bigint                         not null,
+   TRADE_NO             varchar(20)                    null,
+   PARTNER_ID           varchar(20)                    null,
+   TRADE_DATE           timestamp                      null,
+   PRODUCT_NAME         varchar(100)                   null,
+   PRODUCT_CODE         varchar(8)                     null,
+   PRODUCT_TYPE         varchar(32)                    null,
+   TRADE_TYPE           varchar(20)                    null,
+   TRADE_AMOUNT         decimal(18,5)                  null,
+   CHK_STATUS           varchar(2)                     null,
+   CREATE_TIME          timestamp                      null,
+   UPDATE_TIME          timestamp                      null,
+   constraint PK_T_CHK_INFO primary key (ID)
+);
+create table T_CHK_RESULT
+(
+   ID                   bigint                         not null,
+   CHK_DATE             timestamp                      null,
+   TRADE_NO             varchar(20)                    null,
+   PARTNER_ID           varchar(20)                    null,
+   TRADE_DATE           timestamp                      null,
+   PRODUCT_NAME         varchar(100)                    null,
+   PRODUCT_TYPE         varchar(32)                    null,
+   TRADE_TYPE           varchar(20)                    null,
+   TRADE_AMOUNT         decimal(18,5)                  null,
+   CHK_STATUS           varchar(2)                     null,
+   STL_STATUS           varchar(2)                     null,
+   ERR_DETAIL           varchar(2)                     null,
+   CREATE_TIME          timestamp                      null,
+   UPDATE_TIME          timestamp                      null,
+   constraint PK_T_CHK_RESULT primary key (ID)
+);
+
+create table T_CHK_ERR
+(
+   ID                   bigint                         not null,
+   CHK_DATE             timestamp                      null,
+   TRADE_NO             varchar(20)                    null,
+   PARTNER_ID           varchar(20)                    null,
+   TRADE_TYPE           varchar(20)                    null,
+   DEAL_STATUS          varchar(2)                     null,
+   ERR_DETAIL           varchar(2)                     null,
+   CREATE_TIME          timestamp                      null,
+   UPDATE_TIME          timestamp                      null,
+   constraint PK_T_CHK_ERR primary key (ID)
+);
+
+
+
+
+
 ALTER TABLE CODE add COLUMN on_sale INT;
