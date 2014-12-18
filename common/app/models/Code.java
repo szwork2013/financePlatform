@@ -25,7 +25,7 @@ public class Code extends IdEntity {
     @Column(name="\"DESC\"")
     private String desc;
     @Column(name="on_sale")
-    private String onSale;
+    private Integer onSale;
 
     public String getCategory() {
         return category;
@@ -59,11 +59,11 @@ public class Code extends IdEntity {
         this.desc = desc;
     }
 
-	public String getOnSale () {
+	public Integer getOnSale () {
 		return onSale;
 	}
 
-	public void setOnSale (String onSale) {
+	public void setOnSale (Integer onSale) {
 		this.onSale = onSale;
 	}
 }
