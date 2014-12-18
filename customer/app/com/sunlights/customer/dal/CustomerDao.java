@@ -6,6 +6,7 @@ import models.CustomerGesture;
 import models.CustomerSession;
 
 import java.sql.Timestamp;
+import java.util.List;
 
 /**
  * <p>Project: fsp</p>
@@ -47,6 +48,13 @@ public interface CustomerDao {
 
 
   public Customer findRecommenderInfo(String customerId);
+
+    /**
+     * 查询客户所属aiias 一条记录
+     * @param customerId
+     * @return
+     */
+    public List<String> findAliasByCustomerId(String customerId);
 
 
 }

@@ -54,6 +54,7 @@ public class FundVo extends ProductVo {
 
         super.setName(fundNav.getFundname());
         super.setCategory(isMonetary == 1 ? AppConst.FUND_CATEGORY_MONETARY : (isStf == 1 ? AppConst.FUND_CATEGORY_STF : ""));
+		super.setCategoryDesc(FundCategory.findFundCategoryBy(getCategory()).getDescription());
         super.setCode(fundNav.getFundcode());
         this.sevenDaysIncome = ArithUtil.bigUpScale4(fundNav.getPercentSevenDays());
         this.millionIncome = ArithUtil.bigUpScale4(fundNav.getIncomePerTenThousand());
