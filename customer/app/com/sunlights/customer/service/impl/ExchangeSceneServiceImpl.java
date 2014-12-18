@@ -15,9 +15,11 @@ import com.sunlights.customer.vo.ExchangeSceneVo;
 import models.ExchangeScene;
 import models.HoldReward;
 import models.RewardType;
+import play.Configuration;
 import play.Logger;
 
 import java.math.BigDecimal;
+import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -53,7 +55,7 @@ public class ExchangeSceneServiceImpl implements ExchangeSceneService {
             BigDecimal money = BigDecimal.ZERO;
             for(HoldReward holdReward : holdRewards) {
                 total += (holdReward.getHoldReward() - holdReward.getFrozenReward());
-                money = money.add(holdReward.getHoldMoney().subtract(holdReward.getFrozenMoney()));
+                money = money.add(holdReward.getHoldMoney());
             }
             if(total < exchangeScene.getRequireAmt()) {
                 Logger.debug("total = " + total + " < " + " RequireAmt = " + exchangeScene.getRequireAmt());
@@ -62,7 +64,8 @@ public class ExchangeSceneServiceImpl implements ExchangeSceneService {
             exchangeSceneVo = new ExchangeSceneVo();
             exchangeSceneVo.setId(String.valueOf(exchangeScene.getId()));
             exchangeSceneVo.setTitle(exchangeScene.getTitle());
-            exchangeSceneVo.setDetail("首次申购" + money.toString() + "元");
+            String detaiTemplate = Configuration.root().getString(exchangeScene.getScene() + "." + exchangeScene.getRewardType() + "." + exchangeScene.getActivityType());
+            exchangeSceneVo.setDetail(MessageFormat.format(detaiTemplate, money));
             exchangeSceneVo.setLogo(exchangeScene.getLogo());
             result.add(exchangeSceneVo);
         }
@@ -97,9 +100,10 @@ public class ExchangeSceneServiceImpl implements ExchangeSceneService {
         data4ExchangeVo.setCanPayed(canPayed.toString());
         data4ExchangeVo.setMaxPayed(canPayed.toString());
         data4ExchangeVo.setAccountDate(calcAccountDate(exchangeScene.getTimeLimit(), null));
-        data4ExchangeVo.setSummary("首次申购" + totalMoney.toString() + "元");
+        String detaiTemplate = Configuration.root().getString(exchangeScene.getScene() + "." + exchangeScene.getRewardType() + "." + exchangeScene.getActivityType());
+        data4ExchangeVo.setSummary(MessageFormat.format(detaiTemplate, money));
 
-        List<Data4ExchangeItem> items = rewardFlowService.getItemsByType(custId, activityType, rewardType);
+        List<Data4ExchangeItem> items = rewardFlowService.getItemsByType(exchangeScene.getScene(), custId, activityType, rewardType);
         data4ExchangeVo.setList(items);
         data4ExchangeVo.setLogo(exchangeScene.getLogo());
 

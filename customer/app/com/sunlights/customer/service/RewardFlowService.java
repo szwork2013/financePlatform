@@ -26,5 +26,5 @@ public interface RewardFlowService {
 
     public List<RewardFlowVo> getMyFlowDetai(PageVo pageVo);
 
-    public List<Data4ExchangeItem> getItemsByType(String custId, String activityType, String rewardType);
+    public List<Data4ExchangeItem> getItemsByType(String exchangeScene, String custId, String activityType, String rewardType);
 }

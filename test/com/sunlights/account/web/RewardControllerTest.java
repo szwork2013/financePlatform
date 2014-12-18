@@ -84,7 +84,7 @@ public class RewardControllerTest extends BaseTest {
             public void run() {
                 Logger.info("============testRewardFlowRecords start====");
                 String index = "0";
-                String pageSize = "6";
+                String pageSize = "30";
 
 
                 Map<String, String> formParams = new HashMap<>();

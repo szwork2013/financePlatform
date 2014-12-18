@@ -75,7 +75,7 @@ public class ActivityControllerTest extends BaseTest{
         });
     }
 
-    //@Test
+    @Test
     public void testGetActivityList() throws Exception {
         running(fakeApplication(), new Runnable() {
             public void run() {
@@ -174,7 +174,7 @@ public class ActivityControllerTest extends BaseTest{
         });
     }
 
-    @Test
+    //@Test
     public void testExchangeReward() {
         running(fakeApplication(), new Runnable() {
             public void run() {

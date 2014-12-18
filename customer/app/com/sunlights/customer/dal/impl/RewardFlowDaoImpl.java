@@ -71,9 +71,14 @@ public class RewardFlowDaoImpl extends EntityBaseDao implements RewardFlowDao {
 
     @Override
     public List<RewardFlow> getMyFlowByPage(PageVo pageVo) {
-        String hql = "select h from RewardFlow h order by h.createTime";
 
-        return pageDao.findXsqlBy(hql, pageVo);
+        StringBuilder sb = new StringBuilder();
+        sb.append("select h from RewardFlow h  ");
+        sb.append(" where 1 = 1 ");
+        sb.append("  /~and h.custId = {custId}~/ ");
+        sb.append("  order by h.createTime desc ");
+
+        return pageDao.findXsqlBy(sb.toString(), pageVo);
     }
 
     @Override

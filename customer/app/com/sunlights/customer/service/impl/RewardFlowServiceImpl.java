@@ -17,8 +17,10 @@ import com.sunlights.customer.vo.RewardResultVo;
 import models.ActivityScene;
 import models.HoldReward;
 import models.RewardFlow;
+import play.Configuration;
 import play.Logger;
 
+import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -130,7 +132,7 @@ public class RewardFlowServiceImpl implements RewardFlowService {
 
 
     @Override
-    public List<Data4ExchangeItem> getItemsByType(String custId, String activityType, String rewardType) {
+    public List<Data4ExchangeItem> getItemsByType(String exchangeScene, String custId, String activityType, String rewardType) {
         Logger.debug("custId = " + custId + " activityType = " + activityType + " rewardType = " + rewardType);
         RewardFlow rewardFlow = new RewardFlow();
         rewardFlow.setCustId(custId);
@@ -144,7 +146,8 @@ public class RewardFlowServiceImpl implements RewardFlowService {
             for(RewardFlow temp : rewardFlows) {
                 item.setTitle(temp.getActivityTitle());
                 item.setCreateTime(CommonUtil.dateToString(temp.getCreateTime(), CommonUtil.DATE_FORMAT_LONG));
-                item.setDetail("首次购买" + temp.getMoney() + "元");
+                String detaiTemplate = Configuration.root().getString(exchangeScene + "." + rewardType + "." + activityType);
+                item.setDetail(MessageFormat.format(detaiTemplate, temp.getMoney()));
                 items.add(item);
             }
         } catch (Exception e) {
