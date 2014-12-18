@@ -32,15 +32,27 @@ public class FundDaoImpl extends EntityBaseDao implements FundDao {
 
     @Override
     public FundDetailVo findFundDetailByCode(String code) {
-        StringBuffer jpql = new StringBuffer();
-        jpql.append(" select new com.sunlights.core.vo.FundDetailVo(f,pm,fc)");
-        jpql.append(" from ProductManage pm , FundNav f , FundCompany fc");
-        jpql.append(" where f.fundcode = pm.productCode");
-        jpql.append(" and f.iaGuid = fc.fundCompanyId");
-        jpql.append(" and f.fundcode = ?1");
+		String sql ="SELECT "
+				+ "  pm.init_buyed_count,"
+				+ "  pm.one_month_buyed_count,"
+				+ "  f.percent_seven_days,"
+				+ "  f.income_per_ten_thousand,"
+				+ "  f.purchase_limit_min,"
+				+ "  f.discount,"
+				+ "  f.purchase_state,"
+				+ "  f.is_monetary,"
+				+ "  f.is_stf,"
+				+ "  f.risk_level,"
+				+ "  f.lastest_total_asset,"
+				+ "  f.curr_date,"
+				+ "  fc.abbr_name"
+				+ "  FROM p_product_manage pm"
+				+ "  JOIN fundnav f ON pm.product_code = f.fundcode And f.fundcode = 1?"
+				+ "  LEFT JOIN p_fund_company fc ON f.ia_guid = fc.fund_company_id";
 
-        FundDetailVo fundDetailVo = super.findUnique(jpql.toString(), code);
-        return fundDetailVo;
+		List<Object[]> rows = createNativeQuery(sql, code);
+
+        return rows.isEmpty() ? null : new FundDetailVo();
     }
 
     @Override
