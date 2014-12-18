@@ -66,11 +66,16 @@ public class RewardController extends ActivityBaseController {
         CustomerSession customerSession = getCustomerSession();
         String custNo = customerSession.getCustomerId();
 
-        HoldRewardVo holdRewardVo = holdRewardService.getMyRewardDetail(custNo, ActivityConstant.REWARD_TYPE_JINDOU);
-
-        //holdRewardVo.setRuleUrl("http://192.168.1.97/activity/signin.html");
+        HoldRewardVo holdRewardVo = holdRewardService.getTotalReward(custNo);
 
         messageUtil.setMessage(new Message(Severity.INFO, MsgCode.REWARD_QUERY_SUCC), holdRewardVo);
+
+        return ok(messageUtil.toJson());
+    }
+
+    public Result getRewardFlows() {
+        //TODO
+        messageUtil.setMessage(new Message(Severity.INFO, MsgCode.REWARD_FLOW_QUERY_SUCC), null);
 
         return ok(messageUtil.toJson());
     }

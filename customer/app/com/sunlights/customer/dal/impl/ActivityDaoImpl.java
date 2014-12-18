@@ -67,4 +67,9 @@ public class ActivityDaoImpl extends EntityBaseDao implements ActivityDao {
         }
         return activities.get(0);
     }
+
+    @Override
+    public List<Activity> getAll() {
+        return super.findAll(Activity.class, "createTime", false);
+    }
 }

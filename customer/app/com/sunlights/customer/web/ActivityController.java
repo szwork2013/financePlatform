@@ -7,6 +7,8 @@ import com.sunlights.common.Severity;
 import com.sunlights.common.vo.Message;
 import com.sunlights.common.vo.PageVo;
 import com.sunlights.customer.ActivityConstant;
+import com.sunlights.customer.factory.ActivityListQueryFactory;
+import com.sunlights.customer.service.ActivityListQuery;
 import com.sunlights.customer.service.ActivityService;
 import com.sunlights.customer.service.impl.ActivityServiceImpl;
 import com.sunlights.customer.service.rewardrules.ActivityHandlerService;
@@ -31,20 +33,44 @@ public class ActivityController extends ActivityBaseController  {
 
     private ActivityHandlerService activityHandlerService = new ActivityHandlerService();
 
-
     public Result getActivityList() {
+        String custId = "";
+
+        try {
+            custId = getCustomerSession().getCustomerId();
+        } catch (Exception e) {
+            e.printStackTrace();
+            Logger.debug("没有登录，查询活动中心");
+        }
+
         ActivityParamter activityParamter = getActivityParamter();
         PageVo pageVo = new PageVo();
         pageVo.setIndex(activityParamter.getIndex());
         pageVo.setPageSize(activityParamter.getPageSize());
+        String filter = activityParamter.getFilter();
 
-        List<ActivityVo> activityVos = activityService.getActivityVos(pageVo);
+        if(StringUtils.isEmpty(filter)) {
+            filter = ActivityConstant.ACTIVITY_QUERY_CENTER;
+        }
+        Logger.debug("filter = " + filter);
+
+        ActivityQueryContext context = new ActivityQueryContext();
+        context.setPageVo(pageVo);
+        context.setCustNo(custId);
+
+        ActivityListQuery activityListQuery = ActivityListQueryFactory.getQueryStyle(filter);
+
+        if(activityListQuery == null) {
+            Logger.error("不支持的活动查询的方式");
+            return ok();
+        }
+        List<ActivityVo> activityVos = activityListQuery.queryActivityList(context);
 
         pageVo.setList(activityVos);
         if(activityVos != null) {
             pageVo.setCount(activityVos.size());
         }
-        messageUtil.setMessage(new Message(Severity.INFO, MsgCode.OPERATE_SUCCESS), pageVo);
+        messageUtil.setMessage(new Message(Severity.INFO, MsgCode.ACTIVITY_QUERY_SUCC), pageVo);
 
         Logger.debug("获取活动的信息：" + messageUtil.toJson().toString());
         return ok(messageUtil.toJson());
@@ -167,44 +193,5 @@ public class ActivityController extends ActivityBaseController  {
         return ok(messageUtil.toJson());
     }
 
-    /**
-     * 奖励的兑换
-     *
-     * @return
-     */
-    public Result exchangeReward() {
 
-        String token = getToken();
-        ActivityParamter activityParamter = getActivityParamter();
-        String scene = activityParamter.getScene();
-        Message message = null;
-
-        CustomerSession customerSession = customerService.getCustomerSession(token);
-        String custNo = customerSession.getCustomerId();
-
-        ActivityRequestVo requestVo = new ActivityRequestVo();
-        ActivityResponseVo responseVo = new ActivityResponseVo();
-
-        requestVo.setCustId(custNo);
-        requestVo.setScene(scene);
-        requestVo.setRewardType(activityParamter.getRewardType());
-
-        requestVo.set("bankCardNo", activityParamter.getBankCardNo());
-        requestVo.set("exchangeAmt", activityParamter.getExchangeAmt());
-        requestVo.set("phone", activityParamter.getPhone());
-
-        activityHandlerService.service(requestVo, responseVo);
-
-        message = responseVo.getMessage();
-
-        if(MsgCode.OBTAIN_SUCC.getCode().equals(message.getCode())) {
-            //TODO
-            Logger.info("兑换成功");
-        } else {
-            //TODO
-            Logger.debug("兑换失败 ：" + message.getSummary());
-        }
-
-        return ok(Json.toJson("succ"));
-    }
 }

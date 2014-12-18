@@ -1,5 +1,7 @@
 package com.sunlights.customer.service;
 
+import com.sunlights.customer.vo.ShareInfoContext;
+import com.sunlights.customer.vo.ShareInfoVo;
 import models.ShareInfo;
 
 /**
@@ -7,8 +9,6 @@ import models.ShareInfo;
  */
 public interface ShareInfoService {
 
-    public ShareInfo getShareInfoByType(String type, String refId);
-
-
+    public ShareInfoVo getShareInfoByType(ShareInfoContext context);
 
 }

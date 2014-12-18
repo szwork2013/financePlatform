@@ -5,6 +5,7 @@ import com.sunlights.common.AppConst;
 import com.sunlights.common.utils.MessageUtil;
 import com.sunlights.customer.service.impl.CustomerService;
 import com.sunlights.customer.vo.ActivityParamter;
+import com.sunlights.customer.vo.ExchangeParamter;
 import models.CustomerSession;
 import play.data.Form;
 import play.libs.Json;
@@ -16,6 +17,8 @@ import play.mvc.Http;
  */
 public class ActivityBaseController  extends Controller{
     private Form<ActivityParamter> activityParameterForm = Form.form(ActivityParamter.class);
+
+    private Form<ExchangeParamter> exchangeParamterForm = Form.form(ExchangeParamter.class);
 
     protected CustomerService customerService = new CustomerService();
 
@@ -32,6 +35,19 @@ public class ActivityBaseController  extends Controller{
             activityParamter = activityParameterForm.bindFromRequest().get();
         }
         return activityParamter;
+    }
+
+    public ExchangeParamter getExchangeParamter() {
+        ExchangeParamter exchangeParamter = null;
+        Http.RequestBody body = request().body();
+        if (body.asJson() != null) {
+            exchangeParamter = Json.fromJson(body.asJson(), ExchangeParamter.class);
+        }
+
+        if (body.asFormUrlEncoded() != null) {
+            exchangeParamter = exchangeParamterForm.bindFromRequest().get();
+        }
+        return exchangeParamter;
     }
 
     public String getToken() {

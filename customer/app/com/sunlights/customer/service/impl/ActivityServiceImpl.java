@@ -99,4 +99,9 @@ public class ActivityServiceImpl implements ActivityService{
 
         return activityShareInfos.get(0);
     }
+
+    @Override
+    public List<Activity> getAllActivities() {
+        return activityDao.getAll();
+    }
 }

@@ -104,19 +104,19 @@ public class CustomerControllerTest extends BaseTest {
 
                 Http.Cookie cookie = getCookieAfterLogin(mobilePhoneNo, passWord);
 
-                Logger.info("===============resetpwd======Test============");
+                Logger.info("===============resetPwd======Test============");
                 resetpwdWithCookie(formParams, cookie);
 
                 Logger.info("===============confirmpwd=====Test=============");
                 confirmpwd(formParams, cookie);
 
-                Logger.info("===============resetpwd=====Test=============");
+                Logger.info("===============resetPwd=====Test=============");
                 resetpwd(formParams);
             }
 
             private void resetpwdWithCookie(Map<String, String> formParams, Http.Cookie cookie) {
                 formParams.put("passWord", "2");
-                play.mvc.Result result = getResult("/customer/resetpwd", formParams, cookie);
+                play.mvc.Result result = getResult("/customer/resetPwd", formParams, cookie);
                 assertThat(status(result)).isEqualTo(OK);
                 MessageVo message = toMessageVo(result);
                 assertThat(message.getMessage().getSeverity() == 0);
@@ -132,7 +132,7 @@ public class CustomerControllerTest extends BaseTest {
 
             private void resetpwd(Map<String, String> formParams) {
                 formParams.put("passWord", "1");
-                play.mvc.Result result = getResult("/customer/resetpwd", formParams);
+                play.mvc.Result result = getResult("/customer/resetPwd", formParams);
                 assertThat(status(result)).isEqualTo(OK);
                 MessageVo message = toMessageVo(result);
                 assertThat(message.getMessage().getSeverity() == 0);

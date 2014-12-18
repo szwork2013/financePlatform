@@ -14,9 +14,11 @@ public interface RewardService {
     public void exchangeRewards(String custNo, String rewardType);
 
 
+    //TODO: 这个接口不应该返回void类型
     public void getAllRewardByCustNo(String custNo);
 
 
+    //TODO: 这个接口不应该返回void类型
     public void getRewardFlowByCustNo(String custNo);
 
 }

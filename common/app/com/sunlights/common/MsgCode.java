@@ -106,6 +106,7 @@ public enum MsgCode {
     EXCHANGE_SCENE_QUERY_SUCC("0225", "兑换场景查询成功"),
     BEFORE_EXCHANGE_QUERY_SUCC("0226", "兑换前预准备成功"),
     EXCHANGE_SUCC("0227", "兑换成功"),
+    REWARD_FLOW_QUERY_SUCC("0228", "奖励流水查询成功"),
     ALREADY_SIGN("2220", "重复签到"),
     NOT_CONFIG_ACTIVITY_SCENE("2221", "没有配置活动场景"),
     ALREADY_PURCHASE("2222", "不是首次购买"),
@@ -115,6 +116,7 @@ public enum MsgCode {
     NOT_SUPPORT_TRADE_TYPE("2226", "不支持的交易类型"),
     ACTIVITY_SCENE_EXIST_ERROR("2227", "操作失败：", "已存在到场景编码。"),
     EXCHANGE_NOT_ENOUGH("2228", "兑换数量不足"),
+    NOT_SUPPORT_SHARE_TYPE("2229", "不支持的分享类型"),
     ACTIVITY_SYS_ERROR("3201", "系统异常");
 
 

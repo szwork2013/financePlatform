@@ -36,7 +36,7 @@ public interface LoginService {
    *
    * @return
    */
-  public Customer resetpwd(String mobilePhoneNo, String passWord, String deviceNo);
+  public Customer resetPwd(String mobilePhoneNo, String passWord, String deviceNo);
 
   /**
    * 保存手势密码

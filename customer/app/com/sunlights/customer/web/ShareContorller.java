@@ -2,23 +2,22 @@ package com.sunlights.customer.web;
 
 import com.sunlights.common.MsgCode;
 import com.sunlights.common.Severity;
+import com.sunlights.common.exceptions.BusinessRuntimeException;
 import com.sunlights.common.utils.QRcodeByte;
 import com.sunlights.common.utils.ShortURLUtil;
 import com.sunlights.common.vo.Message;
 import com.sunlights.customer.ActivityConstant;
 import com.sunlights.customer.dal.impl.CustomerDaoImpl;
+import com.sunlights.customer.factory.ShareInfoServiceFactory;
 import com.sunlights.customer.service.ActivityService;
 import com.sunlights.customer.service.CustJoinActivityService;
 import com.sunlights.customer.service.ShareInfoService;
-import com.sunlights.customer.service.ShortUrlService;
 import com.sunlights.customer.service.impl.ActivityServiceImpl;
 import com.sunlights.customer.service.impl.CustJoinActivityServiceImpl;
-import com.sunlights.customer.service.impl.ShareInfoServiceImpl;
-import com.sunlights.customer.service.impl.ShortUrlServiceImpl;
-import com.sunlights.customer.vo.ActivityParamter;
-import com.sunlights.customer.vo.QRcodeVo;
-import com.sunlights.customer.vo.ShareVo;
-import models.*;
+import com.sunlights.customer.vo.*;
+import models.ActivityShareInfo;
+import models.Customer;
+import models.CustomerSession;
 import org.apache.commons.lang3.StringUtils;
 import play.Logger;
 import play.data.Form;
@@ -26,9 +25,6 @@ import play.db.jpa.Transactional;
 import play.libs.Json;
 import play.mvc.Http;
 import play.mvc.Result;
-import sun.misc.BASE64Encoder;
-
-import java.util.List;
 
 /**
  * Created by Administrator on 2014/12/3.
@@ -37,9 +33,6 @@ import java.util.List;
 public class ShareContorller extends ActivityBaseController{
     private ActivityService activityService =new ActivityServiceImpl();
     private CustJoinActivityService custjoinService=new CustJoinActivityServiceImpl();
-
-    private ShareInfoService shareInfoService = new ShareInfoServiceImpl();
-    private ShortUrlService shortUrlService = new ShortUrlServiceImpl();
 
     private Form<ShareVo> shareParameterForm = Form.form(ShareVo.class);
     /**
@@ -143,7 +136,9 @@ public class ShareContorller extends ActivityBaseController{
     /**
      * 获得手机号
      * @return
+     *
      */
+    @Deprecated
     private String getMobile(String custNo){
         //1、首先获得手机号
 
@@ -183,18 +178,18 @@ public class ShareContorller extends ActivityBaseController{
 
     }
 
+    /**
+     * 分享接口
+     *
+     * @return
+     */
     public Result share() {
-        //TODO 邀请好友需要登录才能成功
         String custNo = "";
         try {
             CustomerSession customerSession = getCustomerSession();
             custNo = customerSession.getCustomerId();//获得客户id
         } catch (Exception e) {
-
-        }
-        String mobile = "";
-        if(!StringUtils.isEmpty(custNo)){
-            mobile= getMobile(custNo);
+            Logger.debug("没有登录。。");
         }
 
         ShareVo shareVo = null;
@@ -208,25 +203,48 @@ public class ShareContorller extends ActivityBaseController{
         }
         String type = shareVo.getType();
         String id = shareVo.getId();
-        if(ActivityConstant.SHARE_TYPE_INVITER.equals(type)) {
-            id = mobile;
-        }
-
         Logger.debug("type = " + type + " id = " + id);
 
-        ShareInfo shareInfo = shareInfoService.getShareInfoByType(type, id);
-        String shortUrl = shortUrlService.getShortUrl(type, id, shareInfo);
+        Message message = null;
+        ShareInfoService shareInfoService = ShareInfoServiceFactory.getShareInfoService(type);
+        if(shareInfoService == null) {
+            Logger.error("不支持的分享类型");
+            message = new Message(Severity.INFO, MsgCode.NOT_SUPPORT_SHARE_TYPE);
+            messageUtil.setMessage(message);
+            return ok(messageUtil.toJson());
+        }
 
-        shareVo = new ShareVo();
-        shareVo.setId(id);
-        shareVo.setType(type);
-        shareVo.setShorturl(shortUrl);
-        shareVo.setContent(shareInfo.getContent());
-        shareVo.setImageurl(shareInfo.getImageUrl());
-        shareVo.setTitle(shareInfo.getTitle());
+        message = new Message(Severity.INFO, MsgCode.SHARE_QUERY_SUCC);
+        try {
+            ShareInfoContext context = new ShareInfoContext();
+            context.setRefId(id);
+            context.setCustNo(custNo);
+            context.setType(type);
+            ShareInfoVo shareInfoVo = shareInfoService.getShareInfoByType(context);
 
-        messageUtil.setMessage(new Message(Severity.INFO, MsgCode.SHARE_QUERY_SUCC), shareVo);
-        Logger.debug("返回给前端的内容----》:" + messageUtil.toJson());
+            shareVo = new ShareVo();
+            shareVo.setId(id);
+            shareVo.setType(type);
+            shareVo.setShorturl(shareInfoVo.getShortUrl());
+            shareVo.setContent(shareInfoVo.getContent());
+            shareVo.setImageurl(shareInfoVo.getImageUrl());
+            shareVo.setTitle(shareInfoVo.getTitle());
+
+            messageUtil.setMessage(message, shareVo);
+            Logger.debug("返回给前端的内容----》:" + messageUtil.toJson());
+            return ok(messageUtil.toJson());
+        } catch (BusinessRuntimeException be) {
+            if(MsgCode.LOGIN_TIMEOUT.getCode().equals(be.getErrorCode())) {
+                message = new Message(Severity.INFO, MsgCode.LOGIN_TIMEOUT);
+                message.setSummary("您还没有登录");
+                Logger.error("您还没有登录", be);
+            }
+        } catch (Exception e) {
+            message = new Message(Severity.INFO, MsgCode.ACTIVITY_SYS_ERROR);
+            message.setSummary("系统异常");
+            Logger.error("系统异常", e);
+        }
+        messageUtil.setMessage(message);
         return ok(messageUtil.toJson());
     }
 }

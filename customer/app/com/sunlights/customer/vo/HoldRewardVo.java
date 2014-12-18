@@ -1,26 +1,21 @@
 package com.sunlights.customer.vo;
 
-import com.google.common.collect.Lists;
-
 import java.io.Serializable;
-import java.util.List;
 
 /**
+ * TODO: 为何所有的属性都整成了String类型？
  * Created by tangweiqun on 2014/11/20.
  */
 public class HoldRewardVo implements Serializable{
     //总金豆数量
     private String totalReward;
-    //总赚取
-    private String gots;
+
     //等价现金
     private String totalCash;
-    //已兑换
-    private String payed;
 
     private String ruleUrl;
 
-    private List<RewardFlowVo> records = Lists.newArrayList();
+    private String redPacket;
 
     public String getTotalReward() {
         return totalReward;
@@ -39,36 +34,19 @@ public class HoldRewardVo implements Serializable{
         this.totalCash = totalCash;
     }
 
-
-    public List<RewardFlowVo> getRecords() {
-        return records;
-    }
-
-    public void setRecords(List<RewardFlowVo> records) {
-        this.records = records;
-    }
-
-    public String getGots() {
-        return gots;
-    }
-
-    public void setGots(String gots) {
-        this.gots = gots;
-    }
-
-    public String getPayed() {
-        return payed;
-    }
-
-    public void setPayed(String payed) {
-        this.payed = payed;
-    }
-
     public String getRuleUrl() {
         return ruleUrl;
     }
 
     public void setRuleUrl(String ruleUrl) {
         this.ruleUrl = ruleUrl;
+    }
+
+    public String getRedPacket() {
+        return redPacket;
+    }
+
+    public void setRedPacket(String redPacket) {
+        this.redPacket = redPacket;
     }
 }

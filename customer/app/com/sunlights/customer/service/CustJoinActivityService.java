@@ -2,6 +2,9 @@ package com.sunlights.customer.service;
 
 import models.CustJoinActivity;
 
+import java.util.List;
+import java.util.Map;
+
 /**
  * 客户与活动关联的服务
  *
@@ -18,5 +21,7 @@ public interface CustJoinActivityService {
     public String getShortUrl(String custId, Long activityId, String scene);
 
     public void saveShortUrl(String custId, Long activityId, String scene, String shortUrl);
+
+    public Map<String, List<CustJoinActivity>> mapWithScene(String custNo);
 
 }
