@@ -68,6 +68,7 @@ public abstract class AbstractActivityListQuery implements ActivityListQuery{
 
     private List<Activity> page(List<Activity> activities, PageVo pageVo) {
         int length = activities.size();
+        pageVo.setCount(length);
         if(length <= pageVo.getPageSize()) {
             return activities;
         }
