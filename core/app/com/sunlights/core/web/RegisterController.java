@@ -1,9 +1,19 @@
 package com.sunlights.core.web;
 
+import com.sunlights.customer.action.MsgCenterAction;
+import models.Customer;
+import models.CustomerSession;
+import play.Logger;
+import play.data.Form;
+import play.db.jpa.Transactional;
+import play.mvc.Controller;
+import play.mvc.Result;
+import play.mvc.With;
+
 import com.fasterxml.jackson.databind.JsonNode;
-import com.sunlights.account.AccountConstant;
 import com.sunlights.account.service.AccountService;
 import com.sunlights.account.service.impl.AccountServiceImpl;
+import com.sunlights.common.AppConst;
 import com.sunlights.common.MsgCode;
 import com.sunlights.common.utils.MessageUtil;
 import com.sunlights.common.vo.Message;
@@ -12,13 +22,6 @@ import com.sunlights.customer.service.impl.CustomerService;
 import com.sunlights.customer.service.impl.LoginServiceImpl;
 import com.sunlights.customer.vo.CustomerFormVo;
 import com.sunlights.customer.vo.CustomerVo;
-import models.Customer;
-import models.CustomerSession;
-import play.Logger;
-import play.data.Form;
-import play.db.jpa.Transactional;
-import play.mvc.Controller;
-import play.mvc.Result;
 
 /**
  * <p>Project: financeplatform</p>
@@ -60,6 +63,7 @@ public class RegisterController extends Controller {
      *
      * </pre>
      */
+    @With(MsgCenterAction.class)
     public Result register() {
         Logger.info("==========register====================");
         CustomerFormVo customerFormVo = customerForm.bindFromRequest().get();
@@ -83,6 +87,8 @@ public class RegisterController extends Controller {
 
         Logger.info("==========register返回：" + json.toString());
         Controller.response().setHeader("Access-Control-Allow-Origin","*");
+        Controller.response().setHeader(AppConst.HEADER_MSG, MessageUtil.getInstance().getMessage());
+
         return Controller.ok(json);
     }
 }

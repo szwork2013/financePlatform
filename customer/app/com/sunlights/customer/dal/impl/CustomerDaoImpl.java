@@ -253,4 +253,10 @@ public class CustomerDaoImpl extends EntityBaseDao implements CustomerDao {
         customer.setCustomerId(resultRows.get(0));
         return customer;
     }
+
+
+    @Override
+    public List<String> findAliasByCustomerId(String customerId) {
+        return createNameQuery("findAliasByCustomerId", customerId).getResultList();
+    }
 }
