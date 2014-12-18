@@ -67,9 +67,7 @@ public class ActivityController extends ActivityBaseController  {
         List<ActivityVo> activityVos = activityListQuery.queryActivityList(context);
 
         pageVo.setList(activityVos);
-        if(activityVos != null) {
-            pageVo.setCount(activityVos.size());
-        }
+
         messageUtil.setMessage(new Message(Severity.INFO, MsgCode.ACTIVITY_QUERY_SUCC), pageVo);
 
         Logger.debug("获取活动的信息：" + messageUtil.toJson().toString());

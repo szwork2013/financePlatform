@@ -87,7 +87,7 @@ public class RewardController extends ActivityBaseController {
         pageVo.put("EQS_custId", custId);
         List<RewardFlowVo> rewardFlowVos = rewardFlowService.getMyFlowDetai(pageVo);
 
-        pageVo.setCount(rewardFlowVos.size());
+
         pageVo.setList(rewardFlowVos);
 
         messageUtil.setMessage(new Message(Severity.INFO, MsgCode.REWARD_FLOW_QUERY_SUCC), pageVo);
