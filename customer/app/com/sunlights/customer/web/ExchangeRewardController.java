@@ -3,6 +3,7 @@ package com.sunlights.customer.web;
 import com.sunlights.common.MsgCode;
 import com.sunlights.common.Severity;
 import com.sunlights.common.vo.Message;
+import com.sunlights.common.vo.PageVo;
 import com.sunlights.customer.service.ExchangeSceneService;
 import com.sunlights.customer.service.impl.ExchangeSceneServiceImpl;
 import com.sunlights.customer.service.rewardrules.ActivityHandlerService;
@@ -17,9 +18,10 @@ import play.libs.Json;
 import play.mvc.Result;
 
 import java.util.Date;
+import java.util.List;
 
 /**
- * Created by Administrator on 2014/12/17.
+ * Created by tangweiqun on 2014/12/17.
  */
 @Transactional
 public class ExchangeRewardController extends ActivityBaseController {
@@ -30,9 +32,15 @@ public class ExchangeRewardController extends ActivityBaseController {
 
     public Result queryExchangeScenes() {
         String custId = getCustomerSession().getCustomerId();
-        ExchangeSceneListVo result = exchangeSceneService.loadSceneByCustId(custId);
+        ExchangeParamter exchangeParamter = getExchangeParamter();
+        PageVo pageVo = new PageVo();
+        pageVo.setIndex(exchangeParamter.getIndex());
+        pageVo.setPageSize(exchangeParamter.getPageSize());
 
-        messageUtil.setMessage(new Message(Severity.INFO, MsgCode.EXCHANGE_SCENE_QUERY_SUCC), result);
+        List<ExchangeSceneVo> result = exchangeSceneService.loadSceneByCustId(custId, pageVo);
+        pageVo.setList(result);
+
+        messageUtil.setMessage(new Message(Severity.INFO, MsgCode.EXCHANGE_SCENE_QUERY_SUCC), pageVo);
 
         Logger.debug("获取活动的信息：" + messageUtil.toJson().toString());
         return ok(messageUtil.toJson());

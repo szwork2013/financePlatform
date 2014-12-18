@@ -1,6 +1,7 @@
 package com.sunlights.customer.service.impl;
 
 import com.sunlights.common.utils.CommonUtil;
+import com.sunlights.common.vo.PageVo;
 import com.sunlights.customer.dal.ExchangeSceneDao;
 import com.sunlights.customer.dal.HoldRewardDao;
 import com.sunlights.customer.dal.impl.ExchangeSceneDaoImpl;
@@ -12,6 +13,7 @@ import com.sunlights.customer.vo.Data4ExchangeItem;
 import com.sunlights.customer.vo.Data4ExchangeVo;
 import com.sunlights.customer.vo.ExchangeSceneListVo;
 import com.sunlights.customer.vo.ExchangeSceneVo;
+import models.Activity;
 import models.ExchangeScene;
 import models.HoldReward;
 import models.RewardType;
@@ -41,7 +43,7 @@ public class ExchangeSceneServiceImpl implements ExchangeSceneService {
     }
 
     @Override
-    public ExchangeSceneListVo loadSceneByCustId(String custId) {
+    public List<ExchangeSceneVo> loadSceneByCustId(String custId, PageVo pageVo) {
         List<ExchangeScene> exchangeScenes = loadAllExchangescenes();
         List<ExchangeSceneVo> result = new ArrayList<ExchangeSceneVo>();
         ExchangeSceneListVo exchangeSceneListVo = new ExchangeSceneListVo();
@@ -69,8 +71,21 @@ public class ExchangeSceneServiceImpl implements ExchangeSceneService {
             exchangeSceneVo.setLogo(exchangeScene.getLogo());
             result.add(exchangeSceneVo);
         }
-        exchangeSceneListVo.setList(result);
-        return exchangeSceneListVo;
+
+        return page(result, pageVo);
+    }
+
+    private List<ExchangeSceneVo> page(List<ExchangeSceneVo> exchangeSceneVos, PageVo pageVo) {
+        //TODO 注意严谨  代码可以复用
+        int length = exchangeSceneVos.size();
+        pageVo.setCount(length);
+        if(length <= pageVo.getPageSize()) {
+            return exchangeSceneVos;
+        }
+        if(pageVo.getIndex() + pageVo.getPageSize() > length) {
+            return exchangeSceneVos.subList(pageVo.getIndex(), length);
+        }
+        return exchangeSceneVos.subList(pageVo.getIndex(), pageVo.getIndex() + pageVo.getPageSize());
     }
 
     @Override

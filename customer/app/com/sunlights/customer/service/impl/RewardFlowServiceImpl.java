@@ -6,10 +6,7 @@ import com.sunlights.common.vo.PageVo;
 import com.sunlights.customer.ActivityConstant;
 import com.sunlights.customer.dal.RewardFlowDao;
 import com.sunlights.customer.dal.impl.RewardFlowDaoImpl;
-import com.sunlights.customer.service.ActivitySceneService;
-import com.sunlights.customer.service.ActivityService;
-import com.sunlights.customer.service.HoldRewardService;
-import com.sunlights.customer.service.RewardFlowService;
+import com.sunlights.customer.service.*;
 import com.sunlights.customer.service.rewardrules.vo.RewardFlowRecordVo;
 import com.sunlights.customer.vo.Data4ExchangeItem;
 import com.sunlights.customer.vo.RewardFlowVo;
@@ -17,6 +14,7 @@ import com.sunlights.customer.vo.RewardResultVo;
 import models.ActivityScene;
 import models.HoldReward;
 import models.RewardFlow;
+import models.RewardType;
 import play.Configuration;
 import play.Logger;
 
@@ -32,6 +30,8 @@ import java.util.List;
 public class RewardFlowServiceImpl implements RewardFlowService {
 
     private RewardFlowDao rewardFlowDao = new RewardFlowDaoImpl();
+
+    private RewardTypeService rewardTypeService = new RewardTypeServiceImpl();
 
 
 
@@ -101,7 +101,7 @@ public class RewardFlowServiceImpl implements RewardFlowService {
     }
 
     @Override
-    public List<RewardFlowVo> getMyFlowDetai(PageVo pageVo) {
+    public List<RewardFlowVo> getMyFlowDetail(PageVo pageVo) {
         List<RewardFlow> rewardFlows = rewardFlowDao.getMyFlowByPage(pageVo);
         List<RewardFlowVo> rewardFlowVos = new ArrayList<RewardFlowVo>();
         transRewardFlow(rewardFlows, rewardFlowVos);
@@ -115,12 +115,13 @@ public class RewardFlowServiceImpl implements RewardFlowService {
         RewardFlowVo rewardFlowVo = null;
         for(RewardFlow rewardFlow : rewardFlows) {
             rewardFlowVo = new RewardFlowVo();
+            RewardType rewardType = rewardTypeService.findByTypeCode(rewardFlow.getRewardType());
             rewardFlowVo.setTitle(rewardFlow.getActivityTitle());
             rewardFlowVo.setCreateTime(CommonUtil.dateToString(rewardFlow.getCreateTime(), CommonUtil.DATE_FORMAT_LONG));
             if(rewardFlow.getOperatorType().equals(ActivityConstant.REWARD_FLOW_OBTAIN)) {
-                rewardFlowVo.setAmount(takePrefix(rewardFlow.getRewardAmt(), "+"));
+                rewardFlowVo.setAmount(takePrefix(rewardFlow.getRewardAmt() / rewardType.getUnit(), "+"));
             } else {
-                rewardFlowVo.setAmount(takePrefix(rewardFlow.getRewardAmt(), "-"));
+                rewardFlowVo.setAmount(takePrefix(rewardFlow.getRewardAmt() / rewardType.getUnit(), "-"));
             }
             rewardFlowVos.add(rewardFlowVo);
         }

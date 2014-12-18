@@ -85,7 +85,7 @@ public class RewardController extends ActivityBaseController {
         pageVo.setIndex(activityParamter.getIndex());
         pageVo.setPageSize(activityParamter.getPageSize());
         pageVo.put("EQS_custId", custId);
-        List<RewardFlowVo> rewardFlowVos = rewardFlowService.getMyFlowDetai(pageVo);
+        List<RewardFlowVo> rewardFlowVos = rewardFlowService.getMyFlowDetail(pageVo);
 
 
         pageVo.setList(rewardFlowVos);
