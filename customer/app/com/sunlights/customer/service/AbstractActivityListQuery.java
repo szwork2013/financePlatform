@@ -71,6 +71,9 @@ public abstract class AbstractActivityListQuery implements ActivityListQuery{
         if(length <= pageVo.getPageSize()) {
             return activities;
         }
+        if(pageVo.getIndex() + pageVo.getPageSize() > length) {
+            return activities.subList(pageVo.getIndex(), length);
+        }
         return activities.subList(pageVo.getIndex(), pageVo.getIndex() + pageVo.getPageSize());
     }
 }
