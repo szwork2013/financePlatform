@@ -229,7 +229,7 @@ public class LoginServiceImpl implements LoginService {
 	 * 重置密码
 	 * @return
 	 */
-	public Customer resetpwd(String mobilePhoneNo, String passWord, String deviceNo) {
+	public Customer resetPwd(String mobilePhoneNo, String passWord, String deviceNo) {
         CommonUtil.getInstance().validateParams(mobilePhoneNo, passWord);
 		Customer customer = getCustomerByMobilePhoneNo(mobilePhoneNo);
 		if (customer == null) {

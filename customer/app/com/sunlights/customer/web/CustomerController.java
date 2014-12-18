@@ -17,7 +17,6 @@ import com.sunlights.customer.vo.JudjeTokenVo;
 import models.Customer;
 import models.CustomerSession;
 import play.Logger;
-import play.cache.Cache;
 import play.data.Form;
 import play.db.jpa.Transactional;
 import play.mvc.Controller;
@@ -141,14 +140,14 @@ public class CustomerController extends Controller {
    * @return
    */
   public Result resetpwd() {
-    Logger.info("================resetpwd==============");
+    Logger.info("================resetPwd==============");
     CustomerFormVo customerFormVo = customerForm.bindFromRequest().get();
 
     String mobilePhoneNo = customerFormVo.getMobilePhoneNo();
     String deviceNo = customerFormVo.getDeviceNo();
     String passWord = customerFormVo.getPassWord();
 
-    Customer customer = loginService.resetpwd(mobilePhoneNo, passWord, deviceNo);
+    Customer customer = loginService.resetPwd(mobilePhoneNo, passWord, deviceNo);
 
     Http.Cookie cookie = Controller.request().cookie(AppConst.TOKEN);
     String token = cookie == null ? null : cookie.value();

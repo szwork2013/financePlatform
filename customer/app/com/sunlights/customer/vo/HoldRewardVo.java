@@ -1,11 +1,9 @@
 package com.sunlights.customer.vo;
 
-import com.google.common.collect.Lists;
-
 import java.io.Serializable;
-import java.util.List;
 
 /**
+ * TODO: 为何所有的属性都整成了String类型？
  * Created by tangweiqun on 2014/11/20.
  */
 public class HoldRewardVo implements Serializable{
