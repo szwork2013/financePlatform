@@ -4,6 +4,7 @@ import javax.persistence.Basic;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import java.math.BigDecimal;
+import java.util.Date;
 
 /**
  * Created by Administrator on 2014/12/18.
@@ -478,16 +479,17 @@ public class Fundarchiveex {
         this.isdeleted = isdeleted;
     }
 
-    private String updatetime;
+    private Date updatetime;
 
     @Basic
     @javax.persistence.Column(name = "updatetime")
-    public String getUpdatetime() {
+    public Date getUpdatetime() {
         return updatetime;
     }
 
-    public void setUpdatetime(String updatetime) {
+    public void setUpdatetime(Date updatetime) {
         this.updatetime = updatetime;
     }
+
 
 }
