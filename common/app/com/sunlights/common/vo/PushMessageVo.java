@@ -24,8 +24,14 @@ public class PushMessageVo implements Serializable{
     private Long groupId;
     private String customerId;
     private String personalInd;//个人、群发 信息来源标志
-    private int sendNum;//次数
+    private int sendNum = 0;//次数
     private List<String> aliasList = Lists.newArrayList();
+
+    private Long messageRuleId;
+    private String pushTimed;//Y定时 N即时
+    private String pushInd;
+    private String smsInd;
+    private String msgCenterInd;
 
     public Long getPushTxnId() {
         return pushTxnId;
@@ -113,5 +119,45 @@ public class PushMessageVo implements Serializable{
 
     public void setSendNum(int sendNum) {
         this.sendNum = sendNum;
+    }
+
+    public String getPushTimed() {
+        return pushTimed;
+    }
+
+    public void setPushTimed(String pushTimed) {
+        this.pushTimed = pushTimed;
+    }
+
+    public String getPushInd() {
+        return pushInd;
+    }
+
+    public void setPushInd(String pushInd) {
+        this.pushInd = pushInd;
+    }
+
+    public String getSmsInd() {
+        return smsInd;
+    }
+
+    public void setSmsInd(String smsInd) {
+        this.smsInd = smsInd;
+    }
+
+    public String getMsgCenterInd() {
+        return msgCenterInd;
+    }
+
+    public Long getMessageRuleId() {
+        return messageRuleId;
+    }
+
+    public void setMessageRuleId(Long messageRuleId) {
+        this.messageRuleId = messageRuleId;
+    }
+
+    public void setMsgCenterInd(String msgCenterInd) {
+        this.msgCenterInd = msgCenterInd;
     }
 }
