@@ -1,6 +1,8 @@
 package com.sunlights.customer.dal;
 
+import com.sunlights.common.vo.PageVo;
 import models.RewardFlow;
+import org.h2.mvstore.Page;
 
 import java.util.List;
 
@@ -16,5 +18,10 @@ public interface RewardFlowDao {
     public RewardFlow findOneByCondition(RewardFlow rewardFlow, String startDate, String endDate) throws Exception ;
 
     public List<RewardFlow> findByCondition(RewardFlow rewardFlow) throws Exception ;
+
+
+    public List<RewardFlow> getMyFlowByPage(PageVo pageVo);
+
+    public List<RewardFlow> getByType(String custId, String activityType, String rewardType);
 
 }

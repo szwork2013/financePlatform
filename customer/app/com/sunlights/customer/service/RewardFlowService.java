@@ -1,6 +1,10 @@
 package com.sunlights.customer.service;
 
 
+import com.sunlights.common.vo.PageVo;
+import com.sunlights.customer.service.rewardrules.vo.RewardFlowRecordVo;
+import com.sunlights.customer.vo.Data4ExchangeItem;
+import com.sunlights.customer.vo.RewardFlowVo;
 import com.sunlights.customer.vo.RewardResultVo;
 import models.RewardFlow;
 
@@ -20,6 +24,7 @@ public interface RewardFlowService {
 
     public RewardResultVo getLastObtainRewars(String custId, String scene);
 
+    public List<RewardFlowVo> getMyFlowDetai(PageVo pageVo);
 
-
+    public List<Data4ExchangeItem> getItemsByType(String custId, String activityType, String rewardType);
 }

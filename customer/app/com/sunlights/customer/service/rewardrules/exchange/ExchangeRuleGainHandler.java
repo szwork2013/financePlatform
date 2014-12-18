@@ -14,6 +14,7 @@ import com.sunlights.customer.service.rewardrules.vo.ActivityResponseVo;
 import models.ExchangeScene;
 import models.RewardType;
 import play.Logger;
+import scala.util.parsing.combinator.testing.Str;
 
 /**
  * 兑换奖励功能链上的节点处理类--获取兑换规则（奖励类型）等兑换需要的信息
@@ -37,8 +38,13 @@ public class ExchangeRuleGainHandler extends AbstractExchangeRuleHandler {
 
     @Override
     public void exchangeInternal(ActivityRequestVo requestVo, ActivityResponseVo responseVo) throws Exception {
-
-        ExchangeScene exchangeScene = exchangeSceneService.findByscene(requestVo.getScene());
+        ExchangeScene exchangeScene =requestVo.get("exchangeScene", ExchangeScene.class);
+        if(exchangeScene == null) {
+            exchangeScene = exchangeSceneService.findById(requestVo.getScene());
+            requestVo.set("exchangeScene", exchangeScene);
+        }
+        requestVo.setScene(exchangeScene.getScene());
+        requestVo.setRewardType(exchangeScene.getRewardType());
         if(exchangeScene == null || ActivityConstant.ACTIVITY_CUSTONER_STATUS_FORBIDDEN.equals(exchangeScene.getStatus())) {
             Message message = new Message(Severity.INFO, MsgCode.NOT_CONFIG_ACTIVITY_SCENE);
             responseVo.setMessage(message);
@@ -46,8 +52,6 @@ public class ExchangeRuleGainHandler extends AbstractExchangeRuleHandler {
             Logger.debug("兑换场景不存在或者无效");
             return;
         }
-
-        requestVo.set("exchangeScene", exchangeScene);
 
         RewardType rewardType = rewardTypeService.findByTypeCode(requestVo.getRewardType());
 

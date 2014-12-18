@@ -3,35 +3,36 @@ package com.sunlights.customer.web;
 import com.sunlights.common.MsgCode;
 import com.sunlights.common.Severity;
 import com.sunlights.common.vo.Message;
+import com.sunlights.customer.service.ExchangeSceneService;
+import com.sunlights.customer.service.impl.ExchangeSceneServiceImpl;
 import com.sunlights.customer.service.rewardrules.ActivityHandlerService;
 import com.sunlights.customer.service.rewardrules.vo.ActivityRequestVo;
 import com.sunlights.customer.service.rewardrules.vo.ActivityResponseVo;
 import com.sunlights.customer.vo.*;
 import models.CustomerSession;
+import models.ExchangeScene;
 import play.Logger;
+import play.db.jpa.Transactional;
 import play.libs.Json;
 import play.mvc.Result;
+
+import java.util.Date;
 
 /**
  * Created by Administrator on 2014/12/17.
  */
+@Transactional
 public class ExchangeRewardController extends ActivityBaseController {
 
     private ActivityHandlerService activityHandlerService = new ActivityHandlerService();
 
+    private ExchangeSceneService exchangeSceneService = new ExchangeSceneServiceImpl();
+
     public Result queryExchangeScenes() {
+        String custId = getCustomerSession().getCustomerId();
+        ExchangeSceneListVo result = exchangeSceneService.loadSceneByCustId(custId);
 
-        //TODO
-        ExchangeSceneListVo exchangeSceneListVo = new ExchangeSceneListVo();
-        ExchangeSceneVo exchangeSceneVo = new ExchangeSceneVo();
-        exchangeSceneVo.setId("123");
-        exchangeSceneVo.setTitle("首次购买送红包");
-        exchangeSceneVo.setDetail("首次购买送红包20元");
-        exchangeSceneVo.setLogo("http://192.168.1.97/activity/images/loggon_icon.png");
-
-        exchangeSceneListVo.addRecord(exchangeSceneVo);
-
-        messageUtil.setMessage(new Message(Severity.INFO, MsgCode.EXCHANGE_SCENE_QUERY_SUCC), exchangeSceneListVo);
+        messageUtil.setMessage(new Message(Severity.INFO, MsgCode.EXCHANGE_SCENE_QUERY_SUCC), result);
 
         Logger.debug("获取活动的信息：" + messageUtil.toJson().toString());
         return ok(messageUtil.toJson());
@@ -39,20 +40,11 @@ public class ExchangeRewardController extends ActivityBaseController {
 
     public Result prepareDataBeforeExchange() {
 
-        //TODO
-        Data4ExchangeVo data4ExchangeVo = new Data4ExchangeVo();
-        data4ExchangeVo.setCanPayed("361.00");
-        data4ExchangeVo.setMaxPayed("361.00");
-        data4ExchangeVo.setAccountDate("2014-12-16 12:00:00");
-        data4ExchangeVo.setSummary("首次购买20元");
+        String custId = getCustomerSession().getCustomerId();
+        ExchangeParamter exchangeParamter = getExchangeParamter();
+        Data4ExchangeVo result = exchangeSceneService.prepareData4Exchange(custId, exchangeParamter.getId());
 
-        Data4ExchangeItem item = new Data4ExchangeItem();
-        item.setTitle("首次购买送红包");
-        item.setLogo("http://192.168.1.97/activity/images/loggon_icon.png");
-        item.setDetail("首次购买送红包20元");
-        item.setCreateTime("2014-12-16 12:00:00");
-
-        messageUtil.setMessage(new Message(Severity.INFO, MsgCode.BEFORE_EXCHANGE_QUERY_SUCC), data4ExchangeVo);
+        messageUtil.setMessage(new Message(Severity.INFO, MsgCode.BEFORE_EXCHANGE_QUERY_SUCC), result);
 
         Logger.debug("获取活动的信息：" + messageUtil.toJson().toString());
         return ok(messageUtil.toJson());
@@ -72,31 +64,39 @@ public class ExchangeRewardController extends ActivityBaseController {
 
         CustomerSession customerSession = customerService.getCustomerSession(token);
         String custNo = customerSession.getCustomerId();
-
         ActivityRequestVo requestVo = new ActivityRequestVo();
         ActivityResponseVo responseVo = new ActivityResponseVo();
 
+        String id = exchangeParamter.getId();
+
+        ExchangeScene exchangeScene = exchangeSceneService.findById(id);
+        requestVo.set("exchangeScene", exchangeScene);
         requestVo.setCustId(custNo);
+        requestVo.setScene(exchangeScene.getScene());
+
 
         requestVo.set("exchangeSceneId", exchangeParamter.getId());
         requestVo.set("bankName", exchangeParamter.getBankName());
-        requestVo.set("bankCardNo", exchangeParamter.getBankCardNo());
-        requestVo.set("exchangeAmt", exchangeParamter.getExchangeAmt());
+        requestVo.set("bankCardNo", exchangeParamter.getBankCard());
+        requestVo.set("exchangeAmt", exchangeParamter.getAmount());
         requestVo.set("phone", exchangeParamter.getPhone());
 
         activityHandlerService.service(requestVo, responseVo);
 
         message = responseVo.getMessage();
+        ExchangeResultVo resultVo = new ExchangeResultVo();
+        resultVo.setPayed(exchangeParamter.getAmount());
+        resultVo.setAccountDate(exchangeSceneService.calcAccountDate(exchangeScene.getTimeLimit(), null));
 
         if(MsgCode.OBTAIN_SUCC.getCode().equals(message.getCode())) {
-            //TODO
+            messageUtil.setMessage(new Message(Severity.INFO, MsgCode.EXCHANGE_SUCC), resultVo);
             Logger.info("兑换成功");
         } else {
-            //TODO
+            messageUtil.setMessage(message, null);
             Logger.debug("兑换失败 ：" + message.getSummary());
         }
 
-        return ok(Json.toJson("succ"));
+        return ok(messageUtil.toJson());
     }
 
 }

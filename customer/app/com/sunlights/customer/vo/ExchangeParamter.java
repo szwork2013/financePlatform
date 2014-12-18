@@ -6,17 +6,35 @@ package com.sunlights.customer.vo;
 public class ExchangeParamter {
 
     private String id;
-    private String bankCardNo;
+    private String bankCard;
     private String bankName;
     private String phone;
-    private String exchangeAmt;
+    private String amount;
 
-    public String getBankCardNo() {
-        return bankCardNo;
+    private String bankCode;
+
+    public String getId() {
+        return id;
     }
 
-    public void setBankCardNo(String bankCardNo) {
-        this.bankCardNo = bankCardNo;
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    public String getBankCard() {
+        return bankCard;
+    }
+
+    public void setBankCard(String bankCard) {
+        this.bankCard = bankCard;
+    }
+
+    public String getBankName() {
+        return bankName;
+    }
+
+    public void setBankName(String bankName) {
+        this.bankName = bankName;
     }
 
     public String getPhone() {
@@ -27,27 +45,19 @@ public class ExchangeParamter {
         this.phone = phone;
     }
 
-    public String getExchangeAmt() {
-        return exchangeAmt;
+    public String getAmount() {
+        return amount;
     }
 
-    public void setExchangeAmt(String exchangeAmt) {
-        this.exchangeAmt = exchangeAmt;
+    public void setAmount(String amount) {
+        this.amount = amount;
     }
 
-    public String getId() {
-        return id;
+    public String getBankCode() {
+        return bankCode;
     }
 
-    public void setId(String id) {
-        this.id = id;
-    }
-
-    public String getBankName() {
-        return bankName;
-    }
-
-    public void setBankName(String bankName) {
-        this.bankName = bankName;
+    public void setBankCode(String bankCode) {
+        this.bankCode = bankCode;
     }
 }
