@@ -1,13 +1,12 @@
 package com.sunlights.customer.action;
 
+import com.fasterxml.jackson.databind.JsonNode;
+import com.google.common.collect.Lists;
 import com.sunlights.common.AppConst;
-import com.sunlights.common.MsgCenterCategory;
 import com.sunlights.common.Severity;
 import com.sunlights.common.exceptions.BusinessRuntimeException;
 import com.sunlights.common.vo.Message;
-import com.sunlights.common.vo.PushMessageVo;
-import com.sunlights.customer.dal.MsgCenterDao;
-import com.sunlights.customer.dal.impl.MsgCenterDaoImpl;
+import com.sunlights.common.vo.MessageHeaderVo;
 import com.sunlights.customer.service.impl.CustomerService;
 import models.CustomerSession;
 import play.Logger;
@@ -19,6 +18,7 @@ import play.mvc.Http;
 import play.mvc.Result;
 
 import java.util.Iterator;
+import java.util.List;
 
 /**
  * <p>Project: financeplatform</p>
@@ -32,24 +32,29 @@ import java.util.Iterator;
 public class MsgCenterAction extends Action.Simple{
     @Override
     public F.Promise<Result> call(Http.Context context) throws Throwable {
-
-//        EventBus eventBus = new EventBus();
-//        eventBus.
-
-        Logger.info("=============================");
-        String uri = context.request().uri();
-
         F.Promise<Result> result = delegate.call(context);
-
         try {
-            if (!validate(context)) {
-                return result;
+            String headerMsg = context.response().getHeaders().get(AppConst.HEADER_MSG);
+            Logger.debug("headerMsg:" + headerMsg);
+            Message message = Json.fromJson(Json.parse(headerMsg).get("message"), Message.class);
+            if (Severity.INFO.getLevel() != message.getSeverity()) {
+//                return result;
             }
-            final String routeActionMethod = (String)context.args.get(AppConst.ROUTE_ACTION_METHOD);
+
             final String token = getResponseToken(context);
             if (token == null) {
                 return result;
             }
+            JsonNode jsonNode = Json.parse(headerMsg).get("headerValue");
+            final List<MessageHeaderVo> messageHeaderVoList = Lists.newArrayList();
+            if (jsonNode != null && jsonNode.isArray()) {
+                for (JsonNode node : jsonNode) {
+                    MessageHeaderVo messageHeaderVo = Json.fromJson(node, MessageHeaderVo.class);
+                    messageHeaderVoList.add(messageHeaderVo);
+                }
+            }
+
+            final String routeActionMethod = (String)context.args.get(AppConst.ROUTE_ACTION_METHOD);
             JPA.withTransaction(new F.Callback0() {
                 @Override
                 public void invoke() throws Throwable {
@@ -59,25 +64,8 @@ public class MsgCenterAction extends Action.Simple{
                         Logger.info(">>无效的token,非法入侵！");
                         throw new BusinessRuntimeException(">>无效的token,非法入侵！");
                     }
-                    String ruleCode = MsgCenterCategory.getRuleCodeByMethodName(routeActionMethod);
-                    PushMessageVo pushMessageVo = getPushMessageVo(ruleCode);
-
-                    Long id = pushMessageVo.getGroupId();
-                    if (id != null && id != 0) {//TODO 针对某个群组操作
-
-                    }else{//个人操作
-
-                        String pushInd = pushMessageVo.getPushInd();
-                        String smsInd = pushMessageVo.getSmsInd();
-                        String pushTimed = pushMessageVo.getPushTimed();
-                        if (AppConst.STATUS_VALID.equals(pushInd)) {
-                            MsgCenterActionService actionService = new MsgCenterActionService();
-                            actionService.sendPush(pushMessageVo, customerSession.getCustomerId(), ruleCode);
-                        }
-//                if (AppConst.STATUS_VALID.equals(smsInd)) {
-//                    createMsgSmsTxn();
-//                }
-                    }
+                    MsgCenterActionService msgService = new MsgCenterActionService();
+                    msgService.sendMsg(routeActionMethod, messageHeaderVoList);
                 }
             });
 
@@ -86,27 +74,6 @@ public class MsgCenterAction extends Action.Simple{
         }
 
         return result;
-    }
-
-    private PushMessageVo getPushMessageVo(String ruleCode) {
-        MsgCenterDao centerDao = new MsgCenterDaoImpl();
-        PushMessageVo pushMessageVo = centerDao.findMessageRuleByCode(ruleCode);
-        if (pushMessageVo == null) {
-            Logger.info(">>消息规则未配置！");
-            throw new BusinessRuntimeException(">>消息规则未配置！");
-        }
-        return pushMessageVo;
-    }
-
-
-    private boolean validate(Http.Context context){
-        String headerMsg = context.response().getHeaders().get(AppConst.HEADER_MSG);
-        Logger.debug("headerMsg:" + headerMsg);
-        Message message = Json.fromJson(Json.parse(headerMsg), Message.class);
-        if (Severity.INFO.getLevel() == message.getSeverity()) {
-            return true;
-        }
-        return false;
     }
 
     private String getResponseToken(Http.Context context) {

@@ -87,7 +87,7 @@ public class RegisterController extends Controller {
 
         Logger.info("==========register返回：" + json.toString());
         Controller.response().setHeader("Access-Control-Allow-Origin","*");
-        Controller.response().setHeader(AppConst.HEADER_MSG, MessageUtil.getInstance().getMessage());
+        Controller.response().setHeader(AppConst.HEADER_MSG, MessageUtil.getInstance().setMessageHeader(null));
 
         return Controller.ok(json);
     }
