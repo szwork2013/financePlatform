@@ -147,8 +147,11 @@ public class RewardFlowServiceImpl implements RewardFlowService {
             for(RewardFlow temp : rewardFlows) {
                 item.setTitle(temp.getActivityTitle());
                 item.setCreateTime(CommonUtil.dateToString(temp.getCreateTime(), CommonUtil.DATE_FORMAT_LONG));
+
+                //TODO 这样的话不能将多个参数替换
                 String detaiTemplate = Configuration.root().getString(exchangeScene + "." + rewardType + "." + activityType);
                 item.setDetail(MessageFormat.format(detaiTemplate, temp.getMoney()));
+
                 items.add(item);
             }
         } catch (Exception e) {

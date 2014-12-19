@@ -1,7 +1,9 @@
 package com.sunlights.customer.service.impl;
 
+import com.sunlights.common.cache.Cacheable;
 import com.sunlights.common.utils.CommonUtil;
 import com.sunlights.common.vo.PageVo;
+import com.sunlights.customer.ActivityPageUtil;
 import com.sunlights.customer.dal.ExchangeSceneDao;
 import com.sunlights.customer.dal.HoldRewardDao;
 import com.sunlights.customer.dal.impl.ExchangeSceneDaoImpl;
@@ -66,26 +68,15 @@ public class ExchangeSceneServiceImpl implements ExchangeSceneService {
             exchangeSceneVo = new ExchangeSceneVo();
             exchangeSceneVo.setId(String.valueOf(exchangeScene.getId()));
             exchangeSceneVo.setTitle(exchangeScene.getTitle());
+            //TODO 这样的话不能将多个参数替换
             String detaiTemplate = Configuration.root().getString(exchangeScene.getScene() + "." + exchangeScene.getRewardType() + "." + exchangeScene.getActivityType());
             exchangeSceneVo.setDetail(MessageFormat.format(detaiTemplate, money));
+
             exchangeSceneVo.setLogo(exchangeScene.getLogo());
             result.add(exchangeSceneVo);
         }
 
-        return page(result, pageVo);
-    }
-
-    private List<ExchangeSceneVo> page(List<ExchangeSceneVo> exchangeSceneVos, PageVo pageVo) {
-        //TODO 注意严谨  代码可以复用
-        int length = exchangeSceneVos.size();
-        pageVo.setCount(length);
-        if(length <= pageVo.getPageSize()) {
-            return exchangeSceneVos;
-        }
-        if(pageVo.getIndex() + pageVo.getPageSize() > length) {
-            return exchangeSceneVos.subList(pageVo.getIndex(), length);
-        }
-        return exchangeSceneVos.subList(pageVo.getIndex(), pageVo.getIndex() + pageVo.getPageSize());
+        return ActivityPageUtil.page(result, pageVo);
     }
 
     @Override
@@ -115,6 +106,8 @@ public class ExchangeSceneServiceImpl implements ExchangeSceneService {
         data4ExchangeVo.setCanPayed(canPayed.toString());
         data4ExchangeVo.setMaxPayed(canPayed.toString());
         data4ExchangeVo.setAccountDate(calcAccountDate(exchangeScene.getTimeLimit(), null));
+
+        //TODO 这样的话不能将多个参数替换
         String detaiTemplate = Configuration.root().getString(exchangeScene.getScene() + "." + exchangeScene.getRewardType() + "." + exchangeScene.getActivityType());
         data4ExchangeVo.setSummary(MessageFormat.format(detaiTemplate, money));
 
@@ -130,6 +123,7 @@ public class ExchangeSceneServiceImpl implements ExchangeSceneService {
         return exchangeSceneDao.queryById(Long.valueOf(id));
     }
 
+    @Cacheable(key = "AllExchangeScenes", duration = 300)
     @Override
     public List<ExchangeScene> loadAllExchangescenes() {
         return exchangeSceneDao.loadAll();

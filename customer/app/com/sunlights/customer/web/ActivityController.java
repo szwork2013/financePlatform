@@ -62,7 +62,7 @@ public class ActivityController extends ActivityBaseController  {
 
         if(activityListQuery == null) {
             Logger.error("不支持的活动查询的方式");
-            return ok();
+            throw new RuntimeException("不支持的活动查询的方式 filter = " + filter);
         }
         List<ActivityVo> activityVos = activityListQuery.queryActivityList(context);
 
@@ -113,16 +113,18 @@ public class ActivityController extends ActivityBaseController  {
 
         List<ObtainRewardVo> obtainRewardVos = responseVo.getObtainRewardVo();
         ObtainRewardVo obtainRewardVo = null;
+        Message message = responseVo.getMessage();
         if(obtainRewardVos == null || obtainRewardVos.isEmpty()) {
             obtainRewardVo = new ObtainRewardVo();
             obtainRewardVo.setAlreadyGet(0L);
             obtainRewardVo.setNotGet(0L);
             obtainRewardVo.setScene(scene);
             obtainRewardVo.setStatus(ActivityConstant.ACTIVITY_CUSTONER_STATUS_FORBIDDEN);
+            message.setSeverity(Severity.ERROR);
         } else {
             obtainRewardVo = obtainRewardVos.get(0);
         }
-        messageUtil.setMessage(responseVo.getMessage(), obtainRewardVo);
+        messageUtil.setMessage(message, obtainRewardVo);
         return ok(messageUtil.toJson());
     }
 
@@ -148,7 +150,7 @@ public class ActivityController extends ActivityBaseController  {
             scene = ActivityConstant.ACTIVITY_PURCHASE_SCENE_CODE;
         } else {
             Logger.debug("不支持的交易类型tradeType = " + activityParamter.getTradeType());
-            message = new Message(Severity.INFO, MsgCode.NOT_SUPPORT_TRADE_TYPE);
+            message = new Message(Severity.ERROR, MsgCode.NOT_SUPPORT_TRADE_TYPE);
             TradeObtainRewardFailVo tradeObtainRewardFailVo = new TradeObtainRewardFailVo();
             tradeObtainRewardFailVo.setFundCode(activityParamter.getFundCode());
             tradeObtainRewardFailVo.setSupplySum(activityParamter.getSupplySum());
@@ -180,12 +182,13 @@ public class ActivityController extends ActivityBaseController  {
             tradeObtainRewardSuccVo.setFundCode(activityParamter.getFundCode());
             tradeObtainRewardSuccVo.setSupplySum(activityParamter.getSupplySum());
             tradeObtainRewardSuccVo.setRecords(activityResultVos);
-            messageUtil.setMessage(responseVo.getMessage(), tradeObtainRewardSuccVo);
+            messageUtil.setMessage(message, tradeObtainRewardSuccVo);
         } else {
             TradeObtainRewardFailVo tradeObtainRewardFailVo = new TradeObtainRewardFailVo();
             tradeObtainRewardFailVo.setFundCode(activityParamter.getFundCode());
             tradeObtainRewardFailVo.setSupplySum(activityParamter.getSupplySum());
-            messageUtil.setMessage(responseVo.getMessage(), tradeObtainRewardFailVo);
+            message.setSeverity(Severity.ERROR);
+            messageUtil.setMessage(message, tradeObtainRewardFailVo);
         }
 
         return ok(messageUtil.toJson());
