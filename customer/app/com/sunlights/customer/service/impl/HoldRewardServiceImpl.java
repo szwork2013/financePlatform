@@ -3,6 +3,7 @@ package com.sunlights.customer.service.impl;
 import com.google.common.collect.Lists;
 
 import com.sunlights.common.utils.CommonUtil;
+import com.sunlights.common.vo.PageVo;
 import com.sunlights.customer.ActivityConstant;
 import com.sunlights.customer.dal.HoldRewardDao;
 import com.sunlights.customer.dal.RewardTypeDao;
@@ -142,6 +143,7 @@ public class HoldRewardServiceImpl implements HoldRewardService {
         flow.setScene(rewardFlowRecordVo.getScene());
         flow.setRewardAmt(rewardFlowRecordVo.getRewardAmtResult());
         flow.setMoney(rewardFlowRecordVo.getMoneyResult());
+        flow.setActivityType(rewardFlowRecordVo.getActivityType());
         rewardFlowService.saveRewardFlow(flow);
         if (rewardFlowRecordVo.getOperatorType().equals(ActivityConstant.REWARD_FLOW_OBTAIN)) {
             HoldReward holdReward = new HoldReward();
@@ -155,17 +157,18 @@ public class HoldRewardServiceImpl implements HoldRewardService {
 
     @Override
     public void frozenReward(String custId, String rewardType, Long frozenAmt, BigDecimal exchangeMoney) {
+        Logger.debug("冻结奖励custId = " + custId + " rewardType = " + rewardType + " frozenAmt = " + frozenAmt + " exchangeMoney = " + exchangeMoney);
         List<HoldReward> list = holdRewardDao.findListByCustIdAndRewardType(custId, rewardType);
         if(list == null || list.isEmpty()) {
             return;
         }
         for(HoldReward holdReward : list) {
             if(holdReward.getHoldReward() <= frozenAmt) {
-                holdReward.setFrozenReward(holdReward.getHoldReward());
-                holdReward.setFrozenMoney(holdReward.getHoldMoney());
+                holdReward.setFrozenReward(holdReward.getFrozenReward() + holdReward.getHoldReward());
+                holdReward.setFrozenMoney(holdReward.getFrozenMoney().add(holdReward.getHoldMoney()));
             } else {
-                holdReward.setFrozenReward(frozenAmt);
-                holdReward.setFrozenMoney(exchangeMoney);
+                holdReward.setFrozenReward(holdReward.getFrozenReward() + frozenAmt);
+                holdReward.setFrozenMoney(holdReward.getFrozenMoney().add(exchangeMoney));
                 frozenAmt = holdReward.getHoldReward() - frozenAmt;
                 exchangeMoney = holdReward.getHoldMoney().subtract(exchangeMoney);
             }
@@ -179,23 +182,27 @@ public class HoldRewardServiceImpl implements HoldRewardService {
         Long totalGoldBean = Long.valueOf(0);
         BigDecimal goldBeanCash = BigDecimal.ZERO;
         BigDecimal redPacket = BigDecimal.ZERO;
+        HoldRewardVo holdRewardVo = new HoldRewardVo();
+
         for(HoldReward holdReward : holdRewards) {
             if(ActivityConstant.REWARD_TYPE_JINDOU.equals(holdReward.getRewardType())) {
-                totalGoldBean += (holdReward.getGetReward() - holdReward.getFrozenReward());
-                goldBeanCash = goldBeanCash.add(holdReward.getGetMoney().subtract(holdReward.getFrozenMoney()));
+                totalGoldBean += (holdReward.getHoldReward() - holdReward.getFrozenReward());
+                goldBeanCash = goldBeanCash.add(holdReward.getHoldMoney().subtract(holdReward.getFrozenMoney()));
             }
             if(ActivityConstant.REWARD_TYPE_REDPACKET.equals(holdReward.getRewardType())) {
-                redPacket = redPacket.add(holdReward.getGetMoney().subtract(holdReward.getFrozenMoney()));
+                redPacket = redPacket.add(holdReward.getHoldMoney().subtract(holdReward.getFrozenMoney()));
             }
         }
         RewardType rewardTypeModel = rewardTypeService.findByTypeCode(ActivityConstant.REWARD_TYPE_JINDOU);
 
-        HoldRewardVo holdRewardVo = new HoldRewardVo();
-        holdRewardVo.setRedPacket(redPacket.toString());
-        holdRewardVo.setTotalCash(goldBeanCash.toString());
+
+        holdRewardVo.setRedPacket(redPacket.equals(BigDecimal.ZERO) ? "0.00" : redPacket.toString());
+        holdRewardVo.setTotalCash(goldBeanCash.equals(BigDecimal.ZERO) ? "0.00" : goldBeanCash.toString());
         holdRewardVo.setTotalReward(totalGoldBean.toString());
         holdRewardVo.setRuleUrl(activityService.getFileFuleUrl(rewardTypeModel.getRuleUrl(), "activity.html5Path"));
 
         return holdRewardVo;
     }
+
+
 }

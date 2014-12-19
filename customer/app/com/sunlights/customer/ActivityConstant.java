@@ -119,5 +119,12 @@ public interface ActivityConstant {
     String ACTIVITY_QUERY_CENTER = "0";
     String ACTIVITY_QUERY_JUBAOPEN = "1";
 
+    //兑换结果状态 状态  0表示未审核 1表示审核通过  2表示审核不通过  3表示兑换成功 4表示兑换失败
+    int EXCHANGE_RESULT_NOT_AUDIT = 0;
+    int EXCHANGE_RESULT_AUDIT_SUCC = 1;
+    int EXCHANGE_RESULT_AUDIT_FAIL = 2;
+    int EXCHANGE_RESULT_SUCC = 3;
+    int EXCHANGE_RESULT_FAIL = 4;
+
 
 }

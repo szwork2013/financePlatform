@@ -2,6 +2,7 @@ package com.sunlights.customer.service;
 
 import com.sunlights.common.vo.PageVo;
 import com.sunlights.customer.ActivityConstant;
+import com.sunlights.customer.ActivityPageUtil;
 import com.sunlights.customer.service.impl.ActivityServiceImpl;
 import com.sunlights.customer.vo.ActivityQueryContext;
 import com.sunlights.customer.vo.ActivityVo;
@@ -25,7 +26,7 @@ public abstract class AbstractActivityListQuery implements ActivityListQuery{
         List<Activity> activities = filter(allActivities, context);
 
         PageVo pageVo = context.getPageVo();
-        List<Activity> pageActivities = page(activities, pageVo);
+        List<Activity> pageActivities = ActivityPageUtil.page(activities, pageVo);
 
         List<ActivityVo> activityVos = new ArrayList<ActivityVo>();
         if (pageActivities == null) {
@@ -66,11 +67,4 @@ public abstract class AbstractActivityListQuery implements ActivityListQuery{
         return result;
     }
 
-    private List<Activity> page(List<Activity> activities, PageVo pageVo) {
-        int length = activities.size();
-        if(length <= pageVo.getPageSize()) {
-            return activities;
-        }
-        return activities.subList(pageVo.getIndex(), pageVo.getIndex() + pageVo.getPageSize());
-    }
 }

@@ -62,4 +62,10 @@ public class Data4ExchangeVo implements Serializable {
     public void addRecord(Data4ExchangeItem item) {
         this.list.add(item);
     }
+
+    public void setLogo(String logo) {
+        for(Data4ExchangeItem item : this.list) {
+            item.setLogo(logo);
+        }
+    }
 }

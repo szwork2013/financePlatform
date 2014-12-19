@@ -10,6 +10,7 @@ import com.sunlights.customer.vo.ShareInfoContext;
 import com.sunlights.customer.vo.ShareInfoVo;
 import models.ShareInfo;
 import models.ShortUrl;
+import play.Configuration;
 
 /**
  * Created by tangweiqun on 2014/12/17.
@@ -58,7 +59,7 @@ public abstract class AbstractShareInfoService implements ShareInfoService {
         String shareTitle = context.getShareInfo().getTitle();
         String descContent = context.getShareInfo().getContent();
         String imgUrl = context.getShareInfo().getImageUrl();
-        String appid = ActivityConstant.APP_ID;
+        String appid = Configuration.root().getString("appId");
 
         String commonParamter = "?appid=" + appid + "&imgUrl=" + imgUrl + "&descContent=" + descContent + "&shareTitle=" + shareTitle;
         context.setCommonParamter(commonParamter);

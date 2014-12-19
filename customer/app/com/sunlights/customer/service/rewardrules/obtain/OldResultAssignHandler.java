@@ -11,6 +11,7 @@ import com.sunlights.customer.vo.ObtainRewardVo;
 import play.Configuration;
 import play.Logger;
 
+import java.text.MessageFormat;
 import java.util.List;
 
 /**
@@ -46,7 +47,7 @@ public class OldResultAssignHandler extends AbstractObtainRuleHandler{
 
             Message message = responseVo.getMessage();
             message.setSummary(Configuration.root().getString("summary." + rewardFlowRecordVo.getRewardType() + "." + rewardFlowRecordVo.getScene()));
-            message.setDetail(Configuration.root().getString("detail." + rewardFlowRecordVo.getRewardType() + "." + rewardFlowRecordVo.getScene()));
+            message.setDetail(MessageFormat.format(Configuration.root().getString("detail." + rewardFlowRecordVo.getRewardType() + "." + rewardFlowRecordVo.getScene()), obtainRewardVo.getAlreadyGet()));
 
             responseVo.setMessage(message);
 

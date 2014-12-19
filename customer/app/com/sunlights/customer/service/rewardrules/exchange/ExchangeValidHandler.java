@@ -24,8 +24,6 @@ import java.math.BigDecimal;
  */
 public class ExchangeValidHandler extends AbstractExchangeRuleHandler{
 
-
-
     private HoldRewardService holdRewardService = new HoldRewardServiceImpl();
 
     public ExchangeValidHandler() {

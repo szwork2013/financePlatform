@@ -19,4 +19,18 @@ public class ExchangeSceneDaoImpl extends EntityBaseDao implements ExchangeScene
         }
         return exchangeScenes.get(0);
     }
+
+    @Override
+    public ExchangeScene queryById(Long id) {
+        List<ExchangeScene> exchangeScenes = super.findBy(ExchangeScene.class, "id", id);
+        if(exchangeScenes == null || exchangeScenes.isEmpty()) {
+            return null;
+        }
+        return exchangeScenes.get(0);
+    }
+
+    @Override
+    public List<ExchangeScene> loadAll() {
+        return super.findAll(ExchangeScene.class);
+    }
 }

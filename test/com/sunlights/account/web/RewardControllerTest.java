@@ -36,7 +36,7 @@ public class RewardControllerTest extends BaseTest {
         });
     }
 
-    @Test
+    //@Test
     public void testGetSingInCanObtainRewards() throws Exception {
         running(fakeApplication(), new Runnable() {
             public void run() {
@@ -62,7 +62,7 @@ public class RewardControllerTest extends BaseTest {
         });
     }
 
-    @Test
+    //@Test
     public void testGetMyRewardDetail() {
         running(fakeApplication(), new Runnable() {
             public void run() {
@@ -73,6 +73,29 @@ public class RewardControllerTest extends BaseTest {
                 assertThat(status(result)).isEqualTo(OK);
                 MessageVo message = toMessageVo(result);
                 assertThat(message.getMessage().getCode()).isEqualTo(MsgCode.REWARD_QUERY_SUCC.getCode());
+
+            }
+        });
+    }
+
+    @Test
+    public void testRewardFlowRecords() {
+        running(fakeApplication(), new Runnable() {
+            public void run() {
+                Logger.info("============testRewardFlowRecords start====");
+                String index = "0";
+                String pageSize = "30";
+
+
+                Map<String, String> formParams = new HashMap<>();
+                formParams.put("index", index);
+                formParams.put("pageSize", pageSize);
+
+                play.mvc.Result result = getResult("/account/reward/records", formParams, cookie);
+                Logger.info("============testRewardFlowRecords result====\n" + contentAsString(result));
+                assertThat(status(result)).isEqualTo(OK);
+                MessageVo message = toMessageVo(result);
+                assertThat(message.getMessage().getCode()).isEqualTo(MsgCode.REWARD_FLOW_QUERY_SUCC.getCode());
 
             }
         });

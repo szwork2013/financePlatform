@@ -19,6 +19,16 @@ public class ShareInfoContext {
 
     private String commonParamter;
 
+    private String appId;
+
+    public String getAppId() {
+        return appId;
+    }
+
+    public void setAppId(String appId) {
+        this.appId = appId;
+    }
+
     public String getType() {
         return type;
     }

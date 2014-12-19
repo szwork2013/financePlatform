@@ -13,6 +13,7 @@ public class ExchangeResultServiceImpl implements ExchangeResultService {
 
     @Override
     public void save(ExchangeResult exchangeResult) {
+
         exchangeResultDao.doInsert(exchangeResult);
     }
 }
