@@ -69,7 +69,7 @@ public class FundDetailVo extends FundVo {
 		setName(row[6] == null ? null : row[6].toString());
 		setSevenDaysIncome(ArithUtil.bigUpScale4(row[7] == null ? null : new BigDecimal(row[7].toString())));
 		setMillionIncome(ArithUtil.bigUpScale4(row[8] == null ? null : new BigDecimal(row[8].toString())));
-		setPurchasedAmount(ArithUtil.bigUpScale0(row[9] == null ? null : new BigDecimal(row[9].toString())).toString());
+		setPurchasedAmount(ArithUtil.bigUpScale0(row[9] == null ? null : new BigDecimal(row[9].toString())) + "");
 		BigDecimal discount = row[11] == null ? null : new BigDecimal(row[11].toString());
 		setDiscount((row[10] == null || BigDecimal.ZERO.compareTo(new BigDecimal(row[10].toString())) == 0 || discount == null) ? "免手续费" : discount
 				.multiply(new BigDecimal("100")) + "折");
@@ -164,35 +164,35 @@ public class FundDetailVo extends FundVo {
 		this.currentDate = currentDate;
 	}
 
-	public String getEstablishmentDate () {
+	public String getEstablishmentDate() {
 		return establishmentDate;
 	}
 
-	public void setEstablishmentDate (String establishmentDate) {
+	public void setEstablishmentDate(String establishmentDate) {
 		this.establishmentDate = establishmentDate;
 	}
 
-	public String getLatestHoldShares () {
+	public String getLatestHoldShares() {
 		return latestHoldShares;
 	}
 
-	public void setLatestHoldShares (String latestHoldShares) {
+	public void setLatestHoldShares(String latestHoldShares) {
 		this.latestHoldShares = latestHoldShares;
 	}
 
-	public String getManager () {
+	public String getManager() {
 		return manager;
 	}
 
-	public void setManager (String manager) {
+	public void setManager(String manager) {
 		this.manager = manager;
 	}
 
-	public String getTrusteeName () {
+	public String getTrusteeName() {
 		return trusteeName;
 	}
 
-	public void setTrusteeName (String trusteeName) {
+	public void setTrusteeName(String trusteeName) {
 		this.trusteeName = trusteeName;
 	}
 }
