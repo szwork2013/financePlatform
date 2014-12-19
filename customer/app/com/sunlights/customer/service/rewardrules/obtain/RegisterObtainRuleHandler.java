@@ -25,16 +25,20 @@ public class RegisterObtainRuleHandler extends AbstractObtainRuleHandler {
         RegisterObtainValideHandler registerObtainValideHandler = new RegisterObtainValideHandler();
         ObtainRuleGainHandler obtainRuleGainHandler = new ObtainRuleGainHandler();
         ReCommendHandler reCommendHandler = new ReCommendHandler();
+        ValidBankCardHandler validBankCardHandler = new ValidBankCardHandler();
         RewardFlowHandler rewardFlowHandler = new RewardFlowHandler();
         CustJoinActivityHandler custJoinActivityHandler = new CustJoinActivityHandler();
         OldResultAssignHandler oldResultAssignHandler = new OldResultAssignHandler();
+        RigisterObtainSendMessageHandler rigisterObtainSendMessageHandler = new RigisterObtainSendMessageHandler();
 
         setNextHandler(registerObtainValideHandler)
                 .setNextHandler(obtainRuleGainHandler)
                 .setNextHandler(reCommendHandler)
+                .setNextHandler(validBankCardHandler)
                 .setNextHandler(rewardFlowHandler)
                 .setNextHandler(custJoinActivityHandler)
-                .setNextHandler(oldResultAssignHandler);
+                .setNextHandler(oldResultAssignHandler)
+                .setNextHandler(rigisterObtainSendMessageHandler);
 
         getNextHandler().obtain(requestVo, responseVo);
         Logger.debug("注册送奖励结束 responseVo = " + responseVo);

@@ -134,19 +134,8 @@ public class ActivityController extends ActivityBaseController  {
 
         messageUtil.setMessage(message, obtainRewardVo);
 
-        //TODO 做成可扩展 
-        List<MessageHeaderVo> messageHeaderVos = Lists.newArrayList();
-        MessageHeaderVo messageHeaderVo = new MessageHeaderVo(DictConst.PUSH_TYPE_2, scene, custNo);
-        messageHeaderVo.buildParams(requestVo.get("parameter0", String.class));
-        messageHeaderVos.add(messageHeaderVo);
-
-        if(!StringUtils.isEmpty(requestVo.getRecommendCustId())) {
-            Customer customer = customerService.getCustomerByCustomerId(custNo);
-            messageHeaderVo = new MessageHeaderVo(DictConst.PUSH_TYPE_2, scene, requestVo.getRecommendCustId());
-            messageHeaderVo.buildParams(customer.getRealName(), customer.getMobile(), requestVo.get("parameter1", String.class));
-            messageHeaderVos.add(messageHeaderVo);
-        }
-
+        //发送消息
+        List<MessageHeaderVo> messageHeaderVos = responseVo.getMessageHeaderVos();
         response().setHeader(AppConst.HEADER_MSG, MessageUtil.getInstance().setMessageHeader(messageHeaderVos));
 
         return ok(messageUtil.toJson());
@@ -217,17 +206,10 @@ public class ActivityController extends ActivityBaseController  {
             messageUtil.setMessage(message, tradeObtainRewardFailVo);
         }
 
-        String realScene = requestVo.getScene();
+        //发送消息
+        List<MessageHeaderVo> messageHeaderVos = responseVo.getMessageHeaderVos();
+        response().setHeader(AppConst.HEADER_MSG, MessageUtil.getInstance().setMessageHeader(messageHeaderVos));
 
-       if(ActivityConstant.ACTIVITY_FIRST_PURCHASE_SCENE_CODE.equals(realScene)) {
-           List<MessageHeaderVo> messageHeaderVos = Lists.newArrayList();
-           MessageHeaderVo messageHeaderVo = new MessageHeaderVo(DictConst.PUSH_TYPE_2, scene, custNo);
-           for(int i = 0; i < activityResultVos.size(); i++) {
-               messageHeaderVo.addParamter(requestVo.get("parameter" + i, String.class));
-           }
-           messageHeaderVos.add(messageHeaderVo);
-           response().setHeader(AppConst.HEADER_MSG, MessageUtil.getInstance().setMessageHeader(messageHeaderVos));
-       }
         return ok(messageUtil.toJson());
     }
 

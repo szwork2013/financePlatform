@@ -19,10 +19,13 @@ public class RedPacketExchangeRuleHandler extends AbstractExchangeRuleHandler {
         ExchangeFlowHandler exchangeFlowHandler = new ExchangeFlowHandler();
         ExchangeResultHandler exchangeResultHandler = new ExchangeResultHandler();
 
+        RedPacketExchangeSendMessageHandler redPacketExchangeSendMessageHandler = new RedPacketExchangeSendMessageHandler();
+
         setNextHandler(exchangeRuleGainHandler)
                 .setNextHandler(exchangeValidHandler)
                 .setNextHandler(exchangeFlowHandler)
-                .setNextHandler(exchangeResultHandler);
+                .setNextHandler(exchangeResultHandler)
+                .setNextHandler(redPacketExchangeSendMessageHandler);
 
         getNextHandler().exchange(requestVo, responseVo);
 

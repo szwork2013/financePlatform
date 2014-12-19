@@ -108,6 +108,7 @@ public class ActivityServiceImpl implements ActivityService{
 
     @Override
     public List<Activity> getCurrentValidActivities() {
-        return null;
+
+        return activityDao.getCurrrentValidActivities();
     }
 }

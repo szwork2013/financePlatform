@@ -112,10 +112,8 @@ public class ExchangeRewardController extends ActivityBaseController {
             Logger.debug("兑换失败 ：" + message.getSummary());
         }
 
-        List<MessageHeaderVo> messageHeaderVos = Lists.newArrayList();
-        MessageHeaderVo messageHeaderVo = new MessageHeaderVo(DictConst.PUSH_TYPE_2, exchangeScene.getScene(), custNo);
-        messageHeaderVo.buildParams(exchangeParamter.getAmount(), String.valueOf(exchangeScene.getTimeLimit()));
-        messageHeaderVos.add(messageHeaderVo);
+        //发送消息
+        List<MessageHeaderVo> messageHeaderVos = responseVo.getMessageHeaderVos();
         response().setHeader(AppConst.HEADER_MSG, MessageUtil.getInstance().setMessageHeader(messageHeaderVos));
 
         return ok(messageUtil.toJson());
