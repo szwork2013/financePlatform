@@ -24,12 +24,14 @@ public class RegisterObtainRuleHandler extends AbstractObtainRuleHandler {
 
         RegisterObtainValideHandler registerObtainValideHandler = new RegisterObtainValideHandler();
         ObtainRuleGainHandler obtainRuleGainHandler = new ObtainRuleGainHandler();
+        ReCommendHandler reCommendHandler = new ReCommendHandler();
         RewardFlowHandler rewardFlowHandler = new RewardFlowHandler();
         CustJoinActivityHandler custJoinActivityHandler = new CustJoinActivityHandler();
         OldResultAssignHandler oldResultAssignHandler = new OldResultAssignHandler();
 
         setNextHandler(registerObtainValideHandler)
                 .setNextHandler(obtainRuleGainHandler)
+                .setNextHandler(reCommendHandler)
                 .setNextHandler(rewardFlowHandler)
                 .setNextHandler(custJoinActivityHandler)
                 .setNextHandler(oldResultAssignHandler);
