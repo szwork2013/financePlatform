@@ -1,20 +1,28 @@
 package models;
 
+import com.sunlights.common.utils.CommonUtil;
+import org.apache.commons.lang3.StringUtils;
+
 import javax.persistence.Basic;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.Table;
 import java.math.BigDecimal;
+import java.sql.Timestamp;
+import java.text.ParseException;
 import java.util.Date;
 
 /**
  * Created by Administrator on 2014/12/18.
  */
 @Entity
-public class Fundarchiveex {
+@Table(name = "fundarchiveex")
+public class Fundarchiveex extends IdEntity {
+
+    @javax.persistence.Column(name = "sm_guid")
     private String smGuid;
 
-    @Id
-    @javax.persistence.Column(name = "sm_guid")
+
     public String getSmGuid() {
         return smGuid;
     }
@@ -23,10 +31,11 @@ public class Fundarchiveex {
         this.smGuid = smGuid;
     }
 
-    private String frontEndCode;
-
     @Basic
     @javax.persistence.Column(name = "front_end_code")
+    private String frontEndCode;
+
+
     public String getFrontEndCode() {
         return frontEndCode;
     }
@@ -35,10 +44,11 @@ public class Fundarchiveex {
         this.frontEndCode = frontEndCode;
     }
 
-    private String backEndCode;
-
     @Basic
     @javax.persistence.Column(name = "back_end_code")
+    private String backEndCode;
+
+
     public String getBackEndCode() {
         return backEndCode;
     }
@@ -47,10 +57,11 @@ public class Fundarchiveex {
         this.backEndCode = backEndCode;
     }
 
-    private String fundCode;
-
     @Basic
     @javax.persistence.Column(name = "fund_code")
+    private String fundCode;
+
+
     public String getFundCode() {
         return fundCode;
     }
@@ -59,10 +70,11 @@ public class Fundarchiveex {
         this.fundCode = fundCode;
     }
 
-    private String aliasCode;
-
     @Basic
     @javax.persistence.Column(name = "alias_code")
+    private String aliasCode;
+
+
     public String getAliasCode() {
         return aliasCode;
     }
@@ -71,10 +83,11 @@ public class Fundarchiveex {
         this.aliasCode = aliasCode;
     }
 
-    private String pinYinCode;
-
     @Basic
     @javax.persistence.Column(name = "pin_yin_code")
+    private String pinYinCode;
+
+
     public String getPinYinCode() {
         return pinYinCode;
     }
@@ -83,10 +96,11 @@ public class Fundarchiveex {
         this.pinYinCode = pinYinCode;
     }
 
-    private String fundName;
-
     @Basic
     @javax.persistence.Column(name = "fund_name")
+    private String fundName;
+
+
     public String getFundName() {
         return fundName;
     }
@@ -95,10 +109,11 @@ public class Fundarchiveex {
         this.fundName = fundName;
     }
 
-    private String fundNameAbbr;
-
     @Basic
     @javax.persistence.Column(name = "fund_name_abbr")
+    private String fundNameAbbr;
+
+
     public String getFundNameAbbr() {
         return fundNameAbbr;
     }
@@ -107,10 +122,11 @@ public class Fundarchiveex {
         this.fundNameAbbr = fundNameAbbr;
     }
 
-    private String fundNameAbbr2;
-
     @Basic
     @javax.persistence.Column(name = "fund_name_abbr2")
+    private String fundNameAbbr2;
+
+
     public String getFundNameAbbr2() {
         return fundNameAbbr2;
     }
@@ -119,10 +135,11 @@ public class Fundarchiveex {
         this.fundNameAbbr2 = fundNameAbbr2;
     }
 
-    private String establishmentDate;
-
     @Basic
     @javax.persistence.Column(name = "establishment_date")
+    private String establishmentDate;
+
+
     public String getEstablishmentDate() {
         return establishmentDate;
     }
@@ -131,10 +148,11 @@ public class Fundarchiveex {
         this.establishmentDate = establishmentDate;
     }
 
-    private String expireDate;
-
     @Basic
     @javax.persistence.Column(name = "expire_date")
+    private String expireDate;
+
+
     public String getExpireDate() {
         return expireDate;
     }
@@ -143,10 +161,11 @@ public class Fundarchiveex {
         this.expireDate = expireDate;
     }
 
-    private String manager;
-
     @Basic
     @javax.persistence.Column(name = "manager")
+    private String manager;
+
+
     public String getManager() {
         return manager;
     }
@@ -155,10 +174,10 @@ public class Fundarchiveex {
         this.manager = manager;
     }
 
-    private String investAdvisorGuid;
-
     @Basic
     @javax.persistence.Column(name = "invest_advisor_guid")
+    private String investAdvisorGuid;
+
     public String getInvestAdvisorGuid() {
         return investAdvisorGuid;
     }
@@ -167,10 +186,11 @@ public class Fundarchiveex {
         this.investAdvisorGuid = investAdvisorGuid;
     }
 
-    private String investAdvisorName;
-
     @Basic
     @javax.persistence.Column(name = "invest_advisor_name")
+    private String investAdvisorName;
+
+
     public String getInvestAdvisorName() {
         return investAdvisorName;
     }
@@ -179,10 +199,11 @@ public class Fundarchiveex {
         this.investAdvisorName = investAdvisorName;
     }
 
-    private String trusteeName;
-
     @Basic
     @javax.persistence.Column(name = "trustee_name")
+    private String trusteeName;
+
+
     public String getTrusteeName() {
         return trusteeName;
     }
@@ -191,10 +212,11 @@ public class Fundarchiveex {
         this.trusteeName = trusteeName;
     }
 
-    private Integer fundType;
-
     @Basic
     @javax.persistence.Column(name = "fund_type")
+    private Integer fundType;
+
+
     public Integer getFundType() {
         return fundType;
     }
@@ -203,10 +225,11 @@ public class Fundarchiveex {
         this.fundType = fundType;
     }
 
-    private String fundTypeName;
-
     @Basic
     @javax.persistence.Column(name = "fund_type_name")
+    private String fundTypeName;
+
+
     public String getFundTypeName() {
         return fundTypeName;
     }
@@ -215,10 +238,11 @@ public class Fundarchiveex {
         this.fundTypeName = fundTypeName;
     }
 
-    private Integer fundState;
-
     @Basic
     @javax.persistence.Column(name = "fund_state")
+    private Integer fundState;
+
+
     public Integer getFundState() {
         return fundState;
     }
@@ -227,10 +251,11 @@ public class Fundarchiveex {
         this.fundState = fundState;
     }
 
-    private Integer investmentType;
-
     @Basic
     @javax.persistence.Column(name = "investment_type")
+    private Integer investmentType;
+
+
     public Integer getInvestmentType() {
         return investmentType;
     }
@@ -239,10 +264,11 @@ public class Fundarchiveex {
         this.investmentType = investmentType;
     }
 
-    private String investmentTypeName;
-
     @Basic
     @javax.persistence.Column(name = "investment_type_name")
+    private String investmentTypeName;
+
+
     public String getInvestmentTypeName() {
         return investmentTypeName;
     }
@@ -251,10 +277,11 @@ public class Fundarchiveex {
         this.investmentTypeName = investmentTypeName;
     }
 
-    private Integer investmentStyle;
-
     @Basic
     @javax.persistence.Column(name = "investment_style")
+    private Integer investmentStyle;
+
+
     public Integer getInvestmentStyle() {
         return investmentStyle;
     }
@@ -263,10 +290,10 @@ public class Fundarchiveex {
         this.investmentStyle = investmentStyle;
     }
 
-    private String investmentStyleName;
-
     @Basic
     @javax.persistence.Column(name = "investment_style_name")
+    private String investmentStyleName;
+
     public String getInvestmentStyleName() {
         return investmentStyleName;
     }
@@ -275,10 +302,11 @@ public class Fundarchiveex {
         this.investmentStyleName = investmentStyleName;
     }
 
-    private String investmentOrientation;
-
     @Basic
     @javax.persistence.Column(name = "investment_orientation")
+    private String investmentOrientation;
+
+
     public String getInvestmentOrientation() {
         return investmentOrientation;
     }
@@ -287,10 +315,11 @@ public class Fundarchiveex {
         this.investmentOrientation = investmentOrientation;
     }
 
-    private String investmentTarget;
-
     @Basic
     @javax.persistence.Column(name = "investment_target")
+    private String investmentTarget;
+
+
     public String getInvestmentTarget() {
         return investmentTarget;
     }
@@ -299,10 +328,11 @@ public class Fundarchiveex {
         this.investmentTarget = investmentTarget;
     }
 
-    private String investmentField;
-
     @Basic
     @javax.persistence.Column(name = "investment_field")
+    private String investmentField;
+
+
     public String getInvestmentField() {
         return investmentField;
     }
@@ -311,10 +341,11 @@ public class Fundarchiveex {
         this.investmentField = investmentField;
     }
 
-    private String performanceBenchMark;
-
     @Basic
     @javax.persistence.Column(name = "performance_bench_mark")
+    private String performanceBenchMark;
+
+
     public String getPerformanceBenchMark() {
         return performanceBenchMark;
     }
@@ -323,10 +354,11 @@ public class Fundarchiveex {
         this.performanceBenchMark = performanceBenchMark;
     }
 
-    private String profitDistributionRule;
-
     @Basic
     @javax.persistence.Column(name = "profit_distribution_rule")
+    private String profitDistributionRule;
+
+
     public String getProfitDistributionRule() {
         return profitDistributionRule;
     }
@@ -335,142 +367,148 @@ public class Fundarchiveex {
         this.profitDistributionRule = profitDistributionRule;
     }
 
-    private String asset_allocation;
-
     @Basic
     @javax.persistence.Column(name = "asset_allocation")
+    private String assetAllocation;
+
+
     public String getAssetAllocation() {
-        return asset_allocation;
+        return assetAllocation;
     }
 
     public void setAssetAllocation(String assetAllocation) {
-        this.asset_allocation = assetAllocation;
+        this.assetAllocation = assetAllocation;
     }
-
-    private String brief_intro;
 
     @Basic
     @javax.persistence.Column(name = "brief_intro")
+    private String briefIntro;
+
+
     public String getBriefIntro() {
-        return brief_intro;
+        return briefIntro;
     }
 
     public void setBriefIntro(String briefIntro) {
-        this.brief_intro = briefIntro;
+        this.briefIntro = briefIntro;
     }
-
-    private String risk_return_character;
 
     @Basic
     @javax.persistence.Column(name = "risk_return_character")
+    private String riskReturnCharacter;
+
+
     public String getRiskReturnCharacter() {
-        return risk_return_character;
+        return riskReturnCharacter;
     }
 
     public void setRiskReturnCharacter(String riskReturnCharacter) {
-        this.risk_return_character = riskReturnCharacter;
+        this.riskReturnCharacter = riskReturnCharacter;
     }
-
-    private String fund_management_fees;
 
     @Basic
     @javax.persistence.Column(name = "fund_management_fees")
+    private String fundManagementFees;
+
+
     public String getFundManagementFees() {
-        return fund_management_fees;
+        return fundManagementFees;
     }
 
     public void setFundManagementFees(String fundManagementFees) {
-        this.fund_management_fees = fundManagementFees;
+        this.fundManagementFees = fundManagementFees;
     }
-
-    private String fund_trustee_fees;
 
     @Basic
     @javax.persistence.Column(name = "fund_trustee_fees")
+    private String fundTrusteeFees;
+
     public String getFundTrusteeFees() {
-        return fund_trustee_fees;
+        return fundTrusteeFees;
     }
 
     public void setFundTrusteeFees(String fundTrusteeFees) {
-        this.fund_trustee_fees = fundTrusteeFees;
+        this.fundTrusteeFees = fundTrusteeFees;
     }
-
-    private BigDecimal founded_size;
 
     @Basic
     @javax.persistence.Column(name = "founded_size")
+    private BigDecimal foundedSize;
+
     public BigDecimal getFoundedSize() {
-        return founded_size;
+        return foundedSize;
     }
 
     public void setFoundedSize(BigDecimal foundedSize) {
-        this.founded_size = foundedSize;
+        this.foundedSize = foundedSize;
     }
-
-    private BigDecimal founded_hold_shares;
 
     @Basic
     @javax.persistence.Column(name = "founded_hold_shares")
+    private BigDecimal foundedHoldShares;
+
+
     public BigDecimal getFoundedHoldShares() {
-        return founded_hold_shares;
+        return foundedHoldShares;
     }
 
     public void setFoundedHoldShares(BigDecimal foundedHoldShares) {
-        this.founded_hold_shares = foundedHoldShares;
+        this.foundedHoldShares = foundedHoldShares;
     }
-
-    private BigDecimal founded_total_asset;
 
     @Basic
     @javax.persistence.Column(name = "founded_total_asset")
+    private BigDecimal foundedTotalAsset;
+
     public BigDecimal getFoundedTotalAsset() {
-        return founded_total_asset;
+        return foundedTotalAsset;
     }
 
     public void setFoundedTotalAsset(BigDecimal foundedTotalAsset) {
-        this.founded_total_asset = foundedTotalAsset;
+        this.foundedTotalAsset = foundedTotalAsset;
     }
-
-    private BigDecimal latest_size;
 
     @Basic
     @javax.persistence.Column(name = "latest_size")
+    private BigDecimal latestSize;
+
     public BigDecimal getLatestSize() {
-        return latest_size;
+        return latestSize;
     }
 
     public void setLatestSize(BigDecimal latestSize) {
-        this.latest_size = latestSize;
+        this.latestSize = latestSize;
     }
-
-    private BigDecimal latest_hold_shares;
 
     @Basic
     @javax.persistence.Column(name = "latest_hold_shares")
+    private BigDecimal latestHoldShares;
+
+
     public BigDecimal getLatestHoldShares() {
-        return latest_hold_shares;
+        return latestHoldShares;
     }
 
     public void setLatestHoldShares(BigDecimal latestHoldShares) {
-        this.latest_hold_shares = latestHoldShares;
+        this.latestHoldShares = latestHoldShares;
     }
-
-    private BigDecimal latest_total_asset;
 
     @Basic
     @javax.persistence.Column(name = "latest_total_asset")
+    private BigDecimal latestTotalAsset;
+
     public BigDecimal getLatestTotalAsset() {
-        return latest_total_asset;
+        return latestTotalAsset;
     }
 
     public void setLatestTotalAsset(BigDecimal latestTotalAsset) {
-        this.latest_total_asset = latestTotalAsset;
+        this.latestTotalAsset = latestTotalAsset;
     }
-
-    private Integer isdeleted;
 
     @Basic
     @javax.persistence.Column(name = "isdeleted")
+    private Integer isdeleted;
+
     public Integer getIsdeleted() {
         return isdeleted;
     }
@@ -479,16 +517,25 @@ public class Fundarchiveex {
         this.isdeleted = isdeleted;
     }
 
-    private Date updatetime;
-
     @Basic
     @javax.persistence.Column(name = "updatetime")
-    public Date getUpdatetime() {
+    private Timestamp updatetime;
+
+    public Timestamp getUpdatetime() {
         return updatetime;
     }
 
-    public void setUpdatetime(Date updatetime) {
-        this.updatetime = updatetime;
+    public void setUpdatetime(String updateTime1) {
+        Timestamp smUpdateTime = null;
+        try {
+            smUpdateTime = new Timestamp(CommonUtil.stringToDate(updateTime1, CommonUtil.DATE_FORMAT_ICU).getTime());
+            if (StringUtils.isEmpty(updateTime1)) {
+                smUpdateTime = null;
+            }
+        } catch (ParseException e) {
+            //e.printStackTrace();
+        }
+        this.updatetime = smUpdateTime;
     }
 
 
