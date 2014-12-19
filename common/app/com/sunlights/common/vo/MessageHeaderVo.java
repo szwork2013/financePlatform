@@ -38,6 +38,10 @@ public class MessageHeaderVo implements Serializable{
         params = Arrays.asList(strings);
     }
 
+    public void addParamter(String paramter) {
+        this.params.add(paramter);
+    }
+
     public String getMessageType() {
         return messageType;
     }

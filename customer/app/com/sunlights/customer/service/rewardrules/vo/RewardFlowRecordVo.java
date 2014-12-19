@@ -40,6 +40,17 @@ public class RewardFlowRecordVo {
 
     private String detail;
 
+
+    private boolean isRecommender;
+
+    public boolean isRecommender() {
+        return isRecommender;
+    }
+
+    public void setRecommender(boolean isRecommender) {
+        this.isRecommender = isRecommender;
+    }
+
     public String getStatus() {
         return status;
     }

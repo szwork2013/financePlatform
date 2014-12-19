@@ -1,9 +1,15 @@
 package com.sunlights.customer.web;
 
+import com.google.common.collect.Lists;
+import com.sunlights.common.AppConst;
+import com.sunlights.common.DictConst;
 import com.sunlights.common.MsgCode;
 import com.sunlights.common.Severity;
+import com.sunlights.common.utils.MessageUtil;
 import com.sunlights.common.vo.Message;
+import com.sunlights.common.vo.MessageHeaderVo;
 import com.sunlights.common.vo.PageVo;
+import com.sunlights.customer.action.MsgCenterAction;
 import com.sunlights.customer.service.ExchangeSceneService;
 import com.sunlights.customer.service.impl.ExchangeSceneServiceImpl;
 import com.sunlights.customer.service.rewardrules.ActivityHandlerService;
@@ -16,6 +22,7 @@ import play.Logger;
 import play.db.jpa.Transactional;
 import play.libs.Json;
 import play.mvc.Result;
+import play.mvc.With;
 
 import java.util.Date;
 import java.util.List;
@@ -63,6 +70,7 @@ public class ExchangeRewardController extends ActivityBaseController {
      *
      * @return
      */
+    @With(MsgCenterAction.class)
     public Result exchangeReward() {
 
         String token = getToken();
@@ -103,6 +111,12 @@ public class ExchangeRewardController extends ActivityBaseController {
             messageUtil.setMessage(message, null);
             Logger.debug("兑换失败 ：" + message.getSummary());
         }
+
+        List<MessageHeaderVo> messageHeaderVos = Lists.newArrayList();
+        MessageHeaderVo messageHeaderVo = new MessageHeaderVo(DictConst.PUSH_TYPE_2, exchangeScene.getScene(), custNo);
+        messageHeaderVo.buildParams(exchangeParamter.getAmount(), String.valueOf(exchangeScene.getTimeLimit()));
+        messageHeaderVos.add(messageHeaderVo);
+        response().setHeader(AppConst.HEADER_MSG, MessageUtil.getInstance().setMessageHeader(messageHeaderVos));
 
         return ok(messageUtil.toJson());
     }

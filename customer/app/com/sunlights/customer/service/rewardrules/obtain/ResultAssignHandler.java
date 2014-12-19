@@ -42,7 +42,7 @@ public class ResultAssignHandler extends AbstractObtainRuleHandler {
         }
 
 
-
+        int i = 0;
         for(RewardFlowRecordVo rewardFlowRecordVo : rewardFlowRecordVos) {
 
             String detail = rewardFlowRecordVo.getRewardAmtFromTrans() + Configuration.root().getString("detail-" + rewardFlowRecordVo.getRewardType());
@@ -54,7 +54,8 @@ public class ResultAssignHandler extends AbstractObtainRuleHandler {
             activityResultVo.setRuleUrl(rewardFlowRecordVo.getRuleUrl());
             responseVo.addActivityResultVo(activityResultVo);
 
-
+            requestVo.set("paramter" + i, detail);
+            i++;
         }
 
 
