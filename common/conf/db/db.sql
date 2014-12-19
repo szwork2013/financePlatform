@@ -1926,5 +1926,54 @@ CREATE TABLE P_DEPOSIT_INTEREST
   UPDATE_TIME          TIMESTAMP                      NULL,
   CONSTRAINT PK_P_DEPOSIT_INTEREST PRIMARY KEY (ID)
 );
+/*==============================================================*/
+/* TABLE: FundArchiveEx                                    */
+/*==============================================================*/
+DROP TABLE IF EXISTS FundArchiveEx;
+create table FundArchiveEx
+(
+   sm_guid              varchar(100)                   null,
+   front_end_code       varchar(50)                    null,
+   back_end_code        varchar(50)                    null,
+   fund_code            varchar(50)                    null,
+   alias_code           varchar(50)                    null,
+   pin_yin_code         varchar(50)                    null,
+   fund_name            varchar(50)                    null,
+   fund_name_abbr       varchar(3000)                  null,
+   fund_name_abbr2      varchar(500)                   null,
+   establishment_date   varchar(30)                    null,
+   expire_date          varchar(100)                   null,
+   manager              varchar(50)                    null,
+   invest_advisor_guid  varchar(200)                   null,
+   invest_advisor_name  varchar(200)                   null,
+   trustee_name         varchar(100)                   null,
+   fund_type            int                            null,
+   fund_type_name       varchar(100)                   null,
+   fund_state           int                            null,
+   investment_type      int                            null,
+   investment_type_name varchar(100)                   null,
+   investment_style     int                            null,
+   investment_style_name varchar(100)                   null,
+   investment_orientation varchar(3000)                  null,
+   investment_target    varchar(3000)                  null,
+   investment_field     varchar(1200)                  null,
+   performance_bench_mark varchar(800)                   null,
+   profit_distribution_rule varchar(2800)                  null,
+   asset_allocation     varchar(2900)                  null,
+   brief_intro          varchar(3500)                  null,
+   risk_return_character varchar(1500)                  null,
+   fund_management_fees varchar(50)                    null,
+   fund_trustee_fees    varchar(50)                    null,
+   founded_size         decimal(18,2)                  null,
+   founded_hold_shares  decimal(18,2)                  null,
+   founded_total_asset  decimal(18,2)                  null,
+   latest_size          decimal(18,2)                  null,
+   latest_hold_shares   decimal(18,2)                  null,
+   latest_total_asset   decimal(18,2)                  null,
+   isdeleted            int                            null,
+   updatetime           timestamp                      null,
+   id                   bigint                         not null,
+   constraint PK_FUNDARCHIVEEX primary key (id)
+);
 
 ALTER TABLE CODE add COLUMN on_sale INT;
