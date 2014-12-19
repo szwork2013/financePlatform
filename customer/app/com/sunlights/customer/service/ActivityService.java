@@ -31,5 +31,6 @@ public interface ActivityService {
 
     public ActivityShareInfo getShareInfoByScene(String scene);
 
+    public List<Activity> getCurrentValidActivities();
 
 }
