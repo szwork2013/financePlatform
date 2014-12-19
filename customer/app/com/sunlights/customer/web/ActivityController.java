@@ -124,6 +124,7 @@ public class ActivityController extends ActivityBaseController  {
         } else {
             obtainRewardVo = obtainRewardVos.get(0);
         }
+
         messageUtil.setMessage(message, obtainRewardVo);
         return ok(messageUtil.toJson());
     }

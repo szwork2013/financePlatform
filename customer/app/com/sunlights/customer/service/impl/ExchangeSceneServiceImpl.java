@@ -73,6 +73,7 @@ public class ExchangeSceneServiceImpl implements ExchangeSceneService {
             exchangeSceneVo.setDetail(MessageFormat.format(detaiTemplate, money));
 
             exchangeSceneVo.setLogo(exchangeScene.getLogo());
+            exchangeSceneVo.setExchangeType(exchangeScene.getExchangeType());
             result.add(exchangeSceneVo);
         }
 

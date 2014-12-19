@@ -15,6 +15,16 @@ public class ExchangeSceneVo implements Serializable {
 
     private String logo;
 
+    private String exchangeType;
+
+    public String getExchangeType() {
+        return exchangeType;
+    }
+
+    public void setExchangeType(String exchangeType) {
+        this.exchangeType = exchangeType;
+    }
+
     public String getId() {
         return id;
     }
