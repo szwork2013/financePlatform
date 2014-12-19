@@ -11,5 +11,7 @@ package com.sunlights.common;
  */
 public final class MsgCenterRuleConst {
     public static String REGISTER_BEAN = "REGISTER_BEAN";//注册获取金豆
+    public static String REGISTER_INVITE = "REGISTER_INVITE";//邀请好友成功注册
+    public static String REGISTER_SIGN = "REGISTER_SIGN";//签到送金豆
 
 }

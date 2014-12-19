@@ -1,6 +1,7 @@
 package com.sunlights.common.utils;
 
 import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.sunlights.common.MsgCode;
 import com.sunlights.common.Severity;
 import com.sunlights.common.vo.Message;
@@ -37,9 +38,12 @@ public class MessageUtil {
     mesageVo.setValue(value);
   }
 
-    public String getMessage() {
+    public String setMessageHeader(Object value){
         Message message =  mesageVo == null ? new Message(Severity.ERROR, MsgCode.OPERATE_FAILURE) : mesageVo.getMessage();
-        return Json.toJson(message).toString();
+        ObjectNode json = Json.newObject();
+        json.put("message", Json.toJson(message));
+        json.put("headerValue", Json.toJson(value));
+        return json.toString();
     }
 
 
