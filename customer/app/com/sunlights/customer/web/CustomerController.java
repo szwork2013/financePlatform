@@ -1,5 +1,7 @@
 package com.sunlights.customer.web;
 
+import com.sunlights.common.DictConst;
+import com.sunlights.common.vo.MessageHeaderVo;
 import models.Customer;
 import models.CustomerSession;
 import play.Logger;
@@ -120,7 +122,11 @@ public class CustomerController extends Controller {
         }
         JsonNode json = MessageUtil.getInstance().toJson();
         Logger.info("==========login返回：" + json.toString());
-        response().setHeader(AppConst.HEADER_MSG, MessageUtil.getInstance().getMessage());
+
+        MessageHeaderVo messageHeaderVo = new MessageHeaderVo();
+        messageHeaderVo.setMessageType(DictConst.PUSH_TYPE_4);
+        messageHeaderVo.setCustomerId(customerSession.getCustomerId());
+        response().setHeader(AppConst.HEADER_MSG, MessageUtil.getInstance().setMessageHeader(messageHeaderVo));
         return Controller.ok(json);
     }
 

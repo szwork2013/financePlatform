@@ -1,7 +1,11 @@
 package com.sunlights.customer.dal;
 
+import com.sunlights.common.vo.PageVo;
 import com.sunlights.common.vo.PushMessageVo;
 import models.CustomerMsgPushTxn;
+import models.MessageRuleMapping;
+
+import java.util.List;
 
 /**
  * <p>Project: financeplatform</p>
@@ -18,4 +22,8 @@ public interface MsgCenterDao {
     public CustomerMsgPushTxn createCustomerMsgPushTxn(CustomerMsgPushTxn customerMsgPushTxn);
 
     public CustomerMsgPushTxn updateCustomerMsgPushTxn(CustomerMsgPushTxn customerMsgPushTxn);
+
+    public List<MessageRuleMapping> findMessageRuleMappingList(MessageRuleMapping messageRuleMapping);
+
+    public List<String> findMessageRuleCodeList(PageVo pageVo);
 }

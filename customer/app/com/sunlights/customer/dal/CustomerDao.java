@@ -46,7 +46,11 @@ public interface CustomerDao {
 
   public CustomerGesture findCustomerGestureByDeviceNo(String customerId, String deviceNo);
 
-
+    /**
+     * 通过被推荐人查询推荐人信息
+     * @param customerId 被推荐人
+     * @return
+     */
   public Customer findRecommenderInfo(String customerId);
 
     /**
@@ -55,6 +59,7 @@ public interface CustomerDao {
      * @return
      */
     public List<String> findAliasByCustomerId(String customerId);
+
 
 
 }
