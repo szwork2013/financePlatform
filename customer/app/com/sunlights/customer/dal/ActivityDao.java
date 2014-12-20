@@ -27,4 +27,6 @@ public interface ActivityDao {
 
     public List<Activity> getAll();
 
+    public List<Activity> getCurrrentValidActivities();
+
 }

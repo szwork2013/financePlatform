@@ -40,7 +40,7 @@ public class ActivityControllerTest extends BaseTest{
         });
     }
 
-    @Test
+    //@Test
     public void testSignInObtainReward() {
         running(fakeApplication(), new Runnable() {
             public void run() {
@@ -81,13 +81,13 @@ public class ActivityControllerTest extends BaseTest{
             public void run() {
                 Logger.info("============testGetActivityList start====");
                 String index = "0";
-                String pageSize = "3";
+                String pageSize = "4";
 
 
                 Map<String, String> formParams = new HashMap<>();
                 formParams.put("index", index);
                 formParams.put("pageSize", pageSize);
-                formParams.put("filter", "1");
+                //formParams.put("filter", "1");
 
 
                 play.mvc.Result result = getResult("/account/activity/list", formParams, cookie);
@@ -174,7 +174,7 @@ public class ActivityControllerTest extends BaseTest{
         });
     }
 
-    //@Test
+    @Test
     public void testExchangeReward() {
         running(fakeApplication(), new Runnable() {
             public void run() {

@@ -30,6 +30,7 @@ public class ReCommendHandler extends AbstractObtainRuleHandler {
             return;
         } else {
             requestVo.setRecommendCustId(customer.getCustomerId());
+            requestVo.set("recommendMobile", customer.getMobile());
         }
     }
 }

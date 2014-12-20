@@ -13,6 +13,7 @@ import com.sunlights.customer.service.ActivityService;
 import com.sunlights.customer.service.HoldRewardService;
 import com.sunlights.customer.service.RewardFlowService;
 import com.sunlights.customer.service.RewardTypeService;
+import com.sunlights.customer.service.rewardrules.RewardFlowStatus;
 import com.sunlights.customer.service.rewardrules.vo.RewardFlowRecordVo;
 import com.sunlights.customer.vo.HoldRewardVo;
 import com.sunlights.customer.vo.RewardFlowVo;
@@ -138,7 +139,12 @@ public class HoldRewardServiceImpl implements HoldRewardService {
         flow.setCustId(rewardFlowRecordVo.getCustId());
         flow.setRewardType(rewardFlowRecordVo.getRewardType());
         flow.setOperatorType(rewardFlowRecordVo.getOperatorType());
-        flow.setStatus(ActivityConstant.REWARD_FLOW_STATUS_ALREADY_OBTAIN);
+        //TODO 临时解决方案，等待产品提供详细的解决方案
+        if (rewardFlowRecordVo.getOperatorType().equals(ActivityConstant.REWARD_FLOW_OBTAIN)) {
+            flow.setStatus(RewardFlowStatus.OBTAIN_SUCC.getStatus());
+        } else {
+            flow.setStatus(RewardFlowStatus.EXCHANGEING.getStatus());
+        }
         flow.setCreateTime(new Date());
         flow.setScene(rewardFlowRecordVo.getScene());
         flow.setRewardAmt(rewardFlowRecordVo.getRewardAmtResult());

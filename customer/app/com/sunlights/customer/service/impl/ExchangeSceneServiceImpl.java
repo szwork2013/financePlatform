@@ -61,7 +61,7 @@ public class ExchangeSceneServiceImpl implements ExchangeSceneService {
                 total += (holdReward.getHoldReward() - holdReward.getFrozenReward());
                 money = money.add(holdReward.getHoldMoney());
             }
-            if(total < exchangeScene.getRequireAmt()) {
+            if(total < exchangeScene.getRequireAmt() || total == 0L) {
                 Logger.debug("total = " + total + " < " + " RequireAmt = " + exchangeScene.getRequireAmt());
                 continue;
             }
@@ -106,7 +106,7 @@ public class ExchangeSceneServiceImpl implements ExchangeSceneService {
         Data4ExchangeVo data4ExchangeVo = new Data4ExchangeVo();
         data4ExchangeVo.setCanPayed(canPayed.toString());
         data4ExchangeVo.setMaxPayed(canPayed.toString());
-        data4ExchangeVo.setAccountDate(calcAccountDate(exchangeScene.getTimeLimit(), null));
+        data4ExchangeVo.setAccountDate(calcAccountDate(exchangeScene.getTimeLimit(), null, true));
 
         //TODO 这样的话不能将多个参数替换
         String detaiTemplate = Configuration.root().getString(exchangeScene.getScene() + "." + exchangeScene.getRewardType() + "." + exchangeScene.getActivityType());
@@ -131,7 +131,7 @@ public class ExchangeSceneServiceImpl implements ExchangeSceneService {
     }
 
     @Override
-    public String calcAccountDate(Integer days, Date exchangeDate) {
+    public String calcAccountDate(Integer days, Date exchangeDate, boolean isLongDate) {
         if(days == null) {
             days = 0;
         }
@@ -140,7 +140,11 @@ public class ExchangeSceneServiceImpl implements ExchangeSceneService {
             calendar.setTime(exchangeDate);
         }
         calendar.add(Calendar.DATE, days);
-        String accountDate = CommonUtil.dateToString(new Date(calendar.getTimeInMillis()), CommonUtil.DATE_FORMAT_LONG);
+        String dateFormatStr = CommonUtil.DATE_FORMAT_LONG;
+        if(!isLongDate) {
+            dateFormatStr = CommonUtil.DATE_FORMAT_SHORT;
+        }
+        String accountDate = CommonUtil.dateToString(new Date(calendar.getTimeInMillis()), dateFormatStr);
         return accountDate;
     }
 }

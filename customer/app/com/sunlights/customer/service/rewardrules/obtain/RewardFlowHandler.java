@@ -60,6 +60,7 @@ public class RewardFlowHandler extends AbstractObtainRuleHandler{
                 RewardFlowRecordVo rewardFlowRecordVo = new RewardFlowRecordVo();
                 if(obtainRewardRuleVo.getInviter() == ActivityConstant.ACCOUNT_COMMON_ONE && StringUtils.isNotEmpty(requestVo.getRecommendCustId())) {
                     rewardFlowRecordVo.setCustId(requestVo.getRecommendCustId());
+                    rewardFlowRecordVo.setRecommender(true);
                 } else if (obtainRewardRuleVo.getInviter() == ActivityConstant.ACCOUNT_COMMON_ZERO){
                     rewardFlowRecordVo.setCustId(requestVo.getCustId());
                 } else {

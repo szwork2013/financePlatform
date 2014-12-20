@@ -35,7 +35,6 @@ public class OldResultAssignHandler extends AbstractObtainRuleHandler{
         }
 
 
-
         for(RewardFlowRecordVo rewardFlowRecordVo : rewardFlowRecordVos) {
             ObtainRewardVo obtainRewardVo = new ObtainRewardVo();
             obtainRewardVo.setScene(rewardFlowRecordVo.getScene());
@@ -45,9 +44,18 @@ public class OldResultAssignHandler extends AbstractObtainRuleHandler{
 
             responseVo.addObtainRewardVo(obtainRewardVo);
 
+            String detail = MessageFormat.format(Configuration.root().getString("detail." + rewardFlowRecordVo.getRewardType() + "." + rewardFlowRecordVo.getScene()), obtainRewardVo.getAlreadyGet());
+
             Message message = responseVo.getMessage();
             message.setSummary(Configuration.root().getString("summary." + rewardFlowRecordVo.getRewardType() + "." + rewardFlowRecordVo.getScene()));
-            message.setDetail(MessageFormat.format(Configuration.root().getString("detail." + rewardFlowRecordVo.getRewardType() + "." + rewardFlowRecordVo.getScene()), obtainRewardVo.getAlreadyGet()));
+            message.setDetail(detail);
+
+            //组装发消息所需的参数
+            if(rewardFlowRecordVo.isRecommender()) {
+                requestVo.set("parameter1", detail);
+            } else {
+                requestVo.set("parameter0", detail);
+            }
 
             responseVo.setMessage(message);
 

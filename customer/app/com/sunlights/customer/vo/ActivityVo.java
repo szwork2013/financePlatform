@@ -17,6 +17,10 @@ public class ActivityVo  implements Serializable {
 
     private String url;
 
+    private String startDate;
+
+    private String endDate;
+
     public ActivityVo() {
 
     }
@@ -28,6 +32,22 @@ public class ActivityVo  implements Serializable {
             this.image = activity.getImage();
             this.url = activity.getUrl();
         }
+    }
+
+    public String getStartDate() {
+        return startDate;
+    }
+
+    public void setStartDate(String startDate) {
+        this.startDate = startDate;
+    }
+
+    public String getEndDate() {
+        return endDate;
+    }
+
+    public void setEndDate(String endDate) {
+        this.endDate = endDate;
     }
 
     public Long getId() {

@@ -29,16 +29,20 @@ public class PurchaseObtainRuleHandler extends AbstractObtainRuleHandler{
         PurchaseObtainValideHandler purchaseObtainValideHandler = new PurchaseObtainValideHandler();
         ObtainRuleGainHandler obtainRuleGainHandler = new ObtainRuleGainHandler();
         ReCommendHandler reCommendHandler = new ReCommendHandler();
+        ValidBankCardHandler validBankCardHandler = new ValidBankCardHandler();
         RewardFlowHandler rewardFlowHandler = new RewardFlowHandler();
         CustJoinActivityHandler custJoinActivityHandler = new CustJoinActivityHandler();
         ResultAssignHandler resultAssignHandler = new ResultAssignHandler();
+        PurchaseObtainSendMessageHandler purchaseObtainSendMessageHandler = new PurchaseObtainSendMessageHandler();
 
         setNextHandler(purchaseObtainValideHandler)
                 .setNextHandler(obtainRuleGainHandler)
                 .setNextHandler(reCommendHandler)
+                .setNextHandler(validBankCardHandler)
                 .setNextHandler(rewardFlowHandler)
                 .setNextHandler(custJoinActivityHandler)
-                .setNextHandler(resultAssignHandler);
+                .setNextHandler(resultAssignHandler)
+                .setNextHandler(purchaseObtainSendMessageHandler);
 
         getNextHandler().obtain(requestVo, responseVo);
 

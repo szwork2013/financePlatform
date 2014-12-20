@@ -7,6 +7,7 @@ import com.sunlights.customer.ActivityConstant;
 import com.sunlights.customer.dal.RewardFlowDao;
 import com.sunlights.customer.dal.impl.RewardFlowDaoImpl;
 import com.sunlights.customer.service.*;
+import com.sunlights.customer.service.rewardrules.RewardFlowStatus;
 import com.sunlights.customer.service.rewardrules.vo.RewardFlowRecordVo;
 import com.sunlights.customer.vo.Data4ExchangeItem;
 import com.sunlights.customer.vo.RewardFlowVo;
@@ -18,6 +19,7 @@ import models.RewardType;
 import play.Configuration;
 import play.Logger;
 
+import java.math.BigDecimal;
 import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -119,16 +121,17 @@ public class RewardFlowServiceImpl implements RewardFlowService {
             rewardFlowVo.setTitle(rewardFlow.getActivityTitle());
             rewardFlowVo.setCreateTime(CommonUtil.dateToString(rewardFlow.getCreateTime(), CommonUtil.DATE_FORMAT_LONG));
             if(rewardFlow.getOperatorType().equals(ActivityConstant.REWARD_FLOW_OBTAIN)) {
-                rewardFlowVo.setAmount(takePrefix(rewardFlow.getRewardAmt() / rewardType.getUnit(), "+"));
+                rewardFlowVo.setAmount(takePrefix(BigDecimal.valueOf(rewardFlow.getRewardAmt()).divide(BigDecimal.valueOf(rewardType.getUnit())), "+"));
             } else {
-                rewardFlowVo.setAmount(takePrefix(rewardFlow.getRewardAmt() / rewardType.getUnit(), "-"));
+                rewardFlowVo.setAmount(takePrefix(BigDecimal.valueOf(rewardFlow.getRewardAmt()).divide(BigDecimal.valueOf(rewardType.getUnit())), "-"));
             }
+            rewardFlowVo.setStatus(RewardFlowStatus.getDescByStatus(rewardFlow.getStatus()));
             rewardFlowVos.add(rewardFlowVo);
         }
     }
 
-    private String takePrefix(Long originalData, String token) {
-        return originalData == 0L ? "0" : token + originalData;
+    private String takePrefix(BigDecimal originalData, String token) {
+        return originalData.equals(BigDecimal.ZERO) ? "0" : token + originalData;
     }
 
 

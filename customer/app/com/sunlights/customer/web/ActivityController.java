@@ -2,11 +2,17 @@ package com.sunlights.customer.web;
 
 
 
+import com.google.common.collect.Lists;
+import com.sunlights.common.AppConst;
+import com.sunlights.common.DictConst;
 import com.sunlights.common.MsgCode;
 import com.sunlights.common.Severity;
+import com.sunlights.common.utils.MessageUtil;
 import com.sunlights.common.vo.Message;
+import com.sunlights.common.vo.MessageHeaderVo;
 import com.sunlights.common.vo.PageVo;
 import com.sunlights.customer.ActivityConstant;
+import com.sunlights.customer.action.MsgCenterAction;
 import com.sunlights.customer.factory.ActivityListQueryFactory;
 import com.sunlights.customer.service.ActivityListQuery;
 import com.sunlights.customer.service.ActivityService;
@@ -15,12 +21,14 @@ import com.sunlights.customer.service.rewardrules.ActivityHandlerService;
 import com.sunlights.customer.service.rewardrules.vo.ActivityRequestVo;
 import com.sunlights.customer.service.rewardrules.vo.ActivityResponseVo;
 import com.sunlights.customer.vo.*;
+import models.Customer;
 import models.CustomerSession;
 import org.apache.commons.lang3.StringUtils;
 import play.Logger;
 import play.db.jpa.Transactional;
 import play.libs.Json;
 import play.mvc.Result;
+import play.mvc.With;
 
 import java.util.List;
 
@@ -81,6 +89,7 @@ public class ActivityController extends ActivityBaseController  {
      */
 
     public Result signinObtainReward() {
+
         return obtainReward(ActivityConstant.ACTIVITY_SIGNIN_SCENE_CODE);
     }
 
@@ -107,8 +116,6 @@ public class ActivityController extends ActivityBaseController  {
         requestVo.setCustId(custNo);
         requestVo.setScene(scene);
 
-
-
         activityHandlerService.service(requestVo, responseVo);
 
         List<ObtainRewardVo> obtainRewardVos = responseVo.getObtainRewardVo();
@@ -121,11 +128,17 @@ public class ActivityController extends ActivityBaseController  {
             obtainRewardVo.setScene(scene);
             obtainRewardVo.setStatus(ActivityConstant.ACTIVITY_CUSTONER_STATUS_FORBIDDEN);
             message.setSeverity(Severity.ERROR);
-        } else {
+        } else if(MsgCode.OPERATE_SUCCESS.getCode().equals(message.getCode())){
+            message.setCode(MsgCode.OBTAIN_SUCC.getCode());
             obtainRewardVo = obtainRewardVos.get(0);
         }
 
         messageUtil.setMessage(message, obtainRewardVo);
+
+        //发送消息
+        List<MessageHeaderVo> messageHeaderVos = responseVo.getMessageHeaderVos();
+        response().setHeader(AppConst.HEADER_MSG, MessageUtil.getInstance().setMessageHeader(messageHeaderVos));
+
         return ok(messageUtil.toJson());
     }
 
@@ -133,6 +146,7 @@ public class ActivityController extends ActivityBaseController  {
      * 注册获取奖励
      * @return
      */
+    @With(MsgCenterAction.class)
     public Result registerObtainReward() {
         return obtainReward(ActivityConstant.ACTIVITY_REGISTER_SCENE_CODE);
     }
@@ -141,6 +155,7 @@ public class ActivityController extends ActivityBaseController  {
      * 购买获取奖励
      * @return
      */
+    @With(MsgCenterAction.class)
     public Result purchaseObtainReward() {
         //1：获取请求参数
         String token = getToken();
@@ -178,7 +193,8 @@ public class ActivityController extends ActivityBaseController  {
         message = responseVo.getMessage();
         List<ActivityResultVo> activityResultVos = responseVo.getActivityResultVos();
 
-        if(MsgCode.OBTAIN_SUCC.getCode().equals(message.getCode())) {
+        if(MsgCode.OPERATE_SUCCESS.getCode().equals(message.getCode())) {
+            message.setCode(MsgCode.OBTAIN_SUCC.getCode());
             TradeObtainRewardSuccVo tradeObtainRewardSuccVo = new TradeObtainRewardSuccVo();
             tradeObtainRewardSuccVo.setFundCode(activityParamter.getFundCode());
             tradeObtainRewardSuccVo.setSupplySum(activityParamter.getSupplySum());
@@ -191,6 +207,10 @@ public class ActivityController extends ActivityBaseController  {
             message.setSeverity(Severity.ERROR);
             messageUtil.setMessage(message, tradeObtainRewardFailVo);
         }
+
+        //发送消息
+        List<MessageHeaderVo> messageHeaderVos = responseVo.getMessageHeaderVos();
+        response().setHeader(AppConst.HEADER_MSG, MessageUtil.getInstance().setMessageHeader(messageHeaderVos));
 
         return ok(messageUtil.toJson());
     }

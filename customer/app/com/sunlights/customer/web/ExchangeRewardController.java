@@ -1,9 +1,15 @@
 package com.sunlights.customer.web;
 
+import com.google.common.collect.Lists;
+import com.sunlights.common.AppConst;
+import com.sunlights.common.DictConst;
 import com.sunlights.common.MsgCode;
 import com.sunlights.common.Severity;
+import com.sunlights.common.utils.MessageUtil;
 import com.sunlights.common.vo.Message;
+import com.sunlights.common.vo.MessageHeaderVo;
 import com.sunlights.common.vo.PageVo;
+import com.sunlights.customer.action.MsgCenterAction;
 import com.sunlights.customer.service.ExchangeSceneService;
 import com.sunlights.customer.service.impl.ExchangeSceneServiceImpl;
 import com.sunlights.customer.service.rewardrules.ActivityHandlerService;
@@ -16,6 +22,7 @@ import play.Logger;
 import play.db.jpa.Transactional;
 import play.libs.Json;
 import play.mvc.Result;
+import play.mvc.With;
 
 import java.util.Date;
 import java.util.List;
@@ -63,6 +70,7 @@ public class ExchangeRewardController extends ActivityBaseController {
      *
      * @return
      */
+    @With(MsgCenterAction.class)
     public Result exchangeReward() {
 
         String token = getToken();
@@ -94,15 +102,21 @@ public class ExchangeRewardController extends ActivityBaseController {
         message = responseVo.getMessage();
         ExchangeResultVo resultVo = new ExchangeResultVo();
         resultVo.setPayed(exchangeParamter.getAmount());
-        resultVo.setAccountDate(exchangeSceneService.calcAccountDate(exchangeScene.getTimeLimit(), null));
+        resultVo.setAccountDate(exchangeSceneService.calcAccountDate(exchangeScene.getTimeLimit(), null, true));
 
-        if(MsgCode.OBTAIN_SUCC.getCode().equals(message.getCode())) {
-            messageUtil.setMessage(new Message(Severity.INFO, MsgCode.EXCHANGE_SUCC), resultVo);
+        if(MsgCode.OPERATE_SUCCESS.getCode().equals(message.getCode())) {
+            message.setCode(MsgCode.EXCHANGE_SUCC.getCode());
+            messageUtil.setMessage(message, resultVo);
             Logger.info("兑换成功");
         } else {
+            message.setSeverity(Severity.ERROR);
             messageUtil.setMessage(message, null);
             Logger.debug("兑换失败 ：" + message.getSummary());
         }
+
+        //发送消息
+        List<MessageHeaderVo> messageHeaderVos = responseVo.getMessageHeaderVos();
+        response().setHeader(AppConst.HEADER_MSG, MessageUtil.getInstance().setMessageHeader(messageHeaderVos));
 
         return ok(messageUtil.toJson());
     }

@@ -24,6 +24,6 @@ public interface ExchangeSceneService {
 
     public List<ExchangeScene> loadAllExchangescenes();
 
-    public String calcAccountDate(Integer days, Date exchangeDate);
+    public String calcAccountDate(Integer days, Date exchangeDate, boolean isLongDate);
 
 }

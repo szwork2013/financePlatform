@@ -40,6 +40,19 @@ public class RewardFlowRecordVo {
 
     private String detail;
 
+    private Integer rewardFlowStatus;
+
+
+    private boolean isRecommender;
+
+    public boolean isRecommender() {
+        return isRecommender;
+    }
+
+    public void setRecommender(boolean isRecommender) {
+        this.isRecommender = isRecommender;
+    }
+
     public String getStatus() {
         return status;
     }
@@ -150,5 +163,13 @@ public class RewardFlowRecordVo {
 
     public void setRewardAmtFromTrans(BigDecimal rewardAmtFromTrans) {
         this.rewardAmtFromTrans = rewardAmtFromTrans;
+    }
+
+    public Integer getRewardFlowStatus() {
+        return rewardFlowStatus;
+    }
+
+    public void setRewardFlowStatus(Integer rewardFlowStatus) {
+        this.rewardFlowStatus = rewardFlowStatus;
     }
 }

@@ -105,4 +105,10 @@ public class ActivityServiceImpl implements ActivityService{
     public List<Activity> getAllActivities() {
         return activityDao.getAll();
     }
+
+    @Override
+    public List<Activity> getCurrentValidActivities() {
+
+        return activityDao.getCurrrentValidActivities();
+    }
 }
