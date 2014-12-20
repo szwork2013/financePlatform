@@ -27,7 +27,7 @@ public class ActivityResponseVo {
 
     private List<RewardFlowRecordVo> rewardFlowRecordVos = new ArrayList<RewardFlowRecordVo>();;
 
-    private List<ObtainRewardVo>  obtainRewardVos ;
+    private List<ObtainRewardVo>  obtainRewardVos = Lists.newArrayList();
 
     private List<ActivityResultVo> activityResultVos;
 
