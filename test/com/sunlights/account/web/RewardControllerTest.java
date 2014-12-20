@@ -62,7 +62,7 @@ public class RewardControllerTest extends BaseTest {
         });
     }
 
-    //@Test
+    @Test
     public void testGetMyRewardDetail() {
         running(fakeApplication(), new Runnable() {
             public void run() {
