@@ -49,7 +49,7 @@ public class RigisterObtainSendMessageHandler extends AbstractObtainRuleHandler 
                 messageHeaderVo.buildParams(customer.getMobile(), MessageFormat.format(template, rewardFlowRecordVo.getRewardAmtResult()));
             } else {
                 messageHeaderVo = new MessageHeaderVo(DictConst.PUSH_TYPE_2, scene, custNo);
-                messageHeaderVo.buildParams(MessageFormat.format(template, rewardFlowRecordVo.getRewardAmtResult()));
+                messageHeaderVo.buildParams(MessageFormat.format(template, rewardFlowRecordVo.getRewardAmtFromTrans()));
             }
             responseVo.addMessageHeaderVo(messageHeaderVo);
         }
