@@ -188,7 +188,7 @@ public class ActivityControllerTest extends BaseTest{
                         //2:签到获取金豆正常测试
                         formParams = new HashMap<String, String>();
                         formParams.put("id", "1");
-                        formParams.put("amount", "0.01");
+                        formParams.put("amount", "60");
                         formParams.put("bankName", "招行");
                         formParams.put("bankCard", "111111111111111");
                         formParams.put("phone", "132323232");

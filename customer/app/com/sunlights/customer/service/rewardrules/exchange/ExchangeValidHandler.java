@@ -12,6 +12,7 @@ import com.sunlights.customer.service.rewardrules.vo.ActivityRequestVo;
 import com.sunlights.customer.service.rewardrules.vo.ActivityResponseVo;
 import models.ExchangeScene;
 import models.RewardType;
+import play.Configuration;
 
 import java.math.BigDecimal;
 
@@ -45,6 +46,7 @@ public class ExchangeValidHandler extends AbstractExchangeRuleHandler{
 
         if(subRewardAmt > exchangeScene.getExchangeLimit()) {
             Message message = new Message(Severity.INFO, MsgCode.EXCHANGE_OVER_LIMIT);
+            message.setDetail(Configuration.root().getString("detail.exchange" + MsgCode.EXCHANGE_OVER_LIMIT.getCode()));
             responseVo.setMessage(message);
             responseVo.setFlowStop(true);
             return;
@@ -53,6 +55,7 @@ public class ExchangeValidHandler extends AbstractExchangeRuleHandler{
         Long totalReward = holdRewardService.getHoldRewardByCustId(requestVo.getCustId(), requestVo.getRewardType());
         if(totalReward < subRewardAmt) {
             Message message = new Message(Severity.INFO, MsgCode.EXCHANGE_OVER_LIMIT);
+            message.setDetail(Configuration.root().getString("detail.exchange" + MsgCode.EXCHANGE_OVER_LIMIT.getCode()));
             responseVo.setMessage(message);
 
             responseVo.setFlowStop(true);

@@ -32,6 +32,7 @@ public class SigninObtainValideHandler extends AbstractObtainRuleHandler {
         if(custJoinActivity != null) {
             Logger.debug("您今天已经签过到了");
             Message message = new Message(Severity.INFO, MsgCode.ALREADY_SIGN);
+            message.setDetail("您今天已经签过到");
             responseVo.setMessage(message);
             responseVo.setFlowStop(true);
             return;
