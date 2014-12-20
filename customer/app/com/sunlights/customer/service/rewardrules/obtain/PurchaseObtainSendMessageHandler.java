@@ -33,7 +33,7 @@ public class PurchaseObtainSendMessageHandler extends AbstractObtainRuleHandler 
         String scene = requestVo.getScene();
         String custNo = requestVo.getCustId();
 
-        if(!ActivityConstant.ACTIVITY_TYPE_FIRST_PURCHASE.equals(scene)) {
+        if(!ActivityConstant.ACTIVITY_FIRST_PURCHASE_SCENE_CODE.equals(scene)) {
             Logger.debug("购买暂时不支持发消息");
             return;
         }
