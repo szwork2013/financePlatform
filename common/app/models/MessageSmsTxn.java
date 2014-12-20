@@ -19,6 +19,8 @@ import java.util.Date;
 public class MessageSmsTxn extends IdEntity {
     @Column(name = "message_rule_id")
     private Long messageRuleId;
+    @Column(length = 30, name = "customer_id")
+    private String customerId;
     @Column(length = 40)
     private String smsId;
     @Column(length = 11)
@@ -117,5 +119,13 @@ public class MessageSmsTxn extends IdEntity {
 
     public void setContent(String content) {
         this.content = content;
+    }
+
+    public String getCustomerId() {
+        return customerId;
+    }
+
+    public void setCustomerId(String customerId) {
+        this.customerId = customerId;
     }
 }

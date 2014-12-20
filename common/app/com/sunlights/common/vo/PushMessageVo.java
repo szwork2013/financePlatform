@@ -23,7 +23,7 @@ public class PushMessageVo implements Serializable{
     private String platform; //推送平台
     private Long groupId;
     private String customerId;
-    private String personalInd;//个人、群发 信息来源标志
+    private String personalInd;//个人Y、群发N 信息来源标志
     private int sendNum = 0;//次数
     private List<String> aliasList = Lists.newArrayList();
 

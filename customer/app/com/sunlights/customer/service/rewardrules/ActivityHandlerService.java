@@ -10,8 +10,6 @@ import com.sunlights.customer.service.rewardrules.vo.ActivityResponseVo;
 import org.apache.commons.lang3.StringUtils;
 import play.Logger;
 
-import java.util.List;
-
 /**
  * 活动处理服务
  * 对外提供服务：1：参加活动获取奖励 2：兑换奖励
@@ -54,7 +52,7 @@ public class ActivityHandlerService {
             Logger.error("活动操作失败", e);
             throw new RuntimeException("活动操作失败", e);
         } finally {
-            clearupRequest(processeRequest);
+//            clearupRequest(processeRequest);
         }
     }
 

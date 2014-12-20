@@ -9,10 +9,7 @@ import com.sunlights.common.exceptions.ConverterException;
 import com.sunlights.common.utils.ConverterUtil;
 import com.sunlights.customer.dal.CustomerDao;
 import com.sunlights.customer.vo.CustomerVo;
-import models.Customer;
-import models.CustomerGesture;
-import models.CustomerSession;
-import models.ShuMiAccount;
+import models.*;
 import org.apache.commons.lang3.StringUtils;
 import play.Logger;
 
@@ -258,5 +255,10 @@ public class CustomerDaoImpl extends EntityBaseDao implements CustomerDao {
     @Override
     public List<String> findAliasByCustomerId(String customerId) {
         return createNameQuery("findAliasByCustomerId", customerId).getResultList();
+    }
+
+    @Override
+    public CustomerMsgSetting createCustomerMsgSetting(CustomerMsgSetting customerMsgSetting) {
+        return create(customerMsgSetting);
     }
 }

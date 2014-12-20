@@ -28,7 +28,7 @@ POST        /activity/beforeexchange            @com.sunlights.customer.web.Exch
 #Reward
 POST        /reward/get_signin                  @com.sunlights.customer.web.RewardController.getSingInCanObtainRewards
 POST        /reward/get_golden                  @com.sunlights.customer.web.RewardController.getMyRewardDetail
-POST        /reward/records                  @com.sunlights.customer.web.RewardController.getRewardFlows
+POST        /reward/records                     @com.sunlights.customer.web.RewardController.getRewardFlows
 
 # Map static resources from the /public folder to the /assets URL path
 GET         /assets/*file                       controllers.Assets.at(path="/public", file)

@@ -5,12 +5,14 @@ import com.sunlights.common.AppConst;
 import com.sunlights.common.DictConst;
 import com.sunlights.common.utils.DBHelper;
 import com.sunlights.common.vo.MessageHeaderVo;
-import com.sunlights.common.vo.PageVo;
 import com.sunlights.common.vo.PushMessageVo;
 import com.sunlights.customer.dal.CustomerDao;
 import com.sunlights.customer.dal.MsgCenterDao;
 import com.sunlights.customer.dal.impl.CustomerDaoImpl;
 import com.sunlights.customer.dal.impl.MsgCenterDaoImpl;
+import com.sunlights.customer.service.ActivityService;
+import com.sunlights.customer.service.impl.ActivityServiceImpl;
+import models.Activity;
 import models.CustomerMsgPushTxn;
 import play.Logger;
 import play.Play;
@@ -33,60 +35,57 @@ public class MsgCenterActionService {
 
     private MsgCenterDao centerDao = new MsgCenterDaoImpl();
     private CustomerDao customerDao = new CustomerDaoImpl();
+    private ActivityService activityService = new ActivityServiceImpl();
+
+    private final static String LOGIN = "login";
+    private final static String LOGINBYGES = "loginByges";
+    private final static String REGISTER = "register";
+
 
 
     public void sendMsg(String routeActionMethod, List<MessageHeaderVo> messageHeaderVoList){
         for (MessageHeaderVo messageActivityVo : messageHeaderVoList) {
             String messageType = messageActivityVo.getMessageType();
+            String customerId = messageActivityVo.getCustomerId();
+            String scene = messageActivityVo.getScene();
 
-            List<String> list = Lists.newArrayList();
-            if (DictConst.PUSH_TYPE_2.equals(messageType)){//活动类
-                list = getRuleCodeList(routeActionMethod, messageActivityVo);
+            List<String> ruleCodeList = Lists.newArrayList();
+            if (DictConst.PUSH_TYPE_4.equals(messageType)) {//注册登录提示类  信息
+                if (LOGIN.equals(routeActionMethod) || LOGINBYGES.equals(routeActionMethod)) {
+                    routeActionMethod = LOGIN;
+                }else if(REGISTER.equals(routeActionMethod)) {//注册完成后自动登录
+                    routeActionMethod = REGISTER;
+                }
+                ruleCodeList = findLoginUnRemindRuleCodeList(customerId, routeActionMethod);
+            }else{//活动类、系统类、交易类  信息
+                ruleCodeList = getRuleCodeList(routeActionMethod, messageType, scene);
             }
-            for (String ruleCode : list) {
+            for (String ruleCode : ruleCodeList) {
                 Logger.info(MessageFormat.format("当前发送的消息规则编码：{0}", ruleCode));
                 operationRuleCode(messageActivityVo, ruleCode);
             }
         }
     }
 
-    private List<String> getRuleCodeList(String routeActionMethod, MessageHeaderVo messageActivityVo) {
-        PageVo pageVo = new PageVo();
-        pageVo.put("EQS_methodName", routeActionMethod);
-        pageVo.put("EQS_messageType", messageActivityVo.getMessageType());
-        pageVo.put("EQS_scene", messageActivityVo.getScene());
-//        pageVo.put("EQL_activityId", messageRuleMapping.getActivityId());
-        List<String> list = centerDao.findMessageRuleCodeList(pageVo);
-
-        if (list.isEmpty()){
-            Logger.info(">>未配置消息规则映射表");
-        }
-
-        return list;
-    }
-
-
-    private void operationRuleCode(MessageHeaderVo messageActivityVo, String ruleCode) {
+    public void operationRuleCode(MessageHeaderVo messageActivityVo, String ruleCode) {
         MsgCenterDao centerDao = new MsgCenterDaoImpl();
         PushMessageVo pushMessageVo = centerDao.findMessageRuleByCode(ruleCode);
         if (pushMessageVo == null) {
             Logger.info(MessageFormat.format(">>消息规则{0} 未配置！", ruleCode));
             return ;
         }
+        pushMessageVo.setCustomerId(messageActivityVo.getCustomerId());
+        pushMessageVo.setContent(MessageFormat.format(pushMessageVo.getContent(), messageActivityVo.getParams().toArray()));
 
         Long id = pushMessageVo.getGroupId();
         if (id == null || id == 0) {//个人信息
             String pushInd = pushMessageVo.getPushInd();
             String smsInd = pushMessageVo.getSmsInd();
 
-            String customerId = messageActivityVo.getCustomerId();
-            List<String> params = messageActivityVo.getParams();
-
             pushMessageVo.setPersonalInd(AppConst.STATUS_VALID);
 
             if (AppConst.STATUS_VALID.equals(pushInd)) {//推送
-                supplementMessage(pushMessageVo, messageActivityVo);
-                sendPush(pushMessageVo, customerId, ruleCode);
+                sendPush(pushMessageVo);
             }
 //                if (AppConst.STATUS_VALID.equals(smsInd)) {
 //                    createMsgSmsTxn();
@@ -97,15 +96,38 @@ public class MsgCenterActionService {
 
     }
 
+    private List<String> findLoginUnRemindRuleCodeList(String customerId, String methodNameStr){
+        List<Activity> activityList = activityService.getCurrentValidActivities();
+        if (activityList.isEmpty()) {
+            return Lists.newArrayList();
+        }
+        List<Long> activityIdList = Lists.newArrayList();
+        for (Activity activity : activityList) {
+            activityIdList.add(activity.getId());
+        }
+
+        String activityIdStr = activityIdList.toString().replace("[","(").replace("]",")");
+        List<String> ruleCodeList = centerDao.findUnRemindRuleCodeList(customerId,activityIdStr, methodNameStr);
+        return ruleCodeList;
+    }
+
+    private List<String> getRuleCodeList(String routeActionMethod, String messageType, String scene) {
+        List<String> list = centerDao.findMessageRuleCodeList(routeActionMethod, messageType, scene);
+
+        if (list.isEmpty()){
+            Logger.info(">>未配置消息规则映射表");
+        }
+
+        return list;
+    }
+
     /**
      *
      * @param pushMessageVo 规则信息
-     * @param customerId 当前操作的客户号
-     * @param ruleCode 规则编码
      */
-    public void sendPush(PushMessageVo pushMessageVo, String customerId, String ruleCode) {
+    public void sendPush(PushMessageVo pushMessageVo) {
 
-        CustomerMsgPushTxn customerMsgPushTxn = createCustomerMsgPushTxn(pushMessageVo, customerId);
+        CustomerMsgPushTxn customerMsgPushTxn = createCustomerMsgPushTxn(pushMessageVo);
 
         if (sendNow(pushMessageVo)) {//即时发送
             //更新为正在发送中
@@ -117,7 +139,7 @@ public class MsgCenterActionService {
 
             List<String> alias = getAliasList(pushMessageVo.getCustomerId());
             if (alias.isEmpty()) {
-//                return ;TODO
+                return ;
             }
             pushMessageVo.setAliasList(alias);
 
@@ -144,39 +166,22 @@ public class MsgCenterActionService {
             aliasList = customerDao.findAliasByCustomerId(customerId);
         }
         if (aliasList.isEmpty()) {
-            Logger.info(MessageFormat.format("未查询到需要信息发送的接收者！当前客户号：{0}", customerId));
-//          throw new BusinessRuntimeException("未查询到需要信息发送的接收者！");
+            Logger.error(MessageFormat.format("未查询到需要信息发送的接收者！当前客户号：{0}", customerId));
         }
         return aliasList;
     }
 
-    private CustomerMsgPushTxn createCustomerMsgPushTxn(PushMessageVo pushMessageVo, String customerId) {
+    private CustomerMsgPushTxn createCustomerMsgPushTxn(PushMessageVo pushMessageVo) {
         CustomerMsgPushTxn customerMsgPushTxn = new CustomerMsgPushTxn();
         customerMsgPushTxn.setMessageRuleId(pushMessageVo.getMessageRuleId());
         customerMsgPushTxn.setTitle(pushMessageVo.getTitle());
         customerMsgPushTxn.setContent(pushMessageVo.getContent());
         customerMsgPushTxn.setPushStatus(DictConst.PUSH_STATUS_2);
-        customerMsgPushTxn.setCustomerId(customerId);
+        customerMsgPushTxn.setCustomerId(pushMessageVo.getCustomerId());
         customerMsgPushTxn.setCreateTime(DBHelper.getCurrentTime());
         centerDao.createCustomerMsgPushTxn(customerMsgPushTxn);
         return customerMsgPushTxn;
     }
 
 
-    /**
-     * 待发送信息补充占位符信息
-     * @param pushMessageVo
-     * @param messageActivityVo
-     */
-    private void supplementMessage(PushMessageVo pushMessageVo, MessageHeaderVo messageActivityVo){
-        String customerId = messageActivityVo.getCustomerId();
-        List<String> params = messageActivityVo.getParams();
-        String messageType = messageActivityVo.getMessageType();
-
-        if (DictConst.PUSH_TYPE_2.equals(messageType)) {//活动类
-            pushMessageVo.setCustomerId(customerId);
-            pushMessageVo.setContent(MessageFormat.format(pushMessageVo.getContent(), params.toArray()));
-        }
-
-    }
 }

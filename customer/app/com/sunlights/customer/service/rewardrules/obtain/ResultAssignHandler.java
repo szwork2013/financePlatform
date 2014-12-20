@@ -8,11 +8,9 @@ import com.sunlights.customer.service.rewardrules.vo.ActivityRequestVo;
 import com.sunlights.customer.service.rewardrules.vo.ActivityResponseVo;
 import com.sunlights.customer.service.rewardrules.vo.RewardFlowRecordVo;
 import com.sunlights.customer.vo.ActivityResultVo;
-import com.sunlights.customer.vo.ObtainRewardVo;
 import play.Configuration;
 import play.Logger;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -54,7 +52,7 @@ public class ResultAssignHandler extends AbstractObtainRuleHandler {
             activityResultVo.setRuleUrl(rewardFlowRecordVo.getRuleUrl());
             responseVo.addActivityResultVo(activityResultVo);
 
-            requestVo.set("paramter" + i, detail);
+            requestVo.set("parameter" + i, detail);
             i++;
         }
 

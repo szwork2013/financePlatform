@@ -5,8 +5,11 @@ import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.sunlights.common.MsgCode;
 import com.sunlights.common.Severity;
 import com.sunlights.common.vo.Message;
+import com.sunlights.common.vo.MessageHeaderVo;
 import com.sunlights.common.vo.MessageVo;
 import play.libs.Json;
+
+import java.util.List;
 
 /**
  * Created by yuan on 9/22/14.
@@ -38,7 +41,7 @@ public class MessageUtil {
     mesageVo.setValue(value);
   }
 
-    public String setMessageHeader(Object value){
+    public String setMessageHeader(List<MessageHeaderVo> value){
         Message message =  mesageVo == null ? new Message(Severity.ERROR, MsgCode.OPERATE_FAILURE) : mesageVo.getMessage();
         ObjectNode json = Json.newObject();
         json.put("message", Json.toJson(message));

@@ -67,7 +67,7 @@ public class BankCardServiceImpl implements BankCardService {
 //            MessageUtil.getInstance().setMessage(new Message(Severity.ERROR, MsgCode.BIND_CARD_FAIL_EMPTY_BANK));
 //            return null;
 //        }
-        if (bankCardDao.hasBankCard(bankCardVo.getBankCardNo())) {
+        if (bankCardDao.hasBankCard(bankCardVo.getBankCard())) {
             MessageUtil.getInstance().setMessage(new Message(Severity.ERROR, MsgCode.BIND_CARD_FAIL_ALREADY_BIND));
             return null;
         }
@@ -78,8 +78,10 @@ public class BankCardServiceImpl implements BankCardService {
         if (bank != null) {
             bankCard.setBankCode(bank.getBankCode());
             bankCard.setBankId(bank.getId());
+        }else{
+            bankCard.setBankCode(bankCardVo.getBankName());
         }
-        bankCard.setBankCardNo(bankCardVo.getBankCardNo());
+        bankCard.setBankCardNo(bankCardVo.getBankCard());
         bankCard.setBankSerial(bankCardVo.getBankSerial());
         bankCard.setCreateTime(new Timestamp(new Date().getTime()));
         bankCard.setStatus(bankCardVo.getValidateStatus());

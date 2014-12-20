@@ -17,6 +17,7 @@ public class BankCardVo {
     // 0：验证为通过  1：验证通过  2：验证中
     private String validateStatus;
 
+    private String bankCard;
     private String bankCardNo;
     private String bankSerial;//银行序列号
 
@@ -117,5 +118,13 @@ public class BankCardVo {
 
     public void setBankCardNo(String bankCardNo) {
         this.bankCardNo = bankCardNo;
+    }
+
+    public String getBankCard() {
+        return bankCard;
+    }
+
+    public void setBankCard(String bankCard) {
+        this.bankCard = bankCard;
     }
 }
