@@ -9,7 +9,8 @@ public enum RewardFlowStatus {
     WITHDRAW_SUCC(3, "撤销成功"),
     WITHDRAW_FAIL(4, "撤销失败"),
     EXCHANGE_SUCC(5, "兑换成功"),
-    EXCHANGE_FAIL(6, "兑换失败");
+    EXCHANGE_FAIL(6, "兑换失败"),
+    EXCHANGEING(7, "兑换进行中");
 
 
     private int status;

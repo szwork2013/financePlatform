@@ -102,12 +102,14 @@ public class ExchangeRewardController extends ActivityBaseController {
         message = responseVo.getMessage();
         ExchangeResultVo resultVo = new ExchangeResultVo();
         resultVo.setPayed(exchangeParamter.getAmount());
-        resultVo.setAccountDate(exchangeSceneService.calcAccountDate(exchangeScene.getTimeLimit(), null));
+        resultVo.setAccountDate(exchangeSceneService.calcAccountDate(exchangeScene.getTimeLimit(), null, true));
 
-        if(MsgCode.OBTAIN_SUCC.getCode().equals(message.getCode())) {
-            messageUtil.setMessage(new Message(Severity.INFO, MsgCode.EXCHANGE_SUCC), resultVo);
+        if(MsgCode.OPERATE_SUCCESS.getCode().equals(message.getCode())) {
+            message.setCode(MsgCode.EXCHANGE_SUCC.getCode());
+            messageUtil.setMessage(message, resultVo);
             Logger.info("兑换成功");
         } else {
+            message.setSeverity(Severity.ERROR);
             messageUtil.setMessage(message, null);
             Logger.debug("兑换失败 ：" + message.getSummary());
         }

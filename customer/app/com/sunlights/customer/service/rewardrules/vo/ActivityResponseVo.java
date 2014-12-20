@@ -21,7 +21,7 @@ public class ActivityResponseVo {
 
     private String status;
 
-    private Message message = new Message(Severity.INFO, MsgCode.OBTAIN_SUCC);
+    private Message message = new Message(Severity.INFO, MsgCode.OPERATE_SUCCESS);
 
     private boolean isFlowStop;
 

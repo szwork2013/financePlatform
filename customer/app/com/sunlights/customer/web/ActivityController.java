@@ -128,7 +128,8 @@ public class ActivityController extends ActivityBaseController  {
             obtainRewardVo.setScene(scene);
             obtainRewardVo.setStatus(ActivityConstant.ACTIVITY_CUSTONER_STATUS_FORBIDDEN);
             message.setSeverity(Severity.ERROR);
-        } else {
+        } else if(MsgCode.OPERATE_SUCCESS.getCode().equals(message.getCode())){
+            message.setCode(MsgCode.OBTAIN_SUCC.getCode());
             obtainRewardVo = obtainRewardVos.get(0);
         }
 
@@ -192,7 +193,8 @@ public class ActivityController extends ActivityBaseController  {
         message = responseVo.getMessage();
         List<ActivityResultVo> activityResultVos = responseVo.getActivityResultVos();
 
-        if(MsgCode.OBTAIN_SUCC.getCode().equals(message.getCode())) {
+        if(MsgCode.OPERATE_SUCCESS.getCode().equals(message.getCode())) {
+            message.setCode(MsgCode.OBTAIN_SUCC.getCode());
             TradeObtainRewardSuccVo tradeObtainRewardSuccVo = new TradeObtainRewardSuccVo();
             tradeObtainRewardSuccVo.setFundCode(activityParamter.getFundCode());
             tradeObtainRewardSuccVo.setSupplySum(activityParamter.getSupplySum());
