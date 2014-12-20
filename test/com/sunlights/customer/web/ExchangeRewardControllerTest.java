@@ -31,7 +31,7 @@ public class ExchangeRewardControllerTest extends BaseTest {
         });
     }
 
-    @Test
+    //@Test
     public void testQueryExchangeScenes() throws Exception {
         running(fakeApplication(), new Runnable() {
             public void run() {
@@ -39,7 +39,13 @@ public class ExchangeRewardControllerTest extends BaseTest {
 
 
 
+                String index = "0";
+                String pageSize = "4";
+
+
                 Map<String, String> formParams = new HashMap<>();
+                formParams.put("index", index);
+                formParams.put("pageSize", pageSize);
 
 
                 play.mvc.Result result = getResult("/account/activity/exchangescenes", formParams, cookie);

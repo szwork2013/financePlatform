@@ -9,6 +9,8 @@ import com.sunlights.customer.service.rewardrules.vo.ObtainRewardRuleVo;
 import org.apache.commons.lang3.StringUtils;
 import play.Logger;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -35,15 +37,20 @@ public class ValidBankCardHandler extends AbstractObtainRuleHandler {
         String bankCard = bankCardService.getBankCardByCunstId(custId);
         if(StringUtils.isEmpty(bankCard)) {
             Map<Long, List<ObtainRewardRuleVo>> obtainRewardRuleMap = requestVo.getObtainRewardRuleMap();
+            Map<Long, List<ObtainRewardRuleVo>> result = new HashMap<Long, List<ObtainRewardRuleVo>>();
             for(Map.Entry<Long, List<ObtainRewardRuleVo>> entry : obtainRewardRuleMap.entrySet()) {
+                Long key = entry.getKey();
                 List<ObtainRewardRuleVo> obtainRewardRuleVos = entry.getValue();
+                List<ObtainRewardRuleVo> resultList = new ArrayList<ObtainRewardRuleVo>(obtainRewardRuleVos);
                 for(ObtainRewardRuleVo obtainRewardRuleVo : obtainRewardRuleVos) {
                     if(ActivityConstant.REWARD_TYPE_REDPACKET.equals(obtainRewardRuleVo.getRewardTypeModel().getCode())) {
                         Logger.debug("没有银行卡，不送红包");
-                        obtainRewardRuleVos.remove(obtainRewardRuleVo);
+                        resultList.remove(obtainRewardRuleVo);
                     }
                 }
+                result.put(key, resultList);
             }
+            requestVo.setObtainRewardRuleMap(result);
         }
     }
 
