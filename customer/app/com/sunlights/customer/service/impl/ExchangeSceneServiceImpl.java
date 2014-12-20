@@ -93,6 +93,7 @@ public class ExchangeSceneServiceImpl implements ExchangeSceneService {
         BigDecimal money = BigDecimal.ZERO;
         BigDecimal canPayed = BigDecimal.ZERO;
         BigDecimal totalMoney = BigDecimal.ZERO;
+
         for(HoldReward holdReward : holdRewards) {
             total += (holdReward.getHoldReward() - holdReward.getFrozenReward());
             money = money.add(holdReward.getHoldMoney().subtract(holdReward.getFrozenMoney()));
@@ -110,7 +111,7 @@ public class ExchangeSceneServiceImpl implements ExchangeSceneService {
 
         //TODO 这样的话不能将多个参数替换
         String detaiTemplate = Configuration.root().getString(exchangeScene.getScene() + "." + exchangeScene.getRewardType() + "." + exchangeScene.getActivityType());
-        data4ExchangeVo.setSummary(MessageFormat.format(detaiTemplate, money));
+        data4ExchangeVo.setSummary(MessageFormat.format(detaiTemplate, totalMoney));
 
         List<Data4ExchangeItem> items = rewardFlowService.getItemsByType(exchangeScene.getScene(), custId, activityType, rewardType);
         data4ExchangeVo.setList(items);
