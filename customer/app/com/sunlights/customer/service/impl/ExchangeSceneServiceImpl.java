@@ -53,7 +53,7 @@ public class ExchangeSceneServiceImpl implements ExchangeSceneService {
         for(ExchangeScene exchangeScene : exchangeScenes) {
             String activityType = exchangeScene.getActivityType();
             String rewardType = exchangeScene.getRewardType();
-            List<HoldReward> holdRewards = holdRewardDao.findByCustIdAndRewardType(custId, rewardType, activityType);
+            List<HoldReward> holdRewards = holdRewardDao.findByCustIdAndRewardType(custId, rewardType, activityType, false);
             Logger.debug("holdRewards == " + holdRewards.size());
             Long total = Long.valueOf(0);
             BigDecimal money = BigDecimal.ZERO;
@@ -86,7 +86,7 @@ public class ExchangeSceneServiceImpl implements ExchangeSceneService {
         String rewardType = exchangeScene.getRewardType();
         String activityType = exchangeScene.getActivityType();
 
-        List<HoldReward> holdRewards = holdRewardDao.findByCustIdAndRewardType(custId, rewardType, activityType);
+        List<HoldReward> holdRewards = holdRewardDao.findByCustIdAndRewardType(custId, rewardType, activityType, false);
         Logger.debug("holdRewards == " + holdRewards.size());
         RewardType rewardTypeModel = rewardTypeService.findByTypeCode(rewardType);
         Long total = Long.valueOf(0);

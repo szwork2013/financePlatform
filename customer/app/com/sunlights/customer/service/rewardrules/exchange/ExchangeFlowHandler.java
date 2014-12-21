@@ -36,7 +36,7 @@ public class ExchangeFlowHandler extends AbstractExchangeRuleHandler{
         Long subRewardAmt = requestVo.get("subRewardAmt", Long.class);
         ExchangeScene exchangeScene = requestVo.get("exchangeScene", ExchangeScene.class);
 
-        holdRewardService.frozenReward(requestVo.getCustId(), requestVo.getRewardType(), subRewardAmt, exchangeMoney);
+        holdRewardService.frozenReward(requestVo.getCustId(), exchangeScene.getRewardType(), exchangeScene.getActivityType(), subRewardAmt, exchangeMoney);
 
         RewardFlowRecordVo rewardFlowRecordVo = new RewardFlowRecordVo();
         rewardFlowRecordVo.setRewardAmtResult(subRewardAmt);
