@@ -117,6 +117,7 @@ public enum MsgCode {
     ACTIVITY_SCENE_EXIST_ERROR("2227", "操作失败：", "已存在到场景编码。"),
     EXCHANGE_NOT_ENOUGH("2228", "兑换数量不足"),
     NOT_SUPPORT_SHARE_TYPE("2229", "不支持的分享类型"),
+    PARAMTER_NOT_CAN_NULL("2230", "参数不能为空"),
     ACTIVITY_SYS_ERROR("3201", "系统异常");
 
 

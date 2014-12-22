@@ -11,7 +11,6 @@ POST        /logout                       @com.sunlights.customer.web.CustomerCo
 POST        /hastoken                     @com.sunlights.customer.web.CustomerController.getToken
 
 #share
-POST        /activity/sharecontent        @com.sunlights.customer.web.ShareContorller.sendFriend
 POST        /activity/getqrcode           @com.sunlights.customer.web.ShareContorller.getQRcodeToByte
 POST        /activity/share        @com.sunlights.customer.web.ShareContorller.share
 

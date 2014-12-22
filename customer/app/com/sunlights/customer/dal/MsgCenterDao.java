@@ -1,9 +1,9 @@
 package com.sunlights.customer.dal;
 
-import com.sunlights.common.vo.PageVo;
 import com.sunlights.common.vo.PushMessageVo;
 import models.CustomerMsgPushTxn;
-import models.MessageRuleMapping;
+import models.MessageRule;
+import models.MessageSmsTxn;
 
 import java.util.List;
 
@@ -17,13 +17,26 @@ import java.util.List;
  * @author <a href="mailto:jiaming.wang@sunlights.cc">wangJiaMing</a>
  */
 public interface MsgCenterDao {
+    /**
+     * 推送
+     * @param ruleCode
+     * @return
+     */
     public PushMessageVo findMessageRuleByCode(String ruleCode);
+
+    public MessageRule findMessageRuleSmsByCode(String ruleCode);
+
+    public MessageSmsTxn createMessageSmsTxn(MessageSmsTxn messageSmsTxn);
     
     public CustomerMsgPushTxn createCustomerMsgPushTxn(CustomerMsgPushTxn customerMsgPushTxn);
 
     public CustomerMsgPushTxn updateCustomerMsgPushTxn(CustomerMsgPushTxn customerMsgPushTxn);
 
-    public List<MessageRuleMapping> findMessageRuleMappingList(MessageRuleMapping messageRuleMapping);
+    public List<String> findMessageRuleCodeList(String methodName, String messageType, String scene);
 
-    public List<String> findMessageRuleCodeList(PageVo pageVo);
+    /**
+     * 查询 在有效时间范围内的 未提醒过的  活动提示
+     * @return
+     */
+    public List<String> findUnRemindRuleCodeList(String customerId, String activityIdStr, String methodName);
 }

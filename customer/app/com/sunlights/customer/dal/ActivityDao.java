@@ -2,7 +2,6 @@ package com.sunlights.customer.dal;
 
 import com.sunlights.common.vo.PageVo;
 import models.Activity;
-import models.ActivityShareInfo;
 
 import java.util.List;
 
@@ -20,7 +19,7 @@ public interface ActivityDao {
      */
     public List<Activity> getActivityByScene(String scene);
 
-    public List<ActivityShareInfo> getShareInfoByScene(String scene);
+
 
 
     public Activity findById(Long id);

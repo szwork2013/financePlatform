@@ -1,7 +1,23 @@
 package com.sunlights.customer.web;
 
+import com.fasterxml.jackson.databind.JsonNode;
+import com.google.common.collect.Lists;
+import com.sunlights.common.AppConst;
 import com.sunlights.common.DictConst;
+import com.sunlights.common.MsgCode;
+import com.sunlights.common.Severity;
+import com.sunlights.common.service.VerifyCodeService;
+import com.sunlights.common.utils.MessageUtil;
+import com.sunlights.common.vo.Message;
 import com.sunlights.common.vo.MessageHeaderVo;
+import com.sunlights.common.vo.MessageVo;
+import com.sunlights.customer.action.MsgCenterAction;
+import com.sunlights.customer.service.LoginService;
+import com.sunlights.customer.service.impl.CustomerService;
+import com.sunlights.customer.service.impl.LoginServiceImpl;
+import com.sunlights.customer.vo.CustomerFormVo;
+import com.sunlights.customer.vo.CustomerVo;
+import com.sunlights.customer.vo.JudjeTokenVo;
 import models.Customer;
 import models.CustomerSession;
 import play.Logger;
@@ -12,21 +28,7 @@ import play.mvc.Http;
 import play.mvc.Result;
 import play.mvc.With;
 
-import com.fasterxml.jackson.databind.JsonNode;
-import com.sunlights.common.AppConst;
-import com.sunlights.common.MsgCode;
-import com.sunlights.common.Severity;
-import com.sunlights.common.service.VerifyCodeService;
-import com.sunlights.common.utils.MessageUtil;
-import com.sunlights.common.vo.Message;
-import com.sunlights.common.vo.MessageVo;
-import com.sunlights.customer.action.MsgCenterAction;
-import com.sunlights.customer.service.LoginService;
-import com.sunlights.customer.service.impl.CustomerService;
-import com.sunlights.customer.service.impl.LoginServiceImpl;
-import com.sunlights.customer.vo.CustomerFormVo;
-import com.sunlights.customer.vo.CustomerVo;
-import com.sunlights.customer.vo.JudjeTokenVo;
+import java.util.List;
 
 /**
  * Created by Administrator on 2014/9/4.
@@ -123,10 +125,10 @@ public class CustomerController extends Controller {
         JsonNode json = MessageUtil.getInstance().toJson();
         Logger.info("==========login返回：" + json.toString());
 
-        MessageHeaderVo messageHeaderVo = new MessageHeaderVo();
-        messageHeaderVo.setMessageType(DictConst.PUSH_TYPE_4);
-        messageHeaderVo.setCustomerId(customerSession.getCustomerId());
-        response().setHeader(AppConst.HEADER_MSG, MessageUtil.getInstance().setMessageHeader(messageHeaderVo));
+        MessageHeaderVo messageHeaderVo = new MessageHeaderVo(DictConst.PUSH_TYPE_4, null, customerSession.getCustomerId());
+        List<MessageHeaderVo> list = Lists.newArrayList();
+        list.add(messageHeaderVo);
+        response().setHeader(AppConst.HEADER_MSG, MessageUtil.getInstance().setMessageHeader(list));
         return Controller.ok(json);
     }
 
@@ -200,6 +202,7 @@ public class CustomerController extends Controller {
      *
      * @return
      */
+    @With(MsgCenterAction.class)
     public Result loginByges() {
         Logger.info("==========loginByGesture====================");
         CustomerFormVo customerFormVo = customerForm.bindFromRequest().get();
@@ -220,6 +223,11 @@ public class CustomerController extends Controller {
 
         JsonNode json = MessageUtil.getInstance().toJson();
         Logger.info("==========loginByges返回：" + json.toString());
+
+        MessageHeaderVo messageHeaderVo = new MessageHeaderVo(DictConst.PUSH_TYPE_4, null, customerSession.getCustomerId());
+        List<MessageHeaderVo> list = Lists.newArrayList();
+        list.add(messageHeaderVo);
+        response().setHeader(AppConst.HEADER_MSG, MessageUtil.getInstance().setMessageHeader(list));
 
         return Controller.ok(json);
     }

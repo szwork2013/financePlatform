@@ -22,7 +22,7 @@ public interface HoldRewardService {
 
     public void genRewardFlow(RewardFlowRecordVo rewardFlowRecordVo);
 
-    public void frozenReward(String custId, String rewardType, Long frozenAmt, BigDecimal exchangeMoney);
+    public void frozenReward(String custId, String rewardType,String activityType, Long frozenAmt, BigDecimal exchangeMoney);
 
     public HoldRewardVo getTotalReward(String custId);
 }

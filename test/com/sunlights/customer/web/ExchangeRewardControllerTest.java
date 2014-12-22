@@ -58,7 +58,7 @@ public class ExchangeRewardControllerTest extends BaseTest {
         });
     }
 
-    //@Test
+    @Test
     public void testPrepareDataBeforeExchange() throws Exception {
         running(fakeApplication(), new Runnable() {
             public void run() {

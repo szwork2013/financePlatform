@@ -36,9 +36,13 @@ public class MsgCenterAction extends Action.Simple{
         try {
             String headerMsg = context.response().getHeaders().get(AppConst.HEADER_MSG);
             Logger.debug("headerMsg:" + headerMsg);
-            Message message = Json.fromJson(Json.parse(headerMsg).get("message"), Message.class);
+            JsonNode messageJsonNode = Json.parse(headerMsg).get("message");
+            if (messageJsonNode == null) {
+                return result;
+            }
+            Message message = Json.fromJson(messageJsonNode, Message.class);
             if (Severity.INFO.getLevel() != message.getSeverity()) {
-//                return result;
+                return result;
             }
 
             final String token = getResponseToken(context);
@@ -52,6 +56,8 @@ public class MsgCenterAction extends Action.Simple{
                     MessageHeaderVo messageHeaderVo = Json.fromJson(node, MessageHeaderVo.class);
                     messageHeaderVoList.add(messageHeaderVo);
                 }
+            }else{
+                return result;
             }
 
             final String routeActionMethod = (String)context.args.get(AppConst.ROUTE_ACTION_METHOD);
@@ -72,6 +78,8 @@ public class MsgCenterAction extends Action.Simple{
         }catch (Exception e){
             e.printStackTrace();
         }
+
+//        context.response().setHeader(AppConst.HEADER_MSG, null);
 
         return result;
     }

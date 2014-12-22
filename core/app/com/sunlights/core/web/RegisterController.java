@@ -1,6 +1,21 @@
 package com.sunlights.core.web;
 
+import com.fasterxml.jackson.databind.JsonNode;
+import com.google.common.collect.Lists;
+import com.sunlights.account.service.AccountService;
+import com.sunlights.account.service.impl.AccountServiceImpl;
+import com.sunlights.common.AppConst;
+import com.sunlights.common.DictConst;
+import com.sunlights.common.MsgCode;
+import com.sunlights.common.utils.MessageUtil;
+import com.sunlights.common.vo.Message;
+import com.sunlights.common.vo.MessageHeaderVo;
 import com.sunlights.customer.action.MsgCenterAction;
+import com.sunlights.customer.service.LoginService;
+import com.sunlights.customer.service.impl.CustomerService;
+import com.sunlights.customer.service.impl.LoginServiceImpl;
+import com.sunlights.customer.vo.CustomerFormVo;
+import com.sunlights.customer.vo.CustomerVo;
 import models.Customer;
 import models.CustomerSession;
 import play.Logger;
@@ -10,18 +25,7 @@ import play.mvc.Controller;
 import play.mvc.Result;
 import play.mvc.With;
 
-import com.fasterxml.jackson.databind.JsonNode;
-import com.sunlights.account.service.AccountService;
-import com.sunlights.account.service.impl.AccountServiceImpl;
-import com.sunlights.common.AppConst;
-import com.sunlights.common.MsgCode;
-import com.sunlights.common.utils.MessageUtil;
-import com.sunlights.common.vo.Message;
-import com.sunlights.customer.service.LoginService;
-import com.sunlights.customer.service.impl.CustomerService;
-import com.sunlights.customer.service.impl.LoginServiceImpl;
-import com.sunlights.customer.vo.CustomerFormVo;
-import com.sunlights.customer.vo.CustomerVo;
+import java.util.List;
 
 /**
  * <p>Project: financeplatform</p>
@@ -76,18 +80,16 @@ public class RegisterController extends Controller {
             Message message = new Message(MsgCode.REGISTRY_SUCCESS);
             CustomerVo customerVo = customerService.getCustomerVoByPhoneNo(customer.getMobile(), customerFormVo.getDeviceNo());
             MessageUtil.getInstance().setMessage(message, customerVo);
-            /*try {
-                obtainRewardFacade.obtainReward(customerVo.getCustomerId(), AccountConstant.ACTIVITY_REGISTER_SCENE_CODE, null);
-            } catch (Exception e) {
-                Logger.error("获取积分失败");
-            }*/
         }
 
         JsonNode json = MessageUtil.getInstance().toJson();
 
         Logger.info("==========register返回：" + json.toString());
         Controller.response().setHeader("Access-Control-Allow-Origin","*");
-        Controller.response().setHeader(AppConst.HEADER_MSG, MessageUtil.getInstance().setMessageHeader(null));
+        MessageHeaderVo messageHeaderVo = new MessageHeaderVo(DictConst.PUSH_TYPE_4, null, customer.getCustomerId());
+        List<MessageHeaderVo> list = Lists.newArrayList();
+        list.add(messageHeaderVo);
+        Controller.response().setHeader(AppConst.HEADER_MSG, MessageUtil.getInstance().setMessageHeader(list));
 
         return Controller.ok(json);
     }

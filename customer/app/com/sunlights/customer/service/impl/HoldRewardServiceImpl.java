@@ -41,7 +41,8 @@ public class HoldRewardServiceImpl implements HoldRewardService {
 
     @Override
     public void modifyHoldReward(String custId, String rewardType,String activityType, BigDecimal money, Long rewardAmt) {
-        HoldReward oldHoldReward = holdRewardDao.findByCondition(custId, rewardType, activityType);
+        //TODO 需要上锁--数据库的行级排它锁
+        HoldReward oldHoldReward = holdRewardDao.findByCondition(custId, rewardType, activityType, true);
         if(oldHoldReward == null) {
             HoldReward newHoldReward = new HoldReward();
             newHoldReward.setCustId(custId);
@@ -162,9 +163,10 @@ public class HoldRewardServiceImpl implements HoldRewardService {
     }
 
     @Override
-    public void frozenReward(String custId, String rewardType, Long frozenAmt, BigDecimal exchangeMoney) {
-        Logger.debug("冻结奖励custId = " + custId + " rewardType = " + rewardType + " frozenAmt = " + frozenAmt + " exchangeMoney = " + exchangeMoney);
-        List<HoldReward> list = holdRewardDao.findListByCustIdAndRewardType(custId, rewardType);
+    public void frozenReward(String custId, String rewardType, String activityType, Long frozenAmt, BigDecimal exchangeMoney) {
+        Logger.debug("冻结奖励custId = " + custId + " rewardType = " + rewardType + " frozenAmt = " + frozenAmt + " exchangeMoney = " + exchangeMoney + " activityType = " + activityType);
+        //TODO 需要上锁
+        List<HoldReward> list = holdRewardDao.findByCustIdAndRewardType(custId, rewardType, activityType, true);
         if(list == null || list.isEmpty()) {
             return;
         }
@@ -172,6 +174,7 @@ public class HoldRewardServiceImpl implements HoldRewardService {
             if(holdReward.getHoldReward() <= frozenAmt) {
                 holdReward.setFrozenReward(holdReward.getFrozenReward() + holdReward.getHoldReward());
                 holdReward.setFrozenMoney(holdReward.getFrozenMoney().add(holdReward.getHoldMoney()));
+                frozenAmt = frozenAmt - holdReward.getHoldReward();
             } else {
                 holdReward.setFrozenReward(holdReward.getFrozenReward() + frozenAmt);
                 holdReward.setFrozenMoney(holdReward.getFrozenMoney().add(exchangeMoney));
@@ -184,7 +187,7 @@ public class HoldRewardServiceImpl implements HoldRewardService {
 
     @Override
     public HoldRewardVo getTotalReward(String custId) {
-        List<HoldReward> holdRewards = holdRewardDao.findListByCustIdAndRewardType(custId, null);
+        List<HoldReward> holdRewards = holdRewardDao.findListByCustIdAndRewardType(custId, null, false);
         Long totalGoldBean = Long.valueOf(0);
         BigDecimal goldBeanCash = BigDecimal.ZERO;
         BigDecimal redPacket = BigDecimal.ZERO;

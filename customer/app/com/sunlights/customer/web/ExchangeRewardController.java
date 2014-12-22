@@ -1,8 +1,6 @@
 package com.sunlights.customer.web;
 
-import com.google.common.collect.Lists;
 import com.sunlights.common.AppConst;
-import com.sunlights.common.DictConst;
 import com.sunlights.common.MsgCode;
 import com.sunlights.common.Severity;
 import com.sunlights.common.utils.MessageUtil;
@@ -15,16 +13,17 @@ import com.sunlights.customer.service.impl.ExchangeSceneServiceImpl;
 import com.sunlights.customer.service.rewardrules.ActivityHandlerService;
 import com.sunlights.customer.service.rewardrules.vo.ActivityRequestVo;
 import com.sunlights.customer.service.rewardrules.vo.ActivityResponseVo;
-import com.sunlights.customer.vo.*;
+import com.sunlights.customer.vo.Data4ExchangeVo;
+import com.sunlights.customer.vo.ExchangeParamter;
+import com.sunlights.customer.vo.ExchangeResultVo;
+import com.sunlights.customer.vo.ExchangeSceneVo;
 import models.CustomerSession;
 import models.ExchangeScene;
 import play.Logger;
 import play.db.jpa.Transactional;
-import play.libs.Json;
 import play.mvc.Result;
 import play.mvc.With;
 
-import java.util.Date;
 import java.util.List;
 
 /**
@@ -118,6 +117,7 @@ public class ExchangeRewardController extends ActivityBaseController {
         List<MessageHeaderVo> messageHeaderVos = responseVo.getMessageHeaderVos();
         response().setHeader(AppConst.HEADER_MSG, MessageUtil.getInstance().setMessageHeader(messageHeaderVos));
 
+        Logger.info("==============");
         return ok(messageUtil.toJson());
     }
 

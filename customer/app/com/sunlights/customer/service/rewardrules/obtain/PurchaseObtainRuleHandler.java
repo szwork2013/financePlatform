@@ -4,10 +4,6 @@ package com.sunlights.customer.service.rewardrules.obtain;
 import com.sunlights.customer.service.rewardrules.vo.ActivityRequestVo;
 import com.sunlights.customer.service.rewardrules.vo.ActivityResponseVo;
 import play.Logger;
-import play.libs.Json;
-
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * 购买场景获取奖励的处理链入口
@@ -38,7 +34,7 @@ public class PurchaseObtainRuleHandler extends AbstractObtainRuleHandler{
         setNextHandler(purchaseObtainValideHandler)
                 .setNextHandler(obtainRuleGainHandler)
                 .setNextHandler(reCommendHandler)
-                .setNextHandler(validBankCardHandler)
+//                .setNextHandler(validBankCardHandler)
                 .setNextHandler(rewardFlowHandler)
                 .setNextHandler(custJoinActivityHandler)
                 .setNextHandler(resultAssignHandler)

@@ -3,6 +3,7 @@ package com.sunlights.customer.dal;
 import com.sunlights.customer.vo.CustomerVo;
 import models.Customer;
 import models.CustomerGesture;
+import models.CustomerMsgSetting;
 import models.CustomerSession;
 
 import java.sql.Timestamp;
@@ -59,6 +60,8 @@ public interface CustomerDao {
      * @return
      */
     public List<String> findAliasByCustomerId(String customerId);
+
+    public CustomerMsgSetting createCustomerMsgSetting(CustomerMsgSetting customerMsgSetting);
 
 
 

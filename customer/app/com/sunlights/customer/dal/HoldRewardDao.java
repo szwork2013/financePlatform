@@ -9,13 +9,13 @@ import java.util.List;
  */
 public interface HoldRewardDao {
 
-    public List<HoldReward> findByCustIdAndRewardType(String custId, String rewardType, String activityType);
+    public List<HoldReward> findByCustIdAndRewardType(String custId, String rewardType, String activityType, boolean isLock);
 
     public HoldReward findByCustIdAndRewardType(String custId, String rewardType);
 
-    public List<HoldReward> findListByCustIdAndRewardType(String custId, String rewardType);
+    public List<HoldReward> findListByCustIdAndRewardType(String custId, String rewardType, boolean isLock);
 
-    public HoldReward findByCondition(String custId, String rewardType, String activityType);
+    public HoldReward findByCondition(String custId, String rewardType, String activityType, boolean isLock);
 
     public void doInsert(HoldReward holdReward);
 
