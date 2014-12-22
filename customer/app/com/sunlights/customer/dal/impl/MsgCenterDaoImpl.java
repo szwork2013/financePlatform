@@ -1,13 +1,13 @@
 package com.sunlights.customer.dal.impl;
 
 import com.sunlights.common.dal.EntityBaseDao;
-import com.sunlights.common.dal.PageDao;
-import com.sunlights.common.dal.impl.PageDaoImpl;
 import com.sunlights.common.utils.ConverterUtil;
 import com.sunlights.common.vo.PageVo;
 import com.sunlights.common.vo.PushMessageVo;
 import com.sunlights.customer.dal.MsgCenterDao;
 import models.CustomerMsgPushTxn;
+import models.MessageRule;
+import models.MessageSmsTxn;
 import play.Logger;
 
 import javax.persistence.Query;
@@ -24,8 +24,6 @@ import java.util.List;
  */
 public class MsgCenterDaoImpl extends EntityBaseDao implements MsgCenterDao{
     
-    private PageDao pageDao = new PageDaoImpl();
-    
     @Override
     public PushMessageVo findMessageRuleByCode(String ruleCode) {
         String sql = "SELECT pc.platform, pc.push_timed, mr.push_ind, mr.sms_ind, mr.msg_center_ind," +
@@ -40,6 +38,16 @@ public class MsgCenterDaoImpl extends EntityBaseDao implements MsgCenterDao{
         String keys = "platform,pushTimed,pushInd,smsInd,msgCenterInd,messageRuleId,title,content,contentExt,groupId";
         List<PushMessageVo> voList = ConverterUtil.convert(keys, list, PushMessageVo.class);
         return voList.isEmpty() ? null : voList.get(0);
+    }
+
+    @Override
+    public MessageRule findMessageRuleSmsByCode(String ruleCode) {
+        return findUniqueBy(MessageRule.class, "code" ,ruleCode);
+    }
+
+    @Override
+    public MessageSmsTxn createMessageSmsTxn(MessageSmsTxn messageSmsTxn) {
+        return create(messageSmsTxn);
     }
 
     @Override
@@ -73,7 +81,7 @@ public class MsgCenterDaoImpl extends EntityBaseDao implements MsgCenterDao{
         String hasSendMsg =
                 "select ct.message_rule_id from c_customer_msg_push_txn ct where ct.customer_id = :customerId and mr.id = ct.message_rule_id" +
                 " union "+
-                " select st.message_rule_id from c_message_sms_txn st where st.customer_id = :customerId  and mr.id = st.message_rule_id";
+                " select st.message_rule_id from c_message_sms_txn st,c_customer c where st.mobile = c.mobile and c.customer_id = :customerId  and mr.id = st.message_rule_id";
 
         StringBuffer sb = new StringBuffer();
         sb.append("select distinct mr.code from c_message_rule_mapping mrm,c_message_rule mr")

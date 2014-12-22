@@ -2,6 +2,8 @@ package com.sunlights.customer.dal;
 
 import com.sunlights.common.vo.PushMessageVo;
 import models.CustomerMsgPushTxn;
+import models.MessageRule;
+import models.MessageSmsTxn;
 
 import java.util.List;
 
@@ -15,7 +17,16 @@ import java.util.List;
  * @author <a href="mailto:jiaming.wang@sunlights.cc">wangJiaMing</a>
  */
 public interface MsgCenterDao {
+    /**
+     * 推送
+     * @param ruleCode
+     * @return
+     */
     public PushMessageVo findMessageRuleByCode(String ruleCode);
+
+    public MessageRule findMessageRuleSmsByCode(String ruleCode);
+
+    public MessageSmsTxn createMessageSmsTxn(MessageSmsTxn messageSmsTxn);
     
     public CustomerMsgPushTxn createCustomerMsgPushTxn(CustomerMsgPushTxn customerMsgPushTxn);
 

@@ -13,13 +13,17 @@ import com.sunlights.customer.dal.impl.MsgCenterDaoImpl;
 import com.sunlights.customer.service.ActivityService;
 import com.sunlights.customer.service.impl.ActivityServiceImpl;
 import models.Activity;
+import models.Customer;
 import models.CustomerMsgPushTxn;
+import models.MessageSmsTxn;
 import play.Logger;
 import play.Play;
 import play.libs.Json;
 import play.libs.ws.WS;
 
+import java.sql.Timestamp;
 import java.text.MessageFormat;
+import java.text.SimpleDateFormat;
 import java.util.List;
 
 /**
@@ -42,7 +46,6 @@ public class MsgCenterActionService {
     private final static String REGISTER = "register";
 
 
-
     public void sendMsg(String routeActionMethod, List<MessageHeaderVo> messageHeaderVoList){
         for (MessageHeaderVo messageActivityVo : messageHeaderVoList) {
             String messageType = messageActivityVo.getMessageType();
@@ -53,10 +56,11 @@ public class MsgCenterActionService {
             if (DictConst.PUSH_TYPE_4.equals(messageType)) {//注册登录提示类  信息
                 if (LOGIN.equals(routeActionMethod) || LOGINBYGES.equals(routeActionMethod)) {
                     routeActionMethod = LOGIN;
+                    ruleCodeList = findLoginUnRemindRuleCodeList(customerId, routeActionMethod);
                 }else if(REGISTER.equals(routeActionMethod)) {//注册完成后自动登录
                     routeActionMethod = REGISTER;
+                    ruleCodeList = findLoginUnRemindRuleCodeList(customerId, routeActionMethod);
                 }
-                ruleCodeList = findLoginUnRemindRuleCodeList(customerId, routeActionMethod);
             }else{//活动类、系统类、交易类  信息
                 ruleCodeList = getRuleCodeList(routeActionMethod, messageType, scene);
             }
@@ -87,9 +91,9 @@ public class MsgCenterActionService {
             if (AppConst.STATUS_VALID.equals(pushInd)) {//推送
                 sendPush(pushMessageVo);
             }
-//                if (AppConst.STATUS_VALID.equals(smsInd)) {
-//                    createMsgSmsTxn();
-//                }
+            if (AppConst.STATUS_VALID.equals(smsInd)) {
+                sendSms(pushMessageVo);
+            }
 
         }else{//针对某个群组操作
         }
@@ -148,6 +152,19 @@ public class MsgCenterActionService {
 
     }
 
+    /**
+     *
+     * @param pushMessageVo 短信信息
+     */
+    public void sendSms(PushMessageVo pushMessageVo) {
+
+        Customer customer = customerDao.getCustomerByCustomerId(pushMessageVo.getCustomerId());
+        MessageSmsTxn messageSmsTxn = createMessageSmsTxn(pushMessageVo, customer.getMobile());
+        String smsUrl = Play.application().configuration().getString("sms_url");
+        WS.url(smsUrl).post(Json.toJson(messageSmsTxn));
+
+    }
+
     private boolean sendNow(PushMessageVo pushMessageVo){
         return AppConst.STATUS_INVALID.equals(pushMessageVo.getPushTimed());
     }
@@ -181,6 +198,23 @@ public class MsgCenterActionService {
         customerMsgPushTxn.setCreateTime(DBHelper.getCurrentTime());
         centerDao.createCustomerMsgPushTxn(customerMsgPushTxn);
         return customerMsgPushTxn;
+    }
+
+
+    private MessageSmsTxn createMessageSmsTxn(PushMessageVo pushMessageVo, String mobilePhoneNo) {
+
+        Timestamp currentTime = DBHelper.getCurrentTime();
+        MessageSmsTxn messageSmsTxn = new MessageSmsTxn();
+        messageSmsTxn.setMessageRuleId(pushMessageVo.getMessageRuleId());
+        messageSmsTxn.setMobile(mobilePhoneNo);
+        messageSmsTxn.setSmsId(new SimpleDateFormat("yyyyMMddHHmmssSSS").format(DBHelper.getCurrentTime()));
+        messageSmsTxn.setContent(pushMessageVo.getContent());
+        messageSmsTxn.setTitle(pushMessageVo.getTitle());
+        messageSmsTxn.setCreateTime(currentTime);
+
+        centerDao.createMessageSmsTxn(messageSmsTxn);
+
+        return messageSmsTxn;
     }
 
 
