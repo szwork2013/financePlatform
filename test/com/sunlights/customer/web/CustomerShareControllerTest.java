@@ -28,7 +28,7 @@ public class CustomerShareControllerTest extends BaseTest {
 
 
 
-    @Test
+    //@Test
     public void testsendFriend() throws Exception {//分享好友
         running(fakeApplication(), new Runnable() {
             public void run() {
@@ -66,7 +66,7 @@ public class CustomerShareControllerTest extends BaseTest {
         });
     }
 
-    @Test
+    //@Test
     public void testInviteShare() throws Exception {//分享好友
         running(fakeApplication(), new Runnable() {
             public void run() {
@@ -86,7 +86,7 @@ public class CustomerShareControllerTest extends BaseTest {
         });
     }
 
-    @Test
+    //@Test
     public void testNotLogginInviteShare() throws Exception {//分享好友
         running(fakeApplication(), new Runnable() {
             public void run() {
@@ -106,7 +106,7 @@ public class CustomerShareControllerTest extends BaseTest {
         });
     }
 
-    @Test
+    //@Test
     public void testNotSupportShare() throws Exception {//分享好友
         running(fakeApplication(), new Runnable() {
             public void run() {

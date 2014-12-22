@@ -18,9 +18,7 @@ public interface CustJoinActivityService {
 
     public void saveCustJoinActivity(CustJoinActivity custJoinActivity);
 
-    public String getShortUrl(String custId, Long activityId, String scene);
 
-    public void saveShortUrl(String custId, Long activityId, String scene, String shortUrl);
 
     public Map<String, List<CustJoinActivity>> mapWithScene(String custNo);
 

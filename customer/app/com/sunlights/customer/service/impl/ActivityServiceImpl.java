@@ -8,13 +8,10 @@ import com.sunlights.customer.dal.ActivityDao;
 import com.sunlights.customer.dal.ActivitySceneDao;
 import com.sunlights.customer.dal.impl.ActivityDaoImpl;
 import com.sunlights.customer.dal.impl.ActivitySceneDaoImpl;
-
-
 import com.sunlights.customer.service.ActivityService;
 import com.sunlights.customer.vo.ActivityVo;
 import models.Activity;
 import models.ActivityScene;
-import models.ActivityShareInfo;
 import play.Configuration;
 
 import java.util.ArrayList;
@@ -90,15 +87,7 @@ public class ActivityServiceImpl implements ActivityService{
         return titles;
     }
 
-    @Override
-    public ActivityShareInfo getShareInfoByScene(String scene) {
-        List<ActivityShareInfo> activityShareInfos = activityDao.getShareInfoByScene(scene);
-        if(activityShareInfos == null || activityShareInfos.isEmpty()) {
-            return null;
-        }
 
-        return activityShareInfos.get(0);
-    }
 
     @Cacheable(key = "allActivities", duration = 300)
     @Override

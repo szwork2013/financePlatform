@@ -9,7 +9,6 @@ import com.sunlights.common.utils.CommonUtil;
 import com.sunlights.common.utils.ConverterUtil;
 import com.sunlights.common.vo.PageVo;
 import com.sunlights.customer.dal.RewardFlowDao;
-import models.ActivityShareInfo;
 import models.RewardFlow;
 
 import java.util.HashMap;
