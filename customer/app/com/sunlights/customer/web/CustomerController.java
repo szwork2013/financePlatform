@@ -114,6 +114,7 @@ public class CustomerController extends Controller {
         final Http.Request request = Controller.request();
         Http.Cookie cookie = request.cookie(AppConst.TOKEN);
         String token = cookie == null ? null : cookie.value();
+        List<MessageHeaderVo> list = Lists.newArrayList();
 
         CustomerSession customerSession = loginService.login(customerFormVo, token, request.remoteAddress());
         if (customerSession != null) {
@@ -121,13 +122,13 @@ public class CustomerController extends Controller {
             CustomerVo customerVo = customerService.getCustomerVoByPhoneNo(mobilePhoneNo, deviceNo);
             MessageUtil.getInstance().setMessage(message, customerVo);
             customerService.sessionLoginSessionId(Controller.session(), Controller.response(), customerSession);
+
+            MessageHeaderVo messageHeaderVo = new MessageHeaderVo(DictConst.PUSH_TYPE_4, null, customerSession.getCustomerId());
+            list.add(messageHeaderVo);
         }
         JsonNode json = MessageUtil.getInstance().toJson();
         Logger.info("==========login返回：" + json.toString());
 
-        MessageHeaderVo messageHeaderVo = new MessageHeaderVo(DictConst.PUSH_TYPE_4, null, customerSession.getCustomerId());
-        List<MessageHeaderVo> list = Lists.newArrayList();
-        list.add(messageHeaderVo);
         response().setHeader(AppConst.HEADER_MSG, MessageUtil.getInstance().setMessageHeader(list));
         return Controller.ok(json);
     }
@@ -211,6 +212,7 @@ public class CustomerController extends Controller {
 
         Http.Cookie cookie = Controller.request().cookie(AppConst.TOKEN);
         String token = cookie == null ? null : cookie.value();
+        List<MessageHeaderVo> list = Lists.newArrayList();
 
         CustomerSession customerSession = loginService.loginByGesture(customerFormVo, token, Controller.request().remoteAddress());
 
@@ -219,14 +221,13 @@ public class CustomerController extends Controller {
             CustomerVo customerVo = customerService.getCustomerVoByPhoneNo(mobilePhoneNo, deviceNo);
             MessageUtil.getInstance().setMessage(message, customerVo);
             customerService.sessionLoginSessionId(Controller.session(), Controller.response(), customerSession);
+            MessageHeaderVo messageHeaderVo = new MessageHeaderVo(DictConst.PUSH_TYPE_4, null, customerSession.getCustomerId());
+            list.add(messageHeaderVo);
         }
 
         JsonNode json = MessageUtil.getInstance().toJson();
         Logger.info("==========loginByges返回：" + json.toString());
 
-        MessageHeaderVo messageHeaderVo = new MessageHeaderVo(DictConst.PUSH_TYPE_4, null, customerSession.getCustomerId());
-        List<MessageHeaderVo> list = Lists.newArrayList();
-        list.add(messageHeaderVo);
         response().setHeader(AppConst.HEADER_MSG, MessageUtil.getInstance().setMessageHeader(list));
 
         return Controller.ok(json);

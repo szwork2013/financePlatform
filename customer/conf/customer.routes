@@ -12,7 +12,7 @@ POST        /hastoken                     @com.sunlights.customer.web.CustomerCo
 
 #share
 POST        /activity/getqrcode           @com.sunlights.customer.web.ShareContorller.getQRcodeToByte
-POST        /activity/share        @com.sunlights.customer.web.ShareContorller.share
+POST        /activity/share               @com.sunlights.customer.web.ShareContorller.share
 
 #feedBack
 POST        /addfeedback                  @com.sunlights.customer.web.FeedBackController.saveFeedBack

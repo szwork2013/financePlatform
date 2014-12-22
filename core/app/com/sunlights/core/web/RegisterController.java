@@ -72,6 +72,7 @@ public class RegisterController extends Controller {
         Logger.info("==========register====================");
         CustomerFormVo customerFormVo = customerForm.bindFromRequest().get();
         Customer customer = loginService.register(customerFormVo);
+        List<MessageHeaderVo> list = Lists.newArrayList();
 
         if (customer != null) {
             CustomerSession customerSession = customerService.createCustomerSession(customer, Controller.request().remoteAddress());
@@ -80,15 +81,15 @@ public class RegisterController extends Controller {
             Message message = new Message(MsgCode.REGISTRY_SUCCESS);
             CustomerVo customerVo = customerService.getCustomerVoByPhoneNo(customer.getMobile(), customerFormVo.getDeviceNo());
             MessageUtil.getInstance().setMessage(message, customerVo);
+
+            MessageHeaderVo messageHeaderVo = new MessageHeaderVo(DictConst.PUSH_TYPE_4, null, customer.getCustomerId());
+            list.add(messageHeaderVo);
         }
 
         JsonNode json = MessageUtil.getInstance().toJson();
 
         Logger.info("==========register返回：" + json.toString());
         Controller.response().setHeader("Access-Control-Allow-Origin","*");
-        MessageHeaderVo messageHeaderVo = new MessageHeaderVo(DictConst.PUSH_TYPE_4, null, customer.getCustomerId());
-        List<MessageHeaderVo> list = Lists.newArrayList();
-        list.add(messageHeaderVo);
         Controller.response().setHeader(AppConst.HEADER_MSG, MessageUtil.getInstance().setMessageHeader(list));
 
         return Controller.ok(json);

@@ -115,7 +115,7 @@ public final class DictConst {
     public static String PUSH_TYPE_1 = PUSH_TYPE + DOT + "1";//系统公告
     public static String PUSH_TYPE_2 = PUSH_TYPE + DOT + "2";//活动公告
     public static String PUSH_TYPE_3 = PUSH_TYPE + DOT + "3";//交易公告
-    public static String PUSH_TYPE_4 = PUSH_TYPE + DOT + "4";//登录公告
+    public static String PUSH_TYPE_4 = PUSH_TYPE + DOT + "4";//登录提示公告
 
     public static String PUSH_PLATFORM = "FP.PUSH.PLATFORM";//推送平台
     public static String PUSH_PLATFORM_ALL = PUSH_PLATFORM + DOT + "1";//推送平台
