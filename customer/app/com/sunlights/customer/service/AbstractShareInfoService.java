@@ -11,6 +11,9 @@ import com.sunlights.customer.vo.ShareInfoVo;
 import models.ShareInfo;
 import models.ShortUrl;
 import play.Configuration;
+import play.Logger;
+
+import java.net.URLEncoder;
 
 /**
  * Created by tangweiqun on 2014/12/17.
@@ -61,10 +64,19 @@ public abstract class AbstractShareInfoService implements ShareInfoService {
         String imgUrl = context.getShareInfo().getImageUrl();
         String appid = Configuration.root().getString("appId");
 
+        try {
+            shareTitle = URLEncoder.encode(shareTitle, "UTF-8");
+            descContent = URLEncoder.encode(descContent, "UTF-8");
+        } catch (Exception e) {
+
+        }
+
         String commonParamter = "?appid=" + appid + "&imgUrl=" + imgUrl + "&descContent=" + descContent + "&shareTitle=" + shareTitle;
         context.setCommonParamter(commonParamter);
 
         String longUrl = getLongUrl(context);
+
+
         String shortUrlStr = ShortURLUtil.getShortURL(longUrl);
 
         ShortUrl shortUrl = new ShortUrl();
