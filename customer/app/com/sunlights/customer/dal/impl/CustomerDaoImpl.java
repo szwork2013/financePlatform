@@ -258,6 +258,11 @@ public class CustomerDaoImpl extends EntityBaseDao implements CustomerDao {
     }
 
     @Override
+    public CustomerMsgSetting updateCustomerMsgSetting(CustomerMsgSetting customerMsgSetting) {
+        return update(customerMsgSetting);
+    }
+
+    @Override
     public CustomerMsgSetting createCustomerMsgSetting(CustomerMsgSetting customerMsgSetting) {
         return create(customerMsgSetting);
     }

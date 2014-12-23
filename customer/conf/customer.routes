@@ -1,18 +1,23 @@
 #login
-POST        /login                        @com.sunlights.customer.web.CustomerController.login
-POST        /loginbyges                   @com.sunlights.customer.web.CustomerController.loginByges
-POST        /resetpwdcertify              @com.sunlights.customer.web.CustomerController.resetpwdCertify
-POST        /resetpwd                     @com.sunlights.customer.web.CustomerController.resetpwd
-POST        /confirmpwd                   @com.sunlights.customer.web.CustomerController.confirmPwd
-POST        /savegespwd                   @com.sunlights.customer.web.CustomerController.saveGesturePwd
-POST        /getusermstr                  @com.sunlights.customer.web.CustomerController.getCustomerByMobilePhoneNo
-POST        /logout                       @com.sunlights.customer.web.CustomerController.logout
+POST        /login                     @com.sunlights.customer.web.CustomerController.login
+POST        /loginbyges                @com.sunlights.customer.web.CustomerController.loginByges
+POST        /resetpwdcertify           @com.sunlights.customer.web.CustomerController.resetpwdCertify
+POST        /resetpwd                  @com.sunlights.customer.web.CustomerController.resetpwd
+POST        /confirmpwd                @com.sunlights.customer.web.CustomerController.confirmPwd
+POST        /savegespwd                @com.sunlights.customer.web.CustomerController.saveGesturePwd
+POST        /getusermstr               @com.sunlights.customer.web.CustomerController.getCustomerByMobilePhoneNo
+POST        /logout                    @com.sunlights.customer.web.CustomerController.logout
 
-POST        /hastoken                     @com.sunlights.customer.web.CustomerController.getToken
+POST        /hastoken                  @com.sunlights.customer.web.CustomerController.getToken
 
 #share
-POST        /activity/getqrcode           @com.sunlights.customer.web.ShareContorller.getQRcodeToByte
-POST        /activity/share               @com.sunlights.customer.web.ShareContorller.share
+POST        /activity/getqrcode        @com.sunlights.customer.web.ShareContorller.getQRcodeToByte
+POST        /activity/share            @com.sunlights.customer.web.ShareContorller.share
+
+#msg center
+POST        /message/list              @com.sunlights.customer.web.MsgCenterController.findMsgCenterVoList
+POST        /message/detail            @com.sunlights.customer.web.MsgCenterController.findMsgCenterDetail
+POST        /message/unreadnum         @com.sunlights.customer.web.MsgCenterController.countUnReadNum
 
 #feedBack
-POST        /addfeedback                  @com.sunlights.customer.web.FeedBackController.saveFeedBack
+POST        /addfeedback               @com.sunlights.customer.web.FeedBackController.saveFeedBack

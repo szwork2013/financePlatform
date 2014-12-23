@@ -18,10 +18,10 @@ import java.util.Date;
 public class CustomerMsgReadHistory extends IdEntity {
     @Column(name = "customer_id", length = 30)
     private String customerId;
-    @Column(name = "customer_msg_push_txn_id")
-    private Long customerMsgPushTxnId;
-    @Column(name = "message_push_txn_id")
-    private Long messagePushTxnId;
+    @Column(name = "push_txn_id")
+    private Long pushTxnId;
+    @Column(name = "send_type")
+    private String sendType;//"FP.SEND.TYPE.1";//短信发送   "FP.SEND.TYPE.2";//群发推送  "FP.SEND.TYPE.3";//个人推送
     @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "read_time")
     private Date readTime;
@@ -32,6 +32,14 @@ public class CustomerMsgReadHistory extends IdEntity {
     @Column(name = "UPDATE_TIME")
     private Date updateTime;
 
+    public Date getUpdateTime() {
+        return updateTime;
+    }
+
+    public void setUpdateTime(Date updateTime) {
+        this.updateTime = updateTime;
+    }
+
     public String getCustomerId() {
         return customerId;
     }
@@ -40,12 +48,20 @@ public class CustomerMsgReadHistory extends IdEntity {
         this.customerId = customerId;
     }
 
-    public Long getMessagePushTxnId() {
-        return messagePushTxnId;
+    public Long getPushTxnId() {
+        return pushTxnId;
     }
 
-    public void setMessagePushTxnId(Long messagePushTxnId) {
-        this.messagePushTxnId = messagePushTxnId;
+    public void setPushTxnId(Long pushTxnId) {
+        this.pushTxnId = pushTxnId;
+    }
+
+    public String getSendType() {
+        return sendType;
+    }
+
+    public void setSendType(String sendType) {
+        this.sendType = sendType;
     }
 
     public Date getReadTime() {
@@ -62,21 +78,5 @@ public class CustomerMsgReadHistory extends IdEntity {
 
     public void setCreateTime(Date createTime) {
         this.createTime = createTime;
-    }
-
-    public Date getUpdateTime() {
-        return updateTime;
-    }
-
-    public void setUpdateTime(Date updateTime) {
-        this.updateTime = updateTime;
-    }
-
-    public Long getCustomerMsgPushTxnId() {
-        return customerMsgPushTxnId;
-    }
-
-    public void setCustomerMsgPushTxnId(Long customerMsgPushTxnId) {
-        this.customerMsgPushTxnId = customerMsgPushTxnId;
     }
 }

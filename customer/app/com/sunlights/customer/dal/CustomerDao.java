@@ -60,7 +60,7 @@ public interface CustomerDao {
      * @return
      */
     public List<String> findAliasByCustomerId(String customerId);
-
+    public CustomerMsgSetting updateCustomerMsgSetting(CustomerMsgSetting customerMsgSetting);
     public CustomerMsgSetting createCustomerMsgSetting(CustomerMsgSetting customerMsgSetting);
 
 

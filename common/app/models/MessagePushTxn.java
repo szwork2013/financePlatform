@@ -23,6 +23,8 @@ public class MessagePushTxn extends IdEntity {
     private String pushStatus;
     @Column(name = "send_no")
     private String sendNo;
+    private String title;
+    private String content;
     @Column(name = "send_num")
     private int sendNum;
     @Column(name = "return_msg_id")
@@ -107,5 +109,21 @@ public class MessagePushTxn extends IdEntity {
 
     public void setSendNum(int sendNum) {
         this.sendNum = sendNum;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    public String getContent() {
+        return content;
+    }
+
+    public void setContent(String content) {
+        this.content = content;
     }
 }

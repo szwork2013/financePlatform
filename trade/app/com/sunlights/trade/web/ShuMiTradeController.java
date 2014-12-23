@@ -4,6 +4,7 @@ import com.sunlights.common.AppConst;
 import com.sunlights.common.MsgCode;
 import com.sunlights.common.utils.MessageUtil;
 import com.sunlights.common.vo.Message;
+import com.sunlights.customer.action.MsgCenterAction;
 import com.sunlights.customer.service.impl.CustomerService;
 import com.sunlights.trade.service.ShuMiTradeService;
 import com.sunlights.trade.service.impl.ShuMiTradeServiceImpl;
@@ -14,6 +15,7 @@ import play.db.jpa.Transactional;
 import play.libs.Json;
 import play.mvc.Controller;
 import play.mvc.Result;
+import play.mvc.With;
 
 /**
  * <p>Project: financeplatform</p>
@@ -32,6 +34,7 @@ public class ShuMiTradeController extends Controller{
     private ShuMiTradeService shuMiTradeService = new ShuMiTradeServiceImpl();
     
 
+    @With(MsgCenterAction.class)
     public Result tradeOrder(){
         Logger.info("----------tradeOrder start ------------");
 
@@ -43,13 +46,17 @@ public class ShuMiTradeController extends Controller{
 
         MessageUtil.getInstance().setMessage(new Message(MsgCode.TRADE_ORDER_SUCCESS));
 
-        shuMiTradeService.shuMiTradeOrder(tradeFormVo, token);
+        String headerMsg = shuMiTradeService.shuMiTradeOrder(tradeFormVo, token);
 
         Logger.info("----------tradeOrder end: ------------\n" + MessageUtil.getInstance().toJson());
+
+
+        response().setHeader(AppConst.HEADER_MSG, headerMsg);
 
         return ok(MessageUtil.getInstance().toJson());
     }
 
+    @With(MsgCenterAction.class)
     public Result tradeRedeem(){
         Logger.info("----------tradeRedeem start ------------");
 
@@ -61,9 +68,11 @@ public class ShuMiTradeController extends Controller{
 
         MessageUtil.getInstance().setMessage(new Message(MsgCode.TRADE_REDEEM_SUCCESS));
 
-        shuMiTradeService.shuMiTradeRedeem(tradeFormVo, token);
+        String headerMsg = shuMiTradeService.shuMiTradeRedeem(tradeFormVo, token);
 
         Logger.info("----------tradeRedeem end: ------------\n" + MessageUtil.getInstance().toJson());
+
+        response().setHeader(AppConst.HEADER_MSG, headerMsg);
 
         return ok(MessageUtil.getInstance().toJson());
     }

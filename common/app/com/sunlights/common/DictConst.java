@@ -123,4 +123,10 @@ public final class DictConst {
     public static String PUSH_PLATFORM_IOS = PUSH_PLATFORM + DOT + "3";//推送平台
 
 
+    public static String SEND_TYPE = "FP.SEND.TYPE";//发送类型
+    public static String SEND_TYPE_SMS = "FP.SEND.TYPE.1";//短信发送
+    public static String SEND_TYPE_PUSH_GROUP = "FP.SEND.TYPE.2";//群发推送
+    public static String SEND_TYPE_PUSH_CUSTOMER = "FP.SEND.TYPE.3";//个人推送
+
+
 }
