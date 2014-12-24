@@ -2,7 +2,9 @@ package com.sunlights.customer.factory;
 
 import com.sunlights.common.cache.CacheFactory;
 import com.sunlights.common.exceptions.ConverterException;
+import com.sunlights.customer.service.ActivityReturnMsgService;
 import com.sunlights.customer.service.ActivityService;
+import com.sunlights.customer.service.impl.ActivityReturnMsgServiceImpl;
 import com.sunlights.customer.service.impl.ActivityServiceImpl;
 
 /**
@@ -10,7 +12,11 @@ import com.sunlights.customer.service.impl.ActivityServiceImpl;
  */
 public class ActivityServiceFactory {
 
-    public static ActivityService getActivityService() throws ConverterException {
+    public static ActivityService getActivityService()  {
         return CacheFactory.getProxyCacheObject(ActivityServiceImpl.class);
+    }
+
+    public static ActivityReturnMsgService getActivityReturnMsgService(){
+        return CacheFactory.getProxyCacheObject(ActivityReturnMsgServiceImpl.class);
     }
 }

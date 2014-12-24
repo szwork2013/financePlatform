@@ -13,6 +13,7 @@ import com.sunlights.customer.service.rewardrules.vo.ActivityResponseVo;
 import models.ExchangeScene;
 import models.RewardType;
 import play.Configuration;
+import play.Logger;
 
 import java.math.BigDecimal;
 
@@ -64,6 +65,7 @@ public class ExchangeValidHandler extends AbstractExchangeRuleHandler{
 
         requestVo.set("exchangeMoney", exchangeMoney);
         requestVo.set("subRewardAmt", subRewardAmt);
+        Logger.debug("兑换校验成功");
     }
 
     @Override

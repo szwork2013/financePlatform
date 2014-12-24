@@ -34,7 +34,7 @@ public class PurchaseObtainRuleHandler extends AbstractObtainRuleHandler{
         setNextHandler(purchaseObtainValideHandler)
                 .setNextHandler(obtainRuleGainHandler)
                 .setNextHandler(reCommendHandler)
-//                .setNextHandler(validBankCardHandler)
+                .setNextHandler(validBankCardHandler)
                 .setNextHandler(rewardFlowHandler)
                 .setNextHandler(custJoinActivityHandler)
                 .setNextHandler(resultAssignHandler)

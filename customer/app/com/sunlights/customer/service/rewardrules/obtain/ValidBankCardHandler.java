@@ -33,6 +33,7 @@ public class ValidBankCardHandler extends AbstractObtainRuleHandler {
 
     @Override
     public void obtainInternal(ActivityRequestVo requestVo, ActivityResponseVo responseVo) throws Exception {
+        Logger.debug("送红包时银行卡校验");
         String custId = requestVo.getCustId();
         String bankCard = bankCardService.getBankCardByCunstId(custId);
         if(StringUtils.isEmpty(bankCard)) {

@@ -65,7 +65,7 @@ public class HoldRewardServiceImpl implements HoldRewardService {
             oldHoldReward.setUpdateTime(new Date());
             holdRewardDao.doUpdate(oldHoldReward);
         }
-        Logger.info("修改持有奖励");
+        Logger.info("修改持有奖励成功");
     }
 
     @Override

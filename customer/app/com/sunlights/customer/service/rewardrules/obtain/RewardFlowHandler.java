@@ -50,6 +50,7 @@ public class RewardFlowHandler extends AbstractObtainRuleHandler{
         for(Activity activity : activities) {
             List<ObtainRewardRuleVo> obtainRewardRuleVos = obtainRewardRuleMap.get(activity.getId());
             if(obtainRewardRuleVos == null || obtainRewardRuleVos.isEmpty()) {
+                Logger.debug("没有找到获取规则 scene = " + requestVo.getScene());
                 continue;
             }
             for(ObtainRewardRuleVo obtainRewardRuleVo : obtainRewardRuleVos) {
@@ -75,6 +76,7 @@ public class RewardFlowHandler extends AbstractObtainRuleHandler{
                 rewardFlowRecordVo.setOperatorType(ActivityConstant.REWARD_FLOW_OBTAIN);
                 rewardFlowRecordVo.setRuleUrl(activityService.getFileFuleUrl(activity.getUrl(), "activity.html5Path"));
 
+
                 ObtainRewardCalculator calculator = RewardCalculatorFactory.getCalculator(activityScene.getScene());
                 Integer unit = obtainRewardRuleVo.getRewardTypeModel().getUnit();
                 if(calculator == null) {
@@ -95,6 +97,8 @@ public class RewardFlowHandler extends AbstractObtainRuleHandler{
                 responseVo.addRewardFlowRecordVo(rewardFlowRecordVo);
 
                 holdRewardService.genRewardFlow(rewardFlowRecordVo);
+
+                Logger.debug("产生一条资金流水成功 rewardFlowRecordVo = " + rewardFlowRecordVo);
             }
         }
     }

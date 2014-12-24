@@ -15,6 +15,7 @@ import com.sunlights.customer.vo.ActivitySceneVo;
 import models.ActivityScene;
 import models.CustJoinActivity;
 import org.apache.commons.lang3.StringUtils;
+import play.Logger;
 
 import java.util.List;
 
@@ -41,6 +42,7 @@ public class PurchaseObtainValideHandler extends AbstractObtainRuleHandler {
         CustJoinActivity custJoinActivity = custJoinActivityService.getByCustAndActivity(requestVo.getCustId(), requestVo.getActivityId(), ActivityConstant.ACTIVITY_FIRST_PURCHASE_SCENE_CODE);
         if(custJoinActivity == null) {
             requestVo.setScene(ActivityConstant.ACTIVITY_FIRST_PURCHASE_SCENE_CODE);
+            Logger.debug("首次购买 scene = " + requestVo.getScene());
             return;
         } else {
             String prdType = requestVo.get("prdType", String.class);
@@ -58,7 +60,7 @@ public class PurchaseObtainValideHandler extends AbstractObtainRuleHandler {
                 responseVo.setFlowStop(true);
                 return;
             }
-
+            Logger.debug("不是首次购买 scene = " + requestVo.getScene() + " prdCode = " + prdCode);
         }
     }
 

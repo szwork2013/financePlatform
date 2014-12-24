@@ -13,22 +13,49 @@ import java.util.Map;
  */
 public class ActivityRequestVo {
 
+    /**
+     * 客户号，必须的
+     */
     private String custId;
 
+    /**
+     * 场景编码，获取奖励代表活动场景   兑换代表兑换场景
+     */
     private String scene;
 
+    /**
+     * 活动ID 可有可无
+     */
     private Long activityId;
 
+    /**
+     * 推荐人的客户号
+     */
     private String recommendCustId;
 
+    /**
+     * 奖励类型
+     */
     private String rewardType;
 
+    /**
+     * 活动场景
+     */
     private ActivityScene activityScene;
 
+    /**
+     * 该活动场景下对应着所有的活动
+     */
     private List<Activity> activities;
 
+    /**
+     * 每个活动对应着获取规则的MAP映射
+     */
     private Map<Long, List<ObtainRewardRuleVo>> obtainRewardRuleMap;
 
+    /**
+     * 属性
+     */
     private Map<String, Object> attributes;
 
     public ActivityRequestVo() {
@@ -133,7 +160,13 @@ public class ActivityRequestVo {
 
     @Override
     public String toString() {
-        return "TransactionContext [dataStore=" + attributes + "]";
+        StringBuilder sb = new StringBuilder();
+        sb.append("[custId = ").append(custId)
+                .append("; scene = ").append(scene)
+                .append("; attributes = ").append(attributes)
+                .append("]");
+
+        return sb.toString();
     }
 
 }

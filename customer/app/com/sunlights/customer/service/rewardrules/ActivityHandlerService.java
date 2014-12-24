@@ -39,6 +39,7 @@ public class ActivityHandlerService {
                 Message message = new Message(Severity.INFO, MsgCode.NOT_CONFIG_ACTIVITY_SCENE);
                 responseVo.setMessage(message);
                 responseVo.setFlowStop(true);
+                Logger.debug("没有配置该活动的handler scene = " + requestVo.getScene());
                 return;
             }
 

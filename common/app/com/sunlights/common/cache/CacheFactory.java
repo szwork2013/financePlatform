@@ -17,7 +17,7 @@ public class CacheFactory {
 
     private static final MethodFilter methodFilter = new CacheMethodFilter();
 
-    public static<T> T getProxyCacheObject(Class<T> clazz) throws ConverterException {
+    public static<T> T getProxyCacheObject(Class<T> clazz) {
         ProxyFactory factory = new ProxyFactory();
         factory.setSuperclass(clazz);
         //设置过滤器，判断哪些方法调用需要被拦截
@@ -28,7 +28,7 @@ public class CacheFactory {
             ((Proxy)object).setHandler(methodHandler);
             return object;
         } catch (Exception e) {
-            throw new ConverterException("缓存强转类型错误", e);
+            throw new RuntimeException("缓存强转类型错误", e);
         }
     }
 

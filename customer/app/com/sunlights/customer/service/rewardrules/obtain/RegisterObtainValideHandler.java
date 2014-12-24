@@ -48,6 +48,8 @@ public class RegisterObtainValideHandler extends AbstractObtainRuleHandler{
             return;
         }
 
+        Logger.debug("校验客户[" + requestVo.getCustId() + "]注册成功");
+
     }
 
     @Override

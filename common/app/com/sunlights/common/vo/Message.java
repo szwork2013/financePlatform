@@ -102,4 +102,15 @@ public class Message {
   public void setFields(Map<String, String> fields) {
     this.fields = fields;
   }
+
+    @Override
+    public String toString() {
+        StringBuilder sb = new StringBuilder();
+        sb.append("[code = ").append(code)
+                .append("; summary = ").append(summary)
+                .append("; detail = ").append(detail)
+                .append("]");
+
+        return sb.toString();
+    }
 }

@@ -76,13 +76,15 @@ public class ObtainRuleGainHandler extends AbstractObtainRuleHandler {
         }
 
         if(isNotConfig) {
-            Logger.debug("还没有配置的活动场景");
+            Logger.debug("还没有配置的活动场景 scene = " + requestVo.getScene());
             Message message = new Message(Severity.INFO, MsgCode.NOT_CONFIG_ACTIVITY_SCENE);
             responseVo.setMessage(message);
             responseVo.setStatus(ActivityConstant.ACTIVITY_CUSTONER_STATUS_FORBIDDEN);
             responseVo.setNotGet(0L);
             responseVo.setAlreadyGet(0L);
             responseVo.setFlowStop(true);
+        } else {
+            Logger.debug("获取活动信息成功");
         }
     }
 

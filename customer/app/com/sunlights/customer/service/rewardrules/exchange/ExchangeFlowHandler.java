@@ -9,6 +9,7 @@ import com.sunlights.customer.service.rewardrules.vo.RewardFlowRecordVo;
 import models.ActivityScene;
 import models.ExchangeScene;
 import models.RewardType;
+import play.Logger;
 
 import java.math.BigDecimal;
 
@@ -48,6 +49,8 @@ public class ExchangeFlowHandler extends AbstractExchangeRuleHandler{
         rewardFlowRecordVo.setActivityType(exchangeScene.getActivityType());
         rewardFlowRecordVo.setActivityTitle(exchangeScene.getTitle());
         holdRewardService.genRewardFlow(rewardFlowRecordVo);
+
+        Logger.debug("兑换产生奖励流水 rewardFlowRecordVo = " + rewardFlowRecordVo);
 
     }
 

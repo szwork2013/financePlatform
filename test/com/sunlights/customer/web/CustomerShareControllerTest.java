@@ -48,7 +48,7 @@ public class CustomerShareControllerTest extends BaseTest {
 
 
 
-    @Test
+    //@Test
     public void testgetQRcodeToByte() throws Exception {//byte二维码
         running(fakeApplication(), new Runnable() {
             public void run() {
@@ -66,7 +66,7 @@ public class CustomerShareControllerTest extends BaseTest {
         });
     }
 
-    //@Test
+    @Test
     public void testInviteShare() throws Exception {//分享好友
         running(fakeApplication(), new Runnable() {
             public void run() {

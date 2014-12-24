@@ -127,4 +127,9 @@ public interface ActivityConstant {
     int EXCHANGE_RESULT_FAIL = 4;
 
 
+    String RETURN_MSG_CATEGORY_SHOW = "1";
+    String RETURN_MSG_CATEGORY_MESSAGE_SEND = "2";
+    String RETURN_MSG_CATEGORY_REWARD_TRADE = "3";
+
+
 }

@@ -15,23 +15,33 @@ import java.util.List;
  * Created by tangweiqun on 2014/12/1.
  */
 public class ActivityResponseVo {
+    //=============================老接口==================
     private Long alreadyGet;
 
     private Long notGet;
-
+    //=================================================
     private String status;
 
+    /**
+     * 结果信息
+     */
     private Message message = new Message(Severity.INFO, MsgCode.OPERATE_SUCCESS);
 
+    /**
+     * 判断流程是否退出
+     */
     private boolean isFlowStop;
 
+    /**
+     * 产生奖励流水的元数据
+     */
     private List<RewardFlowRecordVo> rewardFlowRecordVos = new ArrayList<RewardFlowRecordVo>();;
-
+    //老接口返回的结果
     private List<ObtainRewardVo>  obtainRewardVos = Lists.newArrayList();
-
+    //新接口返回的结果
     private List<ActivityResultVo> activityResultVos;
-
-    List<MessageHeaderVo> messageHeaderVos;
+    //发送消息需要的信息
+    private List<MessageHeaderVo> messageHeaderVos;
 
     public Long getAlreadyGet() {
         return alreadyGet;
@@ -122,5 +132,10 @@ public class ActivityResponseVo {
 
     public List<ActivityResultVo> getActivityResultVos() {
         return activityResultVos;
+    }
+
+    @Override
+    public String toString() {
+        return message.toString();
     }
 }

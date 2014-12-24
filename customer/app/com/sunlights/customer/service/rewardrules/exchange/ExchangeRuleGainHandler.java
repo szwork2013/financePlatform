@@ -56,5 +56,7 @@ public class ExchangeRuleGainHandler extends AbstractExchangeRuleHandler {
         RewardType rewardType = rewardTypeService.findByTypeCode(requestVo.getRewardType());
 
         requestVo.set("rewardType", rewardType);
+
+        Logger.debug("获取兑换场景成功");
     }
 }
