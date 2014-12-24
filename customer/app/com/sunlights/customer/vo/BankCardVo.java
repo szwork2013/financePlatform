@@ -1,6 +1,5 @@
-package com.sunlights.core.vo;
+package com.sunlights.customer.vo;
 
-import models.Bank;
 import models.BankCard;
 
 
@@ -9,7 +8,6 @@ import models.BankCard;
  */
 public class BankCardVo {
     private String id;
-    private String bankName;
     private String bankId;
     private String bankCode;
     private String accountId;
@@ -17,23 +15,22 @@ public class BankCardVo {
     // 0：验证为通过  1：验证通过  2：验证中
     private String validateStatus;
 
+    //绑定银行卡返回数据
+    private String bankName;
     private String bankCard;
-    private String bankCardNo;
     private String bankSerial;//银行序列号
 
     public BankCardVo() {
         super();
     }
 
-    public BankCardVo(BankCard bankCard, Bank bank) {
-        inBankCard(bankCard, bank);
+    public BankCardVo(BankCard bankCard) {
+        inBankCard(bankCard);
     }
 
-    private void inBankCard(BankCard bankCard, Bank bank) {
+    private void inBankCard(BankCard bankCard) {
         this.id = String.valueOf(bankCard.getId());
-        this.bankId = String.valueOf(bank.getId());
-        this.bankName = bank.getBankName();
-        this.bankCode = bank.getBankCode();
+        this.bankName = bankCard.getBankName();
         this.accountId = bankCard.getCustomerId();
         String bankCardNo = "";
         String cardNo = bankCard.getBankCardNo();
@@ -45,7 +42,7 @@ public class BankCardVo {
             this.displayNo = bankCardNo + cardNo.substring(cardNo.length() - 4);
         }
         this.validateStatus = bankCard.getStatus();
-        this.bankCardNo = bankCard.getBankCardNo();
+        this.bankCard = bankCard.getBankCardNo();
     }
 
     public String getBankSerial() {
@@ -110,14 +107,6 @@ public class BankCardVo {
 
     public void setValidateStatus(String validateStatus) {
         this.validateStatus = validateStatus;
-    }
-
-    public String getBankCardNo() {
-        return bankCardNo;
-    }
-
-    public void setBankCardNo(String bankCardNo) {
-        this.bankCardNo = bankCardNo;
     }
 
     public String getBankCard() {

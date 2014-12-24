@@ -35,7 +35,7 @@ public class ValidBankCardHandler extends AbstractObtainRuleHandler {
     public void obtainInternal(ActivityRequestVo requestVo, ActivityResponseVo responseVo) throws Exception {
         Logger.debug("送红包时银行卡校验");
         String custId = requestVo.getCustId();
-        String bankCard = bankCardService.getBankCardByCunstId(custId);
+        String bankCard = bankCardService.getBankCardByCustId(custId);
         if(StringUtils.isEmpty(bankCard)) {
             Map<Long, List<ObtainRewardRuleVo>> obtainRewardRuleMap = requestVo.getObtainRewardRuleMap();
             Map<Long, List<ObtainRewardRuleVo>> result = new HashMap<Long, List<ObtainRewardRuleVo>>();

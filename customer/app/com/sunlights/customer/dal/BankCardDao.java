@@ -1,6 +1,6 @@
 package com.sunlights.customer.dal;
 
-import models.ShuMiAccount;
+import models.BankCard;
 
 import java.util.List;
 
@@ -9,6 +9,16 @@ import java.util.List;
  */
 public interface BankCardDao {
 
-    public List<ShuMiAccount> getByCustId(String custId);
+    public BankCard getByCustId(String custId);
+
+    public BankCard create(BankCard bankCard);
+
+    public void deleteById(Long bankCardId);
+
+    public List<BankCard> findBankCards(String customerId);
+
+    public void updateBankCard(BankCard bankCard);
+
+    public boolean hasBankCard(String bankCardNo);
 
 }

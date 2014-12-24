@@ -19,5 +19,6 @@ POST        /message/list              @com.sunlights.customer.web.MsgCenterCont
 POST        /message/detail            @com.sunlights.customer.web.MsgCenterController.findMsgCenterDetail
 POST        /message/unreadnum         @com.sunlights.customer.web.MsgCenterController.countUnReadNum
 
+
 #feedBack
 POST        /addfeedback               @com.sunlights.customer.web.FeedBackController.saveFeedBack

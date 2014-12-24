@@ -1,4 +1,4 @@
-package com.sunlights.core.vo;
+package com.sunlights.customer.vo;
 
 
 import models.Bank;

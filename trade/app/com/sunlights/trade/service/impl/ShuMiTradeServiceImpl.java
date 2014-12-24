@@ -13,16 +13,16 @@ import com.sunlights.common.utils.DBHelper;
 import com.sunlights.common.utils.MessageUtil;
 import com.sunlights.common.vo.Message;
 import com.sunlights.common.vo.MessageHeaderVo;
-import com.sunlights.core.service.BankCardService;
-import com.sunlights.core.service.BankService;
 import com.sunlights.core.service.OpenAccountPactService;
 import com.sunlights.core.service.ProductService;
-import com.sunlights.core.service.impl.BankCardServiceImpl;
-import com.sunlights.core.service.impl.BankServiceImpl;
 import com.sunlights.core.service.impl.OpenAccountPactServiceImpl;
 import com.sunlights.core.service.impl.ProductServiceImpl;
-import com.sunlights.core.vo.BankCardVo;
+import com.sunlights.customer.service.BankCardService;
+import com.sunlights.customer.service.BankService;
+import com.sunlights.customer.service.impl.BankCardServiceImpl;
+import com.sunlights.customer.service.impl.BankServiceImpl;
 import com.sunlights.customer.service.impl.CustomerService;
+import com.sunlights.customer.vo.BankCardVo;
 import com.sunlights.trade.dal.TradeDao;
 import com.sunlights.trade.dal.impl.TradeDaoImpl;
 import com.sunlights.trade.service.ShuMiTradeService;
@@ -72,8 +72,7 @@ public class ShuMiTradeServiceImpl implements ShuMiTradeService{
         FundNav fundNav = productService.findFundNavByCode(shuMiTradeFormVo.getFundCode());
         String companyId = null;
         if (fundNav == null) {
-            MessageUtil.getInstance().setMessage(new Message(Severity.WARN,
-                    MsgCode.TRADE_ORDER_NOCODE.getCode(), MsgCode.TRADE_ORDER_NOCODE.getMessage(),MsgCode.TRADE_ORDER_NOCODE.getDetail()));
+            MessageUtil.getInstance().setMessage(new Message(Severity.WARN, MsgCode.TRADE_ORDER_NOCODE));
         }else{
             companyId = fundNav.getIaGuid();
         }
@@ -125,7 +124,7 @@ public class ShuMiTradeServiceImpl implements ShuMiTradeService{
         Logger.debug("bankCardNo:" + bankCardNo);
 
         BankCardVo bankCardVo = new BankCardVo();
-        bankCardVo.setBankCardNo(bankCardNo);
+        bankCardVo.setBankCard(bankCardNo);
         bankCardVo.setBankName(bankName);
 //        Bank bank = bankService.findBankByBankName(bankName);
 //        bankCardVo.setBankCode(bank.getBankCode());

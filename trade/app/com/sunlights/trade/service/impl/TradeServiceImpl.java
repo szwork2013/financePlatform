@@ -15,15 +15,15 @@ import com.sunlights.common.utils.CommonUtil;
 import com.sunlights.common.utils.DBHelper;
 import com.sunlights.common.vo.Message;
 import com.sunlights.common.vo.PageVo;
-import com.sunlights.core.service.BankCardService;
 import com.sunlights.core.service.OpenAccountPactService;
 import com.sunlights.core.service.ProductService;
-import com.sunlights.core.service.impl.BankCardServiceImpl;
 import com.sunlights.core.service.impl.OpenAccountPactServiceImpl;
 import com.sunlights.core.service.impl.PaymentService;
 import com.sunlights.core.service.impl.ProductServiceImpl;
-import com.sunlights.core.vo.BankCardVo;
+import com.sunlights.customer.service.BankCardService;
+import com.sunlights.customer.service.impl.BankCardServiceImpl;
 import com.sunlights.customer.service.impl.CustomerService;
+import com.sunlights.customer.vo.BankCardVo;
 import com.sunlights.customer.vo.CustomerVo;
 import com.sunlights.trade.dal.TradeDao;
 import com.sunlights.trade.dal.impl.TradeDaoImpl;
@@ -199,7 +199,7 @@ public class TradeServiceImpl implements TradeService {
         String quantity = tradeFormVo.getQuantity();
         String prdCode = tradeFormVo.getPrdCode();
         String bankName = bankCardVo.getBankName();
-        String bankCardNo = bankCardVo.getBankCardNo();
+        String bankCardNo = bankCardVo.getBankCard();
 
         Timestamp currentTime = DBHelper.getCurrentTime();
 

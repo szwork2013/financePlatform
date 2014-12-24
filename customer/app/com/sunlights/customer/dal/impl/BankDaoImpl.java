@@ -1,7 +1,7 @@
-package com.sunlights.core.dal.impl;
+package com.sunlights.customer.dal.impl;
 
 import com.sunlights.common.dal.EntityBaseDao;
-import com.sunlights.core.dal.BankDao;
+import com.sunlights.customer.dal.BankDao;
 import models.Bank;
 
 import javax.persistence.Query;
