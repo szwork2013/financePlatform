@@ -1,9 +1,10 @@
 package com.sunlights.customer.dal;
 
+import com.sunlights.common.vo.PageVo;
 import com.sunlights.common.vo.PushMessageVo;
-import models.CustomerMsgPushTxn;
-import models.MessageRule;
-import models.MessageSmsTxn;
+import com.sunlights.customer.vo.MsgCenterDetailVo;
+import com.sunlights.customer.vo.MsgCenterVo;
+import models.*;
 
 import java.util.List;
 
@@ -39,4 +40,23 @@ public interface MsgCenterDao {
      * @return
      */
     public List<String> findUnRemindRuleCodeList(String customerId, String activityIdStr, String methodName);
+
+
+    /**
+     * 登录后消息中心分页查询
+     * @param pageVo
+     * @return
+     */
+    public List<MsgCenterVo> findMsgCenterVoListWithLogin(PageVo pageVo);
+    public List<MsgCenterVo> findMsgCenterVoList(PageVo pageVo);
+
+    public MsgCenterDetailVo findMsgCenterDetail(Long msgId, String sendType);
+    public void createMsgReadHistory(CustomerMsgReadHistory customerMsgReadHistory);
+
+    /**
+     * 未读数量记录
+     * @return
+     */
+    public int countUnReadNum(String customerId);
+
 }

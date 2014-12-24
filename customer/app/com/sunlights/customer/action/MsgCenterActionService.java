@@ -61,7 +61,7 @@ public class MsgCenterActionService {
                     routeActionMethod = REGISTER;
                     ruleCodeList = findLoginUnRemindRuleCodeList(customerId, routeActionMethod);
                 }
-            }else{//活动类、系统类、交易类  信息
+            }else{//活动类、交易类  信息
                 ruleCodeList = getRuleCodeList(routeActionMethod, messageType, scene);
             }
             for (String ruleCode : ruleCodeList) {
@@ -72,7 +72,6 @@ public class MsgCenterActionService {
     }
 
     public void operationRuleCode(MessageHeaderVo messageActivityVo, String ruleCode) {
-        MsgCenterDao centerDao = new MsgCenterDaoImpl();
         PushMessageVo pushMessageVo = centerDao.findMessageRuleByCode(ruleCode);
         if (pushMessageVo == null) {
             Logger.info(MessageFormat.format(">>消息规则{0} 未配置！", ruleCode));

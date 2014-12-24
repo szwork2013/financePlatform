@@ -12,8 +12,8 @@ import com.sunlights.trade.vo.ShuMiTradeFormVo;
  * @author <a href="mailto:jiaming.wang@sunlights.cc">wangJiaMing</a>
  */
 public interface ShuMiTradeService {
-    public void shuMiTradeOrder(ShuMiTradeFormVo shuMiTradeFormVo, String token);
+    public String shuMiTradeOrder(ShuMiTradeFormVo shuMiTradeFormVo, String token);
 
-    public void shuMiTradeRedeem(ShuMiTradeFormVo shuMiTradeFormVo, String token);
+    public String shuMiTradeRedeem(ShuMiTradeFormVo shuMiTradeFormVo, String token);
 
 }
