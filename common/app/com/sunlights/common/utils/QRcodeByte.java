@@ -4,6 +4,7 @@ import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayOutputStream;
+import java.io.IOException;
 
 public class QRcodeByte {
 
@@ -13,9 +14,8 @@ public class QRcodeByte {
      * @return
      */
     public byte[] getQRcodeByte(String sortUrl){
-        String encoderContent = sortUrl;//短链接
         QRcodeByte handler = new QRcodeByte();
-        return  handler.encoderQRCode(encoderContent,"png");
+        return  handler.encoderQRCode(sortUrl,"png");
     }
 
     /**
@@ -28,26 +28,33 @@ public class QRcodeByte {
     }
 
     /**
-     * 生成二维码(QRCode)图片
+     * 生成二维码图片,返回byte
      * @param content 存储内容
      * @param imgType 图片类型
      * @param size 二维码尺寸
      */
     public byte[] encoderQRCode(String content, String imgType, int size) {
+        ByteArrayOutputStream out=null;
         try {
             BufferedImage bufImg = this.qRCodeCommon(content, imgType, size);
             //此处将BufferedImage数据转换为二进制
-            ByteArrayOutputStream out=new ByteArrayOutputStream();
+            out=new ByteArrayOutputStream();
             ImageIO.write(bufImg,imgType,out);
             return out.toByteArray();
         } catch (Exception e) {
             e.printStackTrace();
+        }finally {
+            try {
+                out.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
         return null;
     }
 
     /**
-     * 生成二维码(QRCode)图片的公共方法
+     * 生成二维码图片的公共方法
      * @param content 存储内容
      * @param imgType 图片类型
      * @param size 二维码尺寸
