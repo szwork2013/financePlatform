@@ -147,4 +147,16 @@ public enum MsgCode {
     public String getDetail(){
         return this.detail;
     }
+
+    public static String getDescByCode(String code) {
+        if(code == null) {
+            return null;
+        }
+        for(MsgCode msgCode : MsgCode.values()) {
+            if(code.equals(msgCode.getCode())) {
+                return msgCode.getMessage();
+            }
+        }
+        return null;
+    }
 }
