@@ -14,7 +14,7 @@ public class Activity4H5Controller extends ActivityBaseController {
 
     public Result getContent() {
         Activity4H5Vo activity4H5Vo = new Activity4H5Vo();
-        activity4H5Vo.setImageUrl("http://192.168.1.97/activity/images/sign_bannel.png");
+        activity4H5Vo.setImageUrl("http://192.168.0.97/activity/images/sign_bannel.png");
         activity4H5Vo.setContent("<div>测试</div>");
 
         Logger.debug("activity4H5Vo = " + activity4H5Vo);

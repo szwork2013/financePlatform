@@ -70,7 +70,7 @@ trade->core
 
         credentials += Credentials(Path.userHome / ".ivy2" / ".credentials")
         publishTo <<= version { v: String =>
-          val nexus = "http://192.168.1.97:8081/nexus/"
+          val nexus = "http://192.168.0.97:8081/nexus/"
           if (v.trim.endsWith("SNAPSHOT"))
             Some("snapshots" at nexus + "content/repositories/snapshots")
           else
