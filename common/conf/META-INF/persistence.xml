@@ -6,14 +6,6 @@
     <persistence-unit name="default" transaction-type="RESOURCE_LOCAL">
         <provider>org.hibernate.jpa.HibernatePersistenceProvider</provider>
         <non-jta-data-source>DefaultDS</non-jta-data-source>
-        <class>models.LoggingEvent</class>
-        <class>models.LoggingEventException</class>
-        <class>models.LoggingEventProperty</class>
-        <class>models.CheckError</class>
-        <class>models.CheckInfo</class>
-        <class>models.CheckResult</class>
-        <class>models.ProductAttention</class>
-
         <properties>
             <property name="hibernate.dialect" value="org.hibernate.dialect.PostgreSQL9Dialect"/>
             <property name="hibernate.connection.url" value="jdbc:postgresql://192.168.0.88:5432/devsunlights"/>
