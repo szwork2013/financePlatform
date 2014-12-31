@@ -35,24 +35,17 @@ public class ShareContorller extends ActivityBaseController{
      * @return
      */
     public Result getQRcodeToByte(){
-
-        //1、首先获得手机号
         CustomerSession customerSession = getCustomerSession();
         String custNo = customerSession.getCustomerId();//获得客户id
-        Logger.debug("custNo === " + custNo);
         if(StringUtils.isEmpty(custNo)){
             return notFound("用户登录已经超时,请重新登录");
         }
-
         ShareVo shareVo = getShareVo();
         String type = shareVo.getType();
-
         String id = shareVo.getId();
         if(StringUtils.isEmpty(type)) {
             type = ActivityConstant.SHARE_TYPE_INVITER;
         }
-        Logger.debug("type = " + type + " id = " + id);
-
         ShareInfoService shareInfoService = ShareInfoServiceFactory.getShareInfoService(type);
         if(shareInfoService == null) {
             Logger.error("不支持的分享类型");
@@ -60,25 +53,30 @@ public class ShareContorller extends ActivityBaseController{
             messageUtil.setMessage(message);
             return ok(messageUtil.toJson());
         }
+        ShareInfoContext context =getShareInfoContext(id,custNo,type);
+        ShareInfoVo shareInfoVo = shareInfoService.getShareInfoByType(context);
+        String shorturl = shareInfoVo.getShortUrl();
+        QRcodeVo qRcodeVo=getQRcodeVo(shorturl);
+        messageUtil.setMessage(new Message(Severity.INFO, MsgCode.ABOUT_QUERY_SUCC), qRcodeVo);
+        return ok(messageUtil.toJson());
 
+    }
+
+    private ShareInfoContext getShareInfoContext(String id,String custNo,String type){
         ShareInfoContext context = new ShareInfoContext();
         context.setRefId(id);
         context.setCustNo(custNo);
         context.setType(type);
-        ShareInfoVo shareInfoVo = shareInfoService.getShareInfoByType(context);
+        return context;
+    }
 
-        String shorturl = shareInfoVo.getShortUrl();
-        //3、将内容存入对象
-        QRcodeByte qrcode = new QRcodeByte();
-        byte[] pngData = qrcode.generateQRCode(shorturl);//加入短路径如："http://t.cn/RzJWtFA"
+    private QRcodeVo getQRcodeVo(String shorturl){
+        QRcodeByte qrcode = new QRcodeByte();        //将内容存入对象
+        byte[] pngData = qrcode.generateQRCode(shorturl);//加入短路径,如："http://t.cn/RzJWtFA"
         QRcodeVo qRcodeVo=new QRcodeVo();
         qRcodeVo.setQrcodeByte(pngData);
         Logger.debug("图片二进制流:"+qRcodeVo.getQrcodeByte());
-
-        messageUtil.setMessage(new Message(Severity.INFO, MsgCode.ABOUT_QUERY_SUCC), qRcodeVo);
-        Logger.debug("返回给前端的内容----:"+messageUtil.toJson());
-        return ok(messageUtil.toJson());
-
+        return qRcodeVo;
     }
 
     private ShareVo getShareVo() {
