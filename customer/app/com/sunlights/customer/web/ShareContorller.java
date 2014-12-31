@@ -44,32 +44,22 @@ public class ShareContorller extends ActivityBaseController{
             return notFound("用户登录已经超时,请重新登录");
         }
 
-        ShareVo shareVo = null;
-        Http.RequestBody body = request().body();
-        if (body.asJson() != null) {
-            shareVo = Json.fromJson(body.asJson(), ShareVo.class);
-        }
-
-        if (body.asFormUrlEncoded() != null) {
-            shareVo = shareParameterForm.bindFromRequest().get();
-        }
+        ShareVo shareVo = getShareVo();
         String type = shareVo.getType();
+
         String id = shareVo.getId();
         if(StringUtils.isEmpty(type)) {
             type = ActivityConstant.SHARE_TYPE_INVITER;
         }
         Logger.debug("type = " + type + " id = " + id);
 
-        Message message = null;
         ShareInfoService shareInfoService = ShareInfoServiceFactory.getShareInfoService(type);
         if(shareInfoService == null) {
             Logger.error("不支持的分享类型");
-            message = new Message(Severity.INFO, MsgCode.NOT_SUPPORT_SHARE_TYPE);
+            Message message = new Message(Severity.INFO, MsgCode.NOT_SUPPORT_SHARE_TYPE);
             messageUtil.setMessage(message);
             return ok(messageUtil.toJson());
         }
-
-        message = new Message(Severity.INFO, MsgCode.SHARE_QUERY_SUCC);
 
         ShareInfoContext context = new ShareInfoContext();
         context.setRefId(id);
@@ -80,7 +70,7 @@ public class ShareContorller extends ActivityBaseController{
         String shorturl = shareInfoVo.getShortUrl();
         //3、将内容存入对象
         QRcodeByte qrcode = new QRcodeByte();
-        byte[] pngData = qrcode.getQRcodeByte(shorturl);//加入短路径如："http://t.cn/RzJWtFA"
+        byte[] pngData = qrcode.generateQRCode(shorturl);//加入短路径如："http://t.cn/RzJWtFA"
         QRcodeVo qRcodeVo=new QRcodeVo();
         qRcodeVo.setQrcodeByte(pngData);
         Logger.debug("图片二进制流:"+qRcodeVo.getQrcodeByte());
@@ -91,8 +81,16 @@ public class ShareContorller extends ActivityBaseController{
 
     }
 
-
-
+    private ShareVo getShareVo() {
+        Http.RequestBody body = request().body();
+        ShareVo shareVo = null;
+        if (body.asJson() != null) {
+            shareVo = Json.fromJson(body.asJson(), ShareVo.class);
+        }else if (body.asFormUrlEncoded() != null) {
+            shareVo = shareParameterForm.bindFromRequest().get();
+        }
+        return shareVo;
+    }
 
 
     /**

@@ -26,7 +26,7 @@ public class FundCrawlerTest {
 
 //
 //                QRcodeByte qrcode = new QRcodeByte();
-//                byte[] pngData = qrcode.getQRcodeByte("http://t.cn/RzJWtFA");//加入短路径
+//                byte[] pngData = qrcode.generateQRCode("http://t.cn/RzJWtFA");//加入短路径
 //                String base64=new BASE64Encoder().encode(pngData);
 //                System.out.print("64===="+base64);
 //                JsonNode json = Json.toJson(base64);

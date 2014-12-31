@@ -10,12 +10,12 @@ public class QRcodeByte {
 
     /**
      * 获得二维码的二进制流
-     * @param sortUrl 短链接
+     * @param content 需要生成二维码的文本内容
      * @return
      */
-    public byte[] getQRcodeByte(String sortUrl){
+    public byte[] generateQRCode(String content){
         QRcodeByte handler = new QRcodeByte();
-        return  handler.encoderQRCode(sortUrl,"png");
+        return  handler.encoderQRCode(content,"png");
     }
 
     /**
@@ -23,7 +23,7 @@ public class QRcodeByte {
      * @param content 存储内容
      * @param imgType 图片类型
      */
-    public byte[] encoderQRCode(String content, String imgType) {
+    private byte[] encoderQRCode(String content, String imgType) {
         return this.encoderQRCode(content, imgType, 7);
     }
 
@@ -33,7 +33,7 @@ public class QRcodeByte {
      * @param imgType 图片类型
      * @param size 二维码尺寸
      */
-    public byte[] encoderQRCode(String content, String imgType, int size) {
+    private byte[] encoderQRCode(String content, String imgType, int size) {
         ByteArrayOutputStream out=null;
         try {
             BufferedImage bufImg = this.qRCodeCommon(content, imgType, size);
