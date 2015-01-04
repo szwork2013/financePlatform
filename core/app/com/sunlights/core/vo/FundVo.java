@@ -24,6 +24,53 @@ public class FundVo extends ProductVo {
     private String purchasedAmount;//起购金额
     private String discount;//手续费描述
     private String discountValue;//手续费
+
+    @Override
+    public boolean equals(Object o) {
+        if(!super.equals(o)){
+            return false;
+        };
+        if (this == o) return true;
+        if (!(o instanceof FundVo)) return false;
+
+        FundVo fundVo = (FundVo) o;
+
+        if (activity != null ? !activity.equals(fundVo.activity) : fundVo.activity != null) return false;
+        if (discount != null ? !discount.equals(fundVo.discount) : fundVo.discount != null) return false;
+        if (discountValue != null ? !discountValue.equals(fundVo.discountValue) : fundVo.discountValue != null)
+            return false;
+        if (millionIncome != null ? !millionIncome.equals(fundVo.millionIncome) : fundVo.millionIncome != null)
+            return false;
+        if (peopleOfPurchased != null ? !peopleOfPurchased.equals(fundVo.peopleOfPurchased) : fundVo.peopleOfPurchased != null)
+            return false;
+        if (purchaseState != null ? !purchaseState.equals(fundVo.purchaseState) : fundVo.purchaseState != null)
+            return false;
+        if (purchasedAmount != null ? !purchasedAmount.equals(fundVo.purchasedAmount) : fundVo.purchasedAmount != null)
+            return false;
+        if (purchasedMethod != null ? !purchasedMethod.equals(fundVo.purchasedMethod) : fundVo.purchasedMethod != null)
+            return false;
+        if (sevenDaysIncome != null ? !sevenDaysIncome.equals(fundVo.sevenDaysIncome) : fundVo.sevenDaysIncome != null)
+            return false;
+
+        return true;
+
+
+    }
+
+    @Override
+    public int hashCode() {
+        int result = peopleOfPurchased != null ? peopleOfPurchased.hashCode() : 0;
+        result = 31 * result + (sevenDaysIncome != null ? sevenDaysIncome.hashCode() : 0);
+        result = 31 * result + (millionIncome != null ? millionIncome.hashCode() : 0);
+        result = 31 * result + (purchasedMethod != null ? purchasedMethod.hashCode() : 0);
+        result = 31 * result + (purchasedAmount != null ? purchasedAmount.hashCode() : 0);
+        result = 31 * result + (discount != null ? discount.hashCode() : 0);
+        result = 31 * result + (discountValue != null ? discountValue.hashCode() : 0);
+        result = 31 * result + (activity != null ? activity.hashCode() : 0);
+        result = 31 * result + (purchaseState != null ? purchaseState.hashCode() : 0);
+        return result;
+    }
+
     private String activity;//活动
     private Integer purchaseState;//是否可申购
 

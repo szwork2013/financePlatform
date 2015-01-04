@@ -6,32 +6,12 @@
     <persistence-unit name="default" transaction-type="RESOURCE_LOCAL">
         <provider>org.hibernate.jpa.HibernatePersistenceProvider</provider>
         <non-jta-data-source>DefaultDS</non-jta-data-source>
-        <class>models.LoggingEvent</class>
-        <class>models.LoggingEventException</class>
-        <class>models.LoggingEventProperty</class>
-        <class>models.CheckError</class>
-        <class>models.CheckInfo</class>
-        <class>models.CheckResult</class>
-        <class>models.ProductAttention</class>
-
         <properties>
             <property name="hibernate.dialect" value="org.hibernate.dialect.PostgreSQL9Dialect"/>
-            <property name="eclipselink.jdbc.url" value="jdbc:postgresql://192.168.0.88:5432/sunlightsdev"/>
-            <property name="eclipselink.jdbc.driver" value="org.postgresql.Driver"/>
-            <property name="eclipselink.jdbc.user" value="sunlights"/>
-            <property name="eclipselink.jdbc.password" value="sunlights"/>
-            <property name="hibernate.connection.url" value="jdbc:postgresql://192.168.0.199:5432/devsunlights"/>
+            <property name="hibernate.connection.url" value="jdbc:postgresql://192.168.0.88:5432/devsunlights"/>
             <property name="hibernate.connection.driver_class" value="org.postgresql.Driver"/>
             <property name="hibernate.connection.username" value="sunlights"/>
             <property name="hibernate.connection.password" value="sunlights"/>
-            <property name="openjpa.ConnectionURL" value="jdbc:postgresql://192.168.0.199:5432/devsunlights"/>
-            <property name="openjpa.ConnectionDriverName" value="org.postgresql.Driver"/>
-            <property name="openjpa.ConnectionUserName" value="sunlights"/>
-            <property name="openjpa.ConnectionPassword" value="sunlights"/>
-            <property name="toplink.jdbc.url" value="jdbc:postgresql://192.168.0.199:5432/devsunlights"/>
-            <property name="toplink.jdbc.driver" value="org.postgresql.Driver"/>
-            <property name="toplink.jdbc.user" value="sunlights"/>
-            <property name="toplink.jdbc.password" value="sunlights"/>
         </properties>
     </persistence-unit>
 

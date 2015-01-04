@@ -12,10 +12,14 @@ import play.mvc.Result;
 import play.test.FakeRequest;
 
 import javax.persistence.Query;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Scanner;
 
 import static org.fest.assertions.Assertions.assertThat;
 import static play.mvc.Http.Status.OK;
@@ -71,6 +75,11 @@ public class BaseTest {
         return Json.fromJson(jsonNode, MessageVo.class);
     }
 
+    protected MessageVo toMessageVo(String content) {
+        JsonNode jsonNode = Json.parse(content);
+        return Json.fromJson(jsonNode, MessageVo.class);
+    }
+
 
     protected Result getResult(String routes, Map formParams) {
         formParams.put("deviceNo", getDeviceNo());
@@ -114,6 +123,26 @@ public class BaseTest {
         Http.Cookie cookie = new Http.Cookie("token", formParams.get("token"), null, null, null, false, false);
 
         return cookie;
+    }
+
+    public String getJsonFile(String path) throws IOException {
+        String realpath="D:\\workproject\\financeplatform\\test\\"+path;//配置公共路径
+        File file = new File(realpath);
+        Scanner scanner = null;
+        StringBuilder buffer = new StringBuilder();
+        try {
+            scanner = new Scanner(file, "utf-8");
+            while (scanner.hasNextLine()) {
+                buffer.append(scanner.nextLine().trim());
+            }
+        } catch (FileNotFoundException e) {
+            Logger.debug("文件不存在！");
+        } finally {
+            if (scanner != null) {
+                scanner.close();
+            }
+        }
+        return buffer.toString();
     }
 
 }

@@ -25,74 +25,72 @@ import play.mvc.Result;
  * Created by Administrator on 2014/12/3.
  */
 @Transactional
-public class ShareContorller extends ActivityBaseController{
+public class ShareContorller extends ActivityBaseController {
 
 
     private Form<ShareVo> shareParameterForm = Form.form(ShareVo.class);
 
     /**
      * 获得byte流图片
+     *
      * @return
      */
-    public Result getQRcodeToByte(){
-
-        //1、首先获得手机号
+    public Result getQRcodeToByte() {
         CustomerSession customerSession = getCustomerSession();
         String custNo = customerSession.getCustomerId();//获得客户id
-        Logger.debug("custNo === " + custNo);
-        if(StringUtils.isEmpty(custNo)){
+        if (StringUtils.isEmpty(custNo)) {
             return notFound("用户登录已经超时,请重新登录");
         }
-
-        ShareVo shareVo = null;
-        Http.RequestBody body = request().body();
-        if (body.asJson() != null) {
-            shareVo = Json.fromJson(body.asJson(), ShareVo.class);
-        }
-
-        if (body.asFormUrlEncoded() != null) {
-            shareVo = shareParameterForm.bindFromRequest().get();
-        }
+        ShareVo shareVo = getShareVo();
         String type = shareVo.getType();
         String id = shareVo.getId();
-        if(StringUtils.isEmpty(type)) {
+        if (StringUtils.isEmpty(type)) {
             type = ActivityConstant.SHARE_TYPE_INVITER;
         }
-        Logger.debug("type = " + type + " id = " + id);
-
-        Message message = null;
-        ShareInfoService shareInfoService = ShareInfoServiceFactory.getShareInfoService(type);
-        if(shareInfoService == null) {
+        ShareInfoService shareInfoService = ShareInfoServiceFactory.createShareInfoService(type);
+        if (shareInfoService == null) {
             Logger.error("不支持的分享类型");
-            message = new Message(Severity.INFO, MsgCode.NOT_SUPPORT_SHARE_TYPE);
+            Message message = new Message(Severity.INFO, MsgCode.NOT_SUPPORT_SHARE_TYPE);
             messageUtil.setMessage(message);
             return ok(messageUtil.toJson());
         }
 
-        message = new Message(Severity.INFO, MsgCode.SHARE_QUERY_SUCC);
-
-        ShareInfoContext context = new ShareInfoContext();
-        context.setRefId(id);
-        context.setCustNo(custNo);
-        context.setType(type);
+        ShareInfoContext context = getShareInfoContext(id, custNo, type);
         ShareInfoVo shareInfoVo = shareInfoService.getShareInfoByType(context);
-
         String shorturl = shareInfoVo.getShortUrl();
-        //3、将内容存入对象
-        QRcodeByte qrcode = new QRcodeByte();
-        byte[] pngData = qrcode.getQRcodeByte(shorturl);//加入短路径如："http://t.cn/RzJWtFA"
-        QRcodeVo qRcodeVo=new QRcodeVo();
-        qRcodeVo.setQrcodeByte(pngData);
-        Logger.debug("图片二进制流:"+qRcodeVo.getQrcodeByte());
-
+        QRcodeVo qRcodeVo = getQRcodeVo(shorturl);
         messageUtil.setMessage(new Message(Severity.INFO, MsgCode.ABOUT_QUERY_SUCC), qRcodeVo);
-        Logger.debug("返回给前端的内容----:"+messageUtil.toJson());
         return ok(messageUtil.toJson());
 
     }
 
+    private ShareInfoContext getShareInfoContext(String id, String custNo, String type) {
+        ShareInfoContext context = new ShareInfoContext();
+        context.setRefId(id);
+        context.setCustNo(custNo);
+        context.setType(type);
+        return context;
+    }
 
+    private QRcodeVo getQRcodeVo(String shorturl) {
+        QRcodeByte qrcode = new QRcodeByte();        //将内容存入对象
+        byte[] pngData = qrcode.generateQRCode(shorturl);//加入短路径,如："http://t.cn/RzJWtFA"
+        QRcodeVo qRcodeVo = new QRcodeVo();
+        qRcodeVo.setQrcodeByte(pngData);
+        Logger.debug("图片二进制流:" + qRcodeVo.getQrcodeByte());
+        return qRcodeVo;
+    }
 
+    private ShareVo getShareVo() {
+        Http.RequestBody body = request().body();
+        ShareVo shareVo = null;
+        if (body.asJson() != null) {
+            shareVo = Json.fromJson(body.asJson(), ShareVo.class);
+        } else if (body.asFormUrlEncoded() != null) {
+            shareVo = shareParameterForm.bindFromRequest().get();
+        }
+        return shareVo;
+    }
 
 
     /**
@@ -123,8 +121,8 @@ public class ShareContorller extends ActivityBaseController{
         Logger.debug("type = " + type + " id = " + id);
 
         Message message = null;
-        ShareInfoService shareInfoService = ShareInfoServiceFactory.getShareInfoService(type);
-        if(shareInfoService == null) {
+        ShareInfoService shareInfoService = ShareInfoServiceFactory.createShareInfoService(type);
+        if (shareInfoService == null) {
             Logger.error("不支持的分享类型");
             message = new Message(Severity.INFO, MsgCode.NOT_SUPPORT_SHARE_TYPE);
             messageUtil.setMessage(message);
@@ -151,7 +149,7 @@ public class ShareContorller extends ActivityBaseController{
             Logger.debug("返回给前端的内容----》:" + messageUtil.toJson());
             return ok(messageUtil.toJson());
         } catch (BusinessRuntimeException be) {
-            if(MsgCode.LOGIN_TIMEOUT.getCode().equals(be.getErrorCode())) {
+            if (MsgCode.LOGIN_TIMEOUT.getCode().equals(be.getErrorCode())) {
                 message = new Message(Severity.INFO, MsgCode.LOGIN_TIMEOUT);
                 message.setSummary("您还没有登录");
                 Logger.error("您还没有登录", be);

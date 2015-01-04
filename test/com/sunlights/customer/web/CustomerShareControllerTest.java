@@ -17,10 +17,11 @@ import static play.test.Helpers.*;
 public class CustomerShareControllerTest extends BaseTest {
     @Before
     public void getCookie(){
-        final String mobilePhoneNo = "13811599307";
-        final String password = "1";
+
         running(fakeApplication(), new Runnable() {
             public void run() {
+                final String mobilePhoneNo = "13811599307";
+                final String password = "1";
                 cookie = getCookieAfterLogin(mobilePhoneNo, password);
             }
         });
@@ -48,7 +49,7 @@ public class CustomerShareControllerTest extends BaseTest {
 
 
 
-    //@Test
+    @Test
     public void testgetQRcodeToByte() throws Exception {//byte二维码
         running(fakeApplication(), new Runnable() {
             public void run() {
@@ -60,13 +61,13 @@ public class CustomerShareControllerTest extends BaseTest {
 
                 Logger.info(contentAsString(result));
                 assertThat(status(result)).isEqualTo(OK);
-                MessageVo message = toMessageVo(result);
+
 
             }
         });
     }
 
-    @Test
+    //@Test
     public void testInviteShare() throws Exception {//分享好友
         running(fakeApplication(), new Runnable() {
             public void run() {

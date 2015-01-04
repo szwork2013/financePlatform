@@ -7,6 +7,7 @@ import com.sunlights.customer.service.impl.CustomerService;
 import com.sunlights.customer.vo.ActivityParamter;
 import com.sunlights.customer.vo.ExchangeParamter;
 import models.CustomerSession;
+import play.Logger;
 import play.data.Form;
 import play.libs.Json;
 import play.mvc.Controller;
@@ -27,6 +28,7 @@ public class ActivityBaseController  extends Controller{
     public ActivityParamter getActivityParamter() {
         ActivityParamter activityParamter = null;
         Http.RequestBody body = request().body();
+        Logger.debug("activity = " + body.asJson());
         if (body.asJson() != null) {
             activityParamter = Json.fromJson(body.asJson(), ActivityParamter.class);
         }

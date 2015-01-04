@@ -113,4 +113,30 @@ public class Message {
 
         return sb.toString();
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Message)) return false;
+
+        Message message = (Message) o;
+
+        if (code != null ? !code.equals(message.code) : message.code != null) return false;
+        if (detail != null ? !detail.equals(message.detail) : message.detail != null) return false;
+        if (fields != null ? !fields.equals(message.fields) : message.fields != null) return false;
+        if (severity != message.severity) return false;
+        if (summary != null ? !summary.equals(message.summary) : message.summary != null) return false;
+
+        return true;
+    }
+
+    @Override
+    public int hashCode() {
+        int result = severity != null ? severity.hashCode() : 0;
+        result = 31 * result + (code != null ? code.hashCode() : 0);
+        result = 31 * result + (summary != null ? summary.hashCode() : 0);
+        result = 31 * result + (detail != null ? detail.hashCode() : 0);
+        result = 31 * result + (fields != null ? fields.hashCode() : 0);
+        return result;
+    }
 }

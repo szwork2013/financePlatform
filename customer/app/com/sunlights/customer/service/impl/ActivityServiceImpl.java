@@ -9,6 +9,7 @@ import com.sunlights.customer.dal.ActivitySceneDao;
 import com.sunlights.customer.dal.impl.ActivityDaoImpl;
 import com.sunlights.customer.dal.impl.ActivitySceneDaoImpl;
 import com.sunlights.customer.service.ActivityService;
+import com.sunlights.customer.vo.Activity4H5Vo;
 import com.sunlights.customer.vo.ActivityVo;
 import models.Activity;
 import models.ActivityScene;
@@ -99,5 +100,15 @@ public class ActivityServiceImpl implements ActivityService{
     public List<Activity> getCurrentValidActivities() {
 
         return activityDao.getCurrrentValidActivities();
+    }
+
+    @Cacheable(key = "getH5InfoById", duration = 3000)
+    @Override
+    public Activity4H5Vo getH5InfoById(Long id) {
+        Activity4H5Vo activity4H5Vo = new Activity4H5Vo();
+        Activity activity = activityDao.findById(id);
+        activity4H5Vo.setImageUrl(getFileFuleUrl(activity.getImage(), "activity.imagePath"));
+        activity4H5Vo.setContent(activity.getH5Content());
+        return activity4H5Vo;
     }
 }

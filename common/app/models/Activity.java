@@ -35,6 +35,8 @@ public class Activity extends IdEntity {
     private String style;
     @Column(name = "CLICK_EVENT")
     private String clickEvent;
+    @Column(name = "H5CONTENT")
+    private String h5Content;
 
     @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "CREATE_TIME")
@@ -172,5 +174,11 @@ public class Activity extends IdEntity {
         this.scene = scene;
     }
 
+    public String getH5Content() {
+        return h5Content;
+    }
 
+    public void setH5Content(String h5Content) {
+        this.h5Content = h5Content;
+    }
 }
