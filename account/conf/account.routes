@@ -25,7 +25,7 @@ POST        /activity/exchange                  @com.sunlights.customer.web.Exch
 POST        /activity/exchangescenes            @com.sunlights.customer.web.ExchangeRewardController.queryExchangeScenes
 POST        /activity/beforeexchange            @com.sunlights.customer.web.ExchangeRewardController.prepareDataBeforeExchange
 
-GET        /activity/rule            @com.sunlights.customer.web.Activity4H5Controller.getContent
+GET        /activity/rule/{id}            @com.sunlights.customer.web.Activity4H5Controller.getContent
 
 #Reward
 POST        /reward/get_signin                  @com.sunlights.customer.web.RewardController.getSingInCanObtainRewards

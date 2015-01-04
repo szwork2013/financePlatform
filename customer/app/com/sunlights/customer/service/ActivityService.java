@@ -2,6 +2,7 @@ package com.sunlights.customer.service;
 
 
 import com.sunlights.common.vo.PageVo;
+import com.sunlights.customer.vo.Activity4H5Vo;
 import com.sunlights.customer.vo.ActivityVo;
 import models.Activity;
 
@@ -31,5 +32,7 @@ public interface ActivityService {
 
 
     public List<Activity> getCurrentValidActivities();
+
+    public Activity4H5Vo getH5InfoById(Long id);
 
 }
