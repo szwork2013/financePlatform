@@ -28,7 +28,9 @@ public class FundDetailVo extends FundVo {
 	// 风险
 	private String riskLevel;
 	// 基金公司
-	private String companyName;
+
+
+    private String companyName;
 	// 基金规模
 	private String fundScale;
 	// 30天购买人数
@@ -195,4 +197,51 @@ public class FundDetailVo extends FundVo {
 	public void setTrusteeName(String trusteeName) {
 		this.trusteeName = trusteeName;
 	}
+
+
+
+    @Override
+    public boolean equals(Object o) {
+        if(!super.equals(o)){
+            return false;
+        };
+        if (this == o) return true;
+        if (!(o instanceof FundDetailVo)) return false;
+        if (!super.equals(o)) return false;
+
+        FundDetailVo that = (FundDetailVo) o;
+
+        if (buiersOf30Days != null ? !buiersOf30Days.equals(that.buiersOf30Days) : that.buiersOf30Days != null)
+            return false;
+        if (companyName != null ? !companyName.equals(that.companyName) : that.companyName != null) return false;
+        if (currentDate != null ? !currentDate.equals(that.currentDate) : that.currentDate != null) return false;
+        if (establishmentDate != null ? !establishmentDate.equals(that.establishmentDate) : that.establishmentDate != null)
+            return false;
+        if (fundScale != null ? !fundScale.equals(that.fundScale) : that.fundScale != null) return false;
+        if (latestHoldShares != null ? !latestHoldShares.equals(that.latestHoldShares) : that.latestHoldShares != null)
+            return false;
+        if (manager != null ? !manager.equals(that.manager) : that.manager != null) return false;
+        if (riskLevel != null ? !riskLevel.equals(that.riskLevel) : that.riskLevel != null) return false;
+        if (toAccountType != null ? !toAccountType.equals(that.toAccountType) : that.toAccountType != null)
+            return false;
+        if (trusteeName != null ? !trusteeName.equals(that.trusteeName) : that.trusteeName != null) return false;
+
+        return true;
+    }
+
+    @Override
+    public int hashCode() {
+        int result = super.hashCode();
+        result = 31 * result + (toAccountType != null ? toAccountType.hashCode() : 0);
+        result = 31 * result + (riskLevel != null ? riskLevel.hashCode() : 0);
+        result = 31 * result + (companyName != null ? companyName.hashCode() : 0);
+        result = 31 * result + (fundScale != null ? fundScale.hashCode() : 0);
+        result = 31 * result + (buiersOf30Days != null ? buiersOf30Days.hashCode() : 0);
+        result = 31 * result + (currentDate != null ? currentDate.hashCode() : 0);
+        result = 31 * result + (establishmentDate != null ? establishmentDate.hashCode() : 0);
+        result = 31 * result + (latestHoldShares != null ? latestHoldShares.hashCode() : 0);
+        result = 31 * result + (manager != null ? manager.hashCode() : 0);
+        result = 31 * result + (trusteeName != null ? trusteeName.hashCode() : 0);
+        return result;
+    }
 }

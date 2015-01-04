@@ -80,4 +80,30 @@ public class ChartVo {
       this.title = title;
     }
   }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof ChartVo)) return false;
+
+        ChartVo chartVo = (ChartVo) o;
+
+        if (chartName != null ? !chartName.equals(chartVo.chartName) : chartVo.chartName != null) return false;
+        if (chartType != null ? !chartType.equals(chartVo.chartType) : chartVo.chartType != null) return false;
+      //  if (points != null ? !points.equals(chartVo.points) : chartVo.points != null) return false;
+        if (prdCode != null ? !prdCode.equals(chartVo.prdCode) : chartVo.prdCode != null) return false;
+        if (prdName != null ? !prdName.equals(chartVo.prdName) : chartVo.prdName != null) return false;
+
+        return true;
+    }
+
+    @Override
+    public int hashCode() {
+        int result = prdName != null ? prdName.hashCode() : 0;
+        result = 31 * result + (prdCode != null ? prdCode.hashCode() : 0);
+        result = 31 * result + (chartType != null ? chartType.hashCode() : 0);
+        result = 31 * result + (chartName != null ? chartName.hashCode() : 0);
+        result = 31 * result + (points != null ? points.hashCode() : 0);
+        return result;
+    }
 }

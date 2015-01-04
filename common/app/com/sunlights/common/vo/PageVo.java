@@ -19,6 +19,35 @@ public class PageVo {
     private int index = 0;
     //每页显示到数据条数
     private int pageSize = 0;
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof PageVo)) return false;
+
+        PageVo pageVo = (PageVo) o;
+
+        if (count != pageVo.count) return false;
+        if (index != pageVo.index) return false;
+        if (pageNum != pageVo.pageNum) return false;
+        if (pageSize != pageVo.pageSize) return false;
+        if (filter != null ? !filter.equals(pageVo.filter) : pageVo.filter != null) return false;
+        if (list != null ? !list.equals(pageVo.list) : pageVo.list != null) return false;
+
+        return true;
+    }
+
+    @Override
+    public int hashCode() {
+        int result = index;
+        result = 31 * result + pageSize;
+        result = 31 * result + pageNum;
+        result = 31 * result + count;
+        result = 31 * result + (list != null ? list.hashCode() : 0);
+        result = 31 * result + (filter != null ? filter.hashCode() : 0);
+        return result;
+    }
+
     //当前页码
     private int pageNum = 0;
     //总条数

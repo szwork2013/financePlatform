@@ -126,7 +126,8 @@ public class BaseTest {
     }
 
     public String getJsonFile(String path) throws IOException {
-        File file = new File(path);
+        String realpath="D:\\workproject\\financeplatform\\test\\"+path;//配置公共路径
+        File file = new File(realpath);
         Scanner scanner = null;
         StringBuilder buffer = new StringBuilder();
         try {

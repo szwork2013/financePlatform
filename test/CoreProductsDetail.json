@@ -22,7 +22,17 @@
     "purchasedMethod": "随买随卖",
     "purchasedAmount": "100",
     "discount": "免手续费",
-    "discountValue": null,
-    "activity": "",
-    "purchaseState": 1
+    "discountValue": "1.0000",
+    "activity": null,
+    "purchaseState": 1,
+    "toAccountType": "普通赎回",
+    "riskLevel": "低风险",
+    "companyName": null,
+    "fundScale": "169.66亿",
+    "buiersOf30Days": 113,
+    "currentDate": "2014-12-31",
+    "establishmentDate": "2013-03-04",
+    "latestHoldShares": "12725640770",
+    "manager": "石大怿",
+    "trusteeName": "中国工商银行股份有限公司"
 }}
