@@ -1,11 +1,14 @@
 package com.sunlights.core.vo;
 
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.sunlights.common.AppConst;
 import com.sunlights.common.FundCategory;
 import com.sunlights.common.FundDict;
 import com.sunlights.common.service.CommonService;
 import com.sunlights.common.utils.ArithUtil;
 import com.sunlights.common.utils.CommonUtil;
+import com.sunlights.common.vo.IntegerNullSerialize;
+import com.sunlights.common.vo.StringNullSerialize;
 import models.FundCompany;
 import models.FundNav;
 import models.ProductManage;
@@ -118,6 +121,7 @@ public class FundDetailVo extends FundVo {
 		this.buiersOf30Days = pm.getOneMonthBuyedCount();
 	}
 
+	@JsonSerialize(using = StringNullSerialize.class)
 	public String getToAccountType() {
 		return toAccountType;
 	}
@@ -126,6 +130,7 @@ public class FundDetailVo extends FundVo {
 		this.toAccountType = toAccountType;
 	}
 
+	@JsonSerialize(using = StringNullSerialize.class)
 	public String getRiskLevel() {
 		return riskLevel;
 	}
@@ -134,6 +139,7 @@ public class FundDetailVo extends FundVo {
 		this.riskLevel = riskLevel;
 	}
 
+	@JsonSerialize(using = StringNullSerialize.class)
 	public String getCompanyName() {
 		return companyName;
 	}
@@ -142,6 +148,7 @@ public class FundDetailVo extends FundVo {
 		this.companyName = companyName;
 	}
 
+	@JsonSerialize(using = StringNullSerialize.class)
 	public String getFundScale() {
 		return fundScale;
 	}
@@ -150,6 +157,7 @@ public class FundDetailVo extends FundVo {
 		this.fundScale = fundScale;
 	}
 
+	@JsonSerialize(using = IntegerNullSerialize.class)
 	public Integer getBuiersOf30Days() {
 		return buiersOf30Days;
 	}
@@ -158,6 +166,7 @@ public class FundDetailVo extends FundVo {
 		this.buiersOf30Days = buiersOf30Days;
 	}
 
+	@JsonSerialize(using = StringNullSerialize.class)
 	public String getCurrentDate() {
 		return currentDate;
 	}
@@ -166,6 +175,7 @@ public class FundDetailVo extends FundVo {
 		this.currentDate = currentDate;
 	}
 
+	@JsonSerialize(using = StringNullSerialize.class)
 	public String getEstablishmentDate() {
 		return establishmentDate;
 	}
@@ -174,6 +184,7 @@ public class FundDetailVo extends FundVo {
 		this.establishmentDate = establishmentDate;
 	}
 
+	@JsonSerialize(using = StringNullSerialize.class)
 	public String getLatestHoldShares() {
 		return latestHoldShares;
 	}
@@ -182,6 +193,7 @@ public class FundDetailVo extends FundVo {
 		this.latestHoldShares = latestHoldShares;
 	}
 
+	@JsonSerialize(using = StringNullSerialize.class)
 	public String getManager() {
 		return manager;
 	}
@@ -190,6 +202,7 @@ public class FundDetailVo extends FundVo {
 		this.manager = manager;
 	}
 
+	@JsonSerialize(using = StringNullSerialize.class)
 	public String getTrusteeName() {
 		return trusteeName;
 	}
