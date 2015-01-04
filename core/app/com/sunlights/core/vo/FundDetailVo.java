@@ -1,11 +1,14 @@
 package com.sunlights.core.vo;
 
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.sunlights.common.AppConst;
 import com.sunlights.common.FundCategory;
 import com.sunlights.common.FundDict;
 import com.sunlights.common.service.CommonService;
 import com.sunlights.common.utils.ArithUtil;
 import com.sunlights.common.utils.CommonUtil;
+import com.sunlights.common.vo.IntegerNullSerialize;
+import com.sunlights.common.vo.StringNullSerialize;
 import models.FundCompany;
 import models.FundNav;
 import models.ProductManage;
@@ -118,80 +121,90 @@ public class FundDetailVo extends FundVo {
 		this.buiersOf30Days = pm.getOneMonthBuyedCount();
 	}
 
+	@JsonSerialize(using = StringNullSerialize.class)
 	public String getToAccountType() {
-		return CommonUtil.format(toAccountType);
+		return toAccountType;
 	}
 
 	public void setToAccountType(String toAccountType) {
 		this.toAccountType = toAccountType;
 	}
 
+	@JsonSerialize(using = StringNullSerialize.class)
 	public String getRiskLevel() {
-		return CommonUtil.format(riskLevel);
+		return riskLevel;
 	}
 
 	public void setRiskLevel(String riskLevel) {
 		this.riskLevel = riskLevel;
 	}
 
+	@JsonSerialize(using = StringNullSerialize.class)
 	public String getCompanyName() {
-		return CommonUtil.format(companyName);
+		return companyName;
 	}
 
 	public void setCompanyName(String companyName) {
 		this.companyName = companyName;
 	}
 
+	@JsonSerialize(using = StringNullSerialize.class)
 	public String getFundScale() {
-		return CommonUtil.format(fundScale);
+		return fundScale;
 	}
 
 	public void setFundScale(String fundScale) {
 		this.fundScale = fundScale;
 	}
 
+	@JsonSerialize(using = IntegerNullSerialize.class)
 	public Integer getBuiersOf30Days() {
-		return CommonUtil.format(buiersOf30Days);
+		return buiersOf30Days;
 	}
 
 	public void setBuiersOf30Days(Integer buiersOf30Days) {
 		this.buiersOf30Days = buiersOf30Days;
 	}
 
+	@JsonSerialize(using = StringNullSerialize.class)
 	public String getCurrentDate() {
-		return CommonUtil.format(currentDate);
+		return currentDate;
 	}
 
 	public void setCurrentDate(String currentDate) {
 		this.currentDate = currentDate;
 	}
 
+	@JsonSerialize(using = StringNullSerialize.class)
 	public String getEstablishmentDate() {
-		return CommonUtil.format(establishmentDate);
+		return establishmentDate;
 	}
 
 	public void setEstablishmentDate(String establishmentDate) {
 		this.establishmentDate = establishmentDate;
 	}
 
+	@JsonSerialize(using = StringNullSerialize.class)
 	public String getLatestHoldShares() {
-		return CommonUtil.format(latestHoldShares);
+		return latestHoldShares;
 	}
 
 	public void setLatestHoldShares(String latestHoldShares) {
 		this.latestHoldShares = latestHoldShares;
 	}
 
+	@JsonSerialize(using = StringNullSerialize.class)
 	public String getManager() {
-		return CommonUtil.format(manager);
+		return manager;
 	}
 
 	public void setManager(String manager) {
 		this.manager = manager;
 	}
 
+	@JsonSerialize(using = StringNullSerialize.class)
 	public String getTrusteeName() {
-		return CommonUtil.format(trusteeName);
+		return trusteeName;
 	}
 
 	public void setTrusteeName(String trusteeName) {

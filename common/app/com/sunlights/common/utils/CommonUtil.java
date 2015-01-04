@@ -105,6 +105,6 @@ public class CommonUtil {
 	}
 
 	public static Integer format(Integer value) {
-		return (value == null || 0 == value) ? 0 : value;
+		return (value == null) ? 0 : value;
 	}
 }
