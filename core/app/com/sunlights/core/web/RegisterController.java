@@ -21,11 +21,14 @@ import models.CustomerSession;
 import play.Logger;
 import play.data.Form;
 import play.db.jpa.Transactional;
+import play.libs.Json;
 import play.mvc.Controller;
 import play.mvc.Result;
 import play.mvc.With;
 
 import java.util.List;
+
+import static play.data.Form.form;
 
 /**
  * <p>Project: financeplatform</p>
@@ -70,6 +73,7 @@ public class RegisterController extends Controller {
     @With(MsgCenterAction.class)
     public Result register() {
         Logger.info("==========register====================");
+        Logger.debug(">>register params：" + Json.toJson(form().bindFromRequest().data()));
         CustomerFormVo customerFormVo = customerForm.bindFromRequest().get();
         Customer customer = loginService.register(customerFormVo);
         List<MessageHeaderVo> list = Lists.newArrayList();
@@ -88,7 +92,7 @@ public class RegisterController extends Controller {
 
         JsonNode json = MessageUtil.getInstance().toJson();
 
-        Logger.info("==========register返回：" + json.toString());
+        Logger.debug(">>register return：" + json.toString());
         Controller.response().setHeader("Access-Control-Allow-Origin","*");
         Controller.response().setHeader(AppConst.HEADER_MSG, MessageUtil.getInstance().setMessageHeader(list));
 

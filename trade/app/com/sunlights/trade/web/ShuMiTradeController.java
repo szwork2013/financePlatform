@@ -17,6 +17,8 @@ import play.mvc.Controller;
 import play.mvc.Result;
 import play.mvc.With;
 
+import static play.data.Form.form;
+
 /**
  * <p>Project: financeplatform</p>
  * <p>Title: ShuMiTradeController.java</p>
@@ -37,7 +39,7 @@ public class ShuMiTradeController extends Controller{
     @With(MsgCenterAction.class)
     public Result tradeOrder(){
         Logger.info("----------tradeOrder start ------------");
-
+        Logger.debug(">>tradeOrder params：" + Json.toJson(form().bindFromRequest().data()));
         customerService.validateCustomerSession(request(),session(),response());
 
         String token = request().cookie(AppConst.TOKEN).value();
@@ -48,8 +50,7 @@ public class ShuMiTradeController extends Controller{
 
         String headerMsg = shuMiTradeService.shuMiTradeOrder(tradeFormVo, token);
 
-        Logger.info("----------tradeOrder end: ------------\n" + MessageUtil.getInstance().toJson());
-
+        Logger.debug(">>tradeOrder return：" +  MessageUtil.getInstance().toJson());
 
         response().setHeader(AppConst.HEADER_MSG, headerMsg);
 
@@ -59,7 +60,7 @@ public class ShuMiTradeController extends Controller{
     @With(MsgCenterAction.class)
     public Result tradeRedeem(){
         Logger.info("----------tradeRedeem start ------------");
-
+        Logger.debug(">>tradeRedeem params：" + Json.toJson(form().bindFromRequest().data()));
         customerService.validateCustomerSession(request(),session(),response());
 
         String token = request().cookie(AppConst.TOKEN).value();
@@ -70,7 +71,7 @@ public class ShuMiTradeController extends Controller{
 
         String headerMsg = shuMiTradeService.shuMiTradeRedeem(tradeFormVo, token);
 
-        Logger.info("----------tradeRedeem end: ------------\n" + MessageUtil.getInstance().toJson());
+        Logger.debug(">>tradeRedeem return：" +  MessageUtil.getInstance().toJson());
 
         response().setHeader(AppConst.HEADER_MSG, headerMsg);
 
