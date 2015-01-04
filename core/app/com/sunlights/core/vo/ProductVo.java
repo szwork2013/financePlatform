@@ -1,5 +1,7 @@
 package com.sunlights.core.vo;
 
+import com.sunlights.common.utils.CommonUtil;
+
 /**
  * <p>Project: fsp</p>
  * <p>Title: ProductVo.java</p>
@@ -42,7 +44,7 @@ public class ProductVo {
     }
 
     public String getName() {
-        return name;
+        return CommonUtil.format(name);
     }
 
     public void setName(String name) {
@@ -50,7 +52,7 @@ public class ProductVo {
     }
 
     public String getType() {
-        return type;
+        return CommonUtil.format(type);
     }
 
     public void setType(String type) {
@@ -58,7 +60,7 @@ public class ProductVo {
     }
 
     public String getCode() {
-        return code;
+        return CommonUtil.format(code);
     }
 
     public void setCode(String code) {
@@ -66,7 +68,7 @@ public class ProductVo {
     }
 
     public String getCategory() {
-        return category;
+        return CommonUtil.format(category);
     }
 
     public void setCategory(String category) {
@@ -74,7 +76,7 @@ public class ProductVo {
     }
 
     public String getGroup() {
-        return group;
+        return CommonUtil.format(group);
     }
 
     public void setGroup(String group) {
@@ -82,7 +84,7 @@ public class ProductVo {
     }
 
     public String getTypeDesc() {
-        return typeDesc;
+        return CommonUtil.format(typeDesc);
     }
 
     public void setTypeDesc(String typeDesc) {
@@ -90,7 +92,7 @@ public class ProductVo {
     }
 
     public String getCategoryDesc() {
-        return categoryDesc;
+        return CommonUtil.format(categoryDesc);
     }
 
     public void setCategoryDesc(String categoryDesc) {
@@ -98,7 +100,7 @@ public class ProductVo {
     }
 
     public String getGroupDesc() {
-        return groupDesc;
+        return CommonUtil.format(groupDesc);
     }
 
     public void setGroupDesc(String groupDesc) {
@@ -106,7 +108,7 @@ public class ProductVo {
     }
 
     public String getTag() {
-        return tag;
+        return CommonUtil.format(tag);
     }
 
     public void setTag(String tag) {
@@ -114,7 +116,7 @@ public class ProductVo {
     }
 
     public String getTagDesc() {
-        return tagDesc;
+        return CommonUtil.format(tagDesc);
     }
 
     public void setTagDesc(String tagDesc) {

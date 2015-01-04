@@ -5,6 +5,7 @@ import com.sunlights.common.AppConst;
 import com.sunlights.common.FundCategory;
 import com.sunlights.common.service.CommonService;
 import com.sunlights.common.utils.ArithUtil;
+import com.sunlights.common.utils.CommonUtil;
 import com.sunlights.customer.service.ActivityService;
 import com.sunlights.customer.service.impl.ActivityServiceImpl;
 import models.FundNav;
@@ -106,7 +107,7 @@ public class FundVo extends ProductVo {
         this.sevenDaysIncome = ArithUtil.bigUpScale4(fundNav.getPercentSevenDays());
         this.millionIncome = ArithUtil.bigUpScale4(fundNav.getIncomePerTenThousand());
         BigDecimal purchaseLimitMin = ArithUtil.bigUpScale0(fundNav.getPurchaseLimitMin());
-        this.purchasedAmount = purchaseLimitMin == null ? "" : purchaseLimitMin.toString();
+        this.purchasedAmount = purchaseLimitMin == null ? null : purchaseLimitMin.toString();
         this.purchasedMethod = isMonetary == 1 ? "随买随卖" : (isStf == 1 ? "7天" : "");
         ActivityService activityService = new ActivityServiceImpl();
         List<String> activities = activityService.getActivityTitles(fundNav.getFundcode());
@@ -128,7 +129,7 @@ public class FundVo extends ProductVo {
     }
 
     public Integer getPeopleOfPurchased() {
-        return peopleOfPurchased;
+        return CommonUtil.format(peopleOfPurchased);
     }
 
     public void setPeopleOfPurchased(Integer peopleOfPurchased) {
@@ -136,7 +137,7 @@ public class FundVo extends ProductVo {
     }
 
     public String getSevenDaysIncome() {
-        return sevenDaysIncome;
+        return CommonUtil.format(sevenDaysIncome);
     }
 
     public void setSevenDaysIncome(String sevenDaysIncome) {
@@ -144,7 +145,7 @@ public class FundVo extends ProductVo {
     }
 
     public String getMillionIncome() {
-        return millionIncome;
+        return CommonUtil.format(millionIncome);
     }
 
     public void setMillionIncome(String millionIncome) {
@@ -152,7 +153,7 @@ public class FundVo extends ProductVo {
     }
 
     public String getPurchasedMethod() {
-        return purchasedMethod;
+        return CommonUtil.format(purchasedMethod);
     }
 
     public void setPurchasedMethod(String purchasedMethod) {
@@ -160,7 +161,7 @@ public class FundVo extends ProductVo {
     }
 
     public String getPurchasedAmount() {
-        return purchasedAmount;
+        return CommonUtil.format(purchasedAmount);
     }
 
     public void setPurchasedAmount(String purchasedAmount) {
@@ -168,7 +169,7 @@ public class FundVo extends ProductVo {
     }
 
     public String getDiscount() {
-        return discount;
+        return CommonUtil.format(discount);
     }
 
     public void setDiscount(String discount) {
@@ -176,7 +177,7 @@ public class FundVo extends ProductVo {
     }
 
     public String getActivity() {
-        return activity;
+        return CommonUtil.format(activity);
     }
 
     public void setActivity(String activity) {
@@ -184,7 +185,7 @@ public class FundVo extends ProductVo {
     }
 
     public Integer getPurchaseState() {
-        return purchaseState;
+        return CommonUtil.format(purchaseState);
     }
 
     public void setPurchaseState(Integer purchaseState) {
@@ -192,7 +193,7 @@ public class FundVo extends ProductVo {
     }
 
 	public String getDiscountValue () {
-		return discountValue;
+		return CommonUtil.format(discountValue);
 	}
 
 	public void setDiscountValue (String discountValue) {

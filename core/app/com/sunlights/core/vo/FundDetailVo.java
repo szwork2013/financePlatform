@@ -119,7 +119,7 @@ public class FundDetailVo extends FundVo {
 	}
 
 	public String getToAccountType() {
-		return toAccountType;
+		return CommonUtil.format(toAccountType);
 	}
 
 	public void setToAccountType(String toAccountType) {
@@ -127,7 +127,7 @@ public class FundDetailVo extends FundVo {
 	}
 
 	public String getRiskLevel() {
-		return riskLevel;
+		return CommonUtil.format(riskLevel);
 	}
 
 	public void setRiskLevel(String riskLevel) {
@@ -135,7 +135,7 @@ public class FundDetailVo extends FundVo {
 	}
 
 	public String getCompanyName() {
-		return companyName;
+		return CommonUtil.format(companyName);
 	}
 
 	public void setCompanyName(String companyName) {
@@ -143,7 +143,7 @@ public class FundDetailVo extends FundVo {
 	}
 
 	public String getFundScale() {
-		return fundScale;
+		return CommonUtil.format(fundScale);
 	}
 
 	public void setFundScale(String fundScale) {
@@ -151,7 +151,7 @@ public class FundDetailVo extends FundVo {
 	}
 
 	public Integer getBuiersOf30Days() {
-		return buiersOf30Days;
+		return CommonUtil.format(buiersOf30Days);
 	}
 
 	public void setBuiersOf30Days(Integer buiersOf30Days) {
@@ -159,7 +159,7 @@ public class FundDetailVo extends FundVo {
 	}
 
 	public String getCurrentDate() {
-		return currentDate;
+		return CommonUtil.format(currentDate);
 	}
 
 	public void setCurrentDate(String currentDate) {
@@ -167,7 +167,7 @@ public class FundDetailVo extends FundVo {
 	}
 
 	public String getEstablishmentDate() {
-		return establishmentDate;
+		return CommonUtil.format(establishmentDate);
 	}
 
 	public void setEstablishmentDate(String establishmentDate) {
@@ -175,7 +175,7 @@ public class FundDetailVo extends FundVo {
 	}
 
 	public String getLatestHoldShares() {
-		return latestHoldShares;
+		return CommonUtil.format(latestHoldShares);
 	}
 
 	public void setLatestHoldShares(String latestHoldShares) {
@@ -183,7 +183,7 @@ public class FundDetailVo extends FundVo {
 	}
 
 	public String getManager() {
-		return manager;
+		return CommonUtil.format(manager);
 	}
 
 	public void setManager(String manager) {
@@ -191,7 +191,7 @@ public class FundDetailVo extends FundVo {
 	}
 
 	public String getTrusteeName() {
-		return trusteeName;
+		return CommonUtil.format(trusteeName);
 	}
 
 	public void setTrusteeName(String trusteeName) {
