@@ -1,0 +1,28 @@
+{"message": {
+    "severity": 0,
+    "code": "0000",
+    "summary": "操作成功",
+    "detail": "",
+    "fields": {}
+}, "value": {
+    "id": null,
+    "name": "海富货A",
+    "type": "FP.PRODUCT.TYPE.1",
+    "typeDesc": "基金",
+    "code": "519505",
+    "category": "MONETARY",
+    "categoryDesc": "货币型",
+    "group": "FP.RECOMMEND.TYPE.1",
+    "groupDesc": "首页",
+    "tag": "FP.RECOMMEND.FLAG.1",
+    "tagDesc": "荐",
+    "peopleOfPurchased": 36894,
+    "sevenDaysIncome": "0.0393",
+    "millionIncome": "1.0387",
+    "purchasedMethod": "随买随卖",
+    "purchasedAmount": "100",
+    "discount": "免手续费",
+    "discountValue": null,
+    "activity": "",
+    "purchaseState": 1
+}}

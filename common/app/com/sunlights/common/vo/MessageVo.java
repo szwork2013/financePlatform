@@ -42,4 +42,23 @@ public class MessageVo<V> {
     return Json.toJson(this);
   }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof MessageVo)) return false;
+
+        MessageVo messageVo = (MessageVo) o;
+
+        if (message != null ? !message.equals(messageVo.message) : messageVo.message != null) return false;
+        if (value != null ? !value.equals(messageVo.value) : messageVo.value != null) return false;
+
+        return true;
+    }
+
+    @Override
+    public int hashCode() {
+        int result = message != null ? message.hashCode() : 0;
+        result = 31 * result + (value != null ? value.hashCode() : 0);
+        return result;
+    }
 }

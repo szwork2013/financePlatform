@@ -1,15 +1,18 @@
 package com.sunlights.core.web;
 
+import com.fasterxml.jackson.databind.JsonNode;
 import com.sunlights.BaseTest;
 import com.sunlights.common.DictConst;
 import com.sunlights.common.MsgCode;
 import com.sunlights.common.exceptions.ConverterException;
 import com.sunlights.common.utils.ConverterUtil;
+import com.sunlights.common.vo.Message;
 import com.sunlights.common.vo.MessageVo;
 import com.sunlights.common.vo.PageVo;
 import com.sunlights.core.vo.ChartVo;
 import com.sunlights.core.vo.FundVo;
 import com.sunlights.core.vo.ProductParameter;
+import com.sunlights.core.vo.ProductVo;
 import org.fest.assertions.Assertions;
 import org.junit.Test;
 import play.Logger;
@@ -19,8 +22,10 @@ import play.libs.Json;
 import play.test.FakeRequest;
 import web.TestUtil;
 
+import java.io.*;
 import java.util.LinkedHashMap;
 import java.util.Map;
+import java.util.Scanner;
 
 import static org.fest.assertions.Assertions.assertThat;
 import static play.test.Helpers.*;
@@ -79,15 +84,37 @@ public class ProductControllerTest extends BaseTest {
                 // form request
                 Map<String, String> paramMap = parameterForm.bind(Json.toJson(parameter)).data();
                 Logger.info("[paramMap]" + paramMap);
-
                 FakeRequest formProductsRequest = productIndexRequest.withHeader(CONTENT_TYPE, TestUtil.APPLICATION_X_WWW_FORM_URLENCODED).withFormUrlEncodedBody(paramMap);
                 play.mvc.Result result = route(formProductsRequest);
 
                 String contentAsString = contentAsString(result);
                 Logger.info("result is " + contentAsString);
 
-                assertThat(contentAsString).contains("0000");
+                MessageVo message = toMessageVo(result);
 
+
+                /**
+                 * 验证message
+                 */
+                assertThat(message.getMessage().getCode()).isEqualTo("0000");
+                assertThat(message.getMessage().getSummary()).isEqualTo("操作成功");
+                assertThat(message.getMessage().getSeverity()).isEqualTo(0);
+                assertThat(message.getMessage().getDetail()).isEqualTo("");
+                assertThat(message.getMessage().getFields().toString()).isEqualTo("{}");
+                /**
+                 * 验证value
+                 */
+                String testString= null;
+                try {
+                    testString = getJsonFile("D:\\workproject\\financeplatform\\test\\Fund.json");
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                System.out.print("获取的json字符串:"+testString);
+                MessageVo testMessage = toMessageVo(testString);
+                FundVo testfundVo = Json.fromJson(Json.toJson(testMessage.getValue()), FundVo.class);
+                FundVo fundVo = Json.fromJson(Json.toJson(message.getValue()), FundVo.class);
+                assertThat(testfundVo).isEqualTo(fundVo);//此处判断
             }
 
         });
