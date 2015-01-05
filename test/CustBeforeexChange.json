@@ -1,0 +1,13 @@
+{"message": {
+    "severity": 0,
+    "code": "0226",
+    "summary": "兑换前预准备成功",
+    "detail": "",
+    "fields": {}
+}, "value": {
+    "canPayed": "0",
+    "maxPayed": "0",
+    "accountDate": "2015-01-05 14:41:09",
+    "summary": "享0元红包",
+    "list": []
+}}

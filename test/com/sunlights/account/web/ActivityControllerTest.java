@@ -5,20 +5,20 @@ import com.sunlights.BaseTest;
 
 import com.sunlights.common.MsgCode;
 import com.sunlights.common.vo.MessageVo;
+import com.sunlights.common.vo.PageVo;
 import com.sunlights.customer.ActivityConstant;
-import com.sunlights.customer.service.RewardFlowService;
 import com.sunlights.customer.service.impl.CustJoinActivityServiceImpl;
-import com.sunlights.customer.service.impl.RewardFlowServiceImpl;
-import com.sunlights.customer.vo.RewardResultVo;
+import com.sunlights.customer.vo.*;
 import models.CustJoinActivity;
-import models.RewardFlow;
 import org.junit.Before;
 import org.junit.Test;
 import play.Logger;
 import play.db.jpa.JPA;
 import play.libs.F;
+import play.libs.Json;
 import play.mvc.Http;
 
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -26,12 +26,12 @@ import static org.fest.assertions.Assertions.assertThat;
 import static play.mvc.Http.Status.OK;
 import static play.test.Helpers.*;
 
-public class ActivityControllerTest extends BaseTest{
+public class ActivityControllerTest extends BaseTest {
     private static Http.Cookie cookie;
 
     @Before
-    public void getCookie(){
-        final String mobilePhoneNo = "10000000014";
+    public void getCookie() {
+        final String mobilePhoneNo = "15821948594";
         final String password = "111111";
         running(fakeApplication(), new Runnable() {
             public void run() {
@@ -52,7 +52,7 @@ public class ActivityControllerTest extends BaseTest{
                         play.mvc.Result result = null;
                         com.sunlights.customer.service.CustJoinActivityService custJoinActivityService = new CustJoinActivityServiceImpl();
 
-                        CustJoinActivity custJoinActivity = custJoinActivityService.getTodayRecordByCustAndActivity("20141129090152010000000066", null, ActivityConstant.ACTIVITY_SIGNIN_SCENE_CODE);
+                        CustJoinActivity custJoinActivity = custJoinActivityService.getTodayRecordByCustAndActivity("20141206134951010000000044", null, ActivityConstant.ACTIVITY_SIGNIN_SCENE_CODE);
                         //2:签到获取金豆正常测试
                         formParams = new HashMap<String, String>();
                         formParams.put("scene", ActivityConstant.ACTIVITY_SIGNIN_SCENE_CODE);
@@ -61,7 +61,7 @@ public class ActivityControllerTest extends BaseTest{
 
                         final MessageVo message = toMessageVo(result);
 
-                        if(custJoinActivity != null) {
+                        if (custJoinActivity != null) {
                             assertThat(message.getMessage().getCode()).isEqualTo(MsgCode.ALREADY_SIGN.getCode());
                         } else {
                             assertThat(message.getMessage().getCode()).isEqualTo(MsgCode.OBTAIN_SUCC.getCode());
@@ -75,7 +75,7 @@ public class ActivityControllerTest extends BaseTest{
         });
     }
 
-    //@Test
+    @Test
     public void testGetActivityList() throws Exception {
         running(fakeApplication(), new Runnable() {
             public void run() {
@@ -88,18 +88,34 @@ public class ActivityControllerTest extends BaseTest{
                 formParams.put("index", index);
                 formParams.put("pageSize", pageSize);
                 //formParams.put("filter", "1");
-
-
                 play.mvc.Result result = getResult("/account/activity/list", formParams, cookie);
                 Logger.info("============testGetActivityList result====\n" + contentAsString(result));
+
+                /**
+                 * 验证message与value
+                 */
+                String testString = null;
+                try {
+                    testString = getJsonFile("CustActivityList.json");//获得json文件内容
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                MessageVo message = toMessageVo(result);
+                MessageVo testMessage = toMessageVo(testString);
+                assertThat(testMessage).isEqualTo(message);//此处判断message
+                PageVo pageVo = Json.fromJson(Json.toJson(message.getValue()), PageVo.class);
+                PageVo testPageVo = Json.fromJson(Json.toJson(testMessage.getValue()), PageVo.class);
+                assertThat(testPageVo).isEqualTo(pageVo);//此处判断page
+                ActivityVo activityVo = Json.fromJson(Json.toJson(pageVo.getList().get(0)), ActivityVo.class);
+                ActivityVo testActivityVo = Json.fromJson(Json.toJson(testPageVo.getList().get(0)), ActivityVo.class);
+                assertThat(activityVo).isEqualTo(testActivityVo);//此处判断list
 
             }
         });
     }
 
 
-
-    //@Test
+    @Test
     public void testRegisterObtainReward() {
         running(fakeApplication(), new Runnable() {
             public void run() {
@@ -111,8 +127,8 @@ public class ActivityControllerTest extends BaseTest{
                         play.mvc.Result result = null;
                         com.sunlights.customer.service.CustJoinActivityService custJoinActivityService = new CustJoinActivityServiceImpl();
 
-                        CustJoinActivity custJoinActivity = custJoinActivityService.getByCustAndActivity("20141129090152010000000066", null, ActivityConstant.ACTIVITY_REGISTER_SCENE_CODE);
-
+                        CustJoinActivity custJoinActivity = custJoinActivityService.getByCustAndActivity("20141206134951010000000044", null, ActivityConstant.ACTIVITY_REGISTER_SCENE_CODE);
+                        Logger.info("custJoinActivity is :" + custJoinActivity);
                         //2:签到获取金豆正常测试
                         formParams = new HashMap<String, String>();
 
@@ -120,7 +136,22 @@ public class ActivityControllerTest extends BaseTest{
                         assertThat(status(result)).isEqualTo(OK);
                         final MessageVo message = toMessageVo(result);
 
-                        if(custJoinActivity != null) {
+                        /**
+                         * 验证message与value
+                         */
+                        String testString = null;
+                        try {
+                            testString = getJsonFile("CustRegisterReward.json");//获得json文件内容
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+                        MessageVo testMessage = toMessageVo(testString);
+                        assertThat(testMessage).isEqualTo(message);//此处判断message
+                        ObtainRewardVo testObtainRewardVo = Json.fromJson(Json.toJson(testMessage.getValue()), ObtainRewardVo.class);
+                        ObtainRewardVo obtainRewardVo = Json.fromJson(Json.toJson(message.getValue()), ObtainRewardVo.class);
+                        assertThat(testObtainRewardVo).isEqualTo(obtainRewardVo);//此处判断value
+
+                        if (custJoinActivity != null) {
                             assertThat(message.getMessage().getCode()).isEqualTo(MsgCode.ALREADY_REGISTER.getCode());
                             Logger.info("已经注册过。。。获取积分失败");
                         } else {
@@ -134,7 +165,7 @@ public class ActivityControllerTest extends BaseTest{
         });
     }
 
-    //@Test
+    @Test
     public void testPurchaseObtainReward() {
         running(fakeApplication(), new Runnable() {
             public void run() {
@@ -147,7 +178,7 @@ public class ActivityControllerTest extends BaseTest{
 
 
                         com.sunlights.customer.service.CustJoinActivityService custJoinActivityService = new CustJoinActivityServiceImpl();
-                        CustJoinActivity custJoinActivity = custJoinActivityService.getByCustAndActivity("20141129090152010000000066", null, ActivityConstant.ACTIVITY_FIRST_PURCHASE_SCENE_CODE);
+                        CustJoinActivity custJoinActivity = custJoinActivityService.getByCustAndActivity("20141206134951010000000044", null, ActivityConstant.ACTIVITY_FIRST_PURCHASE_SCENE_CODE);
                         //2:签到获取金豆正常测试
                         formParams = new HashMap<String, String>();
                         formParams.put("tradeType", "0");
@@ -157,8 +188,24 @@ public class ActivityControllerTest extends BaseTest{
                         result = getResult("/account/activity/trade", formParams, cookie);
                         assertThat(status(result)).isEqualTo(OK);
                         final MessageVo message = toMessageVo(result);
+
+                        /**
+                         * 验证message与value
+                         */
+                        String testString = null;
+                        try {
+                            testString = getJsonFile("CusttTradeReward.json");//获得json文件内容
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+                        MessageVo testMessage = toMessageVo(testString);
+                        assertThat(testMessage).isEqualTo(message);//此处判断message
+                        TradeObtainRewardFailVo testObtainRewardVo = Json.fromJson(Json.toJson(testMessage.getValue()), TradeObtainRewardFailVo.class);
+                        TradeObtainRewardFailVo obtainRewardVo = Json.fromJson(Json.toJson(message.getValue()), TradeObtainRewardFailVo.class);
+                        assertThat(testObtainRewardVo).isEqualTo(obtainRewardVo);//此处判断value
+
                         Logger.info("============testPurchaseObtainReward result====\n" + contentAsString(result));
-                        if(custJoinActivity != null) {
+                        if (custJoinActivity != null) {
                             assertThat(message.getMessage().getCode()).isEqualTo(MsgCode.NOT_CONFIG_ACTIVITY_SCENE.getCode());
                             Logger.info("没有配置活动场景");
                         } else {
@@ -169,7 +216,7 @@ public class ActivityControllerTest extends BaseTest{
 
                     }
 
-                            });
+                });
             }
         });
     }
@@ -187,7 +234,7 @@ public class ActivityControllerTest extends BaseTest{
 
                         //2:签到获取金豆正常测试
                         formParams = new HashMap<String, String>();
-                        formParams.put("id", "215541");
+                        formParams.put("id", "1");
                         formParams.put("amount", "0.01");
                         formParams.put("bankName", "招行");
                         formParams.put("bankCard", "1111");
@@ -196,9 +243,26 @@ public class ActivityControllerTest extends BaseTest{
                         assertThat(status(result)).isEqualTo(OK);
 
                         Logger.info("============testPurchaseObtainReward result====\n" + contentAsString(result));
+
+                        /**
+                         * 验证message与value
+                         */
+                        String testString= null;
+                        try {
+                            testString = getJsonFile("CustExchangeReward.json");//获得json文件内容
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+                        MessageVo message = toMessageVo(result);
+                        MessageVo testMessage = toMessageVo(testString);
+                        assertThat(testMessage.getMessage()).isEqualTo(message.getMessage());//此处判断message
+                        ExchangeResultVo exchangeResultVo = Json.fromJson(Json.toJson(message.getValue()), ExchangeResultVo.class);
+                        ExchangeResultVo testExchangeResultVo = Json.fromJson(Json.toJson(testMessage.getValue()), ExchangeResultVo.class);
+                        assertThat(testExchangeResultVo).isEqualTo(exchangeResultVo);//此处判断value
+
                     }
 
-                            });
+                });
             }
         });
     }

@@ -72,7 +72,7 @@ public class ProductServiceImpl extends EntityBaseDao implements ProductService 
                 "/~ and f.fundType = {fundType} ~/" +
                 "/~ and f.isMonetary = {isMonetary} ~/" +
                 "/~ and f.isStf = {isStf} ~/" +
-                " order by pm.recommendType,pm.recommendFlag,pm.priorityLevel";
+                " order by pm.recommendType,pm.recommendFlag,pm.priorityLevel,f.percentSevenDays desc,f.fundcode";
 
         List<FundVo> fundVos = pageService.findXsqlBy(jpql, pageVo);
         return fundVos;

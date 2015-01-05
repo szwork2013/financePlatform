@@ -7,14 +7,18 @@ import com.sunlights.common.vo.MessageVo;
 import com.sunlights.customer.ActivityConstant;
 import com.sunlights.customer.service.RewardFlowService;
 import com.sunlights.customer.service.impl.RewardFlowServiceImpl;
+import com.sunlights.customer.vo.HoldRewardVo;
+import com.sunlights.customer.vo.ObtainRewardVo;
 import models.RewardFlow;
 import org.junit.Before;
 import org.junit.Test;
 import play.Logger;
 import play.db.jpa.JPA;
 import play.libs.F;
+import play.libs.Json;
 import play.mvc.Http;
 
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -27,7 +31,7 @@ public class RewardControllerTest extends BaseTest {
 
     @Before
     public void getCookie(){
-        final String mobilePhoneNo = "10000000014";
+        final String mobilePhoneNo = "15821948594";
         final String password = "111111";
         running(fakeApplication(), new Runnable() {
             public void run() {
@@ -36,7 +40,7 @@ public class RewardControllerTest extends BaseTest {
         });
     }
 
-    //@Test
+    @Test
     public void testGetSingInCanObtainRewards() throws Exception {
         running(fakeApplication(), new Runnable() {
             public void run() {
@@ -54,6 +58,23 @@ public class RewardControllerTest extends BaseTest {
                         final MessageVo message = toMessageVo(result);
                         assertThat(message.getMessage().getCode()).isEqualTo(MsgCode.ACTIVITY_QUERY_SUCC.getCode());
                         Logger.info("============testSignInObtainReward result====\n" + contentAsString(result));
+
+
+                        /**
+                         * 验证message与value
+                         */
+                        String testString= null;
+                        try {
+                            testString = getJsonFile("CustInitSignButton.json");//获得json文件内容
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+                        MessageVo testMessage = toMessageVo(testString);
+                        assertThat(testMessage).isEqualTo(message);//此处判断message
+                        ObtainRewardVo testObtainRewardVo = Json.fromJson(Json.toJson(testMessage.getValue()), ObtainRewardVo.class);
+                        ObtainRewardVo obtainRewardVo = Json.fromJson(Json.toJson(message.getValue()), ObtainRewardVo.class);
+                        assertThat(testObtainRewardVo).isEqualTo(obtainRewardVo);//此处判断value
+
                         }
 
                 });
@@ -73,6 +94,21 @@ public class RewardControllerTest extends BaseTest {
                 assertThat(status(result)).isEqualTo(OK);
                 MessageVo message = toMessageVo(result);
                 assertThat(message.getMessage().getCode()).isEqualTo(MsgCode.REWARD_QUERY_SUCC.getCode());
+
+                /**
+                 * 验证message与value
+                 */
+                String testString= null;
+                try {
+                    testString = getJsonFile("CustDetMyRewarDetail.json");//获得json文件内容
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                MessageVo testMessage = toMessageVo(testString);
+                assertThat(testMessage).isEqualTo(message);//此处判断message
+                HoldRewardVo testHoldRewardVo = Json.fromJson(Json.toJson(testMessage.getValue()), HoldRewardVo.class);
+                HoldRewardVo holdRewardVo = Json.fromJson(Json.toJson(message.getValue()), HoldRewardVo.class);
+                assertThat(testHoldRewardVo).isEqualTo(holdRewardVo);//此处判断value
 
             }
         });

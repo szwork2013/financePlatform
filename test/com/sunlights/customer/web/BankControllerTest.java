@@ -24,6 +24,7 @@ import web.TestUtil;
 
 import javax.persistence.EntityManager;
 import javax.persistence.Query;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -67,6 +68,20 @@ public class BankControllerTest extends BaseTest {
 
                 Logger.info("result is " + contentAsString(result));
                 assertThat(contentAsString(result)).contains(MsgCode.BANK_CARD_ADD_SUCCESS.getCode());
+
+                /**
+                 * 验证message
+                 */
+                String testString= null;
+                try {
+                    testString = getJsonFile("CoreBankCardCreate.json");//获得json文件内容
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                MessageVo message = toMessageVo(result);
+                MessageVo testMessage = toMessageVo(testString);
+                assertThat(testMessage).isEqualTo(message);//此处判断message
+
 
                 JPA.withTransaction(new F.Callback0() {
                     @Override
@@ -143,6 +158,21 @@ public class BankControllerTest extends BaseTest {
 
                 Logger.info("result is " + contentAsString(result));
                 assertThat(contentAsString(result)).contains(MsgCode.OPERATE_SUCCESS.getCode());
+
+                /**
+                 * 验证message
+                 */
+                String testString= null;
+                try {
+                    testString = getJsonFile("CoreBankCardSaveAll.json");//获得json文件内容
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                MessageVo message = toMessageVo(result);
+                MessageVo testMessage = toMessageVo(testString);
+                assertThat(testMessage).isEqualTo(message);//此处判断message
+
+
 
                 JPA.withTransaction(new F.Callback0() {
                     @Override
