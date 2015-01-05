@@ -13,6 +13,7 @@ import play.data.Form;
 import play.libs.Json;
 import play.mvc.Result;
 import play.test.FakeRequest;
+import web.TestUtil;
 
 import java.io.IOException;
 import java.util.*;
@@ -198,4 +199,47 @@ public class AttentionControllerTest extends BaseTest {
 
         });
     }
+
+
+    @Test
+    public void testDepositInterestRate() {
+        running(fakeApplication(inMemoryDatabase("test")), new Runnable() {
+
+            public void run() {
+
+
+                ProductParameter parameter = new ProductParameter();
+
+                // Products Request
+                FakeRequest depositInterestRateRequest = fakeRequest(POST, "/core/deposit/interest/current");
+                // form request
+                Map<String, String> paramMap = parameterForm.bind(Json.toJson(parameter)).data();
+                Logger.info("[paramMap]" + paramMap);
+                FakeRequest formProductsRequest = depositInterestRateRequest.withHeader(CONTENT_TYPE, TestUtil.APPLICATION_X_WWW_FORM_URLENCODED).withFormUrlEncodedBody(paramMap);
+                play.mvc.Result result = route(formProductsRequest);
+
+                String contentAsString = contentAsString(result);
+                Logger.info("result is " + contentAsString);
+
+                //assertThat(contentAsString).contains(MsgCode.OPERATE_SUCCESS.getCode());
+
+                /**
+                 * 验证message与value
+                 */
+                String testString= null;
+                try {
+                    testString = getJsonFile("CoreDepositInterestRate.json");//获得json文件内容
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                MessageVo message = toMessageVo(result);
+                MessageVo testMessage = toMessageVo(testString);
+                assertThat(testMessage).isEqualTo(message);//此处判断message
+
+            }
+
+        });
+    }
+
+
 }

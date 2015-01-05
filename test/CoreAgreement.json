@@ -1,0 +1,12 @@
+{"message": {
+    "severity": 0,
+    "code": "0000",
+    "summary": "操作成功",
+    "detail": "",
+    "fields": {}
+}, "value": {
+    "title": "用户使用协议",
+    "link": "http://192.168.1.97/agreement/userInstructions.html",
+    "updatedAt": "2014-09-27 12:04:58",
+    "code": "0001"
+}}

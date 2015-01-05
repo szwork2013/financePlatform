@@ -3,7 +3,9 @@ package com.sunlights.core.web;
 import com.sunlights.BaseTest;
 import com.sunlights.common.vo.MessageVo;
 import org.junit.Test;
+import play.Logger;
 
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -24,9 +26,27 @@ public class SecurityControllerTest extends BaseTest {
 
         play.mvc.Result result = getResult("/core/verificationcode", formParams);
         assertThat(status(result)).isEqualTo(OK);
-        MessageVo message = toMessageVo(result);
-        assertThat(message.getMessage().getCode()).isEqualTo("0000");
-        assertThat(message.getMessage().getSummary()).isEqualTo("操作成功");
+//        MessageVo message = toMessageVo(result);
+//        assertThat(message.getMessage().getCode()).isEqualTo("0000");
+//        assertThat(message.getMessage().getSummary()).isEqualTo("操作成功");
+
+          String contentAsString = contentAsString(result);
+          Logger.info("result is " + contentAsString);
+
+          /**
+           * 验证message与value
+           */
+          String testString= null;
+          try {
+              testString = getJsonFile("CoreVerifiCationCode.json");//获得json文件内容
+          } catch (IOException e) {
+              e.printStackTrace();
+          }
+          MessageVo message = toMessageVo(result);
+          MessageVo testMessage = toMessageVo(testString);
+          assertThat(testMessage).isEqualTo(message);//此处判断message
+
+
       }
     });
   }
