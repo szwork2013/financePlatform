@@ -5,10 +5,13 @@ import com.sunlights.BaseTest;
 
 import com.sunlights.common.MsgCode;
 import com.sunlights.common.vo.MessageVo;
+import com.sunlights.common.vo.PageVo;
+import com.sunlights.core.vo.FundVo;
 import com.sunlights.customer.ActivityConstant;
 import com.sunlights.customer.service.RewardFlowService;
 import com.sunlights.customer.service.impl.CustJoinActivityServiceImpl;
 import com.sunlights.customer.service.impl.RewardFlowServiceImpl;
+import com.sunlights.customer.vo.ActivityVo;
 import com.sunlights.customer.vo.RewardResultVo;
 import models.CustJoinActivity;
 import models.RewardFlow;
@@ -17,8 +20,10 @@ import org.junit.Test;
 import play.Logger;
 import play.db.jpa.JPA;
 import play.libs.F;
+import play.libs.Json;
 import play.mvc.Http;
 
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -31,7 +36,7 @@ public class ActivityControllerTest extends BaseTest{
 
     @Before
     public void getCookie(){
-        final String mobilePhoneNo = "10000000014";
+        final String mobilePhoneNo = "15821948594";
         final String password = "111111";
         running(fakeApplication(), new Runnable() {
             public void run() {
@@ -75,7 +80,7 @@ public class ActivityControllerTest extends BaseTest{
         });
     }
 
-    //@Test
+    @Test
     public void testGetActivityList() throws Exception {
         running(fakeApplication(), new Runnable() {
             public void run() {
@@ -88,10 +93,27 @@ public class ActivityControllerTest extends BaseTest{
                 formParams.put("index", index);
                 formParams.put("pageSize", pageSize);
                 //formParams.put("filter", "1");
-
-
                 play.mvc.Result result = getResult("/account/activity/list", formParams, cookie);
                 Logger.info("============testGetActivityList result====\n" + contentAsString(result));
+
+                /**
+                 * 验证message与value
+                 */
+                String testString= null;
+                try {
+                    testString = getJsonFile("AccountActivityList.json");//获得json文件内容
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                MessageVo message = toMessageVo(result);
+                MessageVo testMessage = toMessageVo(testString);
+                assertThat(testMessage).isEqualTo(message);//此处判断message
+                PageVo pageVo = Json.fromJson(Json.toJson(message.getValue()), PageVo.class);
+                PageVo testPageVo = Json.fromJson(Json.toJson(testMessage.getValue()), PageVo.class);
+                assertThat(testPageVo).isEqualTo(pageVo);//此处判断page
+                ActivityVo activityVo = Json.fromJson(Json.toJson(pageVo.getList().get(0)), ActivityVo.class);
+                ActivityVo testActivityVo = Json.fromJson(Json.toJson(testPageVo.getList().get(0)), ActivityVo.class);
+                assertThat(activityVo).isEqualTo(testActivityVo);//此处判断list
 
             }
         });

@@ -100,8 +100,8 @@ public class ProductControllerTest extends BaseTest {
                 FakeRequest formProductsRequest = productIndexRequest.withHeader(CONTENT_TYPE, TestUtil.APPLICATION_X_WWW_FORM_URLENCODED).withFormUrlEncodedBody(paramMap);
                 play.mvc.Result result = route(formProductsRequest);
 
-                String contentAsString = contentAsString(result);
-                Logger.info("result is " + contentAsString);
+
+                Logger.info("result is " + contentAsString(result));
 
                 /**
                  * 验证message与value
