@@ -77,7 +77,7 @@ public class ShuMiTradeControllerTest extends BaseTest {
                  */
                 String testString= null;
                 try {
-                    testString = getJsonFile("CustTradeOrder.json");//获得json文件内容
+                    testString = getJsonFile("json/CustTradeOrder.json");//获得json文件内容
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
@@ -156,7 +156,7 @@ public class ShuMiTradeControllerTest extends BaseTest {
                  */
                 String testString= null;
                 try {
-                    testString = getJsonFile("CustTradeRedeem.json");//获得json文件内容
+                    testString = getJsonFile("json/CustTradeRedeem.json");//获得json文件内容
                 } catch (IOException e) {
                     e.printStackTrace();
                 }

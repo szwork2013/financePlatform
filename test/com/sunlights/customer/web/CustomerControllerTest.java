@@ -36,7 +36,7 @@ public class CustomerControllerTest extends BaseTest {
                  */
                 String testString= null;
                 try {
-                    testString = getJsonFile("CustGetCustByMobile.json");//获得json文件内容
+                    testString = getJsonFile("json/CustGetCustByMobile.json");//获得json文件内容
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
@@ -107,7 +107,7 @@ public class CustomerControllerTest extends BaseTest {
                  */
                 String testString1= null;
                 try {
-                    testString1 = getJsonFile("CustLoginByges.json");//获得json文件内容
+                    testString1 = getJsonFile("json/CustLoginByges.json");//获得json文件内容
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
@@ -154,7 +154,7 @@ public class CustomerControllerTest extends BaseTest {
                  */
                 String testString= null;
                 try {
-                    testString = getJsonFile("CustLogRestPwd.json");//获得json文件内容
+                    testString = getJsonFile("json/CustLogRestPwd.json");//获得json文件内容
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
@@ -176,7 +176,7 @@ public class CustomerControllerTest extends BaseTest {
                  */
                 String testString= null;
                 try {
-                    testString = getJsonFile("CustConfirmpwd.json");//获得json文件内容
+                    testString = getJsonFile("json/CustConfirmpwd.json");//获得json文件内容
                 } catch (IOException e) {
                     e.printStackTrace();
                 }

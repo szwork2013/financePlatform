@@ -3,7 +3,6 @@ package com.sunlights.core.web;
 import com.sunlights.BaseTest;
 import com.sunlights.common.service.VerifyCodeService;
 import com.sunlights.common.vo.MessageVo;
-import com.sunlights.core.vo.FundDetailVo;
 import com.sunlights.customer.vo.CustomerVo;
 import models.BaseAccount;
 import models.Customer;
@@ -74,7 +73,7 @@ public class RegisterControllerTest extends BaseTest {
                  */
                 String testString1= null;
                 try {
-                    testString1 = getJsonFile("CoreRegister.json");//获得json文件内容
+                    testString1 = getJsonFile("json/CoreRegister.json");//获得json文件内容
                 } catch (IOException e) {
                     e.printStackTrace();
                 }

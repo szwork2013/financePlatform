@@ -96,7 +96,7 @@ public class ActivityControllerTest extends BaseTest {
                  */
                 String testString = null;
                 try {
-                    testString = getJsonFile("CustActivityList.json");//获得json文件内容
+                    testString = getJsonFile("json/CustActivityList.json");//获得json文件内容
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
@@ -141,7 +141,7 @@ public class ActivityControllerTest extends BaseTest {
                          */
                         String testString = null;
                         try {
-                            testString = getJsonFile("CustRegisterReward.json");//获得json文件内容
+                            testString = getJsonFile("json/CustRegisterReward.json");//获得json文件内容
                         } catch (IOException e) {
                             e.printStackTrace();
                         }
@@ -194,7 +194,7 @@ public class ActivityControllerTest extends BaseTest {
                          */
                         String testString = null;
                         try {
-                            testString = getJsonFile("CusttTradeReward.json");//获得json文件内容
+                            testString = getJsonFile("json/CusttTradeReward.json");//获得json文件内容
                         } catch (IOException e) {
                             e.printStackTrace();
                         }
@@ -249,7 +249,7 @@ public class ActivityControllerTest extends BaseTest {
                          */
                         String testString= null;
                         try {
-                            testString = getJsonFile("CustExchangeReward.json");//获得json文件内容
+                            testString = getJsonFile("json/CustExchangeReward.json");//获得json文件内容
                         } catch (IOException e) {
                             e.printStackTrace();
                         }

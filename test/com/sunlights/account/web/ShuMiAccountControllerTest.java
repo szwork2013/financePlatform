@@ -1,9 +1,7 @@
 package com.sunlights.account.web;
 
 import com.sunlights.BaseTest;
-import com.sunlights.common.MsgCode;
 import com.sunlights.common.vo.MessageVo;
-import com.sunlights.core.vo.FundVo;
 import com.sunlights.customer.service.impl.CustomerService;
 import com.sunlights.customer.vo.CustomerVo;
 import models.Customer;
@@ -80,7 +78,7 @@ public class ShuMiAccountControllerTest extends BaseTest {
                  */
                 String testString= null;
                 try {
-                    testString = getJsonFile("AccountSaveShuMi.json");//获得json文件内容
+                    testString = getJsonFile("json/AccountSaveShuMi.json");//获得json文件内容
                 } catch (IOException e) {
                     e.printStackTrace();
                 }

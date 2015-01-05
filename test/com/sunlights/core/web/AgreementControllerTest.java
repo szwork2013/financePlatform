@@ -3,7 +3,6 @@ package com.sunlights.core.web;
 import com.sunlights.BaseTest;
 import com.sunlights.common.vo.MessageVo;
 import com.sunlights.core.vo.AgreementVo;
-import com.sunlights.core.vo.FundDetailVo;
 import org.junit.Test;
 import play.Logger;
 import play.data.Form;
@@ -46,7 +45,7 @@ public class AgreementControllerTest extends BaseTest {
            */
           String testString= null;
           try {
-              testString = getJsonFile("CoreAgreement.json");//获得json文件内容
+              testString = getJsonFile("json/CoreAgreement.json");//获得json文件内容
           } catch (IOException e) {
               e.printStackTrace();
           }

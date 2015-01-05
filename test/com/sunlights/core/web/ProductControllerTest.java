@@ -54,7 +54,7 @@ public class ProductControllerTest extends BaseTest {
                  */
                 String testString= null;
                 try {
-                    testString = getJsonFile("CoreProductsChart.json");//获得json文件内容
+                    testString = getJsonFile("json/CoreProductsChart.json");//获得json文件内容
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
@@ -108,7 +108,7 @@ public class ProductControllerTest extends BaseTest {
                  */
                 String testString= null;
                 try {
-                    testString = getJsonFile("Fund.json");//获得json文件内容
+                    testString = getJsonFile("json/Fund.json");//获得json文件内容
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
@@ -155,7 +155,7 @@ public class ProductControllerTest extends BaseTest {
                  */
                 String testString= null;
                 try {
-                    testString = getJsonFile("CoreProducts.json");//获得json文件内容
+                    testString = getJsonFile("json/CoreProducts.json");//获得json文件内容
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
@@ -187,7 +187,7 @@ public class ProductControllerTest extends BaseTest {
                          */
                         String testString1= null;
                         try {
-                            testString1 = getJsonFile("CoreProductsDetail.json");//获得json文件内容
+                            testString1 = getJsonFile("json/CoreProductsDetail.json");//获得json文件内容
                         } catch (IOException e) {
                             e.printStackTrace();
                         }

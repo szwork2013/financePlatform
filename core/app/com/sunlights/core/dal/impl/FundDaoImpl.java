@@ -92,7 +92,7 @@ public class FundDaoImpl extends EntityBaseDao implements FundDao {
     public List<FundProfitHistory> findFundProfitHistoryByDays(String fundCode, int days) {
         Logger.info("findFundProfitHistoryByDays start....");
 
-        String jpql = " select fh from FundProfitHistory fh ,Code c where  fh.fundCode=c.code  and fh.fundCode = :fundCode order by fh.dateTime desc";
+        String jpql = "select fh from FundProfitHistory fh ,Code c where  fh.fundCode=c.code  and fh.fundCode = :fundCode order by fh.dateTime desc";
 
         Query query = super.createQuery(jpql);
         query.setParameter("fundCode", fundCode);

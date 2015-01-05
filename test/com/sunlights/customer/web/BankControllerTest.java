@@ -74,7 +74,7 @@ public class BankControllerTest extends BaseTest {
                  */
                 String testString= null;
                 try {
-                    testString = getJsonFile("CoreBankCardCreate.json");//获得json文件内容
+                    testString = getJsonFile("json/CoreBankCardCreate.json");//获得json文件内容
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
@@ -164,7 +164,7 @@ public class BankControllerTest extends BaseTest {
                  */
                 String testString= null;
                 try {
-                    testString = getJsonFile("CoreBankCardSaveAll.json");//获得json文件内容
+                    testString = getJsonFile("json/CoreBankCardSaveAll.json");//获得json文件内容
                 } catch (IOException e) {
                     e.printStackTrace();
                 }

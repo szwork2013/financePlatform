@@ -75,7 +75,7 @@ public class AttentionControllerTest extends BaseTest {
                  */
                 String testString= null;
                 try {
-                    testString = getJsonFile("CoreAttentionList.json");//获得json文件内容
+                    testString = getJsonFile("json/CoreAttentionList.json");//获得json文件内容
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
@@ -143,7 +143,7 @@ public class AttentionControllerTest extends BaseTest {
                  */
                 String testString= null;
                 try {
-                    testString = getJsonFile("CoreAttentionProduct.json");//获得json文件内容
+                    testString = getJsonFile("json/CoreAttentionProduct.json");//获得json文件内容
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
@@ -186,7 +186,7 @@ public class AttentionControllerTest extends BaseTest {
                  */
                 String testString= null;
                 try {
-                    testString = getJsonFile("CoreAttentionProducts.json");//获得json文件内容
+                    testString = getJsonFile("json/CoreAttentionProducts.json");//获得json文件内容
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
@@ -228,7 +228,7 @@ public class AttentionControllerTest extends BaseTest {
                  */
                 String testString= null;
                 try {
-                    testString = getJsonFile("CoreDepositInterestRate.json");//获得json文件内容
+                    testString = getJsonFile("json/CoreDepositInterestRate.json");//获得json文件内容
                 } catch (IOException e) {
                     e.printStackTrace();
                 }

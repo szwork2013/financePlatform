@@ -65,7 +65,7 @@ public class RewardControllerTest extends BaseTest {
                          */
                         String testString= null;
                         try {
-                            testString = getJsonFile("CustInitSignButton.json");//获得json文件内容
+                            testString = getJsonFile("json/CustInitSignButton.json");//获得json文件内容
                         } catch (IOException e) {
                             e.printStackTrace();
                         }
@@ -100,7 +100,7 @@ public class RewardControllerTest extends BaseTest {
                  */
                 String testString= null;
                 try {
-                    testString = getJsonFile("CustDetMyRewarDetail.json");//获得json文件内容
+                    testString = getJsonFile("json/CustDetMyRewarDetail.json");//获得json文件内容
                 } catch (IOException e) {
                     e.printStackTrace();
                 }

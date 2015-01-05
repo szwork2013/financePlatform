@@ -90,7 +90,7 @@ public class CustomerShareControllerTest extends BaseTest {
                  */
                 String testString= null;
                 try {
-                    testString = getJsonFile("CustShare.json");//获得json文件内容
+                    testString = getJsonFile("json/CustShare.json");//获得json文件内容
                 } catch (IOException e) {
                     e.printStackTrace();
                 }

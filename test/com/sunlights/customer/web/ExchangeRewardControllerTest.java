@@ -57,7 +57,7 @@ public class ExchangeRewardControllerTest extends BaseTest {
                  */
                 String testString= null;
                 try {
-                    testString = getJsonFile("CustQueryExchangeScenes.json");//获得json文件内容
+                    testString = getJsonFile("json/CustQueryExchangeScenes.json");//获得json文件内容
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
@@ -97,7 +97,7 @@ public class ExchangeRewardControllerTest extends BaseTest {
                  */
                 String testString1= null;
                 try {
-                    testString1 = getJsonFile("CustBeforeexChange.json");//获得json文件内容
+                    testString1 = getJsonFile("json/CustBeforeexChange.json");//获得json文件内容
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
