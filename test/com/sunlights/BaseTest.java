@@ -4,12 +4,14 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.sunlights.common.vo.MessageVo;
 import models.CustomerSession;
 import play.Logger;
+import play.api.Play;
 import play.db.jpa.JPA;
 import play.libs.F;
 import play.libs.Json;
 import play.mvc.Http;
 import play.mvc.Result;
 import play.test.FakeRequest;
+import play.test.WithApplication;
 
 import javax.persistence.Query;
 import java.io.File;
@@ -28,7 +30,7 @@ import static play.test.Helpers.*;
 /**
  * Created by Administrator on 2014/11/3.
  */
-public class BaseTest {
+public class BaseTest extends WithApplication{
     public static String APPLICATION_X_WWW_FORM_URLENCODED = "application/x-www-form-urlencoded";
     public static String CONTENT_TYPE = "Content-Type";
     protected Http.Cookie cookie = null;
@@ -126,8 +128,9 @@ public class BaseTest {
     }
 
     public String getJsonFile(String path) throws IOException {
-        String realpath="D:\\workproject\\financeplatform\\test\\"+path;//配置公共路径
-        File file = new File(realpath);
+//        String realpath="D:\\workproject\\financeplatform\\test\\"+path;//配置公共路径
+//        File file = new File(realpath);
+        File file = Play.getFile("test\\" + path, Play.current());
         Scanner scanner = null;
         StringBuilder buffer = new StringBuilder();
         try {

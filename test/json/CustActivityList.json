@@ -8,16 +8,8 @@
     "index": 0,
     "pageSize": 4,
     "pageNum": 0,
-    "count": 4,
+    "count": 3,
     "list": [
-        {
-            "id": 208222,
-            "name": "邀请好友",
-            "image": "http://192.168.0.97:80/activity/images/bannel_invite.png",
-            "url": "http://192.168.0.97:80/activity/inviter.html",
-            "startDate": "2014-12-17",
-            "endDate": "2015-04-23"
-        },
         {
             "id": 208221,
             "name": "签到送金豆",

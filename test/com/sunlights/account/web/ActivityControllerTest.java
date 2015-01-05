@@ -31,19 +31,16 @@ public class ActivityControllerTest extends BaseTest {
 
     @Before
     public void getCookie() {
+        super.startPlay();
         final String mobilePhoneNo = "15821948594";
         final String password = "111111";
-        running(fakeApplication(), new Runnable() {
-            public void run() {
-                cookie = getCookieAfterLogin(mobilePhoneNo, password);
-            }
-        });
+        cookie = getCookieAfterLogin(mobilePhoneNo, password);
+
     }
 
     //@Test
     public void testSignInObtainReward() {
-        running(fakeApplication(), new Runnable() {
-            public void run() {
+
                 Logger.info("============testSignInObtainReward start====");
                 JPA.withTransaction(new F.Callback0() {
                     @Override
@@ -71,14 +68,12 @@ public class ActivityControllerTest extends BaseTest {
                     }
                 });
 
-            }
-        });
+
     }
 
     @Test
     public void testGetActivityList() throws Exception {
-        running(fakeApplication(), new Runnable() {
-            public void run() {
+
                 Logger.info("============testGetActivityList start====");
                 String index = "0";
                 String pageSize = "4";
@@ -110,15 +105,12 @@ public class ActivityControllerTest extends BaseTest {
                 ActivityVo testActivityVo = Json.fromJson(Json.toJson(testPageVo.getList().get(0)), ActivityVo.class);
                 assertThat(activityVo).isEqualTo(testActivityVo);//此处判断list
 
-            }
-        });
     }
 
 
     @Test
     public void testRegisterObtainReward() {
-        running(fakeApplication(), new Runnable() {
-            public void run() {
+
                 JPA.withTransaction(new F.Callback0() {
                     @Override
                     public void invoke() throws Throwable {
@@ -161,14 +153,12 @@ public class ActivityControllerTest extends BaseTest {
                         Logger.info("============testRegisterObtainReward result====\n" + contentAsString(result));
                     }
                 });
-            }
-        });
+
     }
 
     @Test
     public void testPurchaseObtainReward() {
-        running(fakeApplication(), new Runnable() {
-            public void run() {
+
                 Logger.info("============testPurchaseObtainReward start====");
                 JPA.withTransaction(new F.Callback0() {
                     @Override
@@ -217,14 +207,12 @@ public class ActivityControllerTest extends BaseTest {
                     }
 
                 });
-            }
-        });
+
     }
 
     @Test
     public void testExchangeReward() {
-        running(fakeApplication(), new Runnable() {
-            public void run() {
+
                 Logger.info("============testPurchaseObtainReward start====");
                 JPA.withTransaction(new F.Callback0() {
                     @Override
@@ -263,8 +251,7 @@ public class ActivityControllerTest extends BaseTest {
                     }
 
                 });
-            }
-        });
+
     }
 
 }
