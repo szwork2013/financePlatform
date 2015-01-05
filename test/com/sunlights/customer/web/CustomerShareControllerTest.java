@@ -3,10 +3,14 @@ package com.sunlights.customer.web;
 import com.sunlights.BaseTest;
 import com.sunlights.common.MsgCode;
 import com.sunlights.common.vo.MessageVo;
+import com.sunlights.customer.vo.ObtainRewardVo;
+import com.sunlights.customer.vo.ShareVo;
 import org.junit.Before;
 import org.junit.Test;
 import play.Logger;
+import play.libs.Json;
 
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -67,7 +71,7 @@ public class CustomerShareControllerTest extends BaseTest {
         });
     }
 
-    //@Test
+    @Test
     public void testInviteShare() throws Exception {//分享好友
         running(fakeApplication(), new Runnable() {
             public void run() {
@@ -77,10 +81,26 @@ public class CustomerShareControllerTest extends BaseTest {
 
                 play.mvc.Result  result = getResult("/customer/activity/share", formParams, cookie);
 
-                Logger.info(contentAsString(result));
+                Logger.info("result is :"+contentAsString(result));
                 assertThat(status(result)).isEqualTo(OK);
                 MessageVo message = toMessageVo(result);
                 assertThat(message.getMessage().getCode()).isEqualTo(MsgCode.SHARE_QUERY_SUCC.getCode());
+
+                /**
+                 * 验证message与value
+                 */
+                String testString= null;
+                try {
+                    testString = getJsonFile("AccountShare.json");//获得json文件内容
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                MessageVo testMessage = toMessageVo(testString);
+                assertThat(testMessage).isEqualTo(message);//此处判断message
+                ShareVo testShareVo = Json.fromJson(Json.toJson(testMessage.getValue()), ShareVo.class);
+                ShareVo shareVo = Json.fromJson(Json.toJson(message.getValue()), ShareVo.class);
+                assertThat(testShareVo).isEqualTo(shareVo);//此处判断value
+
                 Logger.info("============testSignInObtainReward result====\n" + contentAsString(result));
 
             }

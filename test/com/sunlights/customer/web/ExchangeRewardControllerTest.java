@@ -3,11 +3,16 @@ package com.sunlights.customer.web;
 import com.sunlights.BaseTest;
 import com.sunlights.common.MsgCode;
 import com.sunlights.common.vo.MessageVo;
+import com.sunlights.common.vo.PageVo;
+import com.sunlights.core.vo.FundVo;
+import com.sunlights.customer.vo.ExchangeSceneVo;
 import org.junit.Before;
 import org.junit.Test;
 import play.Logger;
+import play.libs.Json;
 import play.mvc.Http;
 
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -22,7 +27,7 @@ public class ExchangeRewardControllerTest extends BaseTest {
 
     @Before
     public void getCookie(){
-        final String mobilePhoneNo = "10000000014";
+        final String mobilePhoneNo = "15821948594";
         final String password = "111111";
         running(fakeApplication(), new Runnable() {
             public void run() {
@@ -31,28 +36,43 @@ public class ExchangeRewardControllerTest extends BaseTest {
         });
     }
 
-    //@Test
+    @Test
     public void testQueryExchangeScenes() throws Exception {
         running(fakeApplication(), new Runnable() {
             public void run() {
                 Logger.info("============testQueryExchangeScenes start====");
 
-
-
                 String index = "0";
                 String pageSize = "4";
-
 
                 Map<String, String> formParams = new HashMap<>();
                 formParams.put("index", index);
                 formParams.put("pageSize", pageSize);
-
-
                 play.mvc.Result result = getResult("/account/activity/exchangescenes", formParams, cookie);
                 Logger.info("============testQueryExchangeScenes result====\n" + contentAsString(result));
                 assertThat(status(result)).isEqualTo(OK);
                 MessageVo message = toMessageVo(result);
                 assertThat(message.getMessage().getCode()).isEqualTo(MsgCode.EXCHANGE_SCENE_QUERY_SUCC.getCode());
+
+                /**
+                 * 验证message与value
+                 */
+                String testString= null;
+                try {
+                    testString = getJsonFile("AccountQueryExchangeScenes.json");//获得json文件内容
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                MessageVo testMessage = toMessageVo(testString);
+                assertThat(testMessage).isEqualTo(message);//此处判断message
+                PageVo pageVo = Json.fromJson(Json.toJson(message.getValue()), PageVo.class);
+                PageVo testPageVo = Json.fromJson(Json.toJson(testMessage.getValue()), PageVo.class);
+                assertThat(testPageVo).isEqualTo(pageVo);//此处判断page
+
+//                ExchangeSceneVo exchangeSceneVo = Json.fromJson(Json.toJson(pageVo.getList().get(0)), ExchangeSceneVo.class);
+//                ExchangeSceneVo testExchangeSceneVo = Json.fromJson(Json.toJson(testPageVo.getList().get(0)), ExchangeSceneVo.class);
+//                assertThat(exchangeSceneVo).isEqualTo(testExchangeSceneVo);//此处判断list
+
 
             }
         });

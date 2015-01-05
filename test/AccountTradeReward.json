@@ -1,0 +1,10 @@
+{"message": {
+    "severity": 2,
+    "code": "2221",
+    "summary": "没有配置活动场景",
+    "detail": "",
+    "fields": {}
+}, "value": {
+    "fundCode": "33376",
+    "supplySum": "20"
+}}
