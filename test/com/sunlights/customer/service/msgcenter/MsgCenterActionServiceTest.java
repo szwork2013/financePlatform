@@ -52,8 +52,6 @@ public class MsgCenterActionServiceTest extends BaseTest{
 
     @Before
     public void prepare(){
-        running(fakeApplication(), new Runnable() {
-            public void run() {
 
                 JPA.withTransaction(new F.Callback0() {
                     @Override
@@ -76,14 +74,11 @@ public class MsgCenterActionServiceTest extends BaseTest{
                         setAlias(em, currentTime, mobilePhoneNo, customerId);
                     }
                 });
-            }
-        });
+
     }
 
     @Test
     public void registerRemindTest(){
-        running(fakeApplication(), new Runnable() {
-            public void run() {
 
                 JPA.withTransaction(new F.Callback0() {
                     @Override
@@ -117,15 +112,12 @@ public class MsgCenterActionServiceTest extends BaseTest{
                         }
                     }
                 });
-            }
-        });
+
     }
 
 
     @Test
     public void loginRemindTest(){
-        running(fakeApplication(), new Runnable() {
-            public void run() {
 
                 JPA.withTransaction(new F.Callback0() {
                     @Override
@@ -159,16 +151,12 @@ public class MsgCenterActionServiceTest extends BaseTest{
                         }
                     }
                 });
-            }
-        });
+
     }
 
 
     @Test
     public void registerTest(){
-        running(fakeApplication(), new Runnable() {
-            public void run() {
-
                 JPA.withTransaction(new F.Callback0() {
                     @Override
                     public void invoke() throws Throwable {
@@ -202,8 +190,7 @@ public class MsgCenterActionServiceTest extends BaseTest{
                         }
                     }
                 });
-            }
-        });
+
     }
 
     private void setAlias(EntityManager em, Timestamp currentTime, String mobilePhoneNo, String customerId) {

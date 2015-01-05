@@ -42,18 +42,14 @@ public class BankControllerTest extends BaseTest {
 
     @Before
     public void init() {
-        running(fakeApplication(inMemoryDatabase("test")), new Runnable() {
-            public void run() {
-                login("13811599308", "1");
-            }
-        });
+        super.startPlay();
+        login("13811599308", "1");
 
     }
 
     @Test
     public void testCreateBankCard() throws Exception {
-        running(fakeApplication(inMemoryDatabase("test")), new Runnable() {
-            public void run() {
+
                 String bankName = "招商银行";
                 String bankSerial = "002";
                 String bankCard = BANK_CARD_NO;
@@ -98,15 +94,11 @@ public class BankControllerTest extends BaseTest {
                     }
                 });
 
-
-            }
-        });
     }
 
     @Test
     public void testSaveAllBankCard() throws Exception {
-        running(fakeApplication(inMemoryDatabase("test")), new Runnable() {
-            public void run() {
+
                 BankCardFormVo bankCardFormVo = new BankCardFormVo();
                 bankCardFormVo.setNo("912739172312333333");
                 bankCardFormVo.setTradeAccount("0299");
@@ -190,14 +182,12 @@ public class BankControllerTest extends BaseTest {
                         }
                     }
                 });
-            }
-        });
+
     }
 
     @Test
     public void testValidateBankCard() throws Exception {
-        running(fakeApplication(inMemoryDatabase("test")), new Runnable() {
-            public void run() {
+
                 BankCardFormVo bankCardVo = new BankCardFormVo();
                 bankCardVo.setNo(BANK_CARD_NO);
                 bankCardVo.setBankName("中国银行");
@@ -212,15 +202,11 @@ public class BankControllerTest extends BaseTest {
 
                 Logger.info("result is " + contentAsString(result));
                 assertThat(contentAsString(result)).contains(MsgCode.OPERATE_SUCCESS.getCode());
-            }
-        });
+
     }
 
     @Test
     public void testFindAndDeleteBankCards() throws Exception {
-        running(fakeApplication(inMemoryDatabase("test")), new Runnable() {
-            public void run() {
-
                 FakeRequest findBankCards = fakeRequest(POST, "/core/bank/bankcards");
                 play.mvc.Result result = null;
                 // form request
@@ -257,14 +243,11 @@ public class BankControllerTest extends BaseTest {
                     }
                 }
 
-            }
-        });
     }
 
     @Test
     public void testFindBankByBankCardNo() throws Exception {
-        running(fakeApplication(inMemoryDatabase("test")), new Runnable() {
-            public void run() {
+
                 BankCardVo bankCardVo = new BankCardVo();
                 bankCardVo.setBankCard("6225885105574736");
                 FakeRequest findBankRequest = fakeRequest(POST, "/core/bank/findbybankcard");
@@ -276,14 +259,12 @@ public class BankControllerTest extends BaseTest {
                 result = route(formRequest);
                 Logger.info("result is " + contentAsString(result));
                 assertThat(contentAsString(result)).contains(MsgCode.OPERATE_SUCCESS.getCode());
-            }
-        });
+
     }
 
     @Test
     public void testFindBanks() throws Exception {
-        running(fakeApplication(inMemoryDatabase("test")), new Runnable() {
-            public void run() {
+
                 PageVo pageVo = new PageVo();
                 FakeRequest banksRequest = fakeRequest(POST, "/core/banks");
                 play.mvc.Result result = null;
@@ -294,7 +275,6 @@ public class BankControllerTest extends BaseTest {
                 result = route(formRequest);
                 Logger.info("result is " + contentAsString(result));
                 assertThat(contentAsString(result)).contains("0000");
-            }
-        });
+
     }
 }

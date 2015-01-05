@@ -18,8 +18,7 @@ public class CustomerControllerTest extends BaseTest {
 
     @Test
     public void testGetCustomerByMobilePhoneNo() throws Exception {
-        running(fakeApplication(), new Runnable() {
-            public void run() {
+
                 Map<String, String> formParams = new HashMap<>();
                 formParams.put("mobilePhoneNo", "15821948594");
                 formParams.put("deviceNo", getDeviceNo());
@@ -43,14 +42,11 @@ public class CustomerControllerTest extends BaseTest {
                 MessageVo testMessage = toMessageVo(testString);
                 assertThat(testMessage).isEqualTo(message);//此处判断message
 
-            }
-        });
     }
 
     @Test
     public void testLogin() throws Exception {
-        running(fakeApplication(), new Runnable() {
-            public void run() {
+
                 String mobilePhoneNo = "15821948594";
                 String deviceNo = getDeviceNo();
                 String passWord = "222222";
@@ -113,14 +109,12 @@ public class CustomerControllerTest extends BaseTest {
                 }
                 MessageVo testMessage1 = toMessageVo(testString1);
                 assertThat(testMessage1.getMessage()).isEqualTo(message.getMessage());//此处判断message
-            }
-        });
+
     }
 
     @Test
     public void testResetPwd() throws Exception {
-        running(fakeApplication(), new Runnable() {
-            public void run() {
+
                 String mobilePhoneNo = "15821948594";
                 String deviceNo = getDeviceNo();
                 String passWord = "111111";
@@ -191,8 +185,7 @@ public class CustomerControllerTest extends BaseTest {
                 assertThat(status(result)).isEqualTo(OK);
                 MessageVo message = toMessageVo(result);
                 assertThat(message.getMessage().getSeverity() == 0);
-            }
-        });
+
     }
 
 }

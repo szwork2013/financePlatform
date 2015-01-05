@@ -19,68 +19,57 @@ import static play.test.Helpers.*;
 
 public class CustomerShareControllerTest extends BaseTest {
     @Before
-    public void getCookie(){
+    public void getCookie() {
 
-        running(fakeApplication(), new Runnable() {
-            public void run() {
-                final String mobilePhoneNo = "13811599307";
-                final String password = "1";
-                cookie = getCookieAfterLogin(mobilePhoneNo, password);
-            }
-        });
+        super.startPlay();
+        final String mobilePhoneNo = "13811599307";
+        final String password = "1";
+        cookie = getCookieAfterLogin(mobilePhoneNo, password);
+
     }
-
 
 
     //@Test
     public void testsendFriend() throws Exception {//分享好友
-        running(fakeApplication(), new Runnable() {
-            public void run() {
+
                 Map<String, String> formParams = new HashMap<>();
                 formParams.put("mobilePhoneNo", "13811599307");
                 formParams.put("deviceNo", getDeviceNo());
 
-                play.mvc.Result  result = getResult("/customer/activity/sharecontent", formParams, cookie);
+                play.mvc.Result result = getResult("/customer/activity/sharecontent", formParams, cookie);
 
                 Logger.info(contentAsString(result));
                 assertThat(status(result)).isEqualTo(OK);
                 MessageVo message = toMessageVo(result);
 
-            }
-        });
-    }
 
+    }
 
 
     @Test
     public void testgetQRcodeToByte() throws Exception {//byte二维码
-        running(fakeApplication(), new Runnable() {
-            public void run() {
+
                 Map<String, String> formParams = new HashMap<>();
                 formParams.put("mobilePhoneNo", "13811599307");
                 formParams.put("deviceNo", getDeviceNo());
 
-                play.mvc.Result  result = getResult("/customer/activity/getqrcode", formParams, cookie);
+                play.mvc.Result result = getResult("/customer/activity/getqrcode", formParams, cookie);
 
                 Logger.info(contentAsString(result));
                 assertThat(status(result)).isEqualTo(OK);
 
-
-            }
-        });
     }
 
     @Test
     public void testInviteShare() throws Exception {//分享好友
-        running(fakeApplication(), new Runnable() {
-            public void run() {
+
                 Map<String, String> formParams = new HashMap<>();
                 formParams.put("type", "0");
                 //formParams.put("id", "41921");
 
-                play.mvc.Result  result = getResult("/customer/activity/share", formParams, cookie);
+                play.mvc.Result result = getResult("/customer/activity/share", formParams, cookie);
 
-                Logger.info("result is :"+contentAsString(result));
+                Logger.info("result is :" + contentAsString(result));
                 assertThat(status(result)).isEqualTo(OK);
                 MessageVo message = toMessageVo(result);
                 assertThat(message.getMessage().getCode()).isEqualTo(MsgCode.SHARE_QUERY_SUCC.getCode());
@@ -88,7 +77,7 @@ public class CustomerShareControllerTest extends BaseTest {
                 /**
                  * 验证message与value
                  */
-                String testString= null;
+                String testString = null;
                 try {
                     testString = getJsonFile("json/CustShare.json");//获得json文件内容
                 } catch (IOException e) {
@@ -102,19 +91,17 @@ public class CustomerShareControllerTest extends BaseTest {
 
                 Logger.info("============testSignInObtainReward result====\n" + contentAsString(result));
 
-            }
-        });
+
     }
 
     //@Test
     public void testNotLogginInviteShare() throws Exception {//分享好友
-        running(fakeApplication(), new Runnable() {
-            public void run() {
+
                 Map<String, String> formParams = new HashMap<>();
                 formParams.put("type", "0");
                 //formParams.put("id", "41921");
 
-                play.mvc.Result  result = getResult("/customer/activity/share", formParams);
+                play.mvc.Result result = getResult("/customer/activity/share", formParams);
 
                 Logger.info(contentAsString(result));
                 assertThat(status(result)).isEqualTo(OK);
@@ -122,19 +109,17 @@ public class CustomerShareControllerTest extends BaseTest {
                 assertThat(message.getMessage().getCode()).isEqualTo(MsgCode.SHARE_QUERY_SUCC.getCode());
                 Logger.info("============testSignInObtainReward result====\n" + contentAsString(result));
 
-            }
-        });
+
     }
 
     //@Test
     public void testNotSupportShare() throws Exception {//分享好友
-        running(fakeApplication(), new Runnable() {
-            public void run() {
+
                 Map<String, String> formParams = new HashMap<>();
                 formParams.put("type", "1000");
                 //formParams.put("id", "41921");
 
-                play.mvc.Result  result = getResult("/customer/activity/share", formParams);
+                play.mvc.Result result = getResult("/customer/activity/share", formParams);
 
                 Logger.info(contentAsString(result));
                 assertThat(status(result)).isEqualTo(OK);
@@ -142,10 +127,7 @@ public class CustomerShareControllerTest extends BaseTest {
                 assertThat(message.getMessage().getCode()).isEqualTo(MsgCode.NOT_SUPPORT_SHARE_TYPE.getCode());
                 Logger.info("============testSignInObtainReward result====\n" + contentAsString(result));
 
-            }
-        });
     }
-
 
 
 }
