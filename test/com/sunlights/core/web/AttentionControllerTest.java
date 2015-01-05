@@ -5,9 +5,7 @@ import com.sunlights.common.MsgCode;
 import com.sunlights.common.utils.ConverterUtil;
 import com.sunlights.common.vo.MessageVo;
 import com.sunlights.common.vo.PageVo;
-import com.sunlights.core.vo.AttentionVo;
-import com.sunlights.core.vo.ProductParameter;
-import com.sunlights.core.vo.ProductVo;
+import com.sunlights.core.vo.*;
 import org.junit.Before;
 import org.junit.Test;
 import play.Logger;
@@ -16,6 +14,7 @@ import play.libs.Json;
 import play.mvc.Result;
 import play.test.FakeRequest;
 
+import java.io.IOException;
 import java.util.*;
 
 import static org.fest.assertions.Assertions.assertThat;
@@ -70,12 +69,35 @@ public class AttentionControllerTest extends BaseTest {
 
                 assertThat(contentAsString).contains(MsgCode.OPERATE_SUCCESS.getCode());
 
+                /**
+                 * 验证message与value
+                 */
+                String testString= null;
+                try {
+                    testString = getJsonFile("CoreAttentionList.json");//获得json文件内容
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                MessageVo message = toMessageVo(result);
+                MessageVo testMessage = toMessageVo(testString);
+                assertThat(testMessage).isEqualTo(message);//此处判断message
+                PageVo pageVO = Json.fromJson(Json.toJson(message.getValue()), PageVo.class);
+                PageVo testPageVo = Json.fromJson(Json.toJson(testMessage.getValue()), PageVo.class);
+                assertThat(testPageVo).isEqualTo(pageVO);//此处判断page
+
+
                 // delete
                 MessageVo<LinkedHashMap> vo = toMessageVo(result);
                 LinkedHashMap map = vo.getValue();
                 try {
                     ConverterUtil.convertMap2Object(map, pageVo);
                     if (!pageVo.getList().isEmpty()) {
+
+                        ProductVo productVo = Json.fromJson(Json.toJson(pageVO.getList().get(0)), ProductVo.class);
+                        ProductVo testProductVo = Json.fromJson(Json.toJson(testPageVo.getList().get(0)), ProductVo.class);
+                        assertThat(productVo).isEqualTo(testProductVo);//此处判断list
+
+
                         LinkedHashMap<String,String> productVoMap = (LinkedHashMap<String, String>) pageVo.getList().get(0);
                         paramMap = new HashMap<String, String>();
                         paramMap.put("code",productVoMap.get("code"));
@@ -114,7 +136,19 @@ public class AttentionControllerTest extends BaseTest {
                 String contentAsString = contentAsString(result);
                 Logger.info("result is " + contentAsString);
 
-                assertThat(contentAsString).contains(MsgCode.OPERATE_SUCCESS.getCode());
+                //assertThat(contentAsString).contains(MsgCode.OPERATE_SUCCESS.getCode());
+                /**
+                 * 验证message与value
+                 */
+                String testString= null;
+                try {
+                    testString = getJsonFile("CoreAttentionProduct.json");//获得json文件内容
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                MessageVo message = toMessageVo(result);
+                MessageVo testMessage = toMessageVo(testString);
+                assertThat(testMessage).isEqualTo(message);//此处判断message
 
             }
 
@@ -144,7 +178,21 @@ public class AttentionControllerTest extends BaseTest {
                 String contentAsString = contentAsString(result);
                 Logger.info("result is " + contentAsString);
 
-                assertThat(contentAsString).contains(MsgCode.OPERATE_SUCCESS.getCode());
+                //assertThat(contentAsString).contains(MsgCode.OPERATE_SUCCESS.getCode());
+
+                /**
+                 * 验证message与value
+                 */
+                String testString= null;
+                try {
+                    testString = getJsonFile("CoreAttentionProducts.json");//获得json文件内容
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                MessageVo message = toMessageVo(result);
+                MessageVo testMessage = toMessageVo(testString);
+                assertThat(testMessage).isEqualTo(message);//此处判断message
+
 
             }
 
