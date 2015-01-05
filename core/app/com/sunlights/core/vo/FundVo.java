@@ -1,10 +1,13 @@
 package com.sunlights.core.vo;
 
 
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.sunlights.common.AppConst;
 import com.sunlights.common.FundCategory;
 import com.sunlights.common.service.CommonService;
 import com.sunlights.common.utils.ArithUtil;
+import com.sunlights.common.vo.IntegerNullSerialize;
+import com.sunlights.common.vo.StringNullSerialize;
 import com.sunlights.customer.service.ActivityService;
 import com.sunlights.customer.service.impl.ActivityServiceImpl;
 import models.FundNav;
@@ -17,180 +20,190 @@ import java.util.List;
  * Created by Yuan on 2014/9/1.
  */
 public class FundVo extends ProductVo {
-    private Integer peopleOfPurchased;//已申购人数
-    private String sevenDaysIncome;//七日年化收益率
-    private String millionIncome;//万分收益
-    private String purchasedMethod;//买卖方式，比如:随买随卖
-    private String purchasedAmount;//起购金额
-    private String discount;//手续费描述
-    private String discountValue;//手续费
+	private Integer peopleOfPurchased;//已申购人数
+	private String sevenDaysIncome;//七日年化收益率
+	private String millionIncome;//万分收益
+	private String purchasedMethod;//买卖方式，比如:随买随卖
+	private String purchasedAmount;//起购金额
+	private String discount;//手续费描述
+	private String discountValue;//手续费
 
-    @Override
-    public boolean equals(Object o) {
-        if(!super.equals(o)){
-            return false;
-        };
-        if (this == o) return true;
-        if (!(o instanceof FundVo)) return false;
+	@Override
+	public boolean equals(Object o) {
+		if(!super.equals(o)){
+			return false;
+		};
+		if (this == o) return true;
+		if (!(o instanceof FundVo)) return false;
 
-        FundVo fundVo = (FundVo) o;
+		FundVo fundVo = (FundVo) o;
 
-        if (activity != null ? !activity.equals(fundVo.activity) : fundVo.activity != null) return false;
-        if (discount != null ? !discount.equals(fundVo.discount) : fundVo.discount != null) return false;
-        if (discountValue != null ? !discountValue.equals(fundVo.discountValue) : fundVo.discountValue != null)
-            return false;
-        if (millionIncome != null ? !millionIncome.equals(fundVo.millionIncome) : fundVo.millionIncome != null)
-            return false;
-        if (peopleOfPurchased != null ? !peopleOfPurchased.equals(fundVo.peopleOfPurchased) : fundVo.peopleOfPurchased != null)
-            return false;
-        if (purchaseState != null ? !purchaseState.equals(fundVo.purchaseState) : fundVo.purchaseState != null)
-            return false;
-        if (purchasedAmount != null ? !purchasedAmount.equals(fundVo.purchasedAmount) : fundVo.purchasedAmount != null)
-            return false;
-        if (purchasedMethod != null ? !purchasedMethod.equals(fundVo.purchasedMethod) : fundVo.purchasedMethod != null)
-            return false;
-        if (sevenDaysIncome != null ? !sevenDaysIncome.equals(fundVo.sevenDaysIncome) : fundVo.sevenDaysIncome != null)
-            return false;
+		if (activity != null ? !activity.equals(fundVo.activity) : fundVo.activity != null) return false;
+		if (discount != null ? !discount.equals(fundVo.discount) : fundVo.discount != null) return false;
+		if (discountValue != null ? !discountValue.equals(fundVo.discountValue) : fundVo.discountValue != null)
+			return false;
+		if (millionIncome != null ? !millionIncome.equals(fundVo.millionIncome) : fundVo.millionIncome != null)
+			return false;
+		if (peopleOfPurchased != null ? !peopleOfPurchased.equals(fundVo.peopleOfPurchased) : fundVo.peopleOfPurchased != null)
+			return false;
+		if (purchaseState != null ? !purchaseState.equals(fundVo.purchaseState) : fundVo.purchaseState != null)
+			return false;
+		if (purchasedAmount != null ? !purchasedAmount.equals(fundVo.purchasedAmount) : fundVo.purchasedAmount != null)
+			return false;
+		if (purchasedMethod != null ? !purchasedMethod.equals(fundVo.purchasedMethod) : fundVo.purchasedMethod != null)
+			return false;
+		if (sevenDaysIncome != null ? !sevenDaysIncome.equals(fundVo.sevenDaysIncome) : fundVo.sevenDaysIncome != null)
+			return false;
 
-        return true;
-
-
-    }
-
-    @Override
-    public int hashCode() {
-        int result = peopleOfPurchased != null ? peopleOfPurchased.hashCode() : 0;
-        result = 31 * result + (sevenDaysIncome != null ? sevenDaysIncome.hashCode() : 0);
-        result = 31 * result + (millionIncome != null ? millionIncome.hashCode() : 0);
-        result = 31 * result + (purchasedMethod != null ? purchasedMethod.hashCode() : 0);
-        result = 31 * result + (purchasedAmount != null ? purchasedAmount.hashCode() : 0);
-        result = 31 * result + (discount != null ? discount.hashCode() : 0);
-        result = 31 * result + (discountValue != null ? discountValue.hashCode() : 0);
-        result = 31 * result + (activity != null ? activity.hashCode() : 0);
-        result = 31 * result + (purchaseState != null ? purchaseState.hashCode() : 0);
-        return result;
-    }
-
-    private String activity;//活动
-    private Integer purchaseState;//是否可申购
-
-    public FundVo() {
-
-    }
-
-    public FundVo(FundNav fundNav, ProductManage pm) {
-        inFundNav(fundNav);
-        inProductManage(pm);
-    }
+		return true;
 
 
-    public void inProductManage(ProductManage pm) {
-        super.setType(pm.getProductType());
-        super.setTypeDesc(new CommonService().findValueByCatPointKey(pm.getProductType()));
-        super.setGroup(pm.getRecommendType());
-        super.setGroupDesc(new CommonService().findValueByCatPointKey(pm.getRecommendType()));
-        super.setTag(pm.getRecommendFlag());
-        super.setTagDesc(new CommonService().findValueByCatPointKey(pm.getRecommendFlag()));
-        this.setPeopleOfPurchased(pm.getInitBuyedCount());
-    }
+	}
+
+	@Override
+	public int hashCode() {
+		int result = peopleOfPurchased != null ? peopleOfPurchased.hashCode() : 0;
+		result = 31 * result + (sevenDaysIncome != null ? sevenDaysIncome.hashCode() : 0);
+		result = 31 * result + (millionIncome != null ? millionIncome.hashCode() : 0);
+		result = 31 * result + (purchasedMethod != null ? purchasedMethod.hashCode() : 0);
+		result = 31 * result + (purchasedAmount != null ? purchasedAmount.hashCode() : 0);
+		result = 31 * result + (discount != null ? discount.hashCode() : 0);
+		result = 31 * result + (discountValue != null ? discountValue.hashCode() : 0);
+		result = 31 * result + (activity != null ? activity.hashCode() : 0);
+		result = 31 * result + (purchaseState != null ? purchaseState.hashCode() : 0);
+		return result;
+	}
+
+	private String activity;//活动
+	private Integer purchaseState;//是否可申购
+
+	public FundVo() {
+
+	}
+
+	public FundVo(FundNav fundNav, ProductManage pm) {
+		inFundNav(fundNav);
+		inProductManage(pm);
+	}
 
 
-    public void inFundNav(FundNav fundNav) {
-        Integer isMonetary = fundNav.getIsMonetary();
-        Integer isStf = fundNav.getIsStf();
+	public void inProductManage(ProductManage pm) {
+		super.setType(pm.getProductType());
+		super.setTypeDesc(new CommonService().findValueByCatPointKey(pm.getProductType()));
+		super.setGroup(pm.getRecommendType());
+		super.setGroupDesc(new CommonService().findValueByCatPointKey(pm.getRecommendType()));
+		super.setTag(pm.getRecommendFlag());
+		super.setTagDesc(new CommonService().findValueByCatPointKey(pm.getRecommendFlag()));
+		this.setPeopleOfPurchased(pm.getInitBuyedCount());
+	}
 
-        super.setName(fundNav.getFundname());
-        super.setCategory(isMonetary == 1 ? AppConst.FUND_CATEGORY_MONETARY : (isStf == 1 ? AppConst.FUND_CATEGORY_STF : ""));
+
+	public void inFundNav(FundNav fundNav) {
+		Integer isMonetary = fundNav.getIsMonetary();
+		Integer isStf = fundNav.getIsStf();
+
+		super.setName(fundNav.getFundname());
+		super.setCategory(isMonetary == 1 ? AppConst.FUND_CATEGORY_MONETARY : (isStf == 1 ? AppConst.FUND_CATEGORY_STF : ""));
 		super.setCategoryDesc(FundCategory.findFundCategoryBy(getCategory()).getDescription());
-        super.setCode(fundNav.getFundcode());
-        this.sevenDaysIncome = ArithUtil.bigUpScale4(fundNav.getPercentSevenDays());
-        this.millionIncome = ArithUtil.bigUpScale4(fundNav.getIncomePerTenThousand());
-        BigDecimal purchaseLimitMin = ArithUtil.bigUpScale0(fundNav.getPurchaseLimitMin());
-        this.purchasedAmount = purchaseLimitMin == null ? "" : purchaseLimitMin.toString();
-        this.purchasedMethod = isMonetary == 1 ? "随买随卖" : (isStf == 1 ? "7天" : "");
-        ActivityService activityService = new ActivityServiceImpl();
-        List<String> activities = activityService.getActivityTitles(fundNav.getFundcode());
-        this.activity = activities.isEmpty() ? "" : activities.get(0);
-        this.purchaseState = fundNav.getPurchaseState();
+		super.setCode(fundNav.getFundcode());
+		this.sevenDaysIncome = ArithUtil.bigUpScale4(fundNav.getPercentSevenDays());
+		this.millionIncome = ArithUtil.bigUpScale4(fundNav.getIncomePerTenThousand());
+		BigDecimal purchaseLimitMin = ArithUtil.bigUpScale0(fundNav.getPurchaseLimitMin());
+		this.purchasedAmount = purchaseLimitMin == null ? "" : purchaseLimitMin.toString();
+		this.purchasedMethod = isMonetary == 1 ? "随买随卖" : (isStf == 1 ? "7天" : "");
+		ActivityService activityService = new ActivityServiceImpl();
+		List<String> activities = activityService.getActivityTitles(fundNav.getFundcode());
+		this.activity = activities.isEmpty() ? "" : activities.get(0);
+		this.purchaseState = fundNav.getPurchaseState();
 		convertDiscountValue(fundNav);
-    }
+	}
 
-    private void convertDiscountValue(FundNav fundNav) {
-        BigDecimal chargeRateValue = fundNav.getChargeRateValue();
-        BigDecimal fundNavDiscount = fundNav.getDiscount();
-        if (chargeRateValue == null || BigDecimal.ZERO.compareTo(chargeRateValue) == 0) {
-            this.discount = "免手续费";
+	private void convertDiscountValue(FundNav fundNav) {
+		BigDecimal chargeRateValue = fundNav.getChargeRateValue();
+		BigDecimal fundNavDiscount = fundNav.getDiscount();
+		if (chargeRateValue == null || BigDecimal.ZERO.compareTo(chargeRateValue) == 0) {
+			this.discount = "免手续费";
 			this.discountValue = null;
-        } else {
+		} else {
 			this.discount = fundNavDiscount == null ? "免手续费" : fundNavDiscount.multiply(new BigDecimal("100")) + "折";
 			this.discountValue = fundNavDiscount == null ? null : fundNavDiscount.toString();
-        }
-    }
+		}
+	}
 
-    public Integer getPeopleOfPurchased() {
-        return peopleOfPurchased;
-    }
+	@JsonSerialize(using = IntegerNullSerialize.class)
+	public Integer getPeopleOfPurchased() {
+		return peopleOfPurchased;
+	}
 
-    public void setPeopleOfPurchased(Integer peopleOfPurchased) {
-        this.peopleOfPurchased = peopleOfPurchased;
-    }
+	public void setPeopleOfPurchased(Integer peopleOfPurchased) {
+		this.peopleOfPurchased = peopleOfPurchased;
+	}
 
-    public String getSevenDaysIncome() {
-        return sevenDaysIncome;
-    }
+	@JsonSerialize(using = StringNullSerialize.class)
+	public String getSevenDaysIncome() {
+		return sevenDaysIncome;
+	}
 
-    public void setSevenDaysIncome(String sevenDaysIncome) {
-        this.sevenDaysIncome = sevenDaysIncome;
-    }
+	public void setSevenDaysIncome(String sevenDaysIncome) {
+		this.sevenDaysIncome = sevenDaysIncome;
+	}
 
-    public String getMillionIncome() {
-        return millionIncome;
-    }
 
-    public void setMillionIncome(String millionIncome) {
-        this.millionIncome = millionIncome;
-    }
+	@JsonSerialize(using = StringNullSerialize.class)
+	public String getMillionIncome() {
+		return millionIncome;
+	}
 
-    public String getPurchasedMethod() {
-        return purchasedMethod;
-    }
+	public void setMillionIncome(String millionIncome) {
+		this.millionIncome = millionIncome;
+	}
 
-    public void setPurchasedMethod(String purchasedMethod) {
-        this.purchasedMethod = purchasedMethod;
-    }
+	@JsonSerialize(using = StringNullSerialize.class)
+	public String getPurchasedMethod() {
+		return purchasedMethod;
+	}
 
-    public String getPurchasedAmount() {
-        return purchasedAmount;
-    }
+	public void setPurchasedMethod(String purchasedMethod) {
+		this.purchasedMethod = purchasedMethod;
+	}
 
-    public void setPurchasedAmount(String purchasedAmount) {
-        this.purchasedAmount = purchasedAmount;
-    }
+	@JsonSerialize(using = StringNullSerialize.class)
+	public String getPurchasedAmount() {
+		return purchasedAmount;
+	}
 
-    public String getDiscount() {
-        return discount;
-    }
+	public void setPurchasedAmount(String purchasedAmount) {
+		this.purchasedAmount = purchasedAmount;
+	}
 
-    public void setDiscount(String discount) {
-        this.discount = discount;
-    }
+	@JsonSerialize(using = StringNullSerialize.class)
+	public String getDiscount() {
+		return discount;
+	}
 
-    public String getActivity() {
-        return activity;
-    }
 
-    public void setActivity(String activity) {
-        this.activity = activity;
-    }
+	public void setDiscount(String discount) {
+		this.discount = discount;
+	}
 
-    public Integer getPurchaseState() {
-        return purchaseState;
-    }
+	@JsonSerialize(using = StringNullSerialize.class)
+	public String getActivity() {
+		return activity;
+	}
 
-    public void setPurchaseState(Integer purchaseState) {
-        this.purchaseState = purchaseState;
-    }
+	public void setActivity(String activity) {
+		this.activity = activity;
+	}
 
+	public Integer getPurchaseState() {
+		return purchaseState;
+	}
+
+	public void setPurchaseState(Integer purchaseState) {
+		this.purchaseState = purchaseState;
+	}
+
+	@JsonSerialize(using = StringNullSerialize.class)
 	public String getDiscountValue () {
 		return discountValue;
 	}
