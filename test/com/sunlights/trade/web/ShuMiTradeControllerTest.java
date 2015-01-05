@@ -16,6 +16,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.Query;
 import javax.xml.datatype.DatatypeFactory;
 import javax.xml.datatype.XMLGregorianCalendar;
+import java.io.IOException;
 import java.util.*;
 
 import static org.fest.assertions.Assertions.assertThat;
@@ -69,6 +70,19 @@ public class ShuMiTradeControllerTest extends BaseTest {
                 MessageVo message = toMessageVo(result);
                 assertThat(message.getMessage().getCode()).isEqualTo("0400");
                 assertThat(message.getMessage().getSummary()).isEqualTo("下单成功");
+
+
+                /**
+                 * 验证message与value
+                 */
+                String testString= null;
+                try {
+                    testString = getJsonFile("CustTradeOrder.json");//获得json文件内容
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                MessageVo testMessage = toMessageVo(testString);
+                assertThat(testMessage).isEqualTo(message);//此处判断message
 
                 int aftBuyNum = getBuyNum(fundCode);
 
@@ -136,6 +150,18 @@ public class ShuMiTradeControllerTest extends BaseTest {
                 MessageVo message = toMessageVo(result);
                 assertThat(message.getMessage().getCode()).isEqualTo("0401");
                 assertThat(message.getMessage().getSummary()).isEqualTo("赎回成功");
+
+                /**
+                 * 验证message与value
+                 */
+                String testString= null;
+                try {
+                    testString = getJsonFile("CustTradeRedeem.json");//获得json文件内容
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                MessageVo testMessage = toMessageVo(testString);
+                assertThat(testMessage).isEqualTo(message);//此处判断message
 
             }
         });
