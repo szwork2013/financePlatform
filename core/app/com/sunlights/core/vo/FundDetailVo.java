@@ -1,20 +1,18 @@
 package com.sunlights.core.vo;
 
-import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import java.math.BigDecimal;
+import java.util.Date;
+
+import models.FundCompany;
+import models.FundNav;
+import models.ProductManage;
+
 import com.sunlights.common.AppConst;
 import com.sunlights.common.FundCategory;
 import com.sunlights.common.FundDict;
 import com.sunlights.common.service.CommonService;
 import com.sunlights.common.utils.ArithUtil;
 import com.sunlights.common.utils.CommonUtil;
-import com.sunlights.common.vo.IntegerNullSerialize;
-import com.sunlights.common.vo.StringNullSerialize;
-import models.FundCompany;
-import models.FundNav;
-import models.ProductManage;
-
-import java.math.BigDecimal;
-import java.util.Date;
 
 /**
  * <p>Project: fsp</p>
@@ -120,131 +118,113 @@ public class FundDetailVo extends FundVo {
 		this.buiersOf30Days = pm.getOneMonthBuyedCount();
 	}
 
-	@JsonSerialize(using = StringNullSerialize.class)
 	public String getToAccountType() {
-		return toAccountType;
+		return CommonUtil.format(toAccountType);
 	}
 
 	public void setToAccountType(String toAccountType) {
 		this.toAccountType = toAccountType;
 	}
 
-	@JsonSerialize(using = StringNullSerialize.class)
 	public String getRiskLevel() {
-		return riskLevel;
+		return CommonUtil.format(riskLevel);
 	}
 
 	public void setRiskLevel(String riskLevel) {
 		this.riskLevel = riskLevel;
 	}
 
-	@JsonSerialize(using = StringNullSerialize.class)
 	public String getCompanyName() {
-		return companyName;
+		return CommonUtil.format(companyName);
 	}
 
 	public void setCompanyName(String companyName) {
 		this.companyName = companyName;
 	}
 
-	@JsonSerialize(using = StringNullSerialize.class)
 	public String getFundScale() {
-		return fundScale;
+		return CommonUtil.format(fundScale);
 	}
 
 	public void setFundScale(String fundScale) {
 		this.fundScale = fundScale;
 	}
 
-	@JsonSerialize(using = IntegerNullSerialize.class)
 	public Integer getBuiersOf30Days() {
-		return buiersOf30Days;
+		return CommonUtil.format(buiersOf30Days);
 	}
 
 	public void setBuiersOf30Days(Integer buiersOf30Days) {
 		this.buiersOf30Days = buiersOf30Days;
 	}
 
-	@JsonSerialize(using = StringNullSerialize.class)
 	public String getCurrentDate() {
-		return currentDate;
+		return CommonUtil.format(currentDate);
 	}
 
 	public void setCurrentDate(String currentDate) {
 		this.currentDate = currentDate;
 	}
 
-	@JsonSerialize(using = StringNullSerialize.class)
 	public String getEstablishmentDate() {
-		return establishmentDate;
+		return CommonUtil.format(establishmentDate);
 	}
 
 	public void setEstablishmentDate(String establishmentDate) {
 		this.establishmentDate = establishmentDate;
 	}
 
-	@JsonSerialize(using = StringNullSerialize.class)
 	public String getLatestHoldShares() {
-		return latestHoldShares;
+		return CommonUtil.format(latestHoldShares);
 	}
 
 	public void setLatestHoldShares(String latestHoldShares) {
 		this.latestHoldShares = latestHoldShares;
 	}
 
-	@JsonSerialize(using = StringNullSerialize.class)
 	public String getManager() {
-		return manager;
+		return CommonUtil.format(manager);
 	}
 
 	public void setManager(String manager) {
 		this.manager = manager;
 	}
 
-	@JsonSerialize(using = StringNullSerialize.class)
 	public String getTrusteeName() {
-		return trusteeName;
+		return CommonUtil.format(trusteeName);
 	}
 
 	public void setTrusteeName(String trusteeName) {
 		this.trusteeName = trusteeName;
 	}
 
+
+
 	@Override
 	public boolean equals(Object o) {
-		if (!super.equals(o)) {
+		if(!super.equals(o)){
 			return false;
-		}
-		;
-		if (this == o)
-			return true;
-		if (!(o instanceof FundDetailVo))
-			return false;
-		if (!super.equals(o))
-			return false;
+		};
+		if (this == o) return true;
+		if (!(o instanceof FundDetailVo)) return false;
+		if (!super.equals(o)) return false;
 
 		FundDetailVo that = (FundDetailVo) o;
 
 		if (buiersOf30Days != null ? !buiersOf30Days.equals(that.buiersOf30Days) : that.buiersOf30Days != null)
 			return false;
-		if (companyName != null ? !companyName.equals(that.companyName) : that.companyName != null)
-			return false;
-		if (currentDate != null ? !currentDate.equals(that.currentDate) : that.currentDate != null)
-			return false;
+		if (companyName != null ? !companyName.equals(that.companyName) : that.companyName != null) return false;
+		if (currentDate != null ? !currentDate.equals(that.currentDate) : that.currentDate != null) return false;
 		if (establishmentDate != null ? !establishmentDate.equals(that.establishmentDate) : that.establishmentDate != null)
 			return false;
-		if (fundScale != null ? !fundScale.equals(that.fundScale) : that.fundScale != null)
-			return false;
+		if (fundScale != null ? !fundScale.equals(that.fundScale) : that.fundScale != null) return false;
 		if (latestHoldShares != null ? !latestHoldShares.equals(that.latestHoldShares) : that.latestHoldShares != null)
 			return false;
-		if (manager != null ? !manager.equals(that.manager) : that.manager != null)
-			return false;
-		if (riskLevel != null ? !riskLevel.equals(that.riskLevel) : that.riskLevel != null)
-			return false;
+		if (manager != null ? !manager.equals(that.manager) : that.manager != null) return false;
+		if (riskLevel != null ? !riskLevel.equals(that.riskLevel) : that.riskLevel != null) return false;
 		if (toAccountType != null ? !toAccountType.equals(that.toAccountType) : that.toAccountType != null)
 			return false;
-		if (trusteeName != null ? !trusteeName.equals(that.trusteeName) : that.trusteeName != null)
-			return false;
+		if (trusteeName != null ? !trusteeName.equals(that.trusteeName) : that.trusteeName != null) return false;
 
 		return true;
 	}
