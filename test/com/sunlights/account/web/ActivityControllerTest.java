@@ -12,6 +12,7 @@ import com.sunlights.customer.service.RewardFlowService;
 import com.sunlights.customer.service.impl.CustJoinActivityServiceImpl;
 import com.sunlights.customer.service.impl.RewardFlowServiceImpl;
 import com.sunlights.customer.vo.ActivityVo;
+import com.sunlights.customer.vo.ObtainRewardVo;
 import com.sunlights.customer.vo.RewardResultVo;
 import models.CustJoinActivity;
 import models.RewardFlow;
@@ -57,7 +58,7 @@ public class ActivityControllerTest extends BaseTest{
                         play.mvc.Result result = null;
                         com.sunlights.customer.service.CustJoinActivityService custJoinActivityService = new CustJoinActivityServiceImpl();
 
-                        CustJoinActivity custJoinActivity = custJoinActivityService.getTodayRecordByCustAndActivity("20141129090152010000000066", null, ActivityConstant.ACTIVITY_SIGNIN_SCENE_CODE);
+                        CustJoinActivity custJoinActivity = custJoinActivityService.getTodayRecordByCustAndActivity("20141206134951010000000044", null, ActivityConstant.ACTIVITY_SIGNIN_SCENE_CODE);
                         //2:签到获取金豆正常测试
                         formParams = new HashMap<String, String>();
                         formParams.put("scene", ActivityConstant.ACTIVITY_SIGNIN_SCENE_CODE);
@@ -121,7 +122,7 @@ public class ActivityControllerTest extends BaseTest{
 
 
 
-    //@Test
+    @Test
     public void testRegisterObtainReward() {
         running(fakeApplication(), new Runnable() {
             public void run() {
@@ -133,14 +134,29 @@ public class ActivityControllerTest extends BaseTest{
                         play.mvc.Result result = null;
                         com.sunlights.customer.service.CustJoinActivityService custJoinActivityService = new CustJoinActivityServiceImpl();
 
-                        CustJoinActivity custJoinActivity = custJoinActivityService.getByCustAndActivity("20141129090152010000000066", null, ActivityConstant.ACTIVITY_REGISTER_SCENE_CODE);
-
+                        CustJoinActivity custJoinActivity = custJoinActivityService.getByCustAndActivity("20141206134951010000000044", null, ActivityConstant.ACTIVITY_REGISTER_SCENE_CODE);
+                        Logger.info("custJoinActivity is :"+custJoinActivity);
                         //2:签到获取金豆正常测试
                         formParams = new HashMap<String, String>();
 
                         result = getResult("/account/activity/register", formParams, cookie);
                         assertThat(status(result)).isEqualTo(OK);
                         final MessageVo message = toMessageVo(result);
+
+                        /**
+                         * 验证message与value
+                         */
+                        String testString= null;
+                        try {
+                            testString = getJsonFile("AccountRegisterReward.json");//获得json文件内容
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+                        MessageVo testMessage = toMessageVo(testString);
+                        assertThat(testMessage).isEqualTo(message);//此处判断message
+                        ObtainRewardVo testObtainRewardVo = Json.fromJson(Json.toJson(testMessage.getValue()), ObtainRewardVo.class);
+                        ObtainRewardVo obtainRewardVo = Json.fromJson(Json.toJson(message.getValue()), ObtainRewardVo.class);
+                        assertThat(testObtainRewardVo).isEqualTo(obtainRewardVo);//此处判断value
 
                         if(custJoinActivity != null) {
                             assertThat(message.getMessage().getCode()).isEqualTo(MsgCode.ALREADY_REGISTER.getCode());

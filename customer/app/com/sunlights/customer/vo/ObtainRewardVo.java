@@ -58,4 +58,28 @@ public class ObtainRewardVo implements Serializable {
     public void setNotGet(Long notGet) {
         this.notGet = notGet;
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof ObtainRewardVo)) return false;
+
+        ObtainRewardVo that = (ObtainRewardVo) o;
+
+        if (alreadyGet != null ? !alreadyGet.equals(that.alreadyGet) : that.alreadyGet != null) return false;
+        if (notGet != null ? !notGet.equals(that.notGet) : that.notGet != null) return false;
+        if (scene != null ? !scene.equals(that.scene) : that.scene != null) return false;
+        if (status != null ? !status.equals(that.status) : that.status != null) return false;
+
+        return true;
+    }
+
+    @Override
+    public int hashCode() {
+        int result = scene != null ? scene.hashCode() : 0;
+        result = 31 * result + (status != null ? status.hashCode() : 0);
+        result = 31 * result + (alreadyGet != null ? alreadyGet.hashCode() : 0);
+        result = 31 * result + (notGet != null ? notGet.hashCode() : 0);
+        return result;
+    }
 }

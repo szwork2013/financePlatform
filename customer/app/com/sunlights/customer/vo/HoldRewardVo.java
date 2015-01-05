@@ -49,4 +49,28 @@ public class HoldRewardVo implements Serializable{
     public void setRedPacket(String redPacket) {
         this.redPacket = redPacket;
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof HoldRewardVo)) return false;
+
+        HoldRewardVo that = (HoldRewardVo) o;
+
+        if (redPacket != null ? !redPacket.equals(that.redPacket) : that.redPacket != null) return false;
+        if (ruleUrl != null ? !ruleUrl.equals(that.ruleUrl) : that.ruleUrl != null) return false;
+        if (totalCash != null ? !totalCash.equals(that.totalCash) : that.totalCash != null) return false;
+        if (totalReward != null ? !totalReward.equals(that.totalReward) : that.totalReward != null) return false;
+
+        return true;
+    }
+
+    @Override
+    public int hashCode() {
+        int result = totalReward != null ? totalReward.hashCode() : 0;
+        result = 31 * result + (totalCash != null ? totalCash.hashCode() : 0);
+        result = 31 * result + (ruleUrl != null ? ruleUrl.hashCode() : 0);
+        result = 31 * result + (redPacket != null ? redPacket.hashCode() : 0);
+        return result;
+    }
 }
