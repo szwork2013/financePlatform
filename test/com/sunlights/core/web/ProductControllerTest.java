@@ -32,9 +32,7 @@ public class ProductControllerTest extends BaseTest {
 
     @Test
     public void testFindChartBy() throws Exception {
-        running(fakeApplication(inMemoryDatabase("test")), new Runnable() {
 
-            public void run() {
                 final ProductParameter parameter = new ProductParameter();
                 parameter.setChartType("2");
                 parameter.setInterval(7);
@@ -78,17 +76,12 @@ public class ProductControllerTest extends BaseTest {
                         e.printStackTrace();
                     }
                 }
-            }
 
-        });
     }
 
 
     @Test
     public void testProductIndex() throws Exception {
-        running(fakeApplication(inMemoryDatabase("test")), new Runnable() {
-
-            public void run() {
 
                 ProductParameter parameter = new ProductParameter();
 
@@ -119,17 +112,10 @@ public class ProductControllerTest extends BaseTest {
                 FundVo fundVo = Json.fromJson(Json.toJson(message.getValue()), FundVo.class);
                 assertThat(testfundVo).isEqualTo(fundVo);//此处判断value
 
-
-            }
-
-        });
     }
 
     @Test
     public void testFindProductsAndDetail() throws Exception {
-        running(fakeApplication(inMemoryDatabase("test")), new Runnable() {
-
-            public void run() {
 
                 ProductParameter parameter = new ProductParameter();
                 parameter.setIndex(0);
@@ -161,7 +147,7 @@ public class ProductControllerTest extends BaseTest {
                 }
                 MessageVo message = toMessageVo(result);
                 MessageVo testMessage = toMessageVo(testString);
-                assertThat(testMessage).isEqualTo(message);//此处判断message
+                assertThat(testMessage.getMessage()).isEqualTo(message.getMessage());//此处判断message
                 PageVo pageVo = Json.fromJson(Json.toJson(message.getValue()), PageVo.class);
                 PageVo testPageVo = Json.fromJson(Json.toJson(testMessage.getValue()), PageVo.class);
                 assertThat(testPageVo).isEqualTo(pageVo);//此处判断page
@@ -193,24 +179,17 @@ public class ProductControllerTest extends BaseTest {
                         }
                         MessageVo message1 = toMessageVo(result);
                         MessageVo testMessage1 = toMessageVo(testString1);
-                        assertThat(testMessage1).isEqualTo(message1);//此处判断message
+                        assertThat(testMessage1.getMessage()).isEqualTo(message1.getMessage());//此处判断message
                         FundDetailVo testfundVo1 = Json.fromJson(Json.toJson(testMessage1.getValue()), FundDetailVo.class);
                         FundDetailVo fundVo1 = Json.fromJson(Json.toJson(message1.getValue()), FundDetailVo.class);
                         assertThat(testfundVo1).isEqualTo(fundVo1);//此处判断value
 
                     }
                 }
-
-            }
-
-        });
     }
 
     @Test
     public void testFindSTFProducts() throws Exception {
-        running(fakeApplication(inMemoryDatabase("test")), new Runnable() {
-
-            public void run() {
 
                 ProductParameter parameter = new ProductParameter();
                 parameter.setIndex(0);
@@ -232,8 +211,5 @@ public class ProductControllerTest extends BaseTest {
 
                 assertThat(contentAsString).contains(MsgCode.OPERATE_SUCCESS.getCode());
 
-            }
-
-        });
     }
 }

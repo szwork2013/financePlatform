@@ -17,8 +17,7 @@ public class SecurityControllerTest extends BaseTest {
 
   @Test
   public void testGenVerificationCode() throws Exception {
-    running(fakeApplication(), new Runnable() {
-      public void run() {
+
         Map<String, String> formParams = new HashMap<>();
         formParams.put("mobilePhoneNo", "18522222225");
         formParams.put("deviceNo", "deviceNo");
@@ -47,14 +46,11 @@ public class SecurityControllerTest extends BaseTest {
           assertThat(testMessage).isEqualTo(message);//此处判断message
 
 
-      }
-    });
   }
 
   @Test
   public void testCertify() throws Exception {
-    running(fakeApplication(), new Runnable() {
-      public void run() {
+
         Map<String, String> formParams = new HashMap<>();
         formParams.put("userName", "testusername");
         formParams.put("idCardNo", "254545454545454554");//
@@ -78,15 +74,11 @@ public class SecurityControllerTest extends BaseTest {
           MessageVo testMessage = toMessageVo(testString);
           assertThat(testMessage).isEqualTo(message);//此处判断message
 
-
-      }
-    });
   }
 
   @Test
   public void testCertifyAndResetTradePwd() throws Exception {
-    running(fakeApplication(), new Runnable() {
-      public void run() {
+
         Map<String, String> formParams = new HashMap<>();
         formParams.put("userName", "testusername");
         formParams.put("idCardNo", "254545454545454554");
@@ -96,7 +88,6 @@ public class SecurityControllerTest extends BaseTest {
         assertThat(status(result)).isEqualTo(OK);
         MessageVo message = toMessageVo(result);
         assertThat(message.getMessage().getSeverity() == 0);
-      }
-    });
+
   }
 }

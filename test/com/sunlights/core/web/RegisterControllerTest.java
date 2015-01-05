@@ -27,9 +27,8 @@ public class RegisterControllerTest extends BaseTest {
 
     @Test
     public void testRegister() throws Exception {
-        running(fakeApplication(), new Runnable() {
-            public void run() {
-                final String mobilePhoneNo = "18522222242";
+
+                final String mobilePhoneNo = "18522222243";
 //                final String mobilePhoneNo = "15821948594";
                 final String deviceNo = getDeviceNo();
                 final String type = "REGISTER";
@@ -79,7 +78,7 @@ public class RegisterControllerTest extends BaseTest {
                 }
                 MessageVo message1 = toMessageVo(result);
                 MessageVo testMessage1 = toMessageVo(testString1);
-                assertThat(testMessage1).isEqualTo(message1);//此处判断message
+                assertThat(testMessage1.getMessage()).isEqualTo(message1.getMessage());//此处判断message
                 CustomerVo testfundVo1 = Json.fromJson(Json.toJson(testMessage1.getValue()), CustomerVo.class);
                 CustomerVo fundVo1 = Json.fromJson(Json.toJson(message1.getValue()), CustomerVo.class);
                 assertThat(testfundVo1).isEqualTo(fundVo1);//此处判断value
@@ -112,8 +111,7 @@ public class RegisterControllerTest extends BaseTest {
                     }
                 });
 
-            }
-        });
+
     }
 
 

@@ -21,9 +21,7 @@ public class AgreementControllerTest extends BaseTest {
 
   @Test
   public void testFindAgreementVoByAgreementNo() throws Exception {
-    running(fakeApplication(inMemoryDatabase("test")), new Runnable() {
 
-      public void run() {
 
         AgreementVo agreementVo = new AgreementVo();
         agreementVo.setCode("0001");
@@ -56,8 +54,6 @@ public class AgreementControllerTest extends BaseTest {
           AgreementVo agreementVo1 = Json.fromJson(Json.toJson(message.getValue()), AgreementVo.class);
           assertThat(testAgreementVo).isEqualTo(agreementVo1);//此处判断value
 
-      }
 
-    });
   }
 }

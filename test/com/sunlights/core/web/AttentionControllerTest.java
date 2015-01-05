@@ -40,20 +40,14 @@ public class AttentionControllerTest extends BaseTest {
 
     @Before
     public void init() {
-        running(fakeApplication(inMemoryDatabase("test")), new Runnable() {
-            public void run() {
-                login("13811599308", "1");
-            }
-        });
-
+        super.startPlay();
+        login("13811599308", "1");
     }
 
 
     @Test
     public void testFindAttentionsAndDelete() {
-        running(fakeApplication(inMemoryDatabase("test")), new Runnable() {
 
-            public void run() {
                 PageVo pageVo = new PageVo();
                 pageVo.setIndex(0);
                 pageVo.setPageSize(10);
@@ -113,16 +107,11 @@ public class AttentionControllerTest extends BaseTest {
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
-            }
 
-        });
     }
 
     @Test
     public void testCreateAttention() {
-        running(fakeApplication(inMemoryDatabase("test")), new Runnable() {
-
-            public void run() {
                 AttentionVo attentionVo = new AttentionVo();
                 attentionVo.setCode("000855");
 
@@ -151,16 +140,11 @@ public class AttentionControllerTest extends BaseTest {
                 MessageVo testMessage = toMessageVo(testString);
                 assertThat(testMessage).isEqualTo(message);//此处判断message
 
-            }
-
-        });
     }
 
     @Test
     public void testCreateAttentions() {
-        running(fakeApplication(inMemoryDatabase("test")), new Runnable() {
 
-            public void run() {
                 AttentionVo attentionVo = new AttentionVo();
                 List<String> codes = new ArrayList<String>();
                 codes.add("000855");
@@ -194,19 +178,11 @@ public class AttentionControllerTest extends BaseTest {
                 MessageVo testMessage = toMessageVo(testString);
                 assertThat(testMessage).isEqualTo(message);//此处判断message
 
-
-            }
-
-        });
     }
 
 
     @Test
     public void testDepositInterestRate() {
-        running(fakeApplication(inMemoryDatabase("test")), new Runnable() {
-
-            public void run() {
-
 
                 ProductParameter parameter = new ProductParameter();
 
@@ -236,9 +212,6 @@ public class AttentionControllerTest extends BaseTest {
                 MessageVo testMessage = toMessageVo(testString);
                 assertThat(testMessage).isEqualTo(message);//此处判断message
 
-            }
-
-        });
     }
 
 
