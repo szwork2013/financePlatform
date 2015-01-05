@@ -1,6 +1,7 @@
 package com.sunlights.core.vo;
 
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.sunlights.common.utils.CommonUtil;
 import com.sunlights.common.vo.StringNullSerialize;
 
 /**
@@ -44,91 +45,80 @@ public class ProductVo {
 		this.id = id;
 	}
 
-	@JsonSerialize(using = StringNullSerialize.class)
 	public String getName() {
-		return name;
+		return CommonUtil.format(name);
 	}
 
 	public void setName(String name) {
 		this.name = name;
 	}
 
-	@JsonSerialize(using = StringNullSerialize.class)
 	public String getType() {
-		return type;
+		return CommonUtil.format(type);
 	}
 
 	public void setType(String type) {
 		this.type = type;
 	}
 
-	@JsonSerialize(using = StringNullSerialize.class)
 	public String getCode() {
-		return code;
+		return CommonUtil.format(code);
 	}
 
 	public void setCode(String code) {
 		this.code = code;
 	}
 
-
-	@JsonSerialize(using = StringNullSerialize.class)
 	public String getCategory() {
-		return category;
+		return CommonUtil.format(category);
 	}
 
 	public void setCategory(String category) {
 		this.category = category;
 	}
 
-	@JsonSerialize(using = StringNullSerialize.class)
 	public String getGroup() {
-		return group;
+		return CommonUtil.format(group);
 	}
 
 	public void setGroup(String group) {
 		this.group = group;
 	}
 
-	@JsonSerialize(using = StringNullSerialize.class)
 	public String getTypeDesc() {
-		return typeDesc;
+		return CommonUtil.format(typeDesc);
 	}
 
 	public void setTypeDesc(String typeDesc) {
 		this.typeDesc = typeDesc;
 	}
 
-	@JsonSerialize(using = StringNullSerialize.class)
 	public String getCategoryDesc() {
-		return categoryDesc;
+		return CommonUtil.format(categoryDesc);
 	}
 
 	public void setCategoryDesc(String categoryDesc) {
 		this.categoryDesc = categoryDesc;
 	}
 
-	@JsonSerialize(using = StringNullSerialize.class)
 	public String getGroupDesc() {
-		return groupDesc;
+		return CommonUtil.format(groupDesc);
 	}
 
 	public void setGroupDesc(String groupDesc) {
 		this.groupDesc = groupDesc;
 	}
 
-	@JsonSerialize(using = StringNullSerialize.class)
 	public String getTag() {
-		return tag;
+		return CommonUtil.format(tag);
 	}
 
 	public void setTag(String tag) {
 		this.tag = tag;
 	}
 
-	@JsonSerialize(using = StringNullSerialize.class)
 	public String getTagDesc() {
-		return tagDesc;
+		return CommonUtil.format(tagDesc);
 	}
 
 	public void setTagDesc(String tagDesc) {
