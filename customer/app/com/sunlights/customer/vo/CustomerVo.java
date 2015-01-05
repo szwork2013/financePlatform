@@ -229,4 +229,31 @@ public class CustomerVo implements Serializable {
     public void setGestureSetted(String gestureSetted) {
         this.gestureSetted = gestureSetted;
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof CustomerVo)) return false;
+
+        CustomerVo that = (CustomerVo) o;
+
+        if (certify != null ? !certify.equals(that.certify) : that.certify != null) return false;
+        if (gestureOpened != null ? !gestureOpened.equals(that.gestureOpened) : that.gestureOpened != null)
+            return false;
+        if (mobileDisplayNo != null ? !mobileDisplayNo.equals(that.mobileDisplayNo) : that.mobileDisplayNo != null)
+            return false;
+        if (mobilePhoneNo != null ? !mobilePhoneNo.equals(that.mobilePhoneNo) : that.mobilePhoneNo != null)
+            return false;
+
+        return true;
+    }
+
+    @Override
+    public int hashCode() {
+        int result = mobilePhoneNo != null ? mobilePhoneNo.hashCode() : 0;
+        result = 31 * result + (mobileDisplayNo != null ? mobileDisplayNo.hashCode() : 0);
+        result = 31 * result + (gestureOpened != null ? gestureOpened.hashCode() : 0);
+        result = 31 * result + (certify != null ? certify.hashCode() : 0);
+        return result;
+    }
 }

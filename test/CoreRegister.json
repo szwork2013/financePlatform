@@ -1,0 +1,29 @@
+{"message": {
+    "severity": 0,
+    "code": "0100",
+    "summary": "注册成功",
+    "detail": "",
+    "fields": {}
+}, "value": {
+    "userName": null,
+    "nickName": null,
+    "mobilePhoneNo": "18522222241",
+    "mobileDisplayNo": "185****2241",
+    "email": null,
+    "gestureOpened": "0",
+    "certify": "0",
+    "idCardNo": null,
+    "bankCardCount": "0",
+    "tradePwdFlag": "0",
+    "gestureSetted": "0",
+    "shumi_tokenKey": null,
+    "shumi_tokenSecret": null,
+    "shumi_userName": null,
+    "shumi_realName": null,
+    "shumi_idNumber": null,
+    "shumi_bankName": null,
+    "shumi_bankCardNo": null,
+    "shumi_bankSerial": null,
+    "shumi_phoneNum": null,
+    "shumi_email": null
+}}
