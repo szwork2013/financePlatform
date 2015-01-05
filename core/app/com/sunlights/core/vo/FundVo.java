@@ -1,20 +1,18 @@
 package com.sunlights.core.vo;
 
+import java.math.BigDecimal;
+import java.util.List;
 
-import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import models.FundNav;
+import models.ProductManage;
+
 import com.sunlights.common.AppConst;
 import com.sunlights.common.FundCategory;
 import com.sunlights.common.service.CommonService;
 import com.sunlights.common.utils.ArithUtil;
-import com.sunlights.common.vo.IntegerNullSerialize;
-import com.sunlights.common.vo.StringNullSerialize;
+import com.sunlights.common.utils.CommonUtil;
 import com.sunlights.customer.service.ActivityService;
 import com.sunlights.customer.service.impl.ActivityServiceImpl;
-import models.FundNav;
-import models.ProductManage;
-
-import java.math.BigDecimal;
-import java.util.List;
 
 /**
  * Created by Yuan on 2014/9/1.
@@ -130,65 +128,56 @@ public class FundVo extends ProductVo {
 		}
 	}
 
-	@JsonSerialize(using = IntegerNullSerialize.class)
 	public Integer getPeopleOfPurchased() {
-		return peopleOfPurchased;
+		return CommonUtil.format(peopleOfPurchased);
 	}
 
 	public void setPeopleOfPurchased(Integer peopleOfPurchased) {
 		this.peopleOfPurchased = peopleOfPurchased;
 	}
 
-	@JsonSerialize(using = StringNullSerialize.class)
 	public String getSevenDaysIncome() {
-		return sevenDaysIncome;
+		return CommonUtil.format(sevenDaysIncome);
 	}
 
 	public void setSevenDaysIncome(String sevenDaysIncome) {
 		this.sevenDaysIncome = sevenDaysIncome;
 	}
 
-
-	@JsonSerialize(using = StringNullSerialize.class)
 	public String getMillionIncome() {
-		return millionIncome;
+		return CommonUtil.format(millionIncome);
 	}
 
 	public void setMillionIncome(String millionIncome) {
 		this.millionIncome = millionIncome;
 	}
 
-	@JsonSerialize(using = StringNullSerialize.class)
 	public String getPurchasedMethod() {
-		return purchasedMethod;
+		return CommonUtil.format(purchasedMethod);
 	}
 
 	public void setPurchasedMethod(String purchasedMethod) {
 		this.purchasedMethod = purchasedMethod;
 	}
 
-	@JsonSerialize(using = StringNullSerialize.class)
 	public String getPurchasedAmount() {
-		return purchasedAmount;
+		return CommonUtil.format(purchasedAmount);
 	}
 
 	public void setPurchasedAmount(String purchasedAmount) {
 		this.purchasedAmount = purchasedAmount;
 	}
 
-	@JsonSerialize(using = StringNullSerialize.class)
 	public String getDiscount() {
-		return discount;
+		return CommonUtil.format(discount);
 	}
-
 
 	public void setDiscount(String discount) {
 		this.discount = discount;
 	}
 
-	@JsonSerialize(using = StringNullSerialize.class)
 	public String getActivity() {
-		return activity;
+		return CommonUtil.format(activity);
 	}
 
 	public void setActivity(String activity) {
@@ -196,16 +185,15 @@ public class FundVo extends ProductVo {
 	}
 
 	public Integer getPurchaseState() {
-		return purchaseState;
+		return CommonUtil.format(purchaseState);
 	}
 
 	public void setPurchaseState(Integer purchaseState) {
 		this.purchaseState = purchaseState;
 	}
 
-	@JsonSerialize(using = StringNullSerialize.class)
 	public String getDiscountValue () {
-		return discountValue;
+		return CommonUtil.format(discountValue);
 	}
 
 	public void setDiscountValue (String discountValue) {

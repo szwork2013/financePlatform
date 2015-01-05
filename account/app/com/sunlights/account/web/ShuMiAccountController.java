@@ -17,6 +17,8 @@ import com.sunlights.common.utils.MessageUtil;
 import com.sunlights.common.vo.Message;
 import com.sunlights.customer.service.impl.CustomerService;
 
+import static play.data.Form.form;
+
 /**
  * <p>Project: financeplatform</p>
  * <p>Title: ShumiAccountController.java</p>
@@ -36,6 +38,9 @@ public class ShuMiAccountController extends Controller{
 
     public Result saveShuMiAccount() throws ConverterException{
         Logger.debug("---------------saveShuMiAccount start---------------");
+
+        Logger.debug(">>saveShuMiAccount params：" + Json.toJson(form().bindFromRequest().data()));
+
         customerService.validateCustomerSession(request(), session(), response());
 
         String token = request().cookie(AppConst.TOKEN).value();
@@ -48,7 +53,8 @@ public class ShuMiAccountController extends Controller{
             Logger.debug("---------------saveShuMiAccount error---------------\n" + Json.toJson(shuMiAccountVo).toString());
             MessageUtil.getInstance().setMessage(new Message(MsgCode.CONVERTER_FAIL));
         }
-        Logger.debug("---------------saveShuMiAccount end---------------\n" + MessageUtil.getInstance().toJson());
+
+        Logger.debug(">>saveShuMiAccount return：" +  MessageUtil.getInstance().toJson());
         return ok(MessageUtil.getInstance().toJson());
     }
 

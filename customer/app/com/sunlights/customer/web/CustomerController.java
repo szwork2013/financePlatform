@@ -23,21 +23,25 @@ import models.CustomerSession;
 import play.Logger;
 import play.data.Form;
 import play.db.jpa.Transactional;
+import play.libs.Json;
 import play.mvc.Controller;
 import play.mvc.Http;
 import play.mvc.Result;
 import play.mvc.With;
 
 import java.util.List;
+import java.util.Map;
+
+import static play.data.Form.form;
 
 /**
  * Created by Administrator on 2014/9/4.
  */
 @Transactional
 public class CustomerController extends Controller {
-    private Form<CustomerFormVo> customerForm = Form.form(CustomerFormVo.class);
+    private Form<CustomerFormVo> customerForm = form(CustomerFormVo.class);
 
-    private Form<JudjeTokenVo> judjeTokenVoForm = Form.form(JudjeTokenVo.class);
+    private Form<JudjeTokenVo> judjeTokenVoForm = form(JudjeTokenVo.class);
 
     private LoginService loginService = new LoginServiceImpl();
 
@@ -65,6 +69,7 @@ public class CustomerController extends Controller {
      * @return
      */
     public Result getCustomerByMobilePhoneNo() {
+        Logger.debug(">>getCustomerByMobilePhoneNo params：" + Json.toJson(form().bindFromRequest().data()));
         CustomerFormVo customerFormVo = customerForm.bindFromRequest().get();
 
         String mobilePhoneNo = customerFormVo.getMobilePhoneNo();
@@ -78,6 +83,7 @@ public class CustomerController extends Controller {
 
         MessageVo<CustomerVo> messageVo = new MessageVo<>(message);
         messageVo.setValue(customerVo);
+        Logger.debug(">>getCustomerByMobilePhoneNo return：" + messageVo.toJson());
         return Controller.ok(messageVo.toJson());
     }
 
@@ -107,6 +113,10 @@ public class CustomerController extends Controller {
     @With(MsgCenterAction.class)
     public Result login() {
         Logger.info("==========login====================");
+        
+        Map<String, String> params = form().bindFromRequest().data();
+        Logger.debug(">>login params:" + Json.toJson(params));
+        
         CustomerFormVo customerFormVo = customerForm.bindFromRequest().get();
         String mobilePhoneNo = customerFormVo.getMobilePhoneNo();
         String deviceNo = customerFormVo.getDeviceNo();
@@ -127,7 +137,7 @@ public class CustomerController extends Controller {
             list.add(messageHeaderVo);
         }
         JsonNode json = MessageUtil.getInstance().toJson();
-        Logger.info("==========login返回：" + json.toString());
+        Logger.info(">>login返回：" + json.toString());
 
         response().setHeader(AppConst.HEADER_MSG, MessageUtil.getInstance().setMessageHeader(list));
         return Controller.ok(json);
@@ -140,11 +150,15 @@ public class CustomerController extends Controller {
      */
     public Result resetpwdCertify() {
         Logger.info("==============resetpwdCertify开始==========");
+        Map<String, String> params = form().bindFromRequest().data();
+        Logger.debug(">>resetpwdCertify params：" + Json.toJson(params));
+
         CustomerFormVo customerFormVo = customerForm.bindFromRequest().get();
         if (loginService.resetpwdCertify(customerFormVo)) {
             MessageUtil.getInstance().setMessage(new Message(MsgCode.OPERATE_SUCCESS));
         }
         Logger.info("==============resetpwdCertify结束==========");
+        Logger.debug(">>login返回：" + MessageUtil.getInstance().toJson());
         return Controller.ok(MessageUtil.getInstance().toJson());
     }
 
@@ -155,6 +169,9 @@ public class CustomerController extends Controller {
      */
     public Result resetpwd() {
         Logger.info("================resetpwd==============");
+        Map<String, String> params = form().bindFromRequest().data();
+        Logger.debug(">>resetpwd params：" + Json.toJson(params));
+
         CustomerFormVo customerFormVo = customerForm.bindFromRequest().get();
 
         String mobilePhoneNo = customerFormVo.getMobilePhoneNo();
@@ -186,7 +203,7 @@ public class CustomerController extends Controller {
      */
     public Result logout() {
         Logger.info("==========logout====================");
-
+        Logger.debug(">>logout params：" + Json.toJson(form().bindFromRequest().data()));
         Http.Cookie cookie = Controller.request().cookie(AppConst.TOKEN);
         String token = cookie == null ? null : cookie.value();
         CustomerFormVo customerFormVo = customerForm.bindFromRequest().get();
@@ -195,6 +212,7 @@ public class CustomerController extends Controller {
         loginService.logout(mobilePhoneNo, deviceNo, token);
 
         MessageVo messageVo = new MessageVo(new Message(MsgCode.LOGOUT_SUCCESS));
+        Logger.info(">>logout return： " + messageVo.toJson());
         return Controller.ok(messageVo.toJson());
     }
 
@@ -206,6 +224,9 @@ public class CustomerController extends Controller {
     @With(MsgCenterAction.class)
     public Result loginByges() {
         Logger.info("==========loginByGesture====================");
+        Map<String, String> params = form().bindFromRequest().data();
+        Logger.debug(">>resetpwd params：" + Json.toJson(params));
+
         CustomerFormVo customerFormVo = customerForm.bindFromRequest().get();
         String mobilePhoneNo = customerFormVo.getMobilePhoneNo();
         String deviceNo = customerFormVo.getDeviceNo();
@@ -239,14 +260,18 @@ public class CustomerController extends Controller {
      * @return
      */
     public Result confirmPwd() {
+        Map<String, String> params = form().bindFromRequest().data();
+        Logger.debug(">>confirmPwd params：" + Json.toJson(params));
+
         CustomerFormVo customerFormVo = customerForm.bindFromRequest().get();
         String mobilePhoneNo = customerFormVo.getMobilePhoneNo();
         String passWord = customerFormVo.getPassWord();
         loginService.confirmPwd(mobilePhoneNo, passWord);
 
-
         Message message = new Message(MsgCode.OPERATE_SUCCESS);
-        return Controller.ok(new MessageVo(message).toJson());
+        JsonNode jsonNode = MessageUtil.getInstance().msgToJson(message);
+        Logger.info("==========confirmPwd return：" + jsonNode.toString());
+        return Controller.ok(jsonNode);
     }
 
     /**
@@ -256,11 +281,13 @@ public class CustomerController extends Controller {
      */
     public Result saveGesturePwd() {
         Logger.info("========saveGesturePwd================");
+        Logger.debug(">>saveGesturePwd params：" + Json.toJson(form().bindFromRequest().data()));
         customerService.validateCustomerSession(Controller.request(), Controller.session(), Controller.response());
         CustomerFormVo vo = customerForm.bindFromRequest().get();
         CustomerVo customerVo = loginService.saveGesturePwd(vo);
         MessageVo<CustomerVo> messageVo = new MessageVo<>(new Message(MsgCode.GESTURE_PASSWORD_SUCCESS));
         messageVo.setValue(customerVo);
+        Logger.debug(">>> saveGesturePwd return： " + messageVo.toJson());
         return Controller.ok(messageVo.toJson());
     }
 

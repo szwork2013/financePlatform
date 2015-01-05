@@ -26,6 +26,8 @@ import com.sunlights.customer.service.impl.CustomerService;
 import com.sunlights.customer.vo.CustomerFormVo;
 import com.sunlights.customer.vo.CustomerVo;
 
+import static play.data.Form.form;
+
 /**
 * <p>Project: fsp</p>
 * <p>Title: SafeFacade.java</p>
@@ -58,6 +60,7 @@ public class SecurityController extends Controller {
      */
     public Result genVerificationCode() {
         Logger.info("===========genVerificationCode==================");
+        Logger.debug(">>genVerificationCode params：" + Json.toJson(form().bindFromRequest().data()));
         CustomerFormVo vo = customerForm.bindFromRequest().get();
 
         String mobilePhoneNo = vo.getMobilePhoneNo();
@@ -73,6 +76,7 @@ public class SecurityController extends Controller {
         Message message = new Message(MsgCode.OPERATE_SUCCESS);
         MessageVo messageVo = new MessageVo(message);
         Controller.response().setHeader("Access-Control-Allow-Origin","*");
+        Logger.debug(">>genVerificationCode return：" + Json.toJson(messageVo));
         return Controller.ok(Json.toJson(messageVo));
     }
 

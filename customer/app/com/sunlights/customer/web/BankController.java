@@ -28,6 +28,8 @@ import play.mvc.Result;
 import java.util.List;
 import java.util.Map;
 
+import static play.data.Form.form;
+
 /**
  * <p>Project: fsp</p>
  * <p>Title: BankService.java</p>
@@ -49,6 +51,7 @@ public class BankController extends Controller {
     private CustomerService customerService = new CustomerService();
 
     public Result createBankCard() {
+        Logger.debug(">>params createBankCard :" + Json.toJson(form().bindFromRequest().data()));
         BankCardVo bankCardVo = null;
         Http.RequestBody body = request().body();
         if (body.asJson() != null) {
@@ -58,18 +61,15 @@ public class BankController extends Controller {
             bankCardVo = bankCardVoForm.bindFromRequest().get();
         }
         
-        Map<String, String> params = Form.form().bindFromRequest().data();
-        Logger.debug("=====createBankCard params=====" + Json.toJson(params));
-        
-        Logger.info("[bankCardVo]" + Json.toJson(bankCardVo));
         CustomerSession customerSession = customerService.validateCustomerSession(request(), session(), response());
         bankCardService.createBankCard(customerSession.getCustomerId(), bankCardVo);
+        Logger.debug(">>createBankCard return ：" + MessageUtil.getInstance().toJson());
         return ok(MessageUtil.getInstance().toJson());
     }
 
     public Result saveAllBankCard(){
         Map<String,String> params = Form.form().bindFromRequest().data();
-        Logger.debug("=====saveAllBankCard params=====" + Json.toJson(params));
+        Logger.debug(">>params saveAllBankCard ：" + Json.toJson(params));
         List<BankCardFormVo> list = Lists.newArrayList();
         
         String cards = params.get("cards");
@@ -87,7 +87,7 @@ public class BankController extends Controller {
         bankCardService.saveAllBankCard(customerId, list);
 
         MessageUtil.getInstance().setMessage(new Message(MsgCode.OPERATE_SUCCESS));
-
+        Logger.debug(">>saveAllBankCard return：" + MessageUtil.getInstance().toJson());
         return ok(MessageUtil.getInstance().toJson());
     }
 
