@@ -60,7 +60,7 @@ public class ShuMiTradeServiceImpl implements ShuMiTradeService{
     private BankService bankService = new BankServiceImpl();
 
     @Override
-    public String shuMiTradeOrder(ShuMiTradeFormVo shuMiTradeFormVo, String token) {
+    public List<MessageHeaderVo> shuMiTradeOrder(ShuMiTradeFormVo shuMiTradeFormVo, String token) {
         Customer customer = customerService.getCustomerByToken(token);
         String customerId = customer.getCustomerId();
 
@@ -94,7 +94,7 @@ public class ShuMiTradeServiceImpl implements ShuMiTradeService{
                 CommonUtil.dateToString(confirmDate, CommonUtil.DATE_FORMAT_SHORT),
                 CommonUtil.dateToString(earningDate, CommonUtil.DATE_FORMAT_SHORT));
         list.add(messageHeaderVo);
-        return MessageUtil.getInstance().setMessageHeader(list);
+        return list;
 
     }
 
@@ -165,7 +165,7 @@ public class ShuMiTradeServiceImpl implements ShuMiTradeService{
         if (fundNav != null) {
             if (fundNav.getPurchaseLimitMin() != null) {
                 trade.setProductPrice(fundNav.getPurchaseLimitMin());
-                trade.setQuantity(Integer.valueOf(new BigDecimal(applySum).divide(fundNav.getPurchaseLimitMin()).toString()));
+//                trade.setQuantity(Integer.valueOf(new BigDecimal(applySum).divide(fundNav.getPurchaseLimitMin()).toString()));
             }
             BigDecimal fee = BigDecimal.ZERO;
             BigDecimal chargeRateValue = fundNav.getChargeRateValue();
