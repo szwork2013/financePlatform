@@ -68,4 +68,26 @@ public class Data4ExchangeVo implements Serializable {
             item.setLogo(logo);
         }
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Data4ExchangeVo)) return false;
+
+        Data4ExchangeVo that = (Data4ExchangeVo) o;
+
+        if (canPayed != null ? !canPayed.equals(that.canPayed) : that.canPayed != null) return false;
+        if (maxPayed != null ? !maxPayed.equals(that.maxPayed) : that.maxPayed != null) return false;
+        if (summary != null ? !summary.equals(that.summary) : that.summary != null) return false;
+
+        return true;
+    }
+
+    @Override
+    public int hashCode() {
+        int result = canPayed != null ? canPayed.hashCode() : 0;
+        result = 31 * result + (maxPayed != null ? maxPayed.hashCode() : 0);
+        result = 31 * result + (summary != null ? summary.hashCode() : 0);
+        return result;
+    }
 }

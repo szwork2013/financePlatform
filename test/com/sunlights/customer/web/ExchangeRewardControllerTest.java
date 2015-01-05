@@ -4,7 +4,9 @@ import com.sunlights.BaseTest;
 import com.sunlights.common.MsgCode;
 import com.sunlights.common.vo.MessageVo;
 import com.sunlights.common.vo.PageVo;
+import com.sunlights.core.vo.FundDetailVo;
 import com.sunlights.core.vo.FundVo;
+import com.sunlights.customer.vo.Data4ExchangeVo;
 import com.sunlights.customer.vo.ExchangeSceneVo;
 import org.junit.Before;
 import org.junit.Test;
@@ -87,11 +89,30 @@ public class ExchangeRewardControllerTest extends BaseTest {
                 Map<String, String> formParams = new HashMap<>();
                 formParams.put("id", "1");
 
-                play.mvc.Result result = getResult("/account/activity/beforeexchange", formParams, cookie);
+                play.mvc.Result result = getResult("/account/activity/beforeexchange", formParams, cookie);  //
                 Logger.info("============testPrepareDataBeforeExchange result====\n" + contentAsString(result));
                 assertThat(status(result)).isEqualTo(OK);
                 MessageVo message = toMessageVo(result);
                 assertThat(message.getMessage().getCode()).isEqualTo(MsgCode.BEFORE_EXCHANGE_QUERY_SUCC.getCode());
+
+
+                /**
+                 * 验证message与value
+                 */
+                String testString1= null;
+                try {
+                    testString1 = getJsonFile("AccountBeforeexChange.json");//获得json文件内容
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+
+                MessageVo testMessage1 = toMessageVo(testString1);
+                Logger.info("---"+contentAsString(result));
+                Logger.info("---"+testString1);
+                assertThat(testMessage1.getMessage()).isEqualTo(message.getMessage());//此处判断message
+                Data4ExchangeVo testData4ExchangeVo = Json.fromJson(Json.toJson(testMessage1.getValue()), Data4ExchangeVo.class);
+                Data4ExchangeVo data4ExchangeVo = Json.fromJson(Json.toJson(message.getValue()), Data4ExchangeVo.class);
+                assertThat(testData4ExchangeVo).isEqualTo(data4ExchangeVo);//此处判断value
 
             }
         });

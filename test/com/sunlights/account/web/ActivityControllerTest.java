@@ -33,11 +33,11 @@ import static org.fest.assertions.Assertions.assertThat;
 import static play.mvc.Http.Status.OK;
 import static play.test.Helpers.*;
 
-public class ActivityControllerTest extends BaseTest{
+public class ActivityControllerTest extends BaseTest {
     private static Http.Cookie cookie;
 
     @Before
-    public void getCookie(){
+    public void getCookie() {
         final String mobilePhoneNo = "15821948594";
         final String password = "111111";
         running(fakeApplication(), new Runnable() {
@@ -68,7 +68,7 @@ public class ActivityControllerTest extends BaseTest{
 
                         final MessageVo message = toMessageVo(result);
 
-                        if(custJoinActivity != null) {
+                        if (custJoinActivity != null) {
                             assertThat(message.getMessage().getCode()).isEqualTo(MsgCode.ALREADY_SIGN.getCode());
                         } else {
                             assertThat(message.getMessage().getCode()).isEqualTo(MsgCode.OBTAIN_SUCC.getCode());
@@ -101,7 +101,7 @@ public class ActivityControllerTest extends BaseTest{
                 /**
                  * 验证message与value
                  */
-                String testString= null;
+                String testString = null;
                 try {
                     testString = getJsonFile("AccountActivityList.json");//获得json文件内容
                 } catch (IOException e) {
@@ -122,7 +122,6 @@ public class ActivityControllerTest extends BaseTest{
     }
 
 
-
     @Test
     public void testRegisterObtainReward() {
         running(fakeApplication(), new Runnable() {
@@ -136,7 +135,7 @@ public class ActivityControllerTest extends BaseTest{
                         com.sunlights.customer.service.CustJoinActivityService custJoinActivityService = new CustJoinActivityServiceImpl();
 
                         CustJoinActivity custJoinActivity = custJoinActivityService.getByCustAndActivity("20141206134951010000000044", null, ActivityConstant.ACTIVITY_REGISTER_SCENE_CODE);
-                        Logger.info("custJoinActivity is :"+custJoinActivity);
+                        Logger.info("custJoinActivity is :" + custJoinActivity);
                         //2:签到获取金豆正常测试
                         formParams = new HashMap<String, String>();
 
@@ -147,7 +146,7 @@ public class ActivityControllerTest extends BaseTest{
                         /**
                          * 验证message与value
                          */
-                        String testString= null;
+                        String testString = null;
                         try {
                             testString = getJsonFile("AccountRegisterReward.json");//获得json文件内容
                         } catch (IOException e) {
@@ -159,7 +158,7 @@ public class ActivityControllerTest extends BaseTest{
                         ObtainRewardVo obtainRewardVo = Json.fromJson(Json.toJson(message.getValue()), ObtainRewardVo.class);
                         assertThat(testObtainRewardVo).isEqualTo(obtainRewardVo);//此处判断value
 
-                        if(custJoinActivity != null) {
+                        if (custJoinActivity != null) {
                             assertThat(message.getMessage().getCode()).isEqualTo(MsgCode.ALREADY_REGISTER.getCode());
                             Logger.info("已经注册过。。。获取积分失败");
                         } else {
@@ -200,7 +199,7 @@ public class ActivityControllerTest extends BaseTest{
                         /**
                          * 验证message与value
                          */
-                        String testString= null;
+                        String testString = null;
                         try {
                             testString = getJsonFile("AccountTradeReward.json");//获得json文件内容
                         } catch (IOException e) {
@@ -213,7 +212,7 @@ public class ActivityControllerTest extends BaseTest{
                         assertThat(testObtainRewardVo).isEqualTo(obtainRewardVo);//此处判断value
 
                         Logger.info("============testPurchaseObtainReward result====\n" + contentAsString(result));
-                        if(custJoinActivity != null) {
+                        if (custJoinActivity != null) {
                             assertThat(message.getMessage().getCode()).isEqualTo(MsgCode.NOT_CONFIG_ACTIVITY_SCENE.getCode());
                             Logger.info("没有配置活动场景");
                         } else {
@@ -224,7 +223,7 @@ public class ActivityControllerTest extends BaseTest{
 
                     }
 
-                            });
+                });
             }
         });
     }
@@ -251,9 +250,11 @@ public class ActivityControllerTest extends BaseTest{
                         assertThat(status(result)).isEqualTo(OK);
 
                         Logger.info("============testPurchaseObtainReward result====\n" + contentAsString(result));
+
+
                     }
 
-                            });
+                });
             }
         });
     }
