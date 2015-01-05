@@ -4,10 +4,7 @@ import com.sunlights.BaseTest;
 import com.sunlights.common.MsgCode;
 import com.sunlights.common.vo.MessageVo;
 import com.sunlights.common.vo.PageVo;
-import com.sunlights.core.vo.FundDetailVo;
-import com.sunlights.core.vo.FundVo;
 import com.sunlights.customer.vo.Data4ExchangeVo;
-import com.sunlights.customer.vo.ExchangeSceneVo;
 import org.junit.Before;
 import org.junit.Test;
 import play.Logger;
@@ -19,7 +16,6 @@ import java.util.HashMap;
 import java.util.Map;
 
 import static org.fest.assertions.Assertions.assertThat;
-import static org.junit.Assert.*;
 import static play.mvc.Http.Status.OK;
 import static play.test.Helpers.*;
 
@@ -61,7 +57,7 @@ public class ExchangeRewardControllerTest extends BaseTest {
                  */
                 String testString= null;
                 try {
-                    testString = getJsonFile("AccountQueryExchangeScenes.json");//获得json文件内容
+                    testString = getJsonFile("CustQueryExchangeScenes.json");//获得json文件内容
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
@@ -101,7 +97,7 @@ public class ExchangeRewardControllerTest extends BaseTest {
                  */
                 String testString1= null;
                 try {
-                    testString1 = getJsonFile("AccountBeforeexChange.json");//获得json文件内容
+                    testString1 = getJsonFile("CustBeforeexChange.json");//获得json文件内容
                 } catch (IOException e) {
                     e.printStackTrace();
                 }

@@ -3,7 +3,6 @@ package com.sunlights.customer.web;
 import com.sunlights.BaseTest;
 import com.sunlights.common.MsgCode;
 import com.sunlights.common.vo.MessageVo;
-import com.sunlights.customer.vo.ObtainRewardVo;
 import com.sunlights.customer.vo.ShareVo;
 import org.junit.Before;
 import org.junit.Test;
@@ -91,7 +90,7 @@ public class CustomerShareControllerTest extends BaseTest {
                  */
                 String testString= null;
                 try {
-                    testString = getJsonFile("AccountShare.json");//获得json文件内容
+                    testString = getJsonFile("CustShare.json");//获得json文件内容
                 } catch (IOException e) {
                     e.printStackTrace();
                 }

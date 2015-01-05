@@ -4,7 +4,6 @@ import com.sunlights.BaseTest;
 
 import com.sunlights.common.MsgCode;
 import com.sunlights.common.vo.MessageVo;
-import com.sunlights.core.vo.FundVo;
 import com.sunlights.customer.ActivityConstant;
 import com.sunlights.customer.service.RewardFlowService;
 import com.sunlights.customer.service.impl.RewardFlowServiceImpl;
@@ -66,7 +65,7 @@ public class RewardControllerTest extends BaseTest {
                          */
                         String testString= null;
                         try {
-                            testString = getJsonFile("AccountInitSignButton.json");//获得json文件内容
+                            testString = getJsonFile("CustInitSignButton.json");//获得json文件内容
                         } catch (IOException e) {
                             e.printStackTrace();
                         }
@@ -101,7 +100,7 @@ public class RewardControllerTest extends BaseTest {
                  */
                 String testString= null;
                 try {
-                    testString = getJsonFile("AccountDetMyRewarDetail.json");//获得json文件内容
+                    testString = getJsonFile("CustDetMyRewarDetail.json");//获得json文件内容
                 } catch (IOException e) {
                     e.printStackTrace();
                 }

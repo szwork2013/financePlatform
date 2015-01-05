@@ -6,17 +6,10 @@ import com.sunlights.BaseTest;
 import com.sunlights.common.MsgCode;
 import com.sunlights.common.vo.MessageVo;
 import com.sunlights.common.vo.PageVo;
-import com.sunlights.core.vo.FundVo;
 import com.sunlights.customer.ActivityConstant;
-import com.sunlights.customer.service.RewardFlowService;
 import com.sunlights.customer.service.impl.CustJoinActivityServiceImpl;
-import com.sunlights.customer.service.impl.RewardFlowServiceImpl;
-import com.sunlights.customer.vo.ActivityVo;
-import com.sunlights.customer.vo.ObtainRewardVo;
-import com.sunlights.customer.vo.RewardResultVo;
-import com.sunlights.customer.vo.TradeObtainRewardFailVo;
+import com.sunlights.customer.vo.*;
 import models.CustJoinActivity;
-import models.RewardFlow;
 import org.junit.Before;
 import org.junit.Test;
 import play.Logger;
@@ -103,7 +96,7 @@ public class ActivityControllerTest extends BaseTest {
                  */
                 String testString = null;
                 try {
-                    testString = getJsonFile("AccountActivityList.json");//获得json文件内容
+                    testString = getJsonFile("CustActivityList.json");//获得json文件内容
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
@@ -148,7 +141,7 @@ public class ActivityControllerTest extends BaseTest {
                          */
                         String testString = null;
                         try {
-                            testString = getJsonFile("AccountRegisterReward.json");//获得json文件内容
+                            testString = getJsonFile("CustRegisterReward.json");//获得json文件内容
                         } catch (IOException e) {
                             e.printStackTrace();
                         }
@@ -201,7 +194,7 @@ public class ActivityControllerTest extends BaseTest {
                          */
                         String testString = null;
                         try {
-                            testString = getJsonFile("AccountTradeReward.json");//获得json文件内容
+                            testString = getJsonFile("CusttTradeReward.json");//获得json文件内容
                         } catch (IOException e) {
                             e.printStackTrace();
                         }
@@ -241,7 +234,7 @@ public class ActivityControllerTest extends BaseTest {
 
                         //2:签到获取金豆正常测试
                         formParams = new HashMap<String, String>();
-                        formParams.put("id", "215541");
+                        formParams.put("id", "1");
                         formParams.put("amount", "0.01");
                         formParams.put("bankName", "招行");
                         formParams.put("bankCard", "1111");
@@ -251,6 +244,21 @@ public class ActivityControllerTest extends BaseTest {
 
                         Logger.info("============testPurchaseObtainReward result====\n" + contentAsString(result));
 
+                        /**
+                         * 验证message与value
+                         */
+                        String testString= null;
+                        try {
+                            testString = getJsonFile("CustExchangeReward.json");//获得json文件内容
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+                        MessageVo message = toMessageVo(result);
+                        MessageVo testMessage = toMessageVo(testString);
+                        assertThat(testMessage.getMessage()).isEqualTo(message.getMessage());//此处判断message
+                        ExchangeResultVo exchangeResultVo = Json.fromJson(Json.toJson(message.getValue()), ExchangeResultVo.class);
+                        ExchangeResultVo testExchangeResultVo = Json.fromJson(Json.toJson(testMessage.getValue()), ExchangeResultVo.class);
+                        assertThat(testExchangeResultVo).isEqualTo(exchangeResultVo);//此处判断value
 
                     }
 
