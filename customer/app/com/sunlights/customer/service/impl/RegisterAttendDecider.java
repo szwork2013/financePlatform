@@ -14,6 +14,9 @@ public class RegisterAttendDecider implements ActivityAttendDecider {
 
     @Override
     public boolean decide(String custId, Map<String, List<CustJoinActivity>> listMap) {
+        if(listMap == null || listMap.isEmpty()) {
+            return true;
+        }
         if(listMap.containsKey(ActivityConstant.ACTIVITY_REGISTER_SCENE_CODE)) {
             return false;
         }

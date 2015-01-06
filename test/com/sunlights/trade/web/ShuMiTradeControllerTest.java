@@ -32,7 +32,7 @@ public class ShuMiTradeControllerTest extends BaseTest {
         cookie = getCookieAfterLogin(mobilePhoneNo, password);
     }
 
-    @Before
+    @Test
     public void testTradeOrder() throws Exception {
         String applySerial = CommonUtil.dateToString(new Date(),CommonUtil.YYYYMMDDHHMMSS);// -->申请编号
         final String fundCode = "482002"; //-->基金代码
@@ -119,7 +119,7 @@ public class ShuMiTradeControllerTest extends BaseTest {
         return dateTime;
     }
 
-    @Test
+    //@Test
     public void testTradeRedeem() throws Exception {
         String applySerial = CommonUtil.dateToString(new Date(),CommonUtil.YYYYMMDDHHMMSS);// -->申请编号
         final String fundCode = "482002"; //-->基金代码
