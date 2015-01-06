@@ -107,6 +107,9 @@ public class ActivityServiceImpl implements ActivityService{
     public Activity4H5Vo getH5InfoById(Long id) {
         Activity4H5Vo activity4H5Vo = new Activity4H5Vo();
         Activity activity = activityDao.findById(id);
+        if(activity == null) {
+            return activity4H5Vo;
+        }
         activity4H5Vo.setImageUrl(getFileFuleUrl(activity.getImage(), "activity.imagePath"));
         activity4H5Vo.setContent(activity.getH5Content());
         return activity4H5Vo;
