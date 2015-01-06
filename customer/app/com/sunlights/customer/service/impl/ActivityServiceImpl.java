@@ -55,14 +55,14 @@ public class ActivityServiceImpl implements ActivityService{
         return new StringBuilder().append("http://").append(server).append(":").append(port).append(remoteDir).append("/").append(fileName).toString();
     }
 
-    @Cacheable(key="scene", duration = 3000)
+    @Cacheable(key="scene", duration = 300)
     @Override
     public List<Activity> getActivityByScene(String scene) {
         //TODO
         return activityDao.getActivityByScene(scene);
     }
 
-    @Cacheable(key="activityTitleByPrdCode", duration = 3000)
+    @Cacheable(key="activityTitleByPrdCode", duration = 300)
     @Override
     public List<String> getActivityTitles(String prdCode) {
         List<String> titles = new ArrayList<String>();
@@ -91,20 +91,20 @@ public class ActivityServiceImpl implements ActivityService{
 
 
 
-    @Cacheable(key = "allActivities", duration = 3000)
+    @Cacheable(key = "allActivities", duration = 300)
     @Override
     public List<Activity> getAllActivities() {
         return activityDao.getAll();
     }
 
-    @Cacheable(key = "getCurrentValidActivities", duration = 3000)
+    @Cacheable(key = "getCurrentValidActivities", duration = 300)
     @Override
     public List<Activity> getCurrentValidActivities() {
 
         return activityDao.getCurrrentValidActivities();
     }
 
-    @Cacheable(key = "getH5InfoById", duration = 10)
+    @Cacheable(key = "getH5InfoById", duration = 300)
     @Override
     public Activity4H5Vo getH5InfoById(Long id) {
         Activity4H5Vo activity4H5Vo = new Activity4H5Vo();

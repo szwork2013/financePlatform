@@ -31,14 +31,14 @@ public class ObtainRewardRuleServiceImpl implements ObtainRewardRuleService {
 
     private ExchangeRewardRuleDao exchangeRewardRuleDao = new ExchangeRewardRuleDaoImpl();
 
-    @Cacheable(key = "getByActivityId", duration = 3000)
+    @Cacheable(key = "getByActivityId", duration = 300)
     @Override
     public List<ObtainRewardRule> getByActivityId(Long activityId) {
 
         return obtainRewardRuleDao.getByActivityId(activityId);
     }
 
-    @Cacheable(key = "getByVosActivityId", duration = 3000)
+    @Cacheable(key = "getByVosActivityId", duration = 300)
     @Override
     public List<ObtainRewardRuleVo> getByVosActivityId(Long activityId) {
 

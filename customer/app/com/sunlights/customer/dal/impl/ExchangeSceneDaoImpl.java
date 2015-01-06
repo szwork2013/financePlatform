@@ -12,7 +12,7 @@ import java.util.List;
  */
 public class ExchangeSceneDaoImpl extends EntityBaseDao implements ExchangeSceneDao {
 
-    @Cacheable(key = "queryByScene", duration = 3000)
+    @Cacheable(key = "queryByScene", duration = 300)
     @Override
     public ExchangeScene queryByScene(String exchangeScene) {
         List<ExchangeScene> exchangeScenes = super.findBy(ExchangeScene.class, "scene", exchangeScene);
@@ -22,7 +22,7 @@ public class ExchangeSceneDaoImpl extends EntityBaseDao implements ExchangeScene
         return exchangeScenes.get(0);
     }
 
-    @Cacheable(key = "queryById", duration = 3000)
+    @Cacheable(key = "queryById", duration = 300)
     @Override
     public ExchangeScene queryById(Long id) {
         List<ExchangeScene> exchangeScenes = super.findBy(ExchangeScene.class, "id", id);
@@ -32,7 +32,7 @@ public class ExchangeSceneDaoImpl extends EntityBaseDao implements ExchangeScene
         return exchangeScenes.get(0);
     }
 
-    @Cacheable(key = "loadAll", duration = 3000)
+    @Cacheable(key = "loadAll", duration = 300)
     @Override
     public List<ExchangeScene> loadAll() {
         return super.findAll(ExchangeScene.class);

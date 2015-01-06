@@ -28,7 +28,7 @@ public class OpenAccountPactServiceImpl implements OpenAccountPactService {
   private OpenAccountPactDao openAccountPactDao = new OpenAccountPactDaoImpl();
   private BankCardService bankCardService = new BankCardServiceImpl();
 
-  @Cacheable(key = "findAgreementVoByAgreementNo", duration = 3000)
+  @Cacheable(key = "findAgreementVoByAgreementNo", duration = 300)
   @Override
   public AgreementVo findAgreementVoByAgreementNo(String agreementNo) {
     if (StringUtils.isEmpty(agreementNo)) {

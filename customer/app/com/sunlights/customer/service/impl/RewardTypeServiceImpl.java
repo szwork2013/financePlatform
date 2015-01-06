@@ -14,7 +14,7 @@ public class RewardTypeServiceImpl implements RewardTypeService {
 
     private RewardTypeDao rewardTypeDao = new RewardTypeDaoImpl();
 
-    @Cacheable(key = "findByTypeCode", duration = 3000)
+    @Cacheable(key = "findByTypeCode", duration = 300)
     @Override
     public RewardType findByTypeCode(String code) {
 

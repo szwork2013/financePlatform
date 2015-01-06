@@ -20,7 +20,7 @@ import java.util.List;
 public class ActivitySceneServiceImpl implements ActivitySceneService {
     private ActivitySceneDao activitySceneDao = new ActivitySceneDaoImpl();
 
-    @Cacheable(key = "getSceneByCode", duration = 3000)
+    @Cacheable(key = "getSceneByCode", duration = 300)
     @Override
     public ActivitySceneVo getSceneByCode(String scene) {
         ActivityScene activityScene = activitySceneDao.getSceneByCode(scene);
@@ -38,7 +38,7 @@ public class ActivitySceneServiceImpl implements ActivitySceneService {
         return activitySceneVo;
     }
 
-    @Cacheable(key = "getScenesByActivityType", duration = 3000)
+    @Cacheable(key = "getScenesByActivityType", duration = 300)
     @Override
     public List<ActivityScene> getScenesByActivityType(String activityType) {
         return activitySceneDao.getScenesByActivityType(activityType);
