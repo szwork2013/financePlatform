@@ -7,6 +7,7 @@ import models.Activity;
 import play.Logger;
 import play.db.jpa.Transactional;
 import play.libs.Json;
+import play.mvc.Controller;
 import play.mvc.Result;
 
 /**
@@ -25,6 +26,8 @@ public class Activity4H5Controller extends ActivityBaseController {
         Activity4H5Vo activity4H5Vo = activityService.getH5InfoById(activityId);
 
         Logger.debug("activity4H5Vo = " + activity4H5Vo);
+        Controller.response().setHeader("Access-Control-Allow-Origin","*");
+
         return ok(Json.toJson(activity4H5Vo));
     }
 }
