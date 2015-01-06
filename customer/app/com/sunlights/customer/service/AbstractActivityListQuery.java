@@ -4,6 +4,7 @@ import com.sunlights.common.utils.CommonUtil;
 import com.sunlights.common.vo.PageVo;
 import com.sunlights.customer.ActivityConstant;
 import com.sunlights.customer.ActivityPageUtil;
+import com.sunlights.customer.factory.ActivityServiceFactory;
 import com.sunlights.customer.service.impl.ActivityServiceImpl;
 import com.sunlights.customer.vo.ActivityQueryContext;
 import com.sunlights.customer.vo.ActivityVo;
@@ -18,7 +19,7 @@ import java.util.List;
  * Created by tangweiqun on 2014/12/17.
  */
 public abstract class AbstractActivityListQuery implements ActivityListQuery{
-    private ActivityService activityService = new ActivityServiceImpl();
+    private ActivityService activityService = ActivityServiceFactory.getActivityService();
 
     @Override
     public List<ActivityVo> queryActivityList(ActivityQueryContext context) {
@@ -40,7 +41,7 @@ public abstract class AbstractActivityListQuery implements ActivityListQuery{
             vo.setId(activity.getId());
             vo.setName(activity.getTitle());
             vo.setImage(activityService.getFileFuleUrl(activity.getImage(), "activity.imagePath"));
-            vo.setUrl(activityService.getFileFuleUrl(activity.getUrl(), "activity.html5Path"));
+            vo.setUrl(activityService.getFileFuleUrl(activity.getUrl(), "activity.html5Path") + "?activityId=" + activity.getId());
             vo.setStartDate(CommonUtil.dateToString(activity.getBeginTime(), CommonUtil.DATE_FORMAT_SHORT));
             vo.setEndDate(CommonUtil.dateToString(activity.getEndTime(),  CommonUtil.DATE_FORMAT_SHORT));
             activityVos.add(vo);

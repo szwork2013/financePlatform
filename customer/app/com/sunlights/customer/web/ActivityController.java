@@ -1,10 +1,7 @@
 package com.sunlights.customer.web;
 
 
-
-import com.google.common.collect.Lists;
 import com.sunlights.common.AppConst;
-import com.sunlights.common.DictConst;
 import com.sunlights.common.MsgCode;
 import com.sunlights.common.Severity;
 import com.sunlights.common.utils.MessageUtil;
@@ -15,18 +12,14 @@ import com.sunlights.customer.ActivityConstant;
 import com.sunlights.customer.action.MsgCenterAction;
 import com.sunlights.customer.factory.ActivityListQueryFactory;
 import com.sunlights.customer.service.ActivityListQuery;
-import com.sunlights.customer.service.ActivityService;
-import com.sunlights.customer.service.impl.ActivityServiceImpl;
 import com.sunlights.customer.service.rewardrules.ActivityHandlerService;
 import com.sunlights.customer.service.rewardrules.vo.ActivityRequestVo;
 import com.sunlights.customer.service.rewardrules.vo.ActivityResponseVo;
 import com.sunlights.customer.vo.*;
-import models.Customer;
 import models.CustomerSession;
 import org.apache.commons.lang3.StringUtils;
 import play.Logger;
 import play.db.jpa.Transactional;
-import play.libs.Json;
 import play.mvc.Result;
 import play.mvc.With;
 
@@ -37,7 +30,7 @@ import java.util.List;
  */
 @Transactional
 public class ActivityController extends ActivityBaseController  {
-    private ActivityService activityService = new ActivityServiceImpl();
+
 
     private ActivityHandlerService activityHandlerService = new ActivityHandlerService();
 
@@ -155,6 +148,7 @@ public class ActivityController extends ActivityBaseController  {
      * 购买获取奖励
      * @return
      */
+    @Deprecated
     @With(MsgCenterAction.class)
     public Result purchaseObtainReward() {
         //1：获取请求参数

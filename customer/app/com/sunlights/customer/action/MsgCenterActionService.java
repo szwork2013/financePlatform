@@ -10,6 +10,7 @@ import com.sunlights.customer.dal.CustomerDao;
 import com.sunlights.customer.dal.MsgCenterDao;
 import com.sunlights.customer.dal.impl.CustomerDaoImpl;
 import com.sunlights.customer.dal.impl.MsgCenterDaoImpl;
+import com.sunlights.customer.factory.ActivityServiceFactory;
 import com.sunlights.customer.service.ActivityService;
 import com.sunlights.customer.service.impl.ActivityServiceImpl;
 import models.Activity;
@@ -39,7 +40,7 @@ public class MsgCenterActionService {
 
     private MsgCenterDao centerDao = new MsgCenterDaoImpl();
     private CustomerDao customerDao = new CustomerDaoImpl();
-    private ActivityService activityService = new ActivityServiceImpl();
+    private ActivityService activityService = ActivityServiceFactory.getActivityService();
 
     private final static String LOGIN = "login";
     private final static String LOGINBYGES = "loginByges";

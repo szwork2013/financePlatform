@@ -3,6 +3,7 @@ package com.sunlights.core.vo;
 import java.math.BigDecimal;
 import java.util.List;
 
+import com.sunlights.customer.factory.ActivityServiceFactory;
 import models.FundNav;
 import models.ProductManage;
 
@@ -109,7 +110,7 @@ public class FundVo extends ProductVo {
 		BigDecimal purchaseLimitMin = ArithUtil.bigUpScale0(fundNav.getPurchaseLimitMin());
 		this.purchasedAmount = purchaseLimitMin == null ? "" : purchaseLimitMin.toString();
 		this.purchasedMethod = isMonetary == 1 ? "随买随卖" : (isStf == 1 ? "7天" : "");
-		ActivityService activityService = new ActivityServiceImpl();
+		ActivityService activityService = ActivityServiceFactory.getActivityService();
 		List<String> activities = activityService.getActivityTitles(fundNav.getFundcode());
 		this.activity = activities.isEmpty() ? "" : activities.get(0);
 		this.purchaseState = fundNav.getPurchaseState();

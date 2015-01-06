@@ -1,6 +1,7 @@
 package com.sunlights.customer.service.impl;
 
 
+import com.sunlights.common.cache.Cacheable;
 import com.sunlights.common.utils.ConverterUtil;
 import com.sunlights.customer.dal.ExchangeRewardRuleDao;
 import com.sunlights.customer.dal.ObtainRewardRuleDao;
@@ -30,12 +31,14 @@ public class ObtainRewardRuleServiceImpl implements ObtainRewardRuleService {
 
     private ExchangeRewardRuleDao exchangeRewardRuleDao = new ExchangeRewardRuleDaoImpl();
 
+    @Cacheable(key = "getByActivityId", duration = 3000)
     @Override
     public List<ObtainRewardRule> getByActivityId(Long activityId) {
 
         return obtainRewardRuleDao.getByActivityId(activityId);
     }
 
+    @Cacheable(key = "getByVosActivityId", duration = 3000)
     @Override
     public List<ObtainRewardRuleVo> getByVosActivityId(Long activityId) {
 

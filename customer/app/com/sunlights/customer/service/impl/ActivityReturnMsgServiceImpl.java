@@ -14,7 +14,7 @@ import org.apache.commons.lang3.StringUtils;
 public class ActivityReturnMsgServiceImpl implements ActivityReturnMsgService {
     private ActivityReturnMsgDao activityReturnMsgDao = new ActivityReturnMsgDaoImpl();
 
-    @Cacheable(key = "activityReturnMsg", duration = 600)
+    @Cacheable(key = "activityReturnMsg", duration = 3000)
     @Override
     public String getReturnMsg(String scene, String type, String rewardType, String category, String errorCode) {
 

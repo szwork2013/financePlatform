@@ -5,6 +5,7 @@ import com.sunlights.common.MsgCode;
 import com.sunlights.common.Severity;
 import com.sunlights.common.vo.Message;
 import com.sunlights.customer.ActivityConstant;
+import com.sunlights.customer.factory.ActivityServiceFactory;
 import com.sunlights.customer.service.ActivitySceneService;
 import com.sunlights.customer.service.ActivityService;
 import com.sunlights.customer.service.ObtainRewardRuleService;
@@ -27,11 +28,11 @@ import java.util.Map;
  * Created by tangweiqun on 2014/12/2.
  */
 public class ObtainRuleGainHandler extends AbstractObtainRuleHandler {
-    private ActivitySceneService activitySceneService = new ActivitySceneServiceImpl();
+    private ActivitySceneService activitySceneService = ActivityServiceFactory.getActivitySceneService();
 
-    private ActivityService activityService = new ActivityServiceImpl();
+    private ActivityService activityService = ActivityServiceFactory.getActivityService();
 
-    private ObtainRewardRuleService obtainRewardRuleService = new ObtainRewardRuleServiceImpl();
+    private ObtainRewardRuleService obtainRewardRuleService = ActivityServiceFactory.getObtainRewardRuleService();
 
     public ObtainRuleGainHandler() {
 

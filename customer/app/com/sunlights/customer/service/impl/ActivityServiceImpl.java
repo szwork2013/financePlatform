@@ -27,6 +27,7 @@ public class ActivityServiceImpl implements ActivityService{
 
     private ActivitySceneDao activitySceneDao = new ActivitySceneDaoImpl();
 
+    @Deprecated
     @Override
     public List<ActivityVo> getActivityVos(PageVo pageVo) {
         List<Activity> activities = activityDao.getActivityVos(pageVo);
@@ -40,7 +41,7 @@ public class ActivityServiceImpl implements ActivityService{
             vo.setId(activity.getId());
             vo.setName(activity.getTitle());
             vo.setImage(getFileFuleUrl(activity.getImage(), "activity.imagePath"));
-            vo.setUrl(getFileFuleUrl(activity.getUrl(), "activity.html5Path"));
+            vo.setUrl(getFileFuleUrl(activity.getUrl(), "activity.html5Path") + "?activityId=" + activity.getId());
             activityVos.add(vo);
         }
         return activityVos;
@@ -54,14 +55,14 @@ public class ActivityServiceImpl implements ActivityService{
         return new StringBuilder().append("http://").append(server).append(":").append(port).append(remoteDir).append("/").append(fileName).toString();
     }
 
-    @Cacheable(key="scene", duration = 150)
+    @Cacheable(key="scene", duration = 3000)
     @Override
     public List<Activity> getActivityByScene(String scene) {
         //TODO
         return activityDao.getActivityByScene(scene);
     }
 
-    @Cacheable(key="activityTitleByPrdCode", duration = 100)
+    @Cacheable(key="activityTitleByPrdCode", duration = 3000)
     @Override
     public List<String> getActivityTitles(String prdCode) {
         List<String> titles = new ArrayList<String>();
@@ -90,12 +91,13 @@ public class ActivityServiceImpl implements ActivityService{
 
 
 
-    @Cacheable(key = "allActivities", duration = 300)
+    @Cacheable(key = "allActivities", duration = 3000)
     @Override
     public List<Activity> getAllActivities() {
         return activityDao.getAll();
     }
 
+    @Cacheable(key = "getCurrentValidActivities", duration = 3000)
     @Override
     public List<Activity> getCurrentValidActivities() {
 

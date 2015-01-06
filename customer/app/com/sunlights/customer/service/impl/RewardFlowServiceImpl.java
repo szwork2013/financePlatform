@@ -6,6 +6,7 @@ import com.sunlights.common.vo.PageVo;
 import com.sunlights.customer.ActivityConstant;
 import com.sunlights.customer.dal.RewardFlowDao;
 import com.sunlights.customer.dal.impl.RewardFlowDaoImpl;
+import com.sunlights.customer.factory.ActivityServiceFactory;
 import com.sunlights.customer.service.*;
 import com.sunlights.customer.service.rewardrules.RewardFlowStatus;
 import com.sunlights.customer.service.rewardrules.vo.RewardFlowRecordVo;
@@ -33,7 +34,7 @@ public class RewardFlowServiceImpl implements RewardFlowService {
 
     private RewardFlowDao rewardFlowDao = new RewardFlowDaoImpl();
 
-    private RewardTypeService rewardTypeService = new RewardTypeServiceImpl();
+    private RewardTypeService rewardTypeService = ActivityServiceFactory.getRewardTypeService();
 
 
 
