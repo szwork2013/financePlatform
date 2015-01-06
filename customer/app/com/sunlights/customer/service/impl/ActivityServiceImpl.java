@@ -104,7 +104,7 @@ public class ActivityServiceImpl implements ActivityService{
         return activityDao.getCurrrentValidActivities();
     }
 
-    @Cacheable(key = "getH5InfoById", duration = 3000)
+    @Cacheable(key = "getH5InfoById", duration = 10)
     @Override
     public Activity4H5Vo getH5InfoById(Long id) {
         Activity4H5Vo activity4H5Vo = new Activity4H5Vo();
