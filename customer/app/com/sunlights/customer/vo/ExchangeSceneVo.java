@@ -56,4 +56,31 @@ public class ExchangeSceneVo implements Serializable {
     public void setLogo(String logo) {
         this.logo = logo;
     }
+
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof ExchangeSceneVo)) return false;
+
+        ExchangeSceneVo that = (ExchangeSceneVo) o;
+
+        if (detail != null ? !detail.equals(that.detail) : that.detail != null) return false;
+        if (exchangeType != null ? !exchangeType.equals(that.exchangeType) : that.exchangeType != null) return false;
+        if (id != null ? !id.equals(that.id) : that.id != null) return false;
+        if (logo != null ? !logo.equals(that.logo) : that.logo != null) return false;
+        if (title != null ? !title.equals(that.title) : that.title != null) return false;
+
+        return true;
+    }
+
+    @Override
+    public int hashCode() {
+        int result = id != null ? id.hashCode() : 0;
+        result = 31 * result + (title != null ? title.hashCode() : 0);
+        result = 31 * result + (detail != null ? detail.hashCode() : 0);
+        result = 31 * result + (logo != null ? logo.hashCode() : 0);
+        result = 31 * result + (exchangeType != null ? exchangeType.hashCode() : 0);
+        return result;
+    }
 }

@@ -1,0 +1,12 @@
+{"message": {
+    "severity": 0,
+    "code": "0222",
+    "summary": "查询成功",
+    "detail": "",
+    "fields": {}
+}, "value": {
+    "totalReward": "160",
+    "totalCash": "1.60",
+    "ruleUrl": "http://192.168.0.97:80/activity/goldenbeanrule.html",
+    "redPacket": "0.00"
+}}

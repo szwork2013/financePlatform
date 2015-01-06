@@ -3,7 +3,9 @@ package com.sunlights.account.web;
 import com.sunlights.BaseTest;
 import com.sunlights.common.MsgCode;
 import com.sunlights.common.vo.MessageVo;
+import com.sunlights.core.vo.FundVo;
 import com.sunlights.customer.service.impl.CustomerService;
+import com.sunlights.customer.vo.CustomerVo;
 import models.Customer;
 import models.ShuMiAccount;
 import org.junit.Before;
@@ -11,10 +13,12 @@ import org.junit.Test;
 import play.Logger;
 import play.db.jpa.JPA;
 import play.libs.F;
+import play.libs.Json;
 import play.mvc.Http;
 import play.mvc.Result;
 
 import javax.persistence.Query;
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -67,12 +71,30 @@ public class ShuMiAccountControllerTest extends BaseTest {
                 Logger.info("-------------------testSaveShuMiAccount start------");
 
                 Result result = getResult("/account/saveshumiaccount", params, cookie);
+               // Logger.info("result is " + contentAsString(result));
 
                 Logger.info("-------------------testSaveShuMiAccount end---------------\n" + contentAsString(result));
 
-                MessageVo messageVo = toMessageVo(result);
-                assertThat(messageVo.getMessage().getCode()).isEqualTo(MsgCode.SAVE_SHUMI_ACCOUNT_SUCCESS.getCode());
-                assertThat(messageVo.getMessage().getSummary()).isEqualTo(MsgCode.SAVE_SHUMI_ACCOUNT_SUCCESS.getMessage());
+                /**
+                 * 验证message与value
+                 */
+                String testString= null;
+                try {
+                    testString = getJsonFile("AccountSaveShuMi.json");//获得json文件内容
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                MessageVo message = toMessageVo(result);
+                MessageVo testMessage = toMessageVo(testString);
+                assertThat(testMessage).isEqualTo(message);//此处判断message
+                CustomerVo testCustomerVo = Json.fromJson(Json.toJson(testMessage.getValue()), CustomerVo.class);
+                CustomerVo CustomerVO = Json.fromJson(Json.toJson(message.getValue()), CustomerVo.class);
+                assertThat(testCustomerVo).isEqualTo(CustomerVO);//此处判断value
+
+
+//                MessageVo messageVo = toMessageVo(result);
+//                assertThat(messageVo.getMessage().getCode()).isEqualTo(MsgCode.SAVE_SHUMI_ACCOUNT_SUCCESS.getCode());
+//                assertThat(messageVo.getMessage().getSummary()).isEqualTo(MsgCode.SAVE_SHUMI_ACCOUNT_SUCCESS.getMessage());
 
 
                 JPA.withTransaction(new F.Callback0() {

@@ -1,0 +1,14 @@
+{"message": {
+    "severity": 0,
+    "code": "0225",
+    "summary": "兑换场景查询成功",
+    "detail": "",
+    "fields": {}
+}, "value": {
+    "index": 0,
+    "pageSize": 4,
+    "pageNum": 0,
+    "count": 0,
+    "list": [],
+    "filter": {}
+}}
