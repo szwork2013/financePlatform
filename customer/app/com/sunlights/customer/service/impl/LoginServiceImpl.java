@@ -114,10 +114,10 @@ public class LoginServiceImpl implements LoginService {
             LoginHistory loginHistory = saveLoginFail(customer, deviceNo, true);
         	long PWD_MAX = parameterService.getParameterNumeric(ParameterConst.PWD_MAX);// 登录失败的最大次数
     		if (loginHistory.getLogNum() % PWD_MAX == 0) {// 此次为PWD_MAX * n次    手势删除，若为登录状态则登出
-//    			customerGesture.setStatus(AppConst.STATUS_INVALID);
-//    			customerGesture.setUpdateTime(DBHelper.getCurrentTime());
-//                customerDao.updateCustomerGesture(customerGesture);
-//    			logout(customer.getMobile(), deviceNo, token);
+    			customerGesture.setStatus(AppConst.STATUS_INVALID);
+    			customerGesture.setUpdateTime(DBHelper.getCurrentTime());
+                customerDao.updateCustomerGesture(customerGesture);
+    			logout(customer.getMobile(), deviceNo, token);
     		}
     		return null;
         }
