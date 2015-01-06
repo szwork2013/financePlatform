@@ -61,7 +61,7 @@ public class ExchangeSceneServiceImpl implements ExchangeSceneService {
             BigDecimal money = BigDecimal.ZERO;
             for(HoldReward holdReward : holdRewards) {
                 total += (holdReward.getHoldReward() - holdReward.getFrozenReward());
-                money = money.add(holdReward.getHoldMoney());
+                money = money.add(holdReward.getHoldMoney().subtract(holdReward.getFrozenMoney()));
             }
             if(total < exchangeScene.getRequireAmt() || total == 0L) {
                 Logger.debug("total = " + total + " < " + " RequireAmt = " + exchangeScene.getRequireAmt());
