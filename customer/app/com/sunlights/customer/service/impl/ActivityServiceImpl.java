@@ -116,4 +116,19 @@ public class ActivityServiceImpl implements ActivityService{
         activity4H5Vo.setContent(activity.getH5Content());
         return activity4H5Vo;
     }
+
+    @Cacheable(key="getByUnknowCondition", duration = 300)
+    @Override
+    public Activity getByUnknowCondition(String condition) {
+        Activity activity = new Activity();
+        try {
+            activity = activityDao.findById(Long.valueOf(condition));
+        } catch (Exception e) {
+            List<Activity> activities = activityDao.getActivityByScene(condition);
+            if(activities != null && !activities.isEmpty()) {
+                activity = activities.get(0);
+            }
+        }
+        return activity;
+    }
 }
