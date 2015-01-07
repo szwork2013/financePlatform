@@ -63,9 +63,8 @@ public class LoginServiceImpl implements LoginService {
                 saveLoginHistory(customer, deviceNo);
                 return customerSession;
             }
-        }else{
-            validateLoginTime(customer, deviceNo);
         }
+        validateLoginTime(customer, deviceNo);
         //
         if (!customer.getLoginPassWord().equals(new MD5Helper().encrypt(passWord))) {
             saveLoginFail(customer, deviceNo, false);
@@ -205,7 +204,7 @@ public class LoginServiceImpl implements LoginService {
         String idCardNo = vo.getIdCardNo();
         String deviceNo = vo.getDeviceNo();
 
-        CommonUtil.getInstance().validateParams(mobilePhoneNo, verifyCode);
+        CommonUtil.getInstance().validateParams(mobilePhoneNo);
 		Customer customer = getCustomerByMobilePhoneNo(mobilePhoneNo);
 		if (customer == null) {
 			throw CommonUtil.getInstance().errorBusinessException(MsgCode.PHONE_NUMBER_NOT_REGISTRY);
