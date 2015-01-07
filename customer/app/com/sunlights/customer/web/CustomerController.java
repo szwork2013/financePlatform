@@ -221,7 +221,7 @@ public class CustomerController extends Controller {
      *
      * @return
      */
-//    @With(MsgCenterAction.class)
+    @With(MsgCenterAction.class)
     public Result loginByges() {
         Logger.info("==========loginByGesture====================");
         Map<String, String> params = form().bindFromRequest().data();
@@ -249,7 +249,7 @@ public class CustomerController extends Controller {
         JsonNode json = MessageUtil.getInstance().toJson();
         Logger.info("==========loginByges返回：" + json.toString());
 
-//        response().setHeader(AppConst.HEADER_MSG, MessageUtil.getInstance().setMessageHeader(list));
+        response().setHeader(AppConst.HEADER_MSG, MessageUtil.getInstance().setMessageHeader(list));
 
         return Controller.ok(json);
     }
