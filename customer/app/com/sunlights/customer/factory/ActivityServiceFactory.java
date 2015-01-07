@@ -1,7 +1,6 @@
 package com.sunlights.customer.factory;
 
 import com.sunlights.common.cache.CacheFactory;
-import com.sunlights.common.exceptions.ConverterException;
 import com.sunlights.customer.service.*;
 import com.sunlights.customer.service.impl.*;
 
