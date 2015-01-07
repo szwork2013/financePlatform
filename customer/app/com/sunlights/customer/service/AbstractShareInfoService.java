@@ -60,7 +60,7 @@ public abstract class AbstractShareInfoService implements ShareInfoService {
 
     public String add(ShareInfoContext context) {
         String shareTitle = context.getShareInfo().getTitle();
-        String descContent = context.getShareInfo().getContent();
+        String descContent = context.getShareInfoVo().getContent();
         String imgUrl = context.getShareInfo().getImageUrl();
         String appid = Configuration.root().getString("appId");
 
