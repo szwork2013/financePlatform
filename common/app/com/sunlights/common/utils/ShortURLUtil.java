@@ -34,7 +34,7 @@ public class ShortURLUtil {
             }
         });
 
-        return jsonPromise.get(10000);//去掉双引号
+        return jsonPromise.get(10000).replace("\"", "");//去掉双引号
     }
 
 }
