@@ -1,14 +1,10 @@
 package com.sunlights.customer.service.impl;
 
 import com.google.common.collect.Lists;
-
 import com.sunlights.common.utils.CommonUtil;
-import com.sunlights.common.vo.PageVo;
 import com.sunlights.customer.ActivityConstant;
 import com.sunlights.customer.dal.HoldRewardDao;
-import com.sunlights.customer.dal.RewardTypeDao;
 import com.sunlights.customer.dal.impl.HoldRewardDaoImpl;
-import com.sunlights.customer.dal.impl.RewardTypeDaoImpl;
 import com.sunlights.customer.factory.ActivityServiceFactory;
 import com.sunlights.customer.service.ActivityService;
 import com.sunlights.customer.service.HoldRewardService;
