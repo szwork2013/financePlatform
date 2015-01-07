@@ -27,44 +27,39 @@ public class AccountControllerTest extends BaseTest {
 
     @Before
     public void getCookie(){
+        super.startPlay();
         final String mobilePhoneNo = "13811599308";
         final String password = "1";
-        running(fakeApplication(), new Runnable() {
-            public void run() {
-                cookie = getCookieAfterLogin(mobilePhoneNo, password);
-            }
-        });
+
+        cookie = getCookieAfterLogin(mobilePhoneNo, password);
+
     }
 
     @Test
     public void testResetAccountPwd() throws Exception {
-        running(fakeApplication(), new Runnable() {
-            public void run() {
-                Logger.info("============testResetAccountPwd start====");
-                String mobilePhoneNo = "18522222225";
-                String deviceNo = getDeviceNo();
-                String password = "1";
 
-                Map<String, String> formParams = new HashMap<>();
-                formParams.put("mobilePhoneNo", mobilePhoneNo);
-                formParams.put("deviceNo", deviceNo);
-                formParams.put("passWord", password);
+        Logger.info("============testResetAccountPwd start====");
+        String mobilePhoneNo = "18522222225";
+        String deviceNo = getDeviceNo();
+        String password = "1";
 
-                play.mvc.Result result = getResult("/account/resetaccpwd", formParams, cookie);
-                Logger.info("============testResetAccountPwd result====\n" + contentAsString(result));
-                assertThat(status(result)).isEqualTo(OK);
-                MessageVo message = toMessageVo(result);
-                assertThat(message.getMessage().getCode()).isEqualTo("0200");
-                assertThat(message.getMessage().getSummary()).isEqualTo("交易密码重置成功");
+        Map<String, String> formParams = new HashMap<>();
+        formParams.put("mobilePhoneNo", mobilePhoneNo);
+        formParams.put("deviceNo", deviceNo);
+        formParams.put("passWord", password);
 
-            }
-        });
+        play.mvc.Result result = getResult("/account/resetaccpwd", formParams, cookie);
+        Logger.info("============testResetAccountPwd result====\n" + contentAsString(result));
+        assertThat(status(result)).isEqualTo(OK);
+        MessageVo message = toMessageVo(result);
+        assertThat(message.getMessage().getCode()).isEqualTo("0200");
+        assertThat(message.getMessage().getSummary()).isEqualTo("交易密码重置成功");
+
     }
 
     @Test
     public void testGetTotalCapitalInfo() throws Exception {
-        running(fakeApplication(), new Runnable() {
-            public void run() {
+
                 Logger.info("============testGetTotalCapitalInfo start====");
                 Map<String, String> formParams = new HashMap<String, String>();
                 play.mvc.Result result = getResult("/account/accountital/totalcapital", formParams, cookie);
@@ -74,14 +69,11 @@ public class AccountControllerTest extends BaseTest {
                 assertThat(message.getMessage().getCode()).isEqualTo("0000");
                 assertThat(message.getMessage().getSummary()).isEqualTo("操作成功");
 
-            }
-        });
     }
 
     @Test
     public void testGetAllCapital4Prd() throws Exception {
-        running(fakeApplication(), new Runnable() {
-            public void run() {
+
                 Logger.info("============testGetAllCapital4Prd start====");
                 Map<String, String> formParams = new HashMap<String, String>();
 
@@ -92,14 +84,11 @@ public class AccountControllerTest extends BaseTest {
                 assertThat(message.getMessage().getCode()).isEqualTo("0000");
                 assertThat(message.getMessage().getSummary()).isEqualTo("操作成功");
 
-            }
-        });
     }
 
     @Test
     public void testGetMyCapital() throws Exception {
-        running(fakeApplication(), new Runnable() {
-            public void run() {
+
                 Logger.info("============testGetMyCapital start====");
                 Map<String, String> formParams = new HashMap<String, String>();
 
@@ -112,14 +101,11 @@ public class AccountControllerTest extends BaseTest {
                 assertThat(message.getMessage().getCode()).isEqualTo("0000");
                 assertThat(message.getMessage().getSummary()).isEqualTo("操作成功");
 
-            }
-        });
     }
 
     @Test
     public void testFindYesterdayProfitList() throws Exception {
-        running(fakeApplication(), new Runnable() {
-            public void run() {
+
                 Logger.info("============testFindYesterdayProfitList start====");
                 Map<String, String> formParams = new HashMap<String, String>();
                 formParams.put("index", "0");
@@ -134,8 +120,7 @@ public class AccountControllerTest extends BaseTest {
                 assertThat(message.getMessage().getCode()).isEqualTo("0000");
                 assertThat(message.getMessage().getSummary()).isEqualTo("操作成功");
 
-            }
-        });
+
     }
 
 

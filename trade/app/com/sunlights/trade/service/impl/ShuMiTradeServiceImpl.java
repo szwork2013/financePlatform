@@ -1,31 +1,36 @@
 package com.sunlights.trade.service.impl;
 
-import com.sunlights.common.DictConst;
-import com.sunlights.common.MsgCode;
-import com.sunlights.common.Severity;
-import com.sunlights.common.utils.DBHelper;
-import com.sunlights.common.utils.MessageUtil;
-import com.sunlights.common.vo.Message;
-import models.*;
-
+import com.google.common.collect.Lists;
 import com.sunlights.account.service.AccountService;
 import com.sunlights.account.service.CapitalService;
 import com.sunlights.account.service.impl.AccountServiceImpl;
 import com.sunlights.account.service.impl.CapitalServiceImpl;
-import com.sunlights.core.service.BankCardService;
-import com.sunlights.core.service.BankService;
+import com.sunlights.common.DictConst;
+import com.sunlights.common.MsgCode;
+import com.sunlights.common.Severity;
+import com.sunlights.common.utils.CommonUtil;
+import com.sunlights.common.utils.DBHelper;
+import com.sunlights.common.utils.MessageUtil;
+import com.sunlights.common.vo.Message;
+import com.sunlights.common.vo.MessageHeaderVo;
 import com.sunlights.core.service.OpenAccountPactService;
 import com.sunlights.core.service.ProductService;
-import com.sunlights.core.service.impl.BankCardServiceImpl;
-import com.sunlights.core.service.impl.BankServiceImpl;
 import com.sunlights.core.service.impl.OpenAccountPactServiceImpl;
 import com.sunlights.core.service.impl.ProductServiceImpl;
-import com.sunlights.core.vo.BankCardVo;
+import com.sunlights.customer.service.BankCardService;
+import com.sunlights.customer.service.BankService;
+import com.sunlights.customer.service.impl.BankCardServiceImpl;
+import com.sunlights.customer.service.impl.BankServiceImpl;
 import com.sunlights.customer.service.impl.CustomerService;
+import com.sunlights.customer.vo.BankCardVo;
 import com.sunlights.trade.dal.TradeDao;
 import com.sunlights.trade.dal.impl.TradeDaoImpl;
 import com.sunlights.trade.service.ShuMiTradeService;
 import com.sunlights.trade.vo.ShuMiTradeFormVo;
+import models.Customer;
+import models.FundNav;
+import models.Trade;
+import org.apache.commons.lang3.time.DateUtils;
 import play.Logger;
 
 import java.math.BigDecimal;
@@ -33,6 +38,7 @@ import java.sql.Timestamp;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
 
 /**
  * <p>Project: financeplatform</p>
@@ -54,9 +60,9 @@ public class ShuMiTradeServiceImpl implements ShuMiTradeService{
     private BankService bankService = new BankServiceImpl();
 
     @Override
-    public void shuMiTradeOrder(ShuMiTradeFormVo shuMiTradeFormVo, String token) {
-        CustomerSession customerSession = customerService.getCustomerSession(token);
-        String customerId = customerSession.getCustomerId();
+    public List<MessageHeaderVo> shuMiTradeOrder(ShuMiTradeFormVo shuMiTradeFormVo, String token) {
+        Customer customer = customerService.getCustomerByToken(token);
+        String customerId = customer.getCustomerId();
 
         //开户银行卡信息
         if (shuMiTradeFormVo.getBankAcco() != null) {
@@ -66,8 +72,7 @@ public class ShuMiTradeServiceImpl implements ShuMiTradeService{
         FundNav fundNav = productService.findFundNavByCode(shuMiTradeFormVo.getFundCode());
         String companyId = null;
         if (fundNav == null) {
-            MessageUtil.getInstance().setMessage(new Message(Severity.WARN,
-                    MsgCode.TRADE_ORDER_NOCODE.getCode(), MsgCode.TRADE_ORDER_NOCODE.getMessage(),MsgCode.TRADE_ORDER_NOCODE.getDetail()));
+            MessageUtil.getInstance().setMessage(new Message(Severity.WARN, MsgCode.TRADE_ORDER_NOCODE));
         }else{
             companyId = fundNav.getIaGuid();
         }
@@ -81,18 +86,34 @@ public class ShuMiTradeServiceImpl implements ShuMiTradeService{
         //产品申购人数+1
         productService.addProductPurchasedNum(shuMiTradeFormVo.getFundCode());
 
+        List<MessageHeaderVo> list = Lists.newArrayList();
+        MessageHeaderVo messageHeaderVo = new MessageHeaderVo(DictConst.PUSH_TYPE_3, null, customerId);
+        Date confirmDate = DateUtils.addDays(trade.getCreateTime(), 1);
+        Date earningDate = DateUtils.addDays(trade.getCreateTime(), 2);
+        messageHeaderVo.buildParams(customer.getRealName(), shuMiTradeFormVo.getFundName(),
+                CommonUtil.dateToString(confirmDate, CommonUtil.DATE_FORMAT_SHORT),
+                CommonUtil.dateToString(earningDate, CommonUtil.DATE_FORMAT_SHORT));
+        list.add(messageHeaderVo);
+        return list;
+
     }
 
     @Override
-    public void shuMiTradeRedeem(ShuMiTradeFormVo shuMiTradeFormVo, String token) {
-        CustomerSession customerSession = customerService.getCustomerSession(token);
-        String customerId = customerSession.getCustomerId();
+    public String shuMiTradeRedeem(ShuMiTradeFormVo shuMiTradeFormVo, String token) {
+        Customer customer = customerService.getCustomerByToken(token);
+        String customerId = customer.getCustomerId();
         FundNav fundNav = productService.findFundNavByCode(shuMiTradeFormVo.getFundCode());
         if (fundNav == null) {
             MessageUtil.getInstance().setMessage(new Message(Severity.WARN,
                     MsgCode.TRADE_REDEEM_NOCODE.getCode(), MsgCode.TRADE_REDEEM_NOCODE.getMessage(), MsgCode.TRADE_REDEEM_NOCODE.getDetail()));
         }
-        createTrade(shuMiTradeFormVo, customerId, DictConst.TRADE_TYPE_2, fundNav);
+        Trade trade = createTrade(shuMiTradeFormVo, customerId, DictConst.TRADE_TYPE_2, fundNav);
+
+        List<MessageHeaderVo> list = Lists.newArrayList();
+        MessageHeaderVo messageHeaderVo = new MessageHeaderVo(DictConst.PUSH_TYPE_3, null, customerId);
+        messageHeaderVo.buildParams(customer.getRealName(), shuMiTradeFormVo.getFundName(), trade.getTradeAmount().toString(), trade.getBankName());
+        list.add(messageHeaderVo);
+        return MessageUtil.getInstance().setMessageHeader(list);
     }
 
     private void createOpenAccountBankInfo(ShuMiTradeFormVo shuMiTradeFormVo, String customerId) {
@@ -103,7 +124,7 @@ public class ShuMiTradeServiceImpl implements ShuMiTradeService{
         Logger.debug("bankCardNo:" + bankCardNo);
 
         BankCardVo bankCardVo = new BankCardVo();
-        bankCardVo.setBankCardNo(bankCardNo);
+        bankCardVo.setBankCard(bankCardNo);
         bankCardVo.setBankName(bankName);
 //        Bank bank = bankService.findBankByBankName(bankName);
 //        bankCardVo.setBankCode(bank.getBankCode());
@@ -142,8 +163,10 @@ public class ShuMiTradeServiceImpl implements ShuMiTradeService{
         trade.setProductName(fundName);
 
         if (fundNav != null) {
-            trade.setProductPrice(fundNav.getPurchaseLimitMin());
-            trade.setQuantity(Integer.valueOf(new BigDecimal(applySum).divide(fundNav.getPurchaseLimitMin()).toString()));
+            if (fundNav.getPurchaseLimitMin() != null) {
+                trade.setProductPrice(fundNav.getPurchaseLimitMin());
+//                trade.setQuantity(Integer.valueOf(new BigDecimal(applySum).divide(fundNav.getPurchaseLimitMin()).toString()));
+            }
             BigDecimal fee = BigDecimal.ZERO;
             BigDecimal chargeRateValue = fundNav.getChargeRateValue();
             BigDecimal fundNavDiscount = fundNav.getDiscount();

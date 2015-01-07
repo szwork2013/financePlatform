@@ -16,6 +16,7 @@ import play.libs.Json;
 
 import javax.persistence.EntityManager;
 import javax.persistence.Query;
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -26,9 +27,8 @@ public class RegisterControllerTest extends BaseTest {
 
     @Test
     public void testRegister() throws Exception {
-        running(fakeApplication(), new Runnable() {
-            public void run() {
-                final String mobilePhoneNo = "18522222241";
+
+                final String mobilePhoneNo = "18522222243";
 //                final String mobilePhoneNo = "15821948594";
                 final String deviceNo = getDeviceNo();
                 final String type = "REGISTER";
@@ -57,7 +57,7 @@ public class RegisterControllerTest extends BaseTest {
                 });
 
                 result = getResult("/core/register", formParams);
-                Logger.info(result.toString());
+                Logger.info("result is " + contentAsString(result));
                 assertThat(status(result)).isEqualTo(OK);
 
                 message = toMessageVo(result);
@@ -65,6 +65,23 @@ public class RegisterControllerTest extends BaseTest {
                 assertThat(message.getMessage().getSummary()).isEqualTo("注册成功");
                 CustomerVo customerVo = Json.fromJson(Json.toJson(message.getValue()), CustomerVo.class);
                 assertThat(mobilePhoneNo).isEqualTo(customerVo.getMobilePhoneNo());
+
+
+                /**
+                 * 验证message与value
+                 */
+                String testString1= null;
+                try {
+                    testString1 = getJsonFile("json/CoreRegister.json");//获得json文件内容
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                MessageVo message1 = toMessageVo(result);
+                MessageVo testMessage1 = toMessageVo(testString1);
+                assertThat(testMessage1.getMessage()).isEqualTo(message1.getMessage());//此处判断message
+                CustomerVo testfundVo1 = Json.fromJson(Json.toJson(testMessage1.getValue()), CustomerVo.class);
+                CustomerVo fundVo1 = Json.fromJson(Json.toJson(message1.getValue()), CustomerVo.class);
+                assertThat(testfundVo1).isEqualTo(fundVo1);//此处判断value
 
 
                 JPA.withTransaction(new F.Callback0() {
@@ -94,8 +111,7 @@ public class RegisterControllerTest extends BaseTest {
                     }
                 });
 
-            }
-        });
+
     }
 
 

@@ -5,6 +5,7 @@ import com.sunlights.common.MsgCode;
 import com.sunlights.common.Severity;
 import com.sunlights.common.vo.Message;
 import com.sunlights.customer.ActivityConstant;
+import com.sunlights.customer.factory.ActivityServiceFactory;
 import com.sunlights.customer.service.ActivitySceneService;
 import com.sunlights.customer.service.CustJoinActivityService;
 import com.sunlights.customer.service.impl.ActivitySceneServiceImpl;
@@ -15,6 +16,7 @@ import com.sunlights.customer.vo.ActivitySceneVo;
 import models.ActivityScene;
 import models.CustJoinActivity;
 import org.apache.commons.lang3.StringUtils;
+import play.Logger;
 
 import java.util.List;
 
@@ -26,7 +28,7 @@ import java.util.List;
 public class PurchaseObtainValideHandler extends AbstractObtainRuleHandler {
     private CustJoinActivityService custJoinActivityService = new CustJoinActivityServiceImpl();
 
-    private ActivitySceneService activitySceneService = new ActivitySceneServiceImpl();
+    private ActivitySceneService activitySceneService = ActivityServiceFactory.getActivitySceneService();
 
     public PurchaseObtainValideHandler() {
 
@@ -41,6 +43,7 @@ public class PurchaseObtainValideHandler extends AbstractObtainRuleHandler {
         CustJoinActivity custJoinActivity = custJoinActivityService.getByCustAndActivity(requestVo.getCustId(), requestVo.getActivityId(), ActivityConstant.ACTIVITY_FIRST_PURCHASE_SCENE_CODE);
         if(custJoinActivity == null) {
             requestVo.setScene(ActivityConstant.ACTIVITY_FIRST_PURCHASE_SCENE_CODE);
+            Logger.debug("首次购买 scene = " + requestVo.getScene());
             return;
         } else {
             String prdType = requestVo.get("prdType", String.class);
@@ -58,7 +61,7 @@ public class PurchaseObtainValideHandler extends AbstractObtainRuleHandler {
                 responseVo.setFlowStop(true);
                 return;
             }
-
+            Logger.debug("不是首次购买 scene = " + requestVo.getScene() + " prdCode = " + prdCode);
         }
     }
 

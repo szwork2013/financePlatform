@@ -5,6 +5,7 @@ import com.sunlights.common.MsgCode;
 import com.sunlights.common.Severity;
 import com.sunlights.common.vo.Message;
 import com.sunlights.customer.ActivityConstant;
+import com.sunlights.customer.factory.ActivityServiceFactory;
 import com.sunlights.customer.service.ActivitySceneService;
 import com.sunlights.customer.service.ActivityService;
 import com.sunlights.customer.service.ObtainRewardRuleService;
@@ -27,11 +28,11 @@ import java.util.Map;
  * Created by tangweiqun on 2014/12/2.
  */
 public class ObtainRuleGainHandler extends AbstractObtainRuleHandler {
-    private ActivitySceneService activitySceneService = new ActivitySceneServiceImpl();
+    private ActivitySceneService activitySceneService = ActivityServiceFactory.getActivitySceneService();
 
-    private ActivityService activityService = new ActivityServiceImpl();
+    private ActivityService activityService = ActivityServiceFactory.getActivityService();
 
-    private ObtainRewardRuleService obtainRewardRuleService = new ObtainRewardRuleServiceImpl();
+    private ObtainRewardRuleService obtainRewardRuleService = ActivityServiceFactory.getObtainRewardRuleService();
 
     public ObtainRuleGainHandler() {
 
@@ -76,13 +77,15 @@ public class ObtainRuleGainHandler extends AbstractObtainRuleHandler {
         }
 
         if(isNotConfig) {
-            Logger.debug("还没有配置的活动场景");
+            Logger.debug("还没有配置的活动场景 scene = " + requestVo.getScene());
             Message message = new Message(Severity.INFO, MsgCode.NOT_CONFIG_ACTIVITY_SCENE);
             responseVo.setMessage(message);
             responseVo.setStatus(ActivityConstant.ACTIVITY_CUSTONER_STATUS_FORBIDDEN);
             responseVo.setNotGet(0L);
             responseVo.setAlreadyGet(0L);
             responseVo.setFlowStop(true);
+        } else {
+            Logger.debug("获取活动信息成功");
         }
     }
 

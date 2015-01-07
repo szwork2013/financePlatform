@@ -14,11 +14,21 @@ public class RedPacketExchangeRuleHandler extends AbstractExchangeRuleHandler {
     @Override
     public void exchange(ActivityRequestVo requestVo, ActivityResponseVo responseVo) throws Exception {
         Logger.debug("红包取现开始requestVo ：" + requestVo);
+        ExchangeRuleGainHandler exchangeRuleGainHandler = new ExchangeRuleGainHandler();
+        ExchangeNullFieldValidHandler exchangeNullFieldValidHandler = new ExchangeNullFieldValidHandler();
+        ExchangeValidHandler exchangeValidHandler = new ExchangeValidHandler();
+        ExchangeFlowHandler exchangeFlowHandler = new ExchangeFlowHandler();
+        ExchangeResultHandler exchangeResultHandler = new ExchangeResultHandler();
 
-        setNextHandler(new ExchangeRuleGainHandler(
-                            new ExchangeValidHandler(
-                                new ExchangeFlowHandler(
-                                        new ExchangeResultHandler()))));
+        RedPacketExchangeSendMessageHandler redPacketExchangeSendMessageHandler = new RedPacketExchangeSendMessageHandler();
+
+        setNextHandler(exchangeRuleGainHandler)
+                .setNextHandler(exchangeNullFieldValidHandler)
+                .setNextHandler(exchangeValidHandler)
+                .setNextHandler(exchangeFlowHandler)
+                .setNextHandler(exchangeResultHandler)
+                .setNextHandler(redPacketExchangeSendMessageHandler);
+
         getNextHandler().exchange(requestVo, responseVo);
 
         Logger.debug("红包取现结束responseVo ：" + responseVo);

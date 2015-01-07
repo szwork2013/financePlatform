@@ -1,7 +1,7 @@
 package com.sunlights.core.service;
 
 import com.sunlights.core.vo.AgreementVo;
-import com.sunlights.core.vo.BankCardVo;
+import com.sunlights.customer.vo.BankCardVo;
 
 /**
  * <p>Project: fsp</p>

@@ -1,12 +1,14 @@
 package com.sunlights.core.service.impl;
 
+import com.sunlights.common.cache.Cacheable;
 import com.sunlights.common.utils.DBHelper;
 import com.sunlights.core.dal.OpenAccountPactDao;
 import com.sunlights.core.dal.impl.OpenAccountPactDaoImpl;
-import com.sunlights.core.service.BankCardService;
 import com.sunlights.core.service.OpenAccountPactService;
 import com.sunlights.core.vo.AgreementVo;
-import com.sunlights.core.vo.BankCardVo;
+import com.sunlights.customer.service.BankCardService;
+import com.sunlights.customer.service.impl.BankCardServiceImpl;
+import com.sunlights.customer.vo.BankCardVo;
 import models.FundOpenAccount;
 import models.OpenAccountPact;
 import org.apache.commons.lang3.StringUtils;
@@ -26,6 +28,7 @@ public class OpenAccountPactServiceImpl implements OpenAccountPactService {
   private OpenAccountPactDao openAccountPactDao = new OpenAccountPactDaoImpl();
   private BankCardService bankCardService = new BankCardServiceImpl();
 
+  @Cacheable(key = "findAgreementVoByAgreementNo", duration = 300)
   @Override
   public AgreementVo findAgreementVoByAgreementNo(String agreementNo) {
     if (StringUtils.isEmpty(agreementNo)) {
@@ -41,7 +44,7 @@ public class OpenAccountPactServiceImpl implements OpenAccountPactService {
 
   @Override
   public void createFundOpenAccount(String customerId, BankCardVo bankCardVo) {
-    String bankCardNo = bankCardVo.getBankCardNo();
+    String bankCardNo = bankCardVo.getBankCard();
     FundOpenAccount fundOpenAccount = openAccountPactDao.findFundOpenAccount(customerId, bankCardNo);
     if (fundOpenAccount == null) {
       Timestamp currentTime = DBHelper.getCurrentTime();

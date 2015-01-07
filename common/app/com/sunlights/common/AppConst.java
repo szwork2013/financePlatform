@@ -41,6 +41,10 @@ public final class AppConst {
 
     public static long ONE_MINUTE = 60 * 1000;
     public static String TOKEN = "token";
+    public static String HEADER_MSG = "SUNLIGHTS_HEADER_MSG";
+    public static String ROUTE_ACTION_METHOD = "ROUTE_ACTION_METHOD";
+
+
     public static String FUND_CATEGORY_MONETARY = "MONETARY";
     public static String FUND_CATEGORY_STF= "STF";
     public static String FUND_GRAB_STATUS_NULL= "FUND-GRAB-STATUS-NULL";

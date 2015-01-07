@@ -5,6 +5,7 @@ import com.sunlights.customer.dal.impl.CustomerDaoImpl;
 import com.sunlights.customer.service.rewardrules.vo.ActivityRequestVo;
 import com.sunlights.customer.service.rewardrules.vo.ActivityResponseVo;
 import models.Customer;
+import play.Logger;
 
 /**
  * 关于推荐人的一些操作
@@ -27,9 +28,12 @@ public class ReCommendHandler extends AbstractObtainRuleHandler {
     public void obtainInternal(ActivityRequestVo requestVo, ActivityResponseVo responseVo) throws Exception {
         Customer customer = customerDao.findRecommenderInfo(requestVo.getCustId());
         if(customer == null) {
+            Logger.debug("没有推荐人");
             return;
         } else {
             requestVo.setRecommendCustId(customer.getCustomerId());
+            requestVo.set("recommendMobile", customer.getMobile());
+            Logger.debug("推荐人号[" + customer.getCustomerId() + "]");
         }
     }
 }

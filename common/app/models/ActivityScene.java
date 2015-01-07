@@ -21,6 +21,7 @@ public class ActivityScene extends IdEntity {
     private String prdCode;
     @Column(name = "PRD_TYPE")
     private String prdType;
+    @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "CREATE_TIME")
     private Date createTime;
     @Temporal(TemporalType.TIMESTAMP)

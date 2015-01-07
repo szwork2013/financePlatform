@@ -17,12 +17,17 @@ public class ExchangeScene extends IdEntity {
     private String status;
     @Column(name = "REWARD_TYPE")
     private String rewardType;
+    @Column(name = "ACTIVITY_TYPE")
+    private String activityType;
+    @Column(name = "LOGO_URL")
+    private String logo;
     @Column(name = "EXCHANGE_TYPE")
     private String exchangeType;
     @Column(name = "AMOUNT")
     private Long requireAmt;
     @Column(name = "EXCHANGED_AMT")
     private Long exchangedAmt;
+
     @Column(name = "EXCHANGE_LIMIT")
     private Long exchangeLimit;
     @Column(name = "TIME_LIMIT")
@@ -122,5 +127,21 @@ public class ExchangeScene extends IdEntity {
 
     public void setUpdateTime(Date updateTime) {
         this.updateTime = updateTime;
+    }
+
+    public String getActivityType() {
+        return activityType;
+    }
+
+    public void setActivityType(String activityType) {
+        this.activityType = activityType;
+    }
+
+    public String getLogo() {
+        return logo;
+    }
+
+    public void setLogo(String logo) {
+        this.logo = logo;
     }
 }

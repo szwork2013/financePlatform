@@ -1,9 +1,9 @@
 package com.sunlights.account.web;
 
 import com.sunlights.BaseTest;
-import com.sunlights.common.MsgCode;
 import com.sunlights.common.vo.MessageVo;
 import com.sunlights.customer.service.impl.CustomerService;
+import com.sunlights.customer.vo.CustomerVo;
 import models.Customer;
 import models.ShuMiAccount;
 import org.junit.Before;
@@ -11,10 +11,12 @@ import org.junit.Test;
 import play.Logger;
 import play.db.jpa.JPA;
 import play.libs.F;
+import play.libs.Json;
 import play.mvc.Http;
 import play.mvc.Result;
 
 import javax.persistence.Query;
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -25,22 +27,17 @@ public class ShuMiAccountControllerTest extends BaseTest {
     private static Http.Cookie cookie;
 
     @Before
-    public void init(){
-        running(fakeApplication(), new Runnable() {
-            @Override
-            public void run() {
-                String mobilePhoneNo = "13811599307";
-                String password = "1";
-                cookie = getCookieAfterLogin(mobilePhoneNo, password);
-            }
-        });
+    public void init() {
+        super.startPlay();
+        String mobilePhoneNo = "13811599307";
+        String password = "1";
+        cookie = getCookieAfterLogin(mobilePhoneNo, password);
+
     }
 
     @Test
     public void testSaveShuMiAccount() throws Exception {
-        running(fakeApplication(), new Runnable() {
-            @Override
-            public void run() {
+
                 String shumi_tokenKey = "0000a08ffd974254ab9449c8c8c0e190";
                 String shumi_tokenSecret = "9939f00d7f214c2f8e218f41a839764c";
                 String shumi_userName = "吕小布";
@@ -67,12 +64,30 @@ public class ShuMiAccountControllerTest extends BaseTest {
                 Logger.info("-------------------testSaveShuMiAccount start------");
 
                 Result result = getResult("/account/saveshumiaccount", params, cookie);
+                // Logger.info("result is " + contentAsString(result));
 
                 Logger.info("-------------------testSaveShuMiAccount end---------------\n" + contentAsString(result));
 
-                MessageVo messageVo = toMessageVo(result);
-                assertThat(messageVo.getMessage().getCode()).isEqualTo(MsgCode.SAVE_SHUMI_ACCOUNT_SUCCESS.getCode());
-                assertThat(messageVo.getMessage().getSummary()).isEqualTo(MsgCode.SAVE_SHUMI_ACCOUNT_SUCCESS.getMessage());
+                /**
+                 * 验证message与value
+                 */
+                String testString = null;
+                try {
+                    testString = getJsonFile("json/AccountSaveShuMi.json");//获得json文件内容
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                MessageVo message = toMessageVo(result);
+                MessageVo testMessage = toMessageVo(testString);
+                assertThat(testMessage).isEqualTo(message);//此处判断message
+                CustomerVo testCustomerVo = Json.fromJson(Json.toJson(testMessage.getValue()), CustomerVo.class);
+                CustomerVo CustomerVO = Json.fromJson(Json.toJson(message.getValue()), CustomerVo.class);
+                assertThat(testCustomerVo).isEqualTo(CustomerVO);//此处判断value
+
+
+//                MessageVo messageVo = toMessageVo(result);
+//                assertThat(messageVo.getMessage().getCode()).isEqualTo(MsgCode.SAVE_SHUMI_ACCOUNT_SUCCESS.getCode());
+//                assertThat(messageVo.getMessage().getSummary()).isEqualTo(MsgCode.SAVE_SHUMI_ACCOUNT_SUCCESS.getMessage());
 
 
                 JPA.withTransaction(new F.Callback0() {
@@ -84,14 +99,13 @@ public class ShuMiAccountControllerTest extends BaseTest {
 
                         Query query = JPA.em().createNamedQuery("findShuMiAccount", ShuMiAccount.class);
                         query.setParameter(1, customer.getCustomerId());
-                        ShuMiAccount shuMiAccount = (ShuMiAccount)query.getSingleResult();
+                        ShuMiAccount shuMiAccount = (ShuMiAccount) query.getSingleResult();
 
                         JPA.em().remove(shuMiAccount);
                     }
                 });
 
-            }
-        });
+
 
     }
 }

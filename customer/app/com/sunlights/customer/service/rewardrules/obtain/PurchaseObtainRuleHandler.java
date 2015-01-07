@@ -4,10 +4,6 @@ package com.sunlights.customer.service.rewardrules.obtain;
 import com.sunlights.customer.service.rewardrules.vo.ActivityRequestVo;
 import com.sunlights.customer.service.rewardrules.vo.ActivityResponseVo;
 import play.Logger;
-import play.libs.Json;
-
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * 购买场景获取奖励的处理链入口
@@ -26,14 +22,24 @@ public class PurchaseObtainRuleHandler extends AbstractObtainRuleHandler{
     @Override
     public void obtain(ActivityRequestVo requestVo, ActivityResponseVo responseVo) throws Exception {
         Logger.debug("申购送奖励开始 requestVo = " + requestVo);
+        PurchaseObtainValideHandler purchaseObtainValideHandler = new PurchaseObtainValideHandler();
+        ObtainRuleGainHandler obtainRuleGainHandler = new ObtainRuleGainHandler();
+        ReCommendHandler reCommendHandler = new ReCommendHandler();
+        //ValidBankCardHandler validBankCardHandler = new ValidBankCardHandler();
+        RewardFlowHandler rewardFlowHandler = new RewardFlowHandler();
+        CustJoinActivityHandler custJoinActivityHandler = new CustJoinActivityHandler();
+        ResultAssignHandler resultAssignHandler = new ResultAssignHandler();
+        PurchaseObtainSendMessageHandler purchaseObtainSendMessageHandler = new PurchaseObtainSendMessageHandler();
 
-        setNextHandler(
-                new PurchaseObtainValideHandler(
-                        new ObtainRuleGainHandler(
-                            new ReCommendHandler(
-                                    new RewardFlowHandler(
-                                            new CustJoinActivityHandler(
-                                                    new ResultAssignHandler()))))));
+        setNextHandler(purchaseObtainValideHandler)
+                .setNextHandler(obtainRuleGainHandler)
+                .setNextHandler(reCommendHandler)
+                //.setNextHandler(validBankCardHandler)
+                .setNextHandler(rewardFlowHandler)
+                .setNextHandler(custJoinActivityHandler)
+                .setNextHandler(resultAssignHandler)
+                .setNextHandler(purchaseObtainSendMessageHandler);
+
         getNextHandler().obtain(requestVo, responseVo);
 
         Logger.debug("申购送奖励结束 responseVo = " + responseVo);

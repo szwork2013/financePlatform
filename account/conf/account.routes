@@ -21,11 +21,16 @@ POST        /activity/list                      @com.sunlights.customer.web.Acti
 POST        /activity/signin                    @com.sunlights.customer.web.ActivityController.signinObtainReward
 POST        /activity/register                  @com.sunlights.customer.web.ActivityController.registerObtainReward
 POST        /activity/trade                     @com.sunlights.customer.web.ActivityController.purchaseObtainReward
-POST        /activity/exchange                  @com.sunlights.customer.web.ActivityController.exchangeReward
+POST        /activity/exchange                  @com.sunlights.customer.web.ExchangeRewardController.exchangeReward
+POST        /activity/exchangescenes            @com.sunlights.customer.web.ExchangeRewardController.queryExchangeScenes
+POST        /activity/beforeexchange            @com.sunlights.customer.web.ExchangeRewardController.prepareDataBeforeExchange
+
+GET        /activity/rule/:id            @com.sunlights.customer.web.Activity4H5Controller.getContent(id:String)
 
 #Reward
 POST        /reward/get_signin                  @com.sunlights.customer.web.RewardController.getSingInCanObtainRewards
 POST        /reward/get_golden                  @com.sunlights.customer.web.RewardController.getMyRewardDetail
+POST        /reward/records                     @com.sunlights.customer.web.RewardController.getRewardFlows
 
 # Map static resources from the /public folder to the /assets URL path
 GET         /assets/*file                       controllers.Assets.at(path="/public", file)

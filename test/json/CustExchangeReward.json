@@ -1,0 +1,10 @@
+{"message": {
+    "severity": 0,
+    "code": "0227",
+    "summary": "操作成功",
+    "detail": "您本次取现0.01元到招行，将在2015-01-05号收到。",
+    "fields": {}
+}, "value": {
+    "payed": "0.01",
+    "accountDate": "2015-01-05 14:59:40"
+}}

@@ -7,14 +7,18 @@ import com.sunlights.common.vo.MessageVo;
 import com.sunlights.customer.ActivityConstant;
 import com.sunlights.customer.service.RewardFlowService;
 import com.sunlights.customer.service.impl.RewardFlowServiceImpl;
+import com.sunlights.customer.vo.HoldRewardVo;
+import com.sunlights.customer.vo.ObtainRewardVo;
 import models.RewardFlow;
 import org.junit.Before;
 import org.junit.Test;
 import play.Logger;
 import play.db.jpa.JPA;
 import play.libs.F;
+import play.libs.Json;
 import play.mvc.Http;
 
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -27,19 +31,16 @@ public class RewardControllerTest extends BaseTest {
 
     @Before
     public void getCookie(){
-        final String mobilePhoneNo = "10000000014";
+        super.startPlay();
+        final String mobilePhoneNo = "15821948594";
         final String password = "111111";
-        running(fakeApplication(), new Runnable() {
-            public void run() {
-                cookie = getCookieAfterLogin(mobilePhoneNo, password);
-            }
-        });
+       cookie = getCookieAfterLogin(mobilePhoneNo, password);
+
     }
 
     @Test
     public void testGetSingInCanObtainRewards() throws Exception {
-        running(fakeApplication(), new Runnable() {
-            public void run() {
+
                 JPA.withTransaction(new F.Callback0() {
                     @Override
                     public void invoke() throws Throwable {
@@ -52,21 +53,34 @@ public class RewardControllerTest extends BaseTest {
                         Logger.info("============testGetSingInCanObtainRewards result====\n" + contentAsString(result));
                         assertThat(status(result)).isEqualTo(OK);
                         final MessageVo message = toMessageVo(result);
+                        assertThat(message.getMessage().getCode()).isEqualTo(MsgCode.ACTIVITY_QUERY_SUCC.getCode());
+                        Logger.info("============testSignInObtainReward result====\n" + contentAsString(result));
 
 
-                            assertThat(message.getMessage().getCode()).isEqualTo(MsgCode.ACTIVITY_QUERY_SUCC.getCode());
+                        /**
+                         * 验证message与value
+                         */
+                        String testString= null;
+                        try {
+                            testString = getJsonFile("json/CustInitSignButton.json");//获得json文件内容
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+                        MessageVo testMessage = toMessageVo(testString);
+                        assertThat(testMessage).isEqualTo(message);//此处判断message
+                        ObtainRewardVo testObtainRewardVo = Json.fromJson(Json.toJson(testMessage.getValue()), ObtainRewardVo.class);
+                        ObtainRewardVo obtainRewardVo = Json.fromJson(Json.toJson(message.getValue()), ObtainRewardVo.class);
+                        assertThat(testObtainRewardVo).isEqualTo(obtainRewardVo);//此处判断value
+
                         }
 
                 });
 
-            }
-        });
     }
 
     @Test
     public void testGetMyRewardDetail() {
-        running(fakeApplication(), new Runnable() {
-            public void run() {
+
                 Logger.info("============testGetMyRewardDetail start====");
                 Map<String, String> formParams = new HashMap<String, String>();
                 play.mvc.Result result = getResult("/account/reward/get_golden", formParams, cookie);
@@ -75,7 +89,42 @@ public class RewardControllerTest extends BaseTest {
                 MessageVo message = toMessageVo(result);
                 assertThat(message.getMessage().getCode()).isEqualTo(MsgCode.REWARD_QUERY_SUCC.getCode());
 
-            }
-        });
+                /**
+                 * 验证message与value
+                 */
+                String testString= null;
+                try {
+                    testString = getJsonFile("json/CustDetMyRewarDetail.json");//获得json文件内容
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                MessageVo testMessage = toMessageVo(testString);
+                assertThat(testMessage).isEqualTo(message);//此处判断message
+                HoldRewardVo testHoldRewardVo = Json.fromJson(Json.toJson(testMessage.getValue()), HoldRewardVo.class);
+                HoldRewardVo holdRewardVo = Json.fromJson(Json.toJson(message.getValue()), HoldRewardVo.class);
+                assertThat(testHoldRewardVo).isEqualTo(holdRewardVo);//此处判断value
+
+
+    }
+
+    @Test
+    public void testRewardFlowRecords() {
+
+                Logger.info("============testRewardFlowRecords start====");
+                String index = "0";
+                String pageSize = "30";
+
+
+                Map<String, String> formParams = new HashMap<>();
+                formParams.put("index", index);
+                formParams.put("pageSize", pageSize);
+
+                play.mvc.Result result = getResult("/account/reward/records", formParams, cookie);
+                Logger.info("============testRewardFlowRecords result====\n" + contentAsString(result));
+                assertThat(status(result)).isEqualTo(OK);
+                MessageVo message = toMessageVo(result);
+                assertThat(message.getMessage().getCode()).isEqualTo(MsgCode.REWARD_FLOW_QUERY_SUCC.getCode());
+
+
     }
 }

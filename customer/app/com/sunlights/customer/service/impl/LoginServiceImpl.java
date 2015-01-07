@@ -18,7 +18,6 @@ import models.Customer;
 import models.CustomerGesture;
 import models.CustomerSession;
 import models.LoginHistory;
-import play.Configuration;
 import play.Logger;
 
 import java.math.BigDecimal;
@@ -64,9 +63,8 @@ public class LoginServiceImpl implements LoginService {
                 saveLoginHistory(customer, deviceNo);
                 return customerSession;
             }
-        }else{
-            validateLoginTime(customer, deviceNo);
         }
+        validateLoginTime(customer, deviceNo);
         //
         if (!customer.getLoginPassWord().equals(new MD5Helper().encrypt(passWord))) {
             saveLoginFail(customer, deviceNo, false);
@@ -230,7 +228,7 @@ public class LoginServiceImpl implements LoginService {
 	 * 重置密码
 	 * @return
 	 */
-	public Customer resetpwd(String mobilePhoneNo, String passWord, String deviceNo) {
+	public Customer resetPwd(String mobilePhoneNo, String passWord, String deviceNo) {
         CommonUtil.getInstance().validateParams(mobilePhoneNo, passWord);
 		Customer customer = getCustomerByMobilePhoneNo(mobilePhoneNo);
 		if (customer == null) {
@@ -340,8 +338,7 @@ public class LoginServiceImpl implements LoginService {
     }
 
     private void openGesture(String gesturePassWord, String deviceNo, Customer customer, Timestamp currentTime) {
-        CustomerGesture customerGesture;
-        customerGesture = new CustomerGesture();
+        CustomerGesture customerGesture = new CustomerGesture();
         customerGesture.setGesturePassword(new MD5Helper().encrypt(gesturePassWord));
         customerGesture.setCreateTime(currentTime);
         customerGesture.setUpdateTime(currentTime);

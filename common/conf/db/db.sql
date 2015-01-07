@@ -3,7 +3,7 @@ Navicat PGSQL Data Transfer
 
 Source Server         : mars
 Source Server Version : 90305
-Source Host           : 192.168.1.95:5432
+Source Host           : 192.168.0.95:5432
 Source Database       : sunlightsdev
 Source Schema         : public
 
@@ -1901,6 +1901,79 @@ CREATE TABLE c_question_record
   CONSTRAINT c_question_record_pkey PRIMARY KEY (id)
 );
 
+/*==============================================================*/
+/* TABLE: P_DEPOSIT_INTEREST                                    */
+/*==============================================================*/
+DROP TABLE IF EXISTS P_DEPOSIT_INTEREST;
+CREATE TABLE P_DEPOSIT_INTEREST
+(
+  ID                   BIGINT                         NOT NULL,
+  "DATE"               TIMESTAMP                      NULL,
+  "CURRENT"            DECIMAL(16,5)                  NULL,
+  FULL_THREE_MONTHS    DECIMAL(16,5)                  NULL,
+  FULL_HALF_YEAR       DECIMAL(16,5)                  NULL,
+  FULL_ONE_YEAR        DECIMAL(16,5)                  NULL,
+  FULL_TWO_YEAR        DECIMAL(16,5)                  NULL,
+  FULL_THREE_YEAR      DECIMAL(16,5)                  NULL,
+  FULL_FIVE_YEAR       DECIMAL(16,5)                  NULL,
+  SHORTAGE_ONE_YEAR    DECIMAL(16,5)                  NULL,
+  SHORTAGE_THREE_YEAR  DECIMAL(16,5)                  NULL,
+  SHORTAGE_FIVE_YEAR   DECIMAL(16,5)                  NULL,
+  AGREEMENT_SAVINGS    DECIMAL(16,5)                  NULL,
+  CALL_DEPOSIT_ONE_DAY DECIMAL(16,5)                  NULL,
+  CALL_DEPOSIT_ONE_WEEK DECIMAL(16,5)                  NULL,
+  CREATE_TIME          TIMESTAMP                      NULL,
+  UPDATE_TIME          TIMESTAMP                      NULL,
+  CONSTRAINT PK_P_DEPOSIT_INTEREST PRIMARY KEY (ID)
+);
+/*==============================================================*/
+/* TABLE: FundArchiveEx                                    */
+/*==============================================================*/
+DROP TABLE IF EXISTS FundArchiveEx;
+create table FundArchiveEx
+(
+   sm_guid              varchar(100)                   null,
+   front_end_code       varchar(50)                    null,
+   back_end_code        varchar(50)                    null,
+   fund_code            varchar(50)                    null,
+   alias_code           varchar(50)                    null,
+   pin_yin_code         varchar(50)                    null,
+   fund_name            varchar(50)                    null,
+   fund_name_abbr       varchar(3000)                  null,
+   fund_name_abbr2      varchar(500)                   null,
+   establishment_date   varchar(30)                    null,
+   expire_date          varchar(100)                   null,
+   manager              varchar(50)                    null,
+   invest_advisor_guid  varchar(200)                   null,
+   invest_advisor_name  varchar(200)                   null,
+   trustee_name         varchar(100)                   null,
+   fund_type            int                            null,
+   fund_type_name       varchar(100)                   null,
+   fund_state           int                            null,
+   investment_type      int                            null,
+   investment_type_name varchar(100)                   null,
+   investment_style     int                            null,
+   investment_style_name varchar(100)                   null,
+   investment_orientation varchar(3000)                  null,
+   investment_target    varchar(3000)                  null,
+   investment_field     varchar(1200)                  null,
+   performance_bench_mark varchar(800)                   null,
+   profit_distribution_rule varchar(2800)                  null,
+   asset_allocation     varchar(2900)                  null,
+   brief_intro          varchar(3500)                  null,
+   risk_return_character varchar(1500)                  null,
+   fund_management_fees varchar(50)                    null,
+   fund_trustee_fees    varchar(50)                    null,
+   founded_size         decimal(18,2)                  null,
+   founded_hold_shares  decimal(18,2)                  null,
+   founded_total_asset  decimal(18,2)                  null,
+   latest_size          decimal(18,2)                  null,
+   latest_hold_shares   decimal(18,2)                  null,
+   latest_total_asset   decimal(18,2)                  null,
+   isdeleted            int                            null,
+   updatetime           timestamp                      null,
+   id                   bigint                         not null,
+   constraint PK_FUNDARCHIVEEX primary key (id)
+);
 
-
-
+ALTER TABLE CODE add COLUMN on_sale INT;

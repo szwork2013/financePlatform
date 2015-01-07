@@ -11,7 +11,7 @@ import com.sunlights.customer.service.rewardrules.vo.ActivityResponseVo;
  */
 public interface ObtainRuleHandler {
 
-    public void setNextHandler(ObtainRuleHandler nextHandler);
+    public ObtainRuleHandler setNextHandler(ObtainRuleHandler nextHandler);
 
     /**
      * 获取处于当前处理类的下一个处理者

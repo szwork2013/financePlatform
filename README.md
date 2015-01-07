@@ -62,7 +62,7 @@ trade->core
 * 在目录 .ivy2 下面创建 文件.credentials把下面的内容放进去
 
         realm=Sonatype Nexus Repository Manager
-        host=192.168.1.97
+        host=192.168.0.97
         user=admin
         password=admin123
 
@@ -70,7 +70,7 @@ trade->core
 
         credentials += Credentials(Path.userHome / ".ivy2" / ".credentials")
         publishTo <<= version { v: String =>
-          val nexus = "http://192.168.1.97:8081/nexus/"
+          val nexus = "http://192.168.0.97:8081/nexus/"
           if (v.trim.endsWith("SNAPSHOT"))
             Some("snapshots" at nexus + "content/repositories/snapshots")
           else
@@ -85,9 +85,9 @@ trade->core
     1. add repositories to build.sbt
     
             resolvers ++= Seq(
-            "Sunlights 3rd party" at "http://192.168.1.97:8081/nexus/content/repositories/thirdparty",
-            "Sunlights snapshots" at "http://192.168.1.97:8081/nexus/content/repositories/snapshots/",
-            "Sunlights releases" at "http://192.168.1.97:8081/nexus/content/repositories/releases/",
+            "Sunlights 3rd party" at "http://192.168.0.97:8081/nexus/content/repositories/thirdparty",
+            "Sunlights snapshots" at "http://192.168.0.97:8081/nexus/content/repositories/snapshots/",
+            "Sunlights releases" at "http://192.168.0.97:8081/nexus/content/repositories/releases/",
               )
       
     2. add dependency to build.sbt

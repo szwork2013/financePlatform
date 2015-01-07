@@ -4,18 +4,24 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.sunlights.common.vo.MessageVo;
 import models.CustomerSession;
 import play.Logger;
+import play.api.Play;
 import play.db.jpa.JPA;
 import play.libs.F;
 import play.libs.Json;
 import play.mvc.Http;
 import play.mvc.Result;
 import play.test.FakeRequest;
+import play.test.WithApplication;
 
 import javax.persistence.Query;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Scanner;
 
 import static org.fest.assertions.Assertions.assertThat;
 import static play.mvc.Http.Status.OK;
@@ -24,7 +30,7 @@ import static play.test.Helpers.*;
 /**
  * Created by Administrator on 2014/11/3.
  */
-public class BaseTest {
+public class BaseTest extends WithApplication{
     public static String APPLICATION_X_WWW_FORM_URLENCODED = "application/x-www-form-urlencoded";
     public static String CONTENT_TYPE = "Content-Type";
     protected Http.Cookie cookie = null;
@@ -67,6 +73,11 @@ public class BaseTest {
 
     protected MessageVo toMessageVo(Result result) {
         String content = contentAsString(result);
+        JsonNode jsonNode = Json.parse(content);
+        return Json.fromJson(jsonNode, MessageVo.class);
+    }
+
+    protected MessageVo toMessageVo(String content) {
         JsonNode jsonNode = Json.parse(content);
         return Json.fromJson(jsonNode, MessageVo.class);
     }
@@ -114,6 +125,27 @@ public class BaseTest {
         Http.Cookie cookie = new Http.Cookie("token", formParams.get("token"), null, null, null, false, false);
 
         return cookie;
+    }
+
+    public String getJsonFile(String path) throws IOException {
+//        String realpath="D:\\workproject\\financeplatform\\test\\"+path;//配置公共路径
+//        File file = new File(realpath);
+        File file = Play.getFile("test\\" + path, Play.current());
+        Scanner scanner = null;
+        StringBuilder buffer = new StringBuilder();
+        try {
+            scanner = new Scanner(file, "utf-8");
+            while (scanner.hasNextLine()) {
+                buffer.append(scanner.nextLine().trim());
+            }
+        } catch (FileNotFoundException e) {
+            Logger.debug("文件不存在！");
+        } finally {
+            if (scanner != null) {
+                scanner.close();
+            }
+        }
+        return buffer.toString();
     }
 
 }

@@ -1,6 +1,9 @@
 package com.sunlights.trade.service;
 
+import com.sunlights.common.vo.MessageHeaderVo;
 import com.sunlights.trade.vo.ShuMiTradeFormVo;
+
+import java.util.List;
 
 /**
  * <p>Project: financeplatform</p>
@@ -12,8 +15,8 @@ import com.sunlights.trade.vo.ShuMiTradeFormVo;
  * @author <a href="mailto:jiaming.wang@sunlights.cc">wangJiaMing</a>
  */
 public interface ShuMiTradeService {
-    public void shuMiTradeOrder(ShuMiTradeFormVo shuMiTradeFormVo, String token);
+    public List<MessageHeaderVo> shuMiTradeOrder(ShuMiTradeFormVo shuMiTradeFormVo, String token);
 
-    public void shuMiTradeRedeem(ShuMiTradeFormVo shuMiTradeFormVo, String token);
+    public String shuMiTradeRedeem(ShuMiTradeFormVo shuMiTradeFormVo, String token);
 
 }

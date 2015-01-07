@@ -8,22 +8,24 @@ import java.util.Date;
  * Created by tangweiqun on 2014/12/3.
  */
 @Entity
-@Table(name = "F_EXCAHNGE_SCENE")
+@Table(name = "F_EXCHANGE_RESULT")
 public class ExchangeResult extends IdEntity {
     @Column(name = "CUSTOMER_ID")
     private String custId;
     @Column(name = "EXCHANGE_SCENE")
     private String exchangeScene;
     @Column(name = "STATUS")
-    private String status;
+    private Integer status;
     @Column(name = "PHONE")
     private String phone;
     @Column(name = "BANK_CODE")
     private String bankCode;
-    @Column(name = "BANK_CARD_NO")
+    @Column(name = "bank_card_no")
     private String bankCardNo;
     @Column(name = "AMOUNT")
     private BigDecimal amount;
+    @Column(name = "BANKNAME")
+    private String bankName;
 
     @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "CREATE_TIME")
@@ -50,11 +52,11 @@ public class ExchangeResult extends IdEntity {
         this.exchangeScene = exchangeScene;
     }
 
-    public String getStatus() {
+    public Integer getStatus() {
         return status;
     }
 
-    public void setStatus(String status) {
+    public void setStatus(Integer status) {
         this.status = status;
     }
 
@@ -104,5 +106,13 @@ public class ExchangeResult extends IdEntity {
 
     public void setUpdateTime(Date updateTime) {
         this.updateTime = updateTime;
+    }
+
+    public String getBankName() {
+        return bankName;
+    }
+
+    public void setBankName(String bankName) {
+        this.bankName = bankName;
     }
 }

@@ -7,9 +7,8 @@ import com.sunlights.common.Severity;
 import com.sunlights.common.vo.Message;
 import com.sunlights.customer.service.rewardrules.vo.ActivityRequestVo;
 import com.sunlights.customer.service.rewardrules.vo.ActivityResponseVo;
+import org.apache.commons.lang3.StringUtils;
 import play.Logger;
-
-import java.util.List;
 
 /**
  * 活动处理服务
@@ -31,51 +30,38 @@ public class ActivityHandlerService {
     public void service(ActivityRequestVo requestVo, ActivityResponseVo responseVo) {
         ActivityRequestVo processeRequest = requestVo;
         HandlerExecutionChain mappedHandler = null;
+
         try {
             processeRequest = checkRequest(requestVo);
-            mappedHandler = getHandler(requestVo);
+            mappedHandler = getHandler(processeRequest);
 
             if(mappedHandler == null || mappedHandler.getHandler() == null) {
                 Message message = new Message(Severity.INFO, MsgCode.NOT_CONFIG_ACTIVITY_SCENE);
                 responseVo.setMessage(message);
                 responseVo.setFlowStop(true);
+                Logger.debug("没有配置该活动的handler scene = " + requestVo.getScene());
                 return;
             }
 
             HandlerAdapter ha = getHandlerAdapter(mappedHandler.getHandler());
 
-            List<HandlerInterceptor> handlerInterceptors = mappedHandler.getInterceptorList();
-            if(handlerInterceptors != null) {
-                //TODO 活动处理前的过滤器
-                for (HandlerInterceptor interceptor : handlerInterceptors) {
-                    if(!interceptor.preHandler(processeRequest, mappedHandler.getHandler())) {
-                        //TODO 过滤器不通过
-                        return;
-                    }
-                }
-            }
-
-            ha.handle(requestVo, responseVo, mappedHandler.getHandler());
-
-            if(handlerInterceptors != null) {
-                //TODO 活动处理后的过滤
-                for (HandlerInterceptor interceptor : handlerInterceptors) {
-                    interceptor.postHandler(requestVo, responseVo);
-                }
-            }
+            ha.handle(processeRequest, responseVo, mappedHandler.getHandler());
 
         } catch (Exception e) {
             Message message = new Message(Severity.INFO, MsgCode.ACTIVITY_SYS_ERROR);
             responseVo.setMessage(message);
             Logger.error("活动操作失败", e);
+            throw new RuntimeException("活动操作失败", e);
         } finally {
-            clearupRequest(processeRequest);
+//            clearupRequest(processeRequest);
         }
-
     }
 
 
     protected ActivityRequestVo checkRequest(ActivityRequestVo requestVo) {
+        if(requestVo == null || StringUtils.isEmpty(requestVo.getScene())) {
+            throw new IllegalArgumentException("请求参数的scene不能为空");
+        }
         return requestVo;
     }
 
@@ -99,6 +85,6 @@ public class ActivityHandlerService {
     }
 
     protected void clearupRequest(ActivityRequestVo requestVo) {
-
+        requestVo.recyle();
     }
 }

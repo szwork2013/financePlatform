@@ -9,10 +9,7 @@ import com.sunlights.common.exceptions.ConverterException;
 import com.sunlights.common.utils.ConverterUtil;
 import com.sunlights.customer.dal.CustomerDao;
 import com.sunlights.customer.vo.CustomerVo;
-import models.Customer;
-import models.CustomerGesture;
-import models.CustomerSession;
-import models.ShuMiAccount;
+import models.*;
 import org.apache.commons.lang3.StringUtils;
 import play.Logger;
 
@@ -68,50 +65,56 @@ public class CustomerDaoImpl extends EntityBaseDao implements CustomerDao {
     }
 
     public CustomerVo getCustomerVoByPhoneNo(String mobilePhoneNo, String deviceNo) {
-        StringBuffer sb = new StringBuffer();
-        sb.append("select c.mobile,c.real_name,c.nick_name,c.email,c.identity_number,");
-        if (deviceNo == null) {
-            sb.append(" 0 || '' as  gestureOpened,");
-        }else{
-            sb.append(" case when EXISTS (select 1 from c_customer_gesture cg where cg.customer_id = c.customer_id and cg.status = 'Y' and cg.device_no = :deviceNo) THEN '1' ELSE '0' END as gestureOpened,");
-        }
-        sb.append(" case when c.identity_typer = :identityTyper and c.identity_number is not null THEN '1' ELSE '0' END as certify,")
-          .append(" case when a.trade_password is null THEN '0' ELSE '1' END as tradePwdFlag,")
-          .append(" (select count(1) from c_bank_card bc where bc.customer_id = c.customer_id) as bankCardCount, ")
-          .append(" c.customer_id")
-          .append(" from c_customer c,f_basic_account a ")
-          .append(" where  c.customer_id = a.cust_id ")
-          .append(" and  c.mobile = :mobilePhoneNo ");
-
-        String sql = sb.toString();
+        String sql = " select c.mobile,c.real_name,c.nick_name,c.email,c.identity_number," +
+                     " case when c.identity_typer = :identityTyper and c.identity_number is not null THEN '1' ELSE '0' END as certify," +
+                     " case when a.trade_password is null THEN '0' ELSE '1' END as tradePwdFlag," +
+                     " (select count(1) from c_bank_card bc where bc.customer_id = c.customer_id) as bankCardCount," +
+                     " c.customer_id" +
+                     " from c_customer c,f_basic_account a" +
+                     " where  c.customer_id = a.cust_id" +
+                     " and  c.mobile = :mobilePhoneNo";
         Logger.debug(sql);
 
         Query query = em.createNativeQuery(sql);
         query.setParameter("identityTyper", DictConst.CERTIFICATE_TYPE_1);
-        if (deviceNo != null) {
-            query.setParameter("deviceNo", deviceNo);
-        }
         query.setParameter("mobilePhoneNo", mobilePhoneNo);
-
         List<Object[]> list = query.getResultList();
+        CustomerVo customerVo = transCustomerVo(list);
+        if (customerVo != null) {//手势设置查询
+            if (deviceNo != null) {
+                String deviceNoSql = "select cg from CustomerGesture cg where cg.customerId = :customerId and cg.deviceNo = :deviceNo order by cg.updateTime desc";
+                query = em.createQuery(deviceNoSql, CustomerGesture.class);
+                query.setParameter("customerId", customerVo.getCustomerId());
+                query.setParameter("deviceNo", deviceNo);
+                List<CustomerGesture> customerGestureList = query.getResultList();
+                if (customerGestureList.isEmpty()) {
+                    customerVo.setGestureOpened("0");
+                    customerVo.setGestureSetted("0");
+                }else{
+                    customerVo.setGestureOpened(AppConst.STATUS_VALID.equals(customerGestureList.get(0).getStatus()) ? "1" : "0");
+                    customerVo.setGestureSetted("1");
+                }
+            }else{
+                customerVo.setGestureOpened("0");
+                customerVo.setGestureSetted("0");
+            }
+        }
 
-        CustomerVo customerInfoVo = transCustomerVo(list);
 
-        return customerInfoVo;
+        return customerVo;
     }
 
     public CustomerVo getCustomerVoByIdCardNo(String idCardNo, String userName) {
         String sql = " select c.mobile,c.real_name,c.nick_name,c.email,c.identity_number," +
-                " 0 || '' as gestureOpened," +
-                " case when c.identity_typer = :identityTyper and c.identity_number is not null THEN '1' ELSE '0' END as certify," +
-                " case when a.trade_password is null THEN '0' ELSE '1' END as tradePwdFlag," +
-                " (select count(1) from c_bank_card bc where bc.customer_id = c.customer_id) as bankCardCount, " +
-                "  c.customer_id " +
-                " from    c_customer c,f_basic_account a" +
-                " where   c.customer_id = a.cust_id" +
-                " and     c.real_name = :userName" +
-                " and     c.identity_typer = :identityTyper" +
-                " and     c.identity_number = :idCardNo";
+                     " case when c.identity_typer = :identityTyper and c.identity_number is not null THEN '1' ELSE '0' END as certify," +
+                     " case when a.trade_password is null THEN '0' ELSE '1' END as tradePwdFlag," +
+                     " (select count(1) from c_bank_card bc where bc.customer_id = c.customer_id) as bankCardCount, " +
+                     "  c.customer_id " +
+                     " from    c_customer c,f_basic_account a" +
+                     " where   c.customer_id = a.cust_id" +
+                     " and     c.real_name = :userName" +
+                     " and     c.identity_typer = :identityTyper" +
+                     " and     c.identity_number = :idCardNo";
 
         Logger.debug(sql);
 
@@ -122,6 +125,10 @@ public class CustomerDaoImpl extends EntityBaseDao implements CustomerDao {
         List list = query.getResultList();
 
         CustomerVo customerVo = transCustomerVo(list);
+        if (customerVo != null) {
+            customerVo.setGestureOpened("0");
+            customerVo.setGestureSetted("0");
+        }
 
         return customerVo;
     }
@@ -132,7 +139,7 @@ public class CustomerDaoImpl extends EntityBaseDao implements CustomerDao {
         }
 
 
-        String keys = "mobilePhoneNo,userName,nickName,email,idCardNo,gestureOpened,certify,tradePwdFlag,bankCardCount,customerId";
+        String keys = "mobilePhoneNo,userName,nickName,email,idCardNo,certify,tradePwdFlag,bankCardCount,customerId";
         List<CustomerVo> customerVos = ConverterUtil.convert(keys, list, CustomerVo.class);
         CustomerVo customerVo = customerVos.get(0);
         findShuMiAccount(customerVo);
@@ -242,5 +249,21 @@ public class CustomerDaoImpl extends EntityBaseDao implements CustomerDao {
         Customer customer = new Customer();
         customer.setCustomerId(resultRows.get(0));
         return customer;
+    }
+
+
+    @Override
+    public List<String> findAliasByCustomerId(String customerId) {
+        return createNameQuery("findAliasByCustomerId", customerId).getResultList();
+    }
+
+    @Override
+    public CustomerMsgSetting updateCustomerMsgSetting(CustomerMsgSetting customerMsgSetting) {
+        return update(customerMsgSetting);
+    }
+
+    @Override
+    public CustomerMsgSetting createCustomerMsgSetting(CustomerMsgSetting customerMsgSetting) {
+        return create(customerMsgSetting);
     }
 }

@@ -37,7 +37,7 @@ class CacheMethodHandler implements MethodHandler {
         sb.append(key).append("-").append(self.getClass().getSimpleName()).append("-").append(thisMethod.getName()).append("-");
         if(args != null) {
             for(Object obj : args) {
-                sb.append(obj.toString());
+                sb.append(obj == null ? "null" : obj.toString());
             }
         }
         key = sb.toString();

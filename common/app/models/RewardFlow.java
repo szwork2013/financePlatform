@@ -22,6 +22,8 @@ public class RewardFlow extends IdEntity{
     private String scene;
     @Column(name = "REWARD_TYPE")
     private String rewardType;
+    @Column(name = "ACTIVITY_TYPE")
+    private String activityType;
     //1表示获取  2表示兑换
     @Column(name = "OPERATOR_TYPE")
     private Integer operatorType;
@@ -115,5 +117,13 @@ public class RewardFlow extends IdEntity{
 
     public void setScene(String scene) {
         this.scene = scene;
+    }
+
+    public String getActivityType() {
+        return activityType;
+    }
+
+    public void setActivityType(String activityType) {
+        this.activityType = activityType;
     }
 }

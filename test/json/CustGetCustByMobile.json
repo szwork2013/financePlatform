@@ -1,0 +1,29 @@
+{"message": {
+    "severity": 0,
+    "code": "0000",
+    "summary": "操作成功",
+    "detail": "",
+    "fields": {}
+}, "value": {
+    "userName": "*佳明",
+    "nickName": "王",
+    "mobilePhoneNo": "15821948594",
+    "mobileDisplayNo": "158****8594",
+    "email": null,
+    "gestureOpened": "1",
+    "certify": "1",
+    "idCardNo": "362531******0033",
+    "bankCardCount": "1",
+    "tradePwdFlag": "0",
+    "gestureSetted": "1",
+    "shumi_tokenKey": null,
+    "shumi_tokenSecret": null,
+    "shumi_userName": null,
+    "shumi_realName": null,
+    "shumi_idNumber": null,
+    "shumi_bankName": null,
+    "shumi_bankCardNo": null,
+    "shumi_bankSerial": null,
+    "shumi_phoneNum": null,
+    "shumi_email": null
+}}

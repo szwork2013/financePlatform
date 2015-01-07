@@ -3,9 +3,11 @@ package com.sunlights.customer.dal;
 import com.sunlights.customer.vo.CustomerVo;
 import models.Customer;
 import models.CustomerGesture;
+import models.CustomerMsgSetting;
 import models.CustomerSession;
 
 import java.sql.Timestamp;
+import java.util.List;
 
 /**
  * <p>Project: fsp</p>
@@ -45,8 +47,22 @@ public interface CustomerDao {
 
   public CustomerGesture findCustomerGestureByDeviceNo(String customerId, String deviceNo);
 
-
+    /**
+     * 通过被推荐人查询推荐人信息
+     * @param customerId 被推荐人
+     * @return
+     */
   public Customer findRecommenderInfo(String customerId);
+
+    /**
+     * 查询客户所属aiias 一条记录
+     * @param customerId
+     * @return
+     */
+    public List<String> findAliasByCustomerId(String customerId);
+    public CustomerMsgSetting updateCustomerMsgSetting(CustomerMsgSetting customerMsgSetting);
+    public CustomerMsgSetting createCustomerMsgSetting(CustomerMsgSetting customerMsgSetting);
+
 
 
 }

@@ -24,8 +24,6 @@ public class CustJoinActivity extends IdEntity {
     private int relateTime;
     @Column(name = "JOIN_TIME")
     private Date joinTime;
-    @Column(name = "SHORT_URL")
-    private String shortUrl;
     @Column(name = "CREATE_TIME")
     private Date createTime;
     @Temporal(TemporalType.TIMESTAMP)
@@ -56,13 +54,6 @@ public class CustJoinActivity extends IdEntity {
         this.scene = scene;
     }
 
-    public String getShortUrl() {
-        return shortUrl;
-    }
-
-    public void setShortUrl(String shortUrl) {
-        this.shortUrl = shortUrl;
-    }
 
     public int getJoined() {
         return joined;

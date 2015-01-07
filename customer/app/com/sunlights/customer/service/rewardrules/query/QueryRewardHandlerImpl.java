@@ -38,7 +38,7 @@ public class QueryRewardHandlerImpl implements QueryRewardHandler {
         }
         RewardResultVo rewardResultVo = new RewardResultVo();
 
-        if(responseVo.getMessage().getCode().equals(MsgCode.OBTAIN_SUCC.getCode())) {
+        if(responseVo.getMessage().getCode().equals(MsgCode.OPERATE_SUCCESS.getCode())) {
             rewardResultVo.setReturnMessage(new Message(Severity.INFO, MsgCode.ACTIVITY_QUERY_SUCC));
             rewardResultVo.setStatus(ActivityConstant.ACTIVITY_CUSTONER_STATUS_NOMAL);
             rewardResultVo = judge(requestVo, responseVo, rewardResultVo, true);

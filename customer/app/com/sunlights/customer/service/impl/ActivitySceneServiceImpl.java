@@ -1,5 +1,6 @@
 package com.sunlights.customer.service.impl;
 
+import com.sunlights.common.cache.Cacheable;
 import com.sunlights.common.utils.CommonUtil;
 import com.sunlights.common.utils.ConverterUtil;
 import com.sunlights.customer.ActivityConstant;
@@ -19,6 +20,7 @@ import java.util.List;
 public class ActivitySceneServiceImpl implements ActivitySceneService {
     private ActivitySceneDao activitySceneDao = new ActivitySceneDaoImpl();
 
+    @Cacheable(key = "getSceneByCode", duration = 300)
     @Override
     public ActivitySceneVo getSceneByCode(String scene) {
         ActivityScene activityScene = activitySceneDao.getSceneByCode(scene);
@@ -36,6 +38,7 @@ public class ActivitySceneServiceImpl implements ActivitySceneService {
         return activitySceneVo;
     }
 
+    @Cacheable(key = "getScenesByActivityType", duration = 300)
     @Override
     public List<ActivityScene> getScenesByActivityType(String activityType) {
         return activitySceneDao.getScenesByActivityType(activityType);

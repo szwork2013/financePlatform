@@ -8,6 +8,7 @@ import com.sunlights.customer.service.rewardrules.vo.ActivityRequestVo;
 import com.sunlights.customer.service.rewardrules.vo.ActivityResponseVo;
 import com.sunlights.customer.service.rewardrules.vo.RewardFlowRecordVo;
 import models.CustJoinActivity;
+import play.Logger;
 
 import java.util.Date;
 import java.util.List;
@@ -47,6 +48,7 @@ public class SignInCustJoinActivityHandler extends AbstractObtainRuleHandler {
                 custJoinActivity.setJoinTime(new Date());
 
                 custJoinActivityService.saveCustJoinActivity(custJoinActivity);
+                Logger.debug("写入用户参加活动结果成功 custId = " + rewardFlowRecordVo.getCustId() + " activityId = " + rewardFlowRecordVo.getActivityId() + " scene = " + rewardFlowRecordVo.getScene());
             }
         }
     }

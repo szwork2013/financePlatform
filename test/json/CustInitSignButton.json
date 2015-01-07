@@ -1,0 +1,12 @@
+{"message": {
+    "severity": 0,
+    "code": "0221",
+    "summary": "查询成功",
+    "detail": "",
+    "fields": {}
+}, "value": {
+    "scene": "ASC001",
+    "status": "N",
+    "alreadyGet": 0,
+    "notGet": 50
+}}

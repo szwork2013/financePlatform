@@ -4,18 +4,18 @@ import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayOutputStream;
+import java.io.IOException;
 
 public class QRcodeByte {
 
     /**
      * 获得二维码的二进制流
-     * @param sortUrl 短链接
+     * @param content 需要生成二维码的文本内容
      * @return
      */
-    public byte[] getQRcodeByte(String sortUrl){
-        String encoderContent = sortUrl;//短链接
+    public byte[] generateQRCode(String content){
         QRcodeByte handler = new QRcodeByte();
-        return  handler.encoderQRCode(encoderContent,"png");
+        return  handler.encoderQRCode(content,"png");
     }
 
     /**
@@ -23,31 +23,38 @@ public class QRcodeByte {
      * @param content 存储内容
      * @param imgType 图片类型
      */
-    public byte[] encoderQRCode(String content, String imgType) {
+    private byte[] encoderQRCode(String content, String imgType) {
         return this.encoderQRCode(content, imgType, 7);
     }
 
     /**
-     * 生成二维码(QRCode)图片
+     * 生成二维码图片,返回byte
      * @param content 存储内容
      * @param imgType 图片类型
      * @param size 二维码尺寸
      */
-    public byte[] encoderQRCode(String content, String imgType, int size) {
+    private byte[] encoderQRCode(String content, String imgType, int size) {
+        ByteArrayOutputStream out=null;
         try {
             BufferedImage bufImg = this.qRCodeCommon(content, imgType, size);
             //此处将BufferedImage数据转换为二进制
-            ByteArrayOutputStream out=new ByteArrayOutputStream();
+            out=new ByteArrayOutputStream();
             ImageIO.write(bufImg,imgType,out);
             return out.toByteArray();
         } catch (Exception e) {
             e.printStackTrace();
+        }finally {
+            try {
+                out.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
         return null;
     }
 
     /**
-     * 生成二维码(QRCode)图片的公共方法
+     * 生成二维码图片的公共方法
      * @param content 存储内容
      * @param imgType 图片类型
      * @param size 二维码尺寸

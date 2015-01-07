@@ -50,6 +50,7 @@ public class RewardFlowHandler extends AbstractObtainRuleHandler{
         for(Activity activity : activities) {
             List<ObtainRewardRuleVo> obtainRewardRuleVos = obtainRewardRuleMap.get(activity.getId());
             if(obtainRewardRuleVos == null || obtainRewardRuleVos.isEmpty()) {
+                Logger.debug("没有找到获取规则 scene = " + requestVo.getScene());
                 continue;
             }
             for(ObtainRewardRuleVo obtainRewardRuleVo : obtainRewardRuleVos) {
@@ -60,6 +61,7 @@ public class RewardFlowHandler extends AbstractObtainRuleHandler{
                 RewardFlowRecordVo rewardFlowRecordVo = new RewardFlowRecordVo();
                 if(obtainRewardRuleVo.getInviter() == ActivityConstant.ACCOUNT_COMMON_ONE && StringUtils.isNotEmpty(requestVo.getRecommendCustId())) {
                     rewardFlowRecordVo.setCustId(requestVo.getRecommendCustId());
+                    rewardFlowRecordVo.setRecommender(true);
                 } else if (obtainRewardRuleVo.getInviter() == ActivityConstant.ACCOUNT_COMMON_ZERO){
                     rewardFlowRecordVo.setCustId(requestVo.getCustId());
                 } else {
@@ -72,7 +74,8 @@ public class RewardFlowHandler extends AbstractObtainRuleHandler{
                 rewardFlowRecordVo.setRewardType(obtainRewardRuleVo.getRewardType());
                 rewardFlowRecordVo.setScene(requestVo.getScene());
                 rewardFlowRecordVo.setOperatorType(ActivityConstant.REWARD_FLOW_OBTAIN);
-                rewardFlowRecordVo.setRuleUrl(activityService.getFileFuleUrl(activity.getUrl(), "activity.html5Path"));
+                rewardFlowRecordVo.setRuleUrl(activityService.getFileFuleUrl(activity.getUrl(), "activity.html5Path") + "?activityId=" + activity.getId());
+
 
                 ObtainRewardCalculator calculator = RewardCalculatorFactory.getCalculator(activityScene.getScene());
                 Integer unit = obtainRewardRuleVo.getRewardTypeModel().getUnit();
@@ -94,6 +97,8 @@ public class RewardFlowHandler extends AbstractObtainRuleHandler{
                 responseVo.addRewardFlowRecordVo(rewardFlowRecordVo);
 
                 holdRewardService.genRewardFlow(rewardFlowRecordVo);
+
+                Logger.debug("产生一条资金流水成功 rewardFlowRecordVo = " + rewardFlowRecordVo);
             }
         }
     }

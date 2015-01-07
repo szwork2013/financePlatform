@@ -13,13 +13,6 @@ POST        /product/attention/create         @com.sunlights.core.web.AttentionC
 POST        /product/attentions/create        @com.sunlights.core.web.AttentionController.createProductAttentions
 POST        /product/attention/cancel         @com.sunlights.core.web.AttentionController.cancelProductAttention
 
-#bank
-POST        /banks                            @com.sunlights.core.web.BankController.findBanks
-POST        /bank/findbybankcard              @com.sunlights.core.web.BankController.findBankByBankCardNo
-POST        /bank/bankcards                   @com.sunlights.core.web.BankController.findBankCards
-POST        /bank/bankcard/create             @com.sunlights.core.web.BankController.createBankCard
-POST        /bank/bankcard/delete             @com.sunlights.core.web.BankController.deleteBankCards
-POST        /bank/bankcard/validate           @com.sunlights.core.web.BankController.validateBankCard
 
 #agree
 POST        /agreement/findlinkbycode         @com.sunlights.core.web.AgreementController.findAgreementVoByAgreementNo
@@ -31,6 +24,18 @@ POST        /verificationcode                 @com.sunlights.core.web.SecurityCo
 POST        /certify                          @com.sunlights.core.web.SecurityController.certify
 POST        /certifytradepwd                  @com.sunlights.core.web.SecurityController.certifyAndResetTradePwd
 
+#deposit
+POST        /deposit/interest/current         @com.sunlights.core.web.DepositInterestController.findCurrent
+
+
+#bank
+POST        /banks                            @com.sunlights.customer.web.BankController.findBanks
+POST        /bank/findbybankcard              @com.sunlights.customer.web.BankController.findBankByBankCardNo
+POST        /bank/bankcards                   @com.sunlights.customer.web.BankController.findBankCards
+POST        /bank/bankcard/create             @com.sunlights.customer.web.BankController.createBankCard
+POST        /bank/bankcard/delete             @com.sunlights.customer.web.BankController.deleteBankCards
+POST        /bank/bankcard/validate           @com.sunlights.customer.web.BankController.validateBankCard
+POST        /bank/bankcard/saveall            @com.sunlights.customer.web.BankController.saveAllBankCard
 
 # Map static resources from the /public folder to the /assets URL path
 GET         /assets/*file                     controllers.Assets.at(path="/public", file)

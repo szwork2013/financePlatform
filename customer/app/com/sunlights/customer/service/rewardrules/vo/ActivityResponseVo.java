@@ -1,8 +1,10 @@
 package com.sunlights.customer.service.rewardrules.vo;
 
+import com.google.common.collect.Lists;
 import com.sunlights.common.MsgCode;
 import com.sunlights.common.Severity;
 import com.sunlights.common.vo.Message;
+import com.sunlights.common.vo.MessageHeaderVo;
 import com.sunlights.customer.vo.ActivityResultVo;
 import com.sunlights.customer.vo.ObtainRewardVo;
 
@@ -13,21 +15,33 @@ import java.util.List;
  * Created by tangweiqun on 2014/12/1.
  */
 public class ActivityResponseVo {
+    //=============================老接口==================
     private Long alreadyGet;
 
     private Long notGet;
-
+    //=================================================
     private String status;
 
-    private Message message = new Message(Severity.INFO, MsgCode.OBTAIN_SUCC);
+    /**
+     * 结果信息
+     */
+    private Message message = new Message(Severity.INFO, MsgCode.OPERATE_SUCCESS);
 
+    /**
+     * 判断流程是否退出
+     */
     private boolean isFlowStop;
 
-    private List<RewardFlowRecordVo> rewardFlowRecordVos;
-
-    private List<ObtainRewardVo>  obtainRewardVos ;
-
+    /**
+     * 产生奖励流水的元数据
+     */
+    private List<RewardFlowRecordVo> rewardFlowRecordVos = new ArrayList<RewardFlowRecordVo>();;
+    //老接口返回的结果
+    private List<ObtainRewardVo>  obtainRewardVos = Lists.newArrayList();
+    //新接口返回的结果
     private List<ActivityResultVo> activityResultVos;
+    //发送消息需要的信息
+    private List<MessageHeaderVo> messageHeaderVos = Lists.newArrayList();
 
     public Long getAlreadyGet() {
         return alreadyGet;
@@ -90,9 +104,6 @@ public class ActivityResponseVo {
     }
 
     public void addObtainRewardVo(ObtainRewardVo obtainRewardVo) {
-        if(this.obtainRewardVos == null) {
-            obtainRewardVos = new ArrayList<ObtainRewardVo>();
-        }
 
         obtainRewardVos.add(obtainRewardVo);
     }
@@ -105,7 +116,26 @@ public class ActivityResponseVo {
         activityResultVos.add(activityResultVo);
     }
 
+    public List<MessageHeaderVo> getMessageHeaderVos() {
+        return messageHeaderVos;
+    }
+
+    public void addMessageHeaderVo(MessageHeaderVo messageHeaderVo) {
+        if(this.messageHeaderVos == null) {
+            this.messageHeaderVos = Lists.newArrayList();
+        }
+        if(messageHeaderVo == null) {
+            return;
+        }
+        this.messageHeaderVos.add(messageHeaderVo);
+    }
+
     public List<ActivityResultVo> getActivityResultVos() {
         return activityResultVos;
+    }
+
+    @Override
+    public String toString() {
+        return message.toString();
     }
 }

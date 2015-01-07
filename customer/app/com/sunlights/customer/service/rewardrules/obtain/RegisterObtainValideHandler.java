@@ -42,10 +42,13 @@ public class RegisterObtainValideHandler extends AbstractObtainRuleHandler{
         if(custJoinActivity != null) {
             Logger.debug("已经注册了");
             Message message = new Message(Severity.INFO, MsgCode.ALREADY_REGISTER);
+            message.setDetail("您已经注册");
             responseVo.setMessage(message);
             responseVo.setFlowStop(true);
             return;
         }
+
+        Logger.debug("校验客户[" + requestVo.getCustId() + "]注册成功");
 
     }
 

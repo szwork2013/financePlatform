@@ -2,9 +2,9 @@ package com.sunlights.customer.service;
 
 
 import com.sunlights.common.vo.PageVo;
+import com.sunlights.customer.vo.Activity4H5Vo;
 import com.sunlights.customer.vo.ActivityVo;
 import models.Activity;
-import models.ActivityShareInfo;
 
 import java.util.List;
 
@@ -12,6 +12,8 @@ import java.util.List;
  * Created by tangweiqun on 2014/11/17.
  */
 public interface ActivityService {
+
+    public List<Activity> getAllActivities();
 
     public List<ActivityVo> getActivityVos(PageVo pageVo);
 
@@ -27,7 +29,13 @@ public interface ActivityService {
     public String getFileFuleUrl(String fileName, String remotDir);
 
 
-    public ActivityShareInfo getShareInfoByScene(String scene);
+    public Activity getByUnknowCondition(String condition);
 
+
+
+
+    public List<Activity> getCurrentValidActivities();
+
+    public Activity4H5Vo getH5InfoById(Long id);
 
 }

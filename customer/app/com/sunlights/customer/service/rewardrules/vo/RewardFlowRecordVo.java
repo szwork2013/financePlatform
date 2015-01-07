@@ -24,7 +24,9 @@ public class RewardFlowRecordVo {
      * 本次活动得到的奖励数
      */
     private Long rewardAmtResult;
-
+    /**
+     * 经过单位换算的
+     */
     private BigDecimal rewardAmtFromTrans;
     /**
      * 奖励对应着折现
@@ -39,6 +41,19 @@ public class RewardFlowRecordVo {
     private String ruleUrl;
 
     private String detail;
+
+    private Integer rewardFlowStatus;
+
+
+    private boolean isRecommender;
+
+    public boolean isRecommender() {
+        return isRecommender;
+    }
+
+    public void setRecommender(boolean isRecommender) {
+        this.isRecommender = isRecommender;
+    }
 
     public String getStatus() {
         return status;
@@ -150,5 +165,37 @@ public class RewardFlowRecordVo {
 
     public void setRewardAmtFromTrans(BigDecimal rewardAmtFromTrans) {
         this.rewardAmtFromTrans = rewardAmtFromTrans;
+    }
+
+    public Integer getRewardFlowStatus() {
+        return rewardFlowStatus;
+    }
+
+    public void setRewardFlowStatus(Integer rewardFlowStatus) {
+        this.rewardFlowStatus = rewardFlowStatus;
+    }
+
+    @Override
+    public String toString() {
+        StringBuilder sb = new StringBuilder();
+        sb.append("[custId = ").append(custId)
+                .append("; scene = ").append(scene)
+                .append("; activityId = ").append(activityId)
+                .append("; activityTitle = ").append(activityTitle)
+                .append("; activityType = ").append(activityType)
+                .append("; rewardType = ").append(rewardType)
+                .append("; operatorType = ").append(operatorType)
+                .append("; rewardAmtResult = ").append(rewardAmtResult)
+                .append("; rewardAmtFromTrans = ").append(rewardAmtFromTrans)
+                .append("; moneyResult = ").append(moneyResult)
+                .append("; notGet = ").append(notGet)
+                .append("; status = ").append(status)
+                .append("; ruleUrl = ").append(ruleUrl)
+                .append("; detail = ").append(detail)
+                .append("; rewardFlowStatus = ").append(rewardFlowStatus)
+                .append("; isRecommender = ").append(isRecommender)
+                .append("]");
+
+        return sb.toString();
     }
 }

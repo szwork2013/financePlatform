@@ -14,4 +14,13 @@ public interface FundProfitHistoryDao {
     void deleteFundProfitHistory(FundProfitHistory fundProfitHistory);
     FundProfitHistory findFundProfitHistoryByDateTime(Timestamp dateTime);
     List<FundProfitHistory> findFundProfitHistory(FundProfitHistory fundProfitHistory);
+    FundProfitHistory findFundProfitHistoryByCodeAndDate(FundProfitHistory fundProfitHistories);
+
+    /**
+     * 根据更新日期查询基金净值更新记录
+     *
+     * @param updateDate("yyyy-MM-dd")
+     * @return
+     */
+    List<FundProfitHistory> findByUpdateDate(String updateDate);
 }
