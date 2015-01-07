@@ -52,7 +52,7 @@ public class ActivityServiceImpl implements ActivityService{
         String server = Configuration.root().getString("activity.server");
         String port = Configuration.root().getString("activity.port");
         String remoteDir = Configuration.root().getString(remotDir);
-        return new StringBuilder().append("http://").append(server).append(":").append(port).append(remoteDir).append("/").append(fileName).toString();
+        return new StringBuilder().append("https://").append(server).append(":").append(port).append(remoteDir).append("/").append(fileName).toString();
     }
 
     @Cacheable(key="scene", duration = 300)
