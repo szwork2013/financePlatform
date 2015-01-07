@@ -204,7 +204,7 @@ public class LoginServiceImpl implements LoginService {
         String idCardNo = vo.getIdCardNo();
         String deviceNo = vo.getDeviceNo();
 
-        CommonUtil.getInstance().validateParams(mobilePhoneNo, verifyCode);
+        CommonUtil.getInstance().validateParams(mobilePhoneNo);
 		Customer customer = getCustomerByMobilePhoneNo(mobilePhoneNo);
 		if (customer == null) {
 			throw CommonUtil.getInstance().errorBusinessException(MsgCode.PHONE_NUMBER_NOT_REGISTRY);
