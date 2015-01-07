@@ -32,13 +32,13 @@ public class ActivityControllerTest extends BaseTest {
     //@Before
     public void getCookie() {
         super.startPlay();
-        final String mobilePhoneNo = "15821948594";
+        final String mobilePhoneNo = "15221368612";
         final String password = "111111";
         cookie = getCookieAfterLogin(mobilePhoneNo, password);
 
     }
 
-    //@Test
+    @Test
     public void testSignInObtainReward() {
 
                 Logger.info("============testSignInObtainReward start====");
@@ -49,7 +49,7 @@ public class ActivityControllerTest extends BaseTest {
                         play.mvc.Result result = null;
                         com.sunlights.customer.service.CustJoinActivityService custJoinActivityService = new CustJoinActivityServiceImpl();
 
-                        CustJoinActivity custJoinActivity = custJoinActivityService.getTodayRecordByCustAndActivity("20141206134951010000000044", null, ActivityConstant.ACTIVITY_SIGNIN_SCENE_CODE);
+                        CustJoinActivity custJoinActivity = custJoinActivityService.getTodayRecordByCustAndActivity("20150105103148010000000067", null, ActivityConstant.ACTIVITY_SIGNIN_SCENE_CODE);
                         //2:签到获取金豆正常测试
                         formParams = new HashMap<String, String>();
                         formParams.put("scene", ActivityConstant.ACTIVITY_SIGNIN_SCENE_CODE);
