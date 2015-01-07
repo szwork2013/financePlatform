@@ -1,10 +1,8 @@
 package com.sunlights.customer.web;
 
 
-import com.sunlights.common.AppConst;
 import com.sunlights.common.MsgCode;
 import com.sunlights.common.Severity;
-import com.sunlights.common.utils.MessageUtil;
 import com.sunlights.common.vo.Message;
 import com.sunlights.common.vo.MessageHeaderVo;
 import com.sunlights.common.vo.PageVo;
@@ -130,7 +128,7 @@ public class ActivityController extends ActivityBaseController  {
 
         //发送消息
         List<MessageHeaderVo> messageHeaderVos = responseVo.getMessageHeaderVos();
-        response().setHeader(AppConst.HEADER_MSG, MessageUtil.getInstance().setMessageHeader(messageHeaderVos));
+//        response().setHeader(AppConst.HEADER_MSG, MessageUtil.getInstance().setMessageHeader(messageHeaderVos));
 
         return ok(messageUtil.toJson());
     }
@@ -204,7 +202,7 @@ public class ActivityController extends ActivityBaseController  {
 
         //发送消息
         List<MessageHeaderVo> messageHeaderVos = responseVo.getMessageHeaderVos();
-        response().setHeader(AppConst.HEADER_MSG, MessageUtil.getInstance().setMessageHeader(messageHeaderVos));
+//        response().setHeader(AppConst.HEADER_MSG, MessageUtil.getInstance().setMessageHeader(messageHeaderVos));
 
         return ok(messageUtil.toJson());
     }
