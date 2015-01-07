@@ -458,8 +458,7 @@ public class LoginServiceImpl implements LoginService {
                 long times = PWD_MAX - loginHistory.getLogNum() % PWD_MAX;
                 message = new Message(Severity.ERROR, MsgCode.GESTURE_PASSWORD_ERROR, times);
             } else {// 此次为PWD_MAX * n次    做清除操作，若为登录状态则登出
-//                message = new Message(Severity.ERROR, MsgCode.GESTURE_LOGIN_ERROR_OVER_COUNT);
-                message = new Message(Severity.ERROR, MsgCode.GESTURE_PASSWORD_ERROR, 0);
+                message = new Message(Severity.ERROR, MsgCode.GESTURE_LOGIN_ERROR_OVER_COUNT);
             }
         }else{
             if (loginHistory.getLogNum() % PWD_MAX != 0) {
