@@ -29,6 +29,9 @@ public interface ActivityService {
     public String getFileFuleUrl(String fileName, String remotDir);
 
 
+    public Activity getByUnknowCondition(String condition);
+
+
 
 
     public List<Activity> getCurrentValidActivities();

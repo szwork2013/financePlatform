@@ -8,6 +8,8 @@ import com.sunlights.customer.dal.ExchangeSceneDao;
 import com.sunlights.customer.dal.HoldRewardDao;
 import com.sunlights.customer.dal.impl.ExchangeSceneDaoImpl;
 import com.sunlights.customer.dal.impl.HoldRewardDaoImpl;
+import com.sunlights.customer.factory.ActivityDaoFactory;
+import com.sunlights.customer.factory.ActivityServiceFactory;
 import com.sunlights.customer.service.ExchangeSceneService;
 import com.sunlights.customer.service.RewardFlowService;
 import com.sunlights.customer.service.RewardTypeService;
@@ -33,10 +35,10 @@ import java.util.List;
  * Created by tangweiqun on 2014/12/3.
  */
 public class ExchangeSceneServiceImpl implements ExchangeSceneService {
-    private ExchangeSceneDao exchangeSceneDao = new ExchangeSceneDaoImpl();
+    private ExchangeSceneDao exchangeSceneDao = ActivityDaoFactory.getExchangeSceneDao();
     private HoldRewardDao holdRewardDao = new HoldRewardDaoImpl();
 
-    private RewardTypeService rewardTypeService = new RewardTypeServiceImpl();
+    private RewardTypeService rewardTypeService = ActivityServiceFactory.getRewardTypeService();
     private RewardFlowService rewardFlowService = new RewardFlowServiceImpl();
 
     @Override
@@ -59,7 +61,7 @@ public class ExchangeSceneServiceImpl implements ExchangeSceneService {
             BigDecimal money = BigDecimal.ZERO;
             for(HoldReward holdReward : holdRewards) {
                 total += (holdReward.getHoldReward() - holdReward.getFrozenReward());
-                money = money.add(holdReward.getHoldMoney());
+                money = money.add(holdReward.getHoldMoney().subtract(holdReward.getFrozenMoney()));
             }
             if(total < exchangeScene.getRequireAmt() || total == 0L) {
                 Logger.debug("total = " + total + " < " + " RequireAmt = " + exchangeScene.getRequireAmt());
@@ -125,7 +127,7 @@ public class ExchangeSceneServiceImpl implements ExchangeSceneService {
         return exchangeSceneDao.queryById(Long.valueOf(id));
     }
 
-    @Cacheable(key = "AllExchangeScenes", duration = 300)
+
     @Override
     public List<ExchangeScene> loadAllExchangescenes() {
         return exchangeSceneDao.loadAll();

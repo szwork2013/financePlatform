@@ -63,9 +63,8 @@ public class LoginServiceImpl implements LoginService {
                 saveLoginHistory(customer, deviceNo);
                 return customerSession;
             }
-        }else{
-            validateLoginTime(customer, deviceNo);
         }
+        validateLoginTime(customer, deviceNo);
         //
         if (!customer.getLoginPassWord().equals(new MD5Helper().encrypt(passWord))) {
             saveLoginFail(customer, deviceNo, false);

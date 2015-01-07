@@ -36,6 +36,9 @@ public class MsgCenterAction extends Action.Simple{
         try {
             String headerMsg = context.response().getHeaders().get(AppConst.HEADER_MSG);
             Logger.debug("headerMsg:" + headerMsg);
+            if (headerMsg == null) {
+                return result;
+            }
             JsonNode messageJsonNode = Json.parse(headerMsg).get("message");
             if (messageJsonNode == null) {
                 return result;
@@ -79,7 +82,6 @@ public class MsgCenterAction extends Action.Simple{
             e.printStackTrace();
         }
 
-//        context.response().setHeader(AppConst.HEADER_MSG, null);
 
         return result;
     }

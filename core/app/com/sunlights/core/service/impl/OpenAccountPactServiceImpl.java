@@ -1,5 +1,6 @@
 package com.sunlights.core.service.impl;
 
+import com.sunlights.common.cache.Cacheable;
 import com.sunlights.common.utils.DBHelper;
 import com.sunlights.core.dal.OpenAccountPactDao;
 import com.sunlights.core.dal.impl.OpenAccountPactDaoImpl;
@@ -27,6 +28,7 @@ public class OpenAccountPactServiceImpl implements OpenAccountPactService {
   private OpenAccountPactDao openAccountPactDao = new OpenAccountPactDaoImpl();
   private BankCardService bankCardService = new BankCardServiceImpl();
 
+  @Cacheable(key = "findAgreementVoByAgreementNo", duration = 300)
   @Override
   public AgreementVo findAgreementVoByAgreementNo(String agreementNo) {
     if (StringUtils.isEmpty(agreementNo)) {

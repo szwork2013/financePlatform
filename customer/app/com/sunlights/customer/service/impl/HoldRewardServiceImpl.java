@@ -9,6 +9,7 @@ import com.sunlights.customer.dal.HoldRewardDao;
 import com.sunlights.customer.dal.RewardTypeDao;
 import com.sunlights.customer.dal.impl.HoldRewardDaoImpl;
 import com.sunlights.customer.dal.impl.RewardTypeDaoImpl;
+import com.sunlights.customer.factory.ActivityServiceFactory;
 import com.sunlights.customer.service.ActivityService;
 import com.sunlights.customer.service.HoldRewardService;
 import com.sunlights.customer.service.RewardFlowService;
@@ -33,7 +34,7 @@ public class HoldRewardServiceImpl implements HoldRewardService {
 
     private HoldRewardDao holdRewardDao = new HoldRewardDaoImpl();
 
-    private RewardTypeService rewardTypeService = new RewardTypeServiceImpl();
+    private RewardTypeService rewardTypeService = ActivityServiceFactory.getRewardTypeService();
 
     private ActivityService activityService = new ActivityServiceImpl();
 

@@ -41,7 +41,7 @@ public class ActivityResponseVo {
     //新接口返回的结果
     private List<ActivityResultVo> activityResultVos;
     //发送消息需要的信息
-    private List<MessageHeaderVo> messageHeaderVos;
+    private List<MessageHeaderVo> messageHeaderVos = Lists.newArrayList();
 
     public Long getAlreadyGet() {
         return alreadyGet;

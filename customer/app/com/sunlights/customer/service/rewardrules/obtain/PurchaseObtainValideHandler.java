@@ -5,6 +5,7 @@ import com.sunlights.common.MsgCode;
 import com.sunlights.common.Severity;
 import com.sunlights.common.vo.Message;
 import com.sunlights.customer.ActivityConstant;
+import com.sunlights.customer.factory.ActivityServiceFactory;
 import com.sunlights.customer.service.ActivitySceneService;
 import com.sunlights.customer.service.CustJoinActivityService;
 import com.sunlights.customer.service.impl.ActivitySceneServiceImpl;
@@ -27,7 +28,7 @@ import java.util.List;
 public class PurchaseObtainValideHandler extends AbstractObtainRuleHandler {
     private CustJoinActivityService custJoinActivityService = new CustJoinActivityServiceImpl();
 
-    private ActivitySceneService activitySceneService = new ActivitySceneServiceImpl();
+    private ActivitySceneService activitySceneService = ActivityServiceFactory.getActivitySceneService();
 
     public PurchaseObtainValideHandler() {
 

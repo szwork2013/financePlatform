@@ -27,6 +27,7 @@ public class ActivityServiceImpl implements ActivityService{
 
     private ActivitySceneDao activitySceneDao = new ActivitySceneDaoImpl();
 
+    @Deprecated
     @Override
     public List<ActivityVo> getActivityVos(PageVo pageVo) {
         List<Activity> activities = activityDao.getActivityVos(pageVo);
@@ -40,7 +41,7 @@ public class ActivityServiceImpl implements ActivityService{
             vo.setId(activity.getId());
             vo.setName(activity.getTitle());
             vo.setImage(getFileFuleUrl(activity.getImage(), "activity.imagePath"));
-            vo.setUrl(getFileFuleUrl(activity.getUrl(), "activity.html5Path"));
+            vo.setUrl(getFileFuleUrl(activity.getUrl(), "activity.html5Path") + "?activityId=" + activity.getId());
             activityVos.add(vo);
         }
         return activityVos;
@@ -54,14 +55,14 @@ public class ActivityServiceImpl implements ActivityService{
         return new StringBuilder().append("http://").append(server).append(":").append(port).append(remoteDir).append("/").append(fileName).toString();
     }
 
-    @Cacheable(key="scene", duration = 150)
+    @Cacheable(key="scene", duration = 300)
     @Override
     public List<Activity> getActivityByScene(String scene) {
         //TODO
         return activityDao.getActivityByScene(scene);
     }
 
-    @Cacheable(key="activityTitleByPrdCode", duration = 100)
+    @Cacheable(key="activityTitleByPrdCode", duration = 300)
     @Override
     public List<String> getActivityTitles(String prdCode) {
         List<String> titles = new ArrayList<String>();
@@ -96,19 +97,38 @@ public class ActivityServiceImpl implements ActivityService{
         return activityDao.getAll();
     }
 
+    @Cacheable(key = "getCurrentValidActivities", duration = 300)
     @Override
     public List<Activity> getCurrentValidActivities() {
 
         return activityDao.getCurrrentValidActivities();
     }
 
-    @Cacheable(key = "getH5InfoById", duration = 3000)
+    @Cacheable(key = "getH5InfoById", duration = 300)
     @Override
     public Activity4H5Vo getH5InfoById(Long id) {
         Activity4H5Vo activity4H5Vo = new Activity4H5Vo();
         Activity activity = activityDao.findById(id);
+        if(activity == null) {
+            return activity4H5Vo;
+        }
         activity4H5Vo.setImageUrl(getFileFuleUrl(activity.getImage(), "activity.imagePath"));
         activity4H5Vo.setContent(activity.getH5Content());
         return activity4H5Vo;
+    }
+
+    @Cacheable(key="getByUnknowCondition", duration = 300)
+    @Override
+    public Activity getByUnknowCondition(String condition) {
+        Activity activity = new Activity();
+        try {
+            activity = activityDao.findById(Long.valueOf(condition));
+        } catch (Exception e) {
+            List<Activity> activities = activityDao.getActivityByScene(condition);
+            if(activities != null && !activities.isEmpty()) {
+                activity = activities.get(0);
+            }
+        }
+        return activity;
     }
 }

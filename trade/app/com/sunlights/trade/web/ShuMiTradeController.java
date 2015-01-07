@@ -4,11 +4,17 @@ import com.sunlights.common.AppConst;
 import com.sunlights.common.MsgCode;
 import com.sunlights.common.utils.MessageUtil;
 import com.sunlights.common.vo.Message;
+import com.sunlights.common.vo.MessageHeaderVo;
+import com.sunlights.customer.ActivityConstant;
 import com.sunlights.customer.action.MsgCenterAction;
 import com.sunlights.customer.service.impl.CustomerService;
+import com.sunlights.customer.service.rewardrules.ActivityHandlerService;
+import com.sunlights.customer.service.rewardrules.vo.ActivityRequestVo;
+import com.sunlights.customer.service.rewardrules.vo.ActivityResponseVo;
 import com.sunlights.trade.service.ShuMiTradeService;
 import com.sunlights.trade.service.impl.ShuMiTradeServiceImpl;
 import com.sunlights.trade.vo.ShuMiTradeFormVo;
+import models.CustomerSession;
 import play.Logger;
 import play.data.Form;
 import play.db.jpa.Transactional;
@@ -16,6 +22,8 @@ import play.libs.Json;
 import play.mvc.Controller;
 import play.mvc.Result;
 import play.mvc.With;
+
+import java.util.List;
 
 import static play.data.Form.form;
 
@@ -34,13 +42,15 @@ public class ShuMiTradeController extends Controller{
     
     private CustomerService customerService = new CustomerService();
     private ShuMiTradeService shuMiTradeService = new ShuMiTradeServiceImpl();
+
+    private ActivityHandlerService activityHandlerService = new ActivityHandlerService();
     
 
     @With(MsgCenterAction.class)
     public Result tradeOrder(){
         Logger.info("----------tradeOrder start ------------");
         Logger.debug(">>tradeOrder params：" + Json.toJson(form().bindFromRequest().data()));
-        customerService.validateCustomerSession(request(),session(),response());
+        CustomerSession customerSession = customerService.validateCustomerSession(request(),session(),response());
 
         String token = request().cookie(AppConst.TOKEN).value();
         ShuMiTradeFormVo tradeFormVo = shuMiTradeFormVoForm.bindFromRequest().get();
@@ -48,13 +58,34 @@ public class ShuMiTradeController extends Controller{
 
         MessageUtil.getInstance().setMessage(new Message(MsgCode.TRADE_ORDER_SUCCESS));
 
-        String headerMsg = shuMiTradeService.shuMiTradeOrder(tradeFormVo, token);
+        List<MessageHeaderVo> tradeHeaderMsg = shuMiTradeService.shuMiTradeOrder(tradeFormVo, token);
 
         Logger.debug(">>tradeOrder return：" +  MessageUtil.getInstance().toJson());
 
-        response().setHeader(AppConst.HEADER_MSG, headerMsg);
+        List<MessageHeaderVo> ActivityMessageHeaderVos = takeActivity(customerSession.getCustomerId(), tradeFormVo);
+        tradeHeaderMsg.addAll(ActivityMessageHeaderVos);
+//        response().setHeader(AppConst.HEADER_MSG, MessageUtil.getInstance().setMessageHeader(tradeHeaderMsg));
 
         return ok(MessageUtil.getInstance().toJson());
+    }
+
+    private List<MessageHeaderVo> takeActivity(String custNo, ShuMiTradeFormVo tradeFormVo) {
+        Logger.debug("参加活动开始");
+        ActivityRequestVo requestVo = new ActivityRequestVo();
+        ActivityResponseVo responseVo = new ActivityResponseVo();
+
+        requestVo.setCustId(custNo);
+        requestVo.setScene(ActivityConstant.ACTIVITY_PURCHASE_SCENE_CODE);
+
+        //购买场景时会用到的字段
+        requestVo.set("prdCode", tradeFormVo.getFundCode());
+        requestVo.set("supplySum", tradeFormVo.getApplySum());
+
+        activityHandlerService.service(requestVo, responseVo);
+
+        Logger.debug("参加活动结束");
+        List<MessageHeaderVo> activityMessageHeaderVos = responseVo.getMessageHeaderVos();
+        return activityMessageHeaderVos;
     }
 
     @With(MsgCenterAction.class)
@@ -71,9 +102,9 @@ public class ShuMiTradeController extends Controller{
 
         String headerMsg = shuMiTradeService.shuMiTradeRedeem(tradeFormVo, token);
 
-        Logger.debug(">>tradeRedeem return：" +  MessageUtil.getInstance().toJson());
+        Logger.debug(">>tradeRedeem return：" + MessageUtil.getInstance().toJson());
 
-        response().setHeader(AppConst.HEADER_MSG, headerMsg);
+//        response().setHeader(AppConst.HEADER_MSG, headerMsg);
 
         return ok(MessageUtil.getInstance().toJson());
     }

@@ -14,6 +14,9 @@ public class FirstPurchaseAttendDecider implements ActivityAttendDecider {
 
     @Override
     public boolean decide(String custId, Map<String, List<CustJoinActivity>> listMap) {
+        if(listMap == null || listMap.isEmpty()) {
+            return true;
+        }
         if(listMap.containsKey(ActivityConstant.ACTIVITY_FIRST_PURCHASE_SCENE_CODE)) {
             return false;
         }

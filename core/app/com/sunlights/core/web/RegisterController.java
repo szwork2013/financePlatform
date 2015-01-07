@@ -4,7 +4,6 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.google.common.collect.Lists;
 import com.sunlights.account.service.AccountService;
 import com.sunlights.account.service.impl.AccountServiceImpl;
-import com.sunlights.common.AppConst;
 import com.sunlights.common.DictConst;
 import com.sunlights.common.MsgCode;
 import com.sunlights.common.utils.MessageUtil;
@@ -94,7 +93,7 @@ public class RegisterController extends Controller {
 
         Logger.debug(">>register return：" + json.toString());
         Controller.response().setHeader("Access-Control-Allow-Origin","*");
-        Controller.response().setHeader(AppConst.HEADER_MSG, MessageUtil.getInstance().setMessageHeader(list));
+//        Controller.response().setHeader(AppConst.HEADER_MSG, MessageUtil.getInstance().setMessageHeader(list));
 
         return Controller.ok(json);
     }

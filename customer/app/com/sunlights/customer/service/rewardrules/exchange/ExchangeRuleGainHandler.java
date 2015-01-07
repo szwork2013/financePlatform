@@ -4,6 +4,7 @@ import com.sunlights.common.MsgCode;
 import com.sunlights.common.Severity;
 import com.sunlights.common.vo.Message;
 import com.sunlights.customer.ActivityConstant;
+import com.sunlights.customer.factory.ActivityServiceFactory;
 import com.sunlights.customer.service.ExchangeSceneService;
 import com.sunlights.customer.service.RewardTypeService;
 import com.sunlights.customer.service.impl.ExchangeSceneServiceImpl;
@@ -25,7 +26,7 @@ import scala.util.parsing.combinator.testing.Str;
  * Created by tangweiqun on 2014/12/3.
  */
 public class ExchangeRuleGainHandler extends AbstractExchangeRuleHandler {
-    private RewardTypeService rewardTypeService = new RewardTypeServiceImpl();
+    private RewardTypeService rewardTypeService = ActivityServiceFactory.getRewardTypeService();
     private ExchangeSceneService exchangeSceneService = new ExchangeSceneServiceImpl();
 
     public ExchangeRuleGainHandler() {

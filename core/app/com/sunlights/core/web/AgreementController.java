@@ -4,6 +4,7 @@ import com.sunlights.common.MsgCode;
 import com.sunlights.common.Severity;
 import com.sunlights.common.utils.MessageUtil;
 import com.sunlights.common.vo.Message;
+import com.sunlights.core.factory.CoreFactory;
 import com.sunlights.core.service.OpenAccountPactService;
 import com.sunlights.core.service.impl.OpenAccountPactServiceImpl;
 import com.sunlights.core.vo.AgreementVo;
@@ -27,7 +28,7 @@ import play.mvc.Result;
 public class AgreementController extends Controller {
   private static MessageUtil messageUtil = MessageUtil.getInstance();
   private static Form<AgreementVo> agreementVoForm = Form.form(AgreementVo.class);
-  private OpenAccountPactService openAccountPactService = new OpenAccountPactServiceImpl();
+  private OpenAccountPactService openAccountPactService = CoreFactory.getOpenAccountPactService();
 
   public Result findAgreementVoByAgreementNo() {
     Http.RequestBody body = request().body();
