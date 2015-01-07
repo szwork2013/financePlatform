@@ -120,7 +120,7 @@ public class ShareContorller extends ActivityBaseController {
         String id = shareVo.getId();
         if(ActivityConstant.SHARE_TYPE_INVITER.equals(type)) {
             type = ActivityConstant.SHARE_TYPE_ACTIVITY;
-            id = ActivityConstant.ACTIVITY_FIRST_PURCHASE_SCENE_CODE;
+            id = ActivityConstant.ACTIVITY_REGISTER_SCENE_CODE;
         }
         Logger.debug("type = " + type + " id = " + id);
 
