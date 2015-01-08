@@ -19,16 +19,12 @@ public class RewardFlowDaoImplTest extends WithApplication {
 
     @Test
     public void testFindOneByCondition() throws Exception {
-
-
                         RewardFlowDao rewardFlowDao = new RewardFlowDaoImpl();
                         RewardFlow rewardFlow = new RewardFlow();
                         rewardFlow.setCustId("20141119102210010000000029");
                         rewardFlow.setRewardType("ART001");
                         List<RewardFlow> rewardFlows = rewardFlowDao.findByCondition(rewardFlow);
                         Logger.info(rewardFlows == null ? null : rewardFlows.size() + "");
-
-
 
     }
 }
