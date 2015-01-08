@@ -16,7 +16,7 @@ import java.util.Map;
  * Created by Administrator on 2014/11/13.
  */
 public class ConverterTest {
-    
+
     @Test
     public void toEntity() throws Exception {
         AcctChangeFlowVo acctChangeFlowVo = new AcctChangeFlowVo();
@@ -30,7 +30,7 @@ public class ConverterTest {
 
 
     @Test
-    public void convertMap2Entity() throws Exception{
+    public void convertMap2Entity() throws Exception {
         String keys = "customerId,prdCode, prdName, amount";
         List values = new ArrayList();
         values.add("aaaa");
@@ -45,7 +45,6 @@ public class ConverterTest {
         Assertions.assertThat(acctChangFlow.getCustomerId()).isEqualTo("aaaa");
         Assertions.assertThat(acctChangFlow.getAmount().intValue()).isEqualTo(5);
     }
-
 
 
 }

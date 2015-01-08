@@ -17,10 +17,10 @@ import static org.fest.assertions.Assertions.assertThat;
 import static play.test.Helpers.*;
 
 public class AgreementControllerTest extends BaseTest {
-  private static Form<AgreementVo> agreeForm = Form.form(AgreementVo.class);
+    private static Form<AgreementVo> agreeForm = Form.form(AgreementVo.class);
 
-  @Test
-  public void testFindAgreementVoByAgreementNo() throws Exception {
+    @Test
+    public void testFindAgreementVoByAgreementNo() throws Exception {
 
 
         AgreementVo agreementVo = new AgreementVo();
@@ -38,22 +38,22 @@ public class AgreementControllerTest extends BaseTest {
 
         assertThat(contentAsString(result)).contains("0000");
 
-          /**
-           * 验证message与value
-           */
-          String testString= null;
-          try {
-              testString = getJsonFile("json/CoreAgreement.json");//获得json文件内容
-          } catch (IOException e) {
-              e.printStackTrace();
-          }
-          MessageVo message = toMessageVo(result);
-          MessageVo testMessage = toMessageVo(testString);
-          assertThat(testMessage).isEqualTo(message);//此处判断message
-          AgreementVo testAgreementVo = Json.fromJson(Json.toJson(testMessage.getValue()), AgreementVo.class);
-          AgreementVo agreementVo1 = Json.fromJson(Json.toJson(message.getValue()), AgreementVo.class);
-          assertThat(testAgreementVo).isEqualTo(agreementVo1);//此处判断value
+        /**
+         * 验证message与value
+         */
+        String testString = null;
+        try {
+            testString = getJsonFile("json/CoreAgreement.json");//获得json文件内容
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        MessageVo message = toMessageVo(result);
+        MessageVo testMessage = toMessageVo(testString);
+        assertThat(testMessage).isEqualTo(message);//此处判断message
+        AgreementVo testAgreementVo = Json.fromJson(Json.toJson(testMessage.getValue()), AgreementVo.class);
+        AgreementVo agreementVo1 = Json.fromJson(Json.toJson(message.getValue()), AgreementVo.class);
+        assertThat(testAgreementVo).isEqualTo(agreementVo1);//此处判断value
 
 
-  }
+    }
 }

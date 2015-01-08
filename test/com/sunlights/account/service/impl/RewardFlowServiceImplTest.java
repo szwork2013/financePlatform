@@ -23,7 +23,7 @@ public class RewardFlowServiceImplTest {
                     public void invoke() throws Throwable {
                         RewardFlowService rewardFlowService = new RewardFlowServiceImpl();
                         RewardFlow rewardFlows = rewardFlowService.findTodayFlowByCustIdAndScene("20141119102210010000000029", "ASC002");
-                        if(rewardFlows != null) {
+                        if (rewardFlows != null) {
 
                             assertThat("20141119102210010000000029").isEqualTo(rewardFlows.getCustId());
                         }

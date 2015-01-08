@@ -30,7 +30,7 @@ import static play.test.Helpers.*;
 /**
  * Created by Administrator on 2014/11/3.
  */
-public class BaseTest extends WithApplication{
+public class BaseTest extends WithApplication {
     public static String APPLICATION_X_WWW_FORM_URLENCODED = "application/x-www-form-urlencoded";
     public static String CONTENT_TYPE = "Content-Type";
     protected Http.Cookie cookie = null;
