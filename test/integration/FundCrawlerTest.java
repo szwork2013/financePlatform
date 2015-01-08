@@ -6,13 +6,14 @@ import com.sunlights.common.utils.ShortURLUtil;
 
 import org.junit.Test;
 import play.libs.Json;
+import play.test.WithApplication;
 import sun.misc.BASE64Encoder;
 
 
 import static play.test.Helpers.fakeApplication;
 import static play.test.Helpers.running;
 
-public class FundCrawlerTest {
+public class FundCrawlerTest extends WithApplication{
 
     @Test
     public void testFilter() throws Exception {
