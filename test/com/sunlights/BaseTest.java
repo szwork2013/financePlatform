@@ -128,9 +128,9 @@ public class BaseTest extends WithApplication{
     }
 
     public String getJsonFile(String path) throws IOException {
-        String realpath="D:\\workproject\\financeplatform\\test\\"+path;//配置公共路径
-        File file = new File(realpath);
-       // File file = Play.getFile("test\\" + path, Play.current());
+//        String realpath="D:\\workproject\\financeplatform\\test\\"+path;//配置公共路径
+//        File file = new File(realpath);
+        File file = Play.getFile("test\\" + path, Play.current());
         Scanner scanner = null;
         StringBuilder buffer = new StringBuilder();
         try {
