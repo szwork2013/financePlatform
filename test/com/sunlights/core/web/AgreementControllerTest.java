@@ -22,7 +22,6 @@ public class AgreementControllerTest extends BaseTest {
     @Test
     public void testFindAgreementVoByAgreementNo() throws Exception {
 
-
         AgreementVo agreementVo = new AgreementVo();
         agreementVo.setCode("0001");
 

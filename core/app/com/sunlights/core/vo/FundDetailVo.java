@@ -204,7 +204,7 @@ public class FundDetailVo extends FundVo {
 	public boolean equals(Object o) {
 		if(!super.equals(o)){
 			return false;
-		};
+		}
 		if (this == o) return true;
 		if (!(o instanceof FundDetailVo)) return false;
 		if (!super.equals(o)) return false;

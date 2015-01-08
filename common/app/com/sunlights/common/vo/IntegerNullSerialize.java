@@ -15,8 +15,7 @@ import com.fasterxml.jackson.databind.SerializerProvider;
 public class IntegerNullSerialize extends JsonSerializer<Integer> {
 
 	@Override
-	public void serialize(Integer integer, JsonGenerator jsonGenerator, SerializerProvider serializerProvider) throws IOException,
-			JsonProcessingException {
+	public void serialize(Integer integer, JsonGenerator jsonGenerator, SerializerProvider serializerProvider) throws IOException {
 		jsonGenerator.writeNumber(integer == null ? 0 : integer.intValue());
 	}
 }
