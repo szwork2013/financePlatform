@@ -52,7 +52,7 @@ public class MsgCenterActionServiceTest extends BaseTest{
 
     @Before
     public void prepare(){
-
+                super.startPlay();
                 JPA.withTransaction(new F.Callback0() {
                     @Override
                     public void invoke() throws Throwable {

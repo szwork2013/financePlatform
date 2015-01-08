@@ -11,6 +11,7 @@ import play.Logger;
 import play.cache.Cache;
 import play.db.jpa.JPA;
 import play.libs.F;
+import play.test.WithApplication;
 
 import java.util.List;
 import java.util.concurrent.TimeUnit;
@@ -21,15 +22,14 @@ import static play.test.Helpers.running;
 /**
  * Created by Administrator on 2014/12/5.
  */
-public class TestCache {
-
+public class TestCache extends WithApplication {
+    private String title = "";
+    Activity activity = null;
     @Test
     public void testCache() {
 
-        running(fakeApplication(), new Runnable() {
-            private String title = "";
-            public void run() {
                 JPA.withTransaction(new F.Callback0() {
+
                     @Override
                     public void invoke() throws Throwable {
                         ActivityService activityService = new ActivityServiceImpl();
@@ -60,17 +60,13 @@ public class TestCache {
                         Assertions.assertThat(titleLater).isEqualTo(title);
                     }
                 });
-            }
-        });
+
     }
 
     @Test
     public void testCacheable() {
 
-        running(fakeApplication(), new Runnable() {
-            String title = "";
-            Activity activity = null;
-            public void run() {
+
                 JPA.withTransaction(new F.Callback0() {
                     @Override
                     public void invoke() throws Throwable {
@@ -114,14 +110,12 @@ public class TestCache {
                         JPA.em().createNativeQuery(sql).executeUpdate();
                     }
                 });
-            }
-        });
+
     }
 
     @Test
     public void testCacheableSpeed() {
-        running(fakeApplication(), new Runnable() {
-            public void run() {
+
                 JPA.withTransaction(new F.Callback0() {
                     @Override
                     public void invoke() throws Throwable {
@@ -147,8 +141,7 @@ public class TestCache {
                     });
                 }
                 Logger.info("花费时间：" + (System.currentTimeMillis() - start));
-            }
-        });
+
     }
 
 
