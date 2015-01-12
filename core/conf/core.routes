@@ -7,6 +7,7 @@
 POST        /product/detail                   @com.sunlights.core.web.ProductController.findProductDetail
 POST        /product/chart                    @com.sunlights.core.web.ProductController.findChartBy
 POST        /product/index                    @com.sunlights.core.web.ProductController.findProductIndex
+POST        /v2.0/product/index               @com.sunlights.core.web.ProductController.findProductsIndex
 POST        /products                         @com.sunlights.core.web.ProductController.findProductsBy
 POST        /product/attentions               @com.sunlights.core.web.AttentionController.findProductAttentions
 POST        /product/attention/create         @com.sunlights.core.web.AttentionController.createProductAttention
