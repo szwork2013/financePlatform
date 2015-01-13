@@ -46,7 +46,7 @@ public class MsgCenterServiceImpl implements MsgCenterService {
 
     @Override
     public void saveMsgReadHistory(CustomerMsgReadHistory customerMsgReadHistory) {
-        CustomerMsgReadHistory history = msgCenterDao.findMsgReadHistoryByDeviceNo(customerMsgReadHistory.getDeviceNo());
+        CustomerMsgReadHistory history = msgCenterDao.findMsgReadHistoryByDeviceNo(customerMsgReadHistory.getDeviceNo(), customerMsgReadHistory.getPushTxnId());
         Timestamp currentTime = DBHelper.getCurrentTime();
         if (history == null) {//未读的  保存
             customerMsgReadHistory.setCreateTime(currentTime);

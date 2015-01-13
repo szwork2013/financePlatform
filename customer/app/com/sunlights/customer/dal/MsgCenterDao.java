@@ -28,6 +28,8 @@ public interface MsgCenterDao {
     public MessageRule findMessageRuleSmsByCode(String ruleCode);
 
     public MessageSmsTxn createMessageSmsTxn(MessageSmsTxn messageSmsTxn);
+
+    public MessageSmsTxn updateMessageSmsTxn(MessageSmsTxn messageSmsTxn);
     
     public CustomerMsgPushTxn createCustomerMsgPushTxn(CustomerMsgPushTxn customerMsgPushTxn);
 
@@ -54,7 +56,7 @@ public interface MsgCenterDao {
 
 
     public void createMsgReadHistory(CustomerMsgReadHistory customerMsgReadHistory);
-    public CustomerMsgReadHistory findMsgReadHistoryByDeviceNo(String deviceNo);
+    public CustomerMsgReadHistory findMsgReadHistoryByDeviceNo(String deviceNo, Long msgId);
     public void updateMsgReadHistory(CustomerMsgReadHistory customerMsgReadHistory);
 
     /**

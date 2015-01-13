@@ -10,12 +10,15 @@ import models.MessageRule;
 import models.MessageSmsTxn;
 import play.Logger;
 import play.Play;
+import play.libs.F;
 import play.libs.Json;
 import play.libs.ws.WS;
+import play.libs.ws.WSResponse;
 
 import java.sql.Timestamp;
 import java.text.MessageFormat;
 import java.text.SimpleDateFormat;
+import java.util.concurrent.TimeUnit;
 
 /**
  * <p>Project: fsp</p>
@@ -44,7 +47,18 @@ public class SmsMessageService {
         MessageSmsTxn smsMessage = createMessageSmsTxn(mobilePhoneNo, verifyCode, type);
 
         String pushUrl = Play.application().configuration().getString("sms_url");
-        WS.url(pushUrl).post(Json.toJson(smsMessage));
+        F.Promise<MessageSmsTxn> messageSmsTxnPromise = WS.url(pushUrl).post(Json.toJson(smsMessage)).map(new F.Function<WSResponse, MessageSmsTxn>() {
+            @Override
+            public MessageSmsTxn apply(WSResponse wsResponse) throws Throwable {
+                MessageSmsTxn messageSmsTxn = Json.fromJson(wsResponse.asJson(), MessageSmsTxn.class);
+
+                return messageSmsTxn;
+            }
+        });
+
+        MessageSmsTxn messageSmsTxn = messageSmsTxnPromise.get(10, TimeUnit.SECONDS);
+
+        msgCenterDao.updateMessageSmsTxn(messageSmsTxn);
     }
 
 
@@ -76,9 +90,7 @@ public class SmsMessageService {
         messageSmsTxn.setTitle(messageRule.getTitle());
         messageSmsTxn.setCreateTime(currentTime);
 
-        msgCenterDao.createMessageSmsTxn(messageSmsTxn);
-
-        return messageSmsTxn;
+        return msgCenterDao.createMessageSmsTxn(messageSmsTxn);
     }
 
     private static String getSmsId() {

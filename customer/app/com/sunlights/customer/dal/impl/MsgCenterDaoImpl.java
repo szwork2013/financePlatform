@@ -55,6 +55,11 @@ public class MsgCenterDaoImpl extends EntityBaseDao implements MsgCenterDao{
     }
 
     @Override
+    public MessageSmsTxn updateMessageSmsTxn(MessageSmsTxn messageSmsTxn) {
+        return update(messageSmsTxn);
+    }
+
+    @Override
     public CustomerMsgPushTxn createCustomerMsgPushTxn(CustomerMsgPushTxn customerMsgPushTxn) {
         return create(customerMsgPushTxn);
     }
@@ -235,8 +240,12 @@ public class MsgCenterDaoImpl extends EntityBaseDao implements MsgCenterDao{
     }
 
     @Override
-    public CustomerMsgReadHistory findMsgReadHistoryByDeviceNo(String deviceNo) {
-        List<CustomerMsgReadHistory> list = findBy(CustomerMsgReadHistory.class, "deviceNo", deviceNo);
+    public CustomerMsgReadHistory findMsgReadHistoryByDeviceNo(String deviceNo, Long msgId) {
+        String sql = "select c from CustomerMsgReadHistory c where c.deviceNo = :deviceNo and c.pushTxnId = :msgId";
+        Query query = em.createQuery(sql, CustomerMsgReadHistory.class);
+        query.setParameter("deviceNo", deviceNo);
+        query.setParameter("msgId", msgId);
+        List<CustomerMsgReadHistory> list = query.getResultList();
         return list.isEmpty() ? null : list.get(0);
     }
 
