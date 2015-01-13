@@ -8,10 +8,7 @@ import com.sunlights.common.vo.PushMessageVo;
 import com.sunlights.customer.dal.MsgCenterDao;
 import com.sunlights.customer.vo.MsgCenterDetailVo;
 import com.sunlights.customer.vo.MsgCenterVo;
-import models.CustomerMsgPushTxn;
-import models.CustomerMsgReadHistory;
-import models.MessageRule;
-import models.MessageSmsTxn;
+import models.*;
 import play.Logger;
 
 import javax.persistence.Query;
@@ -60,6 +57,11 @@ public class MsgCenterDaoImpl extends EntityBaseDao implements MsgCenterDao{
     }
 
     @Override
+    public CustomerMsgPushTxn findCustomerMsgPushTxn(Long customerMsgPushTxnId) {
+        return find(CustomerMsgPushTxn.class, customerMsgPushTxnId);
+    }
+
+    @Override
     public CustomerMsgPushTxn createCustomerMsgPushTxn(CustomerMsgPushTxn customerMsgPushTxn) {
         return create(customerMsgPushTxn);
     }
@@ -67,6 +69,16 @@ public class MsgCenterDaoImpl extends EntityBaseDao implements MsgCenterDao{
     @Override
     public CustomerMsgPushTxn updateCustomerMsgPushTxn(CustomerMsgPushTxn customerMsgPushTxn) {
         return update(customerMsgPushTxn);
+    }
+
+    @Override
+    public MessagePushTxn findMessagePushTxn(Long messagePushTxnId) {
+        return find(MessagePushTxn.class, messagePushTxnId);
+    }
+
+    @Override
+    public void updateMessagePushTxn(MessagePushTxn messagePushTxn) {
+        update(messagePushTxn);
     }
 
     @Override

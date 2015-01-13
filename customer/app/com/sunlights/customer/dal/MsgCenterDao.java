@@ -28,13 +28,23 @@ public interface MsgCenterDao {
     public MessageRule findMessageRuleSmsByCode(String ruleCode);
 
     public MessageSmsTxn createMessageSmsTxn(MessageSmsTxn messageSmsTxn);
-
     public MessageSmsTxn updateMessageSmsTxn(MessageSmsTxn messageSmsTxn);
-    
-    public CustomerMsgPushTxn createCustomerMsgPushTxn(CustomerMsgPushTxn customerMsgPushTxn);
 
+    public CustomerMsgPushTxn findCustomerMsgPushTxn(Long customerMsgPushTxnId);
+    public CustomerMsgPushTxn createCustomerMsgPushTxn(CustomerMsgPushTxn customerMsgPushTxn);
     public CustomerMsgPushTxn updateCustomerMsgPushTxn(CustomerMsgPushTxn customerMsgPushTxn);
 
+    public MessagePushTxn findMessagePushTxn(Long messagePushTxnId);
+    public void updateMessagePushTxn(MessagePushTxn messagePushTxn);
+
+
+    /**
+     * 根据配置信息查询需要发送的消息编码集合
+     * @param methodName 方法名
+     * @param messageType 消息类型
+     * @param scene 场景编码
+     * @return
+     */
     public List<String> findMessageRuleCodeList(String methodName, String messageType, String scene);
 
     /**

@@ -139,7 +139,7 @@ public class CustomerController extends Controller {
         JsonNode json = MessageUtil.getInstance().toJson();
         Logger.info(">>login返回：" + json.toString());
 
-//        response().setHeader(AppConst.HEADER_MSG, MessageUtil.getInstance().setMessageHeader(list));
+        response().setHeader(AppConst.HEADER_MSG, MessageUtil.getInstance().setMessageHeader(list));
         return Controller.ok(json);
     }
 
