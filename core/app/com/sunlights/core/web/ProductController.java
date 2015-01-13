@@ -78,6 +78,12 @@ public class ProductController extends Controller {
         return ok(messageUtil.toJson());
     }
 
+    public Result findProductsIndex() {
+        List<ProductVo> productVos = productService.findProductIndex(new PageVo());
+        messageUtil.setMessage(new Message(Severity.INFO, MsgCode.OPERATE_SUCCESS), productVos);
+        return ok(messageUtil.toJson());
+    }
+
     public Result findChartBy() {
         ProductParameter prodPara = null;
         Http.RequestBody body = request().body();
