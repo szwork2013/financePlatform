@@ -30,7 +30,7 @@ public class MessageRule extends IdEntity {
     @Column(name = "sms_ind", length = 1)
     private String smsInd = AppConst.STATUS_INVALID;
     @Column(name = "msg_center_ind", length = 1)
-    private String msgCenterInd = AppConst.STATUS_INVALID;;
+    private String msgCenterInd = AppConst.STATUS_INVALID;
     @Column(name = "push_ind", length = 1)
     private String pushInd ;
     @Column(name = "message_push_config_id")

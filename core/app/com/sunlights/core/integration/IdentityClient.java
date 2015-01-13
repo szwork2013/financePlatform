@@ -28,12 +28,18 @@ public class IdentityClient {
 
     private ParameterService parameterService = new ParameterService();
 
+    /**
+     *
+     * @param idCardNo
+     * @param userName
+     */
     public void identity(String idCardNo, String userName){
+        //check input params
         ObjectNode CheckRequest = Json.newObject();
         CheckRequest.put("IDNumber", idCardNo);
         CheckRequest.put("Name", userName);
         String req = Json.toJson(CheckRequest).toString();
-        Logger.info("================CheckRequest:" + req);
+        Logger.info(">> CheckRequest:" + req);
 
         ObjectNode Credential = Json.newObject();
         Credential.put("UserName", parameterService.getParameterByName(ParameterConst.CERTIFY_USERNAME));

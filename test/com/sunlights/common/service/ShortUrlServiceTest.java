@@ -16,7 +16,7 @@ import play.test.WithApplication;
  */
 public class ShortUrlServiceTest extends WithApplication {
     @Test
-    public void getShortUrlTest(){
+    public void getShortUrlTest() {
         String path = "http://www.baidu.com";
         String shortURL = ShortURLUtil.getShortURL(path);
 

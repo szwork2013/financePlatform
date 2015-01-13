@@ -16,7 +16,7 @@ public class StringNullSerialize extends JsonSerializer<String> {
 	private static String BLANK = "--";
 
 	@Override
-	public void serialize(String s, JsonGenerator jsonGenerator, SerializerProvider serializerProvider) throws IOException, JsonProcessingException {
+	public void serialize(String s, JsonGenerator jsonGenerator, SerializerProvider serializerProvider) throws IOException {
 		jsonGenerator.writeString(StringUtils.isEmpty(s) ? BLANK : s);
 	}
 }

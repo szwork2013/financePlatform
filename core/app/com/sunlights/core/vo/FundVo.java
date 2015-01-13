@@ -31,7 +31,7 @@ public class FundVo extends ProductVo {
 	public boolean equals(Object o) {
 		if(!super.equals(o)){
 			return false;
-		};
+		}
 		if (this == o) return true;
 		if (!(o instanceof FundVo)) return false;
 

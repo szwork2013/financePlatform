@@ -13,7 +13,11 @@ import sun.misc.BASE64Encoder;
 import static play.test.Helpers.fakeApplication;
 import static play.test.Helpers.running;
 
+<<<<<<< HEAD
+public class FundCrawlerTest extends WithApplication{
+=======
 public class FundCrawlerTest extends WithApplication {
+>>>>>>> master
 
     @Test
     public void testFilter() throws Exception {
