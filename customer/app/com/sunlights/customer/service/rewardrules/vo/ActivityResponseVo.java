@@ -35,7 +35,7 @@ public class ActivityResponseVo {
     /**
      * 产生奖励流水的元数据
      */
-    private List<RewardFlowRecordVo> rewardFlowRecordVos = new ArrayList<RewardFlowRecordVo>();;
+    private List<RewardFlowRecordVo> rewardFlowRecordVos = new ArrayList<RewardFlowRecordVo>();
     //老接口返回的结果
     private List<ObtainRewardVo>  obtainRewardVos = Lists.newArrayList();
     //新接口返回的结果

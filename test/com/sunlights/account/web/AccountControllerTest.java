@@ -26,7 +26,7 @@ public class AccountControllerTest extends BaseTest {
     private static Http.Cookie cookie;
 
     @Before
-    public void getCookie(){
+    public void getCookie() {
         super.startPlay();
         final String mobilePhoneNo = "13811599308";
         final String password = "1";
@@ -60,65 +60,65 @@ public class AccountControllerTest extends BaseTest {
     @Test
     public void testGetTotalCapitalInfo() throws Exception {
 
-                Logger.info("============testGetTotalCapitalInfo start====");
-                Map<String, String> formParams = new HashMap<String, String>();
-                play.mvc.Result result = getResult("/account/accountital/totalcapital", formParams, cookie);
-                Logger.info("============testGetTotalCapitalInfo result====\n" + contentAsString(result));
-                assertThat(status(result)).isEqualTo(OK);
-                MessageVo message = toMessageVo(result);
-                assertThat(message.getMessage().getCode()).isEqualTo("0000");
-                assertThat(message.getMessage().getSummary()).isEqualTo("操作成功");
+        Logger.info("============testGetTotalCapitalInfo start====");
+        Map<String, String> formParams = new HashMap<String, String>();
+        play.mvc.Result result = getResult("/account/accountital/totalcapital", formParams, cookie);
+        Logger.info("============testGetTotalCapitalInfo result====\n" + contentAsString(result));
+        assertThat(status(result)).isEqualTo(OK);
+        MessageVo message = toMessageVo(result);
+        assertThat(message.getMessage().getCode()).isEqualTo("0000");
+        assertThat(message.getMessage().getSummary()).isEqualTo("操作成功");
 
     }
 
     @Test
     public void testGetAllCapital4Prd() throws Exception {
 
-                Logger.info("============testGetAllCapital4Prd start====");
-                Map<String, String> formParams = new HashMap<String, String>();
+        Logger.info("============testGetAllCapital4Prd start====");
+        Map<String, String> formParams = new HashMap<String, String>();
 
-                play.mvc.Result result = getResult("/account/accountital/allcapital4prd", formParams, cookie);
-                Logger.info("============testGetAllCapital4Prd result====\n" + contentAsString(result));
-                assertThat(status(result)).isEqualTo(OK);
-                MessageVo message = toMessageVo(result);
-                assertThat(message.getMessage().getCode()).isEqualTo("0000");
-                assertThat(message.getMessage().getSummary()).isEqualTo("操作成功");
+        play.mvc.Result result = getResult("/account/accountital/allcapital4prd", formParams, cookie);
+        Logger.info("============testGetAllCapital4Prd result====\n" + contentAsString(result));
+        assertThat(status(result)).isEqualTo(OK);
+        MessageVo message = toMessageVo(result);
+        assertThat(message.getMessage().getCode()).isEqualTo("0000");
+        assertThat(message.getMessage().getSummary()).isEqualTo("操作成功");
 
     }
 
     @Test
     public void testGetMyCapital() throws Exception {
 
-                Logger.info("============testGetMyCapital start====");
-                Map<String, String> formParams = new HashMap<String, String>();
+        Logger.info("============testGetMyCapital start====");
+        Map<String, String> formParams = new HashMap<String, String>();
 
-                play.mvc.Result result = getResult("/account/accountital/mycapital", formParams, cookie);
+        play.mvc.Result result = getResult("/account/accountital/mycapital", formParams, cookie);
 
-                Logger.info("============testGetMyCapital result====\n" + contentAsString(result));
+        Logger.info("============testGetMyCapital result====\n" + contentAsString(result));
 
-                assertThat(status(result)).isEqualTo(OK);
-                MessageVo message = toMessageVo(result);
-                assertThat(message.getMessage().getCode()).isEqualTo("0000");
-                assertThat(message.getMessage().getSummary()).isEqualTo("操作成功");
+        assertThat(status(result)).isEqualTo(OK);
+        MessageVo message = toMessageVo(result);
+        assertThat(message.getMessage().getCode()).isEqualTo("0000");
+        assertThat(message.getMessage().getSummary()).isEqualTo("操作成功");
 
     }
 
     @Test
     public void testFindYesterdayProfitList() throws Exception {
 
-                Logger.info("============testFindYesterdayProfitList start====");
-                Map<String, String> formParams = new HashMap<String, String>();
-                formParams.put("index", "0");
-                formParams.put("pageSize", "2");
+        Logger.info("============testFindYesterdayProfitList start====");
+        Map<String, String> formParams = new HashMap<String, String>();
+        formParams.put("index", "0");
+        formParams.put("pageSize", "2");
 
-                play.mvc.Result result = getResult("/account/accountital/yesterdayprofit", formParams, cookie);
+        play.mvc.Result result = getResult("/account/accountital/yesterdayprofit", formParams, cookie);
 
-                Logger.info("============testFindYesterdayProfitList result====\n" + contentAsString(result));
+        Logger.info("============testFindYesterdayProfitList result====\n" + contentAsString(result));
 
-                assertThat(status(result)).isEqualTo(OK);
-                MessageVo message = toMessageVo(result);
-                assertThat(message.getMessage().getCode()).isEqualTo("0000");
-                assertThat(message.getMessage().getSummary()).isEqualTo("操作成功");
+        assertThat(status(result)).isEqualTo(OK);
+        MessageVo message = toMessageVo(result);
+        assertThat(message.getMessage().getCode()).isEqualTo("0000");
+        assertThat(message.getMessage().getSummary()).isEqualTo("操作成功");
 
 
     }

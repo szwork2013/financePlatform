@@ -17,7 +17,8 @@ import java.util.Map;
 
 import static org.fest.assertions.Assertions.assertThat;
 import static play.mvc.Http.Status.OK;
-import static play.test.Helpers.*;
+import static play.test.Helpers.contentAsString;
+import static play.test.Helpers.status;
 
 public class ExchangeRewardControllerTest extends BaseTest {
 

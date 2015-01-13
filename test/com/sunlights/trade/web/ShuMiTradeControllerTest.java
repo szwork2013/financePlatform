@@ -4,7 +4,6 @@ import com.sunlights.BaseTest;
 import com.sunlights.common.utils.CommonUtil;
 import com.sunlights.common.vo.MessageVo;
 import models.ProductManage;
-import org.junit.Before;
 import org.junit.Test;
 import play.Logger;
 import play.db.jpa.JPA;
@@ -21,12 +20,13 @@ import java.util.*;
 
 import static org.fest.assertions.Assertions.assertThat;
 import static play.mvc.Http.Status.OK;
-import static play.test.Helpers.*;
+import static play.test.Helpers.contentAsString;
+import static play.test.Helpers.status;
 
 public class ShuMiTradeControllerTest extends BaseTest {
     private Http.Cookie cookie = null;
 
-    public void login(){
+    public void login() {
         String mobilePhoneNo = "13811599308";
         String password = "1";
         cookie = getCookieAfterLogin(mobilePhoneNo, password);
@@ -34,7 +34,7 @@ public class ShuMiTradeControllerTest extends BaseTest {
 
     @Test
     public void testTradeOrder() throws Exception {
-        String applySerial = CommonUtil.dateToString(new Date(),CommonUtil.YYYYMMDDHHMMSS);// -->申请编号
+        String applySerial = CommonUtil.dateToString(new Date(), CommonUtil.YYYYMMDDHHMMSS);// -->申请编号
         final String fundCode = "482002"; //-->基金代码
         String fundName = "工银货币";// -->基金名称
         String applySum = "100";// -->认购金额
@@ -42,7 +42,7 @@ public class ShuMiTradeControllerTest extends BaseTest {
         String dateTime = getDateTime();//"2013-05-10T17:56:57.396875+08:00";// -->扣款时间
         String bankName = "工商银行";// -->银行名称
         String bankAcco = "140826195608226018";// -->银行卡号
-        
+
         final Map<String, String> params = new HashMap<String, String>();
         params.put("applySerial", applySerial);
         params.put("fundCode", fundCode);
@@ -53,47 +53,42 @@ public class ShuMiTradeControllerTest extends BaseTest {
         params.put("bankName", bankName);
         params.put("bankAcco", bankAcco);
 
-        running(fakeApplication(), new Runnable() {
-            @Override
-            public void run() {
-                login();
+        login();
 
-                Logger.info("==============testTradeOrder start=====================");
+        Logger.info("==============testTradeOrder start=====================");
 
-                int preBuyNum = getBuyNum(fundCode);
+        int preBuyNum = getBuyNum(fundCode);
 
-                Result result = getResult("/trade/shumitradeorder", params, cookie);
+        Result result = getResult("/trade/shumitradeorder", params, cookie);
 
-                Logger.info("==============testTradeOrder end=====================\n" + contentAsString(result));
+        Logger.info("==============testTradeOrder end=====================\n" + contentAsString(result));
 
-                assertThat(status(result)).isEqualTo(OK);
-                MessageVo message = toMessageVo(result);
-                assertThat(message.getMessage().getCode()).isEqualTo("0400");
-                assertThat(message.getMessage().getSummary()).isEqualTo("下单成功");
+        assertThat(status(result)).isEqualTo(OK);
+        MessageVo message = toMessageVo(result);
+        assertThat(message.getMessage().getCode()).isEqualTo("0400");
+        assertThat(message.getMessage().getSummary()).isEqualTo("下单成功");
 
 
-                /**
-                 * 验证message与value
-                 */
-                String testString= null;
-                try {
-                    testString = getJsonFile("json/CustTradeOrder.json");//获得json文件内容
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-                MessageVo testMessage = toMessageVo(testString);
-                assertThat(testMessage).isEqualTo(message);//此处判断message
+        /**
+         * 验证message与value
+         */
+        String testString = null;
+        try {
+            testString = getJsonFile("json/CustTradeOrder.json");//获得json文件内容
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        MessageVo testMessage = toMessageVo(testString);
+        assertThat(testMessage).isEqualTo(message);//此处判断message
 
-                int aftBuyNum = getBuyNum(fundCode);
+        int aftBuyNum = getBuyNum(fundCode);
 
-                assertThat(preBuyNum + 1).isEqualTo(aftBuyNum);
-                
-            }
-        });
+        assertThat(preBuyNum + 1).isEqualTo(aftBuyNum);
+
 
     }
 
-    private int getBuyNum(final String productCode){
+    private int getBuyNum(final String productCode) {
         final Integer[] num = {0};
         JPA.withTransaction(new F.Callback0() {
             @Override
@@ -102,7 +97,7 @@ public class ShuMiTradeControllerTest extends BaseTest {
                 EntityManager em = JPA.em();
                 Query query = em.createQuery(sql, ProductManage.class);
                 query.setParameter(1, productCode);
-                ProductManage productManage = (ProductManage)query.getResultList().get(0);
+                ProductManage productManage = (ProductManage) query.getResultList().get(0);
                 num[0] = productManage.getInitBuyedCount();
             }
         });
@@ -110,10 +105,10 @@ public class ShuMiTradeControllerTest extends BaseTest {
         return num[0];
     }
 
-    private String getDateTime() throws Exception{
+    private String getDateTime() throws Exception {
         Calendar ca = Calendar.getInstance();
         ca.setTime(new Date());
-        XMLGregorianCalendar calendar = DatatypeFactory.newInstance().newXMLGregorianCalendar((GregorianCalendar)ca);
+        XMLGregorianCalendar calendar = DatatypeFactory.newInstance().newXMLGregorianCalendar((GregorianCalendar) ca);
 
         String dateTime = calendar.toString();//"2013-05-10T17:56:57.396875+08:00";// -->扣款时间
         return dateTime;
@@ -121,7 +116,7 @@ public class ShuMiTradeControllerTest extends BaseTest {
 
     //@Test
     public void testTradeRedeem() throws Exception {
-        String applySerial = CommonUtil.dateToString(new Date(),CommonUtil.YYYYMMDDHHMMSS);// -->申请编号
+        String applySerial = CommonUtil.dateToString(new Date(), CommonUtil.YYYYMMDDHHMMSS);// -->申请编号
         final String fundCode = "482002"; //-->基金代码
         String fundName = "工银货币";// -->基金名称
         String applySum = "100";// -->认购金额
@@ -136,35 +131,30 @@ public class ShuMiTradeControllerTest extends BaseTest {
         params.put("bankCardInfo", bankCardInfo);
         params.put("dateTime", dateTime);
 
-        running(fakeApplication(), new Runnable() {
-            @Override
-            public void run() {
-                login();
-                Logger.info("==============testTradeRedeem start=====================");
 
-                Result result = getResult("/trade/shumitraderedeem", params, cookie);
+        login();
+        Logger.info("==============testTradeRedeem start=====================");
 
-                Logger.info("==============testTradeRedeem end=====================\n" + contentAsString(result));
+        Result result = getResult("/trade/shumitraderedeem", params, cookie);
 
-                assertThat(status(result)).isEqualTo(OK);
-                MessageVo message = toMessageVo(result);
-                assertThat(message.getMessage().getCode()).isEqualTo("0401");
-                assertThat(message.getMessage().getSummary()).isEqualTo("赎回成功");
+        Logger.info("==============testTradeRedeem end=====================\n" + contentAsString(result));
 
-                /**
-                 * 验证message与value
-                 */
-                String testString= null;
-                try {
-                    testString = getJsonFile("json/CustTradeRedeem.json");//获得json文件内容
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-                MessageVo testMessage = toMessageVo(testString);
-                assertThat(testMessage).isEqualTo(message);//此处判断message
+        assertThat(status(result)).isEqualTo(OK);
+        MessageVo message = toMessageVo(result);
+        assertThat(message.getMessage().getCode()).isEqualTo("0401");
+        assertThat(message.getMessage().getSummary()).isEqualTo("赎回成功");
 
-            }
-        });
+        /**
+         * 验证message与value
+         */
+        String testString = null;
+        try {
+            testString = getJsonFile("json/CustTradeRedeem.json");//获得json文件内容
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        MessageVo testMessage = toMessageVo(testString);
+        assertThat(testMessage).isEqualTo(message);//此处判断message
 
     }
 }
