@@ -45,21 +45,30 @@ public class MsgCenterServiceImpl implements MsgCenterService {
     }
 
     @Override
-    public void createMsgReadHistory(String customerId, Long msgId, String sendType) {
+    public void saveMsgReadHistory(CustomerMsgReadHistory customerMsgReadHistory) {
+        CustomerMsgReadHistory history = msgCenterDao.findMsgReadHistoryByDeviceNo(customerMsgReadHistory.getDeviceNo());
         Timestamp currentTime = DBHelper.getCurrentTime();
-        CustomerMsgReadHistory customerMsgReadHistory = new CustomerMsgReadHistory();
-        customerMsgReadHistory.setCustomerId(customerId);
-        customerMsgReadHistory.setPushTxnId(msgId);
-        customerMsgReadHistory.setSendType(sendType);
-        customerMsgReadHistory.setCreateTime(currentTime);
-        customerMsgReadHistory.setReadTime(currentTime);
-        msgCenterDao.createMsgReadHistory(customerMsgReadHistory);
+        if (history == null) {//未读的  保存
+            customerMsgReadHistory.setCreateTime(currentTime);
+            customerMsgReadHistory.setReadTime(currentTime);
+            msgCenterDao.createMsgReadHistory(customerMsgReadHistory);
+        }else{//已读的
+            if (history.getCustomerId() == null && customerMsgReadHistory.getCustomerId() != null) {//老记录是未登录已读 登录再读 则更新
+                history.setCustomerId(customerMsgReadHistory.getCustomerId());
+                history.setUpdateTime(currentTime);
+                msgCenterDao.updateMsgReadHistory(history);
+            }
+        }
     }
 
 
     @Override
-    public int countUnReadNum(String customerId) {
-        return msgCenterDao.countUnReadNum(customerId);
+    public int countUnReadNum(String customerId, String deviceNo) {
+        if (customerId != null) {
+            return msgCenterDao.countUnReadNumWithLogin(customerId);
+        }else{
+            return msgCenterDao.countUnReadNum(deviceNo);
+        }
     }
 
     @Override

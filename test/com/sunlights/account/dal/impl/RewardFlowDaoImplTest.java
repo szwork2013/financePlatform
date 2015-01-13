@@ -8,31 +8,27 @@ import org.junit.Test;
 import play.Logger;
 import play.db.jpa.JPA;
 import play.libs.F;
+import play.test.WithApplication;
 
 import java.util.List;
 
 import static play.test.Helpers.fakeApplication;
 import static play.test.Helpers.running;
 
-public class RewardFlowDaoImplTest {
+public class RewardFlowDaoImplTest extends WithApplication {
 
     @Test
     public void testFindOneByCondition() throws Exception {
 
-        running(fakeApplication(), new Runnable() {
-            public void run() {
-                JPA.withTransaction(new F.Callback0() {
-                    @Override
-                    public void invoke() throws Throwable {
+        JPA.withTransaction(new F.Callback0() {
+            @Override
+            public void invoke() throws Throwable {
                         RewardFlowDao rewardFlowDao = new RewardFlowDaoImpl();
                         RewardFlow rewardFlow = new RewardFlow();
                         rewardFlow.setCustId("20141119102210010000000029");
                         rewardFlow.setRewardType("ART001");
                         List<RewardFlow> rewardFlows = rewardFlowDao.findByCondition(rewardFlow);
                         Logger.info(rewardFlows == null ? null : rewardFlows.size() + "");
-
-                    }
-                });
 
             }
         });

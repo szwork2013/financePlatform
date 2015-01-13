@@ -5,6 +5,7 @@ import org.junit.Test;
 import play.Logger;
 import play.db.jpa.JPA;
 import play.libs.Json;
+import play.test.WithApplication;
 
 import java.util.List;
 import java.util.Map;
@@ -12,14 +13,10 @@ import java.util.Map;
 import static org.fest.assertions.Assertions.assertThat;
 import static play.test.Helpers.*;
 
-public class CommonServiceTest {
+public class CommonServiceTest extends WithApplication {
 
     @Test
     public void testFindValueByCatPointKey() throws Exception {
-        running(fakeApplication(inMemoryDatabase("test")), new Runnable() {
-
-            public void run() {
-
                 JPA.withTransaction(new play.libs.F.Callback0() {
                     public void invoke() {
                         CommonService commonService = new CommonService();
@@ -28,16 +25,11 @@ public class CommonServiceTest {
                         assertThat(value).isEqualTo("推荐类型");
                     }
                 });
-            }
-
-        });
     }
 
     @Test
     public void testFindDictsByCat() throws Exception {
-        running(fakeApplication(inMemoryDatabase("test")), new Runnable() {
 
-            public void run() {
                 JPA.withTransaction(new play.libs.F.Callback0() {
                     public void invoke() {
                         CommonService commonService = new CommonService();
@@ -46,18 +38,11 @@ public class CommonServiceTest {
                         assertThat(dicts).isNotEmpty();
                     }
                 });
-            }
-
-        });
 
     }
 
     @Test
     public void testFindDictMapByCat() throws Exception {
-        running(fakeApplication(inMemoryDatabase("test")), new Runnable() {
-
-            public void run() {
-
                 JPA.withTransaction(new play.libs.F.Callback0() {
                     public void invoke() {
                         CommonService commonService = new CommonService();
@@ -66,9 +51,6 @@ public class CommonServiceTest {
                         assertThat(dictMap).isNotEmpty();
                     }
                 });
-            }
-
-        });
     }
 
     @Test

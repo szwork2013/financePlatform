@@ -79,15 +79,10 @@ public class ShuMiAccountControllerTest extends BaseTest {
                 }
                 MessageVo message = toMessageVo(result);
                 MessageVo testMessage = toMessageVo(testString);
-                assertThat(testMessage).isEqualTo(message);//此处判断message
+                assertThat(testMessage.getMessage()).isEqualTo(message.getMessage());//此处判断message
                 CustomerVo testCustomerVo = Json.fromJson(Json.toJson(testMessage.getValue()), CustomerVo.class);
                 CustomerVo CustomerVO = Json.fromJson(Json.toJson(message.getValue()), CustomerVo.class);
                 assertThat(testCustomerVo).isEqualTo(CustomerVO);//此处判断value
-
-
-//                MessageVo messageVo = toMessageVo(result);
-//                assertThat(messageVo.getMessage().getCode()).isEqualTo(MsgCode.SAVE_SHUMI_ACCOUNT_SUCCESS.getCode());
-//                assertThat(messageVo.getMessage().getSummary()).isEqualTo(MsgCode.SAVE_SHUMI_ACCOUNT_SUCCESS.getMessage());
 
 
                 JPA.withTransaction(new F.Callback0() {

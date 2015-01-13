@@ -6,6 +6,7 @@ import com.sunlights.common.utils.ConverterUtil;
 import models.AcctChangFlow;
 import org.fest.assertions.Assertions;
 import org.junit.Test;
+import play.test.WithApplication;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
@@ -15,7 +16,7 @@ import java.util.Map;
 /**
  * Created by Administrator on 2014/11/13.
  */
-public class ConverterTest {
+public class ConverterTest extends WithApplication {
     
     @Test
     public void toEntity() throws Exception {

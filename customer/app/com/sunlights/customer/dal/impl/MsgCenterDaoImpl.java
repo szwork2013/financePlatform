@@ -8,7 +8,10 @@ import com.sunlights.common.vo.PushMessageVo;
 import com.sunlights.customer.dal.MsgCenterDao;
 import com.sunlights.customer.vo.MsgCenterDetailVo;
 import com.sunlights.customer.vo.MsgCenterVo;
-import models.*;
+import models.CustomerMsgPushTxn;
+import models.CustomerMsgReadHistory;
+import models.MessageRule;
+import models.MessageSmsTxn;
 import play.Logger;
 
 import javax.persistence.Query;
@@ -106,12 +109,14 @@ public class MsgCenterDaoImpl extends EntityBaseDao implements MsgCenterDao{
     @Override
     public List<MsgCenterVo> findMsgCenterVoListWithLogin(PageVo pageVo) {
         String customerId = (String)pageVo.get("customerId");
+        String deviceNo = (String)pageVo.get("deviceNo");
         String sql = " SELECT * FROM ( " + buildSendSmsSql() + " UNION " + buildSendPushSql() + ") t  ORDER BY t.create_time DESC";
 
         Logger.debug(sql);
 
         Query query = em.createNativeQuery(sql);
         query.setParameter("customerId", customerId);
+        query.setParameter("deviceNo", deviceNo);
         query.setFirstResult(pageVo.getIndex());
         query.setMaxResults(pageVo.getPageSize());
         List<Object[]> list = query.getResultList();
@@ -151,7 +156,7 @@ public class MsgCenterDaoImpl extends EntityBaseDao implements MsgCenterDao{
 
     private String buildSendSmsSql(){
         String sql =
-                "SELECT  mst.id, mst.message_rule_id, mst.title, substring(mst.content, 1, 30)||'...' AS summary" +
+                "SELECT  mst.id, mst.message_rule_id, mst.title, substring(mst.content, 1, 50)||'...' AS summary" +
                 "       , mst.create_time, 'FP.SEND.TYPE.1' AS send_type, 'Y'" +
                 "  FROM c_message_rule mr, c_message_sms_txn mst, c_customer c" +
                 " WHERE mr.id = mst.message_rule_id" +
@@ -164,16 +169,16 @@ public class MsgCenterDaoImpl extends EntityBaseDao implements MsgCenterDao{
     }
     private String buildSendPushSql(){
         String pushSql =
-                "SELECT cpt.id, cpt.message_rule_id, cpt.title, substring(cpt.content, 1, 30)||'...'  AS summary, cpt.create_time, 'FP.SEND.TYPE.2' AS send_type" +
+                "SELECT cpt.id, cpt.message_rule_id, cpt.title, substring(cpt.content, 1, 50)||'...'  AS summary, cpt.create_time, 'FP.SEND.TYPE.2' AS send_type" +
                 "  FROM c_message_push_txn cpt" +
                 " UNION " +
-                "SELECT cmpt.id, cmpt.message_rule_id, cmpt.title, substring(cmpt.content, 1, 30)||'...'  AS summary, cmpt.create_time, 'FP.SEND.TYPE.3' AS send_type" +
+                "SELECT cmpt.id, cmpt.message_rule_id, cmpt.title, substring(cmpt.content, 1, 50)||'...'  AS summary, cmpt.create_time, 'FP.SEND.TYPE.3' AS send_type" +
                 "  FROM c_customer_msg_push_txn cmpt" +
                 " WHERE cmpt.customer_id = :customerId";
 
         String sql =
                 " SELECT pt.id, pt.message_rule_id, pt.title, pt.summary, pt.create_time, pt.send_type, " +
-                "       CASE WHEN pt.id IN (SELECT rh.push_txn_id FROM c_customer_msg_read_history rh WHERE rh.customer_id = :customerId) THEN 'Y' ELSE 'N' END AS readInd" +
+                "       CASE WHEN pt.id IN (SELECT rh.push_txn_id FROM c_customer_msg_read_history rh WHERE rh.customer_id = :customerId and rh.device_no = :deviceNo) THEN 'Y' ELSE 'N' END AS readInd" +
                 "  FROM c_message_rule mr, (" + pushSql + ") pt" +
                 " WHERE mr.id = pt.message_rule_id" +
                 "   AND mr.msg_center_ind = 'Y'" +
@@ -184,14 +189,17 @@ public class MsgCenterDaoImpl extends EntityBaseDao implements MsgCenterDao{
     @Override
     public List<MsgCenterVo> findMsgCenterVoList(PageVo pageVo) {
         String sql =
-                "  select cpt.id,cpt.message_rule_id,cpt.title,substring(cpt.content, 1, 30)||'...' AS summary,cpt.create_time,'FP.SEND.TYPE.2' " +
+                "  select cpt.id,cpt.message_rule_id,cpt.title,substring(cpt.content, 1, 50)||'...' AS summary,cpt.create_time,'FP.SEND.TYPE.2'||'' as sendType , " +
+                "         CASE WHEN cpt.id IN (SELECT rh.push_txn_id FROM c_customer_msg_read_history rh WHERE rh.device_no = :deviceNo) THEN 'Y' ELSE 'N' END AS readInd " +
                 "    from c_message_push_txn cpt ,c_message_rule mr " +
                 "   where mr.id = cpt.message_rule_id " +
-                "     and mr.msg_center_ind = 'Y'" +
+                "     and mr.msg_center_ind = 'Y' " +
                 "order by cpt.create_time desc";
         Query query = em.createNativeQuery(sql);
+        query.setParameter("deviceNo", pageVo.get("deviceNo"));
         query.setFirstResult(pageVo.getIndex());
         query.setMaxResults(pageVo.getPageSize());
+        Logger.debug(sql);
         List<Object[]> list = query.getResultList();
         String keys = "msgId,messageRuleId,title,summary,createTime,sendType,readInd";
         List<MsgCenterVo> msgCenterVoList = ConverterUtil.convert(keys, list, MsgCenterVo.class);
@@ -227,7 +235,18 @@ public class MsgCenterDaoImpl extends EntityBaseDao implements MsgCenterDao{
     }
 
     @Override
-    public int countUnReadNum(String customerId) {
+    public CustomerMsgReadHistory findMsgReadHistoryByDeviceNo(String deviceNo) {
+        List<CustomerMsgReadHistory> list = findBy(CustomerMsgReadHistory.class, "deviceNo", deviceNo);
+        return list.isEmpty() ? null : list.get(0);
+    }
+
+    @Override
+    public void updateMsgReadHistory(CustomerMsgReadHistory customerMsgReadHistory) {
+        update(customerMsgReadHistory);
+    }
+
+    @Override
+    public int countUnReadNumWithLogin(String customerId) {
         String countSql =
                 "SELECT COUNT(1) " +
                 "FROM c_message_rule mr, " +
@@ -251,6 +270,22 @@ public class MsgCenterDaoImpl extends EntityBaseDao implements MsgCenterDao{
 
         Query query = em.createNativeQuery(countSql);
         query.setParameter("customerId", customerId);
+        return Integer.valueOf(query.getSingleResult().toString());
+    }
+
+    @Override
+    public int countUnReadNum(String deviceNo) {
+        String countSql =
+                "SELECT COUNT(1) " +
+                "  FROM c_message_rule mr, c_message_push_txn pt" +
+                " WHERE mr.id = pt.message_rule_id" +
+                "  AND mr.msg_center_ind = 'Y'" +
+                "  AND pt.id NOT IN (SELECT mrh.push_txn_id FROM c_customer_msg_read_history mrh WHERE mrh.device_no = :deviceNo)";
+
+        Logger.debug(countSql);
+
+        Query query = em.createNativeQuery(countSql);
+        query.setParameter("deviceNo", deviceNo);
         return Integer.valueOf(query.getSingleResult().toString());
     }
 

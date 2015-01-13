@@ -20,6 +20,8 @@ public class CustomerMsgReadHistory extends IdEntity {
     private String customerId;
     @Column(name = "push_txn_id")
     private Long pushTxnId;
+    @Column(name = "device_no", length = 40)
+    private String deviceNo;
     @Column(name = "send_type")
     private String sendType;//"FP.SEND.TYPE.1";//短信发送   "FP.SEND.TYPE.2";//群发推送  "FP.SEND.TYPE.3";//个人推送
     @Temporal(TemporalType.TIMESTAMP)
@@ -78,5 +80,13 @@ public class CustomerMsgReadHistory extends IdEntity {
 
     public void setCreateTime(Date createTime) {
         this.createTime = createTime;
+    }
+
+    public String getDeviceNo() {
+        return deviceNo;
+    }
+
+    public void setDeviceNo(String deviceNo) {
+        this.deviceNo = deviceNo;
     }
 }

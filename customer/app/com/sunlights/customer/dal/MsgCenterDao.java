@@ -51,12 +51,18 @@ public interface MsgCenterDao {
     public List<MsgCenterVo> findMsgCenterVoList(PageVo pageVo);
 
     public MsgCenterDetailVo findMsgCenterDetail(Long msgId, String sendType);
+
+
     public void createMsgReadHistory(CustomerMsgReadHistory customerMsgReadHistory);
+    public CustomerMsgReadHistory findMsgReadHistoryByDeviceNo(String deviceNo);
+    public void updateMsgReadHistory(CustomerMsgReadHistory customerMsgReadHistory);
 
     /**
      * 未读数量记录
      * @return
      */
-    public int countUnReadNum(String customerId);
+    public int countUnReadNumWithLogin(String customerId);
+    public int countUnReadNum(String deviceNo);
+
 
 }
