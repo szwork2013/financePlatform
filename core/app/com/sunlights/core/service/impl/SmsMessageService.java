@@ -4,21 +4,16 @@ import com.sunlights.common.AppConst;
 import com.sunlights.common.ParameterConst;
 import com.sunlights.common.service.ParameterService;
 import com.sunlights.common.utils.DBHelper;
+import com.sunlights.customer.action.MsgCenterActionService;
 import com.sunlights.customer.dal.MsgCenterDao;
 import com.sunlights.customer.dal.impl.MsgCenterDaoImpl;
 import models.MessageRule;
 import models.MessageSmsTxn;
 import play.Logger;
-import play.Play;
-import play.libs.F;
-import play.libs.Json;
-import play.libs.ws.WS;
-import play.libs.ws.WSResponse;
 
 import java.sql.Timestamp;
 import java.text.MessageFormat;
 import java.text.SimpleDateFormat;
-import java.util.concurrent.TimeUnit;
 
 /**
  * <p>Project: fsp</p>
@@ -35,6 +30,7 @@ public class SmsMessageService {
     private static String VERIFY_CODE = "VERIFY_CODE";
     private ParameterService parameterService = new ParameterService();
     private MsgCenterDao msgCenterDao = new MsgCenterDaoImpl();
+    private MsgCenterActionService msgCenterActionService = new MsgCenterActionService();
 
     /**
      * 发送手机短信
@@ -46,19 +42,7 @@ public class SmsMessageService {
     public void sendSms(String mobilePhoneNo, String verifyCode, String type) {
         MessageSmsTxn smsMessage = createMessageSmsTxn(mobilePhoneNo, verifyCode, type);
 
-        String pushUrl = Play.application().configuration().getString("sms_url");
-        F.Promise<MessageSmsTxn> messageSmsTxnPromise = WS.url(pushUrl).post(Json.toJson(smsMessage)).map(new F.Function<WSResponse, MessageSmsTxn>() {
-            @Override
-            public MessageSmsTxn apply(WSResponse wsResponse) throws Throwable {
-                MessageSmsTxn messageSmsTxn = Json.fromJson(wsResponse.asJson(), MessageSmsTxn.class);
-
-                return messageSmsTxn;
-            }
-        });
-
-        MessageSmsTxn messageSmsTxn = messageSmsTxnPromise.get(10, TimeUnit.SECONDS);
-
-        msgCenterDao.updateMessageSmsTxn(messageSmsTxn);
+        msgCenterActionService.updateSmsWS(smsMessage);
     }
 
 

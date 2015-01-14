@@ -11,10 +11,7 @@ import play.test.WithApplication;
 
 import static org.fest.assertions.Assertions.assertThat;
 
-<<<<<<< HEAD
-=======
 
->>>>>>> master
 public class RewardFlowServiceImplTest extends WithApplication {
 
     @Test
@@ -25,11 +22,7 @@ public class RewardFlowServiceImplTest extends WithApplication {
                 RewardFlowService rewardFlowService = new RewardFlowServiceImpl();
                 RewardFlow rewardFlows = rewardFlowService.findTodayFlowByCustIdAndScene("20141119102210010000000029", "ASC002");
                 if (rewardFlows != null) {
-<<<<<<< HEAD
-
-=======
                     Logger.info("---------");
->>>>>>> master
                     assertThat("20141119102210010000000029").isEqualTo(rewardFlows.getCustId());
                 }
             }

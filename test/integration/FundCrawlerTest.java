@@ -13,16 +13,12 @@ import sun.misc.BASE64Encoder;
 import static play.test.Helpers.fakeApplication;
 import static play.test.Helpers.running;
 
-<<<<<<< HEAD
-public class FundCrawlerTest extends WithApplication{
-=======
 public class FundCrawlerTest extends WithApplication {
->>>>>>> master
 
     @Test
     public void testFilter() throws Exception {
 
-                  //此处测试短链接！！！
+        //此处测试短链接！！！
 //                ShortURLUtil shorturl = new ShortURLUtil();
 //                String str=shorturl.getShortURL("http://www.baidu.com?code=121312312");
 //                String str1 = str.replace("\"", ""); //去掉引号

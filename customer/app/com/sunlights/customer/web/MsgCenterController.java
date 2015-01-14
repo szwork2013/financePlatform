@@ -57,11 +57,14 @@ public class MsgCenterController extends Controller{
 
         String customerId = null;
         if (request().cookie(AppConst.TOKEN) != null && request().cookie(AppConst.TOKEN).value() != null) {
-            CustomerSession customerSession = customerService.validateCustomerSession(request(), session(), response());
-            customerId = customerSession.getCustomerId();
-            pageVo.put("customerId", customerId);
-            list =  msgCenterService.findMsgCenterVoListWithLogin(pageVo);
-        }else{
+            CustomerSession customerSession = customerService.getCustomerSession(request().cookie(AppConst.TOKEN).value());
+            if (customerSession != null) {
+                customerId = customerSession.getCustomerId();
+                pageVo.put("customerId", customerId);
+                list =  msgCenterService.findMsgCenterVoListWithLogin(pageVo);
+            }
+        }
+        if (customerId == null) {
             list =  msgCenterService.findMsgCenterVoList(pageVo);
         }
 
@@ -79,8 +82,10 @@ public class MsgCenterController extends Controller{
 
         String customerId = null;
         if (request().cookie(AppConst.TOKEN) != null && request().cookie(AppConst.TOKEN).value() != null) {
-            CustomerSession customerSession = customerService.validateCustomerSession(request(), session(), response());
-            customerId = customerSession.getCustomerId();
+            CustomerSession customerSession = customerService.getCustomerSession(request().cookie(AppConst.TOKEN).value());
+            if (customerSession != null) {
+                customerId = customerSession.getCustomerId();
+            }
         }
         String deviceNo = request().getHeader(AppConst.CLIENT_DEVICE);
 
@@ -111,8 +116,10 @@ public class MsgCenterController extends Controller{
 
         String customerId = null;
         if (request().cookie(AppConst.TOKEN) != null && request().cookie(AppConst.TOKEN).value() != null) {
-            CustomerSession customerSession = customerService.validateCustomerSession(request(), session(), response());
-            customerId = customerSession.getCustomerId();
+            CustomerSession customerSession = customerService.getCustomerSession(request().cookie(AppConst.TOKEN).value());
+            if (customerSession != null) {
+                customerId = customerSession.getCustomerId();
+            }
         }
         String deviceNo = request().getHeader(AppConst.CLIENT_DEVICE);
 
