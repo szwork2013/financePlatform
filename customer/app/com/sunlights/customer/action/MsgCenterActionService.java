@@ -73,7 +73,7 @@ public class MsgCenterActionService {
         }
     }
 
-    private void operationRuleCode(MessageHeaderVo messageActivityVo, String ruleCode) {
+    public void operationRuleCode(MessageHeaderVo messageActivityVo, String ruleCode) {
         PushMessageVo pushMessageVo = centerDao.findMessageRuleByCode(ruleCode);
         if (pushMessageVo == null) {
             Logger.info(MessageFormat.format(">>消息规则{0} 未配置！", ruleCode));

@@ -6,48 +6,32 @@ import com.sunlights.customer.dal.impl.RewardFlowDaoImpl;
 import models.RewardFlow;
 import org.junit.Test;
 import play.Logger;
-<<<<<<< HEAD
-=======
 import play.db.jpa.JPA;
 import play.libs.F;
->>>>>>> master
 import play.test.WithApplication;
 
 import java.util.List;
 
-<<<<<<< HEAD
-=======
 import static play.test.Helpers.fakeApplication;
 import static play.test.Helpers.running;
 
->>>>>>> master
 public class RewardFlowDaoImplTest extends WithApplication {
 
     @Test
     public void testFindOneByCondition() throws Exception {
 
-<<<<<<< HEAD
-        RewardFlowDao rewardFlowDao = new RewardFlowDaoImpl();
-        RewardFlow rewardFlow = new RewardFlow();
-        rewardFlow.setCustId("20141119102210010000000029");
-        rewardFlow.setRewardType("ART001");
-        List<RewardFlow> rewardFlows = rewardFlowDao.findByCondition(rewardFlow);
-        Logger.info(rewardFlows == null ? null : rewardFlows.size() + "");
-=======
         JPA.withTransaction(new F.Callback0() {
             @Override
             public void invoke() throws Throwable {
-                        RewardFlowDao rewardFlowDao = new RewardFlowDaoImpl();
-                        RewardFlow rewardFlow = new RewardFlow();
-                        rewardFlow.setCustId("20141119102210010000000029");
-                        rewardFlow.setRewardType("ART001");
-                        List<RewardFlow> rewardFlows = rewardFlowDao.findByCondition(rewardFlow);
-                        Logger.info(rewardFlows == null ? null : rewardFlows.size() + "");
+                RewardFlowDao rewardFlowDao = new RewardFlowDaoImpl();
+                RewardFlow rewardFlow = new RewardFlow();
+                rewardFlow.setCustId("20141119102210010000000029");
+                rewardFlow.setRewardType("ART001");
+                List<RewardFlow> rewardFlows = rewardFlowDao.findByCondition(rewardFlow);
+                Logger.info(rewardFlows == null ? null : rewardFlows.size() + "");
 
             }
         });
->>>>>>> master
 
     }
-
 }

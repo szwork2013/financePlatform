@@ -16,13 +16,8 @@ import java.util.Map;
 /**
  * Created by Administrator on 2014/11/13.
  */
-<<<<<<< HEAD
-public class ConverterTest {
-
-=======
 public class ConverterTest extends WithApplication {
-    
->>>>>>> master
+
     @Test
     public void toEntity() throws Exception {
         AcctChangeFlowVo acctChangeFlowVo = new AcctChangeFlowVo();
@@ -36,7 +31,7 @@ public class ConverterTest extends WithApplication {
 
 
     @Test
-    public void convertMap2Entity() throws Exception {
+    public void convertMap2Entity() throws Exception{
         String keys = "customerId,prdCode, prdName, amount";
         List values = new ArrayList();
         values.add("aaaa");
@@ -51,6 +46,7 @@ public class ConverterTest extends WithApplication {
         Assertions.assertThat(acctChangFlow.getCustomerId()).isEqualTo("aaaa");
         Assertions.assertThat(acctChangFlow.getAmount().intValue()).isEqualTo(5);
     }
+
 
 
 }
