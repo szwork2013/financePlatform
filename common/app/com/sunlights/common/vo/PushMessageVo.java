@@ -25,7 +25,9 @@ public class PushMessageVo implements Serializable{
     private String customerId;
     private String personalInd;//个人Y、群发N 信息来源标志
     private int sendNum = 0;//次数
+    private int badge = 1;//ios 专用  未读记录数量
     private List<String> aliasList = Lists.newArrayList();
+    private List<String> registrationIdList = Lists.newArrayList();
 
     private Long messageRuleId;
     private String pushTimed;//Y定时 N即时
@@ -159,5 +161,21 @@ public class PushMessageVo implements Serializable{
 
     public void setMsgCenterInd(String msgCenterInd) {
         this.msgCenterInd = msgCenterInd;
+    }
+
+    public List<String> getRegistrationIdList() {
+        return registrationIdList;
+    }
+
+    public void setRegistrationIdList(List<String> registrationIdList) {
+        this.registrationIdList = registrationIdList;
+    }
+
+    public int getBadge() {
+        return badge;
+    }
+
+    public void setBadge(int badge) {
+        this.badge = badge;
     }
 }

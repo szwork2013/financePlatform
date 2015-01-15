@@ -147,6 +147,8 @@ public class MsgCenterActionService {
                 return ;
             }
             pushMessageVo.setAliasList(alias);
+            //TODO
+//            pushMessageVo.setRegistrationIdList();
 
             executePush(pushMessageVo);
         }

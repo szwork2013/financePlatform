@@ -51,6 +51,7 @@ public class MsgCenterController extends Controller{
         }
 
         String deviceNo = request().getHeader(AppConst.CLIENT_DEVICE);
+        Logger.info(">>deviceNo:" + deviceNo);
         pageVo.put("deviceNo", deviceNo);
 
         CommonUtil.getInstance().validateParams(deviceNo);
@@ -88,6 +89,7 @@ public class MsgCenterController extends Controller{
             }
         }
         String deviceNo = request().getHeader(AppConst.CLIENT_DEVICE);
+        Logger.info(">>deviceNo:" + deviceNo);
 
         Map<String,String> params = form().bindFromRequest().data();
         String msgIdStr = params.get("msgId");
@@ -122,6 +124,7 @@ public class MsgCenterController extends Controller{
             }
         }
         String deviceNo = request().getHeader(AppConst.CLIENT_DEVICE);
+        Logger.info(">>deviceNo:" + deviceNo);
 
         CommonUtil.getInstance().validateParams(deviceNo);
 

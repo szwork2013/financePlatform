@@ -29,6 +29,7 @@ public class MsgCenterServiceImpl implements MsgCenterService {
 
     private CustomerDao customerDao = new CustomerDaoImpl();
     private MsgCenterDao msgCenterDao = new MsgCenterDaoImpl();
+    private CustomerService customerService = new CustomerService();
 
     @Override
     public List<MsgCenterVo> findMsgCenterVoListWithLogin(PageVo pageVo) {
@@ -74,19 +75,15 @@ public class MsgCenterServiceImpl implements MsgCenterService {
 
     @Override
     public void enablePush(String registrationId) {
-        Timestamp currentTime = DBHelper.getCurrentTime();
         CustomerMsgSetting customerMsgSetting = customerDao.findCustomerMsgSetting(registrationId);
-        if (customerMsgSetting != null) {
-            customerMsgSetting.setUpdateTime(currentTime);
-            customerMsgSetting.setPushOpenStatus(AppConst.STATUS_INVALID);
-            customerDao.updateCustomerMsgSetting(customerMsgSetting);
+        Timestamp currentTime = DBHelper.getCurrentTime();
+        if (customerMsgSetting == null) {
+            customerMsgSetting = new CustomerMsgSetting();
+            customerMsgSetting.setRegistrationId(registrationId);
+            customerMsgSetting.setPushOpenStatus(AppConst.STATUS_VALID);
+            customerMsgSetting.setCreateTime(currentTime);
+            customerDao.createCustomerMsgSetting(customerMsgSetting);
         }
-
-        customerMsgSetting = new CustomerMsgSetting();
-        customerMsgSetting.setRegistrationId(registrationId);
-        customerMsgSetting.setPushOpenStatus(AppConst.STATUS_VALID);
-        customerMsgSetting.setCreateTime(currentTime);
-        customerDao.createCustomerMsgSetting(customerMsgSetting);
     }
 
     @Override
@@ -98,5 +95,7 @@ public class MsgCenterServiceImpl implements MsgCenterService {
             customerMsgSetting.setPushOpenStatus(AppConst.STATUS_INVALID);
             customerDao.updateCustomerMsgSetting(customerMsgSetting);
         }
+
+        customerService.removeCache(AppConst.HEADER_REGISTRATION_ID + "_" + registrationId);
     }
 }

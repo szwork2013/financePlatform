@@ -19,6 +19,7 @@ import java.util.Date;
 @NamedQueries({
         @NamedQuery(name="findAliasByGroupId",query="select cms.alias from CustomerGroup cg,CustomerMsgSetting cms where cg.customerId = cms.customerId and cms.pushOpenStatus = 'Y' and cg.id = ?1"),
         @NamedQuery(name="findAliasByCustomerId",query="select cms.alias from CustomerMsgSetting cms where cms.pushOpenStatus = 'Y' and cms.customerId = ?1"),
+        @NamedQuery(name="findRegistrationIdsByCustomerId",query="select cms.registrationId from CustomerMsgSetting cms where cms.pushOpenStatus = 'Y' and cms.customerId = ?1"),
         @NamedQuery(name="findSettingByRegistrationId",query="select cms from CustomerMsgSetting cms where cms.pushOpenStatus = 'Y' and cms.registrationId = ?1")
 })
 public class CustomerMsgSetting extends IdEntity {
