@@ -81,6 +81,7 @@ public class RegisterController extends Controller {
         if (customer != null) {
             CustomerSession customerSession = customerService.createCustomerSession(customer, Controller.request().remoteAddress());
             customerService.sessionLoginSessionId(Controller.session(), Controller.response(), customerSession);
+            customerService.sessionPushRegId(request().getHeader(AppConst.HEADER_REGISTRATION_ID), customerSession.getCustomerId());
             accountService.createBaseAccount(customer.getCustomerId(), null);
             Message message = new Message(MsgCode.REGISTRY_SUCCESS);
             CustomerVo customerVo = customerService.getCustomerVoByPhoneNo(customer.getMobile(), customerFormVo.getDeviceNo());

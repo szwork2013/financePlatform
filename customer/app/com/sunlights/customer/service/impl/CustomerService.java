@@ -12,12 +12,14 @@ import com.sunlights.customer.dal.CustomerDao;
 import com.sunlights.customer.dal.impl.CustomerDaoImpl;
 import com.sunlights.customer.vo.CustomerVo;
 import models.Customer;
+import models.CustomerMsgSetting;
 import models.CustomerSession;
 import play.Logger;
 import play.cache.Cache;
 import play.mvc.Http;
 
 import java.sql.Timestamp;
+import java.text.MessageFormat;
 
 /**
  * <p>Project: fsp</p>
@@ -133,6 +135,48 @@ public class CustomerService {
         }
     }
 
+    /**
+     * 缓存 设置 推送registrationId
+     * @param registrationId
+     * @param customerId
+     */
+    public void sessionPushRegId(String registrationId, String customerId){
+        Logger.info(MessageFormat.format(">>sessionPushRegId：registrationId={0}, customerId={1}", registrationId, customerId));
+        if (registrationId == null || customerId == null) {
+            return ;
+        }
+        long cacheTime = parameterService.getParameterNumeric(ParameterConst.CACHE_EXPIRY);
+        CustomerMsgSetting customerMsgSetting = null;
+        String preCustomerId = (String)Cache.get(AppConst.HEADER_REGISTRATION_ID + "_" + registrationId);
+        if (preCustomerId == null) {
+            customerMsgSetting = customerDao.findCustomerMsgSetting(registrationId);
+            if (customerMsgSetting != null && customerMsgSetting.getCustomerId() != null) {
+                preCustomerId = customerMsgSetting.getCustomerId();
+            }
+        }
+
+        if (!customerId.equals(preCustomerId)) {
+            resetRegistrationId(customerMsgSetting, registrationId, customerId);
+        }
+
+        Cache.set(AppConst.HEADER_REGISTRATION_ID + "_" + registrationId, customerId, (int) cacheTime * 60);
+    }
+
+    private void resetRegistrationId(CustomerMsgSetting preCustomerMsgSetting, String registrationId, String customerId) {
+        Timestamp currentTime = DBHelper.getCurrentTime();
+        if (preCustomerMsgSetting != null) {
+            preCustomerMsgSetting.setUpdateTime(currentTime);
+            preCustomerMsgSetting.setPushOpenStatus(AppConst.STATUS_INVALID);
+            customerDao.updateCustomerMsgSetting(preCustomerMsgSetting);
+        }
+
+        CustomerMsgSetting customerMsgSetting = new CustomerMsgSetting();
+        customerMsgSetting.setRegistrationId(registrationId);
+        customerMsgSetting.setCustomerId(customerId);
+        customerMsgSetting.setPushOpenStatus(AppConst.STATUS_VALID);
+        customerMsgSetting.setCreateTime(currentTime);
+        customerDao.createCustomerMsgSetting(customerMsgSetting);
+    }
 
     /**
      * 设置缓存

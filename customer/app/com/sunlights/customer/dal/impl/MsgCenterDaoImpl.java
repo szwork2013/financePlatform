@@ -195,7 +195,7 @@ public class MsgCenterDaoImpl extends EntityBaseDao implements MsgCenterDao{
 
         String sql =
                 " SELECT pt.id, pt.message_rule_id, pt.title, pt.summary, pt.create_time, pt.send_type, " +
-                "       CASE WHEN pt.id IN (SELECT rh.push_txn_id FROM c_customer_msg_read_history rh WHERE rh.customer_id = :customerId and rh.device_no = :deviceNo) THEN 'Y' ELSE 'N' END AS readInd" +
+                "       CASE WHEN pt.id IN (SELECT rh.push_txn_id FROM c_customer_msg_read_history rh WHERE rh.customer_id = :customerId) THEN 'Y' ELSE 'N' END AS readInd" +
                 "  FROM c_message_rule mr, (" + pushSql + ") pt" +
                 " WHERE mr.id = pt.message_rule_id" +
                 "   AND mr.msg_center_ind = 'Y'" +

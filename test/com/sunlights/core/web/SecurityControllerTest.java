@@ -26,7 +26,7 @@ public class SecurityControllerTest extends BaseTest {
 
 
       String  mobilePhoneNo = "";
-        for (int i = 0; i< 200;i++) {
+        for (int i = 0; i< 2;i++) {
             mobilePhoneNo = randomVerifyCode(11);
             getVerifyCode(mobilePhoneNo);
         }

@@ -51,6 +51,7 @@ public class MsgCenterController extends Controller{
         }
 
         String deviceNo = request().getHeader(AppConst.CLIENT_DEVICE);
+        Logger.info(">>deviceNo:" + deviceNo);
         pageVo.put("deviceNo", deviceNo);
 
         CommonUtil.getInstance().validateParams(deviceNo);
@@ -88,6 +89,7 @@ public class MsgCenterController extends Controller{
             }
         }
         String deviceNo = request().getHeader(AppConst.CLIENT_DEVICE);
+        Logger.info(">>deviceNo:" + deviceNo);
 
         Map<String,String> params = form().bindFromRequest().data();
         String msgIdStr = params.get("msgId");
@@ -122,6 +124,7 @@ public class MsgCenterController extends Controller{
             }
         }
         String deviceNo = request().getHeader(AppConst.CLIENT_DEVICE);
+        Logger.info(">>deviceNo:" + deviceNo);
 
         CommonUtil.getInstance().validateParams(deviceNo);
 
@@ -130,6 +133,38 @@ public class MsgCenterController extends Controller{
         MessageUtil.getInstance().setMessage(new Message(MsgCode.OPERATE_SUCCESS), unReadNum);
 
         Logger.info(">>countUnReadNum return：" + MessageUtil.getInstance().toJson());
+        return ok(MessageUtil.getInstance().toJson());
+    }
+
+    public Result enablePush(){
+        Logger.info(">>enablePush params：" + Json.toJson(form().bindFromRequest().data()));
+
+        String registrationId = request().getHeader(AppConst.HEADER_REGISTRATION_ID);
+        CommonUtil.getInstance().validateParams(registrationId);
+
+        Logger.info(">>registrationId :" + registrationId);
+
+        msgCenterService.enablePush(registrationId);
+
+        MessageUtil.getInstance().setMessage(new Message(MsgCode.ENABLE_PUSH_SUCCESS));
+
+        Logger.info(">>enablePush return：" + MessageUtil.getInstance().toJson());
+        return ok(MessageUtil.getInstance().toJson());
+    }
+
+    public Result disablePush(){
+        Logger.info(">>disablePush params：" + Json.toJson(form().bindFromRequest().data()));
+
+        String registrationId = request().getHeader(AppConst.HEADER_REGISTRATION_ID);
+        CommonUtil.getInstance().validateParams(registrationId);
+
+        Logger.info(">>registrationId :" + registrationId);
+
+        msgCenterService.disablePush(registrationId);
+
+        MessageUtil.getInstance().setMessage(new Message(MsgCode.DISABLE_PUSH_SUCCESS));
+
+        Logger.info(">>disablePush return：" + MessageUtil.getInstance().toJson());
         return ok(MessageUtil.getInstance().toJson());
     }
     

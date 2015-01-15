@@ -147,6 +147,8 @@ public class MsgCenterActionService {
                 return ;
             }
             pushMessageVo.setAliasList(alias);
+            //TODO
+//            pushMessageVo.setRegistrationIdList();
 
             executePush(pushMessageVo);
         }
@@ -179,6 +181,8 @@ public class MsgCenterActionService {
         messageSmsTxn = messageSmsTxnPromise.get(10, TimeUnit.SECONDS);
 
         centerDao.updateMessageSmsTxn(messageSmsTxn);
+
+        WS.url(pushUrl).post(Json.toJson(messageSmsTxn));
     }
 
     private boolean sendNow(PushMessageVo pushMessageVo){
@@ -255,6 +259,7 @@ public class MsgCenterActionService {
         if (aliasList.isEmpty()) {
             Logger.error(MessageFormat.format("未查询到需要信息发送的接收者！当前客户号：{0}", customerId));
         }
+
         return aliasList;
     }
 

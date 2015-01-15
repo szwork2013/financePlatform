@@ -132,6 +132,7 @@ public class CustomerController extends Controller {
             CustomerVo customerVo = customerService.getCustomerVoByPhoneNo(mobilePhoneNo, deviceNo);
             MessageUtil.getInstance().setMessage(message, customerVo);
             customerService.sessionLoginSessionId(Controller.session(), Controller.response(), customerSession);
+            customerService.sessionPushRegId(request().getHeader(AppConst.HEADER_REGISTRATION_ID), customerSession.getCustomerId());
 
             MessageHeaderVo messageHeaderVo = new MessageHeaderVo(DictConst.PUSH_TYPE_4, null, customerSession.getCustomerId());
             list.add(messageHeaderVo);
@@ -140,7 +141,6 @@ public class CustomerController extends Controller {
         Logger.info(">>login返回：" + json.toString());
 
         response().setHeader(AppConst.HEADER_MSG, MessageUtil.getInstance().setMessageHeader(list));
-
         return Controller.ok(json);
     }
 
@@ -189,6 +189,7 @@ public class CustomerController extends Controller {
             // 自动登录
             loginService.saveLoginHistory(customer, deviceNo);
             userSession = customerService.createCustomerSession(customer, Controller.request().remoteAddress());
+            customerService.sessionPushRegId(request().getHeader(AppConst.HEADER_REGISTRATION_ID), userSession.getCustomerId());
         }
         customerService.sessionLoginSessionId(Controller.session(), Controller.response(), userSession);
 
@@ -243,12 +244,14 @@ public class CustomerController extends Controller {
             CustomerVo customerVo = customerService.getCustomerVoByPhoneNo(mobilePhoneNo, deviceNo);
             MessageUtil.getInstance().setMessage(message, customerVo);
             customerService.sessionLoginSessionId(Controller.session(), Controller.response(), customerSession);
+            customerService.sessionPushRegId(request().getHeader(AppConst.HEADER_REGISTRATION_ID), customerSession.getCustomerId());
             MessageHeaderVo messageHeaderVo = new MessageHeaderVo(DictConst.PUSH_TYPE_4, null, customerSession.getCustomerId());
             list.add(messageHeaderVo);
         }
 
         JsonNode json = MessageUtil.getInstance().toJson();
         Logger.info("==========loginByges返回：" + json.toString());
+
 
         response().setHeader(AppConst.HEADER_MSG, MessageUtil.getInstance().setMessageHeader(list));
 

@@ -1,5 +1,6 @@
 package com.sunlights.customer.service.impl;
 
+import com.sunlights.common.AppConst;
 import com.sunlights.common.utils.DBHelper;
 import com.sunlights.common.vo.PageVo;
 import com.sunlights.customer.dal.CustomerDao;
@@ -28,6 +29,7 @@ public class MsgCenterServiceImpl implements MsgCenterService {
 
     private CustomerDao customerDao = new CustomerDaoImpl();
     private MsgCenterDao msgCenterDao = new MsgCenterDaoImpl();
+    private CustomerService customerService = new CustomerService();
 
     @Override
     public List<MsgCenterVo> findMsgCenterVoListWithLogin(PageVo pageVo) {
@@ -72,15 +74,28 @@ public class MsgCenterServiceImpl implements MsgCenterService {
     }
 
     @Override
-    public CustomerMsgSetting saveCustomerMsgSetting(String customerId, String alias) {
-//        List<String> aliasList = customerDao.findAliasByCustomerId(customerId);
-//        if (aliasList.isEmpty()) {
-//            customerDao.createCustomerMsgSetting()
-//        }else{
-//            if (!alias.equals(aliasList.get(0))) {
-//                u
-//            }
-//        }
-        return null;
+    public void enablePush(String registrationId) {
+        CustomerMsgSetting customerMsgSetting = customerDao.findCustomerMsgSetting(registrationId);
+        Timestamp currentTime = DBHelper.getCurrentTime();
+        if (customerMsgSetting == null) {
+            customerMsgSetting = new CustomerMsgSetting();
+            customerMsgSetting.setRegistrationId(registrationId);
+            customerMsgSetting.setPushOpenStatus(AppConst.STATUS_VALID);
+            customerMsgSetting.setCreateTime(currentTime);
+            customerDao.createCustomerMsgSetting(customerMsgSetting);
+        }
+    }
+
+    @Override
+    public void disablePush(String registrationId) {
+        Timestamp currentTime = DBHelper.getCurrentTime();
+        CustomerMsgSetting customerMsgSetting = customerDao.findCustomerMsgSetting(registrationId);
+        if (customerMsgSetting != null) {
+            customerMsgSetting.setUpdateTime(currentTime);
+            customerMsgSetting.setPushOpenStatus(AppConst.STATUS_INVALID);
+            customerDao.updateCustomerMsgSetting(customerMsgSetting);
+        }
+
+        customerService.removeCache(AppConst.HEADER_REGISTRATION_ID + "_" + registrationId);
     }
 }
