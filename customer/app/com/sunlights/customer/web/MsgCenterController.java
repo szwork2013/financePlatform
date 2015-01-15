@@ -132,5 +132,37 @@ public class MsgCenterController extends Controller{
         Logger.info(">>countUnReadNum return：" + MessageUtil.getInstance().toJson());
         return ok(MessageUtil.getInstance().toJson());
     }
+
+    public Result enablePush(){
+        Logger.info(">>enablePush params：" + Json.toJson(form().bindFromRequest().data()));
+
+        String registrationId = request().getHeader(AppConst.HEADER_REGISTRATION_ID);
+        CommonUtil.getInstance().validateParams(registrationId);
+
+        Logger.info(">>registrationId :" + registrationId);
+
+        msgCenterService.enablePush(registrationId);
+
+        MessageUtil.getInstance().setMessage(new Message(MsgCode.ENABLE_PUSH_SUCCESS));
+
+        Logger.info(">>enablePush return：" + MessageUtil.getInstance().toJson());
+        return ok(MessageUtil.getInstance().toJson());
+    }
+
+    public Result disablePush(){
+        Logger.info(">>disablePush params：" + Json.toJson(form().bindFromRequest().data()));
+
+        String registrationId = request().getHeader(AppConst.HEADER_REGISTRATION_ID);
+        CommonUtil.getInstance().validateParams(registrationId);
+
+        Logger.info(">>registrationId :" + registrationId);
+
+        msgCenterService.disablePush(registrationId);
+
+        MessageUtil.getInstance().setMessage(new Message(MsgCode.DISABLE_PUSH_SUCCESS));
+
+        Logger.info(">>disablePush return：" + MessageUtil.getInstance().toJson());
+        return ok(MessageUtil.getInstance().toJson());
+    }
     
 }

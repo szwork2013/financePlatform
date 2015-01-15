@@ -1,5 +1,6 @@
 package com.sunlights.customer.service.impl;
 
+import com.sunlights.common.AppConst;
 import com.sunlights.common.utils.DBHelper;
 import com.sunlights.common.vo.PageVo;
 import com.sunlights.customer.dal.CustomerDao;
@@ -72,15 +73,30 @@ public class MsgCenterServiceImpl implements MsgCenterService {
     }
 
     @Override
-    public CustomerMsgSetting saveCustomerMsgSetting(String customerId, String alias) {
-//        List<String> aliasList = customerDao.findAliasByCustomerId(customerId);
-//        if (aliasList.isEmpty()) {
-//            customerDao.createCustomerMsgSetting()
-//        }else{
-//            if (!alias.equals(aliasList.get(0))) {
-//                u
-//            }
-//        }
-        return null;
+    public void enablePush(String registrationId) {
+        Timestamp currentTime = DBHelper.getCurrentTime();
+        CustomerMsgSetting customerMsgSetting = customerDao.findCustomerMsgSetting(registrationId);
+        if (customerMsgSetting != null) {
+            customerMsgSetting.setUpdateTime(currentTime);
+            customerMsgSetting.setPushOpenStatus(AppConst.STATUS_INVALID);
+            customerDao.updateCustomerMsgSetting(customerMsgSetting);
+        }
+
+        customerMsgSetting = new CustomerMsgSetting();
+        customerMsgSetting.setRegistrationId(registrationId);
+        customerMsgSetting.setPushOpenStatus(AppConst.STATUS_VALID);
+        customerMsgSetting.setCreateTime(currentTime);
+        customerDao.createCustomerMsgSetting(customerMsgSetting);
+    }
+
+    @Override
+    public void disablePush(String registrationId) {
+        Timestamp currentTime = DBHelper.getCurrentTime();
+        CustomerMsgSetting customerMsgSetting = customerDao.findCustomerMsgSetting(registrationId);
+        if (customerMsgSetting != null) {
+            customerMsgSetting.setUpdateTime(currentTime);
+            customerMsgSetting.setPushOpenStatus(AppConst.STATUS_INVALID);
+            customerDao.updateCustomerMsgSetting(customerMsgSetting);
+        }
     }
 }

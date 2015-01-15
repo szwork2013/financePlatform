@@ -133,6 +133,17 @@ public class CustomerService {
         }
     }
 
+    public void sessionRegistrationId(){
+        String registrationId = null;
+        if (registrationId == null) {
+            return ;
+        }
+        String customerId = (String)Cache.get(registrationId);
+        if (customerId == null) {
+            customerDao.findCustomerMsgSetting(registrationId);
+        }
+    }
+
 
     /**
      * 设置缓存

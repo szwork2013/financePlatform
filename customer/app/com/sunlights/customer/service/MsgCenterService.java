@@ -4,7 +4,6 @@ import com.sunlights.common.vo.PageVo;
 import com.sunlights.customer.vo.MsgCenterDetailVo;
 import com.sunlights.customer.vo.MsgCenterVo;
 import models.CustomerMsgReadHistory;
-import models.CustomerMsgSetting;
 
 import java.util.List;
 
@@ -36,6 +35,13 @@ public interface MsgCenterService {
      */
     public int countUnReadNum(String customerId, String deviceNo);
 
-    public CustomerMsgSetting saveCustomerMsgSetting(String customerId, String alias);
+    /**
+     * 推送信息设置
+     * @param registrationId
+     * @return
+     */
+    public void enablePush(String registrationId);
+    public void disablePush(String registrationId);
+
 
 }

@@ -258,6 +258,12 @@ public class CustomerDaoImpl extends EntityBaseDao implements CustomerDao {
     }
 
     @Override
+    public CustomerMsgSetting findCustomerMsgSetting(String registrationId) {
+        List<CustomerMsgSetting> list = createNameQuery("findSettingByRegistrationId", registrationId).getResultList();
+        return list.isEmpty() ? null : list.get(0);
+    }
+
+    @Override
     public CustomerMsgSetting updateCustomerMsgSetting(CustomerMsgSetting customerMsgSetting) {
         return update(customerMsgSetting);
     }
