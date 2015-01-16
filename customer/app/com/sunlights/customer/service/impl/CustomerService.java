@@ -140,8 +140,8 @@ public class CustomerService {
      * @param registrationId
      * @param customerId
      */
-    public void sessionPushRegId(String registrationId, String customerId){
-        Logger.info(MessageFormat.format(">>sessionPushRegId：registrationId={0}, customerId={1}", registrationId, customerId));
+    public void sessionPushRegId(String registrationId, String customerId, String deviceNo){
+        Logger.info(MessageFormat.format(">>sessionPushRegId：registrationId={0}, customerId={1}, deviceNo = {2}", registrationId, customerId, deviceNo));
         if (registrationId == null || customerId == null) {
             return ;
         }
@@ -149,20 +149,20 @@ public class CustomerService {
         CustomerMsgSetting customerMsgSetting = null;
         String preCustomerId = (String)Cache.get(AppConst.HEADER_REGISTRATION_ID + "_" + registrationId);
         if (preCustomerId == null) {
-            customerMsgSetting = customerDao.findCustomerMsgSetting(registrationId);
+            customerMsgSetting = customerDao.findCustomerMsgSetting(registrationId, deviceNo);
             if (customerMsgSetting != null && customerMsgSetting.getCustomerId() != null) {
                 preCustomerId = customerMsgSetting.getCustomerId();
             }
         }
 
         if (!customerId.equals(preCustomerId)) {
-            resetRegistrationId(customerMsgSetting, registrationId, customerId);
+            resetRegistrationId(customerMsgSetting, registrationId, customerId, deviceNo);
         }
 
         Cache.set(AppConst.HEADER_REGISTRATION_ID + "_" + registrationId, customerId, (int) cacheTime * 60);
     }
 
-    private void resetRegistrationId(CustomerMsgSetting preCustomerMsgSetting, String registrationId, String customerId) {
+    private void resetRegistrationId(CustomerMsgSetting preCustomerMsgSetting, String registrationId, String customerId, String deviceNo) {
         Timestamp currentTime = DBHelper.getCurrentTime();
         if (preCustomerMsgSetting != null) {
             preCustomerMsgSetting.setUpdateTime(currentTime);
@@ -173,6 +173,7 @@ public class CustomerService {
         CustomerMsgSetting customerMsgSetting = new CustomerMsgSetting();
         customerMsgSetting.setRegistrationId(registrationId);
         customerMsgSetting.setCustomerId(customerId);
+        customerMsgSetting.setDeviceNo(deviceNo);
         customerMsgSetting.setPushOpenStatus(AppConst.STATUS_VALID);
         customerMsgSetting.setCreateTime(currentTime);
         customerDao.createCustomerMsgSetting(customerMsgSetting);

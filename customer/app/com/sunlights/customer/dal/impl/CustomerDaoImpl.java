@@ -258,15 +258,33 @@ public class CustomerDaoImpl extends EntityBaseDao implements CustomerDao {
     }
 
     @Override
-    public List<String> findRegistrationIdsByCustomerId(String customerId) {
-        return createNameQuery("findRegistrationIdsByCustomerId", customerId).getResultList();
+    public List<String> findRegistrationIdsByCustomerId(String customerId, Timestamp nMin) {
+        String sql = "select distinct cms.registration_id " +
+                    "   from c_customer_msg_setting cms,c_customer_session cs" +
+                    "  where cs.customer_id = cms.customer_id" +
+                    "    and cs.device_no = cms.device_no " +
+                    "    and cs.customer_id = :customerId" +
+                    "    and cs.status = 'Y' " +
+                    "    and cms.push_open_status = 'Y'" ;
+//        +
+//                    "    and cs.update_time >= :nMin";//TODO join on
+
+        Logger.debug(">>findRegistrationIdsByCustomerId:" + sql);
+
+        Query query = em.createNativeQuery(sql);
+        query.setParameter("customerId", customerId);
+//        query.setParameter("nMin", nMin);
+        List list = query.getResultList();
+
+         return list;
     }
 
     @Override
-    public CustomerMsgSetting findCustomerMsgSetting(String registrationId) {
-        List<CustomerMsgSetting> list = createNameQuery("findSettingByRegistrationId", registrationId).getResultList();
+    public CustomerMsgSetting findCustomerMsgSetting(String registrationId, String deviceNo) {
+        List<CustomerMsgSetting> list = createNameQuery("findSettingByRegIdAndDeviceNo", registrationId, deviceNo).getResultList();
         return list.isEmpty() ? null : list.get(0);
     }
+
 
     @Override
     public CustomerMsgSetting updateCustomerMsgSetting(CustomerMsgSetting customerMsgSetting) {

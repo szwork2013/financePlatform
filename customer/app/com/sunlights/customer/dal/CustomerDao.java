@@ -55,13 +55,20 @@ public interface CustomerDao {
   public Customer findRecommenderInfo(String customerId);
 
     /**
-     * 查询客户所属aiias 一条记录
+     * 查询客户所属aiias 记录
      * @param customerId
      * @return
      */
     public List<String> findAliasByCustomerId(String customerId);
-    public List<String> findRegistrationIdsByCustomerId(String customerId);
-    public CustomerMsgSetting findCustomerMsgSetting(String registrationId);
+
+    /**
+     * 通过customerId查询 当前客户在所有手机为登录状态 集合
+     * @param customerId
+     * @param nMin
+     * @return
+     */
+    public List<String> findRegistrationIdsByCustomerId(String customerId, Timestamp nMin);
+    public CustomerMsgSetting findCustomerMsgSetting(String registrationId, String deviceNo);
     public CustomerMsgSetting updateCustomerMsgSetting(CustomerMsgSetting customerMsgSetting);
     public CustomerMsgSetting createCustomerMsgSetting(CustomerMsgSetting customerMsgSetting);
 

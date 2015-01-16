@@ -41,9 +41,9 @@ public final class AppConst {
 
     public static long ONE_MINUTE = 60 * 1000;
     public static String TOKEN = "token";
-    public static String CLIENT_DEVICE = "DeviceNo";
     public static String HEADER_MSG = "SUNLIGHTS_HEADER_MSG";
     public static String HEADER_REGISTRATION_ID = "registrationId";
+    public static String HEADER_DEVICE = "DeviceNo";
 
     public static String ROUTE_ACTION_METHOD = "ROUTE_ACTION_METHOD";
 

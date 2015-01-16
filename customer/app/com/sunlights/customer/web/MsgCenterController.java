@@ -21,6 +21,7 @@ import play.libs.Json;
 import play.mvc.Controller;
 import play.mvc.Result;
 
+import java.text.MessageFormat;
 import java.util.List;
 import java.util.Map;
 
@@ -50,7 +51,7 @@ public class MsgCenterController extends Controller{
             pageVo = new PageVo();
         }
 
-        String deviceNo = request().getHeader(AppConst.CLIENT_DEVICE);
+        String deviceNo = request().getHeader(AppConst.HEADER_DEVICE);
         Logger.info(">>deviceNo:" + deviceNo);
         pageVo.put("deviceNo", deviceNo);
 
@@ -88,7 +89,7 @@ public class MsgCenterController extends Controller{
                 customerId = customerSession.getCustomerId();
             }
         }
-        String deviceNo = request().getHeader(AppConst.CLIENT_DEVICE);
+        String deviceNo = request().getHeader(AppConst.HEADER_DEVICE);
         Logger.info(">>deviceNo:" + deviceNo);
 
         Map<String,String> params = form().bindFromRequest().data();
@@ -123,7 +124,7 @@ public class MsgCenterController extends Controller{
                 customerId = customerSession.getCustomerId();
             }
         }
-        String deviceNo = request().getHeader(AppConst.CLIENT_DEVICE);
+        String deviceNo = request().getHeader(AppConst.HEADER_DEVICE);
         Logger.info(">>deviceNo:" + deviceNo);
 
         CommonUtil.getInstance().validateParams(deviceNo);
@@ -137,14 +138,14 @@ public class MsgCenterController extends Controller{
     }
 
     public Result enablePush(){
-        Logger.info(">>enablePush params：" + Json.toJson(form().bindFromRequest().data()));
-
         String registrationId = request().getHeader(AppConst.HEADER_REGISTRATION_ID);
-        CommonUtil.getInstance().validateParams(registrationId);
+        String deviceNo = request().getHeader(AppConst.HEADER_DEVICE);
 
-        Logger.info(">>registrationId :" + registrationId);
+        Logger.info(MessageFormat.format(">>enablePush params：registrationId={0}, deviceNo = {1}", registrationId, deviceNo));
 
-        msgCenterService.enablePush(registrationId);
+        CommonUtil.getInstance().validateParams(registrationId, deviceNo);
+
+        msgCenterService.enablePush(registrationId, deviceNo);
 
         MessageUtil.getInstance().setMessage(new Message(MsgCode.ENABLE_PUSH_SUCCESS));
 
@@ -153,14 +154,14 @@ public class MsgCenterController extends Controller{
     }
 
     public Result disablePush(){
-        Logger.info(">>disablePush params：" + Json.toJson(form().bindFromRequest().data()));
-
         String registrationId = request().getHeader(AppConst.HEADER_REGISTRATION_ID);
-        CommonUtil.getInstance().validateParams(registrationId);
+        String deviceNo = request().getHeader(AppConst.HEADER_DEVICE);
 
-        Logger.info(">>registrationId :" + registrationId);
+        Logger.info(MessageFormat.format(">>enablePush params：registrationId={0}, deviceNo = {1}", registrationId, deviceNo));
 
-        msgCenterService.disablePush(registrationId);
+        CommonUtil.getInstance().validateParams(registrationId, deviceNo);
+
+        msgCenterService.disablePush(registrationId, deviceNo);
 
         MessageUtil.getInstance().setMessage(new Message(MsgCode.DISABLE_PUSH_SUCCESS));
 

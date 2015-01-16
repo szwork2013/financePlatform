@@ -38,10 +38,11 @@ public interface MsgCenterService {
     /**
      * 推送信息设置
      * @param registrationId
+     * @param deviceNo
      * @return
      */
-    public void enablePush(String registrationId);
-    public void disablePush(String registrationId);
+    public void enablePush(String registrationId, String deviceNo);
+    public void disablePush(String registrationId, String deviceNo);
 
 
 }

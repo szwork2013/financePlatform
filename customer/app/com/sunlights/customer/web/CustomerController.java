@@ -132,7 +132,7 @@ public class CustomerController extends Controller {
             CustomerVo customerVo = customerService.getCustomerVoByPhoneNo(mobilePhoneNo, deviceNo);
             MessageUtil.getInstance().setMessage(message, customerVo);
             customerService.sessionLoginSessionId(Controller.session(), Controller.response(), customerSession);
-            customerService.sessionPushRegId(request().getHeader(AppConst.HEADER_REGISTRATION_ID), customerSession.getCustomerId());
+            customerService.sessionPushRegId(request().getHeader(AppConst.HEADER_REGISTRATION_ID), customerSession.getCustomerId(), customerFormVo.getDeviceNo());
 
             MessageHeaderVo messageHeaderVo = new MessageHeaderVo(DictConst.PUSH_TYPE_4, null, customerSession.getCustomerId());
             list.add(messageHeaderVo);
@@ -189,7 +189,7 @@ public class CustomerController extends Controller {
             // 自动登录
             loginService.saveLoginHistory(customer, deviceNo);
             userSession = customerService.createCustomerSession(customer, Controller.request().remoteAddress());
-            customerService.sessionPushRegId(request().getHeader(AppConst.HEADER_REGISTRATION_ID), userSession.getCustomerId());
+            customerService.sessionPushRegId(request().getHeader(AppConst.HEADER_REGISTRATION_ID), userSession.getCustomerId(), customerFormVo.getDeviceNo());
         }
         customerService.sessionLoginSessionId(Controller.session(), Controller.response(), userSession);
 
@@ -244,7 +244,7 @@ public class CustomerController extends Controller {
             CustomerVo customerVo = customerService.getCustomerVoByPhoneNo(mobilePhoneNo, deviceNo);
             MessageUtil.getInstance().setMessage(message, customerVo);
             customerService.sessionLoginSessionId(Controller.session(), Controller.response(), customerSession);
-            customerService.sessionPushRegId(request().getHeader(AppConst.HEADER_REGISTRATION_ID), customerSession.getCustomerId());
+            customerService.sessionPushRegId(request().getHeader(AppConst.HEADER_REGISTRATION_ID), customerSession.getCustomerId(), customerFormVo.getDeviceNo());
             MessageHeaderVo messageHeaderVo = new MessageHeaderVo(DictConst.PUSH_TYPE_4, null, customerSession.getCustomerId());
             list.add(messageHeaderVo);
         }
