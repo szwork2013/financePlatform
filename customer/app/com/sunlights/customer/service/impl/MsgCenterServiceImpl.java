@@ -74,12 +74,13 @@ public class MsgCenterServiceImpl implements MsgCenterService {
     }
 
     @Override
-    public void enablePush(String registrationId) {
-        CustomerMsgSetting customerMsgSetting = customerDao.findCustomerMsgSetting(registrationId);
+    public void enablePush(String registrationId, String deviceNo) {
+        CustomerMsgSetting customerMsgSetting = customerDao.findCustomerMsgSetting(registrationId, deviceNo);
         Timestamp currentTime = DBHelper.getCurrentTime();
         if (customerMsgSetting == null) {
             customerMsgSetting = new CustomerMsgSetting();
             customerMsgSetting.setRegistrationId(registrationId);
+            customerMsgSetting.setDeviceNo(deviceNo);
             customerMsgSetting.setPushOpenStatus(AppConst.STATUS_VALID);
             customerMsgSetting.setCreateTime(currentTime);
             customerDao.createCustomerMsgSetting(customerMsgSetting);
@@ -87,9 +88,9 @@ public class MsgCenterServiceImpl implements MsgCenterService {
     }
 
     @Override
-    public void disablePush(String registrationId) {
+    public void disablePush(String registrationId, String deviceNo) {
         Timestamp currentTime = DBHelper.getCurrentTime();
-        CustomerMsgSetting customerMsgSetting = customerDao.findCustomerMsgSetting(registrationId);
+        CustomerMsgSetting customerMsgSetting = customerDao.findCustomerMsgSetting(registrationId, deviceNo);
         if (customerMsgSetting != null) {
             customerMsgSetting.setUpdateTime(currentTime);
             customerMsgSetting.setPushOpenStatus(AppConst.STATUS_INVALID);

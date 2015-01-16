@@ -4,6 +4,8 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.google.common.collect.Lists;
 import com.sunlights.common.AppConst;
 import com.sunlights.common.DictConst;
+import com.sunlights.common.ParameterConst;
+import com.sunlights.common.service.ParameterService;
 import com.sunlights.common.utils.DBHelper;
 import com.sunlights.common.vo.MessageHeaderVo;
 import com.sunlights.common.vo.MessageVo;
@@ -41,6 +43,7 @@ public class MsgCenterActionService {
 
     private MsgCenterDao centerDao = new MsgCenterDaoImpl();
     private CustomerDao customerDao = new CustomerDaoImpl();
+    private ParameterService parameterService = new ParameterService();
     private ActivityService activityService = ActivityServiceFactory.getActivityService();
 
     private final static String LOGIN = "login";
@@ -111,7 +114,7 @@ public class MsgCenterActionService {
             activityIdList.add(activity.getId());
         }
 
-        String activityIdStr = activityIdList.toString().replace("[","(").replace("]",")");
+        String activityIdStr = activityIdList.toString().replace("[","(").replace("]", ")");
         List<String> ruleCodeList = centerDao.findUnRemindRuleCodeList(customerId,activityIdStr, methodNameStr);
         return ruleCodeList;
     }
@@ -142,18 +145,22 @@ public class MsgCenterActionService {
 
             pushMessageVo.setPushTxnId(customerMsgPushTxn.getId());
 
-            List<String> alias = getAliasList(pushMessageVo.getCustomerId());
-            pushMessageVo.setAliasList(alias);
+//            List<String> alias = getAliasList(pushMessageVo.getCustomerId());
+//            pushMessageVo.setAliasList(alias);
 
             List<String> registrationIdList = getRegistrationIdList(pushMessageVo.getCustomerId());
-            pushMessageVo.setRegistrationIdList(registrationIdList);
 
-            if (alias.isEmpty() && registrationIdList.isEmpty()) {
+            if (registrationIdList.isEmpty()) {
                 Logger.debug(MessageFormat.format("未查询到需要信息发送的接收者！当前客户号：{0}", pushMessageVo.getCustomerId()));
                 return ;
             }
 
+            pushMessageVo.setRegistrationIdList(registrationIdList);
+            int badge = centerDao.countUnReadNumWithLogin(pushMessageVo.getCustomerId());
+            pushMessageVo.setBadge(badge);
+
             executePush(pushMessageVo);
+
         }
 
     }
@@ -266,7 +273,9 @@ public class MsgCenterActionService {
     private List getRegistrationIdList(String customerId) {
         List registrationIdList = Lists.newArrayList();
         if (customerId != null) {
-            registrationIdList = customerDao.findRegistrationIdsByCustomerId(customerId);
+            int sessionTime = (int) parameterService.getParameterNumeric(ParameterConst.SESSION_EXPIRY);
+            Timestamp nMin = DBHelper.beforeMinutes(DBHelper.getCurrentTime(), sessionTime);
+            registrationIdList = customerDao.findRegistrationIdsByCustomerId(customerId, nMin);
         }
 
         return registrationIdList;
