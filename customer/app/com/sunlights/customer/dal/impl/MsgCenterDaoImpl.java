@@ -126,14 +126,12 @@ public class MsgCenterDaoImpl extends EntityBaseDao implements MsgCenterDao{
     @Override
     public List<MsgCenterVo> findMsgCenterVoListWithLogin(PageVo pageVo) {
         String customerId = (String)pageVo.get("customerId");
-        String deviceNo = (String)pageVo.get("deviceNo");
         String sql = " SELECT * FROM ( " + buildSendSmsSql() + " UNION " + buildSendPushSql() + ") t  ORDER BY t.create_time DESC";
 
         Logger.debug(sql);
 
         Query query = em.createNativeQuery(sql);
         query.setParameter("customerId", customerId);
-        query.setParameter("deviceNo", deviceNo);
         query.setFirstResult(pageVo.getIndex());
         query.setMaxResults(pageVo.getPageSize());
         List<Object[]> list = query.getResultList();
