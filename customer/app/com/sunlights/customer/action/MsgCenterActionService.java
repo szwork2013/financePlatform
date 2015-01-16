@@ -143,12 +143,15 @@ public class MsgCenterActionService {
             pushMessageVo.setPushTxnId(customerMsgPushTxn.getId());
 
             List<String> alias = getAliasList(pushMessageVo.getCustomerId());
-            if (alias.isEmpty()) {
+            pushMessageVo.setAliasList(alias);
+
+            List<String> registrationIdList = getRegistrationIdList(pushMessageVo.getCustomerId());
+            pushMessageVo.setRegistrationIdList(registrationIdList);
+
+            if (alias.isEmpty() && registrationIdList.isEmpty()) {
+                Logger.debug(MessageFormat.format("未查询到需要信息发送的接收者！当前客户号：{0}", pushMessageVo.getCustomerId()));
                 return ;
             }
-            pushMessageVo.setAliasList(alias);
-            //TODO
-//            pushMessageVo.setRegistrationIdList();
 
             executePush(pushMessageVo);
         }
@@ -256,11 +259,17 @@ public class MsgCenterActionService {
         if (customerId != null) {
             aliasList = customerDao.findAliasByCustomerId(customerId);
         }
-        if (aliasList.isEmpty()) {
-            Logger.error(MessageFormat.format("未查询到需要信息发送的接收者！当前客户号：{0}", customerId));
-        }
 
         return aliasList;
+    }
+
+    private List getRegistrationIdList(String customerId) {
+        List registrationIdList = Lists.newArrayList();
+        if (customerId != null) {
+            registrationIdList = customerDao.findRegistrationIdsByCustomerId(customerId);
+        }
+
+        return registrationIdList;
     }
 
     private CustomerMsgPushTxn createCustomerMsgPushTxn(PushMessageVo pushMessageVo) {
