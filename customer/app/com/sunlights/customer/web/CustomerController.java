@@ -208,6 +208,8 @@ public class CustomerController extends Controller {
         Logger.debug(">>logout params：" + Json.toJson(form().bindFromRequest().data()));
         Http.Cookie cookie = Controller.request().cookie(AppConst.TOKEN);
         String token = cookie == null ? null : cookie.value();
+
+        Logger.info(">>token：" + token);
         CustomerFormVo customerFormVo = customerForm.bindFromRequest().get();
         String mobilePhoneNo = customerFormVo.getMobilePhoneNo();
         String deviceNo = customerFormVo.getDeviceNo();
