@@ -148,14 +148,13 @@ public class CustomerService {
         long cacheTime = parameterService.getParameterNumeric(ParameterConst.CACHE_EXPIRY);
         CustomerMsgSetting customerMsgSetting = null;
         String preCustomerId = (String)Cache.get(AppConst.HEADER_REGISTRATION_ID + "_" + registrationId);
-        if (preCustomerId == null) {
-            customerMsgSetting = customerDao.findCustomerMsgSetting(registrationId, deviceNo);
-            if (customerMsgSetting != null && customerMsgSetting.getCustomerId() != null) {
-                preCustomerId = customerMsgSetting.getCustomerId();
-            }
-        }
-
         if (!customerId.equals(preCustomerId)) {
+            customerMsgSetting = customerDao.findCustomerMsgSetting(registrationId, deviceNo);
+            if (preCustomerId == null && customerMsgSetting != null && customerId.equals(customerMsgSetting.getCustomerId())) {//缓存超时失效查询数据库比对
+                Cache.set(AppConst.HEADER_REGISTRATION_ID + "_" + registrationId, customerId, (int) cacheTime * 60);
+                return ;
+            }
+
             resetRegistrationId(customerMsgSetting, registrationId, customerId, deviceNo);
         }
 

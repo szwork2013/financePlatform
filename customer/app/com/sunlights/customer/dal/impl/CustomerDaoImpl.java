@@ -258,7 +258,7 @@ public class CustomerDaoImpl extends EntityBaseDao implements CustomerDao {
     }
 
     @Override
-    public List<String> findRegistrationIdsByCustomerId(String customerId, Timestamp nMin) {
+    public List<String> findRegistrationIdsByCustomerId(String customerId) {
         String sql = "select distinct cms.registration_id " +
                     "   from c_customer_msg_setting cms,c_customer_session cs" +
                     "  where cs.customer_id = cms.customer_id" +
@@ -266,14 +266,11 @@ public class CustomerDaoImpl extends EntityBaseDao implements CustomerDao {
                     "    and cs.customer_id = :customerId" +
                     "    and cs.status = 'Y' " +
                     "    and cms.push_open_status = 'Y'" ;
-//        +
-//                    "    and cs.update_time >= :nMin";//TODO join on
 
         Logger.debug(">>findRegistrationIdsByCustomerId:" + sql);
 
         Query query = em.createNativeQuery(sql);
         query.setParameter("customerId", customerId);
-//        query.setParameter("nMin", nMin);
         List list = query.getResultList();
 
          return list;

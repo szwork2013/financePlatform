@@ -4,7 +4,6 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.google.common.collect.Lists;
 import com.sunlights.common.AppConst;
 import com.sunlights.common.DictConst;
-import com.sunlights.common.ParameterConst;
 import com.sunlights.common.service.ParameterService;
 import com.sunlights.common.utils.DBHelper;
 import com.sunlights.common.vo.MessageHeaderVo;
@@ -273,9 +272,7 @@ public class MsgCenterActionService {
     private List getRegistrationIdList(String customerId) {
         List registrationIdList = Lists.newArrayList();
         if (customerId != null) {
-            int sessionTime = (int) parameterService.getParameterNumeric(ParameterConst.SESSION_EXPIRY);
-            Timestamp nMin = DBHelper.beforeMinutes(DBHelper.getCurrentTime(), sessionTime);
-            registrationIdList = customerDao.findRegistrationIdsByCustomerId(customerId, nMin);
+            registrationIdList = customerDao.findRegistrationIdsByCustomerId(customerId);
         }
 
         return registrationIdList;

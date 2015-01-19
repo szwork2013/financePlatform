@@ -64,10 +64,9 @@ public interface CustomerDao {
     /**
      * 通过customerId查询 当前客户在所有手机为登录状态 集合
      * @param customerId
-     * @param nMin
      * @return
      */
-    public List<String> findRegistrationIdsByCustomerId(String customerId, Timestamp nMin);
+    public List<String> findRegistrationIdsByCustomerId(String customerId);
     public CustomerMsgSetting findCustomerMsgSetting(String registrationId, String deviceNo);
     public CustomerMsgSetting updateCustomerMsgSetting(CustomerMsgSetting customerMsgSetting);
     public CustomerMsgSetting createCustomerMsgSetting(CustomerMsgSetting customerMsgSetting);
