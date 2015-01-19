@@ -9,6 +9,7 @@ import com.sunlights.common.exceptions.ConverterException;
 import com.sunlights.common.utils.ConverterUtil;
 import com.sunlights.customer.dal.CustomerDao;
 import com.sunlights.customer.vo.CustomerVo;
+import com.sunlights.common.vo.MsgSettingVo;
 import models.*;
 import org.apache.commons.lang3.StringUtils;
 import play.Logger;
@@ -258,8 +259,8 @@ public class CustomerDaoImpl extends EntityBaseDao implements CustomerDao {
     }
 
     @Override
-    public List<String> findRegistrationIdsByCustomerId(String customerId) {
-        String sql = "select distinct cms.registration_id " +
+    public List<MsgSettingVo> findRegistrationIdsByCustomerId(String customerId) {
+        String sql = "select distinct cms.registration_id, cms.device_no " +
                     "   from c_customer_msg_setting cms,c_customer_session cs" +
                     "  where cs.customer_id = cms.customer_id" +
                     "    and cs.device_no = cms.device_no " +
@@ -271,9 +272,9 @@ public class CustomerDaoImpl extends EntityBaseDao implements CustomerDao {
 
         Query query = em.createNativeQuery(sql);
         query.setParameter("customerId", customerId);
-        List list = query.getResultList();
-
-         return list;
+        List<Object[]> list = query.getResultList();
+        String keys = "registrationId, deviceNo";
+        return ConverterUtil.convert(keys, list, MsgSettingVo.class);
     }
 
     @Override

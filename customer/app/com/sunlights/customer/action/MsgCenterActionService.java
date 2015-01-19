@@ -15,6 +15,7 @@ import com.sunlights.customer.dal.impl.CustomerDaoImpl;
 import com.sunlights.customer.dal.impl.MsgCenterDaoImpl;
 import com.sunlights.customer.factory.ActivityServiceFactory;
 import com.sunlights.customer.service.ActivityService;
+import com.sunlights.common.vo.MsgSettingVo;
 import models.*;
 import play.Logger;
 import play.Play;
@@ -147,18 +148,23 @@ public class MsgCenterActionService {
 //            List<String> alias = getAliasList(pushMessageVo.getCustomerId());
 //            pushMessageVo.setAliasList(alias);
 
-            List<String> registrationIdList = getRegistrationIdList(pushMessageVo.getCustomerId());
+            List<MsgSettingVo> registrationIds = getRegistrationIdList(pushMessageVo.getCustomerId());
 
-            if (registrationIdList.isEmpty()) {
+            if (registrationIds.isEmpty()) {
                 Logger.debug(MessageFormat.format("未查询到需要信息发送的接收者！当前客户号：{0}", pushMessageVo.getCustomerId()));
                 return ;
             }
 
-            pushMessageVo.setRegistrationIdList(registrationIdList);
-            int badge = centerDao.countUnReadNumWithLogin(pushMessageVo.getCustomerId());
-            pushMessageVo.setBadge(badge);
+            List<String> registrationIdList = Lists.newArrayList();
+            for (MsgSettingVo msgSettingVo : registrationIds) {
+                registrationIdList.add(msgSettingVo.getRegistrationId());
+                pushMessageVo.setRegistrationIdList(registrationIdList);
+                int badge = centerDao.countUnReadNum(pushMessageVo.getCustomerId(), msgSettingVo.getDeviceNo());
+                pushMessageVo.setBadge(badge);
 
-            executePush(pushMessageVo);
+                executePush(pushMessageVo);
+            }
+
 
         }
 

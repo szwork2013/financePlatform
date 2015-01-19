@@ -1,5 +1,6 @@
 package com.sunlights.customer.dal.impl;
 
+import com.google.common.collect.Lists;
 import com.sunlights.common.DictConst;
 import com.sunlights.common.dal.EntityBaseDao;
 import com.sunlights.common.utils.ConverterUtil;
@@ -126,12 +127,14 @@ public class MsgCenterDaoImpl extends EntityBaseDao implements MsgCenterDao{
     @Override
     public List<MsgCenterVo> findMsgCenterVoListWithLogin(PageVo pageVo) {
         String customerId = (String)pageVo.get("customerId");
+        String deviceNo = (String)pageVo.get("deviceNo");
         String sql = " SELECT * FROM ( " + buildSendSmsSql() + " UNION " + buildSendPushSql() + ") t  ORDER BY t.create_time DESC";
 
         Logger.debug(sql);
 
         Query query = em.createNativeQuery(sql);
         query.setParameter("customerId", customerId);
+        query.setParameter("deviceNo", deviceNo);
         query.setFirstResult(pageVo.getIndex());
         query.setMaxResults(pageVo.getPageSize());
         List<Object[]> list = query.getResultList();
@@ -193,7 +196,7 @@ public class MsgCenterDaoImpl extends EntityBaseDao implements MsgCenterDao{
 
         String sql =
                 " SELECT pt.id, pt.message_rule_id, pt.title, pt.summary, pt.create_time, pt.send_type, " +
-                "       CASE WHEN pt.id IN (SELECT rh.push_txn_id FROM c_customer_msg_read_history rh WHERE rh.customer_id = :customerId) THEN 'Y' ELSE 'N' END AS readInd" +
+                "       CASE WHEN pt.id IN (SELECT rh.push_txn_id FROM c_customer_msg_read_history rh WHERE rh.customer_id = :customerId or (rh.device_no = :deviceNo and rh.customer_id is null)) THEN 'Y' ELSE 'N' END AS readInd" +
                 "  FROM c_message_rule mr, (" + pushSql + ") pt" +
                 " WHERE mr.id = pt.message_rule_id" +
                 "   AND mr.msg_center_ind = 'Y'" +
@@ -250,12 +253,24 @@ public class MsgCenterDaoImpl extends EntityBaseDao implements MsgCenterDao{
     }
 
     @Override
-    public CustomerMsgReadHistory findMsgReadHistoryByDeviceNo(String deviceNo, Long msgId) {
-        String sql = "select c from CustomerMsgReadHistory c where c.deviceNo = :deviceNo and c.pushTxnId = :msgId";
-        Query query = em.createQuery(sql, CustomerMsgReadHistory.class);
-        query.setParameter("deviceNo", deviceNo);
-        query.setParameter("msgId", msgId);
-        List<CustomerMsgReadHistory> list = query.getResultList();
+    public CustomerMsgReadHistory findMsgReadHistory(String deviceNo, Long msgId, String customerId) {
+        List<CustomerMsgReadHistory> list = Lists.newArrayList();
+        String sql = null;
+        if (customerId == null) {
+            sql = "select c from CustomerMsgReadHistory c where c.deviceNo = :deviceNo and c.pushTxnId = :msgId and c.customerId is null";
+            Query query = em.createQuery(sql, CustomerMsgReadHistory.class);
+            query.setParameter("deviceNo", deviceNo);
+            query.setParameter("msgId", msgId);
+            list = query.getResultList();
+        }else{
+            sql = "select c from CustomerMsgReadHistory c where c.deviceNo = :deviceNo and c.pushTxnId = :msgId and c.customerId = :customerId";
+            Query query = em.createQuery(sql, CustomerMsgReadHistory.class);
+            query.setParameter("deviceNo", deviceNo);
+            query.setParameter("msgId", msgId);
+            query.setParameter("customerId", customerId);
+            list = query.getResultList();
+        }
+
         return list.isEmpty() ? null : list.get(0);
     }
 
@@ -265,7 +280,7 @@ public class MsgCenterDaoImpl extends EntityBaseDao implements MsgCenterDao{
     }
 
     @Override
-    public int countUnReadNumWithLogin(String customerId) {
+    public int countUnReadNum(String customerId, String deviceNo) {
         String countSql =
                 "SELECT COUNT(1) " +
                 "FROM c_message_rule mr, " +
@@ -283,12 +298,13 @@ public class MsgCenterDaoImpl extends EntityBaseDao implements MsgCenterDao{
                 " ) pt" +
                 " WHERE mr.id = pt.message_rule_id" +
                 " AND mr.msg_center_ind = 'Y'" +
-                " AND pt.id NOT IN (SELECT mrh.push_txn_id FROM c_customer_msg_read_history mrh WHERE mrh.customer_id = :customerId)";
+                " AND pt.id NOT IN (SELECT mrh.push_txn_id FROM c_customer_msg_read_history mrh WHERE mrh.customer_id = :customerId or (mrh.device_no = :deviceNo and mrh.customer_id is null))";
 
         Logger.debug(countSql);
 
         Query query = em.createNativeQuery(countSql);
         query.setParameter("customerId", customerId);
+        query.setParameter("deviceNo", deviceNo);
         return Integer.valueOf(query.getSingleResult().toString());
     }
 

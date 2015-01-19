@@ -1,7 +1,6 @@
-package com.sunlights.customer.vo;
+package com.sunlights.common.vo;
 
 import java.io.Serializable;
-import java.sql.Timestamp;
 
 /**
  * <p>Project: financeplatform</p>
@@ -14,8 +13,6 @@ import java.sql.Timestamp;
  */
 public class MsgSettingVo implements Serializable{
     private String registrationId;
-    private String loginStatus;//登录状态
-    private Timestamp updateTime;//CustomerSession中token最后更新时间
     private String deviceNo;
 
     public String getRegistrationId() {
@@ -24,22 +21,6 @@ public class MsgSettingVo implements Serializable{
 
     public void setRegistrationId(String registrationId) {
         this.registrationId = registrationId;
-    }
-
-    public String getLoginStatus() {
-        return loginStatus;
-    }
-
-    public void setLoginStatus(String loginStatus) {
-        this.loginStatus = loginStatus;
-    }
-
-    public Timestamp getUpdateTime() {
-        return updateTime;
-    }
-
-    public void setUpdateTime(Timestamp updateTime) {
-        this.updateTime = updateTime;
     }
 
     public String getDeviceNo() {

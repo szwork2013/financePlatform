@@ -66,14 +66,26 @@ public interface MsgCenterDao {
 
 
     public void createMsgReadHistory(CustomerMsgReadHistory customerMsgReadHistory);
-    public CustomerMsgReadHistory findMsgReadHistoryByDeviceNo(String deviceNo, Long msgId);
+
+    /**
+     * 设备号、消息id,customerId 查询 此消息是否已读
+     * @param deviceNo
+     * @param msgId
+     * @param customerId
+     * @return
+     */
+    public CustomerMsgReadHistory findMsgReadHistory(String deviceNo, Long msgId, String customerId);
     public void updateMsgReadHistory(CustomerMsgReadHistory customerMsgReadHistory);
 
     /**
-     * 未读数量记录
+     * 未读数量记录查询---登录
      * @return
      */
-    public int countUnReadNumWithLogin(String customerId);
+    public int countUnReadNum(String customerId, String deviceNo);
+    /**
+     * 未读数量记录查询---未登录
+     * @return
+     */
     public int countUnReadNum(String deviceNo);
 
 

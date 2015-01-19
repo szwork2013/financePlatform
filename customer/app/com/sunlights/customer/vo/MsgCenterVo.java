@@ -19,7 +19,7 @@ public class MsgCenterVo implements Serializable{
     private Long messageRuleId;
     private String title;
     private String summary;
-    @JsonFormat(pattern = "yyyy-MM-dd HH:mm")
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm", timezone="GMT+8")
     private Date createTime;
     private String sendType;
     private String readInd;
