@@ -69,7 +69,7 @@ public class ProductAttentionService extends EntityBaseDao implements AttentionS
 	@Override
 	public <X> List<X> findAttentions(PageVo pageVo) {
 		List<String> codes = (List<String>) pageVo.get("codes");
-		if (codes.isEmpty()) throw new BusinessRuntimeException(new Message(Severity.ERROR, MsgCode.DEPOSIT_INTEREST_EXIST_ERROR));
+		if (codes.isEmpty()) throw new BusinessRuntimeException(new Message(Severity.ERROR, MsgCode.SEARCH_CODES_NOT_NULL));
 
 		StringBuffer jpql = new StringBuffer();
 		jpql.append(" select new com.sunlights.core.vo.FundVo(f,pm)");
