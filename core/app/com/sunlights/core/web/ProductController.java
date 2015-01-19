@@ -143,7 +143,7 @@ public class ProductController extends Controller {
         if (productDetail != null) {
             messageUtil.setMessage(new Message(Severity.INFO, MsgCode.OPERATE_SUCCESS), productDetail);
         } else {
-            messageUtil.setMessage(new Message(Severity.ERROR, MsgCode.SEARCH_FAIL_PRODUCT_DETAIL), productDetail);
+            messageUtil.setMessage(new Message(Severity.ERROR, MsgCode.NOT_EXISTED_PRODUCT), productDetail);
         }
         return ok(messageUtil.toJson());
     }
