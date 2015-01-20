@@ -14,6 +14,8 @@ import java.io.Serializable;
 public class MsgSettingVo implements Serializable{
     private String registrationId;
     private String deviceNo;
+    private String customerId;
+    private String loginStatus;
 
     public String getRegistrationId() {
         return registrationId;
@@ -29,5 +31,21 @@ public class MsgSettingVo implements Serializable{
 
     public void setDeviceNo(String deviceNo) {
         this.deviceNo = deviceNo;
+    }
+
+    public String getLoginStatus() {
+        return loginStatus;
+    }
+
+    public void setLoginStatus(String loginStatus) {
+        this.loginStatus = loginStatus;
+    }
+
+    public String getCustomerId() {
+        return customerId;
+    }
+
+    public void setCustomerId(String customerId) {
+        this.customerId = customerId;
     }
 }

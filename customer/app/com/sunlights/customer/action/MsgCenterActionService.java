@@ -92,11 +92,11 @@ public class MsgCenterActionService {
 
             pushMessageVo.setPersonalInd(AppConst.STATUS_VALID);
 
-            if (AppConst.STATUS_VALID.equals(pushInd)) {//推送
-                sendPush(pushMessageVo);
-            }
             if (AppConst.STATUS_VALID.equals(smsInd)) {
                 sendSms(pushMessageVo);
+            }
+            if (AppConst.STATUS_VALID.equals(pushInd)) {//推送
+                sendPush(pushMessageVo);
             }
 
         }else{//针对某个群组操作
@@ -154,18 +154,20 @@ public class MsgCenterActionService {
                 Logger.debug(MessageFormat.format("未查询到需要信息发送的接收者！当前客户号：{0}", pushMessageVo.getCustomerId()));
                 return ;
             }
-
+            int badge = 0;
             List<String> registrationIdList = Lists.newArrayList();
             for (MsgSettingVo msgSettingVo : registrationIds) {
                 registrationIdList.add(msgSettingVo.getRegistrationId());
                 pushMessageVo.setRegistrationIdList(registrationIdList);
-                int badge = centerDao.countUnReadNum(pushMessageVo.getCustomerId(), msgSettingVo.getDeviceNo());
+                if ("Y".equals(msgSettingVo.getLoginStatus())) {//login
+                    badge = centerDao.countUnReadNum(pushMessageVo.getCustomerId(), msgSettingVo.getDeviceNo());
+                }else{
+                    badge = centerDao.countUnReadNum(msgSettingVo.getDeviceNo());
+                }
                 pushMessageVo.setBadge(badge);
 
                 executePush(pushMessageVo);
             }
-
-
         }
 
     }
@@ -179,25 +181,28 @@ public class MsgCenterActionService {
         Customer customer = customerDao.getCustomerByCustomerId(pushMessageVo.getCustomerId());
         MessageSmsTxn messageSmsTxn = createMessageSmsTxn(pushMessageVo, customer.getMobile());
 
-        updateSmsWS(messageSmsTxn);
+        executeSmsWS(messageSmsTxn);
 
     }
 
-    public void updateSmsWS(MessageSmsTxn messageSmsTxn) {
+    public void executeSmsWS(MessageSmsTxn messageSmsTxn) {
         String pushUrl = Play.application().configuration().getString("sms_url");
-        F.Promise<MessageSmsTxn> messageSmsTxnPromise = WS.url(pushUrl).post(Json.toJson(messageSmsTxn)).map(new F.Function<WSResponse, MessageSmsTxn>() {
-            @Override
-            public MessageSmsTxn apply(WSResponse wsResponse) throws Throwable {
-                MessageSmsTxn messageSmsTxn = Json.fromJson(wsResponse.asJson(), MessageSmsTxn.class);
-                return messageSmsTxn;
-            }
-        });
+        try {
+            F.Promise<MessageSmsTxn> messageSmsTxnPromise = WS.url(pushUrl).post(Json.toJson(messageSmsTxn)).map(new F.Function<WSResponse, MessageSmsTxn>() {
+                @Override
+                public MessageSmsTxn apply(WSResponse wsResponse) throws Throwable {
+                    MessageSmsTxn messageSmsTxn = Json.fromJson(wsResponse.asJson(), MessageSmsTxn.class);
+                    return messageSmsTxn;
+                }
+            });
 
-        messageSmsTxn = messageSmsTxnPromise.get(10, TimeUnit.SECONDS);
-
-        centerDao.updateMessageSmsTxn(messageSmsTxn);
-
-        WS.url(pushUrl).post(Json.toJson(messageSmsTxn));
+            MessageSmsTxn resultMessageSmsTxn = messageSmsTxnPromise.get(10, TimeUnit.SECONDS);
+            centerDao.createMessageSmsTxn(resultMessageSmsTxn);
+        }catch (Exception e){
+            centerDao.createMessageSmsTxn(messageSmsTxn);
+            Logger.error(">>messageSmsTxn:" + Json.toJson(messageSmsTxn), e);
+            e.printStackTrace();
+        }
     }
 
     private boolean sendNow(PushMessageVo pushMessageVo){
@@ -214,7 +219,7 @@ public class MsgCenterActionService {
             }
         });
 
-        MessageVo messageVo = messageVoPromise.get(10, TimeUnit.SECONDS);
+        MessageVo messageVo = messageVoPromise.get(15, TimeUnit.SECONDS);
         int sendNum = pushMessageVo.getSendNum();
         int severity = messageVo.getMessage().getSeverity();
         if (severity != 0 && sendNum < 3){
@@ -307,8 +312,6 @@ public class MsgCenterActionService {
         messageSmsTxn.setContent(pushMessageVo.getContent());
         messageSmsTxn.setTitle(pushMessageVo.getTitle());
         messageSmsTxn.setCreateTime(currentTime);
-
-        centerDao.createMessageSmsTxn(messageSmsTxn);
 
         return messageSmsTxn;
     }

@@ -260,20 +260,28 @@ public class CustomerDaoImpl extends EntityBaseDao implements CustomerDao {
 
     @Override
     public List<MsgSettingVo> findRegistrationIdsByCustomerId(String customerId) {
-        String sql = "select distinct cms.registration_id, cms.device_no " +
-                    "   from c_customer_msg_setting cms,c_customer_session cs" +
-                    "  where cs.customer_id = cms.customer_id" +
-                    "    and cs.device_no = cms.device_no " +
-                    "    and cs.customer_id = :customerId" +
-                    "    and cs.status = 'Y' " +
-                    "    and cms.push_open_status = 'Y'" ;
+        String sql = " SELECT distinct c.registration_id, c.device_no,c.customer_id, " +
+                "        CASE WHEN ( " +
+                "              SELECT cs.status " +
+                "              FROM c_customer_session cs " +
+                "              WHERE cs.customer_id = c.customer_id " +
+                "              AND cs.device_no = c.device_no " +
+                "               ORDER BY cs.create_time DESC " +
+                "               LIMIT 1 offset 0 " +
+                "           ) = 'Y' THEN 'Y' ELSE 'N' END AS loginStatus " +
+                "  FROM c_customer_msg_setting c " +
+                " WHERE c.push_open_status = 'Y' " +
+                "   and c.device_no is not null" +
+                "   and c.customer_id = :customerId";
+
 
         Logger.debug(">>findRegistrationIdsByCustomerId:" + sql);
 
         Query query = em.createNativeQuery(sql);
         query.setParameter("customerId", customerId);
         List<Object[]> list = query.getResultList();
-        String keys = "registrationId, deviceNo";
+
+        String keys = "registrationId,deviceNo,customerId,loginStatus";
         return ConverterUtil.convert(keys, list, MsgSettingVo.class);
     }
 
