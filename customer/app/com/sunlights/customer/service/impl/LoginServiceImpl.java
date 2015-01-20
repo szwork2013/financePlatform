@@ -72,7 +72,7 @@ public class LoginServiceImpl implements LoginService {
         }
 
         saveLoginHistory(customer, deviceNo);
-        customerSession = customerService.createCustomerSession(customer, remoteAddress);
+        customerSession = customerService.createCustomerSession(customer, remoteAddress, deviceNo);
 
         return customerSession;
 	}
@@ -122,7 +122,7 @@ public class LoginServiceImpl implements LoginService {
         }
 
         saveLoginHistory(customer, deviceNo);
-        customerSession = customerService.createCustomerSession(customer, clientAddress);
+        customerSession = customerService.createCustomerSession(customer, clientAddress, deviceNo);
 
         return customerSession;
 	}
@@ -138,9 +138,6 @@ public class LoginServiceImpl implements LoginService {
 		String verifyCode = vo.getVerifyCode();
 		String deviceNo = vo.getDeviceNo();
 
-        Logger.info("====nickName:" + vo.getNickName());
-        Logger.info("=============mobilePhoneNo:" + mobilePhoneNo);
-        Logger.info("=============deviceNo:" + deviceNo);
         Logger.info("=============recommendPhone:" + vo.getRecommendPhone());
         CommonUtil.getInstance().validateParams(mobilePhoneNo, passWord);
         

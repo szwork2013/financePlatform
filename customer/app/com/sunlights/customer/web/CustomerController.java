@@ -188,7 +188,7 @@ public class CustomerController extends Controller {
             Logger.info("===============重置密码之后自动登录===========");
             // 自动登录
             loginService.saveLoginHistory(customer, deviceNo);
-            userSession = customerService.createCustomerSession(customer, Controller.request().remoteAddress());
+            userSession = customerService.createCustomerSession(customer, Controller.request().remoteAddress(), deviceNo);
             customerService.sessionPushRegId(request().getHeader(AppConst.HEADER_REGISTRATION_ID), userSession.getCustomerId(), customerFormVo.getDeviceNo());
         }
         customerService.sessionLoginSessionId(Controller.session(), Controller.response(), userSession);

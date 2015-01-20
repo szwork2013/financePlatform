@@ -78,13 +78,15 @@ public class RegisterController extends Controller {
         Customer customer = loginService.register(customerFormVo);
         List<MessageHeaderVo> list = Lists.newArrayList();
 
+        String deviceNo = customerFormVo.getDeviceNo();
+
         if (customer != null) {
-            CustomerSession customerSession = customerService.createCustomerSession(customer, Controller.request().remoteAddress());
+            CustomerSession customerSession = customerService.createCustomerSession(customer, Controller.request().remoteAddress(), deviceNo);
             customerService.sessionLoginSessionId(Controller.session(), Controller.response(), customerSession);
-            customerService.sessionPushRegId(request().getHeader(AppConst.HEADER_REGISTRATION_ID), customerSession.getCustomerId(), customerFormVo.getDeviceNo());
+            customerService.sessionPushRegId(request().getHeader(AppConst.HEADER_REGISTRATION_ID), customerSession.getCustomerId(), deviceNo);
             accountService.createBaseAccount(customer.getCustomerId(), null);
             Message message = new Message(MsgCode.REGISTRY_SUCCESS);
-            CustomerVo customerVo = customerService.getCustomerVoByPhoneNo(customer.getMobile(), customerFormVo.getDeviceNo());
+            CustomerVo customerVo = customerService.getCustomerVoByPhoneNo(customer.getMobile(), deviceNo);
             MessageUtil.getInstance().setMessage(message, customerVo);
 
             MessageHeaderVo messageHeaderVo = new MessageHeaderVo(DictConst.PUSH_TYPE_4, null, customer.getCustomerId());

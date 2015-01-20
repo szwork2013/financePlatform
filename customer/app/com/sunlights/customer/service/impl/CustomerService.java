@@ -79,15 +79,15 @@ public class CustomerService {
      * @param customer
      * @return
      */
-    public CustomerSession createCustomerSession(Customer customer, String clientAddress) {
+    public CustomerSession createCustomerSession(Customer customer, String clientAddress, String deviceNo) {
         Timestamp currentTime = DBHelper.getCurrentTime();
         CustomerSession customerSession = new CustomerSession();
         customerSession.setCustomerId(customer.getCustomerId());
-        customerSession.setToken(new MD5Helper().encrypt(customer.getMobile() + customer.getDeviceNo() + currentTime));
+        customerSession.setToken(new MD5Helper().encrypt(customer.getMobile() + deviceNo + currentTime));
         customerSession.setClientAddress(clientAddress);
         customerSession.setCreateTime(currentTime);
         customerSession.setUpdateTime(currentTime);
-        customerSession.setDeviceNo(customer.getDeviceNo());
+        customerSession.setDeviceNo(deviceNo);
         customerDao.saveCustomerSession(customerSession);
 
         cacheSession(customerSession.getToken(), customerSession);

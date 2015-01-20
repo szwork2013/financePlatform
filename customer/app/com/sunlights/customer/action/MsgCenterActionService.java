@@ -4,18 +4,16 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.google.common.collect.Lists;
 import com.sunlights.common.AppConst;
 import com.sunlights.common.DictConst;
+import com.sunlights.common.MsgCode;
 import com.sunlights.common.service.ParameterService;
 import com.sunlights.common.utils.DBHelper;
-import com.sunlights.common.vo.MessageHeaderVo;
-import com.sunlights.common.vo.MessageVo;
-import com.sunlights.common.vo.PushMessageVo;
+import com.sunlights.common.vo.*;
 import com.sunlights.customer.dal.CustomerDao;
 import com.sunlights.customer.dal.MsgCenterDao;
 import com.sunlights.customer.dal.impl.CustomerDaoImpl;
 import com.sunlights.customer.dal.impl.MsgCenterDaoImpl;
 import com.sunlights.customer.factory.ActivityServiceFactory;
 import com.sunlights.customer.service.ActivityService;
-import com.sunlights.common.vo.MsgSettingVo;
 import models.*;
 import play.Logger;
 import play.Play;
@@ -49,6 +47,8 @@ public class MsgCenterActionService {
     private final static String LOGIN = "login";
     private final static String LOGINBYGES = "loginByges";
     private final static String REGISTER = "register";
+    private final static String pushUrl = Play.application().configuration().getString("push_url");
+    private final static String smsUrl = Play.application().configuration().getString("sms_url");
 
 
     public void sendMsg(String routeActionMethod, List<MessageHeaderVo> messageHeaderVoList){
@@ -56,6 +56,10 @@ public class MsgCenterActionService {
             String messageType = messageActivityVo.getMessageType();
             String customerId = messageActivityVo.getCustomerId();
             String scene = messageActivityVo.getScene();
+
+            if (customerId == null) {
+                Logger.error(">>当前发送的消息传入参数customerId为空");
+            }
 
             List<String> ruleCodeList = Lists.newArrayList();
             if (DictConst.PUSH_TYPE_4.equals(messageType)) {//注册登录提示类  信息
@@ -95,10 +99,9 @@ public class MsgCenterActionService {
             if (AppConst.STATUS_VALID.equals(smsInd)) {
                 sendSms(pushMessageVo);
             }
-            if (AppConst.STATUS_VALID.equals(pushInd)) {//推送
+            if (AppConst.STATUS_VALID.equals(pushInd) && AppConst.STATUS_INVALID.equals(pushMessageVo.getPushTimed())) {//即时推送
                 sendPush(pushMessageVo);
             }
-
         }else{//针对某个群组操作
         }
 
@@ -134,42 +137,29 @@ public class MsgCenterActionService {
      * @param pushMessageVo 规则信息
      */
     private void sendPush(PushMessageVo pushMessageVo) {
+        String customerId = pushMessageVo.getCustomerId();
 
-        CustomerMsgPushTxn customerMsgPushTxn = createCustomerMsgPushTxn(pushMessageVo);
+        List<MsgSettingVo> registrationIds = customerDao.findRegistrationIdsByCustomerId(customerId);
 
-        if (sendNow(pushMessageVo)) {//即时发送
-            //更新为正在发送中
-            customerMsgPushTxn.setPushStatus(DictConst.PUSH_STATUS_3);
-            customerMsgPushTxn.setUpdateTime(DBHelper.getCurrentTime());
-            centerDao.updateCustomerMsgPushTxn(customerMsgPushTxn);
-
-            pushMessageVo.setPushTxnId(customerMsgPushTxn.getId());
-
-//            List<String> alias = getAliasList(pushMessageVo.getCustomerId());
-//            pushMessageVo.setAliasList(alias);
-
-            List<MsgSettingVo> registrationIds = getRegistrationIdList(pushMessageVo.getCustomerId());
-
-            if (registrationIds.isEmpty()) {
-                Logger.debug(MessageFormat.format("未查询到需要信息发送的接收者！当前客户号：{0}", pushMessageVo.getCustomerId()));
-                return ;
-            }
-            int badge = 0;
-            List<String> registrationIdList = Lists.newArrayList();
-            for (MsgSettingVo msgSettingVo : registrationIds) {
-                registrationIdList.add(msgSettingVo.getRegistrationId());
-                pushMessageVo.setRegistrationIdList(registrationIdList);
-                if ("Y".equals(msgSettingVo.getLoginStatus())) {//login
-                    badge = centerDao.countUnReadNum(pushMessageVo.getCustomerId(), msgSettingVo.getDeviceNo());
-                }else{
-                    badge = centerDao.countUnReadNum(msgSettingVo.getDeviceNo());
-                }
-                pushMessageVo.setBadge(badge);
-
-                executePush(pushMessageVo);
-            }
+        if (registrationIds.isEmpty()) {
+            Logger.debug(MessageFormat.format("未查询到需要信息发送的接收者！当前客户号：{0}", customerId));
+            return ;
         }
 
+        int badge = 0;
+        List<String> registrationIdList = Lists.newArrayList();
+        for (MsgSettingVo msgSettingVo : registrationIds) {
+            registrationIdList.add(msgSettingVo.getRegistrationId());
+            pushMessageVo.setRegistrationIdList(registrationIdList);
+            if ("Y".equals(msgSettingVo.getLoginStatus())) {//login
+                badge = centerDao.countUnReadNum(customerId, msgSettingVo.getDeviceNo());
+            }else{
+                badge = centerDao.countUnReadNum(msgSettingVo.getDeviceNo());
+            }
+            pushMessageVo.setBadge(badge);
+
+            executePush(pushMessageVo);
+        }
     }
 
     /**
@@ -186,9 +176,10 @@ public class MsgCenterActionService {
     }
 
     public void executeSmsWS(MessageSmsTxn messageSmsTxn) {
-        String pushUrl = Play.application().configuration().getString("sms_url");
+
+        Logger.debug(">>待发送消息内容：" + Json.toJson(messageSmsTxn));
         try {
-            F.Promise<MessageSmsTxn> messageSmsTxnPromise = WS.url(pushUrl).post(Json.toJson(messageSmsTxn)).map(new F.Function<WSResponse, MessageSmsTxn>() {
+            F.Promise<MessageSmsTxn> messageSmsTxnPromise = WS.url(smsUrl).post(Json.toJson(messageSmsTxn)).map(new F.Function<WSResponse, MessageSmsTxn>() {
                 @Override
                 public MessageSmsTxn apply(WSResponse wsResponse) throws Throwable {
                     MessageSmsTxn messageSmsTxn = Json.fromJson(wsResponse.asJson(), MessageSmsTxn.class);
@@ -205,88 +196,66 @@ public class MsgCenterActionService {
         }
     }
 
-    private boolean sendNow(PushMessageVo pushMessageVo){
-        return AppConst.STATUS_INVALID.equals(pushMessageVo.getPushTimed());
+    private MessageVo executePushWS(PushMessageVo pushMessageVo) {
+
+        try {
+            F.Promise<MessageVo> messageVoPromise = WS.url(pushUrl).post(Json.toJson(pushMessageVo)).map(new F.Function<WSResponse, MessageVo>() {
+                @Override
+                public MessageVo apply(WSResponse wsResponse) throws Throwable {
+                    MessageVo returnMsg = Json.fromJson(wsResponse.asJson(), MessageVo.class);
+                    return returnMsg;
+                }
+            });
+
+            MessageVo messageVo = messageVoPromise.get(15, TimeUnit.SECONDS);
+
+            return messageVo;
+
+        }catch (Exception e){
+            Logger.error(">>CustomerMsgPushTxn:" + Json.toJson(pushMessageVo), e);
+            e.printStackTrace();
+        }
+
+        return new MessageVo(new Message(MsgCode.OPERATE_FAILURE));
     }
 
     private void executePush(PushMessageVo pushMessageVo) {
-        String pushUrl = Play.application().configuration().getString("push_url");
-        F.Promise<MessageVo> messageVoPromise = WS.url(pushUrl).post(Json.toJson(pushMessageVo)).map(new F.Function<WSResponse, MessageVo>() {
-            @Override
-            public MessageVo apply(WSResponse wsResponse) throws Throwable {
-                MessageVo returnMsg = Json.fromJson(wsResponse.asJson(), MessageVo.class);
-                return returnMsg;
-            }
-        });
-
-        MessageVo messageVo = messageVoPromise.get(15, TimeUnit.SECONDS);
         int sendNum = pushMessageVo.getSendNum();
+
+        MessageVo messageVo = executePushWS(pushMessageVo);
+
         int severity = messageVo.getMessage().getSeverity();
-        if (severity != 0 && sendNum < 3){
+
+        if (severity != 0 && sendNum < 3) {
             pushMessageVo.setSendNum(sendNum + 1);
             executePush(pushMessageVo);
         }else{
-            updatePushTxn(pushMessageVo, (String)messageVo.getValue(), severity);
+            createPushTxn(pushMessageVo, (String) messageVo.getValue(), severity);
         }
+
     }
 
-    private void updatePushTxn(PushMessageVo pushMessageVo, String result, int severity){
-        Timestamp currentTime = DBHelper.getCurrentTime();
-        int sendNum = pushMessageVo.getSendNum();
+    private void createPushTxn(PushMessageVo pushMessageVo, String result, int severity){
+        CustomerMsgPushTxn customerMsgPushTxn = createCustomerMsgPushTxn(pushMessageVo);
 
-        if ("Y".equals(pushMessageVo.getPersonalInd())) {
-            CustomerMsgPushTxn customerMsgPushTxn = centerDao.findCustomerMsgPushTxn(pushMessageVo.getPushTxnId());
-            if (severity == 0) {
-                JsonNode jsonNode = Json.parse(result);
-                String returnMsgId = jsonNode.get("msg_id").toString();
-                String sendno = jsonNode.get("sendno").toString();
-                customerMsgPushTxn.setReturnMsgId(returnMsgId);
-                customerMsgPushTxn.setSendNo(sendno);
-                customerMsgPushTxn.setPushStatus(DictConst.PUSH_STATUS_4);
-            }else{
-                customerMsgPushTxn.setPushStatus(DictConst.PUSH_STATUS_5);
-                customerMsgPushTxn.setReturnMsgId(result);
-            }
-            customerMsgPushTxn.setSendNum(sendNum);
-            customerMsgPushTxn.setPushTime(currentTime);
-            customerMsgPushTxn.setUpdateTime(currentTime);
-            centerDao.updateCustomerMsgPushTxn(customerMsgPushTxn);
+        if (severity == 0) {
+            JsonNode jsonNode = Json.parse(result);
+            String returnMsgId = jsonNode.get("msg_id").toString();
+            String sendno = jsonNode.get("sendno").toString();
+            customerMsgPushTxn.setReturnMsgId(returnMsgId);
+            customerMsgPushTxn.setSendNo(sendno);
+            customerMsgPushTxn.setPushStatus(DictConst.PUSH_STATUS_4);
         }else{
-            MessagePushTxn messagePushTxn = centerDao.findMessagePushTxn(pushMessageVo.getPushTxnId());
-            if (severity == 0) {
-                JsonNode jsonNode = Json.parse(result);
-                String returnMsgId = jsonNode.get("msg_id").toString();
-                String sendno = jsonNode.get("sendno").toString();
-                messagePushTxn.setReturnMsgId(returnMsgId);
-                messagePushTxn.setSendNo(sendno);
-                messagePushTxn.setPushStatus(DictConst.PUSH_STATUS_4);
-            }else{
-                messagePushTxn.setReturnMsgId(result);
-                messagePushTxn.setPushStatus(DictConst.PUSH_STATUS_5);
-            }
-            messagePushTxn.setSendNum(sendNum);
-            messagePushTxn.setPushTime(currentTime);
-            messagePushTxn.setUpdateTime(currentTime);
-            centerDao.updateMessagePushTxn(messagePushTxn);
+            customerMsgPushTxn.setPushStatus(DictConst.PUSH_STATUS_5);
+            customerMsgPushTxn.setReturnMsgId(result);
         }
-    }
+        Timestamp currentTime = DBHelper.getCurrentTime();
+        customerMsgPushTxn.setSendNum(pushMessageVo.getSendNum());
+        customerMsgPushTxn.setPushTime(currentTime);
+        customerMsgPushTxn.setUpdateTime(currentTime);
 
-    private List getAliasList(String customerId) {
-        List aliasList = Lists.newArrayList();
-        if (customerId != null) {
-            aliasList = customerDao.findAliasByCustomerId(customerId);
-        }
+        centerDao.createCustomerMsgPushTxn(customerMsgPushTxn);
 
-        return aliasList;
-    }
-
-    private List getRegistrationIdList(String customerId) {
-        List registrationIdList = Lists.newArrayList();
-        if (customerId != null) {
-            registrationIdList = customerDao.findRegistrationIdsByCustomerId(customerId);
-        }
-
-        return registrationIdList;
     }
 
     private CustomerMsgPushTxn createCustomerMsgPushTxn(PushMessageVo pushMessageVo) {
@@ -297,7 +266,7 @@ public class MsgCenterActionService {
         customerMsgPushTxn.setPushStatus(DictConst.PUSH_STATUS_2);
         customerMsgPushTxn.setCustomerId(pushMessageVo.getCustomerId());
         customerMsgPushTxn.setCreateTime(DBHelper.getCurrentTime());
-        centerDao.createCustomerMsgPushTxn(customerMsgPushTxn);
+
         return customerMsgPushTxn;
     }
 
