@@ -299,7 +299,7 @@ public class CustomerController extends Controller {
         Http.Cookie cookie = request().cookie(AppConst.TOKEN);
         String token = cookie == null ? null : cookie.value();
         try {
-            //customerService.validateCustomerSession(request(),session(),response());
+            customerService.validateCustomerSession(request(),session(),response());
         } catch (Exception e) {
             Logger.error("还没登陆");
             token = null;

@@ -8,7 +8,7 @@ POST        /savegespwd                @com.sunlights.customer.web.CustomerContr
 POST        /getusermstr               @com.sunlights.customer.web.CustomerController.getCustomerByMobilePhoneNo
 POST        /logout                    @com.sunlights.customer.web.CustomerController.logout
 
-POST        /hastoken                  @com.sunlights.customer.web.CustomerController.getToken
+GET        /hastoken                  @com.sunlights.customer.web.CustomerController.getToken
 
 #share
 POST        /activity/getqrcode        @com.sunlights.customer.web.ShareContorller.getQRcodeToByte
