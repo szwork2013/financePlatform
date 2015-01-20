@@ -1,6 +1,7 @@
 package com.sunlights.customer.dal;
 
 import com.sunlights.customer.vo.CustomerVo;
+import com.sunlights.common.vo.MsgSettingVo;
 import models.Customer;
 import models.CustomerGesture;
 import models.CustomerMsgSetting;
@@ -62,12 +63,11 @@ public interface CustomerDao {
     public List<String> findAliasByCustomerId(String customerId);
 
     /**
-     * 通过customerId查询 当前客户在所有手机为登录状态 集合
+     * 通过customerId查询 当前客户在所有手机registrationId 集合
      * @param customerId
-     * @param nMin
      * @return
      */
-    public List<String> findRegistrationIdsByCustomerId(String customerId, Timestamp nMin);
+    public List<MsgSettingVo>  findRegistrationIdsByCustomerId(String customerId);
     public CustomerMsgSetting findCustomerMsgSetting(String registrationId, String deviceNo);
     public CustomerMsgSetting updateCustomerMsgSetting(CustomerMsgSetting customerMsgSetting);
     public CustomerMsgSetting createCustomerMsgSetting(CustomerMsgSetting customerMsgSetting);

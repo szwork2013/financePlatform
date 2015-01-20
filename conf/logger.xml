@@ -14,7 +14,7 @@
         <file>${user.home}/web/logs/${APP_NAME}-play.log</file>
         <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
             <!-- daily rollover with compression -->
-            <fileNamePattern>${APP_NAME}-play-%d{yyyy-MM-dd}.gz</fileNamePattern>
+            <fileNamePattern>${user.home}/web/logs/${APP_NAME}-play-%d{yyyy-MM-dd}.gz</fileNamePattern>
             <!-- keep 1 week worth of history -->
             <maxHistory>7</maxHistory>
             <timeBasedFileNamingAndTriggeringPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
@@ -30,7 +30,7 @@
         <file>${user.home}/web/logs/${APP_NAME}-application.log</file>
         <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
             <!-- daily rollover with compression -->
-            <fileNamePattern>${APP_NAME}-application-%d{yyyy-MM-dd}.gz</fileNamePattern>
+            <fileNamePattern>${user.home}/web/logs/${APP_NAME}-application-%d{yyyy-MM-dd}.gz</fileNamePattern>
             <!-- keep 1 week worth of history -->
             <maxHistory>7</maxHistory>
             <timeBasedFileNamingAndTriggeringPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">

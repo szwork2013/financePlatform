@@ -19,7 +19,9 @@ import play.mvc.Http;
 import play.mvc.Result;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * <p>Project: financePlatform</p>
@@ -32,75 +34,85 @@ import java.util.List;
  */
 @Transactional
 public class AttentionController extends Controller {
-    private Form<AttentionVo> attentionVoForm = Form.form(AttentionVo.class);
-    private Form<PageVo> pageForm = Form.form(PageVo.class);
-    private CustomerService customerService = new CustomerService();
+	private Form<AttentionVo> attentionVoForm = Form.form(AttentionVo.class);
+	private Form<PageVo> pageForm = Form.form(PageVo.class);
+	private CustomerService customerService = new CustomerService();
 
-    private AttentionService attentionService = new ProductAttentionService();
-    private MessageUtil messageUtil = MessageUtil.getInstance();
+	private AttentionService attentionService = new ProductAttentionService();
+	private MessageUtil messageUtil = MessageUtil.getInstance();
 
-    public Result createProductAttention() {
-        Http.RequestBody body = request().body();
-        List<AttentionVo> attentionVos = new ArrayList<AttentionVo>();
-        if (body.asFormUrlEncoded() != null) {
-            CustomerSession customerSession = customerService.validateCustomerSession(request(), session(), response());
-            AttentionVo attentionVo = attentionVoForm.bindFromRequest().get();
-            // 基金
-            attentionVo.setProductType(DictConst.FP_PRODUCT_TYPE_1);
-            attentionVo.setCustomerId(customerSession.getCustomerId());
-            attentionVos.add(attentionVo);
-        }
-        attentionService.createAttentions(attentionVos);
-        messageUtil.setMessage(new Message(Severity.INFO, MsgCode.OPERATE_SUCCESS));
-        return ok(messageUtil.toJson());
-    }
+	public Result createProductAttention() {
+		Http.RequestBody body = request().body();
+		List<AttentionVo> attentionVos = new ArrayList<AttentionVo>();
+		if (body.asFormUrlEncoded() != null) {
+			CustomerSession customerSession = customerService.validateCustomerSession(request(), session(), response());
+			AttentionVo attentionVo = attentionVoForm.bindFromRequest().get();
+			// 基金
+			attentionVo.setProductType(DictConst.FP_PRODUCT_TYPE_1);
+			attentionVo.setCustomerId(customerSession.getCustomerId());
+			attentionVos.add(attentionVo);
+		}
+		attentionService.createAttentions(attentionVos);
+		messageUtil.setMessage(new Message(Severity.INFO, MsgCode.OPERATE_SUCCESS));
+		return ok(messageUtil.toJson());
+	}
 
-    public Result createProductAttentions() {
-        Http.RequestBody body = request().body();
-        List<AttentionVo> attentionVos = new ArrayList<AttentionVo>();
-        if (body.asFormUrlEncoded() != null) {
-            CustomerSession customerSession = customerService.validateCustomerSession(request(), session(), response());
-            AttentionVo attentionVo = attentionVoForm.bindFromRequest().get();
-            List<String> codes = attentionVo.getCodes();
-            for (String code : codes) {
-                AttentionVo av = new AttentionVo();
-                av.setCode(code);
-                // 基金
-                av.setProductType(DictConst.FP_PRODUCT_TYPE_1);
-                av.setCustomerId(customerSession.getCustomerId());
-                attentionVos.add(av);
-            }
-        }
-        attentionService.createAttentions(attentionVos);
-        messageUtil.setMessage(new Message(Severity.INFO, MsgCode.OPERATE_SUCCESS));
-        return ok(messageUtil.toJson());
-    }
+	public Result createProductAttentions() {
+		Http.RequestBody body = request().body();
+		List<AttentionVo> attentionVos = new ArrayList<AttentionVo>();
+		if (body.asFormUrlEncoded() != null) {
+			CustomerSession customerSession = customerService.validateCustomerSession(request(), session(), response());
+			AttentionVo attentionVo = attentionVoForm.bindFromRequest().get();
+			List<String> codes = attentionVo.getCodes();
+			for (String code : codes) {
+				AttentionVo av = new AttentionVo();
+				av.setCode(code);
+				// 基金
+				av.setProductType(DictConst.FP_PRODUCT_TYPE_1);
+				av.setCustomerId(customerSession.getCustomerId());
+				attentionVos.add(av);
+			}
+		}
+		attentionService.createAttentions(attentionVos);
+		messageUtil.setMessage(new Message(Severity.INFO, MsgCode.OPERATE_SUCCESS));
+		return ok(messageUtil.toJson());
+	}
 
-    public Result cancelProductAttention() {
-        Http.RequestBody body = request().body();
-        if (body.asFormUrlEncoded() != null) {
-            AttentionVo attentionVo = attentionVoForm.bindFromRequest().get();
-            CustomerSession customerSession = customerService.validateCustomerSession(request(), session(), response());
-            attentionVo.setCustomerId(customerSession.getCustomerId());
-            attentionService.cancelAttention(attentionVo);
-            messageUtil.setMessage(new Message(Severity.INFO, MsgCode.OPERATE_SUCCESS));
-            return ok(messageUtil.toJson());
-        }
-        messageUtil.setMessage(new Message(Severity.ERROR, MsgCode.OPERATE_FAILURE));
-        return ok(messageUtil.toJson());
-    }
+	public Result cancelProductAttention() {
+		Http.RequestBody body = request().body();
+		if (body.asFormUrlEncoded() != null) {
+			AttentionVo attentionVo = attentionVoForm.bindFromRequest().get();
+			CustomerSession customerSession = customerService.validateCustomerSession(request(), session(), response());
+			attentionVo.setCustomerId(customerSession.getCustomerId());
+			attentionService.cancelAttention(attentionVo);
+			messageUtil.setMessage(new Message(Severity.INFO, MsgCode.OPERATE_SUCCESS));
+			return ok(messageUtil.toJson());
+		}
+		messageUtil.setMessage(new Message(Severity.ERROR, MsgCode.OPERATE_FAILURE));
+		return ok(messageUtil.toJson());
+	}
 
-    public Result findProductAttentions() {
-        PageVo pageVo = new PageVo();
-        Http.RequestBody body = request().body();
-        if (body.asFormUrlEncoded() != null) {
-            pageVo = pageForm.bindFromRequest().get();
-        }
-        CustomerSession customerSession = customerService.validateCustomerSession(request(), session(), response());
-        pageVo.put("EQS_customerId", customerSession.getCustomerId());
-        List<ProductVo> productVos = attentionService.findAttentions(pageVo);
-        pageVo.setList(productVos);
-        messageUtil.setMessage(new Message(Severity.INFO, MsgCode.OPERATE_SUCCESS), pageVo);
-        return ok(messageUtil.toJson());
-    }
+	public Result findProductAttentions() {
+		PageVo pageVo = new PageVo();
+		Http.RequestBody body = request().body();
+		List<String> codes = null;
+		if (body.asFormUrlEncoded() != null) {
+			AttentionVo attentionVo = attentionVoForm.bindFromRequest().get();
+			codes = attentionVo.getCodes();
+		}
+		codes = codes == null ? new ArrayList<String>() : codes;
+		pageVo.put("codes", codes);
+		List<ProductVo> pds = attentionService.findAttentions(pageVo);
+		Map<String, ProductVo> productVoMap = new HashMap<String, ProductVo>();
+		for (ProductVo productVo : pds) {
+			productVoMap.put(productVo.getCode(), productVo);
+		}
+		List<ProductVo> productVos = new ArrayList<ProductVo>();
+		for (int i = codes.size() - 1; i >= 0; i--) {
+			productVos.add(productVoMap.get(codes.get(i)));
+		}
+		pageVo.setList(productVos);
+		messageUtil.setMessage(new Message(Severity.INFO, MsgCode.OPERATE_SUCCESS), pageVo);
+		return ok(messageUtil.toJson());
+	}
 }

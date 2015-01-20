@@ -263,6 +263,7 @@ public class LoginServiceImpl implements LoginService {
             customerSession = customerDao.findCustomerSessionByCustomerId(customer.getCustomerId(), deviceNo);
         }
         Timestamp currentTime = DBHelper.getCurrentTime();
+        Logger.debug(">>logout session:" + customerSession);
         if (customerSession != null) {//清除
             customerService.removeCache(token);
             customerSession.setStatus(AppConst.STATUS_INVALID);

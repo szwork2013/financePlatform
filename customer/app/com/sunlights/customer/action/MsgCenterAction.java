@@ -68,7 +68,7 @@ public class MsgCenterAction extends Action.Simple{
                         throw new BusinessRuntimeException(">>无效的token,非法入侵！");
                     }
                     MsgCenterActionService msgService = new MsgCenterActionService();
-                    Logger.info(">>开始发送消息>>");
+                    Logger.info(">>开始查询待发消息>>");
                     msgService.sendMsg(routeActionMethod, messageHeaderVoList);
                 }
             });

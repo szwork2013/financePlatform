@@ -9,6 +9,7 @@ import com.sunlights.common.exceptions.ConverterException;
 import com.sunlights.common.utils.ConverterUtil;
 import com.sunlights.customer.dal.CustomerDao;
 import com.sunlights.customer.vo.CustomerVo;
+import com.sunlights.common.vo.MsgSettingVo;
 import models.*;
 import org.apache.commons.lang3.StringUtils;
 import play.Logger;
@@ -258,25 +259,30 @@ public class CustomerDaoImpl extends EntityBaseDao implements CustomerDao {
     }
 
     @Override
-    public List<String> findRegistrationIdsByCustomerId(String customerId, Timestamp nMin) {
-        String sql = "select distinct cms.registration_id " +
-                    "   from c_customer_msg_setting cms,c_customer_session cs" +
-                    "  where cs.customer_id = cms.customer_id" +
-                    "    and cs.device_no = cms.device_no " +
-                    "    and cs.customer_id = :customerId" +
-                    "    and cs.status = 'Y' " +
-                    "    and cms.push_open_status = 'Y'" ;
-//        +
-//                    "    and cs.update_time >= :nMin";//TODO join on
+    public List<MsgSettingVo> findRegistrationIdsByCustomerId(String customerId) {
+        String sql = " SELECT distinct c.registration_id, c.device_no,c.customer_id, " +
+                "        CASE WHEN ( " +
+                "              SELECT cs.status " +
+                "              FROM c_customer_session cs " +
+                "              WHERE cs.customer_id = c.customer_id " +
+                "              AND cs.device_no = c.device_no " +
+                "               ORDER BY cs.create_time DESC " +
+                "               LIMIT 1 offset 0 " +
+                "           ) = 'Y' THEN 'Y' ELSE 'N' END AS loginStatus " +
+                "  FROM c_customer_msg_setting c " +
+                " WHERE c.push_open_status = 'Y' " +
+                "   and c.device_no is not null" +
+                "   and c.customer_id = :customerId";
+
 
         Logger.debug(">>findRegistrationIdsByCustomerId:" + sql);
 
         Query query = em.createNativeQuery(sql);
         query.setParameter("customerId", customerId);
-//        query.setParameter("nMin", nMin);
-        List list = query.getResultList();
+        List<Object[]> list = query.getResultList();
 
-         return list;
+        String keys = "registrationId,deviceNo,customerId,loginStatus";
+        return ConverterUtil.convert(keys, list, MsgSettingVo.class);
     }
 
     @Override

@@ -42,7 +42,7 @@ public class SmsMessageService {
     public void sendSms(String mobilePhoneNo, String verifyCode, String type) {
         MessageSmsTxn smsMessage = createMessageSmsTxn(mobilePhoneNo, verifyCode, type);
 
-        msgCenterActionService.updateSmsWS(smsMessage);
+        msgCenterActionService.executeSmsWS(smsMessage);
     }
 
 
@@ -73,8 +73,8 @@ public class SmsMessageService {
         messageSmsTxn.setContent(content);
         messageSmsTxn.setTitle(messageRule.getTitle());
         messageSmsTxn.setCreateTime(currentTime);
-
-        return msgCenterDao.createMessageSmsTxn(messageSmsTxn);
+//        msgCenterDao.createMessageSmsTxn(messageSmsTxn);
+        return messageSmsTxn;
     }
 
     private static String getSmsId() {

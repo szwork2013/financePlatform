@@ -148,6 +148,7 @@ When your revision has been accepted, you can usually push it like this:
 $ arc land <branch>   # Merges <branch> into master and pushes.
 arc land makes some assumptions about your workflow which might not be true. Consult the documentation before you use it. You should also look at arc amend, which may fit your workflow better.
 
+如果revision被打回来了，我们在这个分支上修改后再提交，这个时候需要使用arc patch <你的revision号> 如 D25
 ```
 
 
