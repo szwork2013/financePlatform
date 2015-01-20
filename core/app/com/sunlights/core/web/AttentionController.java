@@ -93,12 +93,16 @@ public class AttentionController extends Controller {
 	public Result findProductAttentions() {
 		PageVo pageVo = new PageVo();
 		Http.RequestBody body = request().body();
-		List<String> codes = null;
+		List<String> codes = new ArrayList<String>();
 		if (body.asFormUrlEncoded() != null) {
 			AttentionVo attentionVo = attentionVoForm.bindFromRequest().get();
-			codes = attentionVo.getCodes();
+			List<String> list = attentionVo.getCodes();
+			if (list != null) {
+				for (int i = list.size() - 1; i >= 0; i--) {
+					codes.add(list.get(i));
+				}
+			}
 		}
-		codes = codes == null ? new ArrayList<String>() : codes;
 		pageVo.put("codes", codes);
 		List<ProductVo> productVos = attentionService.findAttentions(pageVo);
 		pageVo.setList(productVos);
