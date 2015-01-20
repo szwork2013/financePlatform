@@ -19,7 +19,9 @@ import play.mvc.Http;
 import play.mvc.Result;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * <p>Project: financePlatform</p>
@@ -93,18 +95,22 @@ public class AttentionController extends Controller {
 	public Result findProductAttentions() {
 		PageVo pageVo = new PageVo();
 		Http.RequestBody body = request().body();
-		List<String> codes = new ArrayList<String>();
+		List<String> codes = null;
 		if (body.asFormUrlEncoded() != null) {
 			AttentionVo attentionVo = attentionVoForm.bindFromRequest().get();
-			List<String> list = attentionVo.getCodes();
-			if (list != null) {
-				for (int i = list.size() - 1; i >= 0; i--) {
-					codes.add(list.get(i));
-				}
-			}
+			codes = attentionVo.getCodes();
 		}
+		codes = codes == null ? new ArrayList<String>() : codes;
 		pageVo.put("codes", codes);
-		List<ProductVo> productVos = attentionService.findAttentions(pageVo);
+		List<ProductVo> pds = attentionService.findAttentions(pageVo);
+		Map<String, ProductVo> productVoMap = new HashMap<String, ProductVo>();
+		for (ProductVo productVo : pds) {
+			productVoMap.put(productVo.getCode(), productVo);
+		}
+		List<ProductVo> productVos = new ArrayList<ProductVo>();
+		for (int i = codes.size() - 1; i >= 0; i--) {
+			productVos.add(productVoMap.get(codes.get(i)));
+		}
 		pageVo.setList(productVos);
 		messageUtil.setMessage(new Message(Severity.INFO, MsgCode.OPERATE_SUCCESS), pageVo);
 		return ok(messageUtil.toJson());
