@@ -16,6 +16,7 @@ import models.ProductAttention;
 import play.Logger;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 
@@ -69,7 +70,7 @@ public class ProductAttentionService extends EntityBaseDao implements AttentionS
 	@Override
 	public <X> List<X> findAttentions(PageVo pageVo) {
 		List<String> codes = (List<String>) pageVo.get("codes");
-		if (codes.isEmpty()) throw new BusinessRuntimeException(new Message(Severity.ERROR, MsgCode.SEARCH_CODES_NOT_NULL));
+		if (codes.isEmpty()) return Collections.EMPTY_LIST;
 
 		StringBuffer jpql = new StringBuffer();
 		jpql.append(" select new com.sunlights.core.vo.FundVo(f,pm)");
