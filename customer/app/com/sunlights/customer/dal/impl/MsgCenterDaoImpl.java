@@ -147,23 +147,16 @@ public class MsgCenterDaoImpl extends EntityBaseDao implements MsgCenterDao{
     }
 
     private int getAllMsgCount(String customerId) {
-        String countSql =
-                "SELECT COUNT(1) " +
-                "FROM c_message_rule mr, " +
-                " (SELECT cpt.message_rule_id,cpt.id" +
-                "    FROM c_message_push_txn cpt" +
-                "   UNION " +
-                "  SELECT cmpt.message_rule_id,cmpt.id" +
-                "    FROM c_customer_msg_push_txn cmpt" +
-                "   WHERE cmpt.customer_id = :customerId" +
-                "   UNION " +
-                "  SELECT mst.message_rule_id,mst.id" +
-                "    FROM c_message_sms_txn mst, c_customer c" +
-                "   WHERE c.mobile = mst.mobile" +
-                "     AND c.customer_id = :customerId" +
-                " ) pt" +
-                " WHERE mr.id = pt.message_rule_id" +
-                " AND mr.msg_center_ind = 'Y'";
+        String messagePushSql = "SELECT cpt.message_rule_id,cpt.id FROM c_message_push_txn cpt,c_message_rule mr where mr.id = cpt.message_rule_id and mr.msg_center_ind = 'Y'";
+        String customerPushTxnSql = "SELECT cmpt.message_rule_id,cmpt.id FROM c_customer_msg_push_txn cmpt,c_message_rule mr WHERE cmpt.customer_id = :customerId and mr.id = cmpt.message_rule_id AND mr.msg_center_ind = 'Y'";
+        String smsPushSql = " SELECT mst.message_rule_id,mst.id " +
+                            "   FROM c_message_sms_txn mst, c_customer c,c_message_rule mr " +
+                            "  WHERE c.mobile = mst.mobile " +
+                            "    AND c.customer_id = :customerId " +
+                            "    AND mr.id = mst.message_rule_id " +
+                            "    AND mr.push_ind = 'N'" +
+                            "    AND mr.msg_center_ind = 'Y'";
+        String countSql = "SELECT count(1) FROM (" + messagePushSql + " UNION " + customerPushTxnSql + " UNION " + smsPushSql + ") pt where 1 = 1";
 
         Logger.debug(countSql);
 
@@ -290,11 +283,6 @@ public class MsgCenterDaoImpl extends EntityBaseDao implements MsgCenterDao{
                 "  SELECT cmpt.message_rule_id,cmpt.id" +
                 "    FROM c_customer_msg_push_txn cmpt" +
                 "   WHERE cmpt.customer_id = :customerId" +
-                "   UNION " +
-                "  SELECT mst.message_rule_id,mst.id" +
-                "    FROM c_message_sms_txn mst, c_customer c" +
-                "   WHERE c.mobile = mst.mobile" +
-                "     AND c.customer_id = :customerId" +
                 " ) pt" +
                 " WHERE mr.id = pt.message_rule_id" +
                 " AND mr.msg_center_ind = 'Y'" +

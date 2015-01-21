@@ -27,7 +27,7 @@ public class MessageSmsTxn extends IdEntity {
     private String content;
     @Column(length = 40, name = "rec_status")
     private String recStatus;//回执状态
-    @Column(length = 200, name = "return_msg")
+    @Column(length = 400, name = "return_msg")
     private String returnMsg;
     @Column(length = 1,name = "success_ind")
     private String successInd = AppConst.STATUS_INVALID;
