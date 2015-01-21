@@ -272,6 +272,7 @@ public class CustomerDaoImpl extends EntityBaseDao implements CustomerDao {
                 "  FROM c_customer_msg_setting c " +
                 " WHERE c.push_open_status = 'Y' " +
                 "   and c.device_no is not null" +
+                "   and c.registration_id is not null " +
                 "   and c.customer_id = :customerId";
 
 

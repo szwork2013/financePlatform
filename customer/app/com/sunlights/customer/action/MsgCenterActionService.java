@@ -1,6 +1,7 @@
 package com.sunlights.customer.action;
 
 import com.fasterxml.jackson.databind.JsonNode;
+import com.google.common.base.Strings;
 import com.google.common.collect.Lists;
 import com.sunlights.common.AppConst;
 import com.sunlights.common.DictConst;
@@ -146,9 +147,18 @@ public class MsgCenterActionService {
             return ;
         }
 
+        CustomerMsgPushTxn customerMsgPushTxn = createCustomerMsgPushTxn(pushMessageVo);
+        Timestamp currentTime = DBHelper.getCurrentTime();
+        customerMsgPushTxn.setPushTime(currentTime);
+        customerMsgPushTxn.setUpdateTime(currentTime);
+        centerDao.createCustomerMsgPushTxn(customerMsgPushTxn);
+
         int badge = 0;
         List<String> registrationIdList = Lists.newArrayList();
         for (MsgSettingVo msgSettingVo : registrationIds) {
+            if (Strings.isNullOrEmpty(msgSettingVo.getRegistrationId())) {
+                continue;
+            }
             registrationIdList.add(msgSettingVo.getRegistrationId());
             pushMessageVo.setRegistrationIdList(registrationIdList);
             if ("Y".equals(msgSettingVo.getLoginStatus())) {//login
@@ -160,6 +170,8 @@ public class MsgCenterActionService {
 
             executePush(pushMessageVo);
         }
+
+
     }
 
     /**
@@ -226,12 +238,12 @@ public class MsgCenterActionService {
 
         int severity = messageVo.getMessage().getSeverity();
 
-        if (severity != 0 && sendNum < 3) {
-            pushMessageVo.setSendNum(sendNum + 1);
-            executePush(pushMessageVo);
-        }else{
+//        if (severity != 0 && sendNum < 3) {
+//            pushMessageVo.setSendNum(sendNum + 1);
+//            executePush(pushMessageVo);
+//        }else{
             createPushTxn(pushMessageVo, (String) messageVo.getValue(), severity);
-        }
+//        }
 
     }
 
@@ -254,7 +266,7 @@ public class MsgCenterActionService {
         customerMsgPushTxn.setPushTime(currentTime);
         customerMsgPushTxn.setUpdateTime(currentTime);
 
-        centerDao.createCustomerMsgPushTxn(customerMsgPushTxn);
+//        centerDao.createCustomerMsgPushTxn(customerMsgPushTxn);
 
     }
 
