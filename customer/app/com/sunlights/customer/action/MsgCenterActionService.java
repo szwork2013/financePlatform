@@ -98,9 +98,11 @@ public class MsgCenterActionService {
             pushMessageVo.setPersonalInd(AppConst.STATUS_VALID);
 
             if (AppConst.STATUS_VALID.equals(smsInd)) {
+                pushMessageVo.setContentSms(MessageFormat.format(pushMessageVo.getContentSms(), messageActivityVo.getParams().toArray()));
                 sendSms(pushMessageVo);
             }
             if (AppConst.STATUS_VALID.equals(pushInd) && AppConst.STATUS_INVALID.equals(pushMessageVo.getPushTimed())) {//即时推送
+                pushMessageVo.setContentPush(MessageFormat.format(pushMessageVo.getContentPush(), messageActivityVo.getParams().toArray()));
                 sendPush(pushMessageVo);
             }
         }else{//针对某个群组操作
@@ -159,6 +161,7 @@ public class MsgCenterActionService {
             if (Strings.isNullOrEmpty(msgSettingVo.getRegistrationId())) {
                 continue;
             }
+            registrationIdList = Lists.newArrayList();
             registrationIdList.add(msgSettingVo.getRegistrationId());
             pushMessageVo.setRegistrationIdList(registrationIdList);
             if ("Y".equals(msgSettingVo.getLoginStatus())) {//login
@@ -290,7 +293,7 @@ public class MsgCenterActionService {
         messageSmsTxn.setMessageRuleId(pushMessageVo.getMessageRuleId());
         messageSmsTxn.setMobile(mobilePhoneNo);
         messageSmsTxn.setSmsId(new SimpleDateFormat("yyyyMMddHHmmssSSS").format(DBHelper.getCurrentTime()));
-        messageSmsTxn.setContent(pushMessageVo.getContent());
+        messageSmsTxn.setContent(pushMessageVo.getContentSms());
         messageSmsTxn.setTitle(pushMessageVo.getTitle());
         messageSmsTxn.setCreateTime(currentTime);
 

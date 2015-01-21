@@ -63,14 +63,14 @@ public class SmsMessageService {
         }
         String mobileDisplayNo = mobilePhoneNo.substring(0, 3) + "****" + mobilePhoneNo.substring(7);
         long expiryTimes = parameterService.getParameterNumeric(ParameterConst.VERIFYCODE_EXPIRY);
-        String content = MessageFormat.format(messageRule.getContent(), mobileDisplayNo, typeStr, verifyCode, expiryTimes);
+        String contentSms = MessageFormat.format(messageRule.getContentSms(), mobileDisplayNo, typeStr, verifyCode, expiryTimes);
 
         Timestamp currentTime = DBHelper.getCurrentTime();
         MessageSmsTxn messageSmsTxn = new MessageSmsTxn();
         messageSmsTxn.setMessageRuleId(messageRule.getId());
         messageSmsTxn.setMobile(mobilePhoneNo);
         messageSmsTxn.setSmsId(getSmsId());
-        messageSmsTxn.setContent(content);
+        messageSmsTxn.setContent(contentSms);
         messageSmsTxn.setTitle(messageRule.getTitle());
         messageSmsTxn.setCreateTime(currentTime);
 //        msgCenterDao.createMessageSmsTxn(messageSmsTxn);

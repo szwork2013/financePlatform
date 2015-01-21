@@ -29,7 +29,7 @@ public class MsgCenterDaoImpl extends EntityBaseDao implements MsgCenterDao{
     @Override
     public PushMessageVo findMessageRuleByCode(String ruleCode) {
         String sql = "SELECT pc.platform, pc.push_timed, mr.push_ind, mr.sms_ind, mr.msg_center_ind," +
-                    "        mr.id, mr.title, mr.content, mr.content_ext, mr.group_id " +
+                    "        mr.id, mr.title, mr.content, mr.content_ext, mr.group_id,mr.content_sms,mr.content_push " +
                     "  FROM c_message_push_config pc, " +
                     "       c_message_rule mr " +
                     " WHERE pc.id = mr.message_push_config_id" +
@@ -37,7 +37,7 @@ public class MsgCenterDaoImpl extends EntityBaseDao implements MsgCenterDao{
                     "   AND pc.status = 'Y'" +
                     "   AND mr.code = ?1";
         List<Object[]> list = createNativeQuery(sql, ruleCode);
-        String keys = "platform,pushTimed,pushInd,smsInd,msgCenterInd,messageRuleId,title,content,contentExt,groupId";
+        String keys = "platform,pushTimed,pushInd,smsInd,msgCenterInd,messageRuleId,title,content,contentExt,groupId,contentSms,contentPush";
         List<PushMessageVo> voList = ConverterUtil.convert(keys, list, PushMessageVo.class);
         return voList.isEmpty() ? null : voList.get(0);
     }
