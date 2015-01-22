@@ -89,19 +89,21 @@ public class MsgCenterActionService {
         }
         pushMessageVo.setCustomerId(messageActivityVo.getCustomerId());
         pushMessageVo.setContent(MessageFormat.format(pushMessageVo.getContent(), messageActivityVo.getParams().toArray()));
-
         Long id = pushMessageVo.getGroupId();
         if (id == null || id == 0) {//个人信息
+            Logger.info(">>开始组建个人待发送消息");
             String pushInd = pushMessageVo.getPushInd();
             String smsInd = pushMessageVo.getSmsInd();
 
             pushMessageVo.setPersonalInd(AppConst.STATUS_VALID);
 
             if (AppConst.STATUS_VALID.equals(smsInd)) {
+                Logger.info(">>开始发送短信");
                 pushMessageVo.setContentSms(MessageFormat.format(pushMessageVo.getContentSms(), messageActivityVo.getParams().toArray()));
                 sendSms(pushMessageVo);
             }
             if (AppConst.STATUS_VALID.equals(pushInd) && AppConst.STATUS_INVALID.equals(pushMessageVo.getPushTimed())) {//即时推送
+                Logger.info(">>开始推送");
                 pushMessageVo.setContentPush(MessageFormat.format(pushMessageVo.getContentPush(), messageActivityVo.getParams().toArray()));
                 sendPush(pushMessageVo);
             }
