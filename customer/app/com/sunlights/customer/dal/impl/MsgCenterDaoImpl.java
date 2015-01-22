@@ -299,7 +299,8 @@ public class MsgCenterDaoImpl extends EntityBaseDao implements MsgCenterDao{
                 "FROM c_message_rule mr, " +
                 " (SELECT cpt.message_rule_id,cpt.id" +
                 "    FROM c_message_push_txn cpt, c_message_rule mr1" +
-                "   where cpt.create_time >= " + getRegisterTime() + " - case when mr1.stay_day_ind = 'Y' then  interval '7 day' else interval '0 day' end " +
+                "   where mr1.id = cpt.message_rule_id " +
+                "     and cpt.create_time >= " + getRegisterTime() + " - case when mr1.stay_day_ind = 'Y' then  interval '7 day' else interval '0 day' end " +
                 "   UNION " +
                 "  SELECT cmpt.message_rule_id,cmpt.id" +
                 "    FROM c_customer_msg_push_txn cmpt" +
