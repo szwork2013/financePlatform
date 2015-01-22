@@ -36,6 +36,9 @@ public class MsgCenterDaoImpl extends EntityBaseDao implements MsgCenterDao{
                     "   AND mr.status = 'Y'" +
                     "   AND pc.status = 'Y'" +
                     "   AND mr.code = ?1";
+
+        Logger.debug(sql);
+
         List<Object[]> list = createNativeQuery(sql, ruleCode);
         String keys = "platform,pushTimed,pushInd,smsInd,msgCenterInd,messageRuleId,title,content,contentExt,groupId,contentSms,contentPush";
         List<PushMessageVo> voList = ConverterUtil.convert(keys, list, PushMessageVo.class);
@@ -141,13 +144,15 @@ public class MsgCenterDaoImpl extends EntityBaseDao implements MsgCenterDao{
         String keys = "msgId,messageRuleId,title,summary,createTime,sendType,readInd";
         List<MsgCenterVo> msgCenterVoList = ConverterUtil.convert(keys, list, MsgCenterVo.class);
 
-        pageVo.setCount(getAllMsgCount(customerId));
+        pageVo.setCount(getAllMsgCount(customerId, deviceNo));
 
         return msgCenterVoList;
     }
 
-    private int getAllMsgCount(String customerId) {
-        String messagePushSql = "SELECT cpt.message_rule_id,cpt.id FROM c_message_push_txn cpt,c_message_rule mr where mr.id = cpt.message_rule_id and mr.msg_center_ind = 'Y'";
+    private int getAllMsgCount(String customerId, String deviceNo) {
+        String messagePushSql = "SELECT cpt.message_rule_id,cpt.id FROM c_message_push_txn cpt,c_message_rule mr " +
+                "where mr.id = cpt.message_rule_id and mr.msg_center_ind = 'Y'" +
+                "  AND cpt.create_time >= " + getRegisterTime() + " - case when mr.stay_day_ind = 'Y' then  interval '7 day' else interval '0 day' end ";
         String customerPushTxnSql = "SELECT cmpt.message_rule_id,cmpt.id FROM c_customer_msg_push_txn cmpt,c_message_rule mr WHERE cmpt.customer_id = :customerId and mr.id = cmpt.message_rule_id AND mr.msg_center_ind = 'Y'";
         String smsPushSql = " SELECT mst.message_rule_id,mst.id " +
                             "   FROM c_message_sms_txn mst, c_customer c,c_message_rule mr " +
@@ -162,6 +167,7 @@ public class MsgCenterDaoImpl extends EntityBaseDao implements MsgCenterDao{
 
         Query query = em.createNativeQuery(countSql);
         query.setParameter("customerId", customerId);
+        query.setParameter("deviceNo", deviceNo);
         return Integer.valueOf(query.getSingleResult().toString());
     }
 
@@ -193,9 +199,20 @@ public class MsgCenterDaoImpl extends EntityBaseDao implements MsgCenterDao{
                 "  FROM c_message_rule mr, (" + pushSql + ") pt" +
                 " WHERE mr.id = pt.message_rule_id" +
                 "   AND mr.msg_center_ind = 'Y'" +
+                "   AND cpt.create_time >= " + getRegisterTime() + " - case when mr.stay_day_ind = 'Y' then  interval '7 day' else interval '0 day' end " +
                 "   AND mr.push_ind = 'Y'";
         return sql;
     }
+
+    private String getRegisterTime(){
+        String sql = " (select c.create_time " +
+                    "   from c_customer c,c_customer_msg_setting cms" +
+                    "  where cms.device_no = :deviceNo " +
+                    "    and cms.customer_id = c.customer_id" +
+                    "    and cms.push_open_status = 'Y' " +
+                    "    and cms.registration_id is not null limit 1 offset 0) ";
+        return sql;
+    } 
 
     @Override
     public List<MsgCenterVo> findMsgCenterVoList(PageVo pageVo) {
@@ -205,7 +222,8 @@ public class MsgCenterDaoImpl extends EntityBaseDao implements MsgCenterDao{
                 "    from c_message_push_txn cpt ,c_message_rule mr " +
                 "   where mr.id = cpt.message_rule_id " +
                 "     and mr.msg_center_ind = 'Y' " +
-                "order by cpt.create_time desc";
+                "     and cpt.create_time >= " + getRegisterTime() + " - case when mr.stay_day_ind = 'Y' then  interval '7 day' else interval '0 day' end " +
+                " order by cpt.create_time desc";
         Query query = em.createNativeQuery(sql);
         query.setParameter("deviceNo", pageVo.get("deviceNo"));
         query.setFirstResult(pageVo.getIndex());
@@ -215,8 +233,10 @@ public class MsgCenterDaoImpl extends EntityBaseDao implements MsgCenterDao{
         String keys = "msgId,messageRuleId,title,summary,createTime,sendType,readInd";
         List<MsgCenterVo> msgCenterVoList = ConverterUtil.convert(keys, list, MsgCenterVo.class);
 
-        String countSql = "select count(1) from c_message_push_txn cpt ,c_message_rule mr where mr.id = cpt.message_rule_id and mr.msg_center_ind = 'Y'";
+        String countSql = "select count(1) from c_message_push_txn cpt ,c_message_rule mr where mr.id = cpt.message_rule_id and mr.msg_center_ind = 'Y'" +
+                        "  AND cpt.create_time >= " + getRegisterTime() + " - case when mr.stay_day_ind = 'Y' then  interval '7 day' else interval '0 day' end ";;
         query = em.createNativeQuery(countSql);
+        query.setParameter("deviceNo", pageVo.get("deviceNo"));
         pageVo.setCount(Integer.valueOf(query.getSingleResult().toString()));
 
         return msgCenterVoList;
