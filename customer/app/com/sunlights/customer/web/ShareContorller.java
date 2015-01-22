@@ -110,10 +110,10 @@ public class ShareContorller extends ActivityBaseController {
         ShareVo shareVo = getShareVo();
         String type = shareVo.getType();
         String id = shareVo.getId();
-        if(ActivityConstant.SHARE_TYPE_INVITER.equals(type)) {
+        /*if(ActivityConstant.SHARE_TYPE_INVITER.equals(type)) {
             type = ActivityConstant.SHARE_TYPE_ACTIVITY;
             id = ActivityConstant.ACTIVITY_REGISTER_SCENE_CODE;
-        }
+        }*/
         ShareInfoService shareInfoService = ShareInfoServiceFactory.createShareInfoService(type);
         if (shareInfoService == null) {
             Logger.error("不支持的分享类型");
