@@ -199,7 +199,7 @@ public class MsgCenterDaoImpl extends EntityBaseDao implements MsgCenterDao{
                 "  FROM c_message_rule mr, (" + pushSql + ") pt" +
                 " WHERE mr.id = pt.message_rule_id" +
                 "   AND mr.msg_center_ind = 'Y'" +
-                "   AND cpt.create_time >= " + getRegisterTime() + " - case when mr.stay_day_ind = 'Y' then  interval '7 day' else interval '0 day' end " +
+                "   AND pt.create_time >= " + getRegisterTime() + " - case when mr.stay_day_ind = 'Y' then  interval '7 day' else interval '0 day' end " +
                 "   AND mr.push_ind = 'Y'";
         return sql;
     }
@@ -299,6 +299,7 @@ public class MsgCenterDaoImpl extends EntityBaseDao implements MsgCenterDao{
                 "FROM c_message_rule mr, " +
                 " (SELECT cpt.message_rule_id,cpt.id" +
                 "    FROM c_message_push_txn cpt" +
+                "     and cpt.create_time >= " + getRegisterTime() + " - case when mr.stay_day_ind = 'Y' then  interval '7 day' else interval '0 day' end " +
                 "   UNION " +
                 "  SELECT cmpt.message_rule_id,cmpt.id" +
                 "    FROM c_customer_msg_push_txn cmpt" +
@@ -323,7 +324,8 @@ public class MsgCenterDaoImpl extends EntityBaseDao implements MsgCenterDao{
                 "  FROM c_message_rule mr, c_message_push_txn pt" +
                 " WHERE mr.id = pt.message_rule_id" +
                 "  AND mr.msg_center_ind = 'Y'" +
-                "  AND pt.id NOT IN (SELECT mrh.push_txn_id FROM c_customer_msg_read_history mrh WHERE mrh.device_no = :deviceNo)";
+                "  AND pt.id NOT IN (SELECT mrh.push_txn_id FROM c_customer_msg_read_history mrh WHERE mrh.device_no = :deviceNo)" +
+                "  and pt.create_time >= " + getRegisterTime() + " - case when mr.stay_day_ind = 'Y' then  interval '7 day' else interval '0 day' end ";
 
         Logger.debug(countSql);
 
