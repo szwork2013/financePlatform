@@ -66,8 +66,7 @@ public class ExchangeResultHandler extends AbstractExchangeRuleHandler {
         String template = activityReturnMsgService.getReturnMsg(exchangeScene.getScene(), exchangeScene.getExchangeType(), exchangeScene.getRewardType(),
                 ActivityConstant.RETURN_MSG_CATEGORY_REWARD_TRADE, MsgCode.OPERATE_SUCCESS.getCode());
         Logger.debug("template = " + template);
-        String accountDate = exchangeSceneService.calcAccountDate(exchangeScene.getTimeLimit(), null, false);
-        message.setDetail(MessageFormat.format(template, amt, bankName, accountDate));
+        message.setDetail(MessageFormat.format(template, amt, bankName, exchangeScene.getTimeLimit()));
 
     }
 
