@@ -40,8 +40,8 @@ public class InviteShareInfoServiceImpl extends AbstractShareInfoService {
         String mobile = getMobile(context.getCustNo());
         sb.append(shareInfo.getBaseUrl());
         if(Integer.valueOf(ActivityConstant.ACCOUNT_COMMON_ONE).equals(shareInfo.getRelateRefId())) {
-            sb.append(context.getCommonParamter());
-            sb.append("&mobile=" + mobile);
+            //sb.append(context.getCommonParamter());
+            sb.append("?mobile=" + mobile);
         }
         return sb.toString();
     }

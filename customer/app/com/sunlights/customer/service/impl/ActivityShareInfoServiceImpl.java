@@ -40,8 +40,8 @@ public class ActivityShareInfoServiceImpl extends AbstractShareInfoService {
         if(Integer.valueOf(ActivityConstant.ACCOUNT_COMMON_ONE).equals(shareInfo.getRelateRefId())) {
             Activity activity = activityService.getByUnknowCondition(context.getRefId());
             sb.append("/" + activity.getUrl());
-            sb.append(context.getCommonParamter());
-            sb.append("&activityId = " + activity.getId());
+            //sb.append(context.getCommonParamter());
+            sb.append("?activityId= " + activity.getId());
         }
         return sb.toString();
     }
