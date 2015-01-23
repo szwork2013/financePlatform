@@ -9,11 +9,13 @@ import com.sunlights.common.vo.PageVo;
 import com.sunlights.core.service.AttentionService;
 import com.sunlights.core.service.impl.ProductAttentionService;
 import com.sunlights.core.vo.AttentionVo;
+import com.sunlights.core.vo.ProductParameter;
 import com.sunlights.core.vo.ProductVo;
 import com.sunlights.customer.service.impl.CustomerService;
 import models.CustomerSession;
 import play.data.Form;
 import play.db.jpa.Transactional;
+import play.libs.Json;
 import play.mvc.Controller;
 import play.mvc.Http;
 import play.mvc.Result;
@@ -95,12 +97,13 @@ public class AttentionController extends Controller {
 	public Result findProductAttentions() {
 		PageVo pageVo = new PageVo();
 		Http.RequestBody body = request().body();
-		List<String> codes = null;
-		if (body.asFormUrlEncoded() != null) {
-			AttentionVo attentionVo = attentionVoForm.bindFromRequest().get();
-			codes = attentionVo.getCodes();
+		AttentionVo attentionVo = null;
+		if (body.asJson() != null) {
+			attentionVo = Json.fromJson(body.asJson(), AttentionVo.class);
+		} else if (body.asFormUrlEncoded() != null) {
+			attentionVo = attentionVoForm.bindFromRequest().get();
 		}
-		codes = codes == null ? new ArrayList<String>() : codes;
+		List<String> codes = attentionVo.getCodes() == null ? new ArrayList<String>() : attentionVo.getCodes();
 		pageVo.put("codes", codes);
 		List<ProductVo> pds = attentionService.findAttentions(pageVo);
 		Map<String, ProductVo> productVoMap = new HashMap<String, ProductVo>();
