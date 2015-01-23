@@ -109,7 +109,6 @@ public class ExchangeSceneServiceImpl implements ExchangeSceneService {
         Data4ExchangeVo data4ExchangeVo = new Data4ExchangeVo();
         data4ExchangeVo.setCanPayed(canPayed.toString());
         data4ExchangeVo.setMaxPayed(canPayed.toString());
-        data4ExchangeVo.setAccountDate(calcAccountDate(exchangeScene.getTimeLimit(), null, true));
 
         //TODO 这样的话不能将多个参数替换
         String detaiTemplate = Configuration.root().getString(exchangeScene.getScene() + "." + exchangeScene.getRewardType() + "." + exchangeScene.getActivityType());

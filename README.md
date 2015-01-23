@@ -105,51 +105,21 @@ trade->core
       中维护好单个数据库脚本，写好描述，和各个环境到是否执行的状态，详细的可以看下db.xlsx里到书写要求
 
 
-# How to use arcanist 做code review流程
+# RESTful API 重构规范
+请参考 [RESTful API 设计最佳实践](http://www.iteye.com/news/27906)
 
-```
+    方法优于属性
+    工厂方法优于构造函数
+    避免过多继承
+    避免由于优化或者复用代码影响API
+    面向接口编程
+    扩展参数应当是便利的
+    对组件进行合理定位，确定暴露多少接口
+    提供扩展点
+    有效的API评审
 
-git clone https://github.com/phacility/arcanist.git
-git clone https://github.com/phacility/libphutil.git
 
-然后 把/Users/loki/git/arcanist/bin 添加到path目录。
-运行arc help去检查安装是否成功。
 
-In Git, arc diff sends all commits in a range for review. By default, this range is:
-
-`git merge-base origin/master HEAD`..HEAD
-That's a fancy way of saying "all the commits on the current branch that you haven't pushed yet". So, to create a revision in Git, run:
-
-$ nano source_code.c  # Make changes.
-$ git commit -a       # Commit changes.
-$ arc diff            # Creates a new revision out of ALL unpushed commits on
-                      # this branch.
-The git commit step is optional. If there are uncommitted changes in the working copy then Arcanist will ask you to create a commit from them.
-
-Since it uses all the commits on the branch, you can make several commits before sending your changes for review if you prefer.
-
-You can specify a different commit range instead by running:
-
-$ arc diff <commit>
-This means to use the range:
-
-`git merge-base <commit> HEAD`..HEAD
-However, this is a relatively advanced feature. The default is usually correct if you aren't creating branches-on-branches, juggling remotes, etc.
-
-To update a revision, just do the same thing:
-
-$ nano source_code.c  # Make more changes.
-$ git commit -a       # Commit them.
-$ arc diff            # This prompts you to update revision information.
-The git commit step is optional. If there are uncommitted changes in the working copy then Arcanist will ask you to amend them to the commit.
-
-When your revision has been accepted, you can usually push it like this:
-
-$ arc land <branch>   # Merges <branch> into master and pushes.
-arc land makes some assumptions about your workflow which might not be true. Consult the documentation before you use it. You should also look at arc amend, which may fit your workflow better.
-
-如果revision被打回来了，我们在这个分支上修改后再提交，这个时候需要使用arc patch <你的revision号> 如 D25
-```
 
 
 
