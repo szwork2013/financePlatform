@@ -131,8 +131,12 @@ public class MsgCenterDaoImpl extends EntityBaseDao implements MsgCenterDao{
     public List<MsgCenterVo> findMsgCenterVoListWithLogin(PageVo pageVo) {
         String customerId = (String)pageVo.get("customerId");
         String deviceNo = (String)pageVo.get("deviceNo");
-        String sql = " SELECT * FROM ( " + buildSendSmsSql() + " UNION " + buildSendPushSql() + ") t  ORDER BY t.create_time DESC";
-
+        String sql = " select ml.*, " +
+                     "         CASE WHEN ml.id IN (SELECT rh.push_txn_id FROM c_customer_msg_read_history rh WHERE rh.customer_id = :customerId " +
+                     "          or (rh.device_no = :deviceNo and rh.customer_id is null)) THEN 'Y' ELSE 'N' END AS readInd " +
+                     "  FROM view_message_list ml " +
+                     " where ml.create_time >= " + buildRegisterTime() +
+                     "   AND ml.customer_id IS NULL or ml.customer_id = :customerId ";
         Logger.debug(sql);
 
         Query query = em.createNativeQuery(sql);
@@ -140,69 +144,34 @@ public class MsgCenterDaoImpl extends EntityBaseDao implements MsgCenterDao{
         query.setParameter("deviceNo", deviceNo);
         query.setFirstResult(pageVo.getIndex());
         query.setMaxResults(pageVo.getPageSize());
-        List<Object[]> list = query.getResultList();
-        String keys = "msgId,messageRuleId,title,summary,createTime,sendType,readInd";
+        List list = query.getResultList();
+        String keys = "msgId,messageRuleId,title,summary,createTime,sendType,customerId,stayDayInd,readInd";
         List<MsgCenterVo> msgCenterVoList = ConverterUtil.convert(keys, list, MsgCenterVo.class);
 
-        pageVo.setCount(getAllMsgCount(customerId, deviceNo));
+        pageVo.setCount(getAllMsgCount(customerId));
 
         return msgCenterVoList;
     }
+    private String buildRegisterTime(){
+        String registerTime =   "   (SELECT TO_DATE(TO_CHAR(c.create_time,'yyyy-MM-dd'),'yyyy-MM-dd')"  +
+                                "      FROM  c_customer c"  +
+                                "     WHERE  c.customer_id = :customerId ) -  (CASE WHEN stay_day_ind = 'Y' THEN interval '30 day' ELSE interval '0 day' END)";
+        return registerTime;
+    }
 
-    private int getAllMsgCount(String customerId, String deviceNo) {
-        String messagePushSql = "SELECT cpt.message_rule_id,cpt.id FROM c_message_push_txn cpt,c_message_rule mr " +
-                "where mr.id = cpt.message_rule_id and mr.msg_center_ind = 'Y'" +
-                "  AND cpt.create_time >= " + getRegisterTime() + " - case when mr.stay_day_ind = 'Y' then  interval '30 day' else interval '0 day' end ";
-        String customerPushTxnSql = "SELECT cmpt.message_rule_id,cmpt.id FROM c_customer_msg_push_txn cmpt,c_message_rule mr WHERE cmpt.customer_id = :customerId and mr.id = cmpt.message_rule_id AND mr.msg_center_ind = 'Y'";
-        String smsPushSql = " SELECT mst.message_rule_id,mst.id " +
-                            "   FROM c_message_sms_txn mst, c_customer c,c_message_rule mr " +
-                            "  WHERE c.mobile = mst.mobile " +
-                            "    AND c.customer_id = :customerId " +
-                            "    AND mr.id = mst.message_rule_id " +
-                            "    AND mr.push_ind = 'N'" +
-                            "    AND mr.msg_center_ind = 'Y'";
-        String countSql = "SELECT count(1) FROM (" + messagePushSql + " UNION " + customerPushTxnSql + " UNION " + smsPushSql + ") pt where 1 = 1";
+    private int getAllMsgCount(String customerId) {
+        String countSql = " SELECT count(1)" +
+                          "  FROM view_message_list ml " +
+                          " where ml.create_time >= " + buildRegisterTime() +
+                          "   AND ml.customer_id IS NULL or ml.customer_id = :customerId ";
 
         Logger.debug(countSql);
 
         Query query = em.createNativeQuery(countSql);
         query.setParameter("customerId", customerId);
-        query.setParameter("deviceNo", deviceNo);
         return Integer.valueOf(query.getSingleResult().toString());
     }
 
-    private String buildSendSmsSql(){
-        String sql =
-                "SELECT  mst.id, mst.message_rule_id, mst.title, substring(mst.content, 1, 50)||'...' AS summary" +
-                "       , mst.create_time, 'FP.SEND.TYPE.1' AS send_type, 'Y'" +
-                "  FROM c_message_rule mr, c_message_sms_txn mst, c_customer c" +
-                " WHERE mr.id = mst.message_rule_id" +
-                "   AND mr.msg_center_ind = 'Y'" +
-                "   AND mr.sms_ind = 'Y'" +
-                "   AND mr.push_ind = 'N'" +
-                "   AND c.mobile = mst.mobile" +
-                "   AND c.customer_id = :customerId";
-        return sql;
-    }
-    private String buildSendPushSql(){
-        String pushSql =
-                "SELECT cpt.id, cpt.message_rule_id, cpt.title, substring(cpt.content, 1, 50)||'...'  AS summary, cpt.create_time, 'FP.SEND.TYPE.2' AS send_type" +
-                "  FROM c_message_push_txn cpt" +
-                " UNION " +
-                "SELECT cmpt.id, cmpt.message_rule_id, cmpt.title, substring(cmpt.content, 1, 50)||'...'  AS summary, cmpt.create_time, 'FP.SEND.TYPE.3' AS send_type" +
-                "  FROM c_customer_msg_push_txn cmpt" +
-                " WHERE cmpt.customer_id = :customerId";
-
-        String sql =
-                " SELECT pt.id, pt.message_rule_id, pt.title, pt.summary, pt.create_time, pt.send_type, " +
-                "       CASE WHEN pt.id IN (SELECT rh.push_txn_id FROM c_customer_msg_read_history rh WHERE rh.customer_id = :customerId or (rh.device_no = :deviceNo and rh.customer_id is null)) THEN 'Y' ELSE 'N' END AS readInd" +
-                "  FROM c_message_rule mr, (" + pushSql + ") pt" +
-                " WHERE mr.id = pt.message_rule_id" +
-                "   AND mr.msg_center_ind = 'Y'" +
-                "   AND pt.create_time >= " + getRegisterTime() + " - case when mr.stay_day_ind = 'Y' then  interval '30 day' else interval '0 day' end " +
-                "   AND mr.push_ind = 'Y'";
-        return sql;
-    }
 
     private String getRegisterTime(){
         String sql = " (select to_date(to_char(c.create_time,'yyyy-MM-dd'),'yyyy-MM-dd') " +

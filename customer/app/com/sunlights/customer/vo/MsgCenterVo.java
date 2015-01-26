@@ -1,6 +1,7 @@
 package com.sunlights.customer.vo;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import java.io.Serializable;
 import java.util.Date;
@@ -23,6 +24,10 @@ public class MsgCenterVo implements Serializable{
     private Date createTime;
     private String sendType;
     private String readInd;
+    @JsonIgnore
+    private String stayDayInd;
+    @JsonIgnore
+    private String customerId;
 
 
     public Long getMsgId() {
@@ -79,5 +84,21 @@ public class MsgCenterVo implements Serializable{
 
     public void setReadInd(String readInd) {
         this.readInd = readInd;
+    }
+
+    public String getStayDayInd() {
+        return stayDayInd;
+    }
+
+    public void setStayDayInd(String stayDayInd) {
+        this.stayDayInd = stayDayInd;
+    }
+
+    public String getCustomerId() {
+        return customerId;
+    }
+
+    public void setCustomerId(String customerId) {
+        this.customerId = customerId;
     }
 }

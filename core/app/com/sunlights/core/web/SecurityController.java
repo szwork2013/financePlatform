@@ -5,7 +5,6 @@ import com.sunlights.account.service.AccountService;
 import com.sunlights.account.service.impl.AccountServiceImpl;
 import com.sunlights.common.AppConst;
 import com.sunlights.common.MsgCode;
-import com.sunlights.common.ParameterConst;
 import com.sunlights.common.service.ParameterService;
 import com.sunlights.common.service.VerifyCodeService;
 import com.sunlights.common.utils.MessageUtil;
@@ -68,9 +67,9 @@ public class SecurityController extends Controller {
 
         String verifyCode = verifyCodeService.genVerificationCode(mobilePhoneNo, verifyType, deviceNo);
 
-        if (!AppConst.STATUS_VALID.equals(parameterService.getParameterByName(ParameterConst.SMS_TEST))) {
+//        if (!AppConst.STATUS_VALID.equals(parameterService.getParameterByName(ParameterConst.SMS_TEST))) {
             smsMessageService.sendSms(mobilePhoneNo, verifyCode, verifyType);
-        }
+//        }
 
         Message message = new Message(MsgCode.OPERATE_SUCCESS);
         MessageVo messageVo = new MessageVo(message);
