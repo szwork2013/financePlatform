@@ -1,9 +1,9 @@
 package com.sunlights.core.vo;
 
-import models.ProductAttention;
-
 import java.util.ArrayList;
 import java.util.List;
+
+import models.ProductAttention;
 
 /**
  * <p>Project: financePlatform</p>
@@ -14,65 +14,66 @@ import java.util.List;
  *
  * @author <a href="mailto:zhencai.yuan@sunlights.cc">yuanzhencai</a>
  */
+
 public class AttentionVo {
-    private Long id;
-    private String code;
-    private String productType;
-    private String customerId;
+	private Long id;
+	private String code;
+	private String productType;
+	private String customerId;
 
-    private List<String> codes = new ArrayList<String>();
+	private List<String> codes = new ArrayList<String>();
 
-    public AttentionVo() {
-        super();
-    }
+	public AttentionVo() {
+		super();
+	}
 
-    public AttentionVo(ProductAttention attention) {
-        inAttention(attention);
-    }
+	public AttentionVo(ProductAttention attention) {
+		inAttention(attention);
+	}
 
-    public void inAttention(ProductAttention attention) {
-        this.setCode(attention.getProductCode());
-        this.setProductType(attention.getProductType());
-        this.setCustomerId(attention.getCustomerId());
-    }
+	public void inAttention(ProductAttention attention) {
+		this.setCode(attention.getProductCode());
+		this.setProductType(attention.getProductType());
+		this.setCustomerId(attention.getCustomerId());
+	}
 
-    public Long getId() {
-        return id;
-    }
+	public Long getId() {
+		return id;
+	}
 
-    public void setId(Long id) {
-        this.id = id;
-    }
+	public void setId(Long id) {
+		this.id = id;
+	}
 
-    public String getCode() {
-        return code;
-    }
+	public String getCode() {
+		return code;
+	}
 
-    public void setCode(String code) {
-        this.code = code;
-    }
+	public void setCode(String code) {
+		this.code = code;
+	}
 
-    public String getProductType() {
-        return productType;
-    }
+	public String getProductType() {
+		return productType;
+	}
 
-    public void setProductType(String productType) {
-        this.productType = productType;
-    }
+	public void setProductType(String productType) {
+		this.productType = productType;
+	}
 
-    public String getCustomerId() {
-        return customerId;
-    }
+	public String getCustomerId() {
+		return customerId;
+	}
 
-    public void setCustomerId(String customerId) {
-        this.customerId = customerId;
-    }
+	public void setCustomerId(String customerId) {
+		this.customerId = customerId;
+	}
 
-    public List<String> getCodes() {
-        return codes;
-    }
+	public List<String> getCodes() {
+		return codes;
+	}
 
-    public void setCodes(List<String> codes) {
-        this.codes = codes;
-    }
+	public void setCodes(List<String> codes) {
+		this.codes = codes;
+	}
 }
