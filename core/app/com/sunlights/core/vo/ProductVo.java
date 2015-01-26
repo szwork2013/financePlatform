@@ -1,8 +1,7 @@
 package com.sunlights.core.vo;
 
-import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.sunlights.common.utils.CommonUtil;
-import com.sunlights.common.vo.StringNullSerialize;
 
 /**
  * <p>Project: fsp</p>
@@ -13,6 +12,7 @@ import com.sunlights.common.vo.StringNullSerialize;
  *
  * @author <a href="mailto:zhencai.yuan@sunlights.cc">yuanzhencai</a>
  */
+@JsonInclude(JsonInclude.Include.NON_EMPTY)
 public class ProductVo {
 	private Long id;
 	private String name;
