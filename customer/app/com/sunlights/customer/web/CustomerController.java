@@ -132,6 +132,7 @@ public class CustomerController extends Controller {
             CustomerVo customerVo = customerService.getCustomerVoByPhoneNo(mobilePhoneNo, deviceNo);
             MessageUtil.getInstance().setMessage(message, customerVo);
             customerService.sessionLoginSessionId(Controller.session(), Controller.response(), customerSession);
+            customerService.sessionPushRegId(request().getHeader(AppConst.HEADER_REGISTRATION_ID), customerSession.getCustomerId(), customerFormVo.getDeviceNo());
 
             MessageHeaderVo messageHeaderVo = new MessageHeaderVo(DictConst.PUSH_TYPE_4, null, customerSession.getCustomerId());
             list.add(messageHeaderVo);
@@ -139,7 +140,7 @@ public class CustomerController extends Controller {
         JsonNode json = MessageUtil.getInstance().toJson();
         Logger.info(">>login返回：" + json.toString());
 
-//        response().setHeader(AppConst.HEADER_MSG, MessageUtil.getInstance().setMessageHeader(list));
+        response().setHeader(AppConst.HEADER_MSG, MessageUtil.getInstance().setMessageHeader(list));
         return Controller.ok(json);
     }
 
@@ -187,7 +188,8 @@ public class CustomerController extends Controller {
             Logger.info("===============重置密码之后自动登录===========");
             // 自动登录
             loginService.saveLoginHistory(customer, deviceNo);
-            userSession = customerService.createCustomerSession(customer, Controller.request().remoteAddress());
+            userSession = customerService.createCustomerSession(customer, Controller.request().remoteAddress(), deviceNo);
+            customerService.sessionPushRegId(request().getHeader(AppConst.HEADER_REGISTRATION_ID), userSession.getCustomerId(), customerFormVo.getDeviceNo());
         }
         customerService.sessionLoginSessionId(Controller.session(), Controller.response(), userSession);
 
@@ -206,6 +208,8 @@ public class CustomerController extends Controller {
         Logger.debug(">>logout params：" + Json.toJson(form().bindFromRequest().data()));
         Http.Cookie cookie = Controller.request().cookie(AppConst.TOKEN);
         String token = cookie == null ? null : cookie.value();
+
+        Logger.info(">>token：" + token);
         CustomerFormVo customerFormVo = customerForm.bindFromRequest().get();
         String mobilePhoneNo = customerFormVo.getMobilePhoneNo();
         String deviceNo = customerFormVo.getDeviceNo();
@@ -242,6 +246,7 @@ public class CustomerController extends Controller {
             CustomerVo customerVo = customerService.getCustomerVoByPhoneNo(mobilePhoneNo, deviceNo);
             MessageUtil.getInstance().setMessage(message, customerVo);
             customerService.sessionLoginSessionId(Controller.session(), Controller.response(), customerSession);
+            customerService.sessionPushRegId(request().getHeader(AppConst.HEADER_REGISTRATION_ID), customerSession.getCustomerId(), customerFormVo.getDeviceNo());
             MessageHeaderVo messageHeaderVo = new MessageHeaderVo(DictConst.PUSH_TYPE_4, null, customerSession.getCustomerId());
             list.add(messageHeaderVo);
         }
@@ -250,7 +255,7 @@ public class CustomerController extends Controller {
         Logger.info("==========loginByges返回：" + json.toString());
 
 
-//        response().setHeader(AppConst.HEADER_MSG, MessageUtil.getInstance().setMessageHeader(list));
+        response().setHeader(AppConst.HEADER_MSG, MessageUtil.getInstance().setMessageHeader(list));
 
         return Controller.ok(json);
     }
@@ -296,7 +301,7 @@ public class CustomerController extends Controller {
         Http.Cookie cookie = request().cookie(AppConst.TOKEN);
         String token = cookie == null ? null : cookie.value();
         try {
-            //customerService.validateCustomerSession(request(),session(),response());
+            customerService.validateCustomerSession(request(),session(),response());
         } catch (Exception e) {
             Logger.error("还没登陆");
             token = null;

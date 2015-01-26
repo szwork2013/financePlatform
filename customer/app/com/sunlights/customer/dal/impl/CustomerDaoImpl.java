@@ -9,6 +9,7 @@ import com.sunlights.common.exceptions.ConverterException;
 import com.sunlights.common.utils.ConverterUtil;
 import com.sunlights.customer.dal.CustomerDao;
 import com.sunlights.customer.vo.CustomerVo;
+import com.sunlights.common.vo.MsgSettingVo;
 import models.*;
 import org.apache.commons.lang3.StringUtils;
 import play.Logger;
@@ -256,6 +257,41 @@ public class CustomerDaoImpl extends EntityBaseDao implements CustomerDao {
     public List<String> findAliasByCustomerId(String customerId) {
         return createNameQuery("findAliasByCustomerId", customerId).getResultList();
     }
+
+    @Override
+    public List<MsgSettingVo> findRegistrationIdsByCustomerId(String customerId) {
+        String sql = " SELECT distinct c.registration_id, c.device_no,c.customer_id, " +
+                "        CASE WHEN ( " +
+                "              SELECT cs.status " +
+                "              FROM c_customer_session cs " +
+                "              WHERE cs.customer_id = c.customer_id " +
+                "              AND cs.device_no = c.device_no " +
+                "               ORDER BY cs.create_time DESC " +
+                "               LIMIT 1 offset 0 " +
+                "           ) = 'Y' THEN 'Y' ELSE 'N' END AS loginStatus " +
+                "  FROM c_customer_msg_setting c " +
+                " WHERE c.push_open_status = 'Y' " +
+                "   and c.device_no is not null" +
+                "   and c.registration_id is not null " +
+                "   and c.customer_id = :customerId";
+
+
+        Logger.debug(">>findRegistrationIdsByCustomerId:" + sql);
+
+        Query query = em.createNativeQuery(sql);
+        query.setParameter("customerId", customerId);
+        List<Object[]> list = query.getResultList();
+
+        String keys = "registrationId,deviceNo,customerId,loginStatus";
+        return ConverterUtil.convert(keys, list, MsgSettingVo.class);
+    }
+
+    @Override
+    public CustomerMsgSetting findCustomerMsgSetting(String registrationId, String deviceNo) {
+        List<CustomerMsgSetting> list = createNameQuery("findSettingByRegIdAndDeviceNo", registrationId, deviceNo).getResultList();
+        return list.isEmpty() ? null : list.get(0);
+    }
+
 
     @Override
     public CustomerMsgSetting updateCustomerMsgSetting(CustomerMsgSetting customerMsgSetting) {

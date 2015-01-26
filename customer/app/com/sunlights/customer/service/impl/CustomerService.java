@@ -12,12 +12,14 @@ import com.sunlights.customer.dal.CustomerDao;
 import com.sunlights.customer.dal.impl.CustomerDaoImpl;
 import com.sunlights.customer.vo.CustomerVo;
 import models.Customer;
+import models.CustomerMsgSetting;
 import models.CustomerSession;
 import play.Logger;
 import play.cache.Cache;
 import play.mvc.Http;
 
 import java.sql.Timestamp;
+import java.text.MessageFormat;
 
 /**
  * <p>Project: fsp</p>
@@ -77,15 +79,15 @@ public class CustomerService {
      * @param customer
      * @return
      */
-    public CustomerSession createCustomerSession(Customer customer, String clientAddress) {
+    public CustomerSession createCustomerSession(Customer customer, String clientAddress, String deviceNo) {
         Timestamp currentTime = DBHelper.getCurrentTime();
         CustomerSession customerSession = new CustomerSession();
         customerSession.setCustomerId(customer.getCustomerId());
-        customerSession.setToken(new MD5Helper().encrypt(customer.getMobile() + customer.getDeviceNo() + currentTime));
+        customerSession.setToken(new MD5Helper().encrypt(customer.getMobile() + deviceNo + currentTime));
         customerSession.setClientAddress(clientAddress);
         customerSession.setCreateTime(currentTime);
         customerSession.setUpdateTime(currentTime);
-        customerSession.setDeviceNo(customer.getDeviceNo());
+        customerSession.setDeviceNo(deviceNo);
         customerDao.saveCustomerSession(customerSession);
 
         cacheSession(customerSession.getToken(), customerSession);
@@ -133,6 +135,48 @@ public class CustomerService {
         }
     }
 
+    /**
+     * 缓存 设置 推送registrationId
+     * @param registrationId
+     * @param customerId
+     */
+    public void sessionPushRegId(String registrationId, String customerId, String deviceNo){
+        Logger.info(MessageFormat.format(">>sessionPushRegId：registrationId={0}, customerId={1}, deviceNo = {2}", registrationId, customerId, deviceNo));
+        if (registrationId == null || customerId == null) {
+            return ;
+        }
+        long cacheTime = parameterService.getParameterNumeric(ParameterConst.CACHE_EXPIRY);
+        CustomerMsgSetting customerMsgSetting = null;
+        String preCustomerId = (String)Cache.get(AppConst.HEADER_REGISTRATION_ID + "_" + registrationId);
+        if (!customerId.equals(preCustomerId)) {
+            customerMsgSetting = customerDao.findCustomerMsgSetting(registrationId, deviceNo);
+            if (preCustomerId == null && customerMsgSetting != null && customerId.equals(customerMsgSetting.getCustomerId())) {//缓存超时失效查询数据库比对
+                Cache.set(AppConst.HEADER_REGISTRATION_ID + "_" + registrationId, customerId, (int) cacheTime * 60);
+                return ;
+            }
+
+            resetRegistrationId(customerMsgSetting, registrationId, customerId, deviceNo);
+        }
+
+        Cache.set(AppConst.HEADER_REGISTRATION_ID + "_" + registrationId, customerId, (int) cacheTime * 60);
+    }
+
+    private void resetRegistrationId(CustomerMsgSetting preCustomerMsgSetting, String registrationId, String customerId, String deviceNo) {
+        Timestamp currentTime = DBHelper.getCurrentTime();
+        if (preCustomerMsgSetting != null) {
+            preCustomerMsgSetting.setUpdateTime(currentTime);
+            preCustomerMsgSetting.setPushOpenStatus(AppConst.STATUS_INVALID);
+            customerDao.updateCustomerMsgSetting(preCustomerMsgSetting);
+        }
+
+        CustomerMsgSetting customerMsgSetting = new CustomerMsgSetting();
+        customerMsgSetting.setRegistrationId(registrationId);
+        customerMsgSetting.setCustomerId(customerId);
+        customerMsgSetting.setDeviceNo(deviceNo);
+        customerMsgSetting.setPushOpenStatus(AppConst.STATUS_VALID);
+        customerMsgSetting.setCreateTime(currentTime);
+        customerDao.createCustomerMsgSetting(customerMsgSetting);
+    }
 
     /**
      * 设置缓存

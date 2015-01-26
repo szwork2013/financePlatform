@@ -1,5 +1,6 @@
 package com.sunlights.customer.dal.impl;
 
+import com.google.common.collect.Lists;
 import com.sunlights.common.DictConst;
 import com.sunlights.common.dal.EntityBaseDao;
 import com.sunlights.common.utils.ConverterUtil;
@@ -28,15 +29,18 @@ public class MsgCenterDaoImpl extends EntityBaseDao implements MsgCenterDao{
     @Override
     public PushMessageVo findMessageRuleByCode(String ruleCode) {
         String sql = "SELECT pc.platform, pc.push_timed, mr.push_ind, mr.sms_ind, mr.msg_center_ind," +
-                    "        mr.id, mr.title, mr.content, mr.content_ext, mr.group_id " +
+                    "        mr.id, mr.title, mr.content, mr.content_ext, mr.group_id,mr.content_sms,mr.content_push " +
                     "  FROM c_message_push_config pc, " +
                     "       c_message_rule mr " +
                     " WHERE pc.id = mr.message_push_config_id" +
                     "   AND mr.status = 'Y'" +
                     "   AND pc.status = 'Y'" +
                     "   AND mr.code = ?1";
+
+        Logger.debug(sql);
+
         List<Object[]> list = createNativeQuery(sql, ruleCode);
-        String keys = "platform,pushTimed,pushInd,smsInd,msgCenterInd,messageRuleId,title,content,contentExt,groupId";
+        String keys = "platform,pushTimed,pushInd,smsInd,msgCenterInd,messageRuleId,title,content,contentExt,groupId,contentSms,contentPush";
         List<PushMessageVo> voList = ConverterUtil.convert(keys, list, PushMessageVo.class);
         return voList.isEmpty() ? null : voList.get(0);
     }
@@ -52,6 +56,16 @@ public class MsgCenterDaoImpl extends EntityBaseDao implements MsgCenterDao{
     }
 
     @Override
+    public MessageSmsTxn updateMessageSmsTxn(MessageSmsTxn messageSmsTxn) {
+        return update(messageSmsTxn);
+    }
+
+    @Override
+    public CustomerMsgPushTxn findCustomerMsgPushTxn(Long customerMsgPushTxnId) {
+        return find(CustomerMsgPushTxn.class, customerMsgPushTxnId);
+    }
+
+    @Override
     public CustomerMsgPushTxn createCustomerMsgPushTxn(CustomerMsgPushTxn customerMsgPushTxn) {
         return create(customerMsgPushTxn);
     }
@@ -59,6 +73,16 @@ public class MsgCenterDaoImpl extends EntityBaseDao implements MsgCenterDao{
     @Override
     public CustomerMsgPushTxn updateCustomerMsgPushTxn(CustomerMsgPushTxn customerMsgPushTxn) {
         return update(customerMsgPushTxn);
+    }
+
+    @Override
+    public MessagePushTxn findMessagePushTxn(Long messagePushTxnId) {
+        return find(MessagePushTxn.class, messagePushTxnId);
+    }
+
+    @Override
+    public void updateMessagePushTxn(MessagePushTxn messagePushTxn) {
+        update(messagePushTxn);
     }
 
     @Override
@@ -106,52 +130,50 @@ public class MsgCenterDaoImpl extends EntityBaseDao implements MsgCenterDao{
     @Override
     public List<MsgCenterVo> findMsgCenterVoListWithLogin(PageVo pageVo) {
         String customerId = (String)pageVo.get("customerId");
+        String deviceNo = (String)pageVo.get("deviceNo");
         String sql = " SELECT * FROM ( " + buildSendSmsSql() + " UNION " + buildSendPushSql() + ") t  ORDER BY t.create_time DESC";
 
         Logger.debug(sql);
 
         Query query = em.createNativeQuery(sql);
         query.setParameter("customerId", customerId);
+        query.setParameter("deviceNo", deviceNo);
         query.setFirstResult(pageVo.getIndex());
         query.setMaxResults(pageVo.getPageSize());
         List<Object[]> list = query.getResultList();
         String keys = "msgId,messageRuleId,title,summary,createTime,sendType,readInd";
         List<MsgCenterVo> msgCenterVoList = ConverterUtil.convert(keys, list, MsgCenterVo.class);
 
-        pageVo.setCount(getAllMsgCount(customerId));
+        pageVo.setCount(getAllMsgCount(customerId, deviceNo));
 
         return msgCenterVoList;
     }
 
-    private int getAllMsgCount(String customerId) {
-        String countSql =
-                "SELECT COUNT(1) " +
-                "FROM c_message_rule mr, " +
-                " (SELECT cpt.message_rule_id,cpt.id" +
-                "    FROM c_message_push_txn cpt" +
-                "   UNION " +
-                "  SELECT cmpt.message_rule_id,cmpt.id" +
-                "    FROM c_customer_msg_push_txn cmpt" +
-                "   WHERE cmpt.customer_id = :customerId" +
-                "   UNION " +
-                "  SELECT mst.message_rule_id,mst.id" +
-                "    FROM c_message_sms_txn mst, c_customer c" +
-                "   WHERE c.mobile = mst.mobile" +
-                "     AND c.customer_id = :customerId" +
-                " ) pt" +
-                " WHERE mr.id = pt.message_rule_id" +
-                " AND mr.msg_center_ind = 'Y'";
+    private int getAllMsgCount(String customerId, String deviceNo) {
+        String messagePushSql = "SELECT cpt.message_rule_id,cpt.id FROM c_message_push_txn cpt,c_message_rule mr " +
+                "where mr.id = cpt.message_rule_id and mr.msg_center_ind = 'Y'" +
+                "  AND cpt.create_time >= " + getRegisterTime() + " - case when mr.stay_day_ind = 'Y' then  interval '30 day' else interval '0 day' end ";
+        String customerPushTxnSql = "SELECT cmpt.message_rule_id,cmpt.id FROM c_customer_msg_push_txn cmpt,c_message_rule mr WHERE cmpt.customer_id = :customerId and mr.id = cmpt.message_rule_id AND mr.msg_center_ind = 'Y'";
+        String smsPushSql = " SELECT mst.message_rule_id,mst.id " +
+                            "   FROM c_message_sms_txn mst, c_customer c,c_message_rule mr " +
+                            "  WHERE c.mobile = mst.mobile " +
+                            "    AND c.customer_id = :customerId " +
+                            "    AND mr.id = mst.message_rule_id " +
+                            "    AND mr.push_ind = 'N'" +
+                            "    AND mr.msg_center_ind = 'Y'";
+        String countSql = "SELECT count(1) FROM (" + messagePushSql + " UNION " + customerPushTxnSql + " UNION " + smsPushSql + ") pt where 1 = 1";
 
         Logger.debug(countSql);
 
         Query query = em.createNativeQuery(countSql);
         query.setParameter("customerId", customerId);
+        query.setParameter("deviceNo", deviceNo);
         return Integer.valueOf(query.getSingleResult().toString());
     }
 
     private String buildSendSmsSql(){
         String sql =
-                "SELECT  mst.id, mst.message_rule_id, mst.title, substring(mst.content, 1, 30)||'...' AS summary" +
+                "SELECT  mst.id, mst.message_rule_id, mst.title, substring(mst.content, 1, 50)||'...' AS summary" +
                 "       , mst.create_time, 'FP.SEND.TYPE.1' AS send_type, 'Y'" +
                 "  FROM c_message_rule mr, c_message_sms_txn mst, c_customer c" +
                 " WHERE mr.id = mst.message_rule_id" +
@@ -164,40 +186,57 @@ public class MsgCenterDaoImpl extends EntityBaseDao implements MsgCenterDao{
     }
     private String buildSendPushSql(){
         String pushSql =
-                "SELECT cpt.id, cpt.message_rule_id, cpt.title, substring(cpt.content, 1, 30)||'...'  AS summary, cpt.create_time, 'FP.SEND.TYPE.2' AS send_type" +
+                "SELECT cpt.id, cpt.message_rule_id, cpt.title, substring(cpt.content, 1, 50)||'...'  AS summary, cpt.create_time, 'FP.SEND.TYPE.2' AS send_type" +
                 "  FROM c_message_push_txn cpt" +
                 " UNION " +
-                "SELECT cmpt.id, cmpt.message_rule_id, cmpt.title, substring(cmpt.content, 1, 30)||'...'  AS summary, cmpt.create_time, 'FP.SEND.TYPE.3' AS send_type" +
+                "SELECT cmpt.id, cmpt.message_rule_id, cmpt.title, substring(cmpt.content, 1, 50)||'...'  AS summary, cmpt.create_time, 'FP.SEND.TYPE.3' AS send_type" +
                 "  FROM c_customer_msg_push_txn cmpt" +
                 " WHERE cmpt.customer_id = :customerId";
 
         String sql =
                 " SELECT pt.id, pt.message_rule_id, pt.title, pt.summary, pt.create_time, pt.send_type, " +
-                "       CASE WHEN pt.id IN (SELECT rh.push_txn_id FROM c_customer_msg_read_history rh WHERE rh.customer_id = :customerId) THEN 'Y' ELSE 'N' END AS readInd" +
+                "       CASE WHEN pt.id IN (SELECT rh.push_txn_id FROM c_customer_msg_read_history rh WHERE rh.customer_id = :customerId or (rh.device_no = :deviceNo and rh.customer_id is null)) THEN 'Y' ELSE 'N' END AS readInd" +
                 "  FROM c_message_rule mr, (" + pushSql + ") pt" +
                 " WHERE mr.id = pt.message_rule_id" +
                 "   AND mr.msg_center_ind = 'Y'" +
+                "   AND pt.create_time >= " + getRegisterTime() + " - case when mr.stay_day_ind = 'Y' then  interval '30 day' else interval '0 day' end " +
                 "   AND mr.push_ind = 'Y'";
         return sql;
     }
 
+    private String getRegisterTime(){
+        String sql = " (select to_date(to_char(c.create_time,'yyyy-MM-dd'),'yyyy-MM-dd') " +
+                    "   from c_customer c,c_customer_msg_setting cms" +
+                    "  where cms.device_no = :deviceNo " +
+                    "    and cms.customer_id = c.customer_id" +
+                    "    and cms.push_open_status = 'Y' " +
+                    "    and cms.registration_id is not null limit 1 offset 0) ";
+        return sql;
+    } 
+
     @Override
     public List<MsgCenterVo> findMsgCenterVoList(PageVo pageVo) {
         String sql =
-                "  select cpt.id,cpt.message_rule_id,cpt.title,substring(cpt.content, 1, 30)||'...' AS summary,cpt.create_time,'FP.SEND.TYPE.2' " +
+                "  select cpt.id,cpt.message_rule_id,cpt.title,substring(cpt.content, 1, 50)||'...' AS summary,cpt.create_time,'FP.SEND.TYPE.2'||'' as sendType , " +
+                "         CASE WHEN cpt.id IN (SELECT rh.push_txn_id FROM c_customer_msg_read_history rh WHERE rh.device_no = :deviceNo) THEN 'Y' ELSE 'N' END AS readInd " +
                 "    from c_message_push_txn cpt ,c_message_rule mr " +
                 "   where mr.id = cpt.message_rule_id " +
-                "     and mr.msg_center_ind = 'Y'" +
-                "order by cpt.create_time desc";
+                "     and mr.msg_center_ind = 'Y' " +
+                "     and cpt.create_time >= " + getRegisterTime() + " - case when mr.stay_day_ind = 'Y' then  interval '30 day' else interval '0 day' end " +
+                " order by cpt.create_time desc";
         Query query = em.createNativeQuery(sql);
+        query.setParameter("deviceNo", pageVo.get("deviceNo"));
         query.setFirstResult(pageVo.getIndex());
         query.setMaxResults(pageVo.getPageSize());
+        Logger.debug(sql);
         List<Object[]> list = query.getResultList();
         String keys = "msgId,messageRuleId,title,summary,createTime,sendType,readInd";
         List<MsgCenterVo> msgCenterVoList = ConverterUtil.convert(keys, list, MsgCenterVo.class);
 
-        String countSql = "select count(1) from c_message_push_txn cpt ,c_message_rule mr where mr.id = cpt.message_rule_id and mr.msg_center_ind = 'Y'";
+        String countSql = "select count(1) from c_message_push_txn cpt ,c_message_rule mr where mr.id = cpt.message_rule_id and mr.msg_center_ind = 'Y'" +
+                        "  AND cpt.create_time >= " + getRegisterTime() + " - case when mr.stay_day_ind = 'Y' then  interval '30 day' else interval '0 day' end ";;
         query = em.createNativeQuery(countSql);
+        query.setParameter("deviceNo", pageVo.get("deviceNo"));
         pageVo.setCount(Integer.valueOf(query.getSingleResult().toString()));
 
         return msgCenterVoList;
@@ -227,30 +266,72 @@ public class MsgCenterDaoImpl extends EntityBaseDao implements MsgCenterDao{
     }
 
     @Override
-    public int countUnReadNum(String customerId) {
+    public CustomerMsgReadHistory findMsgReadHistory(String deviceNo, Long msgId, String customerId) {
+        List<CustomerMsgReadHistory> list = Lists.newArrayList();
+        String sql = null;
+        if (customerId == null) {
+            sql = "select c from CustomerMsgReadHistory c where c.deviceNo = :deviceNo and c.pushTxnId = :msgId and c.customerId is null";
+            Query query = em.createQuery(sql, CustomerMsgReadHistory.class);
+            query.setParameter("deviceNo", deviceNo);
+            query.setParameter("msgId", msgId);
+            list = query.getResultList();
+        }else{
+            sql = "select c from CustomerMsgReadHistory c where c.deviceNo = :deviceNo and c.pushTxnId = :msgId and c.customerId = :customerId";
+            Query query = em.createQuery(sql, CustomerMsgReadHistory.class);
+            query.setParameter("deviceNo", deviceNo);
+            query.setParameter("msgId", msgId);
+            query.setParameter("customerId", customerId);
+            list = query.getResultList();
+        }
+
+        return list.isEmpty() ? null : list.get(0);
+    }
+
+    @Override
+    public void updateMsgReadHistory(CustomerMsgReadHistory customerMsgReadHistory) {
+        update(customerMsgReadHistory);
+    }
+
+    @Override
+    public int countUnReadNum(String customerId, String deviceNo) {
         String countSql =
                 "SELECT COUNT(1) " +
                 "FROM c_message_rule mr, " +
                 " (SELECT cpt.message_rule_id,cpt.id" +
-                "    FROM c_message_push_txn cpt" +
+                "    FROM c_message_push_txn cpt, c_message_rule mr1" +
+                "   where mr1.id = cpt.message_rule_id " +
+                "     and cpt.create_time >= " + getRegisterTime() + " - case when mr1.stay_day_ind = 'Y' then  interval '30 day' else interval '0 day' end " +
                 "   UNION " +
                 "  SELECT cmpt.message_rule_id,cmpt.id" +
                 "    FROM c_customer_msg_push_txn cmpt" +
                 "   WHERE cmpt.customer_id = :customerId" +
-                "   UNION " +
-                "  SELECT mst.message_rule_id,mst.id" +
-                "    FROM c_message_sms_txn mst, c_customer c" +
-                "   WHERE c.mobile = mst.mobile" +
-                "     AND c.customer_id = :customerId" +
                 " ) pt" +
                 " WHERE mr.id = pt.message_rule_id" +
                 " AND mr.msg_center_ind = 'Y'" +
-                " AND pt.id NOT IN (SELECT mrh.push_txn_id FROM c_customer_msg_read_history mrh WHERE mrh.customer_id = :customerId)";
+                " AND pt.id NOT IN (SELECT mrh.push_txn_id FROM c_customer_msg_read_history mrh WHERE mrh.customer_id = :customerId or (mrh.device_no = :deviceNo and mrh.customer_id is null))";
 
         Logger.debug(countSql);
 
         Query query = em.createNativeQuery(countSql);
         query.setParameter("customerId", customerId);
+        query.setParameter("deviceNo", deviceNo);
+        return Integer.valueOf(query.getSingleResult().toString());
+    }
+
+    @Override
+    public int countUnReadNum(String deviceNo) {
+        String countSql =
+                "SELECT COUNT(1) " +
+                "  FROM c_message_rule mr, c_message_push_txn pt" +
+                " WHERE mr.id = pt.message_rule_id" +
+                "  AND mr.msg_center_ind = 'Y'" +
+                "  AND pt.id NOT IN (SELECT mrh.push_txn_id FROM c_customer_msg_read_history mrh WHERE mrh.device_no = :deviceNo)" +
+                "  and pt.create_time >= " + getRegisterTime() + " - case when mr.stay_day_ind = 'Y' then  interval '30 day' else interval '0 day' end ";
+
+        Logger.debug(countSql);
+
+        Query query = em.createNativeQuery(countSql);
+        query.setParameter("deviceNo", deviceNo);
         return Integer.valueOf(query.getSingleResult().toString());
     }
 

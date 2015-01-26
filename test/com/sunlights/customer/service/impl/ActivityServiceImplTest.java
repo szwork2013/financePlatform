@@ -4,13 +4,15 @@ import com.sunlights.customer.service.ActivityService;
 import org.junit.Test;
 import play.db.jpa.JPA;
 import play.libs.F;
+import play.test.WithApplication;
 
 import java.util.List;
 
-public class ActivityServiceImplTest extends play.test.WithApplication {
+public class ActivityServiceImplTest extends WithApplication {
 
     @Test
     public void testGetActivityTitles() throws Exception {
+
         JPA.withTransaction(new F.Callback0() {
             @Override
             public void invoke() throws Throwable {

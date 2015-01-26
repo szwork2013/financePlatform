@@ -17,7 +17,7 @@ import java.util.Date;
 public class MsgCenterDetailVo implements Serializable{
     private String title;
     private String content;
-    @JsonFormat(pattern = "yyyy-MM-dd HH:mm")
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm", timezone="GMT+8")
     private Date createTime;
 
     public String getTitle() {

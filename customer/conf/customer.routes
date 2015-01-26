@@ -8,7 +8,7 @@ POST        /savegespwd                @com.sunlights.customer.web.CustomerContr
 POST        /getusermstr               @com.sunlights.customer.web.CustomerController.getCustomerByMobilePhoneNo
 POST        /logout                    @com.sunlights.customer.web.CustomerController.logout
 
-POST        /hastoken                  @com.sunlights.customer.web.CustomerController.getToken
+GET        /hastoken                  @com.sunlights.customer.web.CustomerController.getToken
 
 #share
 POST        /activity/getqrcode        @com.sunlights.customer.web.ShareContorller.getQRcodeToByte
@@ -18,6 +18,8 @@ POST        /activity/share            @com.sunlights.customer.web.ShareContorll
 POST        /message/list              @com.sunlights.customer.web.MsgCenterController.findMsgCenterVoList
 POST        /message/detail            @com.sunlights.customer.web.MsgCenterController.findMsgCenterDetail
 POST        /message/unreadnum         @com.sunlights.customer.web.MsgCenterController.countUnReadNum
+POST        /message/enablepush        @com.sunlights.customer.web.MsgCenterController.enablePush
+POST        /message/disablepush       @com.sunlights.customer.web.MsgCenterController.disablePush
 
 
 #feedBack

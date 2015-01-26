@@ -64,10 +64,11 @@ public class ShuMiTradeController extends Controller{
 
         List<MessageHeaderVo> ActivityMessageHeaderVos = takeActivity(customerSession.getCustomerId(), tradeFormVo);
         tradeHeaderMsg.addAll(ActivityMessageHeaderVos);
-//        response().setHeader(AppConst.HEADER_MSG, MessageUtil.getInstance().setMessageHeader(tradeHeaderMsg));
+        response().setHeader(AppConst.HEADER_MSG, MessageUtil.getInstance().setMessageHeader(tradeHeaderMsg));
 
         return ok(MessageUtil.getInstance().toJson());
     }
+
 
     private List<MessageHeaderVo> takeActivity(String custNo, ShuMiTradeFormVo tradeFormVo) {
         Logger.debug("参加活动开始");
@@ -104,7 +105,28 @@ public class ShuMiTradeController extends Controller{
 
         Logger.debug(">>tradeRedeem return：" + MessageUtil.getInstance().toJson());
 
-//        response().setHeader(AppConst.HEADER_MSG, headerMsg);
+        response().setHeader(AppConst.HEADER_MSG, headerMsg);
+
+        return ok(MessageUtil.getInstance().toJson());
+    }
+
+    @With(MsgCenterAction.class)
+    public Result tradeQuickRedeem(){
+        Logger.info("----------tradeQuickRedeem start ------------");
+        Logger.debug(">>tradeQuickRedeem params：" + Json.toJson(form().bindFromRequest().data()));
+        customerService.validateCustomerSession(request(),session(),response());
+
+        String token = request().cookie(AppConst.TOKEN).value();
+        ShuMiTradeFormVo tradeFormVo = shuMiTradeFormVoForm.bindFromRequest().get();
+        Logger.debug("tradeFormVo:" + Json.toJson(tradeFormVo));
+
+        MessageUtil.getInstance().setMessage(new Message(MsgCode.TRADE_REDEEM_SUCCESS));
+
+        String headerMsg = shuMiTradeService.shuMiTradeRedeem(tradeFormVo, token);
+
+        Logger.debug(">>tradeQuickRedeem return：" + MessageUtil.getInstance().toJson());
+
+        response().setHeader(AppConst.HEADER_MSG, headerMsg);
 
         return ok(MessageUtil.getInstance().toJson());
     }

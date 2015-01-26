@@ -16,7 +16,6 @@ public class DepositInterestDaoImpl extends EntityBaseDao implements DepositInte
     @Override
     public DepositInterestVo findLatestDepositInterest() {
         List<DepositInterest> depositInterests = super.findAll(DepositInterest.class, "date", false);
-		System.out.println("[depositInterests]" + depositInterests.size());
 		return depositInterests.isEmpty() ? null : new DepositInterestVo(depositInterests.get(0));
     }
 }

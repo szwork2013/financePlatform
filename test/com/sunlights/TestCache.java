@@ -19,14 +19,13 @@ import java.util.List;
  * Created by Administrator on 2014/12/5.
  */
 public class TestCache extends WithApplication {
-
-    private String title;
-    private Activity activity;
-
+    private String title = "";
+    Activity activity = null;
     @Test
     public void testCache() {
 
         JPA.withTransaction(new F.Callback0() {
+
             @Override
             public void invoke() throws Throwable {
                 ActivityService activityService = new ActivityServiceImpl();
@@ -50,17 +49,19 @@ public class TestCache extends WithApplication {
                 String old = activitiesNew.get(0).getTitle();
                 Logger.info("不同事物里的值(不是缓存的) = " + old);
 
-                List<Activity> activitiesLater = (List<Activity>) Cache.get(ActivityConstant.ACTIVITY_INVITE_SCENE_CODE);
+                List<Activity> activitiesLater = (List<Activity>)Cache.get(ActivityConstant.ACTIVITY_INVITE_SCENE_CODE);
                 String titleLater = activitiesLater.get(0).getTitle();
 
                 Logger.info(" : 从不同事物中的缓存中cache = " + titleLater);
                 Assertions.assertThat(titleLater).isEqualTo(title);
             }
         });
+
     }
 
     @Test
     public void testCacheable() {
+
 
         JPA.withTransaction(new F.Callback0() {
             @Override
@@ -70,6 +71,8 @@ public class TestCache extends WithApplication {
                 activity = activities.get(0);
                 title = activities.get(0).getTitle();
                 Logger.info("缓存到内存场景活动 = " + title);
+
+
             }
         });
 
@@ -103,6 +106,7 @@ public class TestCache extends WithApplication {
                 JPA.em().createNativeQuery(sql).executeUpdate();
             }
         });
+
     }
 
     @Test
@@ -123,7 +127,7 @@ public class TestCache extends WithApplication {
         });
 
         Long start = System.currentTimeMillis();
-        for (int i = 0; i < 10000; i++) {
+        for(int i = 0; i < 10000; i++) {
             JPA.withTransaction(new F.Callback0() {
                 @Override
                 public void invoke() throws Throwable {

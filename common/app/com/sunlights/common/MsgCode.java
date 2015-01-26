@@ -16,7 +16,7 @@ public enum MsgCode {
 
     OPERATE_SUCCESS("0000", "操作成功",""),
     CONVERTER_FAIL("0004", "模型转换错误"),
-    ACCESS_FAIL("2001", "访问失败", "传入参数'{0}'不能为空"),
+    ACCESS_FAIL("2001", "访问失败", "传入参数不能为空"),
     LOGIN_TIMEOUT("2002","登录超时", "请重新登录"),
     MISSING_PARAM_CONFIG("2003", "参数未配置", "参数编码：{0}"),
     PARAM_IS_NOT_NUMBER("2004", "参数不是数字类型", "参数编码：{0}"),
@@ -52,6 +52,8 @@ public enum MsgCode {
     SEARCH_FAIL_PROTOCOL_NONE("2301","查询失败","没有该协议"),
     SEARCH_FAIL_TYPE_EMPTY("2401", "查询失败", "类型不能为空"),
     SEARCH_FAIL_PRODUCT_DETAIL("2402", "查询产品详情失败", "请重新查询"),
+    NOT_EXISTED_PRODUCT("2403", "未查询到此产品", "该产品为其他商户产品"),
+	SEARCH_CODES_NOT_NULL("2404", "查询失败", "产品代码不能为空"),
     SEARCH_FAIL_FUND_CATEGORY_EMPTY("2403", "查询失败", "基金种类不能为空"),
     BANK_CARD_ADD_SUCCESS("0210","操作成功","银行卡添加成功"),
     BANK_CARD_DELETE_SUCCESS("0211","操作成功","银行卡删除成功"),
@@ -63,6 +65,8 @@ public enum MsgCode {
     BIND_CARD_FAIL_EMPTY_BANK("2215","绑卡失败","银行不能为空"),
     BANK_CARD_NOT_BINGING("2216", "未绑卡银行卡"),
     SAVE_SHUMI_ACCOUNT_SUCCESS("0217", "数米信息保存成功"),
+    ENABLE_PUSH_SUCCESS("0218", "推送开启成功"),
+    DISABLE_PUSH_SUCCESS("0219", "推送关闭成功"),
 
 
     TRADE_ORDER_SUCCESS("0400", "下单成功"),

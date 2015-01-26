@@ -3,9 +3,7 @@ package com.sunlights.customer.action;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.google.common.collect.Lists;
 import com.sunlights.common.AppConst;
-import com.sunlights.common.Severity;
 import com.sunlights.common.exceptions.BusinessRuntimeException;
-import com.sunlights.common.vo.Message;
 import com.sunlights.common.vo.MessageHeaderVo;
 import com.sunlights.customer.service.impl.CustomerService;
 import models.CustomerSession;
@@ -40,11 +38,7 @@ public class MsgCenterAction extends Action.Simple{
                 return result;
             }
             JsonNode messageJsonNode = Json.parse(headerMsg).get("message");
-            if (messageJsonNode == null) {
-                return result;
-            }
-            Message message = Json.fromJson(messageJsonNode, Message.class);
-            if (Severity.INFO.getLevel() != message.getSeverity()) {
+            if (messageJsonNode == null || messageJsonNode.asInt() != 0) {
                 return result;
             }
 
@@ -74,6 +68,7 @@ public class MsgCenterAction extends Action.Simple{
                         throw new BusinessRuntimeException(">>无效的token,非法入侵！");
                     }
                     MsgCenterActionService msgService = new MsgCenterActionService();
+                    Logger.info(">>开始查询待发消息>>");
                     msgService.sendMsg(routeActionMethod, messageHeaderVoList);
                 }
             });

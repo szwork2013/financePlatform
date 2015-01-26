@@ -88,7 +88,7 @@ public class IdentityService {
                 MessageUtil.getInstance().setMessage(new Message(MsgCode.CERTIFY_SUCCESS), customerVo);
             }
 
-            customerSession = customerService.createCustomerSession(customer, remoteAddress);
+            customerSession = customerService.createCustomerSession(customer, remoteAddress, deviceNo);
         }
 
         return customerSession;

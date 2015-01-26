@@ -28,6 +28,7 @@ public class CommonServiceTest extends WithApplication {
 
     @Test
     public void testFindDictsByCat() throws Exception {
+
         JPA.withTransaction(new play.libs.F.Callback0() {
             public void invoke() {
                 CommonService commonService = new CommonService();

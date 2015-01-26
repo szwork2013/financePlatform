@@ -3,7 +3,7 @@ package com.sunlights.customer.service;
 import com.sunlights.common.vo.PageVo;
 import com.sunlights.customer.vo.MsgCenterDetailVo;
 import com.sunlights.customer.vo.MsgCenterVo;
-import models.CustomerMsgSetting;
+import models.CustomerMsgReadHistory;
 
 import java.util.List;
 
@@ -27,14 +27,22 @@ public interface MsgCenterService {
     public List<MsgCenterVo> findMsgCenterVoList(PageVo pageVo);
 
     public MsgCenterDetailVo findMsgCenterDetail(Long msgId, String sendType);
-    public void createMsgReadHistory(String customerId, Long msgId, String sendType);
+    public void saveMsgReadHistory(CustomerMsgReadHistory customerMsgReadHistory);
 
     /**
      * 未读数量记录
      * @return
      */
-    public int countUnReadNum(String customerId);
+    public int countUnReadNum(String customerId, String deviceNo);
 
-    public CustomerMsgSetting saveCustomerMsgSetting(String customerId, String alias);
+    /**
+     * 推送信息设置
+     * @param registrationId
+     * @param deviceNo
+     * @return
+     */
+    public void enablePush(String registrationId, String deviceNo);
+    public void disablePush(String registrationId, String deviceNo);
+
 
 }

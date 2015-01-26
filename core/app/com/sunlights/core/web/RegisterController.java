@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.google.common.collect.Lists;
 import com.sunlights.account.service.AccountService;
 import com.sunlights.account.service.impl.AccountServiceImpl;
+import com.sunlights.common.AppConst;
 import com.sunlights.common.DictConst;
 import com.sunlights.common.MsgCode;
 import com.sunlights.common.utils.MessageUtil;
@@ -77,12 +78,15 @@ public class RegisterController extends Controller {
         Customer customer = loginService.register(customerFormVo);
         List<MessageHeaderVo> list = Lists.newArrayList();
 
+        String deviceNo = customerFormVo.getDeviceNo();
+
         if (customer != null) {
-            CustomerSession customerSession = customerService.createCustomerSession(customer, Controller.request().remoteAddress());
+            CustomerSession customerSession = customerService.createCustomerSession(customer, Controller.request().remoteAddress(), deviceNo);
             customerService.sessionLoginSessionId(Controller.session(), Controller.response(), customerSession);
+            customerService.sessionPushRegId(request().getHeader(AppConst.HEADER_REGISTRATION_ID), customerSession.getCustomerId(), deviceNo);
             accountService.createBaseAccount(customer.getCustomerId(), null);
             Message message = new Message(MsgCode.REGISTRY_SUCCESS);
-            CustomerVo customerVo = customerService.getCustomerVoByPhoneNo(customer.getMobile(), customerFormVo.getDeviceNo());
+            CustomerVo customerVo = customerService.getCustomerVoByPhoneNo(customer.getMobile(), deviceNo);
             MessageUtil.getInstance().setMessage(message, customerVo);
 
             MessageHeaderVo messageHeaderVo = new MessageHeaderVo(DictConst.PUSH_TYPE_4, null, customer.getCustomerId());
@@ -93,7 +97,7 @@ public class RegisterController extends Controller {
 
         Logger.debug(">>register return：" + json.toString());
         Controller.response().setHeader("Access-Control-Allow-Origin","*");
-//        Controller.response().setHeader(AppConst.HEADER_MSG, MessageUtil.getInstance().setMessageHeader(list));
+        Controller.response().setHeader(AppConst.HEADER_MSG, MessageUtil.getInstance().setMessageHeader(list));
 
         return Controller.ok(json);
     }

@@ -12,12 +12,16 @@ import com.sunlights.customer.service.impl.CustomerService;
 import com.sunlights.customer.service.impl.MsgCenterServiceImpl;
 import com.sunlights.customer.vo.MsgCenterDetailVo;
 import com.sunlights.customer.vo.MsgCenterVo;
+import models.CustomerMsgReadHistory;
 import models.CustomerSession;
+import play.Logger;
 import play.data.Form;
 import play.db.jpa.Transactional;
+import play.libs.Json;
 import play.mvc.Controller;
 import play.mvc.Result;
 
+import java.text.MessageFormat;
 import java.util.List;
 import java.util.Map;
 
@@ -39,19 +43,30 @@ public class MsgCenterController extends Controller{
     private CustomerService customerService = new CustomerService();
     
     public Result findMsgCenterVoList(){
+        Logger.info(">>findMsgCenterVoList params：" + Json.toJson(form().bindFromRequest().data()));
         List<MsgCenterVo> list = Lists.newArrayList();
         
         PageVo pageVo = pageVoForm.bindFromRequest().get();
         if (pageVo == null) {
             pageVo = new PageVo();
         }
+
+        String deviceNo = request().getHeader(AppConst.HEADER_DEVICE);
+        Logger.info(">>deviceNo:" + deviceNo);
+        pageVo.put("deviceNo", deviceNo);
+
+        CommonUtil.getInstance().validateParams(deviceNo);
+
         String customerId = null;
         if (request().cookie(AppConst.TOKEN) != null && request().cookie(AppConst.TOKEN).value() != null) {
-            CustomerSession customerSession = customerService.validateCustomerSession(request(), session(), response());
-            customerId = customerSession.getCustomerId();
-            pageVo.put("customerId", customerId);
-            list =  msgCenterService.findMsgCenterVoListWithLogin(pageVo);
-        }else{
+            CustomerSession customerSession = customerService.getCustomerSession(request().cookie(AppConst.TOKEN).value());
+            if (customerSession != null) {
+                customerId = customerSession.getCustomerId();
+                pageVo.put("customerId", customerId);
+                list =  msgCenterService.findMsgCenterVoListWithLogin(pageVo);
+            }
+        }
+        if (customerId == null) {
             list =  msgCenterService.findMsgCenterVoList(pageVo);
         }
 
@@ -59,35 +74,98 @@ public class MsgCenterController extends Controller{
         pageVo.getFilter().clear();
 
         MessageUtil.getInstance().setMessage(new Message(MsgCode.OPERATE_SUCCESS), pageVo);
+
+        Logger.info(">>findMsgCenterVoList return：" + MessageUtil.getInstance().toJson());
         return ok(MessageUtil.getInstance().toJson());
     }
     
     public Result findMsgCenterDetail(){
-        CustomerSession customerSession = customerService.validateCustomerSession(request(), session(), response());
-        String customerId = customerSession.getCustomerId();
+        Logger.info(">>findMsgCenterDetail params：" + Json.toJson(form().bindFromRequest().data()));
+
+        String customerId = null;
+        if (request().cookie(AppConst.TOKEN) != null && request().cookie(AppConst.TOKEN).value() != null) {
+            CustomerSession customerSession = customerService.getCustomerSession(request().cookie(AppConst.TOKEN).value());
+            if (customerSession != null) {
+                customerId = customerSession.getCustomerId();
+            }
+        }
+        String deviceNo = request().getHeader(AppConst.HEADER_DEVICE);
+        Logger.info(">>deviceNo:" + deviceNo);
 
         Map<String,String> params = form().bindFromRequest().data();
         String msgIdStr = params.get("msgId");
         String sendType = params.get("sendType");
-        CommonUtil.getInstance().validateParams(msgIdStr, sendType);
+        CommonUtil.getInstance().validateParams(msgIdStr, sendType, deviceNo);
 
         Long msgId = Long.valueOf(msgIdStr);
 
         MsgCenterDetailVo msgCenterDetailVo = msgCenterService.findMsgCenterDetail(msgId, sendType);
 
-        msgCenterService.createMsgReadHistory(customerId, msgId, sendType);
+        CustomerMsgReadHistory customerMsgReadHistory = new CustomerMsgReadHistory();
+        customerMsgReadHistory.setCustomerId(customerId);
+        customerMsgReadHistory.setPushTxnId(msgId);
+        customerMsgReadHistory.setSendType(sendType);
+        customerMsgReadHistory.setDeviceNo(deviceNo);
+        msgCenterService.saveMsgReadHistory(customerMsgReadHistory);
 
         MessageUtil.getInstance().setMessage(new Message(MsgCode.OPERATE_SUCCESS), msgCenterDetailVo);
+
+        Logger.info(">>findMsgCenterDetail return：" + MessageUtil.getInstance().toJson());
         return ok(MessageUtil.getInstance().toJson());
     }
 
     public Result countUnReadNum(){
-        CustomerSession customerSession = customerService.validateCustomerSession(request(), session(), response());
-        String customerId = customerSession.getCustomerId();
+        Logger.info(">>countUnReadNum params：" + Json.toJson(form().bindFromRequest().data()));
 
-        int unReadNum = msgCenterService.countUnReadNum(customerId);
+        String customerId = null;
+        if (request().cookie(AppConst.TOKEN) != null && request().cookie(AppConst.TOKEN).value() != null) {
+            CustomerSession customerSession = customerService.getCustomerSession(request().cookie(AppConst.TOKEN).value());
+            if (customerSession != null) {
+                customerId = customerSession.getCustomerId();
+            }
+        }
+        String deviceNo = request().getHeader(AppConst.HEADER_DEVICE);
+        Logger.info(">>deviceNo:" + deviceNo);
+
+        CommonUtil.getInstance().validateParams(deviceNo);
+
+        int unReadNum = msgCenterService.countUnReadNum(customerId, deviceNo);
 
         MessageUtil.getInstance().setMessage(new Message(MsgCode.OPERATE_SUCCESS), unReadNum);
+
+        Logger.info(">>countUnReadNum return：" + MessageUtil.getInstance().toJson());
+        return ok(MessageUtil.getInstance().toJson());
+    }
+
+    public Result enablePush(){
+        String registrationId = request().getHeader(AppConst.HEADER_REGISTRATION_ID);
+        String deviceNo = request().getHeader(AppConst.HEADER_DEVICE);
+
+        Logger.info(MessageFormat.format(">>enablePush params：registrationId={0}, deviceNo = {1}", registrationId, deviceNo));
+
+        CommonUtil.getInstance().validateParams(registrationId, deviceNo);
+
+        msgCenterService.enablePush(registrationId, deviceNo);
+
+        MessageUtil.getInstance().setMessage(new Message(MsgCode.ENABLE_PUSH_SUCCESS));
+
+        Logger.info(">>enablePush return：" + MessageUtil.getInstance().toJson());
+        return ok(MessageUtil.getInstance().toJson());
+    }
+
+    public Result disablePush(){
+        String registrationId = request().getHeader(AppConst.HEADER_REGISTRATION_ID);
+        String deviceNo = request().getHeader(AppConst.HEADER_DEVICE);
+
+        Logger.info(MessageFormat.format(">>enablePush params：registrationId={0}, deviceNo = {1}", registrationId, deviceNo));
+
+        CommonUtil.getInstance().validateParams(registrationId, deviceNo);
+
+        msgCenterService.disablePush(registrationId, deviceNo);
+
+        MessageUtil.getInstance().setMessage(new Message(MsgCode.DISABLE_PUSH_SUCCESS));
+
+        Logger.info(">>disablePush return：" + MessageUtil.getInstance().toJson());
         return ok(MessageUtil.getInstance().toJson());
     }
     

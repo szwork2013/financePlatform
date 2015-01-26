@@ -25,6 +25,12 @@ public class MessageRule extends IdEntity {
     private String content;
     @Column(name = "content_ext")
     private String contentExt;
+
+    @Column(name = "content_sms")
+    private String contentSms;
+    @Column(name = "content_push")
+    private String contentPush;
+
     @Column(name = "group_id")
     private Long groupId;//每次推送时，此次要推送到的群发组。空值表示推送全部人
     @Column(name = "sms_ind", length = 1)
@@ -154,5 +160,21 @@ public class MessageRule extends IdEntity {
 
     public void setGroupId(Long groupId) {
         this.groupId = groupId;
+    }
+
+    public String getContentSms() {
+        return contentSms;
+    }
+
+    public void setContentSms(String contentSms) {
+        this.contentSms = contentSms;
+    }
+
+    public String getContentPush() {
+        return contentPush;
+    }
+
+    public void setContentPush(String contentPush) {
+        this.contentPush = contentPush;
     }
 }

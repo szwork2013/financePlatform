@@ -4,14 +4,12 @@ import com.sunlights.common.AppConst;
 import com.sunlights.common.ParameterConst;
 import com.sunlights.common.service.ParameterService;
 import com.sunlights.common.utils.DBHelper;
+import com.sunlights.customer.action.MsgCenterActionService;
 import com.sunlights.customer.dal.MsgCenterDao;
 import com.sunlights.customer.dal.impl.MsgCenterDaoImpl;
 import models.MessageRule;
 import models.MessageSmsTxn;
 import play.Logger;
-import play.Play;
-import play.libs.Json;
-import play.libs.ws.WS;
 
 import java.sql.Timestamp;
 import java.text.MessageFormat;
@@ -32,6 +30,7 @@ public class SmsMessageService {
     private static String VERIFY_CODE = "VERIFY_CODE";
     private ParameterService parameterService = new ParameterService();
     private MsgCenterDao msgCenterDao = new MsgCenterDaoImpl();
+    private MsgCenterActionService msgCenterActionService = new MsgCenterActionService();
 
     /**
      * 发送手机短信
@@ -43,8 +42,7 @@ public class SmsMessageService {
     public void sendSms(String mobilePhoneNo, String verifyCode, String type) {
         MessageSmsTxn smsMessage = createMessageSmsTxn(mobilePhoneNo, verifyCode, type);
 
-        String pushUrl = Play.application().configuration().getString("sms_url");
-        WS.url(pushUrl).post(Json.toJson(smsMessage));
+        msgCenterActionService.executeSmsWS(smsMessage);
     }
 
 
@@ -65,19 +63,17 @@ public class SmsMessageService {
         }
         String mobileDisplayNo = mobilePhoneNo.substring(0, 3) + "****" + mobilePhoneNo.substring(7);
         long expiryTimes = parameterService.getParameterNumeric(ParameterConst.VERIFYCODE_EXPIRY);
-        String content = MessageFormat.format(messageRule.getContent(), mobileDisplayNo, typeStr, verifyCode, expiryTimes);
+        String contentSms = MessageFormat.format(messageRule.getContentSms(), mobileDisplayNo, typeStr, verifyCode, expiryTimes);
 
         Timestamp currentTime = DBHelper.getCurrentTime();
         MessageSmsTxn messageSmsTxn = new MessageSmsTxn();
         messageSmsTxn.setMessageRuleId(messageRule.getId());
         messageSmsTxn.setMobile(mobilePhoneNo);
         messageSmsTxn.setSmsId(getSmsId());
-        messageSmsTxn.setContent(content);
+        messageSmsTxn.setContent(contentSms);
         messageSmsTxn.setTitle(messageRule.getTitle());
         messageSmsTxn.setCreateTime(currentTime);
-
-        msgCenterDao.createMessageSmsTxn(messageSmsTxn);
-
+//        msgCenterDao.createMessageSmsTxn(messageSmsTxn);
         return messageSmsTxn;
     }
 

@@ -1,14 +1,5 @@
 package com.sunlights.core.web;
 
-import models.CustomerSession;
-import play.Logger;
-import play.data.Form;
-import play.db.jpa.Transactional;
-import play.libs.Json;
-import play.mvc.Controller;
-import play.mvc.Http;
-import play.mvc.Result;
-
 import com.fasterxml.jackson.databind.JsonNode;
 import com.sunlights.account.service.AccountService;
 import com.sunlights.account.service.impl.AccountServiceImpl;
@@ -25,6 +16,14 @@ import com.sunlights.core.service.impl.SmsMessageService;
 import com.sunlights.customer.service.impl.CustomerService;
 import com.sunlights.customer.vo.CustomerFormVo;
 import com.sunlights.customer.vo.CustomerVo;
+import models.CustomerSession;
+import play.Logger;
+import play.data.Form;
+import play.db.jpa.Transactional;
+import play.libs.Json;
+import play.mvc.Controller;
+import play.mvc.Http;
+import play.mvc.Result;
 
 import static play.data.Form.form;
 

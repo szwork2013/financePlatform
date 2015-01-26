@@ -1,16 +1,16 @@
 package com.sunlights.account.web;
 
 import com.sunlights.BaseTest;
+
+
 import com.sunlights.common.MsgCode;
 import com.sunlights.common.vo.MessageVo;
 import com.sunlights.common.vo.PageVo;
 import com.sunlights.customer.ActivityConstant;
 import com.sunlights.customer.service.impl.CustJoinActivityServiceImpl;
-import com.sunlights.customer.vo.ActivityVo;
-import com.sunlights.customer.vo.ExchangeResultVo;
-import com.sunlights.customer.vo.ObtainRewardVo;
-import com.sunlights.customer.vo.TradeObtainRewardFailVo;
+import com.sunlights.customer.vo.*;
 import models.CustJoinActivity;
+import org.junit.Before;
 import org.junit.Test;
 import play.Logger;
 import play.db.jpa.JPA;
@@ -24,50 +24,45 @@ import java.util.Map;
 
 import static org.fest.assertions.Assertions.assertThat;
 import static play.mvc.Http.Status.OK;
-import static play.test.Helpers.contentAsString;
-import static play.test.Helpers.status;
+import static play.test.Helpers.*;
 
 public class ActivityControllerTest extends BaseTest {
     private static Http.Cookie cookie;
 
-    //@Before
+    @Before
     public void getCookie() {
         super.startPlay();
-        final String mobilePhoneNo = "15221368612";
-        final String password = "111111";
+        final String mobilePhoneNo = "13811599308";
+        final String password = "1";
+
         cookie = getCookieAfterLogin(mobilePhoneNo, password);
 
     }
 
     @Test
-    public void testSignInObtainReward() {
+    public void testSignInObtainReward() throws Exception {
 
-        Logger.info("============testSignInObtainReward start====");
-        JPA.withTransaction(new F.Callback0() {
-            @Override
-            public void invoke() throws Throwable {
-                Map<String, String> formParams = new HashMap<String, String>();
-                play.mvc.Result result = null;
-                com.sunlights.customer.service.CustJoinActivityService custJoinActivityService = new CustJoinActivityServiceImpl();
 
-                CustJoinActivity custJoinActivity = custJoinActivityService.getTodayRecordByCustAndActivity("20150105103148010000000067", null, ActivityConstant.ACTIVITY_SIGNIN_SCENE_CODE);
-                //2:签到获取金豆正常测试
-                formParams = new HashMap<String, String>();
-                formParams.put("scene", ActivityConstant.ACTIVITY_SIGNIN_SCENE_CODE);
-                result = getResult("/account/activity/signin", formParams, cookie);
-                assertThat(status(result)).isEqualTo(OK);
+        Map<String, String> formParams = new HashMap<String, String>();
+        play.mvc.Result result = null;
+        com.sunlights.customer.service.CustJoinActivityService custJoinActivityService = new CustJoinActivityServiceImpl();
 
-                final MessageVo message = toMessageVo(result);
+        CustJoinActivity custJoinActivity = custJoinActivityService.getTodayRecordByCustAndActivity("20150105103148010000000067", null, ActivityConstant.ACTIVITY_SIGNIN_SCENE_CODE);
+        //2:签到获取金豆正常测试
+        formParams = new HashMap<String, String>();
+        formParams.put("scene", ActivityConstant.ACTIVITY_SIGNIN_SCENE_CODE);
+        result = getResult("/account/activity/signin", formParams, cookie);
+        assertThat(status(result)).isEqualTo(OK);
 
-                if (custJoinActivity != null) {
-                    assertThat(message.getMessage().getCode()).isEqualTo(MsgCode.ALREADY_SIGN.getCode());
-                } else {
-                    assertThat(message.getMessage().getCode()).isEqualTo(MsgCode.OBTAIN_SUCC.getCode());
-                }
+        final MessageVo message = toMessageVo(result);
 
-                Logger.info("============testSignInObtainReward result====\n" + contentAsString(result));
-            }
-        });
+        if (custJoinActivity != null) {
+            assertThat(message.getMessage().getCode()).isEqualTo(MsgCode.ALREADY_SIGN.getCode());
+        } else {
+            assertThat(message.getMessage().getCode()).isEqualTo(MsgCode.OBTAIN_SUCC.getCode());
+        }
+
+        Logger.info("============testSignInObtainReward result====\n" + contentAsString(result));
 
 
     }
@@ -109,7 +104,7 @@ public class ActivityControllerTest extends BaseTest {
     }
 
 
-    //@Test
+    @Test
     public void testRegisterObtainReward() {
 
         JPA.withTransaction(new F.Callback0() {
@@ -139,7 +134,7 @@ public class ActivityControllerTest extends BaseTest {
                     e.printStackTrace();
                 }
                 MessageVo testMessage = toMessageVo(testString);
-                assertThat(testMessage).isEqualTo(message);//此处判断message
+                assertThat(testMessage.getMessage()).isEqualTo(message.getMessage());//此处判断message
                 ObtainRewardVo testObtainRewardVo = Json.fromJson(Json.toJson(testMessage.getValue()), ObtainRewardVo.class);
                 ObtainRewardVo obtainRewardVo = Json.fromJson(Json.toJson(message.getValue()), ObtainRewardVo.class);
                 assertThat(testObtainRewardVo).isEqualTo(obtainRewardVo);//此处判断value
@@ -157,7 +152,7 @@ public class ActivityControllerTest extends BaseTest {
 
     }
 
-    //@Test
+    @Test
     public void testPurchaseObtainReward() {
 
         Logger.info("============testPurchaseObtainReward start====");
@@ -166,7 +161,6 @@ public class ActivityControllerTest extends BaseTest {
             public void invoke() throws Throwable {
                 Map<String, String> formParams = new HashMap<String, String>();
                 play.mvc.Result result = null;
-
 
                 com.sunlights.customer.service.CustJoinActivityService custJoinActivityService = new CustJoinActivityServiceImpl();
                 CustJoinActivity custJoinActivity = custJoinActivityService.getByCustAndActivity("20141206134951010000000044", null, ActivityConstant.ACTIVITY_FIRST_PURCHASE_SCENE_CODE);
@@ -190,7 +184,7 @@ public class ActivityControllerTest extends BaseTest {
                     e.printStackTrace();
                 }
                 MessageVo testMessage = toMessageVo(testString);
-                assertThat(testMessage).isEqualTo(message);//此处判断message
+                assertThat(testMessage.getMessage()).isEqualTo(message.getMessage());//此处判断message
                 TradeObtainRewardFailVo testObtainRewardVo = Json.fromJson(Json.toJson(testMessage.getValue()), TradeObtainRewardFailVo.class);
                 TradeObtainRewardFailVo obtainRewardVo = Json.fromJson(Json.toJson(message.getValue()), TradeObtainRewardFailVo.class);
                 assertThat(testObtainRewardVo).isEqualTo(obtainRewardVo);//此处判断value

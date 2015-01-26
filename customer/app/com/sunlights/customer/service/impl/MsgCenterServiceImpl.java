@@ -1,5 +1,6 @@
 package com.sunlights.customer.service.impl;
 
+import com.sunlights.common.AppConst;
 import com.sunlights.common.utils.DBHelper;
 import com.sunlights.common.vo.PageVo;
 import com.sunlights.customer.dal.CustomerDao;
@@ -28,6 +29,7 @@ public class MsgCenterServiceImpl implements MsgCenterService {
 
     private CustomerDao customerDao = new CustomerDaoImpl();
     private MsgCenterDao msgCenterDao = new MsgCenterDaoImpl();
+    private CustomerService customerService = new CustomerService();
 
     @Override
     public List<MsgCenterVo> findMsgCenterVoListWithLogin(PageVo pageVo) {
@@ -45,33 +47,50 @@ public class MsgCenterServiceImpl implements MsgCenterService {
     }
 
     @Override
-    public void createMsgReadHistory(String customerId, Long msgId, String sendType) {
+    public void saveMsgReadHistory(CustomerMsgReadHistory customerMsgReadHistory) {
+        CustomerMsgReadHistory history = msgCenterDao.findMsgReadHistory(customerMsgReadHistory.getDeviceNo(), customerMsgReadHistory.getPushTxnId(), customerMsgReadHistory.getCustomerId());
         Timestamp currentTime = DBHelper.getCurrentTime();
-        CustomerMsgReadHistory customerMsgReadHistory = new CustomerMsgReadHistory();
-        customerMsgReadHistory.setCustomerId(customerId);
-        customerMsgReadHistory.setPushTxnId(msgId);
-        customerMsgReadHistory.setSendType(sendType);
-        customerMsgReadHistory.setCreateTime(currentTime);
-        customerMsgReadHistory.setReadTime(currentTime);
-        msgCenterDao.createMsgReadHistory(customerMsgReadHistory);
+        if (history == null) {//设备未读的  保存
+            customerMsgReadHistory.setCreateTime(currentTime);
+            customerMsgReadHistory.setReadTime(currentTime);
+            msgCenterDao.createMsgReadHistory(customerMsgReadHistory);
+        }
     }
 
 
     @Override
-    public int countUnReadNum(String customerId) {
-        return msgCenterDao.countUnReadNum(customerId);
+    public int countUnReadNum(String customerId, String deviceNo) {
+        if (customerId != null) {
+            return msgCenterDao.countUnReadNum(customerId, deviceNo);
+        }else{
+            return msgCenterDao.countUnReadNum(deviceNo);
+        }
     }
 
     @Override
-    public CustomerMsgSetting saveCustomerMsgSetting(String customerId, String alias) {
-//        List<String> aliasList = customerDao.findAliasByCustomerId(customerId);
-//        if (aliasList.isEmpty()) {
-//            customerDao.createCustomerMsgSetting()
-//        }else{
-//            if (!alias.equals(aliasList.get(0))) {
-//                u
-//            }
-//        }
-        return null;
+    public void enablePush(String registrationId, String deviceNo) {
+        CustomerMsgSetting customerMsgSetting = customerDao.findCustomerMsgSetting(registrationId, deviceNo);
+        Timestamp currentTime = DBHelper.getCurrentTime();
+        if (customerMsgSetting == null) {
+            customerMsgSetting = new CustomerMsgSetting();
+            customerMsgSetting.setRegistrationId(registrationId);
+            customerMsgSetting.setDeviceNo(deviceNo);
+            customerMsgSetting.setPushOpenStatus(AppConst.STATUS_VALID);
+            customerMsgSetting.setCreateTime(currentTime);
+            customerDao.createCustomerMsgSetting(customerMsgSetting);
+        }
+    }
+
+    @Override
+    public void disablePush(String registrationId, String deviceNo) {
+        Timestamp currentTime = DBHelper.getCurrentTime();
+        CustomerMsgSetting customerMsgSetting = customerDao.findCustomerMsgSetting(registrationId, deviceNo);
+        if (customerMsgSetting != null) {
+            customerMsgSetting.setUpdateTime(currentTime);
+            customerMsgSetting.setPushOpenStatus(AppConst.STATUS_INVALID);
+            customerDao.updateCustomerMsgSetting(customerMsgSetting);
+        }
+
+        customerService.removeCache(AppConst.HEADER_REGISTRATION_ID + "_" + registrationId);
     }
 }

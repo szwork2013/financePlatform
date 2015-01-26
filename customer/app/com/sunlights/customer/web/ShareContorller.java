@@ -99,32 +99,21 @@ public class ShareContorller extends ActivityBaseController {
      * @return
      */
     public Result share() {
-        String custNo = "";
+        String custNo = null;
+        Message message = null;
         try {
             CustomerSession customerSession = getCustomerSession();
             custNo = customerSession.getCustomerId();//获得客户id
         } catch (Exception e) {
             Logger.debug("没有登录。。");
         }
-
-        ShareVo shareVo = null;
-        Http.RequestBody body = request().body();
-        if (body.asJson() != null) {
-            shareVo = Json.fromJson(body.asJson(), ShareVo.class);
-        }
-
-        if (body.asFormUrlEncoded() != null) {
-            shareVo = shareParameterForm.bindFromRequest().get();
-        }
+        ShareVo shareVo = getShareVo();
         String type = shareVo.getType();
         String id = shareVo.getId();
-        if(ActivityConstant.SHARE_TYPE_INVITER.equals(type)) {
+        /*if(ActivityConstant.SHARE_TYPE_INVITER.equals(type)) {
             type = ActivityConstant.SHARE_TYPE_ACTIVITY;
             id = ActivityConstant.ACTIVITY_REGISTER_SCENE_CODE;
-        }
-        Logger.debug("type = " + type + " id = " + id);
-
-        Message message = null;
+        }*/
         ShareInfoService shareInfoService = ShareInfoServiceFactory.createShareInfoService(type);
         if (shareInfoService == null) {
             Logger.error("不支持的分享类型");
@@ -132,7 +121,6 @@ public class ShareContorller extends ActivityBaseController {
             messageUtil.setMessage(message);
             return ok(messageUtil.toJson());
         }
-
         message = new Message(Severity.INFO, MsgCode.SHARE_QUERY_SUCC);
         try {
             ShareInfoContext context = new ShareInfoContext();
@@ -140,7 +128,6 @@ public class ShareContorller extends ActivityBaseController {
             context.setCustNo(custNo);
             context.setType(type);
             ShareInfoVo shareInfoVo = shareInfoService.getShareInfoByType(context);
-
             shareVo = new ShareVo();
             shareVo.setId(id);
             shareVo.setType(type);
@@ -148,7 +135,6 @@ public class ShareContorller extends ActivityBaseController {
             shareVo.setContent(shareInfoVo.getContent());
             shareVo.setImageurl(shareInfoVo.getImageUrl());
             shareVo.setTitle(shareInfoVo.getTitle());
-
             messageUtil.setMessage(message, shareVo);
             Logger.debug("返回给前端的内容----》:" + messageUtil.toJson());
             return ok(messageUtil.toJson());

@@ -17,7 +17,9 @@ import java.util.List;
 public class PushMessageVo implements Serializable{
     private Long pushTxnId;
     private String title;
-    private String content;
+    private String content;//消息中心内容
+    private String contentSms;//短信内容
+    private String contentPush;//推送内容
     private String contentExt;
     private String sendNo;
     private String platform; //推送平台
@@ -25,13 +27,15 @@ public class PushMessageVo implements Serializable{
     private String customerId;
     private String personalInd;//个人Y、群发N 信息来源标志
     private int sendNum = 0;//次数
+    private int badge = 1;//ios 专用  未读记录数量
     private List<String> aliasList = Lists.newArrayList();
+    private List<String> registrationIdList = Lists.newArrayList();
 
     private Long messageRuleId;
     private String pushTimed;//Y定时 N即时
-    private String pushInd;
-    private String smsInd;
-    private String msgCenterInd;
+    private String pushInd;//推送标志Y是N否
+    private String smsInd;//短信标志
+    private String msgCenterInd;//消息中心展示标志
 
     public Long getPushTxnId() {
         return pushTxnId;
@@ -159,5 +163,37 @@ public class PushMessageVo implements Serializable{
 
     public void setMsgCenterInd(String msgCenterInd) {
         this.msgCenterInd = msgCenterInd;
+    }
+
+    public List<String> getRegistrationIdList() {
+        return registrationIdList;
+    }
+
+    public void setRegistrationIdList(List<String> registrationIdList) {
+        this.registrationIdList = registrationIdList;
+    }
+
+    public int getBadge() {
+        return badge;
+    }
+
+    public void setBadge(int badge) {
+        this.badge = badge;
+    }
+
+    public String getContentSms() {
+        return contentSms;
+    }
+
+    public void setContentSms(String contentSms) {
+        this.contentSms = contentSms;
+    }
+
+    public String getContentPush() {
+        return contentPush;
+    }
+
+    public void setContentPush(String contentPush) {
+        this.contentPush = contentPush;
     }
 }

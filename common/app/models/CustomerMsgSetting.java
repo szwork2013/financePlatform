@@ -18,7 +18,9 @@ import java.util.Date;
 @Table(name = "c_customer_msg_setting")
 @NamedQueries({
         @NamedQuery(name="findAliasByGroupId",query="select cms.alias from CustomerGroup cg,CustomerMsgSetting cms where cg.customerId = cms.customerId and cms.pushOpenStatus = 'Y' and cg.id = ?1"),
-        @NamedQuery(name="findAliasByCustomerId",query="select cms.alias from CustomerMsgSetting cms where cms.pushOpenStatus = 'Y' and cms.customerId = ?1")
+        @NamedQuery(name="findAliasByCustomerId",query="select cms.alias from CustomerMsgSetting cms where cms.pushOpenStatus = 'Y' and cms.customerId = ?1"),
+        @NamedQuery(name="findRegistrationIdsByCustomerId",query="select cms.registrationId from CustomerMsgSetting cms where cms.pushOpenStatus = 'Y' and cms.customerId = ?1"),
+        @NamedQuery(name="findSettingByRegIdAndDeviceNo",query="select cms from CustomerMsgSetting cms where cms.pushOpenStatus = 'Y' and cms.registrationId = ?1 and cms.deviceNo = ?2")
 })
 public class CustomerMsgSetting extends IdEntity {
     @Column(name = "customer_id", length = 30)
@@ -26,8 +28,10 @@ public class CustomerMsgSetting extends IdEntity {
     private String tag;
     private String alias;
     @Column(name = "registration_id")
-    private String registrationId;
-    @Column(name = "push_open_status")
+    private String registrationId;//JPush返回的registrationId,与设备号 1对1
+    @Column(name = "device_no", length = 50)
+    private String deviceNo;
+    @Column(name = "push_open_status", length = 1)
     private String pushOpenStatus = AppConst.STATUS_VALID;//Y开启、N关闭推送
     @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "create_time")
@@ -90,5 +94,13 @@ public class CustomerMsgSetting extends IdEntity {
 
     public void setCustomerId(String customerId) {
         this.customerId = customerId;
+    }
+
+    public String getDeviceNo() {
+        return deviceNo;
+    }
+
+    public void setDeviceNo(String deviceNo) {
+        this.deviceNo = deviceNo;
     }
 }
