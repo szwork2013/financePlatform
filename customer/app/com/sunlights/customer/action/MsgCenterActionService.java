@@ -15,19 +15,20 @@ import com.sunlights.customer.dal.impl.CustomerDaoImpl;
 import com.sunlights.customer.dal.impl.MsgCenterDaoImpl;
 import com.sunlights.customer.factory.ActivityServiceFactory;
 import com.sunlights.customer.service.ActivityService;
-import models.*;
+import models.Activity;
+import models.Customer;
+import models.CustomerMsgPushTxn;
+import models.MessageSmsTxn;
 import play.Logger;
 import play.Play;
-import play.libs.F;
 import play.libs.Json;
-import play.libs.ws.WS;
-import play.libs.ws.WSResponse;
+import services.PushMessageService;
+import services.SmsMessageService;
 
 import java.sql.Timestamp;
 import java.text.MessageFormat;
 import java.text.SimpleDateFormat;
 import java.util.List;
-import java.util.concurrent.TimeUnit;
 
 /**
  * <p>Project: financeplatform</p>
@@ -43,12 +44,15 @@ public class MsgCenterActionService {
     private MsgCenterDao centerDao = new MsgCenterDaoImpl();
     private CustomerDao customerDao = new CustomerDaoImpl();
     private ParameterService parameterService = new ParameterService();
+    private SmsMessageService smsMessageService = new SmsMessageService();
+    private PushMessageService pushMessageService = new PushMessageService();
     private ActivityService activityService = ActivityServiceFactory.getActivityService();
+
 
     private final static String LOGIN = "login";
     private final static String LOGINBYGES = "loginByges";
     private final static String REGISTER = "register";
-    private final static String pushUrl = Play.application().configuration().getString("push_url");
+    //    private final static String pushUrl = Play.application().configuration().getString("push_url");
     private final static String smsUrl = Play.application().configuration().getString("sms_url");
 
 
@@ -196,15 +200,16 @@ public class MsgCenterActionService {
 
         Logger.debug(">>待发送消息内容：" + Json.toJson(messageSmsTxn));
         try {
-            F.Promise<MessageSmsTxn> messageSmsTxnPromise = WS.url(smsUrl).post(Json.toJson(messageSmsTxn)).map(new F.Function<WSResponse, MessageSmsTxn>() {
-                @Override
-                public MessageSmsTxn apply(WSResponse wsResponse) throws Throwable {
-                    MessageSmsTxn messageSmsTxn = Json.fromJson(wsResponse.asJson(), MessageSmsTxn.class);
-                    return messageSmsTxn;
-                }
-            });
+//            F.Promise<MessageSmsTxn> messageSmsTxnPromise = WS.url(smsUrl).post(Json.toJson(messageSmsTxn)).map(new F.Function<WSResponse, MessageSmsTxn>() {
+//                @Override
+//                public MessageSmsTxn apply(WSResponse wsResponse) throws Throwable {
+//                    MessageSmsTxn messageSmsTxn = Json.fromJson(wsResponse.asJson(), MessageSmsTxn.class);
+//                    return messageSmsTxn;
+//                }
+//            });
+//            MessageSmsTxn resultMessageSmsTxn = messageSmsTxnPromise.get(10, TimeUnit.SECONDS);
+            MessageSmsTxn resultMessageSmsTxn = smsMessageService.sendSms(messageSmsTxn);
 
-            MessageSmsTxn resultMessageSmsTxn = messageSmsTxnPromise.get(10, TimeUnit.SECONDS);
             centerDao.createMessageSmsTxn(resultMessageSmsTxn);
         }catch (Exception e){
             centerDao.createMessageSmsTxn(messageSmsTxn);
@@ -216,17 +221,17 @@ public class MsgCenterActionService {
     private MessageVo executePushWS(PushMessageVo pushMessageVo) {
 
         try {
-            F.Promise<MessageVo> messageVoPromise = WS.url(pushUrl).post(Json.toJson(pushMessageVo)).map(new F.Function<WSResponse, MessageVo>() {
-                @Override
-                public MessageVo apply(WSResponse wsResponse) throws Throwable {
-                    MessageVo returnMsg = Json.fromJson(wsResponse.asJson(), MessageVo.class);
-                    return returnMsg;
-                }
-            });
+//            F.Promise<MessageVo> messageVoPromise = WS.url(pushUrl).post(Json.toJson(pushMessageVo)).map(new F.Function<WSResponse, MessageVo>() {
+//                @Override
+//                public MessageVo apply(WSResponse wsResponse) throws Throwable {
+//                    MessageVo returnMsg = Json.fromJson(wsResponse.asJson(), MessageVo.class);
+//                    return returnMsg;
+//                }
+//            });
+//
+//            MessageVo messageVo = messageVoPromise.get(15, TimeUnit.SECONDS);
 
-            MessageVo messageVo = messageVoPromise.get(15, TimeUnit.SECONDS);
-
-            return messageVo;
+            return pushMessageService.sendPush(pushMessageVo);
 
         }catch (Exception e){
             Logger.error(">>CustomerMsgPushTxn:" + Json.toJson(pushMessageVo), e);

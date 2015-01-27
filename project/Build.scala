@@ -10,6 +10,11 @@ object FinancePlatformBuild extends Build {
     .settings(scalaVersion := compileVersion)
     .enablePlugins(PlayJava)
 
+  lazy val thirdpart = Project(id = "thirdpart", base = file("thirdpart"))
+    .settings(scalaVersion := compileVersion)
+    .dependsOn(common)
+    .enablePlugins(PlayJava)
+
   lazy val trade = Project(id = "trade", base = file("trade"))
     .settings(scalaVersion := compileVersion)
     .dependsOn(core)
@@ -26,6 +31,7 @@ object FinancePlatformBuild extends Build {
   lazy val customer = Project(id = "customer", base = file("customer"))
     .settings(scalaVersion := compileVersion)
     .dependsOn(common).enablePlugins(PlayJava)
+    .dependsOn(thirdpart).enablePlugins(PlayJava)
 
   lazy val account = Project(id = "account", base = file("account"))
     .settings(scalaVersion := compileVersion)
@@ -34,11 +40,12 @@ object FinancePlatformBuild extends Build {
 
   lazy val financePlatform = Project(id = "financePlatform", base = file("."))
     .dependsOn(common)
+    .dependsOn(thirdpart)
     .dependsOn(trade)
     .dependsOn(core)
     .dependsOn(customer)
     .dependsOn(account)
-    .aggregate(common, trade, core, customer, account)
+    .aggregate(common, thirdpart, trade, core, customer, account)
     .settings(scalaVersion := compileVersion)
     .enablePlugins(PlayJava)
 }

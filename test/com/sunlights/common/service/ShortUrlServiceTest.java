@@ -1,9 +1,9 @@
 package com.sunlights.common.service;
 
-import com.sunlights.common.utils.ShortURLUtil;
 import org.junit.Test;
 import play.Logger;
 import play.test.WithApplication;
+import services.ShortUrlService;
 
 /**
  * <p>Project: financeplatform</p>
@@ -18,9 +18,12 @@ public class ShortUrlServiceTest extends WithApplication {
     @Test
     public void getShortUrlTest() {
         String path = "http://www.baidu.com";
-        String shortURL = ShortURLUtil.getShortURL(path);
 
-        Logger.info(">>shortURl:" + shortURL);
+        services.ShortUrlService shortUrlService = new ShortUrlService();
+
+        String shortUrlStr = shortUrlService.getShortURL(path);
+
+        Logger.info(">>shortURl:" + shortUrlStr);
 
     }
 }

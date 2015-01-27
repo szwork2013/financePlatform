@@ -1,7 +1,5 @@
 package com.sunlights.customer.service;
 
-import com.sunlights.common.utils.ShortURLUtil;
-import com.sunlights.customer.ActivityConstant;
 import com.sunlights.customer.dal.ShareInfoDao;
 import com.sunlights.customer.dal.ShortUrlDao;
 import com.sunlights.customer.dal.impl.ShareInfoDaoImpl;
@@ -11,7 +9,7 @@ import com.sunlights.customer.vo.ShareInfoVo;
 import models.ShareInfo;
 import models.ShortUrl;
 import play.Configuration;
-import play.Logger;
+import services.ShortUrlService;
 
 import java.net.URLEncoder;
 
@@ -76,8 +74,9 @@ public abstract class AbstractShareInfoService implements ShareInfoService {
 
         String longUrl = getLongUrl(context);
 
+        services.ShortUrlService shortUrlService = new ShortUrlService();
 
-        String shortUrlStr = ShortURLUtil.getShortURL(longUrl);
+        String shortUrlStr = shortUrlService.getShortURL(longUrl);
 
         ShortUrl shortUrl = new ShortUrl();
         shortUrl.setShareType(context.getType());
