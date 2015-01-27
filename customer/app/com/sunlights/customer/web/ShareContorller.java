@@ -14,6 +14,7 @@ import com.sunlights.customer.vo.ShareInfoVo;
 import com.sunlights.customer.vo.ShareVo;
 import models.CustomerSession;
 import org.apache.commons.lang3.StringUtils;
+import play.Configuration;
 import play.Logger;
 import play.data.Form;
 import play.db.jpa.Transactional;
@@ -110,10 +111,10 @@ public class ShareContorller extends ActivityBaseController {
         ShareVo shareVo = getShareVo();
         String type = shareVo.getType();
         String id = shareVo.getId();
-        /*if(ActivityConstant.SHARE_TYPE_INVITER.equals(type)) {
+        if(ActivityConstant.SHARE_TYPE_INVITER.equals(type) && Configuration.root().getBoolean("inviter")) {
             type = ActivityConstant.SHARE_TYPE_ACTIVITY;
             id = ActivityConstant.ACTIVITY_REGISTER_SCENE_CODE;
-        }*/
+        }
         ShareInfoService shareInfoService = ShareInfoServiceFactory.createShareInfoService(type);
         if (shareInfoService == null) {
             Logger.error("不支持的分享类型");
