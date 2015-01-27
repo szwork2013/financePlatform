@@ -38,7 +38,7 @@ public class PushMessageService {
     public MessageVo sendPush(PushMessageVo pushMessageVo){
 //        String appKey = parameterService.getParameterByName(ParameterConst.APP_KEY);
 //        String secretKey = parameterService.getParameterByName(ParameterConst.SECRET_KEY);
-
+        Logger.info(">>sendPush>>> start");
         String appKey = "b5763dd71f67ef2da3e08fa2";
         String secretKey = "d5bc1fca3c38f30e212a5b85";
 

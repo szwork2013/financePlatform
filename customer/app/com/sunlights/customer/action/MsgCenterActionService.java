@@ -220,6 +220,7 @@ public class MsgCenterActionService {
 
     private MessageVo executePushWS(PushMessageVo pushMessageVo) {
 
+        Logger.info(">>executePushWS>>> start");
         try {
 //            F.Promise<MessageVo> messageVoPromise = WS.url(pushUrl).post(Json.toJson(pushMessageVo)).map(new F.Function<WSResponse, MessageVo>() {
 //                @Override
