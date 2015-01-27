@@ -32,14 +32,4 @@ public class JsapiTicketController extends Controller {
             return badRequest();
         }
     }
-
-    public Result flushTicket() {
-        JsapiTicket jsapiTicket = new JsapiTicket();
-        try {
-            ticket = jsapiTicket.getJsapiTicket(jsapiTicket.getAccessToken());
-            return ok();
-        } catch (Exception e) {
-            return badRequest();
-        }
-    }
 }

@@ -7,11 +7,10 @@
 */
 package weixin;
 
-import org.apache.http.HttpResponse;
-import org.apache.http.client.HttpClient;
-import org.apache.http.client.methods.HttpGet;
-import org.apache.http.impl.client.DefaultHttpClient;
-import org.apache.http.util.EntityUtils;
+import org.apache.commons.httpclient.HttpClient;
+import org.apache.commons.httpclient.methods.GetMethod;
+import play.Logger;
+import services.SmsMessageService;
 import util.JsonUtil;
 
 import java.io.IOException;
@@ -72,20 +71,25 @@ public class JsapiTicket {
 
     private String getValueByHttpClient(StringBuffer strBuffer, String keyName) throws IOException {
         //获得HttpResponse实例
-        HttpClient client = new DefaultHttpClient();
-        HttpGet request = new HttpGet(strBuffer.toString());
-        HttpResponse response = client.execute(request);  //每次在这里有异常 IOEXCEPTION
+        HttpClient client = new HttpClient();
+        SmsMessageService.setProxy(client);
+        GetMethod getMethod = new GetMethod(strBuffer.toString());
+
+        int statusCode = client.executeMethod(getMethod);
+        String accessCode = "";
+        Logger.info("调用短信接口返回statusCode：" + statusCode);
         //判断是否请求成功
-        if (response.getStatusLine().getStatusCode() == 200) {
+        if (statusCode == 200) {
             //获得返回结果
-            String result = EntityUtils.toString(response.getEntity());
+            String result = getMethod.getResponseBodyAsString();
             //解析json数据
             Map map = JsonUtil.jsonToMap(result);
-            Object accessToken = map.get(keyName);
-            if(accessToken !=null){
-                return (String) accessToken;
+            Object value = map.get(keyName);
+            if(value !=null){
+                accessCode = (String)value;
             }
         }
-        return "";
+
+        return accessCode;
     }
 }

@@ -88,7 +88,7 @@ public class SmsMessageService {
         return result;
     }
 
-    private void setProxy(HttpClient httpClient) {
+    public static void setProxy(HttpClient httpClient) {
         Configuration root = Configuration.root();
         String proxyHost = root.getString("proxy_host");
         int proxyPort = root.getInt("proxy_port");
