@@ -11,6 +11,7 @@ import org.apache.commons.httpclient.HttpClient;
 import org.apache.commons.httpclient.HttpStatus;
 import org.apache.commons.httpclient.NameValuePair;
 import org.apache.commons.httpclient.methods.PostMethod;
+import play.Configuration;
 import play.Logger;
 
 /**
@@ -44,6 +45,9 @@ public class SmsMessageService {
     public String executeSend(MessageSmsTxn smsMessage) {
         Logger.info("==============调用短信接口============");
         HttpClient httpClient = new HttpClient();
+
+        setProxy(httpClient);
+
         String result = null;
 
         try {
@@ -82,6 +86,16 @@ public class SmsMessageService {
         }
 
         return result;
+    }
+
+    private void setProxy(HttpClient httpClient) {
+//        Configuration root = Configuration.root();
+        String proxyHost = "10.168.44.141";
+        int proxyPort = 3128;
+//        Logger.info("proxy_host:"+ proxyHost + " proxy_port:"+proxyPort);
+//        if(proxyHost != null) {
+            httpClient.getHostConfiguration().setProxy(proxyHost, proxyPort);
+//        }
     }
 
     private String formatPwd(String pwd, String warrantyCode) {

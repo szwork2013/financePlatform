@@ -6,7 +6,6 @@ import com.sunlights.common.utils.MessageUtil;
 import com.sunlights.common.vo.Message;
 import com.sunlights.core.factory.CoreFactory;
 import com.sunlights.core.service.OpenAccountPactService;
-import com.sunlights.core.service.impl.OpenAccountPactServiceImpl;
 import com.sunlights.core.vo.AgreementVo;
 import org.apache.commons.lang3.StringUtils;
 import play.data.Form;
