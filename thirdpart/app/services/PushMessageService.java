@@ -1,6 +1,7 @@
 package services;
 
 import cn.jpush.api.JPushClient;
+import cn.jpush.api.common.connection.HttpProxy;
 import cn.jpush.api.common.resp.APIRequestException;
 import cn.jpush.api.push.PushResult;
 import cn.jpush.api.push.model.Options;
@@ -16,6 +17,7 @@ import com.sunlights.common.utils.ArithUtil;
 import com.sunlights.common.vo.Message;
 import com.sunlights.common.vo.MessageVo;
 import com.sunlights.common.vo.PushMessageVo;
+import play.Configuration;
 import play.Logger;
 
 import java.math.BigDecimal;
@@ -68,8 +70,20 @@ public class PushMessageService {
         String resultMsg = null;
         String errorMsg = null;
         MessageVo messageVo = new MessageVo();
+        JPushClient jPushClient = null;
         try {
-            JPushClient jPushClient = new JPushClient(secretKey, appKey);
+
+            Configuration root = Configuration.root();
+            String proxyHost = root.getString("proxy_host");
+            int proxyPort = root.getInt("proxy_port");
+            Logger.info("proxy_host:"+ proxyHost + " proxy_port:"+proxyPort);
+            if(proxyHost != null) {
+                HttpProxy httpProxy = new HttpProxy(proxyHost, proxyPort);
+                jPushClient = new JPushClient(secretKey, appKey, 1, httpProxy);
+            }else{
+                jPushClient = new JPushClient(secretKey, appKey);
+            }
+
             PushPayload pushPayload  = builderPushPayLoad(pushMessageVo);
 
             Logger.info("================sendPush begin：==========");

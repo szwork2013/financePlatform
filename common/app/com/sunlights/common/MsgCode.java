@@ -36,8 +36,8 @@ public enum MsgCode {
     PASSWORD_ERROR("2107","密码错误","剩余次数{0}"),
     GESTURE_PASSWORD_ERROR("2108","手势密码错误","剩余次数{0}"),
     GESTURE_LOGIN_ERROR_OVER_COUNT("2109","手势登录失败超过最大次数","请换密码登录"),
-    PASSWORD_CONFIRM_ERROR("2110","确认密码错误",""),
-    GESTURE_NONE("2111","手势未设置","请先开启手势"),
+    PASSWORD_CONFIRM_ERROR("2110","密码错误","请重新输入"),
+    GESTURE_NONE("2111","未开启手势","请先开启手势"),
     CERTIFY_DEVICE_NOT_MATCH("2112","验证码与设备号不匹配", "请重新获取"),
     ACCOUNT_NOT_EXIST("3100","不存在该账户","{0}"),
 
