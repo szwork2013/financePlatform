@@ -89,13 +89,13 @@ public class SmsMessageService {
     }
 
     private void setProxy(HttpClient httpClient) {
-//        Configuration root = Configuration.root();
-        String proxyHost = "10.168.44.141";
-        int proxyPort = 3128;
-//        Logger.info("proxy_host:"+ proxyHost + " proxy_port:"+proxyPort);
-//        if(proxyHost != null) {
+        Configuration root = Configuration.root();
+        String proxyHost = root.getString("proxy_host");
+        int proxyPort = root.getInt("proxy_port");
+        Logger.info("proxy_host:"+ proxyHost + " proxy_port:"+proxyPort);
+        if(proxyHost != null) {
             httpClient.getHostConfiguration().setProxy(proxyHost, proxyPort);
-//        }
+        }
     }
 
     private String formatPwd(String pwd, String warrantyCode) {
