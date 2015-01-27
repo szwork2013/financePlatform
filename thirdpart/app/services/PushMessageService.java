@@ -35,7 +35,7 @@ public class PushMessageService {
     private ParameterService parameterService = new ParameterService();
     private static int maxLength = 1000;
 
-    public MessageVo sendPush(final PushMessageVo pushMessageVo){
+    public MessageVo sendPush(PushMessageVo pushMessageVo){
 //        String appKey = parameterService.getParameterByName(ParameterConst.APP_KEY);
 //        String secretKey = parameterService.getParameterByName(ParameterConst.SECRET_KEY);
 
@@ -44,7 +44,7 @@ public class PushMessageService {
 
         MessageVo messageVo = new MessageVo();
 
-        int length = pushMessageVo.getAliasList().size();
+        int length = pushMessageVo.getRegistrationIdList().size();
 
         if (length <= maxLength) {
             messageVo = executePush(pushMessageVo, appKey, secretKey);
