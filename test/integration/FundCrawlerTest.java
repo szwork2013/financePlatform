@@ -1,17 +1,7 @@
 package integration;
 
-import com.fasterxml.jackson.databind.JsonNode;
-import com.sunlights.common.utils.QRcodeByte;
-import com.sunlights.common.utils.ShortURLUtil;
-
 import org.junit.Test;
-import play.libs.Json;
 import play.test.WithApplication;
-import sun.misc.BASE64Encoder;
-
-
-import static play.test.Helpers.fakeApplication;
-import static play.test.Helpers.running;
 
 public class FundCrawlerTest extends WithApplication {
 
