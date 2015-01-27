@@ -9,7 +9,6 @@ import com.sunlights.customer.vo.ShareInfoVo;
 import models.ShareInfo;
 import models.ShortUrl;
 import play.Configuration;
-import services.ShortUrlService;
 
 import java.net.URLEncoder;
 
@@ -74,7 +73,7 @@ public abstract class AbstractShareInfoService implements ShareInfoService {
 
         String longUrl = getLongUrl(context);
 
-        services.ShortUrlService shortUrlService = new ShortUrlService();
+        services.ShortUrlService shortUrlService = new services.ShortUrlService();
 
         String shortUrlStr = shortUrlService.getShortURL(longUrl);
 
