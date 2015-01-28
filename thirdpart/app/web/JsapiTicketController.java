@@ -9,7 +9,6 @@ package web;
 
 import play.mvc.Controller;
 import play.mvc.Result;
-import weixin.JsapiTicket;
 
 /**
  * ClassName:    JsapiTicketController
@@ -22,12 +21,11 @@ import weixin.JsapiTicket;
  */
 public class JsapiTicketController extends Controller {
 
-    private static String ticket = "";
-
     public Result getTicket() {
         Controller.response().setHeader("Access-Control-Allow-Origin","*");
         try {
-            return ok(ticket);
+            return ok();
+//            return ok(ticket);
         } catch (Exception e) {
             return badRequest();
         }

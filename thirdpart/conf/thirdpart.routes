@@ -14,4 +14,3 @@ POST        /shorturl            @web.ShortUrlController.getShortURL
 
 GET         /getTicket           @web.JsapiTicketController.getTicket
 
-GET         /flushTicket         @web.JsapiTicketController.flushTicket

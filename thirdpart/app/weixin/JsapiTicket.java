@@ -7,6 +7,8 @@
 */
 package weixin;
 
+import com.google.common.cache.Cache;
+import com.google.common.cache.CacheBuilder;
 import org.apache.commons.httpclient.HttpClient;
 import org.apache.commons.httpclient.methods.GetMethod;
 import play.Logger;
@@ -14,7 +16,11 @@ import services.SmsMessageService;
 import util.JsonUtil;
 
 import java.io.IOException;
+import java.util.Date;
 import java.util.Map;
+import java.util.concurrent.Callable;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.TimeUnit;
 
 /**
  * ClassName:    JsapiTicket
@@ -29,51 +35,71 @@ public class JsapiTicket {
     private static final String ACCESS_TOKEN_URL = "https://api.weixin.qq.com/cgi-bin/token";
     private static final String JSAPI_TICKET_URL = "https://api.weixin.qq.com/cgi-bin/ticket/getticket";
 
+
+    private static final String tokenKey = "weixin_token";
+    private static Cache<String, String> cacheFormCallable = null;
+
+    static {
+        try {
+            cacheFormCallable = createCallableCache();
+        } catch (Exception e) {
+            Logger.error(e.getMessage());
+        }
+    }
+
+    private static final JsapiTicket instance = new JsapiTicket();
+
+    private JsapiTicket(){}
+
+    public static final JsapiTicket getInstance(){
+        return instance;
+    }
+
     /**
-     * 获取token
+     * 创建一个缓存对象
+     * @throws Exception
+     */
+    private static Cache<String, String> createCallableCache() throws Exception {
+        Cache<String, String> cache = CacheBuilder
+                .newBuilder()
+                .maximumSize(1)
+                .expireAfterWrite(119, TimeUnit.MINUTES)
+                .build();
+        return cache;
+    }
+
+
+    public String getTicket() {
+        try {
+            //Callable只有在缓存值不存在时，才会调用
+            return cacheFormCallable.get(tokenKey, new Callable<String>() {
+                @Override
+                public String call() throws Exception {
+                    String accessToken = getAccessToken();
+                    return getValueByHttpClient(getTicketUrl(accessToken), "ticket");
+                }
+            });
+        } catch (ExecutionException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    /**
+     * 获取token,
      *
      * @return
      * @throws java.io.IOException
      */
-    public String getAccessToken() throws IOException {
+    private String getAccessToken() throws IOException {
         return getValueByHttpClient(getAccessTokenUrl(), "access_token");
     }
 
-    /**
-     * 获取临时船票
-     *
-     * @param accessToken
-     * @return
-     * @throws java.io.IOException
-     */
-    public String getJsapiTicket(String accessToken)throws IOException{
-        //获得HttpResponse实例
-        return getValueByHttpClient(getTicketUrl(accessToken), "ticket");
-    }
-
-    private StringBuffer getAccessTokenUrl() {
-        StringBuffer strBuffer = new StringBuffer();
-        strBuffer.append(ACCESS_TOKEN_URL);
-        strBuffer.append("?grant_type=client_credential");
-        strBuffer.append("&appid=wx0994aa8f0061604e");
-        strBuffer.append("&secret=db2ef3d1e92cea287aba4bfebfcc833e");
-        return strBuffer;
-    }
-
-    private StringBuffer getTicketUrl(String accessToken) {
-        StringBuffer strBuffer = new StringBuffer();
-        strBuffer.append(JSAPI_TICKET_URL);
-        strBuffer.append("?access_token=");
-        strBuffer.append(accessToken);
-        strBuffer.append("&type=jsapi");
-        return strBuffer;
-    }
-
-    private String getValueByHttpClient(StringBuffer strBuffer, String keyName) throws IOException {
+    private String getValueByHttpClient(String tiketUrl, String keyName) throws IOException {
         //获得HttpResponse实例
         HttpClient client = new HttpClient();
         SmsMessageService.setProxy(client);
-        GetMethod getMethod = new GetMethod(strBuffer.toString());
+        GetMethod getMethod = new GetMethod(tiketUrl);
 
         int statusCode = client.executeMethod(getMethod);
         String accessCode = "";
@@ -92,4 +118,24 @@ public class JsapiTicket {
 
         return accessCode;
     }
+
+    private String getAccessTokenUrl() {
+        StringBuffer strBuffer = new StringBuffer();
+        strBuffer.append(ACCESS_TOKEN_URL);
+        strBuffer.append("?grant_type=client_credential");
+        strBuffer.append("&appid=wx0994aa8f0061604e");
+        strBuffer.append("&secret=db2ef3d1e92cea287aba4bfebfcc833e");
+        return strBuffer.toString();
+    }
+
+    private String getTicketUrl(String accessToken) {
+        StringBuffer strBuffer = new StringBuffer();
+        strBuffer.append(JSAPI_TICKET_URL);
+        strBuffer.append("?access_token=");
+        strBuffer.append(accessToken);
+        strBuffer.append("&type=jsapi");
+        return strBuffer.toString();
+    }
+
+
 }
