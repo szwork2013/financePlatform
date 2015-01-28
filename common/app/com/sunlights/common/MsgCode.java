@@ -100,6 +100,9 @@ public enum MsgCode {
 	DEPOSIT_INTEREST_EXIST_ERROR("2016", "操作失败：", "已存在的活期利率。"),
     NOT_NULL("2004", "操作失败：", "传入参数'{0}'不能为空。"),
 
+	LOGIN_NOT_REGISTER_ERROR("2017", "登陆失败：", "没有该用户账号。"),
+	LOGIN_ACCOUNT_UNUSUAL_ERROR("2018", "登陆失败：", "该用户账户异常。"),
+	LOGIN_PASSWORD_INCORRECT_ERROR("2019", "登陆失败：", "密码错误。"),
 
     //活动积分模块
     OBTAIN_SUCC("0220", "获取积分成功"),
