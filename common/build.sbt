@@ -1,6 +1,6 @@
 name := "common"
 
-version := "1.2-SNAPSHOT"
+version := "1.3-SNAPSHOT"
 
 resolvers ++= Seq(
   "Sunlights 3rd party" at "http://192.168.0.97:8081/nexus/content/repositories/thirdparty",
