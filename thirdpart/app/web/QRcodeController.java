@@ -38,7 +38,7 @@ public class QRcodeController extends Controller{
         Logger.debug("getQRcodeToByte params：" + Json.toJson(params));
 
         QRcodeVo qRcodeVo = service.getQRcodeVo(params);
-        MessageUtil.getInstance().setMessage(new Message(Severity.INFO, MsgCode.ABOUT_QUERY_SUCC), qRcodeVo);
+        MessageUtil.getInstance().setMessage(new Message(Severity.INFO, MsgCode.ABOUT_QUERY_SUCC), qRcodeVo.getQrcodeByte());
         return ok(MessageUtil.getInstance().toJson());
     }
 

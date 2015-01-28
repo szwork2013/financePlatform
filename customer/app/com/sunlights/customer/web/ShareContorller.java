@@ -1,5 +1,21 @@
 package com.sunlights.customer.web;
 
+import com.sunlights.common.utils.QRcodeByte;
+import models.Customer;
+import models.CustomerSession;
+
+import org.apache.commons.lang3.StringUtils;
+
+import play.Configuration;
+import play.Logger;
+import play.data.Form;
+import play.db.jpa.Transactional;
+import play.libs.Json;
+import play.mvc.Http;
+import play.mvc.Result;
+import services.QRcodeService;
+import sun.misc.BASE64Encoder;
+
 import com.sunlights.common.MsgCode;
 import com.sunlights.common.Severity;
 import com.sunlights.common.exceptions.BusinessRuntimeException;
@@ -11,16 +27,8 @@ import com.sunlights.customer.service.ShareInfoService;
 import com.sunlights.customer.vo.ShareInfoContext;
 import com.sunlights.customer.vo.ShareInfoVo;
 import com.sunlights.customer.vo.ShareVo;
-import models.CustomerSession;
-import org.apache.commons.lang3.StringUtils;
-import play.Configuration;
-import play.Logger;
-import play.data.Form;
-import play.db.jpa.Transactional;
-import play.libs.Json;
-import play.mvc.Http;
-import play.mvc.Result;
-import services.QRcodeService;
+
+import java.util.Map;
 
 /**
  * Created by Administrator on 2014/12/3.
@@ -62,6 +70,35 @@ public class ShareContorller extends ActivityBaseController {
         String shorturl = shareInfoVo.getShortUrl();
         QRcodeVo qRcodeVo = qRcodeService.getQRcodeVo(shorturl);
         messageUtil.setMessage(new Message(Severity.INFO, MsgCode.ABOUT_QUERY_SUCC), qRcodeVo);
+        return ok(messageUtil.toJson());
+
+    }
+
+    public Result getQRcodeWithToken() {
+        CustomerSession customerSession = getCustomerSession();
+        String custNo = customerSession.getCustomerId();//获得客户id
+        if (StringUtils.isEmpty(custNo)) {
+            messageUtil.setMessage(new Message(MsgCode.LOGIN_TIMEOUT));
+        }else{
+            Customer customer = customerService.getCustomerByCustomerId(custNo);
+            String mobile = customer.getMobile();
+            String params = "";
+            if (request().body().asJson() != null) {
+                params = request().body().asJson().get("params").asText();
+            }else{
+                Map<String, String> map = Form.form().bindFromRequest().data();
+                params = map.get("params");
+            }
+            Logger.debug("getQRcodeToByte params：" + Json.toJson(params));
+
+            QRcodeByte qrcode = new QRcodeByte();        //将内容存入对象‘
+
+            Logger.info(">> " + params + mobile);
+            byte[] pngData = qrcode.generateQRCode(params + mobile);//加入短路径,如："http://t.cn/RzJWtFA"
+
+            messageUtil.setMessage(new Message(Severity.INFO, MsgCode.ABOUT_QUERY_SUCC), new BASE64Encoder().encode(pngData));
+        }
+
         return ok(messageUtil.toJson());
 
     }
