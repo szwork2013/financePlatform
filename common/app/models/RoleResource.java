@@ -7,7 +7,7 @@ import java.util.Date;
  * Created by Administrator on 2015/1/28.
  */
 @Entity
-@Table(name = "role_resource")
+@Table(name = "o_role_resource")
 public class RoleResource extends IdEntity {
 
 	@Temporal(TemporalType.TIMESTAMP)

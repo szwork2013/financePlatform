@@ -3,15 +3,13 @@ package models;
 import java.util.Date;
 import java.util.List;
 
-import javax.persistence.Entity;
-import javax.persistence.OneToMany;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
+import javax.persistence.*;
 
 /**
  * Created by Administrator on 2015/1/28.
  */
 @Entity
+@Table(name = "o_resource")
 public class Resource extends IdEntity {
 
 	@javax.persistence.Column(name = "name")

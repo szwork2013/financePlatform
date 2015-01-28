@@ -8,6 +8,7 @@ import java.util.List;
  * Created by Administrator on 2015/1/28.
  */
 @Entity
+@Table(name = "o_user")
 public class User extends IdEntity {
 	@Column(name = "username")
 	private String username;

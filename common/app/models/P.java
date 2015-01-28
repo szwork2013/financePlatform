@@ -7,6 +7,7 @@ import java.util.Date;
  * Created by Yuan on 2015/1/28.
  */
 @Entity
+@Table(name = "o_p")
 public class P extends IdEntity {
 	@Column(name = "last_name")
 	private String lastName;
@@ -32,7 +33,7 @@ public class P extends IdEntity {
 	private Date updateTime;
 
 	@OneToOne
-	@JoinColumn(name = "user_id", referencedColumnName = "id")
+	@JoinColumn(name = "user_id")
 	private User user;
 
 	public String getLastName () {

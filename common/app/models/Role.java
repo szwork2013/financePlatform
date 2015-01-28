@@ -9,6 +9,7 @@ import javax.persistence.*;
  * Created by Administrator on 2015/1/28.
  */
 @Entity
+@Table(name = "o_role")
 public class Role extends IdEntity {
 	@Column(name = "code")
 	private String code;
