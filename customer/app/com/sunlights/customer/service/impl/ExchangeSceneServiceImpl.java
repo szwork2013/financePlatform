@@ -1,12 +1,10 @@
 package com.sunlights.customer.service.impl;
 
-import com.sunlights.common.cache.Cacheable;
 import com.sunlights.common.utils.CommonUtil;
 import com.sunlights.common.vo.PageVo;
 import com.sunlights.customer.ActivityPageUtil;
 import com.sunlights.customer.dal.ExchangeSceneDao;
 import com.sunlights.customer.dal.HoldRewardDao;
-import com.sunlights.customer.dal.impl.ExchangeSceneDaoImpl;
 import com.sunlights.customer.dal.impl.HoldRewardDaoImpl;
 import com.sunlights.customer.factory.ActivityDaoFactory;
 import com.sunlights.customer.factory.ActivityServiceFactory;
@@ -17,7 +15,6 @@ import com.sunlights.customer.vo.Data4ExchangeItem;
 import com.sunlights.customer.vo.Data4ExchangeVo;
 import com.sunlights.customer.vo.ExchangeSceneListVo;
 import com.sunlights.customer.vo.ExchangeSceneVo;
-import models.Activity;
 import models.ExchangeScene;
 import models.HoldReward;
 import models.RewardType;

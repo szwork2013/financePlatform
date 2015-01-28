@@ -4,6 +4,7 @@ import com.google.common.base.Strings;
 import com.sunlights.common.AppConst;
 import com.sunlights.common.ParameterConst;
 import com.sunlights.common.service.ParameterService;
+import com.sunlights.common.utils.ConfigUtil;
 import com.sunlights.common.utils.DBHelper;
 import com.sunlights.common.utils.MD5Helper;
 import models.MessageSmsTxn;
@@ -11,7 +12,6 @@ import org.apache.commons.httpclient.HttpClient;
 import org.apache.commons.httpclient.HttpStatus;
 import org.apache.commons.httpclient.NameValuePair;
 import org.apache.commons.httpclient.methods.PostMethod;
-import play.Configuration;
 import play.Logger;
 
 /**
@@ -46,7 +46,7 @@ public class SmsMessageService {
         Logger.info("==============调用短信接口============");
         HttpClient httpClient = new HttpClient();
 
-        setProxy(httpClient);
+        ConfigUtil.setProxy(httpClient);
 
         String result = null;
 
@@ -88,15 +88,6 @@ public class SmsMessageService {
         return result;
     }
 
-    public static void setProxy(HttpClient httpClient) {
-        Configuration root = Configuration.root();
-        String proxyHost = root.getString("proxy_host");
-        int proxyPort = root.getInt("proxy_port");
-        Logger.info("proxy_host:"+ proxyHost + " proxy_port:"+proxyPort);
-        if(proxyHost != null) {
-            httpClient.getHostConfiguration().setProxy(proxyHost, proxyPort);
-        }
-    }
 
     private String formatPwd(String pwd, String warrantyCode) {
         String pwdFormat = new MD5Helper().encrypt(pwd + warrantyCode).toLowerCase();

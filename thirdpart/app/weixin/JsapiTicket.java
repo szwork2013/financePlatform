@@ -9,14 +9,13 @@ package weixin;
 
 import com.google.common.cache.Cache;
 import com.google.common.cache.CacheBuilder;
+import com.sunlights.common.utils.ConfigUtil;
 import org.apache.commons.httpclient.HttpClient;
 import org.apache.commons.httpclient.methods.GetMethod;
 import play.Logger;
-import services.SmsMessageService;
 import util.JsonUtil;
 
 import java.io.IOException;
-import java.util.Date;
 import java.util.Map;
 import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutionException;
@@ -98,7 +97,7 @@ public class JsapiTicket {
     private String getValueByHttpClient(String tiketUrl, String keyName) throws IOException {
         //获得HttpResponse实例
         HttpClient client = new HttpClient();
-        SmsMessageService.setProxy(client);
+        ConfigUtil.setProxy(client);
         GetMethod getMethod = new GetMethod(tiketUrl);
 
         int statusCode = client.executeMethod(getMethod);
