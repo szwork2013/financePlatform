@@ -2,12 +2,11 @@ package web;
 
 import com.sunlights.common.MsgCode;
 import com.sunlights.common.Severity;
-import com.sunlights.common.utils.CommonUtil;
 import com.sunlights.common.utils.MessageUtil;
 import com.sunlights.common.vo.Message;
 import com.sunlights.common.vo.QRcodeVo;
+import org.apache.commons.lang3.StringUtils;
 import play.Logger;
-import play.data.Form;
 import play.libs.Json;
 import play.mvc.Controller;
 import play.mvc.Http;
@@ -34,21 +33,34 @@ public class QRcodeController extends Controller{
      * @return
      */
     public Result getQRcodeToByte() {
-        String params = null;
+
         Http.RequestBody body = request().body();
+
+        String params = null;
         if (body.asJson() != null) {
             params = body.asJson().get("params").asText();
-        }else{
-            Map<String, String> map = Form.form().bindFromRequest().data();
-            params = map.get("params");
         }
+
+        if(StringUtils.isEmpty(params)) {
+            Map<String, String[]> formUrl = body.asFormUrlEncoded();
+            if(formUrl != null){
+                String[] value = formUrl.get("params");
+                if(value!=null && value.length > 0){
+                    params = value[0];
+                }
+            }
+        }
+
         Logger.debug("getQRcodeToByte params：" + Json.toJson(params));
 
-        CommonUtil.getInstance().validateParams(params);
-
-        QRcodeVo qRcodeVo = service.getQRcodeVo(params);
-        MessageUtil.getInstance().setMessage(new Message(Severity.INFO, MsgCode.ABOUT_QUERY_SUCC), qRcodeVo.getQrcodeByte());
-        return ok(MessageUtil.getInstance().toJson());
+        if(StringUtils.isEmpty(params)){
+            MessageUtil.getInstance().setMessage(new Message(Severity.INFO, MsgCode.CODE_EXIST_ERROR, "params cannot be empty"));
+            return ok(MessageUtil.getInstance().toJson());
+        }else {
+            QRcodeVo qRcodeVo = service.getQRcodeVo(params);
+            MessageUtil.getInstance().setMessage(new Message(Severity.INFO, MsgCode.ABOUT_QUERY_SUCC), qRcodeVo.getQrcodeByte());
+            return ok(MessageUtil.getInstance().toJson());
+        }
     }
 
 }
