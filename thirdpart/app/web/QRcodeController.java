@@ -2,15 +2,19 @@ package web;
 
 import com.sunlights.common.MsgCode;
 import com.sunlights.common.Severity;
+import com.sunlights.common.utils.CommonUtil;
 import com.sunlights.common.utils.MessageUtil;
 import com.sunlights.common.vo.Message;
 import com.sunlights.common.vo.QRcodeVo;
 import play.Logger;
+import play.data.Form;
 import play.libs.Json;
 import play.mvc.Controller;
 import play.mvc.Http;
 import play.mvc.Result;
 import services.QRcodeService;
+
+import java.util.Map;
 
 /**
  * <p>Project: financeplatform</p>
@@ -34,8 +38,13 @@ public class QRcodeController extends Controller{
         Http.RequestBody body = request().body();
         if (body.asJson() != null) {
             params = body.asJson().get("params").asText();
+        }else{
+            Map<String, String> map = Form.form().bindFromRequest().data();
+            params = map.get("params");
         }
         Logger.debug("getQRcodeToByte params：" + Json.toJson(params));
+
+        CommonUtil.getInstance().validateParams(params);
 
         QRcodeVo qRcodeVo = service.getQRcodeVo(params);
         MessageUtil.getInstance().setMessage(new Message(Severity.INFO, MsgCode.ABOUT_QUERY_SUCC), qRcodeVo.getQrcodeByte());

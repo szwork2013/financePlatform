@@ -1,32 +1,31 @@
 package com.sunlights.customer.service.impl;
 
+import com.sunlights.common.MsgCode;
+import com.sunlights.common.ParameterConst;
+import com.sunlights.common.service.ParameterService;
+import com.sunlights.common.utils.ArithUtil;
 import com.sunlights.common.utils.CommonUtil;
 import com.sunlights.common.vo.PageVo;
+import com.sunlights.customer.ActivityConstant;
 import com.sunlights.customer.ActivityPageUtil;
 import com.sunlights.customer.dal.ExchangeSceneDao;
 import com.sunlights.customer.dal.HoldRewardDao;
 import com.sunlights.customer.dal.impl.HoldRewardDaoImpl;
 import com.sunlights.customer.factory.ActivityDaoFactory;
 import com.sunlights.customer.factory.ActivityServiceFactory;
-import com.sunlights.customer.service.ExchangeSceneService;
-import com.sunlights.customer.service.RewardFlowService;
-import com.sunlights.customer.service.RewardTypeService;
-import com.sunlights.customer.vo.Data4ExchangeItem;
-import com.sunlights.customer.vo.Data4ExchangeVo;
-import com.sunlights.customer.vo.ExchangeSceneListVo;
-import com.sunlights.customer.vo.ExchangeSceneVo;
+import com.sunlights.customer.service.*;
+import com.sunlights.customer.vo.*;
+import models.ExchangeRewardRule;
 import models.ExchangeScene;
 import models.HoldReward;
 import models.RewardType;
+import org.apache.commons.lang3.StringUtils;
 import play.Configuration;
 import play.Logger;
 
 import java.math.BigDecimal;
 import java.text.MessageFormat;
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
 /**
  * Created by tangweiqun on 2014/12/3.
@@ -37,6 +36,9 @@ public class ExchangeSceneServiceImpl implements ExchangeSceneService {
 
     private RewardTypeService rewardTypeService = ActivityServiceFactory.getRewardTypeService();
     private RewardFlowService rewardFlowService = new RewardFlowServiceImpl();
+    private HoldRewardService holdRewardService = new HoldRewardServiceImpl();
+    private ExchangeRewardRuleService exchangeRewardRuleService = new ExchangeRewardRuleServiceImpl();
+    private ParameterService parameterService = new ParameterService();
 
     @Override
     public ExchangeScene findByscene(String exchangeScene) {
@@ -67,9 +69,18 @@ public class ExchangeSceneServiceImpl implements ExchangeSceneService {
             exchangeSceneVo = new ExchangeSceneVo();
             exchangeSceneVo.setId(String.valueOf(exchangeScene.getId()));
             exchangeSceneVo.setTitle(exchangeScene.getTitle());
-            //TODO 这样的话不能将多个参数替换
-            String detaiTemplate = Configuration.root().getString(exchangeScene.getScene() + "." + exchangeScene.getRewardType() + "." + exchangeScene.getActivityType());
-            exchangeSceneVo.setDetail(MessageFormat.format(detaiTemplate, money));
+
+            if (ActivityConstant.ACTIVITY_EXCHANGE_BEAN_SCENE_CODE.equals(exchangeScene.getScene())) {
+                DataBean4ExchangeVo dataBean4ExchangeVo = getDataBean4ExchangeVo();
+                double rate = Double.valueOf(dataBean4ExchangeVo.getRate());
+                int exchangeAmount = Integer.valueOf(dataBean4ExchangeVo.getExchangeList().get(0));
+                BigDecimal limitLowExchangeNum = new BigDecimal(exchangeAmount/rate);
+                exchangeSceneVo.setDetail(ArithUtil.BigToString(limitLowExchangeNum) + "金豆即可兑换");
+            }else{
+                //TODO 这样的话不能将多个参数替换
+                String detaiTemplate = Configuration.root().getString(exchangeScene.getScene() + "." + exchangeScene.getRewardType() + "." + exchangeScene.getActivityType());
+                exchangeSceneVo.setDetail(MessageFormat.format(detaiTemplate, money));
+            }
 
             exchangeSceneVo.setLogo(exchangeScene.getLogo());
             exchangeSceneVo.setExchangeType(exchangeScene.getExchangeType());
@@ -116,6 +127,29 @@ public class ExchangeSceneServiceImpl implements ExchangeSceneService {
         data4ExchangeVo.setLogo(exchangeScene.getLogo());
 
         return data4ExchangeVo;
+    }
+
+    public DataBean4ExchangeVo getDataBean4ExchangeVo(){
+        ExchangeRewardRule exchangeRewardRule = exchangeRewardRuleService.findByRewardType(ActivityConstant.REWARD_TYPE_JINDOU);
+        String exchangeBean = parameterService.getParameterByName(ParameterConst.EXCHANGE_BEAN);
+        if (StringUtils.isEmpty(exchangeBean)) {
+            throw CommonUtil.getInstance().errorBusinessException(MsgCode.MISSING_PARAM_CONFIG, ParameterConst.EXCHANGE_BEAN);
+        }
+        List<String> exchangeBeanList = Arrays.asList(exchangeBean.split(";"));
+
+        DataBean4ExchangeVo dataBean4ExchangeVo = new DataBean4ExchangeVo();
+        dataBean4ExchangeVo.setRate(ArithUtil.bigToScale2(exchangeRewardRule.getRate()));
+        dataBean4ExchangeVo.setExchangeList(exchangeBeanList);
+
+        return dataBean4ExchangeVo;
+    }
+
+    private List<String> getExchangeList() {
+        String exchangeBean = parameterService.getParameterByName(ParameterConst.EXCHANGE_BEAN);
+        if (StringUtils.isEmpty(exchangeBean)) {
+            throw CommonUtil.getInstance().errorBusinessException(MsgCode.MISSING_PARAM_CONFIG, ParameterConst.EXCHANGE_BEAN);
+        }
+        return Arrays.asList(exchangeBean.split(";"));
     }
 
     @Override

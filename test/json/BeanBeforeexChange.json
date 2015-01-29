@@ -1,0 +1,17 @@
+{"message": {
+    "severity": 0,
+    "code": "0229",
+    "summary": "金豆兑换前预准备成功",
+    "detail": "",
+    "fields": {}
+}, "value": {
+    "rate": "0.01",
+    "exchangeList": [
+        "10",
+        "20",
+        "50",
+        "100",
+        "200",
+        "500"
+    ]
+}}

@@ -11,10 +11,8 @@ import com.sunlights.customer.service.impl.ExchangeResultServiceImpl;
 import com.sunlights.customer.service.impl.ExchangeSceneServiceImpl;
 import com.sunlights.customer.service.rewardrules.vo.ActivityRequestVo;
 import com.sunlights.customer.service.rewardrules.vo.ActivityResponseVo;
-import com.sunlights.customer.vo.ExchangeResultVo;
 import models.ExchangeResult;
 import models.ExchangeScene;
-import play.Configuration;
 import play.Logger;
 
 import java.math.BigDecimal;
@@ -56,6 +54,7 @@ public class ExchangeResultHandler extends AbstractExchangeRuleHandler {
         exchangeResult.setBankName(bankName);
         exchangeResult.setAmount(amt);
         exchangeResult.setStatus(ActivityConstant.EXCHANGE_RESULT_AUDIT_SUCC);
+        exchangeResult.setCarrierCode(requestVo.get("carrierCode", String.class));
         exchangeResultService.save(exchangeResult);
 
         ExchangeScene exchangeScene = requestVo.get("exchangeScene", ExchangeScene.class);

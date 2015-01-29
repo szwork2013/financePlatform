@@ -1,5 +1,6 @@
 package com.sunlights.customer.web;
 
+import com.sunlights.common.utils.CommonUtil;
 import com.sunlights.common.utils.QRcodeByte;
 import models.Customer;
 import models.CustomerSession;
@@ -89,7 +90,10 @@ public class ShareContorller extends ActivityBaseController {
                 Map<String, String> map = Form.form().bindFromRequest().data();
                 params = map.get("params");
             }
+
             Logger.debug("getQRcodeToByte params：" + Json.toJson(params));
+
+            CommonUtil.getInstance().validateParams(params);
 
             QRcodeByte qrcode = new QRcodeByte();        //将内容存入对象‘
 

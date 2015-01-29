@@ -27,6 +27,9 @@ public class ExchangeResult extends IdEntity {
     @Column(name = "BANKNAME")
     private String bankName;
 
+    @Column(name = "carrier_code")
+    private String carrierCode;
+
     @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "CREATE_TIME")
     private Date createTime;
@@ -114,5 +117,13 @@ public class ExchangeResult extends IdEntity {
 
     public void setBankName(String bankName) {
         this.bankName = bankName;
+    }
+
+    public String getCarrierCode() {
+        return carrierCode;
+    }
+
+    public void setCarrierCode(String carrierCode) {
+        this.carrierCode = carrierCode;
     }
 }

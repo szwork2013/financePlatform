@@ -2,7 +2,7 @@ package com.sunlights.customer.service;
 
 import com.sunlights.common.vo.PageVo;
 import com.sunlights.customer.vo.Data4ExchangeVo;
-import com.sunlights.customer.vo.ExchangeSceneListVo;
+import com.sunlights.customer.vo.DataBean4ExchangeVo;
 import com.sunlights.customer.vo.ExchangeSceneVo;
 import models.ExchangeScene;
 
@@ -19,6 +19,12 @@ public interface ExchangeSceneService {
     public List<ExchangeSceneVo> loadSceneByCustId(String custId, PageVo pageVo);
 
     public Data4ExchangeVo prepareData4Exchange(String custId, String sceneId);
+
+    /**
+     * 金豆兑换话费 查询比率&金额列表
+     * @return
+     */
+    public DataBean4ExchangeVo getDataBean4ExchangeVo();
 
     public ExchangeScene findById(String id);
 

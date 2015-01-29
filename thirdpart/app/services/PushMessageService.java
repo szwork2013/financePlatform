@@ -185,7 +185,7 @@ public class PushMessageService {
         builder.setPlatform(Platform.ios());
 
         Logger.info("badge：" + pushMessageVo.getBadge());
-        builder.setNotification(Notification.newBuilder().addPlatformNotification(IosNotification.newBuilder().setAlert(contentPush).setBadge(pushMessageVo.getBadge()).build()).build());
+        builder.setNotification(Notification.newBuilder().addPlatformNotification(IosNotification.newBuilder().setAlert(contentPush).setBadge(pushMessageVo.getBadge() + 1).build()).build());
 
         if (registrationIdList.isEmpty()) {
             builder.setAudience(Audience.all());
