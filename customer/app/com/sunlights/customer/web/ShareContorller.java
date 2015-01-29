@@ -3,12 +3,11 @@ package com.sunlights.customer.web;
 import com.sunlights.common.MsgCode;
 import com.sunlights.common.Severity;
 import com.sunlights.common.exceptions.BusinessRuntimeException;
-import com.sunlights.common.utils.QRcodeByte;
 import com.sunlights.common.vo.Message;
+import com.sunlights.common.vo.QRcodeVo;
 import com.sunlights.customer.ActivityConstant;
 import com.sunlights.customer.factory.ShareInfoServiceFactory;
 import com.sunlights.customer.service.ShareInfoService;
-import com.sunlights.customer.vo.QRcodeVo;
 import com.sunlights.customer.vo.ShareInfoContext;
 import com.sunlights.customer.vo.ShareInfoVo;
 import com.sunlights.customer.vo.ShareVo;
@@ -21,6 +20,7 @@ import play.db.jpa.Transactional;
 import play.libs.Json;
 import play.mvc.Http;
 import play.mvc.Result;
+import services.QRcodeService;
 
 /**
  * Created by Administrator on 2014/12/3.
@@ -29,6 +29,7 @@ import play.mvc.Result;
 public class ShareContorller extends ActivityBaseController {
 
 
+    private QRcodeService qRcodeService = new QRcodeService();
     private Form<ShareVo> shareParameterForm = Form.form(ShareVo.class);
 
     /**
@@ -59,7 +60,7 @@ public class ShareContorller extends ActivityBaseController {
         ShareInfoContext context = getShareInfoContext(id, custNo, type);
         ShareInfoVo shareInfoVo = shareInfoService.getShareInfoByType(context);
         String shorturl = shareInfoVo.getShortUrl();
-        QRcodeVo qRcodeVo = getQRcodeVo(shorturl);
+        QRcodeVo qRcodeVo = qRcodeService.getQRcodeVo(shorturl);
         messageUtil.setMessage(new Message(Severity.INFO, MsgCode.ABOUT_QUERY_SUCC), qRcodeVo);
         return ok(messageUtil.toJson());
 
@@ -71,15 +72,6 @@ public class ShareContorller extends ActivityBaseController {
         context.setCustNo(custNo);
         context.setType(type);
         return context;
-    }
-
-    private QRcodeVo getQRcodeVo(String shorturl) {
-        QRcodeByte qrcode = new QRcodeByte();        //将内容存入对象
-        byte[] pngData = qrcode.generateQRCode(shorturl);//加入短路径,如："http://t.cn/RzJWtFA"
-        QRcodeVo qRcodeVo = new QRcodeVo();
-        qRcodeVo.setQrcodeByte(pngData);
-        Logger.debug("图片二进制流:" + qRcodeVo.getQrcodeByte());
-        return qRcodeVo;
     }
 
     private ShareVo getShareVo() {

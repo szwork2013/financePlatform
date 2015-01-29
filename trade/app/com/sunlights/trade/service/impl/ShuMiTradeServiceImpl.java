@@ -37,6 +37,7 @@ import java.math.BigDecimal;
 import java.sql.Timestamp;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
@@ -86,16 +87,26 @@ public class ShuMiTradeServiceImpl implements ShuMiTradeService{
         //产品申购人数+1
         productService.addProductPurchasedNum(shuMiTradeFormVo.getFundCode());
 
+        List<MessageHeaderVo> list = buildMessageHeaderVos(shuMiTradeFormVo, customer, customerId, trade);
+        return list;
+
+    }
+
+    private List<MessageHeaderVo> buildMessageHeaderVos(ShuMiTradeFormVo shuMiTradeFormVo, Customer customer, String customerId, Trade trade) {
         List<MessageHeaderVo> list = Lists.newArrayList();
         MessageHeaderVo messageHeaderVo = new MessageHeaderVo(DictConst.PUSH_TYPE_3, null, customerId);
+        Long currentHours = DateUtils.getFragmentInHours(trade.getCreateTime(), Calendar.DATE);
         Date confirmDate = DateUtils.addDays(trade.getCreateTime(), 1);
         Date earningDate = DateUtils.addDays(trade.getCreateTime(), 2);
+        if (currentHours > 15) {
+            confirmDate = DateUtils.addDays(trade.getCreateTime(), 2);
+            earningDate = DateUtils.addDays(trade.getCreateTime(), 3);
+        }
         messageHeaderVo.buildParams(customer.getRealName(), shuMiTradeFormVo.getFundName(),
                 CommonUtil.dateToString(confirmDate, CommonUtil.DATE_FORMAT_SHORT),
                 CommonUtil.dateToString(earningDate, CommonUtil.DATE_FORMAT_SHORT));
         list.add(messageHeaderVo);
         return list;
-
     }
 
     @Override

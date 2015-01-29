@@ -14,10 +14,10 @@ import com.sunlights.common.MsgCode;
 import com.sunlights.common.Severity;
 import com.sunlights.common.service.ParameterService;
 import com.sunlights.common.utils.ArithUtil;
+import com.sunlights.common.utils.ConfigUtil;
 import com.sunlights.common.vo.Message;
 import com.sunlights.common.vo.MessageVo;
 import com.sunlights.common.vo.PushMessageVo;
-import play.Configuration;
 import play.Logger;
 
 import java.math.BigDecimal;
@@ -73,11 +73,9 @@ public class PushMessageService {
         JPushClient jPushClient = null;
         try {
 
-            Configuration root = Configuration.root();
-            String proxyHost = root.getString("proxy_host");
-            int proxyPort = root.getInt("proxy_port");
-            Logger.info("proxy_host:"+ proxyHost + " proxy_port:"+proxyPort);
+            String proxyHost = ConfigUtil.getValueStr(ConfigUtil.proxy_host);
             if(proxyHost != null) {
+                int proxyPort = ConfigUtil.getValueInt(ConfigUtil.proxy_port);
                 HttpProxy httpProxy = new HttpProxy(proxyHost, proxyPort);
                 jPushClient = new JPushClient(secretKey, appKey, 1, httpProxy);
             }else{
@@ -104,12 +102,14 @@ public class PushMessageService {
             Logger.info("================sendPush exception messagePushTxnId = " + pushMessageVo.getPushTxnId());
             errorMsg = MessageFormat.format("异常信息code:{0},msg:{1}", e.getErrorCode(), e.getErrorMessage());
             Logger.error(">>出错咯：" , errorMsg);
+            Logger.error(">>出错了", e);
 
             messageVo.setMessage(new Message(Severity.ERROR, e.getErrorCode() + "", e.getErrorMessage(), errorMsg));
             messageVo.setValue(errorMsg);
 //            MessageUtil.getInstance().setMessage(new Message(Severity.ERROR, e.getErrorCode() + "", e.getErrorMessage(), errorMsg), errorMsg);
             e.printStackTrace();
         } catch (Exception e){
+            Logger.error(">>出错了", e);
             Logger.info("================sendPush exception personalInd = " + pushMessageVo.getPersonalInd());
             Logger.info("================sendPush exception messagePushTxnId = " + pushMessageVo.getPushTxnId());
             String detailMsg = e.getMessage();

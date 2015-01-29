@@ -14,3 +14,4 @@ POST        /shorturl            @web.ShortUrlController.getShortURL
 
 GET         /getTicket           @web.JsapiTicketController.getTicket
 
+POST        /qrcode              @web.QRcodeController.getQRcodeToByte

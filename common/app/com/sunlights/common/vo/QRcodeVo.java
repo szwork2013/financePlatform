@@ -1,4 +1,4 @@
-package com.sunlights.customer.vo;
+package com.sunlights.common.vo;
 
 import java.io.Serializable;
 
