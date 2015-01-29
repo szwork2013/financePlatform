@@ -6,8 +6,11 @@ import com.sunlights.common.Severity;
 import com.sunlights.common.service.ParameterService;
 import com.sunlights.common.vo.Message;
 import com.sunlights.customer.ActivityConstant;
+import com.sunlights.customer.service.ExchangeSceneService;
+import com.sunlights.customer.service.impl.ExchangeSceneServiceImpl;
 import com.sunlights.customer.service.rewardrules.vo.ActivityRequestVo;
 import com.sunlights.customer.service.rewardrules.vo.ActivityResponseVo;
+import com.sunlights.customer.vo.DataBean4ExchangeVo;
 import models.ExchangeScene;
 import org.apache.commons.lang3.StringUtils;
 
@@ -70,8 +73,12 @@ public class BeanExchangeNullFieldValidHandler extends AbstractExchangeRuleHandl
                 return;
             }
 
-            if(new BigDecimal(exchangeAmt).doubleValue() < Double.valueOf("0.01")) {
-                message.setDetail("数量必须大于0.01元");
+            ExchangeSceneService exchangeSceneService = new ExchangeSceneServiceImpl();
+            DataBean4ExchangeVo dataBean4ExchangeVo = exchangeSceneService.getDataBean4ExchangeVo();
+
+            String limitAmt = dataBean4ExchangeVo.getExchangeList().get(0);
+            if(new BigDecimal(exchangeAmt).doubleValue() < Double.valueOf(limitAmt)) {
+                message.setDetail("兑换金额必须大于" + limitAmt +"元");
                 responseVo.setMessage(message);
                 responseVo.setFlowStop(true);
                 return;
