@@ -2117,15 +2117,15 @@ INSERT INTO public.o_user (id, username, password, status, deleted, create_time,
 
 INSERT INTO public.o_role (id, code, name, "DESC", create_time, update_time, deleted) VALUES (1, 'system', '管理员角色', '管理员角色', '2015-01-28 13:20:27.567', '2015-01-28 13:20:28.573', false);
 
-INSERT INTO public.o_resource (id, name, code, seq_no, parent_id, type, uri, create_time, update_time, deleted) VALUES (1, '首页', 'home', '1', null, 'menu', null, '2015-01-28 13:23:49.902', '2015-01-28 13:23:51.476', false);
-INSERT INTO public.o_resource (id, name, code, seq_no, parent_id, type, uri, create_time, update_time, deleted) VALUES (2, '系统管理', 'system', '1', null, 'menu', null, '2015-01-28 13:23:49.902', '2015-01-28 13:23:51.476', false);
-INSERT INTO public.o_resource (id, name, code, seq_no, parent_id, type, uri, create_time, update_time, deleted) VALUES (3, '财务管理', 'finance', '1', null, 'menu', null, '2015-01-28 13:23:49.902', '2015-01-28 13:23:51.476', false);
-INSERT INTO public.o_resource (id, name, code, seq_no, parent_id, type, uri, create_time, update_time, deleted) VALUES (4, '产品管理', 'product', '1', null, 'menu', null, '2015-01-28 13:23:49.902', '2015-01-28 13:23:51.476', false);
-INSERT INTO public.o_resource (id, name, code, seq_no, parent_id, type, uri, create_time, update_time, deleted) VALUES (5, '活动管理', 'activity', '1', null, 'menu', null, '2015-01-28 13:23:49.902', '2015-01-28 13:23:51.476', false);
-INSERT INTO public.o_resource (id, name, code, seq_no, parent_id, type, uri, create_time, update_time, deleted) VALUES (6, '消息管理', 'message', '1', null, 'menu', null, '2015-01-28 13:23:49.902', '2015-01-28 13:23:51.476', false);
-INSERT INTO public.o_resource (id, name, code, seq_no, parent_id, type, uri, create_time, update_time, deleted) VALUES (7, '问题反馈', 'feedback', '1', null, 'menu', null, '2015-01-28 13:23:49.902', '2015-01-28 13:23:51.476', false);
-INSERT INTO public.o_resource (id, name, code, seq_no, parent_id, type, uri, create_time, update_time, deleted) VALUES (8, '银行管理', 'bank', '1', null, 'menu', null, '2015-01-28 13:23:49.902', '2015-01-28 13:23:51.476', false);
-INSERT INTO public.o_resource (id, name, code, seq_no, parent_id, type, uri, create_time, update_time, deleted) VALUES (9, '数据统计', 'statistics', '1', null, 'menu', null, '2015-01-28 13:23:49.902', '2015-01-28 13:23:51.476', false);
+INSERT INTO public.o_resource (id, name, code, seq_no, parent_id, type, uri, create_time, update_time, deleted) VALUES (1, '首页', 'home', '1', 0, 'menu', null, '2015-01-28 13:23:49.902', '2015-01-28 13:23:51.476', false);
+INSERT INTO public.o_resource (id, name, code, seq_no, parent_id, type, uri, create_time, update_time, deleted) VALUES (2, '系统管理', 'system', '1', 1, 'menu', null, '2015-01-28 13:23:49.902', '2015-01-28 13:23:51.476', false);
+INSERT INTO public.o_resource (id, name, code, seq_no, parent_id, type, uri, create_time, update_time, deleted) VALUES (3, '财务管理', 'finance', '1', 1, 'menu', null, '2015-01-28 13:23:49.902', '2015-01-28 13:23:51.476', false);
+INSERT INTO public.o_resource (id, name, code, seq_no, parent_id, type, uri, create_time, update_time, deleted) VALUES (4, '产品管理', 'product', '1', 1, 'menu', null, '2015-01-28 13:23:49.902', '2015-01-28 13:23:51.476', false);
+INSERT INTO public.o_resource (id, name, code, seq_no, parent_id, type, uri, create_time, update_time, deleted) VALUES (5, '活动管理', 'activity', '1', 1, 'menu', null, '2015-01-28 13:23:49.902', '2015-01-28 13:23:51.476', false);
+INSERT INTO public.o_resource (id, name, code, seq_no, parent_id, type, uri, create_time, update_time, deleted) VALUES (6, '消息管理', 'message', '1', 1, 'menu', null, '2015-01-28 13:23:49.902', '2015-01-28 13:23:51.476', false);
+INSERT INTO public.o_resource (id, name, code, seq_no, parent_id, type, uri, create_time, update_time, deleted) VALUES (7, '问题反馈', 'feedback', '1', 1, 'menu', null, '2015-01-28 13:23:49.902', '2015-01-28 13:23:51.476', false);
+INSERT INTO public.o_resource (id, name, code, seq_no, parent_id, type, uri, create_time, update_time, deleted) VALUES (8, '银行管理', 'bank', '1', 1, 'menu', null, '2015-01-28 13:23:49.902', '2015-01-28 13:23:51.476', false);
+INSERT INTO public.o_resource (id, name, code, seq_no, parent_id, type, uri, create_time, update_time, deleted) VALUES (9, '数据统计', 'statistics', '1', 1, 'menu', null, '2015-01-28 13:23:49.902', '2015-01-28 13:23:51.476', false);
 
 --system
 INSERT INTO public.o_resource (id, name, code, seq_no, parent_id, type, uri, create_time, update_time, deleted) VALUES (10, '定时任务', 'system:job', '1', 2, 'menu', '/#/tasks', '2015-01-28 13:23:49.902', '2015-01-28 13:23:51.476', false);
