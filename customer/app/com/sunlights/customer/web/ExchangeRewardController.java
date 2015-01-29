@@ -101,6 +101,7 @@ public class ExchangeRewardController extends ActivityBaseController {
         requestVo.set("bankCardNo", exchangeParamter.getBankCard());
         requestVo.set("exchangeAmt", exchangeParamter.getAmount());
         requestVo.set("phone", exchangeParamter.getPhone());
+        requestVo.set("exchangeBeanNum", exchangeParamter.getExchangeBeanNum());
 
         activityHandlerService.service(requestVo, responseVo);
 
@@ -110,11 +111,11 @@ public class ExchangeRewardController extends ActivityBaseController {
         resultVo.setAccountDate(exchangeSceneService.calcAccountDate(exchangeScene.getTimeLimit(), null, true));
 
         if(MsgCode.OPERATE_SUCCESS.getCode().equals(message.getCode())) {
-            message.setCode(MsgCode.EXCHANGE_SUCC.getCode());
             if (ActivityConstant.ACTIVITY_EXCHANGE_BEAN_SCENE_CODE.equals(exchangeScene.getScene())) {
-                message.setSummary(MsgCode.EXCHANGE_SUCC.getMessage());
+                message.setCode(MsgCode.EXCHANGE_SUCC.getCode());
                 messageUtil.setMessage(message);
             }else{
+                message.setCode(MsgCode.EXCHANGE_SUCC.getCode());
                 messageUtil.setMessage(message, resultVo);
             }
             Logger.info("兑换成功");

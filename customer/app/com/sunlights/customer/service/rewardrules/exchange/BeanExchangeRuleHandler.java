@@ -20,7 +20,7 @@ public class BeanExchangeRuleHandler extends AbstractExchangeRuleHandler{
         Logger.debug("金豆兑换开始requestVo ：" + requestVo);
         ExchangeRuleGainHandler exchangeRuleGainHandler = new ExchangeRuleGainHandler();
         BeanExchangeNullFieldValidHandler beanExchangeNullFieldValidHandler = new BeanExchangeNullFieldValidHandler();
-        ExchangeValidHandler exchangeValidHandler = new ExchangeValidHandler();
+        BeanExchangeValidHandler exchangeValidHandler = new BeanExchangeValidHandler();
         ExchangeDayHandler exchangeDayHandler = new ExchangeDayHandler();// 一天一次
         ExchangeFlowHandler exchangeFlowHandler = new ExchangeFlowHandler();
         ExchangeResultHandler exchangeResultHandler = new ExchangeResultHandler();
@@ -29,8 +29,8 @@ public class BeanExchangeRuleHandler extends AbstractExchangeRuleHandler{
 
         setNextHandler(exchangeRuleGainHandler)
                 .setNextHandler(beanExchangeNullFieldValidHandler)
-                .setNextHandler(exchangeValidHandler)
                 .setNextHandler(exchangeDayHandler)
+                .setNextHandler(exchangeValidHandler)
                 .setNextHandler(exchangeFlowHandler)
                 .setNextHandler(exchangeResultHandler)
                 .setNextHandler(beanExchangeSendMessageHandler);

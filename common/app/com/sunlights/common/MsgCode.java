@@ -112,11 +112,9 @@ public enum MsgCode {
     ABOUT_QUERY_SUCC("0224", "获取二维码成功"),
     EXCHANGE_SCENE_QUERY_SUCC("0225", "兑换场景查询成功"),
     BEFORE_EXCHANGE_QUERY_SUCC("0226", "兑换前预准备成功"),
-    BEAN_BEFORE_EXCHANGE_SUCC("0229", "金豆兑换前预准备成功"),
     EXCHANGE_SUCC("0227", "兑换成功"),
     REWARD_FLOW_QUERY_SUCC("0228", "奖励流水查询成功"),
     ALREADY_SIGN("2220", "重复签到"),
-    BEAN_EXCHANGE_REPEAT("1231", "今天已兑换", "请明天再试"),
     NOT_CONFIG_ACTIVITY_SCENE("2221", "没有配置活动场景"),
     ALREADY_PURCHASE("2222", "不是首次购买"),
     ALREADY_REGISTER("2223", "已经注册"),
@@ -127,7 +125,16 @@ public enum MsgCode {
     EXCHANGE_NOT_ENOUGH("2228", "兑换数量不足"),
     NOT_SUPPORT_SHARE_TYPE("2229", "不支持的分享类型"),
     PARAMTER_NOT_CAN_NULL("2230", "参数不能为空"),
-    ACTIVITY_SYS_ERROR("3201", "系统异常");
+    ACTIVITY_SYS_ERROR("3201", "系统异常"),
+
+    BEAN_EXCHANGE_REPEAT("1231", "今天已兑换了亲", "请明天再来哦"),
+    BEAN_EXCHANGE_NOTENOUGH("1232", "金豆数不足以兑换话费"),
+    BEAN_BEFORE_EXCHANGE_SUCC("0229", "金豆兑换前预准备成功"),
+    BEAN_EXCHANGE_SUCC("0227", "您本次兑换{0}元话费到{1}，预计在{2}个工作日内收到"),
+
+    ;
+
+
 
 
 
