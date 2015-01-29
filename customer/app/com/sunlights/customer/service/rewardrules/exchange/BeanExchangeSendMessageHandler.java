@@ -1,9 +1,14 @@
 package com.sunlights.customer.service.rewardrules.exchange;
 
 import com.sunlights.common.DictConst;
+import com.sunlights.common.MsgCode;
+import com.sunlights.common.Severity;
+import com.sunlights.common.vo.Message;
 import com.sunlights.common.vo.MessageHeaderVo;
 import com.sunlights.customer.service.rewardrules.vo.ActivityRequestVo;
 import com.sunlights.customer.service.rewardrules.vo.ActivityResponseVo;
+
+import java.text.MessageFormat;
 
 /**
  * 红包取现发送消息
@@ -31,9 +36,12 @@ public class BeanExchangeSendMessageHandler extends AbstractExchangeRuleHandler 
         String displayMobile = mobile.substring(0, 3) + "******";
 
         MessageHeaderVo messageHeaderVo = new MessageHeaderVo(DictConst.PUSH_TYPE_2, scene, custNo);
-        messageHeaderVo.buildParams(displayMobile, exchangeMoneyStr);
+        messageHeaderVo.buildParams(displayMobile, exchangeMoneyStr, "2");
 
+        String detail = MessageFormat.format(MsgCode.BEAN_EXCHANGE_SUCC.getMessage(), exchangeMoneyStr, mobile, 2);
+        Message message = new Message(Severity.INFO, MsgCode.OPERATE_SUCCESS.getCode(), detail, null);
 
+        responseVo.setMessage(message);
         responseVo.addMessageHeaderVo(messageHeaderVo);
     }
 
