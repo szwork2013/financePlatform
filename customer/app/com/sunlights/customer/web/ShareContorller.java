@@ -77,12 +77,12 @@ public class ShareContorller extends ActivityBaseController {
 
     public Result getQRcodeWithToken() {
         CustomerSession customerSession = getCustomerSession();
-        String custNo = customerSession.getCustomerId();//获得客户id
+      String custNo = customerSession.getCustomerId();//获得客户id
         if (StringUtils.isEmpty(custNo)) {
-            messageUtil.setMessage(new Message(MsgCode.LOGIN_TIMEOUT));
-        }else{
+           messageUtil.setMessage(new Message(MsgCode.LOGIN_TIMEOUT));
+ }else{
             Customer customer = customerService.getCustomerByCustomerId(custNo);
-            String mobile = customer.getMobile();
+            String mobile =customer.getMobile();
             String params = "";
             if (request().body().asJson() != null) {
                 params = request().body().asJson().get("params").asText();
@@ -101,7 +101,7 @@ public class ShareContorller extends ActivityBaseController {
             byte[] pngData = qrcode.generateQRCode(params + mobile);//加入短路径,如："http://t.cn/RzJWtFA"
 
             messageUtil.setMessage(new Message(Severity.INFO, MsgCode.ABOUT_QUERY_SUCC), new BASE64Encoder().encode(pngData));
-        }
+      }
 
         return ok(messageUtil.toJson());
 
