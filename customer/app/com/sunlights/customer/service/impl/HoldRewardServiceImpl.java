@@ -167,15 +167,26 @@ public class HoldRewardServiceImpl implements HoldRewardService {
         if(list == null || list.isEmpty()) {
             return;
         }
+
         for(HoldReward holdReward : list) {
-            if(holdReward.getHoldReward() <= frozenAmt) {
-                holdReward.setFrozenReward(holdReward.getFrozenReward() + holdReward.getHoldReward());
-                holdReward.setFrozenMoney(holdReward.getFrozenMoney().add(holdReward.getHoldMoney()));
-                frozenAmt = frozenAmt - holdReward.getHoldReward();
-            } else {
+            if (frozenAmt == 0){
+                return;
+            }
+            Long canPayReward = holdReward.getHoldReward() - holdReward.getFrozenReward();
+            if (canPayReward <= 0) {
+                continue;
+            }
+            if (canPayReward <= frozenAmt) {
+                BigDecimal canPayMoney = holdReward.getHoldMoney().subtract(holdReward.getFrozenMoney());
+
+                holdReward.setFrozenReward(holdReward.getFrozenReward() + canPayReward);
+                holdReward.setFrozenMoney(holdReward.getFrozenMoney().add(canPayMoney));
+                frozenAmt = frozenAmt - canPayReward;
+                exchangeMoney = exchangeMoney.subtract(canPayMoney);
+            }else {
                 holdReward.setFrozenReward(holdReward.getFrozenReward() + frozenAmt);
                 holdReward.setFrozenMoney(holdReward.getFrozenMoney().add(exchangeMoney));
-                frozenAmt = holdReward.getHoldReward() - frozenAmt;
+                frozenAmt = 0L;
                 exchangeMoney = holdReward.getHoldMoney().subtract(exchangeMoney);
             }
             holdRewardDao.doUpdate(holdReward);

@@ -38,8 +38,8 @@ public class BeanExchangeSendMessageHandler extends AbstractExchangeRuleHandler 
         MessageHeaderVo messageHeaderVo = new MessageHeaderVo(DictConst.PUSH_TYPE_2, scene, custNo);
         messageHeaderVo.buildParams(displayMobile, exchangeMoneyStr, "2");
 
-        String detail = MessageFormat.format(MsgCode.BEAN_EXCHANGE_SUCC.getMessage(), exchangeMoneyStr, mobile, 2);
-        Message message = new Message(Severity.INFO, MsgCode.OPERATE_SUCCESS.getCode(), detail, null);
+        String detail = MessageFormat.format(MsgCode.BEAN_EXCHANGE_SUCC.getDetail(), exchangeMoneyStr, mobile, 2);
+        Message message = new Message(Severity.INFO, MsgCode.OPERATE_SUCCESS.getCode(), MsgCode.BEAN_EXCHANGE_SUCC.getMessage(), detail);
 
         responseVo.setMessage(message);
         responseVo.addMessageHeaderVo(messageHeaderVo);
