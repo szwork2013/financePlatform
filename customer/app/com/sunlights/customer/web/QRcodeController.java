@@ -11,6 +11,7 @@ import models.CustomerSession;
 import org.apache.commons.lang3.StringUtils;
 import play.Logger;
 import play.db.jpa.Transactional;
+import play.mvc.Controller;
 import play.mvc.Result;
 import sun.misc.BASE64Encoder;
 
@@ -53,6 +54,7 @@ public class QRcodeController extends ActivityBaseController {
         CommonUtil.getInstance().validateParams(content);
         String qrCode = generateQRCode(content, token);
         messageUtil.setMessage(new Message(Severity.INFO, MsgCode.ABOUT_QUERY_SUCC), qrCode);
+        Controller.response().setHeader("Access-Control-Allow-Origin","*");
         return ok(messageUtil.toJson());
     }
 
