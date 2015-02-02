@@ -11,9 +11,8 @@ POST        /logout                     @com.sunlights.customer.web.CustomerCont
 GET         /hastoken                   @com.sunlights.customer.web.CustomerController.getToken
 
 #share
-POST        /activity/getqrcode         @com.sunlights.customer.web.ShareContorller.getQRcodeToByte
-POST        /activity/qrcodewithtoken   @com.sunlights.customer.web.ShareContorller.getQRcodeWithToken
-POST        /activity/share             @com.sunlights.customer.web.ShareContorller.share
+POST        /activity/share             @com.sunlights.customer.web.ShareController.share
+POST        /qrcode                     @com.sunlights.customer.web.QRcodeController.getQRcode
 
 #msg center
 POST        /message/list               @com.sunlights.customer.web.MsgCenterController.findMsgCenterVoList
