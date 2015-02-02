@@ -73,5 +73,5 @@ public interface CustomerDao {
     public CustomerMsgSetting createCustomerMsgSetting(CustomerMsgSetting customerMsgSetting);
 
 
-
+    public boolean validateHasFirstPurchase(String customerId);
 }

@@ -7,14 +7,11 @@ import com.sunlights.common.vo.Message;
 import com.sunlights.customer.ActivityConstant;
 import com.sunlights.customer.factory.ActivityServiceFactory;
 import com.sunlights.customer.service.ActivitySceneService;
-import com.sunlights.customer.service.CustJoinActivityService;
-import com.sunlights.customer.service.impl.ActivitySceneServiceImpl;
-import com.sunlights.customer.service.impl.CustJoinActivityServiceImpl;
+import com.sunlights.customer.service.ActivityService;
+import com.sunlights.customer.service.impl.ActivityServiceImpl;
 import com.sunlights.customer.service.rewardrules.vo.ActivityRequestVo;
 import com.sunlights.customer.service.rewardrules.vo.ActivityResponseVo;
-import com.sunlights.customer.vo.ActivitySceneVo;
 import models.ActivityScene;
-import models.CustJoinActivity;
 import org.apache.commons.lang3.StringUtils;
 import play.Logger;
 
@@ -26,7 +23,7 @@ import java.util.List;
  * Created by tangweiqun on 2014/12/2.
  */
 public class PurchaseObtainValideHandler extends AbstractObtainRuleHandler {
-    private CustJoinActivityService custJoinActivityService = new CustJoinActivityServiceImpl();
+    private ActivityService activityService = new ActivityServiceImpl();
 
     private ActivitySceneService activitySceneService = ActivityServiceFactory.getActivitySceneService();
 
@@ -40,14 +37,17 @@ public class PurchaseObtainValideHandler extends AbstractObtainRuleHandler {
 
     @Override
     public void obtainInternal(ActivityRequestVo requestVo, ActivityResponseVo responseVo) throws Exception {
-        CustJoinActivity custJoinActivity = custJoinActivityService.getByCustAndActivity(requestVo.getCustId(), requestVo.getActivityId(), ActivityConstant.ACTIVITY_FIRST_PURCHASE_SCENE_CODE);
-        if(custJoinActivity == null) {
+        boolean hasFirstPurchase = activityService.validateHasFirstPurchase(requestVo.getCustId(), requestVo.getActivityId());
+        if(!hasFirstPurchase) {
             requestVo.setScene(ActivityConstant.ACTIVITY_FIRST_PURCHASE_SCENE_CODE);
             Logger.debug("首次购买 scene = " + requestVo.getScene());
             return;
         } else {
             String prdType = requestVo.get("prdType", String.class);
             String prdCode = requestVo.get("prdCode", String.class);
+
+            Logger.debug("不是首次购买 scene = " + requestVo.getScene() + " prdCode = " + prdCode);
+
             List<ActivityScene> activityScenes = activitySceneService.getScenesByActivityType(ActivityConstant.ACTIVITY_TYPE_PURCHASE);
 
             if(activityScenes != null && isSupportPrd(activityScenes, prdType, prdCode)) {
@@ -61,7 +61,6 @@ public class PurchaseObtainValideHandler extends AbstractObtainRuleHandler {
                 responseVo.setFlowStop(true);
                 return;
             }
-            Logger.debug("不是首次购买 scene = " + requestVo.getScene() + " prdCode = " + prdCode);
         }
     }
 

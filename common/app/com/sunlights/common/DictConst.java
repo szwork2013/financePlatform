@@ -128,5 +128,9 @@ public final class DictConst {
     public static String SEND_TYPE_PUSH_GROUP = "FP.SEND.TYPE.2";//群发推送
     public static String SEND_TYPE_PUSH_CUSTOMER = "FP.SEND.TYPE.3";//个人推送
 
+    //活动-客户条件
+    public static String ACTIVITY_NEW_REGISTER_TRADE = "FP.ACTIVITY.CONDITION.1";//新注册且首次申购
+    public static String ACTIVITY_NEW_TRADE = "FP.ACTIVITY.CONDITION.2";//首次申购
+    public static String ACTIVITY_TRADE = "FP.ACTIVITY.CONDITION.3";//活动时间内的首次申购
 
 }

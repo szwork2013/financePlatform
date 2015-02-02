@@ -28,4 +28,19 @@ public interface ActivityDao {
 
     public List<Activity> getCurrrentValidActivities();
 
+
+    /**
+     * 活动开始后  新注册用户且参加活动 满足条件发送  已发送数量查询
+     * @param id
+     * @return
+     */
+    public int countRegisterHasSend(Long id);
+
+    /**
+     * 活动开始后  首次购买用户 满足条件发送  已发送数量查询
+     * @param id
+     * @return
+     */
+    public int countTradeHasSend(Long id);
+
 }
