@@ -128,7 +128,7 @@ public class RewardFlowServiceImpl implements RewardFlowService {
                 rewardFlowVo.setAmount(takePrefix(BigDecimal.valueOf(rewardFlow.getRewardAmt()).divide(BigDecimal.valueOf(rewardType.getUnit())), "-"));
             }
             rewardFlowVo.setStatus(RewardFlowStatus.getDescByStatus(rewardFlow.getStatus()));
-            rewardFlowVo.setRewardType(ActivityConstant.REWARD_TYPE_REDPACKET.equals(rewardFlow.getRewardType()) ? "0" : "1");
+            rewardFlowVo.setRewardType(ActivityConstant.REWARD_TYPE_REDPACKET.equals(rewardFlow.getRewardType()) ? "1" : "0");
             rewardFlowVos.add(rewardFlowVo);
         }
     }

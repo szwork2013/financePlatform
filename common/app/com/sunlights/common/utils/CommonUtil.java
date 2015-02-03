@@ -116,6 +116,8 @@ public class CommonUtil {
         String userAgent = request.getHeader(AppConst.HEADER_USER_AGENT);
         //Mozilla/5.0 (iPhone; CPU iPhone OS 7_1 like Mac OS X) AppleWebKit/537.51.2 (KHTML, like Gecko) Mobile/11D167\jindoujialicai\1.2
 
+        Logger.info(">>userAgent:" + userAgent);
+
         String name = "jindoujialicai";
         int index = userAgent.indexOf(name);
         if (index <= 0){

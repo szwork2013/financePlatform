@@ -55,6 +55,7 @@ public class ExchangeRewardController extends ActivityBaseController {
                 }
             }
             pageVo.setList(list);
+            pageVo.setCount(list.size());
         }else{
             pageVo.setList(result);
         }
