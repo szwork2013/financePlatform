@@ -44,7 +44,7 @@ public class QRcodeController extends ActivityBaseController {
         JsonNode json = request().body().asJson();
         String content = null;
         String token = null;
-        if(json!=null) {
+        if (json != null) {
             JsonNode contentNode = json.findPath("content");
             content = contentNode == null ? "" : contentNode.textValue();
             JsonNode tokenNode = json.findPath("token");
@@ -54,7 +54,7 @@ public class QRcodeController extends ActivityBaseController {
         CommonUtil.getInstance().validateParams(content);
         String qrCode = generateQRCode(content, token);
         messageUtil.setMessage(new Message(Severity.INFO, MsgCode.ABOUT_QUERY_SUCC), qrCode);
-        Controller.response().setHeader("Access-Control-Allow-Origin","*");
+        Controller.response().setHeader("Access-Control-Allow-Origin", "*");
         return ok(messageUtil.toJson());
     }
 
