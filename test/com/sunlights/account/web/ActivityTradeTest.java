@@ -27,7 +27,7 @@ public class ActivityTradeTest extends BaseTest {
     public void testActivityTrade() throws Exception{
         final Random random = new Random();
 
-        for (int i = 0; i<= 40; i++) {
+        for (int i = 0; i<= 2; i++) {
             Thread thread = new Thread(new Runnable() {
                 @Override
                 public void run() {

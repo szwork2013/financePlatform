@@ -55,6 +55,7 @@ public class ExchangeResultHandler extends AbstractExchangeRuleHandler {
         exchangeResult.setAmount(amt);
         exchangeResult.setStatus(ActivityConstant.EXCHANGE_RESULT_AUDIT_SUCC);
         exchangeResult.setCarrierCode(requestVo.get("carrierCode", String.class));
+        exchangeResult.setRewardFlowId(requestVo.get("rewardFlowId", Long.class));
         exchangeResultService.save(exchangeResult);
 
         ExchangeScene exchangeScene = requestVo.get("exchangeScene", ExchangeScene.class);
