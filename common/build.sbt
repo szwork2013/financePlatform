@@ -23,7 +23,8 @@ libraryDependencies ++= Seq(
   "com.google.guava" % "guava" % "18.0",
   "rapid" % "xsqlbuider" % "1.0.4",
   "com.sunlights" % "QRCode" % "1.0",
-  "commons-httpclient" % "commons-httpclient" % "3.1"
+  "commons-httpclient" % "commons-httpclient" % "3.1",
+  "com.wordnik" %% "swagger-play2" % "1.3.11"
 )
 
 sources in(Compile, doc) := Seq.empty

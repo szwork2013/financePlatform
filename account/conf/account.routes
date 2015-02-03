@@ -27,6 +27,8 @@ POST        /activity/beforeexchange            @com.sunlights.customer.web.Exch
 POST        /activity/beforebeanexchange        @com.sunlights.customer.web.ExchangeRewardController.prepareDataBeforeBeanExchange
 
 
+GET         /activity/remain/:id                @com.sunlights.customer.web.Activity4H5Controller.getActivityRemain(id:String)
+GET         /activity/isover/:id                @com.sunlights.customer.web.Activity4H5Controller.validateActivityIsOver(id:String)
 GET         /activity/rule/:id                  @com.sunlights.customer.web.Activity4H5Controller.getContent(id:String)
 
 #Reward

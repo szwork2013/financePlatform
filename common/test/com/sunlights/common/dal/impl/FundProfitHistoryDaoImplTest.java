@@ -11,7 +11,6 @@ import java.sql.Timestamp;
 import java.util.List;
 
 import static org.junit.Assert.assertTrue;
-import static play.test.Helpers.*;
 
 public class FundProfitHistoryDaoImplTest extends WithApplication {
     final private FundProfitHistoryDao dao = new FundProfitHistoryDaoImpl();
@@ -19,24 +18,18 @@ public class FundProfitHistoryDaoImplTest extends WithApplication {
     @Test
     public void testInsertFundProfitHistory() throws Exception {
 
-        running(fakeApplication(inMemoryDatabase("test")), new Runnable() {
-
-            public void run() {
-                JPA.withTransaction(new play.libs.F.Callback0() {
-                    public void invoke() {
-                        FundProfitHistory data = new FundProfitHistory();
-                        data.setFundCode("519501");
-                        System.out.print(data.getFundCode());
-                        Timestamp ts = new Timestamp(20130816);
-                        data.setDateTime(ts);
-                        data.setIncomePerTenThousand(new BigDecimal(1.22));
-                        data.setPercentSevenDays(new BigDecimal(0.044600000000000001));
-                        dao.insertFundProfitHistory(data);
-                    }
-                });
+        JPA.withTransaction(new play.libs.F.Callback0() {
+            public void invoke() {
+                FundProfitHistory data = new FundProfitHistory();
+                data.setFundCode("519501");
+                System.out.print(data.getFundCode());
+                Timestamp ts = new Timestamp(20130816);
+                data.setDateTime(ts);
+                data.setIncomePerTenThousand(new BigDecimal(1.22));
+                data.setPercentSevenDays(new BigDecimal(0.044600000000000001));
+                dao.insertFundProfitHistory(data);
             }
         });
-
 
     }
 
