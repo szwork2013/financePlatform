@@ -112,7 +112,7 @@ public class CommonUtil {
 	}
     
     
-    public static double getCurrentVersion(Http.Request request){
+    public static String getCurrentVersion(Http.Request request){
         String userAgent = request.getHeader(AppConst.HEADER_USER_AGENT);
         //Mozilla/5.0 (iPhone; CPU iPhone OS 7_1 like Mac OS X) AppleWebKit/537.51.2 (KHTML, like Gecko) Mobile/11D167\jindoujialicai\1.2
 
@@ -121,11 +121,11 @@ public class CommonUtil {
         String name = "jindoujialicai";
         int index = userAgent.indexOf(name);
         if (index <= 0){
-            return 0;
+            return "0";
         }
         String version = userAgent.substring(index + name.length() + 1, userAgent.length());
         Logger.info(">>当前版本号：" + version);
 
-        return Double.valueOf(version);
+        return version;
     }
 }
