@@ -29,6 +29,8 @@ public class ExchangeResult extends IdEntity {
 
     @Column(name = "carrier_code")
     private String carrierCode;
+    @Column(name = "REWARD_FLOW_ID")
+    private Long rewardFlowId;
 
     @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "CREATE_TIME")
@@ -125,5 +127,13 @@ public class ExchangeResult extends IdEntity {
 
     public void setCarrierCode(String carrierCode) {
         this.carrierCode = carrierCode;
+    }
+
+    public Long getRewardFlowId() {
+        return rewardFlowId;
+    }
+
+    public void setRewardFlowId(Long rewardFlowId) {
+        this.rewardFlowId = rewardFlowId;
     }
 }

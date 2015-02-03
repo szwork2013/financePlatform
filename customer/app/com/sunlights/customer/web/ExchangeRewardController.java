@@ -1,8 +1,10 @@
 package com.sunlights.customer.web;
 
+import com.google.common.collect.Lists;
 import com.sunlights.common.AppConst;
 import com.sunlights.common.MsgCode;
 import com.sunlights.common.Severity;
+import com.sunlights.common.utils.CommonUtil;
 import com.sunlights.common.utils.MessageUtil;
 import com.sunlights.common.vo.Message;
 import com.sunlights.common.vo.MessageHeaderVo;
@@ -41,8 +43,22 @@ public class ExchangeRewardController extends ActivityBaseController {
         pageVo.setIndex(exchangeParamter.getIndex());
         pageVo.setPageSize(exchangeParamter.getPageSize());
 
+        Double version = CommonUtil.getCurrentVersion(request());
+
         List<ExchangeSceneVo> result = exchangeSceneService.loadSceneByCustId(custId, pageVo);
-        pageVo.setList(result);
+
+        if (version < AppConst.APP_VERSION_1_2) {
+            List<ExchangeSceneVo> list = Lists.newArrayList();
+            for (ExchangeSceneVo exchangeSceneVo : result) {
+                if (exchangeSceneVo.getExchangeType().equals("0")) {//<1.2版本只显示  红包取现
+                    list.add(exchangeSceneVo);
+                }
+            }
+            pageVo.setList(list);
+        }else{
+            pageVo.setList(result);
+        }
+
 
         messageUtil.setMessage(new Message(Severity.INFO, MsgCode.EXCHANGE_SCENE_QUERY_SUCC), pageVo);
 

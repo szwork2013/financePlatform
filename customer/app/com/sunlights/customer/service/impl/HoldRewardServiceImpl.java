@@ -1,19 +1,18 @@
 package com.sunlights.customer.service.impl;
 
 import com.google.common.collect.Lists;
+import com.sunlights.common.utils.ArithUtil;
 import com.sunlights.common.utils.CommonUtil;
 import com.sunlights.customer.ActivityConstant;
 import com.sunlights.customer.dal.HoldRewardDao;
 import com.sunlights.customer.dal.impl.HoldRewardDaoImpl;
 import com.sunlights.customer.factory.ActivityServiceFactory;
-import com.sunlights.customer.service.ActivityService;
-import com.sunlights.customer.service.HoldRewardService;
-import com.sunlights.customer.service.RewardFlowService;
-import com.sunlights.customer.service.RewardTypeService;
+import com.sunlights.customer.service.*;
 import com.sunlights.customer.service.rewardrules.RewardFlowStatus;
 import com.sunlights.customer.service.rewardrules.vo.RewardFlowRecordVo;
 import com.sunlights.customer.vo.HoldRewardVo;
 import com.sunlights.customer.vo.RewardFlowVo;
+import models.ExchangeRewardRule;
 import models.HoldReward;
 import models.RewardFlow;
 import models.RewardType;
@@ -35,6 +34,7 @@ public class HoldRewardServiceImpl implements HoldRewardService {
     private ActivityService activityService = new ActivityServiceImpl();
 
     private RewardFlowService rewardFlowService = new RewardFlowServiceImpl();
+    private ExchangeRewardRuleService exchangeRewardRuleService = new ExchangeRewardRuleServiceImpl();
 
     @Override
     public void modifyHoldReward(String custId, String rewardType,String activityType, BigDecimal money, Long rewardAmt) {
@@ -130,7 +130,7 @@ public class HoldRewardServiceImpl implements HoldRewardService {
     }
 
     @Override
-    public void genRewardFlow(RewardFlowRecordVo rewardFlowRecordVo) {
+    public RewardFlow genRewardFlow(RewardFlowRecordVo rewardFlowRecordVo) {
         RewardFlow flow = new RewardFlow();
         flow.setActivityId(rewardFlowRecordVo.getActivityId());
         flow.setActivityTitle(rewardFlowRecordVo.getActivityTitle());
@@ -157,6 +157,8 @@ public class HoldRewardServiceImpl implements HoldRewardService {
             holdReward.setGetReward(rewardFlowRecordVo.getRewardAmtResult());
             modifyHoldReward(rewardFlowRecordVo.getCustId(), rewardFlowRecordVo.getRewardType(),rewardFlowRecordVo.getActivityType(), rewardFlowRecordVo.getMoneyResult(), rewardFlowRecordVo.getRewardAmtResult());
         }
+
+        return  flow;
     }
 
     @Override
@@ -197,14 +199,18 @@ public class HoldRewardServiceImpl implements HoldRewardService {
     public HoldRewardVo getTotalReward(String custId) {
         List<HoldReward> holdRewards = holdRewardDao.findListByCustIdAndRewardType(custId, null, false);
         Long totalGoldBean = Long.valueOf(0);
-        BigDecimal goldBeanCash = BigDecimal.ZERO;
+        String goldBeanCash = "0.00";
         BigDecimal redPacket = BigDecimal.ZERO;
         HoldRewardVo holdRewardVo = new HoldRewardVo();
+
+        ExchangeRewardRule exchangeRewardRule = exchangeRewardRuleService.findByRewardType(ActivityConstant.REWARD_TYPE_JINDOU);
+        BigDecimal rate = exchangeRewardRule.getRate();
 
         for(HoldReward holdReward : holdRewards) {
             if(ActivityConstant.REWARD_TYPE_JINDOU.equals(holdReward.getRewardType())) {
                 totalGoldBean += (holdReward.getHoldReward() - holdReward.getFrozenReward());
-                goldBeanCash = goldBeanCash.add(holdReward.getHoldMoney().subtract(holdReward.getFrozenMoney()));
+                goldBeanCash = ArithUtil.bigToScale2(new BigDecimal(totalGoldBean).multiply(rate));
+//                goldBeanCash = goldBeanCash.add(holdReward.getHoldMoney().subtract(holdReward.getFrozenMoney()));
             }
             if(ActivityConstant.REWARD_TYPE_REDPACKET.equals(holdReward.getRewardType())) {
                 redPacket = redPacket.add(holdReward.getHoldMoney().subtract(holdReward.getFrozenMoney()));
@@ -214,7 +220,7 @@ public class HoldRewardServiceImpl implements HoldRewardService {
 
 
         holdRewardVo.setRedPacket(redPacket.equals(BigDecimal.ZERO) ? "0.00" : redPacket.toString());
-        holdRewardVo.setTotalCash(goldBeanCash.equals(BigDecimal.ZERO) ? "0.00" : goldBeanCash.toString());
+        holdRewardVo.setTotalCash(goldBeanCash);
         holdRewardVo.setTotalReward(totalGoldBean.toString());
         holdRewardVo.setRuleUrl(activityService.getFileFuleUrl(rewardTypeModel.getRuleUrl(), "activity.html5Path"));
 
