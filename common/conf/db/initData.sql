@@ -283,6 +283,7 @@ INSERT INTO public.o_user_role (id, user_id, role_id, create_time, update_time, 
 --活动错误信息维护
 
 update public.o_resource set name = '活动错误信息维护' where id = 29
+update public.o_resource set uri = '/#/exchangeresult' where id = 28
 
 
 
