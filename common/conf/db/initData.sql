@@ -252,7 +252,7 @@ INSERT INTO public.o_resource (id, name, code, seq_no, parent_id, type, uri, cre
 INSERT INTO public.o_resource (id, name, code, seq_no, parent_id, type, uri, create_time, update_time, deleted) VALUES (25, '分享信息', 'activity:share', '3', 5, 'menu', '/#/activity/share', '2015-01-28 13:23:49.902', '2015-01-28 13:23:51.476', false);
 INSERT INTO public.o_resource (id, name, code, seq_no, parent_id, type, uri, create_time, update_time, deleted) VALUES (26, '活动列表', 'activity:index', '4', 5, 'menu', '/#/activities', '2015-01-28 13:23:49.902', '2015-01-28 13:23:51.476', false);
 INSERT INTO public.o_resource (id, name, code, seq_no, parent_id, type, uri, create_time, update_time, deleted) VALUES (27, '兑换场景', 'activity:exchange:scene', '5', 5, 'menu', '/#/exchangescene', '2015-01-28 13:23:49.902', '2015-01-28 13:23:51.476', false);
-INSERT INTO public.o_resource (id, name, code, seq_no, parent_id, type, uri, create_time, update_time, deleted) VALUES (28, '兑换结果', 'activity:exchange:result', '6', 5, 'menu', '/#/exchangeresult', '2015-01-28 13:23:49.902', '2015-01-28 13:23:51.476', false);
+INSERT INTO public.o_resource (id, name, code, seq_no, parent_id, type, uri, create_time, update_time, deleted) VALUES (28, '兑换结果', 'activity:exchange:result', '6', 5, 'menu', '/#/exchangeresults', '2015-01-28 13:23:49.902', '2015-01-28 13:23:51.476', false);
 INSERT INTO public.o_resource (id, name, code, seq_no, parent_id, type, uri, create_time, update_time, deleted) VALUES (29, '基金信息', 'activity:message', '7', 5, 'menu', '/#/activity/returnMsg', '2015-01-28 13:23:49.902', '2015-01-28 13:23:51.476', false);
 
 --message
