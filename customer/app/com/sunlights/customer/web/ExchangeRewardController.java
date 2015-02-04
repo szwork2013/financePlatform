@@ -47,7 +47,7 @@ public class ExchangeRewardController extends ActivityBaseController {
 
         List<ExchangeSceneVo> result = exchangeSceneService.loadSceneByCustId(custId, pageVo);
 
-        if (version.compareTo(AppConst.APP_VERSION_1_2) < 0) {
+        if (version.compareTo(AppConst.APP_VERSION_1_2) <= 0) {
             List<ExchangeSceneVo> list = Lists.newArrayList();
             for (ExchangeSceneVo exchangeSceneVo : result) {
                 if (exchangeSceneVo.getExchangeType().equals("0")) {//<1.2版本只显示  红包取现
