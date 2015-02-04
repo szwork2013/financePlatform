@@ -4,11 +4,13 @@ version := "1.0-SNAPSHOT"
 
 scalaVersion := "2.10.0"
 
+
 resolvers ++= Seq(
-  "Sunlights 3rd party" at "http://192.168.0.97:8081/nexus/content/repositories/thirdparty",
-  "Sunlights snapshots" at "http://192.168.0.97:8081/nexus/content/repositories/snapshots/",
-  "Sunlights releases" at "http://192.168.0.97:8081/nexus/content/repositories/releases/"
+  "Sunlights 3rd party" at "http://nexus.sunlights.me/nexus/content/repositories/thirdparty",
+  "Sunlights snapshots" at "http://nexus.sunlights.me/nexus/content/repositories/snapshots/",
+  "Sunlights releases" at "http://nexus.sunlights.me/nexus/content/repositories/releases/"
 )
+
 
 libraryDependencies ++= Seq(
   javaCore,
@@ -30,7 +32,7 @@ publishArtifact in(Compile, packageDoc) := false
 credentials += Credentials(Path.userHome / ".ivy2" / ".credentials")
 
 publishTo <<= version { v: String =>
-  val nexus = "http://192.168.0.97:8081/nexus/"
+  val nexus = "http://nexus.sunlights.me/nexus/"
   if (v.trim.endsWith("SNAPSHOT"))
     Some("snapshots" at nexus + "content/repositories/snapshots")
   else
