@@ -34,7 +34,7 @@ publishArtifact in(Compile, packageDoc) := false
 credentials += Credentials(Path.userHome / ".ivy2" / ".credentials")
 
 publishTo <<= version { v: String =>
-  val nexus = "http://192.168.0.97:8081/nexus/"
+  val nexus = "http://nexus.sunlights.me/nexus/"
   if (v.trim.endsWith("SNAPSHOT"))
     Some("snapshots" at nexus + "content/repositories/snapshots")
   else
