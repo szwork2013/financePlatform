@@ -23,8 +23,8 @@ public class RewardFlowDaoImpl extends EntityBaseDao implements RewardFlowDao {
     private PageDao pageDao = new PageDaoImpl();
 
     @Override
-    public void saveRewardFlow(RewardFlow rewardFlow) {
-        create(rewardFlow);
+    public RewardFlow saveRewardFlow(RewardFlow rewardFlow) {
+        return create(rewardFlow);
     }
 
     @Override

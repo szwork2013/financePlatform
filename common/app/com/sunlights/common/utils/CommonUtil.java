@@ -1,9 +1,12 @@
 package com.sunlights.common.utils;
 
+import com.sunlights.common.AppConst;
 import com.sunlights.common.MsgCode;
 import com.sunlights.common.Severity;
 import com.sunlights.common.exceptions.BusinessRuntimeException;
 import org.apache.commons.lang3.StringUtils;
+import play.Logger;
+import play.mvc.Http;
 
 import java.text.DateFormat;
 import java.text.MessageFormat;
@@ -107,4 +110,20 @@ public class CommonUtil {
 	public static Integer format(Integer value) {
 		return (value == null) ? 0 : value;
 	}
+    
+    
+    public static double getCurrentVersion(Http.Request request){
+        String userAgent = request.getHeader(AppConst.HEADER_USER_AGENT);
+        //Mozilla/5.0 (iPhone; CPU iPhone OS 7_1 like Mac OS X) AppleWebKit/537.51.2 (KHTML, like Gecko) Mobile/11D167\jindoujialicai\1.2
+
+        String name = "jindoujialicai";
+        int index = userAgent.indexOf(name);
+        if (index <= 0){
+            return 0;
+        }
+        String version = userAgent.substring(index + name.length() + 1, userAgent.length());
+        Logger.info(">>当前版本号：" + version);
+
+        return Double.valueOf(version);
+    }
 }

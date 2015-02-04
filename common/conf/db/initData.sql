@@ -280,7 +280,10 @@ INSERT INTO public.o_resource (id, name, code, seq_no, parent_id, type, uri, cre
 INSERT INTO public.o_user_role (id, user_id, role_id, create_time, update_time, deleted) VALUES (1, 1, 1, '2015-01-28 15:05:48.918', '2015-01-28 15:05:50.854', false);
 
 
+--活动错误信息维护
 
+update public.o_resource set name = '活动错误信息维护' where id = 29
+update public.o_resource set uri = '/#/exchangeresult' where id = 28
 
 
 

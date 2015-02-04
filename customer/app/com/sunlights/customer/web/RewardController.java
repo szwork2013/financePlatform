@@ -6,20 +6,14 @@ import com.sunlights.common.Severity;
 import com.sunlights.common.vo.Message;
 import com.sunlights.common.vo.PageVo;
 import com.sunlights.customer.ActivityConstant;
-import com.sunlights.customer.service.ActivityService;
 import com.sunlights.customer.service.HoldRewardService;
-import com.sunlights.customer.service.ObtainRewardRuleService;
 import com.sunlights.customer.service.RewardFlowService;
-import com.sunlights.customer.service.impl.ActivityServiceImpl;
 import com.sunlights.customer.service.impl.HoldRewardServiceImpl;
-import com.sunlights.customer.service.impl.ObtainRewardRuleServiceImpl;
 import com.sunlights.customer.service.impl.RewardFlowServiceImpl;
-import com.sunlights.customer.service.rewardrules.RewardRuleFactory;
 import com.sunlights.customer.service.rewardrules.query.QueryRewardHandler;
 import com.sunlights.customer.service.rewardrules.query.QueryRewardHandlerImpl;
 import com.sunlights.customer.vo.*;
 import models.CustomerSession;
-import org.apache.commons.lang3.StringUtils;
 import play.Logger;
 import play.db.jpa.Transactional;
 import play.mvc.Result;
@@ -87,8 +81,8 @@ public class RewardController extends ActivityBaseController {
         pageVo.put("EQS_custId", custId);
         List<RewardFlowVo> rewardFlowVos = rewardFlowService.getMyFlowDetail(pageVo);
 
-
         pageVo.setList(rewardFlowVos);
+        pageVo.getFilter().clear();
 
         messageUtil.setMessage(new Message(Severity.INFO, MsgCode.REWARD_FLOW_QUERY_SUCC), pageVo);
 
