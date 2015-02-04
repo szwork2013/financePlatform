@@ -6,6 +6,7 @@ import com.sunlights.common.vo.Message;
 import com.sunlights.customer.factory.ActivityServiceFactory;
 import com.sunlights.customer.service.ActivityService;
 import com.sunlights.customer.vo.Activity4H5Vo;
+import com.wordnik.swagger.annotations.*;
 import play.Logger;
 import play.db.jpa.Transactional;
 import play.libs.Json;
@@ -16,6 +17,7 @@ import play.mvc.Result;
  * Created by tangweiqun on 2014/12/26.
  */
 @Transactional
+
 public class Activity4H5Controller extends ActivityBaseController {
 
     private ActivityService activityService = ActivityServiceFactory.getActivityService();
@@ -44,10 +46,12 @@ public class Activity4H5Controller extends ActivityBaseController {
         MessageUtil.getInstance().setMessage(new Message(MsgCode.OPERATE_SUCCESS), remainCount);
 
         Logger.info(">>getActivityRemain return:" + MessageUtil.getInstance().toJson());
-
         return ok(Json.toJson(MessageUtil.getInstance().toJson()));
     }
 
+
+    @ApiOperation(value = "判断活动是否结束", httpMethod = "GET")
+    @ApiImplicitParam(name = "id", value = "activity id", required = true, dataType = "string", paramType = "path")
     public Result validateActivityIsOver(String id){
         Logger.info(">>validateActivityIsOver params:" + id);
         Long activityId = Long.valueOf(id);
