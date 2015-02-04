@@ -42,7 +42,7 @@ public final class AppConst {
     public static long ONE_MINUTE = 60 * 1000;
     public static String TOKEN = "token";
 
-    public static Double APP_VERSION_1_2 = 1.2;
+    public static String APP_VERSION_1_2 = "1.2";
 
     public static String HEADER_USER_AGENT = "User-Agent";
     public static String HEADER_MSG = "SUNLIGHTS_HEADER_MSG";
