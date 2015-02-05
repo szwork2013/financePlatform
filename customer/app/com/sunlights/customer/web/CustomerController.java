@@ -6,6 +6,7 @@ import com.sunlights.common.AppConst;
 import com.sunlights.common.DictConst;
 import com.sunlights.common.MsgCode;
 import com.sunlights.common.Severity;
+import com.sunlights.common.service.ParameterService;
 import com.sunlights.common.service.VerifyCodeService;
 import com.sunlights.common.utils.MessageUtil;
 import com.sunlights.common.vo.Message;
@@ -318,6 +319,18 @@ public class CustomerController extends Controller {
         JsonNode jsonNode = messageUtil.toJson();
         Logger.debug("jsonNode = " + jsonNode);
         return ok(jsonNode);
+    }
+
+
+    public Result cleanParameterCache(){
+        ParameterService service = new ParameterService();
+        service.clearAll();
+
+        Logger.info(">>参数缓存清除成功");
+
+        messageUtil.setMessage(new Message(MsgCode.OPERATE_SUCCESS));
+        return ok(messageUtil.toJson());
+
     }
 
 }

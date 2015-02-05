@@ -1,12 +1,10 @@
 package com.sunlights.customer.action;
 
-import com.fasterxml.jackson.databind.JsonNode;
 import com.google.common.base.Strings;
 import com.google.common.collect.Lists;
 import com.sunlights.common.AppConst;
 import com.sunlights.common.DictConst;
 import com.sunlights.common.MsgCode;
-import com.sunlights.common.service.ParameterService;
 import com.sunlights.common.utils.DBHelper;
 import com.sunlights.common.vo.*;
 import com.sunlights.customer.dal.CustomerDao;
@@ -20,7 +18,6 @@ import models.Customer;
 import models.CustomerMsgPushTxn;
 import models.MessageSmsTxn;
 import play.Logger;
-import play.Play;
 import play.libs.Json;
 import services.PushMessageService;
 import services.SmsMessageService;
@@ -43,17 +40,13 @@ public class MsgCenterActionService {
 
     private MsgCenterDao centerDao = new MsgCenterDaoImpl();
     private CustomerDao customerDao = new CustomerDaoImpl();
-    private ParameterService parameterService = new ParameterService();
     private SmsMessageService smsMessageService = new SmsMessageService();
     private PushMessageService pushMessageService = new PushMessageService();
     private ActivityService activityService = ActivityServiceFactory.getActivityService();
 
-
     private final static String LOGIN = "login";
     private final static String LOGINBYGES = "loginByges";
     private final static String REGISTER = "register";
-    //    private final static String pushUrl = Play.application().configuration().getString("push_url");
-    private final static String smsUrl = Play.application().configuration().getString("sms_url");
 
 
     public void sendMsg(String routeActionMethod, List<MessageHeaderVo> messageHeaderVoList){
@@ -159,6 +152,7 @@ public class MsgCenterActionService {
         Timestamp currentTime = DBHelper.getCurrentTime();
         customerMsgPushTxn.setPushTime(currentTime);
         customerMsgPushTxn.setUpdateTime(currentTime);
+        customerMsgPushTxn.setPushStatus(DictConst.PUSH_STATUS_4);
         centerDao.createCustomerMsgPushTxn(customerMsgPushTxn);
 
         int badge = 0;
@@ -177,7 +171,7 @@ public class MsgCenterActionService {
             }
             pushMessageVo.setBadge(badge);
 
-            executePush(pushMessageVo);
+            executePushWS(pushMessageVo);
         }
 
 
@@ -200,16 +194,7 @@ public class MsgCenterActionService {
 
         Logger.debug(">>待发送消息内容：" + Json.toJson(messageSmsTxn));
         try {
-//            F.Promise<MessageSmsTxn> messageSmsTxnPromise = WS.url(smsUrl).post(Json.toJson(messageSmsTxn)).map(new F.Function<WSResponse, MessageSmsTxn>() {
-//                @Override
-//                public MessageSmsTxn apply(WSResponse wsResponse) throws Throwable {
-//                    MessageSmsTxn messageSmsTxn = Json.fromJson(wsResponse.asJson(), MessageSmsTxn.class);
-//                    return messageSmsTxn;
-//                }
-//            });
-//            MessageSmsTxn resultMessageSmsTxn = messageSmsTxnPromise.get(10, TimeUnit.SECONDS);
             MessageSmsTxn resultMessageSmsTxn = smsMessageService.sendSms(messageSmsTxn);
-
             centerDao.createMessageSmsTxn(resultMessageSmsTxn);
         }catch (Exception e){
             centerDao.createMessageSmsTxn(messageSmsTxn);
@@ -222,63 +207,13 @@ public class MsgCenterActionService {
 
         Logger.info(">>executePushWS>>> start");
         try {
-//            F.Promise<MessageVo> messageVoPromise = WS.url(pushUrl).post(Json.toJson(pushMessageVo)).map(new F.Function<WSResponse, MessageVo>() {
-//                @Override
-//                public MessageVo apply(WSResponse wsResponse) throws Throwable {
-//                    MessageVo returnMsg = Json.fromJson(wsResponse.asJson(), MessageVo.class);
-//                    return returnMsg;
-//                }
-//            });
-//
-//            MessageVo messageVo = messageVoPromise.get(15, TimeUnit.SECONDS);
-
             return pushMessageService.sendPush(pushMessageVo);
-
         }catch (Exception e){
             Logger.error(">>CustomerMsgPushTxn:" + Json.toJson(pushMessageVo), e);
             e.printStackTrace();
         }
 
         return new MessageVo(new Message(MsgCode.OPERATE_FAILURE));
-    }
-
-    private void executePush(PushMessageVo pushMessageVo) {
-        int sendNum = pushMessageVo.getSendNum();
-
-        MessageVo messageVo = executePushWS(pushMessageVo);
-
-        int severity = messageVo.getMessage().getSeverity();
-
-//        if (severity != 0 && sendNum < 3) {
-//            pushMessageVo.setSendNum(sendNum + 1);
-//            executePush(pushMessageVo);
-//        }else{
-            createPushTxn(pushMessageVo, (String) messageVo.getValue(), severity);
-//        }
-
-    }
-
-    private void createPushTxn(PushMessageVo pushMessageVo, String result, int severity){
-        CustomerMsgPushTxn customerMsgPushTxn = createCustomerMsgPushTxn(pushMessageVo);
-
-        if (severity == 0) {
-            JsonNode jsonNode = Json.parse(result);
-            String returnMsgId = jsonNode.get("msg_id").toString();
-            String sendno = jsonNode.get("sendno").toString();
-            customerMsgPushTxn.setReturnMsgId(returnMsgId);
-            customerMsgPushTxn.setSendNo(sendno);
-            customerMsgPushTxn.setPushStatus(DictConst.PUSH_STATUS_4);
-        }else{
-            customerMsgPushTxn.setPushStatus(DictConst.PUSH_STATUS_5);
-            customerMsgPushTxn.setReturnMsgId(result);
-        }
-        Timestamp currentTime = DBHelper.getCurrentTime();
-        customerMsgPushTxn.setSendNum(pushMessageVo.getSendNum());
-        customerMsgPushTxn.setPushTime(currentTime);
-        customerMsgPushTxn.setUpdateTime(currentTime);
-
-//        centerDao.createCustomerMsgPushTxn(customerMsgPushTxn);
-
     }
 
     private CustomerMsgPushTxn createCustomerMsgPushTxn(PushMessageVo pushMessageVo) {
