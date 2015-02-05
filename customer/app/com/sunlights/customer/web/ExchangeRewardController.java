@@ -1,22 +1,22 @@
 package com.sunlights.customer.web;
 
+import com.google.common.collect.Lists;
 import com.sunlights.common.AppConst;
 import com.sunlights.common.MsgCode;
 import com.sunlights.common.Severity;
+import com.sunlights.common.utils.CommonUtil;
 import com.sunlights.common.utils.MessageUtil;
 import com.sunlights.common.vo.Message;
 import com.sunlights.common.vo.MessageHeaderVo;
 import com.sunlights.common.vo.PageVo;
+import com.sunlights.customer.ActivityConstant;
 import com.sunlights.customer.action.MsgCenterAction;
 import com.sunlights.customer.service.ExchangeSceneService;
 import com.sunlights.customer.service.impl.ExchangeSceneServiceImpl;
 import com.sunlights.customer.service.rewardrules.ActivityHandlerService;
 import com.sunlights.customer.service.rewardrules.vo.ActivityRequestVo;
 import com.sunlights.customer.service.rewardrules.vo.ActivityResponseVo;
-import com.sunlights.customer.vo.Data4ExchangeVo;
-import com.sunlights.customer.vo.ExchangeParamter;
-import com.sunlights.customer.vo.ExchangeResultVo;
-import com.sunlights.customer.vo.ExchangeSceneVo;
+import com.sunlights.customer.vo.*;
 import models.CustomerSession;
 import models.ExchangeScene;
 import play.Logger;
@@ -43,8 +43,23 @@ public class ExchangeRewardController extends ActivityBaseController {
         pageVo.setIndex(exchangeParamter.getIndex());
         pageVo.setPageSize(exchangeParamter.getPageSize());
 
+        String version = CommonUtil.getCurrentVersion(request());
+
         List<ExchangeSceneVo> result = exchangeSceneService.loadSceneByCustId(custId, pageVo);
-        pageVo.setList(result);
+
+        if (version.compareTo(AppConst.APP_VERSION_1_2) <= 0) {
+            List<ExchangeSceneVo> list = Lists.newArrayList();
+            for (ExchangeSceneVo exchangeSceneVo : result) {
+                if (exchangeSceneVo.getExchangeType().equals("0")) {//<1.2版本只显示  红包取现
+                    list.add(exchangeSceneVo);
+                }
+            }
+            pageVo.setList(list);
+            pageVo.setCount(list.size());
+        }else{
+            pageVo.setList(result);
+        }
+
 
         messageUtil.setMessage(new Message(Severity.INFO, MsgCode.EXCHANGE_SCENE_QUERY_SUCC), pageVo);
 
@@ -61,6 +76,15 @@ public class ExchangeRewardController extends ActivityBaseController {
         messageUtil.setMessage(new Message(Severity.INFO, MsgCode.BEFORE_EXCHANGE_QUERY_SUCC), result);
 
         Logger.debug("获取活动的信息：" + messageUtil.toJson().toString());
+        return ok(messageUtil.toJson());
+    }
+
+    public Result prepareDataBeforeBeanExchange(){
+        DataBean4ExchangeVo dataBean4ExchangeVo = exchangeSceneService.getDataBean4ExchangeVo();
+
+        messageUtil.setMessage(new Message(Severity.INFO, MsgCode.BEAN_BEFORE_EXCHANGE_SUCC), dataBean4ExchangeVo);
+
+        Logger.debug(">>prepareDataBeforeBeanExchange return：" + messageUtil.toJson().toString());
         return ok(messageUtil.toJson());
     }
 
@@ -89,12 +113,12 @@ public class ExchangeRewardController extends ActivityBaseController {
         requestVo.setCustId(custNo);
         requestVo.setScene(exchangeScene.getScene());
 
-
         requestVo.set("exchangeSceneId", exchangeParamter.getId());
         requestVo.set("bankName", exchangeParamter.getBankName());
         requestVo.set("bankCardNo", exchangeParamter.getBankCard());
         requestVo.set("exchangeAmt", exchangeParamter.getAmount());
         requestVo.set("phone", exchangeParamter.getPhone());
+        requestVo.set("exchangeBeanNum", exchangeParamter.getExchangeBeanNum());
 
         activityHandlerService.service(requestVo, responseVo);
 
@@ -104,8 +128,13 @@ public class ExchangeRewardController extends ActivityBaseController {
         resultVo.setAccountDate(exchangeSceneService.calcAccountDate(exchangeScene.getTimeLimit(), null, true));
 
         if(MsgCode.OPERATE_SUCCESS.getCode().equals(message.getCode())) {
-            message.setCode(MsgCode.EXCHANGE_SUCC.getCode());
-            messageUtil.setMessage(message, resultVo);
+            if (ActivityConstant.ACTIVITY_EXCHANGE_BEAN_SCENE_CODE.equals(exchangeScene.getScene())) {
+                message.setCode(MsgCode.EXCHANGE_SUCC.getCode());
+                messageUtil.setMessage(message);
+            }else{
+                message.setCode(MsgCode.EXCHANGE_SUCC.getCode());
+                messageUtil.setMessage(message, resultVo);
+            }
             Logger.info("兑换成功");
         } else {
             message.setSeverity(Severity.ERROR);

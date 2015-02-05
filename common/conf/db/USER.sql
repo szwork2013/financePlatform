@@ -1,0 +1,1 @@
+INSERT INTO public.o_user (id, username, password, status, deleted, create_time, update_time) VALUES (1, 'admin', 'admin', 'Y', false, '2015-01-28 13:15:37.656', '2015-01-28 13:15:41.417');

@@ -1,11 +1,11 @@
 name := "common"
 
-version := "1.2-SNAPSHOT"
+version := "1.3-SNAPSHOT"
 
 resolvers ++= Seq(
-  "Sunlights 3rd party" at "http://192.168.0.97:8081/nexus/content/repositories/thirdparty",
-  "Sunlights snapshots" at "http://192.168.0.97:8081/nexus/content/repositories/snapshots/",
-  "Sunlights releases" at "http://192.168.0.97:8081/nexus/content/repositories/releases/"
+  "Sunlights 3rd party" at "http://nexus.sunlights.me/nexus/content/repositories/thirdparty",
+  "Sunlights snapshots" at "http://nexus.sunlights.me/nexus/content/repositories/snapshots/",
+  "Sunlights releases" at "http://nexus.sunlights.me/nexus/content/repositories/releases/"
 )
 
 libraryDependencies ++= Seq(
@@ -23,7 +23,8 @@ libraryDependencies ++= Seq(
   "com.google.guava" % "guava" % "18.0",
   "rapid" % "xsqlbuider" % "1.0.4",
   "com.sunlights" % "QRCode" % "1.0",
-  "commons-httpclient" % "commons-httpclient" % "3.1"
+  "commons-httpclient" % "commons-httpclient" % "3.1",
+  "com.wordnik" %% "swagger-play2" % "1.3.11"
 )
 
 sources in(Compile, doc) := Seq.empty
@@ -33,7 +34,7 @@ publishArtifact in(Compile, packageDoc) := false
 credentials += Credentials(Path.userHome / ".ivy2" / ".credentials")
 
 publishTo <<= version { v: String =>
-  val nexus = "http://192.168.0.97:8081/nexus/"
+  val nexus = "http://nexus.sunlights.me/nexus/"
   if (v.trim.endsWith("SNAPSHOT"))
     Some("snapshots" at nexus + "content/repositories/snapshots")
   else

@@ -14,7 +14,6 @@ public class ExchangeRewardRuleServiceImpl  implements ExchangeRewardRuleService
 
     private ExchangeRewardRuleDao exchangeRewardRuleDao = new ExchangeRewardRuleDaoImpl();
 
-    @Deprecated
     @Cacheable(key = "findByRewardType", duration = 300)
     @Override
     public ExchangeRewardRule findByRewardType(String rewardType) {

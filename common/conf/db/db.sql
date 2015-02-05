@@ -1184,17 +1184,17 @@ DROP TABLE IF EXISTS F_ACTIVITY_SCENE;
 /*==============================================================*/
 create table F_ACTIVITY_SCENE
 (
-   ID                   bigint                         not null,
-   CODE                 varchar(10)                    not null,
-   NAME                 varchar(100)                   null,
-   STATUS               varchar(2)                     null,
-   ACTIVITY_TYPE        varchar(10)                    null,
-   PRD_TYPE             varchar(20)                    null,
-   PRD_CODE             varchar(20)                    null,
-   CREATE_TIME          timestamp                      null,
-   UPDATE_TIME          timestamp                      null,
-   constraint PK_F_ACTIVITY_SCENE primary key  (ID),
-   constraint AK_KEY_2_F_ACTIVI unique (CODE)
+  ID                   bigint                         not null,
+  CODE                 varchar(10)                    not null,
+  NAME                 varchar(100)                   null,
+  STATUS               varchar(2)                     null,
+  ACTIVITY_TYPE        varchar(10)                    null,
+  PRD_TYPE             varchar(20)                    null,
+  PRD_CODE             varchar(20)                    null,
+  CREATE_TIME          timestamp                      null,
+  UPDATE_TIME          timestamp                      null,
+  constraint PK_F_ACTIVITY_SCENE primary key  (ID),
+  constraint AK_KEY_2_F_ACTIVI unique (CODE)
 );
 
 comment on column F_ACTIVITY_SCENE.ID is
@@ -1230,18 +1230,18 @@ DROP TABLE IF EXISTS F_CUST_ACTIVITY_JOIN;
 /*==============================================================*/
 create table F_CUST_ACTIVITY_JOIN
 (
-   ID                   bigint                         not null,
-   CUSTOMER_ID          varchar(30)                    null,
-   ACTIVITY_ID          bigint                         null,
-   SCENE                varchar(10)                    null,
-   ISJOINED             int                            null,
-   ISCONTINUED          int                            null,
-   ISTIME_RELATE        int                            null,
-   JOIN_TIME            timestamp                      null,
-   SHORT_URL            varchar(200)                   null,
-   CREATE_TIME          timestamp                      null,
-   UPDATE_TIME          timestamp                      null,
-   constraint PK_F_CUST_ACTIVITY_JOIN primary key  (ID)
+  ID                   bigint                         not null,
+  CUSTOMER_ID          varchar(30)                    null,
+  ACTIVITY_ID          bigint                         null,
+  SCENE                varchar(10)                    null,
+  ISJOINED             int                            null,
+  ISCONTINUED          int                            null,
+  ISTIME_RELATE        int                            null,
+  JOIN_TIME            timestamp                      null,
+  SHORT_URL            varchar(200)                   null,
+  CREATE_TIME          timestamp                      null,
+  UPDATE_TIME          timestamp                      null,
+  constraint PK_F_CUST_ACTIVITY_JOIN primary key  (ID)
 );
 
 comment on column F_CUST_ACTIVITY_JOIN.ID is
@@ -1284,14 +1284,14 @@ DROP TABLE IF EXISTS F_ACTIVITY_STEP;
 /*==============================================================*/
 create table F_ACTIVITY_STEP
 (
-   ID                   bigint                         not null,
-   OBTAIN_RULE_ID       bigint                         null,
-   MIN_VALUE            decimal                        null,
-   MAX_VALUE            decimal                        null,
-   SHOULD_REWARD        bigint                         null,
-   CREATE_TIME          TIMESTAMP                      null,
-   UPDATE_TIME          TIMESTAMP                      null,
-   constraint PK_F_ACTIVITY_STEP primary key  (ID)
+  ID                   bigint                         not null,
+  OBTAIN_RULE_ID       bigint                         null,
+  MIN_VALUE            decimal                        null,
+  MAX_VALUE            decimal                        null,
+  SHOULD_REWARD        bigint                         null,
+  CREATE_TIME          TIMESTAMP                      null,
+  UPDATE_TIME          TIMESTAMP                      null,
+  constraint PK_F_ACTIVITY_STEP primary key  (ID)
 );
 
 comment on column F_ACTIVITY_STEP.ID is
@@ -1321,20 +1321,20 @@ DROP TABLE IF EXISTS F_EXCAHNGE_SCENE;
 /*==============================================================*/
 create table F_EXCAHNGE_SCENE
 (
-   ID                   bigint                         not null,
-   SCENE                varchar(10)                    null,
-   TITLE                varchar(50)                    null,
-   STATUS               varchar(1)                     null,
-   REWARD_TYPE          varchar(10)                    null,
-   EXCHANGE_TYPE        varchar(10)                    null,
-   AMOUNT               bigint                         null,
-   EXCHANGED_AMT        bigint                         null,
-   EXCHANGE_LIMIT       bigint                         null,
-   TIME_LIMIT           bigint                         null,
-   CREATE_TIME          timestamp                      null,
-   UPDATE_TIME          timestamp                      null,
-   constraint PK_F_EXCAHNGE_SCENE primary key  (ID),
-   constraint AK_SCENE_F_EXCAHN unique (SCENE)
+  ID                   bigint                         not null,
+  SCENE                varchar(10)                    null,
+  TITLE                varchar(50)                    null,
+  STATUS               varchar(1)                     null,
+  REWARD_TYPE          varchar(10)                    null,
+  EXCHANGE_TYPE        varchar(10)                    null,
+  AMOUNT               bigint                         null,
+  EXCHANGED_AMT        bigint                         null,
+  EXCHANGE_LIMIT       bigint                         null,
+  TIME_LIMIT           bigint                         null,
+  CREATE_TIME          timestamp                      null,
+  UPDATE_TIME          timestamp                      null,
+  constraint PK_F_EXCAHNGE_SCENE primary key  (ID),
+  constraint AK_SCENE_F_EXCAHN unique (SCENE)
 );
 
 comment on column F_EXCAHNGE_SCENE.ID is
@@ -1379,17 +1379,17 @@ DROP TABLE IF EXISTS F_EXCHANGE_RESULT;
 /*==============================================================*/
 create table F_EXCHANGE_RESULT
 (
-   ID                   bigint                         not null,
-   CUSTOMER_ID          varchar(30)                    null,
-   EXCHANGE_SCENE       varchar(10)                    null,
-   STATUS               int                            null,
-   PHONE                varchar(15)                    null,
-   BANK_CODE            varchar(20)                    null,
-   BANK_CARD_NO         varchar(25)                    null,
-   AMOUNT               decimal(18,2)                  null,
-   CREATE_TIME          timestamp                      null,
-   UPDATE_TIME          timestamp                      null,
-   constraint PK_F_EXCHANGE_RESULT primary key  (ID)
+  ID                   bigint                         not null,
+  CUSTOMER_ID          varchar(30)                    null,
+  EXCHANGE_SCENE       varchar(10)                    null,
+  STATUS               int                            null,
+  PHONE                varchar(15)                    null,
+  BANK_CODE            varchar(20)                    null,
+  BANK_CARD_NO         varchar(25)                    null,
+  AMOUNT               decimal(18,2)                  null,
+  CREATE_TIME          timestamp                      null,
+  UPDATE_TIME          timestamp                      null,
+  constraint PK_F_EXCHANGE_RESULT primary key  (ID)
 );
 
 comment on column F_EXCHANGE_RESULT.ID is
@@ -1856,14 +1856,14 @@ ALTER TABLE fundnav_history ALTER COLUMN lastest_total_asset type numeric(18, 5)
 
 create table fund_profit_history
 (
-   id                   bigint                         not null,
-   fund_code             varchar(30)                    null,
-   date_time            timestamp                      null,
-   percent_seven_days   decimal(16,5)                  null,
-   income_per_ten_thousand decimal(16,5)                  null,
-   create_time          timestamp                      null,
-   update_time          timestamp                      null,
-   constraint PK_FUND_PROFIT_HISTORY primary key  (id)
+  id                   bigint                         not null,
+  fund_code             varchar(30)                    null,
+  date_time            timestamp                      null,
+  percent_seven_days   decimal(16,5)                  null,
+  income_per_ten_thousand decimal(16,5)                  null,
+  create_time          timestamp                      null,
+  update_time          timestamp                      null,
+  constraint PK_FUND_PROFIT_HISTORY primary key  (id)
 );
 
 
@@ -1932,48 +1932,203 @@ CREATE TABLE P_DEPOSIT_INTEREST
 DROP TABLE IF EXISTS FundArchiveEx;
 create table FundArchiveEx
 (
-   sm_guid              varchar(100)                   null,
-   front_end_code       varchar(50)                    null,
-   back_end_code        varchar(50)                    null,
-   fund_code            varchar(50)                    null,
-   alias_code           varchar(50)                    null,
-   pin_yin_code         varchar(50)                    null,
-   fund_name            varchar(50)                    null,
-   fund_name_abbr       varchar(3000)                  null,
-   fund_name_abbr2      varchar(500)                   null,
-   establishment_date   varchar(30)                    null,
-   expire_date          varchar(100)                   null,
-   manager              varchar(50)                    null,
-   invest_advisor_guid  varchar(200)                   null,
-   invest_advisor_name  varchar(200)                   null,
-   trustee_name         varchar(100)                   null,
-   fund_type            int                            null,
-   fund_type_name       varchar(100)                   null,
-   fund_state           int                            null,
-   investment_type      int                            null,
-   investment_type_name varchar(100)                   null,
-   investment_style     int                            null,
-   investment_style_name varchar(100)                   null,
-   investment_orientation varchar(3000)                  null,
-   investment_target    varchar(3000)                  null,
-   investment_field     varchar(1200)                  null,
-   performance_bench_mark varchar(800)                   null,
-   profit_distribution_rule varchar(2800)                  null,
-   asset_allocation     varchar(2900)                  null,
-   brief_intro          varchar(3500)                  null,
-   risk_return_character varchar(1500)                  null,
-   fund_management_fees varchar(50)                    null,
-   fund_trustee_fees    varchar(50)                    null,
-   founded_size         decimal(18,2)                  null,
-   founded_hold_shares  decimal(18,2)                  null,
-   founded_total_asset  decimal(18,2)                  null,
-   latest_size          decimal(18,2)                  null,
-   latest_hold_shares   decimal(18,2)                  null,
-   latest_total_asset   decimal(18,2)                  null,
-   isdeleted            int                            null,
-   updatetime           timestamp                      null,
-   id                   bigint                         not null,
-   constraint PK_FUNDARCHIVEEX primary key (id)
+  sm_guid              varchar(100)                   null,
+  front_end_code       varchar(50)                    null,
+  back_end_code        varchar(50)                    null,
+  fund_code            varchar(50)                    null,
+  alias_code           varchar(50)                    null,
+  pin_yin_code         varchar(50)                    null,
+  fund_name            varchar(50)                    null,
+  fund_name_abbr       varchar(3000)                  null,
+  fund_name_abbr2      varchar(500)                   null,
+  establishment_date   varchar(30)                    null,
+  expire_date          varchar(100)                   null,
+  manager              varchar(50)                    null,
+  invest_advisor_guid  varchar(200)                   null,
+  invest_advisor_name  varchar(200)                   null,
+  trustee_name         varchar(100)                   null,
+  fund_type            int                            null,
+  fund_type_name       varchar(100)                   null,
+  fund_state           int                            null,
+  investment_type      int                            null,
+  investment_type_name varchar(100)                   null,
+  investment_style     int                            null,
+  investment_style_name varchar(100)                   null,
+  investment_orientation varchar(3000)                  null,
+  investment_target    varchar(3000)                  null,
+  investment_field     varchar(1200)                  null,
+  performance_bench_mark varchar(800)                   null,
+  profit_distribution_rule varchar(2800)                  null,
+  asset_allocation     varchar(2900)                  null,
+  brief_intro          varchar(3500)                  null,
+  risk_return_character varchar(1500)                  null,
+  fund_management_fees varchar(50)                    null,
+  fund_trustee_fees    varchar(50)                    null,
+  founded_size         decimal(18,2)                  null,
+  founded_hold_shares  decimal(18,2)                  null,
+  founded_total_asset  decimal(18,2)                  null,
+  latest_size          decimal(18,2)                  null,
+  latest_hold_shares   decimal(18,2)                  null,
+  latest_total_asset   decimal(18,2)                  null,
+  isdeleted            int                            null,
+  updatetime           timestamp                      null,
+  id                   bigint                         not null,
+  constraint PK_FUNDARCHIVEEX primary key (id)
 );
 
 ALTER TABLE CODE add COLUMN on_sale INT;
+
+--2015-01-28
+drop table IF EXISTS O_USER_ROLE;
+drop table IF EXISTS O_ROLE_RESOURCE;
+drop table IF EXISTS O_P;
+drop table IF EXISTS O_USER;
+drop table IF EXISTS O_ROLE;
+drop table IF EXISTS O_RESOURCE;
+
+/*==============================================================*/
+/* Table: O_USER                                                */
+/*==============================================================*/
+create table O_USER
+(
+  ID                   bigint                         not null,
+  USERNAME             varchar(50)                    null,
+  PASSWORD             varchar(50)                    null,
+  STATUS               varchar(50)                    null,
+  DELETED              boolean                        null,
+  CREATE_TIME          timestamp                      null,
+  UPDATE_TIME          timestamp                      null,
+  constraint PK_O_USER primary key (ID)
+);
+
+
+/*==============================================================*/
+/* Table: O_ROLE                                                */
+/*==============================================================*/
+create table O_ROLE
+(
+  ID                   bigint                         not null,
+  CODE                 varchar(50)                    null,
+  NAME                 varchar(50)                    null,
+  "DESC"               varchar(200)                   null,
+  CREATE_TIME          timestamp                      null,
+  UPDATE_TIME          timestamp                      null,
+  DELETED              boolean                        null,
+  constraint PK_O_ROLE primary key (ID)
+);
+
+/*==============================================================*/
+/* Table: O_RESOURCE                                            */
+/*==============================================================*/
+create table O_RESOURCE
+(
+  ID                   bigint                         not null,
+  NAME                 varchar(50)                    null,
+  CODE                 varchar(50)                    null,
+  SEQ_NO               varchar(50)                    null,
+  PARENT_ID            bigint                         null,
+  TYPE                 varchar(50)                    null,
+  URI                  varchar(200)                   null,
+  CREATE_TIME          timestamp                      null,
+  UPDATE_TIME          timestamp                      null,
+  DELETED              boolean                        null,
+  constraint PK_O_RESOURCE primary key (ID)
+);
+
+
+/*==============================================================*/
+/* Table: O_P                                                   */
+/*==============================================================*/
+create table O_P
+(
+  ID                   bigint                         not null,
+  USER_ID              bigint                         null,
+  LAST_NAME            varchar(20)                    null,
+  FIRST_NAME           varchar(20)                    null,
+  EMAIL                varchar(100)                   null,
+  TELEPHONE            varchar(20)                    null,
+  DELETED              boolean                        null,
+  CREATE_TIME          timestamp                      null,
+  UPDATE_TIME          timestamp                      null,
+  constraint PK_O_P primary key (ID)
+);
+
+alter table O_P
+add constraint FK_O_P_REFERENCE_O_USER foreign key (USER_ID)
+references O_USER (ID)
+on update restrict
+on delete restrict;
+
+
+/*==============================================================*/
+/* Table: O_USER_ROLE                                           */
+/*==============================================================*/
+create table O_USER_ROLE
+(
+  ID                   bigint                         not null,
+  USER_ID              bigint                         null,
+  ROLE_ID              bigint                         null,
+  CREATE_TIME          timestamp                      null,
+  UPDATE_TIME          timestamp                      null,
+  DELETED              boolean                        null,
+  constraint PK_O_USER_ROLE primary key (ID)
+);
+
+alter table O_USER_ROLE
+add constraint FK_O_USER_R_REFERENCE_O_USER foreign key (USER_ID)
+references O_USER (ID)
+on update restrict
+on delete restrict;
+
+alter table O_USER_ROLE
+add constraint FK_O_USER_R_REFERENCE_O_ROLE foreign key (ROLE_ID)
+references O_ROLE (ID)
+on update restrict
+on delete restrict;
+
+/*==============================================================*/
+/* Table: O_ROLE_RESOURCE                                       */
+/*==============================================================*/
+create table O_ROLE_RESOURCE
+(
+  ID                   bigint                         not null,
+  ROLE_ID              bigint                         null,
+  RESOURCE_ID          bigint                         null,
+  CREATE_TIME          timestamp                      null,
+  UPDATE_TIME          timestamp                      null,
+  DELETED              boolean                        null,
+  constraint PK_O_ROLE_RESOURCE primary key (ID)
+);
+
+alter table O_ROLE_RESOURCE
+add constraint FK_O_ROLE_R_REFERENCE_O_ROLE foreign key (ROLE_ID)
+references O_ROLE (ID)
+on update restrict
+on delete restrict;
+
+alter table O_ROLE_RESOURCE
+add constraint FK_O_ROLE_R_REFERENCE_O_RESOUR foreign key (RESOURCE_ID)
+references O_RESOURCE (ID)
+on update restrict
+on delete restrict;
+
+
+/*==============================================================*/
+/* Table: F_EXCHANGE_RECORD                                     */
+/*==============================================================*/
+drop table IF EXISTS F_EXCHANGE_RECORD;
+create table F_EXCHANGE_RECORD
+(
+  ID                   bigint                         not null,
+  EXCHANGE_RESULT_ID   bigint                         null,
+  SHOULD_EXCHANGE      decimal(18,5)                  null,
+  ALREADY_EXCHANGE     decimal(18,5)                  null,
+  BALANCE              decimal(18,5)                  null,
+  PAYMENT_RECEIPT_NO   varchar(50)                    null,
+  CREATE_TIME          timestamp                      null,
+  UPDATE_TIME          timestamp                      null,
+  DELETED              boolean                        null,
+  constraint PK_F_EXCHANGE_RECORD primary key (ID)
+);
+
+

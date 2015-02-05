@@ -5,6 +5,7 @@ import com.sunlights.common.MsgCode;
 import com.sunlights.common.vo.MessageVo;
 import com.sunlights.common.vo.PageVo;
 import com.sunlights.customer.vo.Data4ExchangeVo;
+import com.sunlights.customer.vo.DataBean4ExchangeVo;
 import org.junit.Before;
 import org.junit.Test;
 import play.Logger;
@@ -28,7 +29,7 @@ public class ExchangeRewardControllerTest extends BaseTest {
     public void getCookie() {
         super.startPlay();
         final String mobilePhoneNo = "15821948594";
-        final String password = "111111";
+        final String password = "1";
         cookie = getCookieAfterLogin(mobilePhoneNo, password);
 
     }
@@ -106,6 +107,56 @@ public class ExchangeRewardControllerTest extends BaseTest {
         assertThat(testData4ExchangeVo).isEqualTo(data4ExchangeVo);//此处判断value
 
     }
+
+    @Test
+    public void testPrepareDataBeforeBeanExchange() throws Exception{
+        Logger.info("============testPrepareDataBeforeBeanExchange start====");
+
+        Map<String, String> formParams = new HashMap<>();
+        play.mvc.Result result = getResult("/account/activity/beforebeanexchange", formParams, cookie);  //
+        Logger.info("============testPrepareDataBeforeBeanExchange result====\n" + contentAsString(result));
+        assertThat(status(result)).isEqualTo(OK);
+        MessageVo message = toMessageVo(result);
+        assertThat(message.getMessage().getCode()).isEqualTo(MsgCode.BEFORE_EXCHANGE_QUERY_SUCC.getCode());
+
+
+        /**
+         * 验证message与value
+         */
+        String testString1 = null;
+        try {
+            testString1 = getJsonFile("json/BeanBeforeexChange.json");//获得json文件内容
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        MessageVo testMessage1 = toMessageVo(testString1);
+        Logger.info("---" + contentAsString(result));
+        Logger.info("---" + testString1);
+        assertThat(testMessage1.getMessage()).isEqualTo(message.getMessage());//此处判断message
+        DataBean4ExchangeVo testData4ExchangeVo = Json.fromJson(Json.toJson(testMessage1.getValue()), DataBean4ExchangeVo.class);
+        DataBean4ExchangeVo data4ExchangeVo = Json.fromJson(Json.toJson(message.getValue()), DataBean4ExchangeVo.class);
+        assertThat(testData4ExchangeVo.getRate()).isEqualTo(data4ExchangeVo.getRate());//此处判断value
+    }
+
+
+
+    @Test
+    public void testExchangeReward() throws Exception{
+        Logger.info("============testExchangeReward start====");
+
+        Map<String, String> formParams = new HashMap<>();
+        formParams.put("phone", "15821948594");
+        formParams.put("amount", "2");
+        formParams.put("id", "421760");
+
+        play.mvc.Result result = getResult("/account/activity/exchange", formParams, cookie);  //
+        Logger.info("============testExchangeReward result====\n" + contentAsString(result));
+        assertThat(status(result)).isEqualTo(OK);
+        MessageVo message = toMessageVo(result);
+        assertThat(message.getMessage().getCode()).isEqualTo(MsgCode.EXCHANGE_SUCC.getCode());
+    }
+
 
 
 }

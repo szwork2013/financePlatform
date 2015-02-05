@@ -16,6 +16,8 @@ public class ExchangeParamter {
 
     private String bankCode;
 
+    private String exchangeBeanNum;//兑换数量
+
     public String getId() {
         return id;
     }
@@ -78,5 +80,13 @@ public class ExchangeParamter {
 
     public void setPageSize(int pageSize) {
         this.pageSize = pageSize;
+    }
+
+    public String getExchangeBeanNum() {
+        return exchangeBeanNum;
+    }
+
+    public void setExchangeBeanNum(String exchangeBeanNum) {
+        this.exchangeBeanNum = exchangeBeanNum;
     }
 }

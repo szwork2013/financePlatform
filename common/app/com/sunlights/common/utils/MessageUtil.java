@@ -46,7 +46,6 @@ public class MessageUtil {
 		Message message = mesageVo == null ? new Message(Severity.ERROR, MsgCode.OPERATE_FAILURE) : mesageVo.getMessage();
 		ObjectNode json = Json.newObject();
 		json.put("message", message.getSeverity());
-//        json.put("message", Json.toJson(message));
 		json.put("headerValue", Json.toJson(value));
 
         Logger.info(json.toString());

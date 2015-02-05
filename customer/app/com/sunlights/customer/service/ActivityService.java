@@ -38,4 +38,28 @@ public interface ActivityService {
 
     public Activity4H5Vo getH5InfoById(Long id);
 
+    /**
+     * 1验证客户是否已做过首次申购   2 验证该首次申购的活动是否未结束
+     * @param customerId
+     * @param activityId
+     * @return
+     */
+    public boolean validateHasFirstPurchase(String customerId, Long activityId);
+
+    /**
+     * 对该活动进行 剩余数量计数
+     * @param id
+     * @return null 无数量限制 0无剩余数
+     */
+    public Integer countActivityRemain(Long id);
+
+
+    /**
+     * 验证活动是否结束
+     * @param id
+     * @return
+     */
+    public boolean validateActivityIsOver(Long id);
+
+
 }

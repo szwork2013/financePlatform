@@ -7,6 +7,7 @@ import com.sunlights.common.DictConst;
 import com.sunlights.common.dal.EntityBaseDao;
 import com.sunlights.common.exceptions.ConverterException;
 import com.sunlights.common.utils.ConverterUtil;
+import com.sunlights.common.utils.DBHelper;
 import com.sunlights.customer.dal.CustomerDao;
 import com.sunlights.customer.vo.CustomerVo;
 import com.sunlights.common.vo.MsgSettingVo;
@@ -301,5 +302,19 @@ public class CustomerDaoImpl extends EntityBaseDao implements CustomerDao {
     @Override
     public CustomerMsgSetting createCustomerMsgSetting(CustomerMsgSetting customerMsgSetting) {
         return create(customerMsgSetting);
+    }
+
+    @Override
+    public boolean validateHasFirstPurchase(String customerId){
+        String sql = "select count(1) from t_trade t where t.cust_id = :customerId and t.create_time > :currentTime";
+        Query query = em.createNativeQuery(sql);
+        query.setParameter("customerId", customerId);
+        query.setParameter("currentTime", DBHelper.afterMinutes(DBHelper.getCurrentTime(), 60));//考虑到调用时间延迟，给1小时移除当前操作交易影响
+        int count = Integer.valueOf(query.getSingleResult().toString());
+        if (count == 0) {
+            return false;
+        }
+
+        return true;
     }
 }

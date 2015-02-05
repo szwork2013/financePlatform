@@ -4,7 +4,6 @@ import com.sunlights.common.MsgCode;
 import com.sunlights.common.Severity;
 import com.sunlights.common.exceptions.BusinessRuntimeException;
 import com.sunlights.common.vo.Message;
-import com.sunlights.common.vo.QRcodeVo;
 import com.sunlights.customer.ActivityConstant;
 import com.sunlights.customer.factory.ShareInfoServiceFactory;
 import com.sunlights.customer.service.ShareInfoService;
@@ -12,7 +11,6 @@ import com.sunlights.customer.vo.ShareInfoContext;
 import com.sunlights.customer.vo.ShareInfoVo;
 import com.sunlights.customer.vo.ShareVo;
 import models.CustomerSession;
-import org.apache.commons.lang3.StringUtils;
 import play.Configuration;
 import play.Logger;
 import play.data.Form;
@@ -20,59 +18,15 @@ import play.db.jpa.Transactional;
 import play.libs.Json;
 import play.mvc.Http;
 import play.mvc.Result;
-import services.QRcodeService;
 
 /**
  * Created by Administrator on 2014/12/3.
  */
 @Transactional
-public class ShareContorller extends ActivityBaseController {
+public class ShareController extends ActivityBaseController {
 
 
-    private QRcodeService qRcodeService = new QRcodeService();
     private Form<ShareVo> shareParameterForm = Form.form(ShareVo.class);
-
-    /**
-     * 获得byte流图片
-     *
-     * @return
-     */
-    public Result getQRcodeToByte() {
-        CustomerSession customerSession = getCustomerSession();
-        String custNo = customerSession.getCustomerId();//获得客户id
-        if (StringUtils.isEmpty(custNo)) {
-            return notFound("用户登录已经超时,请重新登录");
-        }
-        ShareVo shareVo = getShareVo();
-        String type = shareVo.getType();
-        String id = shareVo.getId();
-        if (StringUtils.isEmpty(type)) {
-            type = ActivityConstant.SHARE_TYPE_INVITER;
-        }
-        ShareInfoService shareInfoService = ShareInfoServiceFactory.createShareInfoService(type);
-        if (shareInfoService == null) {
-            Logger.error("不支持的分享类型");
-            Message message = new Message(Severity.INFO, MsgCode.NOT_SUPPORT_SHARE_TYPE);
-            messageUtil.setMessage(message);
-            return ok(messageUtil.toJson());
-        }
-
-        ShareInfoContext context = getShareInfoContext(id, custNo, type);
-        ShareInfoVo shareInfoVo = shareInfoService.getShareInfoByType(context);
-        String shorturl = shareInfoVo.getShortUrl();
-        QRcodeVo qRcodeVo = qRcodeService.getQRcodeVo(shorturl);
-        messageUtil.setMessage(new Message(Severity.INFO, MsgCode.ABOUT_QUERY_SUCC), qRcodeVo);
-        return ok(messageUtil.toJson());
-
-    }
-
-    private ShareInfoContext getShareInfoContext(String id, String custNo, String type) {
-        ShareInfoContext context = new ShareInfoContext();
-        context.setRefId(id);
-        context.setCustNo(custNo);
-        context.setType(type);
-        return context;
-    }
 
     private ShareVo getShareVo() {
         Http.RequestBody body = request().body();
@@ -84,7 +38,6 @@ public class ShareContorller extends ActivityBaseController {
         }
         return shareVo;
     }
-
 
     /**
      * 分享接口
@@ -103,7 +56,7 @@ public class ShareContorller extends ActivityBaseController {
         ShareVo shareVo = getShareVo();
         String type = shareVo.getType();
         String id = shareVo.getId();
-        if(ActivityConstant.SHARE_TYPE_INVITER.equals(type) && Configuration.root().getBoolean("inviter")) {
+        if (ActivityConstant.SHARE_TYPE_INVITER.equals(type) && Configuration.root().getBoolean("inviter")) {
             type = ActivityConstant.SHARE_TYPE_ACTIVITY;
             id = ActivityConstant.ACTIVITY_REGISTER_SCENE_CODE;
         }

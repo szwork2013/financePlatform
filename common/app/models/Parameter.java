@@ -10,7 +10,7 @@ import javax.persistence.Entity;
 public class Parameter extends IdEntity {
     @Column(length = 50)
     private String name;
-    @Column(length = 50)
+    @Column(length = 255)
     private String value;
     private String description;
     @Column(name = "STATUS", length = 1)

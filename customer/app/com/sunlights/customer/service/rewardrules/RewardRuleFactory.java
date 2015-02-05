@@ -2,6 +2,7 @@ package com.sunlights.customer.service.rewardrules;
 
 
 import com.sunlights.customer.ActivityConstant;
+import com.sunlights.customer.service.rewardrules.exchange.BeanExchangeRuleHandler;
 import com.sunlights.customer.service.rewardrules.exchange.ExchangeHandlerAdapter;
 import com.sunlights.customer.service.rewardrules.exchange.ExchangeHandlerMapping;
 import com.sunlights.customer.service.rewardrules.exchange.RedPacketExchangeRuleHandler;
@@ -38,6 +39,8 @@ public class RewardRuleFactory {
         map.put(ActivityConstant.ACTIVITY_SIGNIN_SCENE_CODE, new SigninObtainRuleHandler());
 
         map.put(ActivityConstant.ACTIVITY_EXCHANGE_RED_PACKET_SCENE_CODE, new RedPacketExchangeRuleHandler());
+
+        map.put(ActivityConstant.ACTIVITY_EXCHANGE_BEAN_SCENE_CODE, new BeanExchangeRuleHandler());
         return map;
     }
 }

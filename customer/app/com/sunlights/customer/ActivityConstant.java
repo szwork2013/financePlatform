@@ -54,6 +54,11 @@ public interface ActivityConstant {
     String ACTIVITY_EXCHANGE_RED_PACKET_SCENE_CODE = "EXC001";//红包取现
 
     /**
+     * 金豆兑换话费
+     */
+    String ACTIVITY_EXCHANGE_BEAN_SCENE_CODE = "EXC002";
+
+    /**
      * 以下是活动类型
      */
     /**注册类*/

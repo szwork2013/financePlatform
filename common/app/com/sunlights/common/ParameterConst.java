@@ -106,4 +106,22 @@ public final class ParameterConst {
     public static String SECRET_KEY = "SECRET_KEY";
 
 
+    /**
+     * 移动号段
+     */
+    public static String CMCC = "CMCC";
+    /**
+     * 电信号段
+     */
+    public static String CTCC = "CTCC";
+    /**
+     * 联通号段
+     */
+    public static String CUCC = "CUCC";
+
+
+    /**
+     * 金豆兑换话费可兑换的份额列表
+     */
+    public static String EXCHANGE_BEAN = "EXCHANGE_BEAN";
 }

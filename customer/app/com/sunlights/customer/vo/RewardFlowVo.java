@@ -15,6 +15,9 @@ public class RewardFlowVo implements Serializable{
 
     private String status;
 
+    private String rewardType;
+
+
     public String getStatus() {
         return status;
     }
@@ -45,5 +48,13 @@ public class RewardFlowVo implements Serializable{
 
     public void setCreateTime(String createTime) {
         this.createTime = createTime;
+    }
+
+    public String getRewardType() {
+        return rewardType;
+    }
+
+    public void setRewardType(String rewardType) {
+        this.rewardType = rewardType;
     }
 }

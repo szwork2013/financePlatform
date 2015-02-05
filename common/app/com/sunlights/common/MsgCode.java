@@ -100,6 +100,9 @@ public enum MsgCode {
 	DEPOSIT_INTEREST_EXIST_ERROR("2016", "操作失败：", "已存在的活期利率。"),
     NOT_NULL("2004", "操作失败：", "传入参数'{0}'不能为空。"),
 
+	LOGIN_NOT_REGISTER_ERROR("2017", "登陆失败：", "没有该用户账号。"),
+	LOGIN_ACCOUNT_UNUSUAL_ERROR("2018", "登陆失败：", "该用户账户异常。"),
+	LOGIN_PASSWORD_INCORRECT_ERROR("2019", "登陆失败：", "密码错误。"),
 
     //活动积分模块
     OBTAIN_SUCC("0220", "获取积分成功"),
@@ -122,7 +125,16 @@ public enum MsgCode {
     EXCHANGE_NOT_ENOUGH("2228", "兑换数量不足"),
     NOT_SUPPORT_SHARE_TYPE("2229", "不支持的分享类型"),
     PARAMTER_NOT_CAN_NULL("2230", "参数不能为空"),
-    ACTIVITY_SYS_ERROR("3201", "系统异常");
+    ACTIVITY_SYS_ERROR("3201", "系统异常"),
+
+    BEAN_EXCHANGE_REPEAT("1231", "今天已兑换了亲", "请明天再来哦"),
+    BEAN_EXCHANGE_NOTENOUGH("1232", "金豆数不足以兑换话费"),
+    BEAN_BEFORE_EXCHANGE_SUCC("0229", "金豆兑换前预准备成功"),
+    BEAN_EXCHANGE_SUCC("0227", "金豆兑换成功", "您本次兑换{0}元话费到{1}，预计在{2}个工作日内收到。"),
+
+    ;
+
+
 
 
 

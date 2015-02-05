@@ -2,7 +2,6 @@ package com.sunlights.customer.dal;
 
 import com.sunlights.common.vo.PageVo;
 import models.RewardFlow;
-import org.h2.mvstore.Page;
 
 import java.util.List;
 
@@ -11,7 +10,7 @@ import java.util.List;
  */
 public interface RewardFlowDao {
 
-    public void saveRewardFlow(RewardFlow rewardFlow);
+    public RewardFlow saveRewardFlow(RewardFlow rewardFlow);
 
     public List<RewardFlow> findByCondition(RewardFlow rewardFlow, String startDate, String endDate, boolean isAsc) throws Exception ;
 
