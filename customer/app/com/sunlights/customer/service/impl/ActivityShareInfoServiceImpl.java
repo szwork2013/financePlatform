@@ -41,7 +41,7 @@ public class ActivityShareInfoServiceImpl extends AbstractShareInfoService {
             Activity activity = activityService.getByUnknowCondition(context.getRefId());
             sb.append("/" + activity.getUrl());
             //sb.append(context.getCommonParamter());
-            sb.append("?scene= " + activity.getScene());
+            sb.append("?activityId= " + activity.getId());
         }
         return sb.toString();
     }
