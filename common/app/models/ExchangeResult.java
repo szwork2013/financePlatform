@@ -41,6 +41,15 @@ public class ExchangeResult extends IdEntity {
     @Column(name = "UPDATE_TIME")
     private Date updateTime;
 
+
+	@Column(name = "EXCHANGED_AMOUNT")
+	private BigDecimal exchangedAmount;
+
+	@Column(name = "PAYMENT_RECEIPT_NO")
+	private String paymentReceiptNo;
+
+
+
     public String getCustId() {
         return custId;
     }
@@ -136,4 +145,20 @@ public class ExchangeResult extends IdEntity {
     public void setRewardFlowId(Long rewardFlowId) {
         this.rewardFlowId = rewardFlowId;
     }
+
+	public BigDecimal getExchangedAmount () {
+		return exchangedAmount;
+	}
+
+	public void setExchangedAmount (BigDecimal exchangedAmount) {
+		this.exchangedAmount = exchangedAmount;
+	}
+
+	public String getPaymentReceiptNo () {
+		return paymentReceiptNo;
+	}
+
+	public void setPaymentReceiptNo (String paymentReceiptNo) {
+		this.paymentReceiptNo = paymentReceiptNo;
+	}
 }
