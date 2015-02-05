@@ -1,7 +1,6 @@
 package models;
 
 import javax.persistence.*;
-import java.math.BigDecimal;
 import java.util.Date;
 
 /**
@@ -30,21 +29,23 @@ public class ObtainRewardRule extends IdEntity{
     private Long totalLimitAmt;
     @Column(name = "IS_INVITER")
     private Integer inviter;
-
     @Column(name = "ACTIVITY_CHANNEL")
     private Integer activityChannel;
-
+    @Column(name = "total_count")
+    private Integer totalCount;
+    @Column(name = "out_total_count")
+    private Integer outTotalCount;
+    @Column(name = "activity_condition")
+    private String activityCondition;
 
     @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "CREATE_TIME")
     private Date createTime;
     @Column(name = "CREATE_BY", length = 30)
     private String createBy;
-
     @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "UPDATE_TIME")
     private Date updateTime;
-
     @Column(name = "UPDATE_BY", length = 30)
     private String updateBy;
 
@@ -170,5 +171,29 @@ public class ObtainRewardRule extends IdEntity{
 
     public void setUpdateBy(String updateBy) {
         this.updateBy = updateBy;
+    }
+
+    public Integer getTotalCount() {
+        return totalCount;
+    }
+
+    public void setTotalCount(Integer totalCount) {
+        this.totalCount = totalCount;
+    }
+
+    public Integer getOutTotalCount() {
+        return outTotalCount;
+    }
+
+    public void setOutTotalCount(Integer outTotalCount) {
+        this.outTotalCount = outTotalCount;
+    }
+
+    public String getActivityCondition() {
+        return activityCondition;
+    }
+
+    public void setActivityCondition(String activityCondition) {
+        this.activityCondition = activityCondition;
     }
 }

@@ -14,4 +14,10 @@ public interface ObtainRewardRuleDao {
 
     public List<Trade> getTradesByCustId(String custId);
 
+    /**
+     * 查询当前 有效的 首次购买  的活动 规则
+     * @return
+     */
+    public List<ObtainRewardRule> findFirstPurchaseEffective(Long activityId);
+
 }

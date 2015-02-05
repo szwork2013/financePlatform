@@ -15,7 +15,7 @@ public class ExchangeSceneVo implements Serializable {
 
     private String logo;
 
-    private String exchangeType;
+    private String exchangeType;//0 红包取现 1兑换话费
 
     public String getExchangeType() {
         return exchangeType;

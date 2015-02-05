@@ -130,7 +130,7 @@ public enum MsgCode {
     BEAN_EXCHANGE_REPEAT("1231", "今天已兑换了亲", "请明天再来哦"),
     BEAN_EXCHANGE_NOTENOUGH("1232", "金豆数不足以兑换话费"),
     BEAN_BEFORE_EXCHANGE_SUCC("0229", "金豆兑换前预准备成功"),
-    BEAN_EXCHANGE_SUCC("0227", "您本次兑换{0}元话费到{1}，预计在{2}个工作日内收到"),
+    BEAN_EXCHANGE_SUCC("0227", "金豆兑换成功", "您本次兑换{0}元话费到{1}，预计在{2}个工作日内收到。"),
 
     ;
 

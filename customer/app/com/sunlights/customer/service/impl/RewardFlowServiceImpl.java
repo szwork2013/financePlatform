@@ -7,14 +7,12 @@ import com.sunlights.customer.ActivityConstant;
 import com.sunlights.customer.dal.RewardFlowDao;
 import com.sunlights.customer.dal.impl.RewardFlowDaoImpl;
 import com.sunlights.customer.factory.ActivityServiceFactory;
-import com.sunlights.customer.service.*;
+import com.sunlights.customer.service.RewardFlowService;
+import com.sunlights.customer.service.RewardTypeService;
 import com.sunlights.customer.service.rewardrules.RewardFlowStatus;
-import com.sunlights.customer.service.rewardrules.vo.RewardFlowRecordVo;
 import com.sunlights.customer.vo.Data4ExchangeItem;
 import com.sunlights.customer.vo.RewardFlowVo;
 import com.sunlights.customer.vo.RewardResultVo;
-import models.ActivityScene;
-import models.HoldReward;
 import models.RewardFlow;
 import models.RewardType;
 import play.Configuration;
@@ -124,9 +122,13 @@ public class RewardFlowServiceImpl implements RewardFlowService {
             if(rewardFlow.getOperatorType().equals(ActivityConstant.REWARD_FLOW_OBTAIN)) {
                 rewardFlowVo.setAmount(takePrefix(BigDecimal.valueOf(rewardFlow.getRewardAmt()).divide(BigDecimal.valueOf(rewardType.getUnit())), "+"));
             } else {
+                if (ActivityConstant.ACTIVITY_EXCHANGE_BEAN_SCENE_CODE.equals(rewardFlow.getScene())) {
+                    rewardFlowVo.setTitle(MessageFormat.format("金豆兑换{0}元话费", rewardFlow.getMoney()));
+                }
                 rewardFlowVo.setAmount(takePrefix(BigDecimal.valueOf(rewardFlow.getRewardAmt()).divide(BigDecimal.valueOf(rewardType.getUnit())), "-"));
             }
             rewardFlowVo.setStatus(RewardFlowStatus.getDescByStatus(rewardFlow.getStatus()));
+            rewardFlowVo.setRewardType(ActivityConstant.REWARD_TYPE_REDPACKET.equals(rewardFlow.getRewardType()) ? "1" : "0");
             rewardFlowVos.add(rewardFlowVo);
         }
     }

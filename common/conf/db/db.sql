@@ -2113,3 +2113,22 @@ on update restrict
 on delete restrict;
 
 
+/*==============================================================*/
+/* Table: F_EXCHANGE_RECORD                                     */
+/*==============================================================*/
+drop table IF EXISTS F_EXCHANGE_RECORD;
+create table F_EXCHANGE_RECORD
+(
+  ID                   bigint                         not null,
+  EXCHANGE_RESULT_ID   bigint                         null,
+  SHOULD_EXCHANGE      decimal(18,5)                  null,
+  ALREADY_EXCHANGE     decimal(18,5)                  null,
+  BALANCE              decimal(18,5)                  null,
+  PAYMENT_RECEIPT_NO   varchar(50)                    null,
+  CREATE_TIME          timestamp                      null,
+  UPDATE_TIME          timestamp                      null,
+  DELETED              boolean                        null,
+  constraint PK_F_EXCHANGE_RECORD primary key (ID)
+);
+
+
