@@ -2,14 +2,18 @@ package com.sunlights.customer.service.impl;
 
 import com.sunlights.customer.ActivityConstant;
 import com.sunlights.customer.dal.ActivityDao;
+import com.sunlights.customer.dal.CustomerDao;
 import com.sunlights.customer.dal.impl.ActivityDaoImpl;
+import com.sunlights.customer.dal.impl.CustomerDaoImpl;
 import com.sunlights.customer.factory.ActivityServiceFactory;
 import com.sunlights.customer.service.AbstractShareInfoService;
 import com.sunlights.customer.service.ActivityService;
 import com.sunlights.customer.vo.ShareInfoContext;
 import com.sunlights.customer.vo.ShareInfoVo;
 import models.Activity;
+import models.Customer;
 import models.ShareInfo;
+import org.apache.commons.lang3.StringUtils;
 import play.Logger;
 
 import java.text.MessageFormat;
@@ -18,6 +22,7 @@ import java.text.MessageFormat;
  * Created by tangweiqun on 2014/12/17.
  */
 public class ActivityShareInfoServiceImpl extends AbstractShareInfoService {
+    private CustomerDao customerDao = new CustomerDaoImpl();
 
     private ActivityService activityService = ActivityServiceFactory.getActivityService();
 
@@ -37,12 +42,26 @@ public class ActivityShareInfoServiceImpl extends AbstractShareInfoService {
         ShareInfo shareInfo = context.getShareInfo();
         StringBuilder sb = new StringBuilder();
         sb.append(shareInfo.getBaseUrl());
+        String mobile = getMobile(context.getCustNo());
         if(Integer.valueOf(ActivityConstant.ACCOUNT_COMMON_ONE).equals(shareInfo.getRelateRefId())) {
             Activity activity = activityService.getByUnknowCondition(context.getRefId());
             sb.append("/" + activity.getUrl());
-            //sb.append(context.getCommonParamter());
-            sb.append("?activityId= " + activity.getId());
+          //  sb.append(context.getCommonParamter());
+            sb.append("?mobile=" + mobile +"activityId= " + activity.getId());
         }
         return sb.toString();
+    }
+    /**
+     * 获得手机号
+     * @return
+     */
+    private String getMobile(String custNo){
+        if(StringUtils.isEmpty(custNo)) {
+            return "";
+        }
+        Customer customer = customerDao.getCustomerByCustomerId(custNo);
+        String mobile = customer.getMobile();//获得手机号
+        Logger.debug("获得的手机号为:" + mobile);
+        return mobile;
     }
 }
