@@ -146,6 +146,8 @@ public class ExchangeRewardController extends ActivityBaseController {
         List<MessageHeaderVo> messageHeaderVos = responseVo.getMessageHeaderVos();
         response().setHeader(AppConst.HEADER_MSG, MessageUtil.getInstance().setMessageHeader(messageHeaderVos));
 
+        Logger.info(">>exchangeReward return:" + messageUtil.toJson());
+
         return ok(messageUtil.toJson());
     }
 

@@ -8,6 +8,7 @@ POST        /savegespwd                 @com.sunlights.customer.web.CustomerCont
 POST        /getusermstr                @com.sunlights.customer.web.CustomerController.getCustomerByMobilePhoneNo
 POST        /logout                     @com.sunlights.customer.web.CustomerController.logout
 
+GET         /parameter/clean            @com.sunlights.customer.web.CustomerController.cleanParameterCache
 GET         /hastoken                   @com.sunlights.customer.web.CustomerController.getToken
 
 #share
