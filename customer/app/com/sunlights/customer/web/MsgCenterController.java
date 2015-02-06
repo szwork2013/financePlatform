@@ -14,6 +14,7 @@ import com.sunlights.customer.vo.MsgCenterDetailVo;
 import com.sunlights.customer.vo.MsgCenterVo;
 import models.CustomerMsgReadHistory;
 import models.CustomerSession;
+import org.apache.commons.lang.StringUtils;
 import play.Logger;
 import play.data.Form;
 import play.db.jpa.Transactional;
@@ -142,6 +143,11 @@ public class MsgCenterController extends Controller{
         String deviceNo = request().getHeader(AppConst.HEADER_DEVICE);
 
         Logger.info(MessageFormat.format(">>enablePush params：registrationId={0}, deviceNo = {1}", registrationId, deviceNo));
+
+        if (StringUtils.isEmpty(registrationId)) {
+            MessageUtil.getInstance().setMessage(new Message(MsgCode.ENABLE_PUSH_FAIL));
+            return ok(MessageUtil.getInstance().toJson());
+        }
 
         CommonUtil.getInstance().validateParams(registrationId, deviceNo);
 

@@ -66,6 +66,7 @@ public enum MsgCode {
     BANK_CARD_NOT_BINGING("2216", "未绑卡银行卡"),
     SAVE_SHUMI_ACCOUNT_SUCCESS("0217", "数米信息保存成功"),
     ENABLE_PUSH_SUCCESS("0218", "推送开启成功"),
+    ENABLE_PUSH_FAIL("1218", "推送开启失败"),
     DISABLE_PUSH_SUCCESS("0219", "推送关闭成功"),
 
 
