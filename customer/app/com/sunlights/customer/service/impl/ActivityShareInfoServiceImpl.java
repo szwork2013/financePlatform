@@ -47,7 +47,7 @@ public class ActivityShareInfoServiceImpl extends AbstractShareInfoService {
             Activity activity = activityService.getByUnknowCondition(context.getRefId());
             sb.append("/" + activity.getUrl());
           //  sb.append(context.getCommonParamter());
-            sb.append("?mobile=" + mobile +"&activityId=" + activity.getId());
+            sb.append("?info=" + mobile +"|" + activity.getId());
         }
         return sb.toString();
     }
