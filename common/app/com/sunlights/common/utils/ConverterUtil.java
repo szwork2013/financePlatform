@@ -84,7 +84,10 @@ public final class ConverterUtil {
 
         Map<String, Object> result = Maps.newHashMap();
         for (int i = 0; i < keys.size(); i++) {
-            result.put(keys.get(i), values.get(i));
+			Object value = values.get(i);
+			if(value != null) {
+				result.put(keys.get(i), value);
+			}
         }
 
         return result;
