@@ -37,6 +37,7 @@ public class ActivityShareInfoServiceImpl extends AbstractShareInfoService {
 
     @Override
     public String getLongUrl(ShareInfoContext context) {
+        Logger.debug("ActivityShareInfoServiceImpl getLongUrl call");
         ShareInfo shareInfo = context.getShareInfo();
         StringBuilder sb = new StringBuilder();
         sb.append(shareInfo.getBaseUrl());
