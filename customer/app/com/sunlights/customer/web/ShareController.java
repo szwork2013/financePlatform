@@ -48,18 +48,15 @@ public class ShareController extends ActivityBaseController {
         String custNo = null;
         Message message = null;
         try {
-            CustomerSession customerSession = getCustomerSession();
-            custNo = customerSession.getCustomerId();//获得客户id
+           CustomerSession customerSession = getCustomerSession();
+           custNo = customerSession.getCustomerId();//获得客户id
         } catch (Exception e) {
             Logger.debug("没有登录。。");
         }
         ShareVo shareVo = getShareVo();
         String type = shareVo.getType();
         String id = shareVo.getId();
-        if (ActivityConstant.SHARE_TYPE_INVITER.equals(type) && Configuration.root().getBoolean("inviter")) {
-            type = ActivityConstant.SHARE_TYPE_ACTIVITY;
-            id = ActivityConstant.ACTIVITY_REGISTER_SCENE_CODE;
-        }
+
         ShareInfoService shareInfoService = ShareInfoServiceFactory.createShareInfoService(type);
         if (shareInfoService == null) {
             Logger.error("不支持的分享类型");
