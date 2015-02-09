@@ -1,9 +1,7 @@
 package com.sunlights.customer.service.impl;
 
 import com.sunlights.customer.ActivityConstant;
-import com.sunlights.customer.dal.ActivityDao;
 import com.sunlights.customer.dal.CustomerDao;
-import com.sunlights.customer.dal.impl.ActivityDaoImpl;
 import com.sunlights.customer.dal.impl.CustomerDaoImpl;
 import com.sunlights.customer.factory.ActivityServiceFactory;
 import com.sunlights.customer.service.AbstractShareInfoService;
