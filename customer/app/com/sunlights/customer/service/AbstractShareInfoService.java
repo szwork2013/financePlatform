@@ -67,10 +67,12 @@ public abstract class AbstractShareInfoService implements ShareInfoService {
         context.setCommonParamter(commonParamter);
 
         String longUrl = getLongUrl(context);
+        Logger.info("longUrl :" + longUrl);
 
         services.ShortUrlService shortUrlService = new services.ShortUrlService();
 
         String shortUrlStr = shortUrlService.getShortURL(longUrl);
+        Logger.info("shortUrlStr :" + shortUrlStr);
 
         ShortUrl shortUrl = new ShortUrl();
         shortUrl.setShareType(context.getType());
