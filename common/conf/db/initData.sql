@@ -336,6 +336,13 @@ INSERT INTO public.o_user_role (id, user_id, role_id, create_time, update_time, 
 update public.o_resource set name = '活动错误信息维护' where id = 29;
 update public.o_resource set uri = '/#/exchangeresult' where id = 28;
 
+INSERT INTO public.o_resource (id, name, code, seq_no, parent_id, type, uri, create_time, update_time, deleted) VALUES (28, '兑换结果', 'activity:exchange:result', '6', 5, 'menu', '/#/exchangeresults', '2015-01-28 13:23:49.902', '2015-01-28 13:23:51.476', false);
+
+update public.o_resource set name = '红包取现兑换结果' where id = 28;
+
+
+
+
 
 
 

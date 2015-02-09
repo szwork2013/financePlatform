@@ -129,12 +129,19 @@ public enum MsgCode {
     PARAMTER_NOT_CAN_NULL("2230", "参数不能为空"),
     ACTIVITY_SYS_ERROR("3201", "系统异常"),
 
+	UPLOAD_FILE_ERROR("3202", "上传失败："),
+	UPLOAD_FILE_TYPE_ERROR("3203", "上传失败：","上传文件格式错误"),
+
+
     BEAN_EXCHANGE_REPEAT("1231", "今天已兑换了亲", "请明天再来哦"),
     BEAN_EXCHANGE_NOTENOUGH("1232", "金豆数不足以兑换话费"),
     BEAN_BEFORE_EXCHANGE_SUCC("0229", "金豆兑换前预准备成功"),
     BEAN_EXCHANGE_SUCC("0227", "金豆兑换成功", "您本次兑换{0}元话费到{1}，预计在{2}个工作日内收到。"),
 
-    ;
+
+	EXCHANGE_CHECK_INFO("0228", "上传成功：","兑换成功{0}条记录，兑换失败{1}条记录。"),
+
+	;
 
 
 
