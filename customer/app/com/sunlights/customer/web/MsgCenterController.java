@@ -1,5 +1,6 @@
 package com.sunlights.customer.web;
 
+import cn.jpush.api.utils.StringUtils;
 import com.google.common.collect.Lists;
 import com.sunlights.common.AppConst;
 import com.sunlights.common.MsgCode;
@@ -142,6 +143,11 @@ public class MsgCenterController extends Controller{
         String deviceNo = request().getHeader(AppConst.HEADER_DEVICE);
 
         Logger.info(MessageFormat.format(">>enablePush params：registrationId={0}, deviceNo = {1}", registrationId, deviceNo));
+
+        if (StringUtils.isEmpty(registrationId)) {
+            MessageUtil.getInstance().setMessage(new Message(MsgCode.ENABLE_PUSH_FAIL));
+            return ok(MessageUtil.getInstance().toJson());
+        }
 
         CommonUtil.getInstance().validateParams(registrationId, deviceNo);
 

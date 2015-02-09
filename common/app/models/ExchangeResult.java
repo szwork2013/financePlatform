@@ -42,10 +42,10 @@ public class ExchangeResult extends IdEntity {
     private Date updateTime;
 
 
-	@Column(name = "EXCHANGED_AMOUNT")
+	@Column(name = "exchanged_amount")
 	private BigDecimal exchangedAmount;
 
-	@Column(name = "PAYMENT_RECEIPT_NO")
+	@Column(name = "payment_receipt_no")
 	private String paymentReceiptNo;
 
 

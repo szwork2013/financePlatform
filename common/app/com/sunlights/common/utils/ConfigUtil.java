@@ -1,7 +1,6 @@
 package com.sunlights.common.utils;
 
 import org.apache.commons.httpclient.HttpClient;
-
 import play.Configuration;
 import play.Logger;
 
@@ -18,11 +17,30 @@ public class ConfigUtil {
 
     public static String proxy_host = "proxy_host";
     public static String proxy_port = "proxy_port";
+    public static String apns_production = "apns_production";
 
     public static String getValueStr(String name){
         Configuration root = Configuration.root();
 
         String value = root.getString(name);
+        Logger.info(name + "：" + value);
+
+        return value;
+    }
+
+    /**
+     * 默认false
+     * @param name
+     * @return
+     */
+    public static boolean getValueBoolean(String name){
+        Configuration root = Configuration.root();
+
+        if (root.getBoolean(name) == null) {
+            return false;
+        }
+
+        boolean value = root.getBoolean(name);
         Logger.info(name + "：" + value);
 
         return value;
