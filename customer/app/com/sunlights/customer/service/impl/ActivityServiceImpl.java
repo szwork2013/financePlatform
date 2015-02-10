@@ -193,7 +193,7 @@ public class ActivityServiceImpl implements ActivityService{
         } catch (ParseException e) {
             e.printStackTrace();
         }
-        if (activity.getEndTime().before(currentTime)) {
+        if (activity.getEndTime() != null && activity.getEndTime().before(currentTime)) {
             return true;
         }
 

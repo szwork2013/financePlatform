@@ -117,6 +117,7 @@ public enum MsgCode {
     REWARD_FLOW_QUERY_SUCC("0228", "奖励流水查询成功"),
     ALREADY_SIGN("2220", "重复签到"),
     NOT_CONFIG_ACTIVITY_SCENE("2221", "没有配置活动场景"),
+    NOT_BEGIN_ACTIVITY_SCENE("2231", "活动未开始"),
     ALREADY_PURCHASE("2222", "不是首次购买"),
     ALREADY_REGISTER("2223", "已经注册"),
     EXCHANGE_OVER_LIMIT("2224", "兑换数量超额"),
