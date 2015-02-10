@@ -10,6 +10,7 @@ import com.sunlights.customer.service.ActivityService;
 import com.sunlights.customer.service.rewardrules.vo.ActivityRequestVo;
 import com.sunlights.customer.service.rewardrules.vo.ActivityResponseVo;
 import models.Activity;
+import play.Logger;
 
 import java.sql.Timestamp;
 import java.util.List;
@@ -30,6 +31,8 @@ public class RegisterActivityValidateHandler extends AbstractObtainRuleHandler {
     public void obtainInternal(ActivityRequestVo requestVo, ActivityResponseVo responseVo) throws Exception {
         List<Activity> activities = activityService.getCurrentValidActivities();
         if (activities.isEmpty()) {
+            Message message = new Message(Severity.INFO, MsgCode.NOT_BEGIN_ACTIVITY_SCENE);
+            responseVo.setMessage(message);
             responseVo.setFlowStop(true);
             return;
         }
@@ -48,8 +51,10 @@ public class RegisterActivityValidateHandler extends AbstractObtainRuleHandler {
                 purchaseActivityOver = activityService.validateActivityIsOver(activity.getId());
             }
         }
+        Logger.info("purchaseActivityOver:" + purchaseActivityOver);
+        Logger.info("activityOver:" + activityOver);
 
-        if (!activityOver && purchaseActivityOver) {
+        if (!purchaseActivityOver || (purchaseActivityOver && activityOver)) {
             Message message = new Message(Severity.INFO, MsgCode.NOT_BEGIN_ACTIVITY_SCENE);
             responseVo.setMessage(message);
             responseVo.setFlowStop(true);

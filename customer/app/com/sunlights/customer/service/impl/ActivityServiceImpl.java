@@ -25,6 +25,7 @@ import models.ActivityScene;
 import models.CustJoinActivity;
 import models.ObtainRewardRule;
 import play.Configuration;
+import play.Logger;
 
 import java.math.BigDecimal;
 import java.text.ParseException;
@@ -150,11 +151,12 @@ public class ActivityServiceImpl implements ActivityService{
 
     @Override
     public Integer countActivityRemain(Long id) {
-        List<ObtainRewardRule> obtainRewardRuleList = obtainRewardRuleDao.getByActivityId(id);
-        if (obtainRewardRuleList.isEmpty()) {
+        ObtainRewardRule obtainRewardRule = obtainRewardRuleDao.findRewardRuleByActivityId(id);
+        Logger.info(">>countActivityRemain obtainRewardRule: " + obtainRewardRule);
+        if (obtainRewardRule == null) {
             return null;
         }
-        return getRemainNum(obtainRewardRuleList.get(0));
+        return getRemainNum(obtainRewardRule);
     }
 
     private synchronized Integer getRemainNum(ObtainRewardRule obtainRewardRule) {
