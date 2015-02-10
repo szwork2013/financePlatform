@@ -4,13 +4,15 @@
 
 # Home page
 
-POST        /sendsms             @web.SmsMessageController.sendSms
+POST        /sendsms          @web.SmsMessageController.sendSms
 
-POST        /push                @web.PushMessageController.sendPush
+POST        /push             @web.PushMessageController.sendPush
 
-POST        /shorturl            @web.ShortUrlController.getShortURL
+POST        /shorturl         @web.ShortUrlController.getShortURL
 
 # Map static resources from the /public folder to the /assets URL path
 
-GET         /getTicket           @web.JsapiTicketController.getTicket
+GET         /getTicket        @web.JsapiTicketController.getTicket
+
+GET         /appstore          @web.ShortUrlController.toAppStore
 

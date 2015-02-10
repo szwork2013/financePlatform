@@ -43,4 +43,8 @@ public class ShortUrlController extends Controller {
 
         return ok(Json.toJson(shortUrl));
     }
+
+    public Result toAppStore(){
+        return redirect("https://itunes.apple.com/cn/app/jin-dou-jia-li-cai/id948242790");
+    }
 }
