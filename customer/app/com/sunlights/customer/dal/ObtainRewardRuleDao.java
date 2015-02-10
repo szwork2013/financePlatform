@@ -12,6 +12,8 @@ public interface ObtainRewardRuleDao {
 
     public List<ObtainRewardRule> getByActivityId(Long activityId);
 
+    public ObtainRewardRule findRewardRuleByActivityId(Long activityId);
+
     public List<Trade> getTradesByCustId(String custId);
 
     /**
