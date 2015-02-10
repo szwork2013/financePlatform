@@ -14,5 +14,4 @@ POST        /shorturl         @web.ShortUrlController.getShortURL
 
 GET         /getTicket        @web.JsapiTicketController.getTicket
 
-GET         /appstore          @web.ShortUrlController.toAppStore
 
