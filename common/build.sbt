@@ -5,7 +5,7 @@ version := "1.3-SNAPSHOT"
 resolvers ++= Seq(
   "Sunlights 3rd party" at "http://nexus.sunlights.me/nexus/content/repositories/thirdparty",
   "Sunlights snapshots" at "http://nexus.sunlights.me/nexus/content/repositories/snapshots/",
-  "Sunlights releases" at "http://nexus.sunlights.me/nexus/content/repositories/releases/"
+    "Sunlights releases" at "http://nexus.sunlights.me/nexus/content/repositories/releases/"
 )
 
 libraryDependencies ++= Seq(

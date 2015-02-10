@@ -96,6 +96,7 @@ public class ShuMiTradeServiceImpl implements ShuMiTradeService{
         List<MessageHeaderVo> list = Lists.newArrayList();
         MessageHeaderVo messageHeaderVo = new MessageHeaderVo(DictConst.PUSH_TYPE_3, null, customerId);
         Long currentHours = DateUtils.getFragmentInHours(trade.getCreateTime(), Calendar.DATE);
+        Logger.info(">>currentHours:" + currentHours);
         Date confirmDate = DateUtils.addDays(trade.getCreateTime(), 1);
         Date earningDate = DateUtils.addDays(trade.getCreateTime(), 2);
         if (currentHours > 15) {

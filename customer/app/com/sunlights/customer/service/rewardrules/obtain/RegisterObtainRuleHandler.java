@@ -24,6 +24,7 @@ public class RegisterObtainRuleHandler extends AbstractObtainRuleHandler {
 
         RegisterObtainValideHandler registerObtainValideHandler = new RegisterObtainValideHandler();
         ObtainRuleGainHandler obtainRuleGainHandler = new ObtainRuleGainHandler();
+        RegisterActivityValidateHandler registerActivityValidateHandler = new RegisterActivityValidateHandler();
         ReCommendHandler reCommendHandler = new ReCommendHandler();
         ValidBankCardHandler validBankCardHandler = new ValidBankCardHandler();
         RewardFlowHandler rewardFlowHandler = new RewardFlowHandler();
@@ -33,6 +34,7 @@ public class RegisterObtainRuleHandler extends AbstractObtainRuleHandler {
 
         setNextHandler(registerObtainValideHandler)
                 .setNextHandler(obtainRuleGainHandler)
+                .setNextHandler(registerActivityValidateHandler)
                 .setNextHandler(reCommendHandler)
                 .setNextHandler(validBankCardHandler)
                 .setNextHandler(rewardFlowHandler)
