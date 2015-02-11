@@ -108,10 +108,10 @@ public class PushMessageService {
             Logger.error(">>出错了", e);
             Logger.info(MessageFormat.format(">> sendPush exception-->> personalInd：{0},messagePushTxnId：{1}", pushMessageVo.getPersonalInd(), pushMessageVo.getPushTxnId()));
             String detailMsg = e.getMessage();
-            if (e.getMessage().length() >= 200) {
+            e.printStackTrace();
+            if (detailMsg != null && e.getMessage().length() >= 200) {
                 detailMsg = e.getMessage().substring(0, 200);
             }
-            e.printStackTrace();
 
             messageVo.setMessage(new Message(Severity.FATAL, "fatal", e.toString(), detailMsg));
             messageVo.setValue(detailMsg);
