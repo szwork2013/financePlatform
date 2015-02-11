@@ -99,7 +99,7 @@ public class ShuMiTradeServiceImpl implements ShuMiTradeService{
         Logger.info(">>currentHours:" + currentHours);
         Date confirmDate = DateUtils.addDays(trade.getCreateTime(), 1);
         Date earningDate = DateUtils.addDays(trade.getCreateTime(), 2);
-        if (currentHours > 15) {
+        if (currentHours >= 15) {
             confirmDate = DateUtils.addDays(trade.getCreateTime(), 2);
             earningDate = DateUtils.addDays(trade.getCreateTime(), 3);
         }

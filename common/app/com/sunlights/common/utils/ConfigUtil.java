@@ -22,6 +22,10 @@ public class ConfigUtil {
     public static String getValueStr(String name){
         Configuration root = Configuration.root();
 
+        if (root.getString(name) == null) {
+            return null;
+        }
+
         String value = root.getString(name);
         Logger.info(name + "：" + value);
 
@@ -48,6 +52,10 @@ public class ConfigUtil {
 
     public static int getValueInt(String name){
         Configuration root = Configuration.root();
+
+        if (root.getInt(name) == null) {
+            return -1;
+        }
 
         int value = root.getInt(name);
         Logger.info(name + "：" + value);
