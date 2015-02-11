@@ -50,6 +50,7 @@ public class MsgCenterActionService {
 
 
     public void sendMsg(String routeActionMethod, List<MessageHeaderVo> messageHeaderVoList){
+        Logger.info(">>sendMsg>>>");
         for (MessageHeaderVo messageActivityVo : messageHeaderVoList) {
             String messageType = messageActivityVo.getMessageType();
             String customerId = messageActivityVo.getCustomerId();
@@ -71,6 +72,7 @@ public class MsgCenterActionService {
             }else{//活动类、交易类  信息
                 ruleCodeList = getRuleCodeList(routeActionMethod, messageType, scene);
             }
+            Logger.info(">>ruleCodeList size:" + ruleCodeList.size());
             for (String ruleCode : ruleCodeList) {
                 Logger.info(MessageFormat.format("当前发送的消息规则编码：{0}", ruleCode));
                 operationRuleCode(messageActivityVo, ruleCode);

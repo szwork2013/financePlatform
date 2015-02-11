@@ -189,6 +189,10 @@ public class ActivityServiceImpl implements ActivityService{
     public boolean validateActivityIsOver(Long id) {
         Activity activity = activityDao.findById(id);
 
+        if (!ActivityConstant.ACTIVITY_CUSTONER_STATUS_NOMAL.equals(activity.getStatus())) {
+            return true;
+        }
+
         Date currentTime = DBHelper.getCurrentTime();
         try {
             currentTime = CommonUtil.stringToDate(CommonUtil.dateToString(currentTime, CommonUtil.DATE_FORMAT_SHORT), CommonUtil.DATE_FORMAT_SHORT);

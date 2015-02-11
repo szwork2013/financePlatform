@@ -121,17 +121,16 @@ public class ActivityController extends ActivityBaseController  {
             obtainRewardVo.setScene(scene);
             obtainRewardVo.setStatus(ActivityConstant.ACTIVITY_CUSTONER_STATUS_FORBIDDEN);
             message.setSeverity(Severity.INFO);
+            messageUtil.setMessage(message, obtainRewardVo);
         } else if(MsgCode.OPERATE_SUCCESS.getCode().equals(message.getCode())){
             message.setCode(MsgCode.OBTAIN_SUCC.getCode());
             obtainRewardVo = obtainRewardVos.get(0);
 
+            messageUtil.setMessage(message, obtainRewardVo);
             //发送消息
             List<MessageHeaderVo> messageHeaderVos = responseVo.getMessageHeaderVos();
             response().setHeader(AppConst.HEADER_MSG, MessageUtil.getInstance().setMessageHeader(messageHeaderVos));
         }
-
-        messageUtil.setMessage(message, obtainRewardVo);
-
 
         return ok(messageUtil.toJson());
     }

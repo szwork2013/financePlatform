@@ -1,6 +1,5 @@
 package com.sunlights.customer.web;
 
-import cn.jpush.api.utils.StringUtils;
 import com.google.common.collect.Lists;
 import com.sunlights.common.AppConst;
 import com.sunlights.common.MsgCode;
@@ -15,6 +14,7 @@ import com.sunlights.customer.vo.MsgCenterDetailVo;
 import com.sunlights.customer.vo.MsgCenterVo;
 import models.CustomerMsgReadHistory;
 import models.CustomerSession;
+import org.apache.commons.lang.StringUtils;
 import play.Logger;
 import play.data.Form;
 import play.db.jpa.Transactional;
