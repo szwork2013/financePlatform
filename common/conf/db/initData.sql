@@ -343,7 +343,22 @@ update public.o_resource set name = '红包取现兑换结果' where id = 28;
 
 
 
+-- add user sunlights
+INSERT INTO public.o_user (id, username, password, status, deleted, create_time, update_time) VALUES (2, 'sunlights', 'sunlights', 'Y', false, '2015-01-28 13:15:37.656', '2015-01-28 13:15:41.417');
+
+INSERT INTO public.o_role (id, code, name, "DESC", create_time, update_time, deleted) VALUES (2, 'support', '运维角色', '运维角色', '2015-01-28 13:20:27.567', '2015-01-28 13:20:28.573', false);
+
+INSERT INTO public.o_user_role (id, user_id, role_id, create_time, update_time, deleted) VALUES (2, 2, 2, '2015-01-28 15:05:48.918', '2015-01-28 15:05:50.854', false);
 
 
-
-
+INSERT INTO public.o_role_resource (id, role_id, resource_id, create_time, update_time, deleted) VALUES (44, 2, 1, '2015-01-28 14:54:40.570', '2015-01-28 14:54:41.312', false);
+INSERT INTO public.o_role_resource (id, role_id, resource_id, create_time, update_time, deleted) VALUES (45, 2, 2, '2015-01-28 14:54:40.570', '2015-01-28 14:54:41.312', false);
+INSERT INTO public.o_role_resource (id, role_id, resource_id, create_time, update_time, deleted) VALUES (46, 2, 10, '2015-01-28 14:54:40.570', '2015-01-28 14:54:41.312', false);
+INSERT INTO public.o_role_resource (id, role_id, resource_id, create_time, update_time, deleted) VALUES (47, 2, 11, '2015-01-28 14:54:40.570', '2015-01-28 14:54:41.312', false);
+INSERT INTO public.o_role_resource (id, role_id, resource_id, create_time, update_time, deleted) VALUES (48, 2, 12, '2015-01-28 14:54:40.570', '2015-01-28 14:54:41.312', false);
+INSERT INTO public.o_role_resource (id, role_id, resource_id, create_time, update_time, deleted) VALUES (49, 2, 13, '2015-01-28 14:54:40.570', '2015-01-28 14:54:41.312', false);
+INSERT INTO public.o_role_resource (id, role_id, resource_id, create_time, update_time, deleted) VALUES (50, 2, 14, '2015-01-28 14:54:40.570', '2015-01-28 14:54:41.312', false);
+INSERT INTO public.o_role_resource (id, role_id, resource_id, create_time, update_time, deleted) VALUES (51, 2, 15, '2015-01-28 14:54:40.570', '2015-01-28 14:54:41.312', false);
+INSERT INTO public.o_role_resource (id, role_id, resource_id, create_time, update_time, deleted) VALUES (52, 2, 16, '2015-01-28 14:54:40.570', '2015-01-28 14:54:41.312', false);
+INSERT INTO public.o_role_resource (id, role_id, resource_id, create_time, update_time, deleted) VALUES (53, 2, 17, '2015-01-28 14:54:40.570', '2015-01-28 14:54:41.312', false);
+INSERT INTO public.o_role_resource (id, role_id, resource_id, create_time, update_time, deleted) VALUES (54, 2, 18, '2015-01-28 14:54:40.570', '2015-01-28 14:54:41.312', false);
