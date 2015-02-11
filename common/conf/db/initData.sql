@@ -213,6 +213,13 @@ INSERT INTO "public"."parameter" VALUES ('19', '短信接口-授权码', 'SMS_WA
 INSERT INTO "public"."parameter" VALUES ('20', '短信接口-N真实调用/非N 测试模式', 'SMS_TEST', 'N', 'Y');
 
 
+delete from public.O_USER_ROLE;
+delete from public.O_ROLE_RESOURCE;
+delete from public.O_P;
+delete from public.O_USER;
+delete from public.O_ROLE;
+delete from public.O_RESOURCE;
+
 INSERT INTO public.o_user (id, username, password, status, deleted, create_time, update_time) VALUES (1, 'admin', 'admin', 'Y', false, '2015-01-28 13:15:37.656', '2015-01-28 13:15:41.417');
 
 INSERT INTO public.o_role (id, code, name, "DESC", create_time, update_time, deleted) VALUES (1, 'system', '管理员角色', '管理员角色', '2015-01-28 13:20:27.567', '2015-01-28 13:20:28.573', false);

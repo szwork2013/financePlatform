@@ -35,6 +35,7 @@ public class InviteShareInfoServiceImpl extends AbstractShareInfoService {
 
     @Override
     public String getLongUrl(ShareInfoContext context) {
+        Logger.info(">>InviteShareInfoServiceImpl getLongUrl call");
         ShareInfo shareInfo = context.getShareInfo();
         StringBuilder sb = new StringBuilder();
         String mobile = getMobile(context.getCustNo());

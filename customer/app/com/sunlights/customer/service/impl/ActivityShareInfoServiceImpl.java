@@ -1,9 +1,7 @@
 package com.sunlights.customer.service.impl;
 
 import com.sunlights.customer.ActivityConstant;
-import com.sunlights.customer.dal.ActivityDao;
 import com.sunlights.customer.dal.CustomerDao;
-import com.sunlights.customer.dal.impl.ActivityDaoImpl;
 import com.sunlights.customer.dal.impl.CustomerDaoImpl;
 import com.sunlights.customer.factory.ActivityServiceFactory;
 import com.sunlights.customer.service.AbstractShareInfoService;
@@ -39,6 +37,7 @@ public class ActivityShareInfoServiceImpl extends AbstractShareInfoService {
 
     @Override
     public String getLongUrl(ShareInfoContext context) {
+        Logger.debug("ActivityShareInfoServiceImpl getLongUrl call");
         ShareInfo shareInfo = context.getShareInfo();
         StringBuilder sb = new StringBuilder();
         sb.append(shareInfo.getBaseUrl());
@@ -47,7 +46,7 @@ public class ActivityShareInfoServiceImpl extends AbstractShareInfoService {
             Activity activity = activityService.getByUnknowCondition(context.getRefId());
             sb.append("/" + activity.getUrl());
           //  sb.append(context.getCommonParamter());
-            sb.append("?mobile=" + mobile +"&activityId=" + activity.getId());
+            sb.append("?info=" + mobile +"|" + activity.getId());
         }
         return sb.toString();
     }

@@ -9,6 +9,7 @@ import com.sunlights.customer.vo.ShareInfoVo;
 import models.ShareInfo;
 import models.ShortUrl;
 import play.Configuration;
+import play.Logger;
 
 import java.net.URLEncoder;
 
@@ -45,17 +46,11 @@ public abstract class AbstractShareInfoService implements ShareInfoService {
     }
 
     public String getShortUrl(ShareInfoContext context) {
-        ShortUrl shortUrl = shortUrlDao.getShortUrl(context.getType(), context.getRefId());
-        if(shortUrl != null) {
-            return shortUrl.getShortUrl();
-        }
-
-        String shortUrlStr = add(context);
-
+        String shortUrlStr = saveURL(context);
         return shortUrlStr;
     }
 
-    public String add(ShareInfoContext context) {
+    public String saveURL(ShareInfoContext context) {
         String shareTitle = context.getShareInfo().getTitle();
         String descContent = context.getShareInfoVo().getContent();
         String imgUrl = context.getShareInfo().getImageUrl();
@@ -65,17 +60,19 @@ public abstract class AbstractShareInfoService implements ShareInfoService {
             shareTitle = URLEncoder.encode(shareTitle, "UTF-8");
             descContent = URLEncoder.encode(descContent, "UTF-8");
         } catch (Exception e) {
-
+            Logger.error(">>saveURL : ", e);
         }
 
         String commonParamter = "?appid=" + appid + "&imgUrl=" + imgUrl + "&descContent=" + descContent + "&shareTitle=" + shareTitle;
         context.setCommonParamter(commonParamter);
 
         String longUrl = getLongUrl(context);
+        Logger.info("longUrl :" + longUrl);
 
         services.ShortUrlService shortUrlService = new services.ShortUrlService();
 
         String shortUrlStr = shortUrlService.getShortURL(longUrl);
+        Logger.info("shortUrlStr :" + shortUrlStr);
 
         ShortUrl shortUrl = new ShortUrl();
         shortUrl.setShareType(context.getType());

@@ -4,20 +4,20 @@ import com.sunlights.common.MsgCode;
 import com.sunlights.common.Severity;
 import com.sunlights.common.exceptions.BusinessRuntimeException;
 import com.sunlights.common.vo.Message;
-import com.sunlights.customer.ActivityConstant;
 import com.sunlights.customer.factory.ShareInfoServiceFactory;
 import com.sunlights.customer.service.ShareInfoService;
 import com.sunlights.customer.vo.ShareInfoContext;
 import com.sunlights.customer.vo.ShareInfoVo;
 import com.sunlights.customer.vo.ShareVo;
 import models.CustomerSession;
-import play.Configuration;
 import play.Logger;
 import play.data.Form;
 import play.db.jpa.Transactional;
 import play.libs.Json;
 import play.mvc.Http;
 import play.mvc.Result;
+
+import java.text.MessageFormat;
 
 /**
  * Created by Administrator on 2014/12/3.
@@ -56,6 +56,8 @@ public class ShareController extends ActivityBaseController {
         ShareVo shareVo = getShareVo();
         String type = shareVo.getType();
         String id = shareVo.getId();
+
+        Logger.info(MessageFormat.format(">>share params--->type:{0}, id:{1}", type, id));
 
         ShareInfoService shareInfoService = ShareInfoServiceFactory.createShareInfoService(type);
         if (shareInfoService == null) {

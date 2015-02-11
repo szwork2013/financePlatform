@@ -11,6 +11,7 @@ import cn.jpush.api.push.model.audience.Audience;
 import cn.jpush.api.push.model.notification.IosNotification;
 import cn.jpush.api.push.model.notification.Notification;
 import com.sunlights.common.MsgCode;
+import com.sunlights.common.ParameterConst;
 import com.sunlights.common.Severity;
 import com.sunlights.common.service.ParameterService;
 import com.sunlights.common.utils.ArithUtil;
@@ -38,11 +39,9 @@ public class PushMessageService {
     private static int maxLength = 1000;
 
     public MessageVo sendPush(PushMessageVo pushMessageVo){
-//        String appKey = parameterService.getParameterByName(ParameterConst.APP_KEY);
-//        String secretKey = parameterService.getParameterByName(ParameterConst.SECRET_KEY);
+        String appKey = parameterService.getParameterByName(ParameterConst.APP_KEY);
+        String secretKey = parameterService.getParameterByName(ParameterConst.SECRET_KEY);
         Logger.info(">>sendPush>>> start");
-        String appKey = "b5763dd71f67ef2da3e08fa2";
-        String secretKey = "d5bc1fca3c38f30e212a5b85";
 
         MessageVo messageVo = new MessageVo();
 
@@ -95,28 +94,23 @@ public class PushMessageService {
 
             messageVo.setMessage(new Message(MsgCode.OPERATE_SUCCESS));
             messageVo.setValue(resultMsg);
-//            MessageUtil.getInstance().setMessage(new Message(MsgCode.OPERATE_SUCCESS), resultMsg);
 
         } catch (APIRequestException e) {
-            Logger.info("================sendPush exception personalInd = " + pushMessageVo.getPersonalInd());
-            Logger.info("================sendPush exception messagePushTxnId = " + pushMessageVo.getPushTxnId());
-            errorMsg = MessageFormat.format("异常信息code:{0},msg:{1}", e.getErrorCode(), e.getErrorMessage());
-            Logger.error(">>出错咯：" , errorMsg);
             Logger.error(">>出错了", e);
+            Logger.info(MessageFormat.format(">> sendPush exception-->> personalInd：{0},messagePushTxnId：{1}", pushMessageVo.getPersonalInd(), pushMessageVo.getPushTxnId()));
+            errorMsg = MessageFormat.format("异常信息code:{0},msg:{1}", e.getErrorCode(), e.getErrorMessage());
+            Logger.error(">>出错详情：" , errorMsg);
 
             messageVo.setMessage(new Message(Severity.ERROR, e.getErrorCode() + "", e.getErrorMessage(), errorMsg));
             messageVo.setValue(errorMsg);
-//            MessageUtil.getInstance().setMessage(new Message(Severity.ERROR, e.getErrorCode() + "", e.getErrorMessage(), errorMsg), errorMsg);
             e.printStackTrace();
         } catch (Exception e){
             Logger.error(">>出错了", e);
-            Logger.info("================sendPush exception personalInd = " + pushMessageVo.getPersonalInd());
-            Logger.info("================sendPush exception messagePushTxnId = " + pushMessageVo.getPushTxnId());
+            Logger.info(MessageFormat.format(">> sendPush exception-->> personalInd：{0},messagePushTxnId：{1}", pushMessageVo.getPersonalInd(), pushMessageVo.getPushTxnId()));
             String detailMsg = e.getMessage();
             if (e.getMessage().length() >= 200) {
                 detailMsg = e.getMessage().substring(0, 200);
             }
-//            MessageUtil.getInstance().setMessage(new Message(Severity.FATAL, "fatal", e.toString(), detailMsg), detailMsg);
             e.printStackTrace();
 
             messageVo.setMessage(new Message(Severity.FATAL, "fatal", e.toString(), detailMsg));
@@ -157,7 +151,9 @@ public class PushMessageService {
         }else {
             builder.setAudience(Audience.registrationId(registrationIdList));//1000
         }
-        builder.setOptions(Options.newBuilder().build());
+        boolean apns_production = ConfigUtil.getValueBoolean(ConfigUtil.apns_production);
+
+        builder.setOptions(Options.newBuilder().setApnsProduction(apns_production).build());
 
         return builder.build();
     }
@@ -170,7 +166,8 @@ public class PushMessageService {
         builder.setPlatform(Platform.all());
         builder.setNotification(Notification.alert(contentPush));
         builder.setAudience(Audience.all());
-        builder.setOptions(Options.newBuilder().build());
+        boolean apns_production = ConfigUtil.getValueBoolean(ConfigUtil.apns_production);
+        builder.setOptions(Options.newBuilder().setApnsProduction(apns_production).build());
 
         return builder.build();
     }
@@ -192,7 +189,10 @@ public class PushMessageService {
         }else {
             builder.setAudience(Audience.registrationId(registrationIdList));//1000
         }
-        builder.setOptions(Options.newBuilder().build());
+
+        boolean apns_production = ConfigUtil.getValueBoolean(ConfigUtil.apns_production);
+
+        builder.setOptions(Options.newBuilder().setApnsProduction(apns_production).build());
 
         return builder.build();
     }

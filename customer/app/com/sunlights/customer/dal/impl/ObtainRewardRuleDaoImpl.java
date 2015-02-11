@@ -7,6 +7,7 @@ import com.sunlights.customer.dal.ObtainRewardRuleDao;
 import models.ObtainRewardRule;
 import models.Trade;
 
+import javax.persistence.Query;
 import java.util.List;
 import java.util.Map;
 
@@ -17,6 +18,14 @@ public class ObtainRewardRuleDaoImpl extends EntityBaseDao implements ObtainRewa
     @Override
     public List<ObtainRewardRule> getByActivityId(Long activityId) {
         return findBy(ObtainRewardRule.class, "activityId", activityId);
+    }
+
+    @Override
+    public ObtainRewardRule findRewardRuleByActivityId(Long activityId) {
+        String jpql = "select o from ObtainRewardRule o where o.activityId = ?1 and o.status = 'N' and (inviter is null or inviter = 0)";
+        Query query = createQuery(jpql, activityId);
+        List<ObtainRewardRule> list = query.getResultList();
+        return list.isEmpty() ? null : list.get(0);
     }
 
     @Override

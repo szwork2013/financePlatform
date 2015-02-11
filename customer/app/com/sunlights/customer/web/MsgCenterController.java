@@ -1,5 +1,6 @@
 package com.sunlights.customer.web;
 
+import cn.jpush.api.utils.StringUtils;
 import com.google.common.collect.Lists;
 import com.sunlights.common.AppConst;
 import com.sunlights.common.MsgCode;
