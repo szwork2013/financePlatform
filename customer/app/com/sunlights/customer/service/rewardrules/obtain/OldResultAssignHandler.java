@@ -9,9 +9,7 @@ import com.sunlights.customer.service.ActivityReturnMsgService;
 import com.sunlights.customer.service.rewardrules.vo.ActivityRequestVo;
 import com.sunlights.customer.service.rewardrules.vo.ActivityResponseVo;
 import com.sunlights.customer.service.rewardrules.vo.RewardFlowRecordVo;
-import com.sunlights.customer.vo.ActivityResultVo;
 import com.sunlights.customer.vo.ObtainRewardVo;
-import play.Configuration;
 import play.Logger;
 
 import java.text.MessageFormat;
@@ -40,6 +38,9 @@ public class OldResultAssignHandler extends AbstractObtainRuleHandler{
 
 
         for(RewardFlowRecordVo rewardFlowRecordVo : rewardFlowRecordVos) {
+            if(rewardFlowRecordVo.isRecommender()) {
+                continue;
+            }
             ObtainRewardVo obtainRewardVo = new ObtainRewardVo();
             obtainRewardVo.setScene(rewardFlowRecordVo.getScene());
             obtainRewardVo.setStatus(rewardFlowRecordVo.getStatus());
