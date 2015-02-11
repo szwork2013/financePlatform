@@ -49,14 +49,13 @@
 
     <logger name="play">
         <appender-ref ref="PLAY_FILE"/>
-        <appender-ref ref="SYSLOG" />
     </logger>
 
     <logger name="application">
         <appender-ref ref="APPLICATION_FILE"/>
-        <appender-ref ref="SYSLOG" />
     </logger>
     <root level="ERROR">
         <appender-ref ref="STDOUT"/>
+        <appender-ref ref="SYSLOG" />
     </root>
 </configuration>
