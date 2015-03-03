@@ -22,7 +22,7 @@ public class ConfigUtil {
     public static String getValueStr(String name){
         Configuration root = Configuration.root();
 
-        if (root.getString(name) == null) {
+        if (root == null || root.getString(name) == null) {
             return null;
         }
 

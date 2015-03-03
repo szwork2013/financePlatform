@@ -36,19 +36,17 @@ public class JsapiTicket {
 
 
     private static final String tokenKey = "weixin_token";
-    private static Cache<String, String> cacheFormCallable = null;
+    private Cache<String, String> cacheFormCallable = null;
 
-    static {
+    private static final JsapiTicket instance = new JsapiTicket();
+
+    private JsapiTicket(){
         try {
             cacheFormCallable = createCallableCache();
         } catch (Exception e) {
             Logger.error(e.getMessage());
         }
     }
-
-    private static final JsapiTicket instance = new JsapiTicket();
-
-    private JsapiTicket(){}
 
     public static final JsapiTicket getInstance(){
         return instance;
