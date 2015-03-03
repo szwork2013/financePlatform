@@ -43,6 +43,8 @@ public class MessageRule extends IdEntity {
     private Long messagePushConfigId;
     @Column(length = 1)
     private String status = AppConst.STATUS_VALID;
+    @Column(name = "stay_day_ind", length = 1)
+    private String stayDayInd;//信息是否保存30天
     @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "CREATE_TIME")
     private Date createTime;
@@ -176,5 +178,13 @@ public class MessageRule extends IdEntity {
 
     public void setContentPush(String contentPush) {
         this.contentPush = contentPush;
+    }
+
+    public String getStayDayInd() {
+        return stayDayInd;
+    }
+
+    public void setStayDayInd(String stayDayInd) {
+        this.stayDayInd = stayDayInd;
     }
 }
