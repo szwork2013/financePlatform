@@ -1,16 +1,12 @@
 package com.sunlights.customer.service.rewardrules.exchange;
 
-import models.ExchangeScene;
-import models.RewardFlow;
-
-import com.sunlights.common.MsgCode;
-import com.sunlights.common.Severity;
-import com.sunlights.common.vo.Message;
 import com.sunlights.customer.ActivityConstant;
 import com.sunlights.customer.service.RewardFlowService;
 import com.sunlights.customer.service.impl.RewardFlowServiceImpl;
 import com.sunlights.customer.service.rewardrules.vo.ActivityRequestVo;
 import com.sunlights.customer.service.rewardrules.vo.ActivityResponseVo;
+import models.ExchangeScene;
+import models.RewardFlow;
 
 /**
  * <p>Project: financeplatform</p>
@@ -32,12 +28,12 @@ public class ExchangeDayHandler extends AbstractExchangeRuleHandler{
             RewardFlowService rewardFlowService = new RewardFlowServiceImpl();
 
             RewardFlow rewardFlow = rewardFlowService.findTodayFlowByCustIdAndScene(requestVo.getCustId(), exchangeScene.getScene());
-            if (rewardFlow != null) {
-                Message message = new Message(Severity.WARN, MsgCode.BEAN_EXCHANGE_REPEAT);
-                responseVo.setMessage(message);
-                responseVo.setFlowStop(true);
-                return;
-            }
+//            if (rewardFlow != null) {
+//                Message message = new Message(Severity.WARN, MsgCode.BEAN_EXCHANGE_REPEAT);
+//                responseVo.setMessage(message);
+//                responseVo.setFlowStop(true);
+//                return;
+//            }
 
         }
 

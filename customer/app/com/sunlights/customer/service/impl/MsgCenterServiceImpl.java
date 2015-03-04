@@ -68,7 +68,7 @@ public class MsgCenterServiceImpl implements MsgCenterService {
     }
 
     @Override
-    public void enablePush(String registrationId, String deviceNo) {
+    public void enablePush(String registrationId, String deviceNo, String platform) {
         CustomerMsgSetting customerMsgSetting = customerDao.findCustomerMsgSetting(registrationId, deviceNo);
         Timestamp currentTime = DBHelper.getCurrentTime();
         if (customerMsgSetting == null) {
@@ -76,6 +76,7 @@ public class MsgCenterServiceImpl implements MsgCenterService {
             customerMsgSetting.setRegistrationId(registrationId);
             customerMsgSetting.setDeviceNo(deviceNo);
             customerMsgSetting.setPushOpenStatus(AppConst.STATUS_VALID);
+            customerMsgSetting.setPlatform(platform);
             customerMsgSetting.setCreateTime(currentTime);
             customerDao.createCustomerMsgSetting(customerMsgSetting);
         }

@@ -27,7 +27,7 @@ public class ParameterService {
 
   private ParameterDao parameterDao = new ParameterDaoImpl();
 
-  private void loadAllParameter() {
+  public void loadAllParameter() {
     if (params.isEmpty()) {
       List<Parameter> list = parameterDao.loadAllParameter();
       if (list != null && list.size() != 0) {

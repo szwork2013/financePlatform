@@ -10,6 +10,7 @@ import cn.jpush.api.push.model.PushPayload;
 import cn.jpush.api.push.model.audience.Audience;
 import cn.jpush.api.push.model.notification.IosNotification;
 import cn.jpush.api.push.model.notification.Notification;
+import com.sunlights.common.DictConst;
 import com.sunlights.common.MsgCode;
 import com.sunlights.common.ParameterConst;
 import com.sunlights.common.Severity;
@@ -71,6 +72,7 @@ public class PushMessageService {
         MessageVo messageVo = new MessageVo();
         JPushClient jPushClient = null;
         try {
+            PushPayload pushPayload  = builderPushPayLoad(pushMessageVo);
 
             String proxyHost = ConfigUtil.getValueStr(ConfigUtil.proxy_host);
             if(proxyHost != null) {
@@ -81,8 +83,6 @@ public class PushMessageService {
                 jPushClient = new JPushClient(secretKey, appKey);
             }
 
-            PushPayload pushPayload  = builderPushPayLoad(pushMessageVo);
-
             Logger.info("================sendPush begin：==========");
             Logger.debug(pushPayload.toString());
             PushResult result = jPushClient.sendPush(pushPayload.toString());
@@ -90,7 +90,6 @@ public class PushMessageService {
 
             Logger.info("===============sendPush return：==========");
             Logger.debug(resultMsg);
-
 
             messageVo.setMessage(new Message(MsgCode.OPERATE_SUCCESS));
             messageVo.setValue(resultMsg);
@@ -124,14 +123,21 @@ public class PushMessageService {
         PushPayload pushPayload = null;
 
         String platform = pushMessageVo.getPlatform(); //推送平台
-        Logger.info(">>推送平台：" + platform);
-//        if (DictConst.PUSH_PLATFORM_ALL.equals(platform)){
-//            pushPayload = builderAll(pushMessageVo);
-//        }else if (DictConst.PUSH_PLATFORM_ANDROID.equals(platform)) {
-//            pushPayload = builderAndroid(pushMessageVo);
-//        }else if (DictConst.PUSH_PLATFORM_IOS.equals(platform)) {
+        String msgPlatform = pushMessageVo.getCustomerPlatform();
+
+        Logger.info(MessageFormat.format(">>推送配置中的推送平台：{0},当前registerId对应的推送平台：{1}", platform, msgPlatform));
+
+        if (DictConst.PUSH_PLATFORM_IOS.equals(platform)) {
             pushPayload = builderIos(pushMessageVo);
-//        }
+        }else if(DictConst.PUSH_PLATFORM_ANDROID.equals(platform)){
+            pushPayload = builderAndroid(pushMessageVo);
+        }else{
+            if ("android".equalsIgnoreCase(msgPlatform)) {
+                pushPayload = builderAndroid(pushMessageVo);
+            }else{
+                pushPayload = builderIos(pushMessageVo);
+            }
+        }
         return pushPayload;
     }
 

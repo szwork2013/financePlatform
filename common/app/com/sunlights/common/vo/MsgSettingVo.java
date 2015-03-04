@@ -16,6 +16,7 @@ public class MsgSettingVo implements Serializable{
     private String deviceNo;
     private String customerId;
     private String loginStatus;
+    private String platform;
 
     public String getRegistrationId() {
         return registrationId;
@@ -47,5 +48,13 @@ public class MsgSettingVo implements Serializable{
 
     public void setCustomerId(String customerId) {
         this.customerId = customerId;
+    }
+
+    public String getPlatform() {
+        return platform;
+    }
+
+    public void setPlatform(String platform) {
+        this.platform = platform;
     }
 }

@@ -128,4 +128,23 @@ public class CommonUtil {
 
         return version;
     }
+
+    public static String getCurrentPlatform(Http.Request request){
+        String userAgent = request.getHeader(AppConst.HEADER_USER_AGENT);
+        //Mozilla/5.0 (iPhone; CPU iPhone OS 7_1 like Mac OS X) AppleWebKit/537.51.2 (KHTML, like Gecko) Mobile/11D167\jindoujialicai\1.2
+
+        Logger.info(">>userAgent:" + userAgent);
+
+        String name = "iPhone";
+        int index = userAgent.indexOf(name);
+        if (index > 0){
+            Logger.info(">>当前platform：ios");
+            return "ios";
+        }
+
+        Logger.info(">>当前platform：android");
+        return "android";
+    }
+
+
 }

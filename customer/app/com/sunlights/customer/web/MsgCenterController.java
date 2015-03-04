@@ -151,7 +151,8 @@ public class MsgCenterController extends Controller{
 
         CommonUtil.getInstance().validateParams(registrationId, deviceNo);
 
-        msgCenterService.enablePush(registrationId, deviceNo);
+        String platform = CommonUtil.getCurrentPlatform(request());
+        msgCenterService.enablePush(registrationId, deviceNo, platform);
 
         MessageUtil.getInstance().setMessage(new Message(MsgCode.ENABLE_PUSH_SUCCESS));
 

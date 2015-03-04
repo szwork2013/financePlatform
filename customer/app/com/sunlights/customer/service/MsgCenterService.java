@@ -41,7 +41,7 @@ public interface MsgCenterService {
      * @param deviceNo
      * @return
      */
-    public void enablePush(String registrationId, String deviceNo);
+    public void enablePush(String registrationId, String deviceNo, String platform);
     public void disablePush(String registrationId, String deviceNo);
 
 
