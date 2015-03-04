@@ -895,6 +895,11 @@ Object.defineProperties(Request.prototype, {
 
   port: {
     get: function() {
+        //fix try out default port is 80.
+        if(window.location.port){
+            this._port = window.location.port;
+        }
+
       if (!this._port) {
         switch(this.scheme) {
           case "https": return this._port = 443;

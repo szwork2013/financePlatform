@@ -2,6 +2,11 @@ package web;
 
 import com.sunlights.common.vo.MessageVo;
 import com.sunlights.common.vo.PushMessageVo;
+import com.wordnik.swagger.annotations.Api;
+import com.wordnik.swagger.annotations.ApiOperation;
+import com.wordnik.swagger.annotations.ApiResponse;
+import com.wordnik.swagger.annotations.ApiResponses;
+import models.User;
 import play.Logger;
 import play.data.Form;
 import play.db.jpa.Transactional;
@@ -21,10 +26,14 @@ import services.PushMessageService;
  * @author <a href="mailto:jiaming.wang@sunlights.cc">wangJiaMing</a>
  */
 @Transactional
+@Api(value = "/thirdpart", description = "第三方服务接口")
 public class PushMessageController extends Controller{
     private Form<PushMessageVo> pushMessageVoFrom = Form.form(PushMessageVo.class);
     private PushMessageService pushMessageService = new PushMessageService();
 
+    @ApiOperation(value = "推送消息",
+            nickname = "push",
+            response = PushMessageVo.class, httpMethod = "POST")
     public Result sendPush() {
         Logger.info("sendPush params：" + request().body().asJson());
 

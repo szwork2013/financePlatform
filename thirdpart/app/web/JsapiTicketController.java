@@ -7,6 +7,11 @@
 */
 package web;
 
+import com.wordnik.swagger.annotations.Api;
+import com.wordnik.swagger.annotations.ApiOperation;
+import com.wordnik.swagger.annotations.ApiResponse;
+import com.wordnik.swagger.annotations.ApiResponses;
+import models.User;
 import play.mvc.Controller;
 import play.mvc.Result;
 import weixin.JsapiTicket;
@@ -20,8 +25,12 @@ import weixin.JsapiTicket;
  * @version 1.0
  * @since JDK 1.6
  */
+@Api(value = "/thirdpart", description = "第三方服务接口")
 public class JsapiTicketController extends Controller {
 
+    @ApiOperation(value = "获取微信的ticket",
+            nickname = "getTicket",
+            httpMethod = "GET")
     public Result getTicket() {
         Controller.response().setHeader("Access-Control-Allow-Origin","*");
         try {

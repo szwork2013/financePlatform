@@ -30,9 +30,8 @@
       if (url && url.length > 1) {
         url = url[1];
       } else {
-        //url = "http://petstore.swagger.wordnik.com/v2/swagger.json";
-      url = "@{s"${current.configuration.getString("swagger.api.basepath")
-            .getOrElse("http://localhost:9000")}/api-docs.json"}"
+        url = "@{s"${current.configuration.getString("swagger.api.basepath")
+            .getOrElse("http://localhost:9000")}/api-docs"}"
       }
       window.swaggerUi = new SwaggerUi({
         url: url,

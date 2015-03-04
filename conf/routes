@@ -17,7 +17,7 @@
 # Map static resources from the /public folder to the /assets URL path
 GET        /assets/*file              controllers.Assets.at(path="/public", file)
 
-GET        /api-docs.json             controllers.ApiHelpController.getResources
+GET        /api-docs                  controllers.ApiHelpController.getResources
 GET        /api-docs/customer         controllers.ApiHelpController.getResource(path = "/customer")
 GET        /api-docs/account          controllers.ApiHelpController.getResource(path = "/account")
 GET        /api-docs/trade            controllers.ApiHelpController.getResource(path = "/trade")
