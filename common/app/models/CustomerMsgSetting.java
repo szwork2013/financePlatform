@@ -33,6 +33,8 @@ public class CustomerMsgSetting extends IdEntity {
     private String deviceNo;
     @Column(name = "push_open_status", length = 1)
     private String pushOpenStatus = AppConst.STATUS_VALID;//Y开启、N关闭推送
+    @Column(name = "platform", length = 50)
+    private String platform;//android,ios
     @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "create_time")
     private Date createTime;
@@ -102,5 +104,13 @@ public class CustomerMsgSetting extends IdEntity {
 
     public void setDeviceNo(String deviceNo) {
         this.deviceNo = deviceNo;
+    }
+
+    public String getPlatform() {
+        return platform;
+    }
+
+    public void setPlatform(String platform) {
+        this.platform = platform;
     }
 }

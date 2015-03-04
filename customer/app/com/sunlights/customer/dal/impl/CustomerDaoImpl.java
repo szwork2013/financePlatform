@@ -261,7 +261,7 @@ public class CustomerDaoImpl extends EntityBaseDao implements CustomerDao {
 
     @Override
     public List<MsgSettingVo> findRegistrationIdsByCustomerId(String customerId) {
-        String sql = " SELECT distinct c.registration_id, c.device_no,c.customer_id, " +
+        String sql = " SELECT distinct c.registration_id, c.device_no,c.customer_id,c.platform, " +
                 "        CASE WHEN ( " +
                 "              SELECT cs.status " +
                 "              FROM c_customer_session cs " +
@@ -283,7 +283,7 @@ public class CustomerDaoImpl extends EntityBaseDao implements CustomerDao {
         query.setParameter("customerId", customerId);
         List<Object[]> list = query.getResultList();
 
-        String keys = "registrationId,deviceNo,customerId,loginStatus";
+        String keys = "registrationId,deviceNo,customerId,platform,loginStatus";
         return ConverterUtil.convert(keys, list, MsgSettingVo.class);
     }
 

@@ -22,7 +22,8 @@ public class PushMessageVo implements Serializable{
     private String contentPush;//推送内容
     private String contentExt;
     private String sendNo;
-    private String platform; //推送平台
+    private String platform; //推送配置中的推送平台
+    private String customerPlatform; //该客户此条信息的推送平台
     private Long groupId;
     private String customerId;
     private String personalInd;//个人Y、群发N 信息来源标志
@@ -195,5 +196,13 @@ public class PushMessageVo implements Serializable{
 
     public void setContentPush(String contentPush) {
         this.contentPush = contentPush;
+    }
+
+    public String getCustomerPlatform() {
+        return customerPlatform;
+    }
+
+    public void setCustomerPlatform(String customerPlatform) {
+        this.customerPlatform = customerPlatform;
     }
 }

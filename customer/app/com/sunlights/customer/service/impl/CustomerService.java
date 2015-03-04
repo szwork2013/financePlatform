@@ -137,11 +137,14 @@ public class CustomerService {
 
     /**
      * 缓存 设置 推送registrationId
-     * @param registrationId
+     * @param request
      * @param customerId
      */
-    public void sessionPushRegId(String registrationId, String customerId, String deviceNo){
-        Logger.info(MessageFormat.format(">>sessionPushRegId：registrationId={0}, customerId={1}, deviceNo = {2}", registrationId, customerId, deviceNo));
+    public void sessionPushRegId(Http.Request request, String customerId, String deviceNo){
+        String registrationId = request.getHeader(AppConst.HEADER_REGISTRATION_ID);
+        String platform = CommonUtil.getCurrentPlatform(request);
+
+        Logger.info(MessageFormat.format(">>sessionPushRegId：registrationId={0}, customerId={1}, deviceNo = {2}, platform = {3}", registrationId, customerId, deviceNo, platform));
         if (registrationId == null || customerId == null) {
             return ;
         }
@@ -155,13 +158,18 @@ public class CustomerService {
                 return ;
             }
 
-            resetRegistrationId(customerMsgSetting, registrationId, customerId, deviceNo);
+            CustomerMsgSetting newCustomerMsgSetting = new CustomerMsgSetting();
+            newCustomerMsgSetting.setRegistrationId(registrationId);
+            newCustomerMsgSetting.setCustomerId(customerId);
+            newCustomerMsgSetting.setDeviceNo(deviceNo);
+            newCustomerMsgSetting.setPlatform(platform);
+            resetRegistrationId(newCustomerMsgSetting, newCustomerMsgSetting);
         }
 
         Cache.set(AppConst.HEADER_REGISTRATION_ID + "_" + registrationId, customerId, (int) cacheTime * 60);
     }
 
-    private void resetRegistrationId(CustomerMsgSetting preCustomerMsgSetting, String registrationId, String customerId, String deviceNo) {
+    private void resetRegistrationId(CustomerMsgSetting preCustomerMsgSetting, CustomerMsgSetting newCustomerMsgSetting) {
         Timestamp currentTime = DBHelper.getCurrentTime();
         if (preCustomerMsgSetting != null) {
             preCustomerMsgSetting.setUpdateTime(currentTime);
@@ -169,13 +177,9 @@ public class CustomerService {
             customerDao.updateCustomerMsgSetting(preCustomerMsgSetting);
         }
 
-        CustomerMsgSetting customerMsgSetting = new CustomerMsgSetting();
-        customerMsgSetting.setRegistrationId(registrationId);
-        customerMsgSetting.setCustomerId(customerId);
-        customerMsgSetting.setDeviceNo(deviceNo);
-        customerMsgSetting.setPushOpenStatus(AppConst.STATUS_VALID);
-        customerMsgSetting.setCreateTime(currentTime);
-        customerDao.createCustomerMsgSetting(customerMsgSetting);
+        newCustomerMsgSetting.setPushOpenStatus(AppConst.STATUS_VALID);
+        newCustomerMsgSetting.setCreateTime(currentTime);
+        customerDao.createCustomerMsgSetting(newCustomerMsgSetting);
     }
 
     /**

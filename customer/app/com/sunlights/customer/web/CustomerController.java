@@ -133,7 +133,7 @@ public class CustomerController extends Controller {
             CustomerVo customerVo = customerService.getCustomerVoByPhoneNo(mobilePhoneNo, deviceNo);
             MessageUtil.getInstance().setMessage(message, customerVo);
             customerService.sessionLoginSessionId(Controller.session(), Controller.response(), customerSession);
-            customerService.sessionPushRegId(request().getHeader(AppConst.HEADER_REGISTRATION_ID), customerSession.getCustomerId(), customerFormVo.getDeviceNo());
+            customerService.sessionPushRegId(request(), customerSession.getCustomerId(), customerFormVo.getDeviceNo());
 
             MessageHeaderVo messageHeaderVo = new MessageHeaderVo(DictConst.PUSH_TYPE_4, null, customerSession.getCustomerId());
             list.add(messageHeaderVo);
@@ -190,7 +190,7 @@ public class CustomerController extends Controller {
             // 自动登录
             loginService.saveLoginHistory(customer, deviceNo);
             userSession = customerService.createCustomerSession(customer, Controller.request().remoteAddress(), deviceNo);
-            customerService.sessionPushRegId(request().getHeader(AppConst.HEADER_REGISTRATION_ID), userSession.getCustomerId(), customerFormVo.getDeviceNo());
+            customerService.sessionPushRegId(request(), userSession.getCustomerId(), customerFormVo.getDeviceNo());
         }
         customerService.sessionLoginSessionId(Controller.session(), Controller.response(), userSession);
 
@@ -247,7 +247,7 @@ public class CustomerController extends Controller {
             CustomerVo customerVo = customerService.getCustomerVoByPhoneNo(mobilePhoneNo, deviceNo);
             MessageUtil.getInstance().setMessage(message, customerVo);
             customerService.sessionLoginSessionId(Controller.session(), Controller.response(), customerSession);
-            customerService.sessionPushRegId(request().getHeader(AppConst.HEADER_REGISTRATION_ID), customerSession.getCustomerId(), customerFormVo.getDeviceNo());
+            customerService.sessionPushRegId(request(), customerSession.getCustomerId(), customerFormVo.getDeviceNo());
             MessageHeaderVo messageHeaderVo = new MessageHeaderVo(DictConst.PUSH_TYPE_4, null, customerSession.getCustomerId());
             list.add(messageHeaderVo);
         }
@@ -327,6 +327,10 @@ public class CustomerController extends Controller {
         service.clearAll();
 
         Logger.info(">>参数缓存清除成功");
+
+        service.loadAllParameter();
+
+        Logger.info(">>参数缓存重新加载成功");
 
         messageUtil.setMessage(new Message(MsgCode.OPERATE_SUCCESS));
         return ok(messageUtil.toJson());

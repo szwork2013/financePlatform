@@ -172,6 +172,7 @@ public class MsgCenterActionService {
                 badge = centerDao.countUnReadNum(msgSettingVo.getDeviceNo());
             }
             pushMessageVo.setBadge(badge);
+            pushMessageVo.setCustomerPlatform(msgSettingVo.getPlatform());
 
             executePushWS(pushMessageVo);
         }
