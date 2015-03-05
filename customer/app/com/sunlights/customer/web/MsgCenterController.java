@@ -14,7 +14,7 @@ import com.sunlights.customer.vo.MsgCenterDetailVo;
 import com.sunlights.customer.vo.MsgCenterVo;
 import models.CustomerMsgReadHistory;
 import models.CustomerSession;
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 import play.Logger;
 import play.data.Form;
 import play.db.jpa.Transactional;

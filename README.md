@@ -121,6 +121,15 @@ trade->core
 
 # Swagger使用
 
+[swagger for play demo] (https://github.com/swagger-api/swagger-core/tree/master/samples/java-play2)
+
+
+启动好FP后，在浏览器上
+
+1. 如果是本地的话，打开http://localhost:9000/swagger
+2. 如果是测试环境，打开https://uat.sunlights.me/swagger
+3. 如果是生产环境，打开http://api.sunlights.me/swagger, 或者https://api-1.sunlights.me/swagger
+
 
 
 
