@@ -7,7 +7,6 @@ import com.sunlights.common.DictConst;
 import com.sunlights.common.MsgCode;
 import com.sunlights.common.Severity;
 import com.sunlights.common.service.ParameterService;
-import com.sunlights.common.service.VerifyCodeService;
 import com.sunlights.common.utils.MessageUtil;
 import com.sunlights.common.vo.Message;
 import com.sunlights.common.vo.MessageHeaderVo;
@@ -19,6 +18,7 @@ import com.sunlights.customer.service.impl.LoginServiceImpl;
 import com.sunlights.customer.vo.CustomerFormVo;
 import com.sunlights.customer.vo.CustomerVo;
 import com.sunlights.customer.vo.JudjeTokenVo;
+import com.wordnik.swagger.annotations.*;
 import models.Customer;
 import models.CustomerSession;
 import play.Logger;
@@ -39,36 +39,22 @@ import static play.data.Form.form;
  * Created by Administrator on 2014/9/4.
  */
 @Transactional
+@Api(value = "/customer", description = "登录注册等服务")
 public class CustomerController extends Controller {
+
     private Form<CustomerFormVo> customerForm = form(CustomerFormVo.class);
-
-    private Form<JudjeTokenVo> judjeTokenVoForm = form(JudjeTokenVo.class);
-
     private LoginService loginService = new LoginServiceImpl();
-
     private CustomerService customerService = new CustomerService();
-
-    private VerifyCodeService verifyCodeService = new VerifyCodeService();
 
     protected MessageUtil messageUtil = MessageUtil.getInstance();
 
-    /**
-     * 查询手机号是否已注册
-     * 请求URL： /customer/getusermstr
-     * 请求方法： POST
-     * <pre>
-     * 输入参数：mobilePhoneNo、deviceNo
-     * 输出参数：
-     * 有数据：{"message":{"severity":0,"code":"0000","summary":"操作成功","detail":"操作成功","fileds":{}},"value":{"userName":null,"nickName":null,"mobilePhoneNo":"15811111171","mobileDisplayNo":"1581****1171","email":null,"gestureOpened":"0","certify":"0","idCardNo":null,"bankCardCount":"0","tradePwdFlag":"0"}}
-     * 无数据：
-     * {"message":{"severity":0,"code":"2100","summary":"该手机号未注册","detail":"","fileds":{}},"value":null}
-     * severity	code	summary	detail
-     * 0	0100	操作成功
-     * 2	2100	该手机号未注册
-     * </pre>
-     *
-     * @return
-     */
+    @ApiOperation(value = "查询手机号是否已注册",
+            notes = "MessageVo 的value是CustomerVo对象", response = MessageVo.class, nickname = "getusermstr", httpMethod = "POST")
+    @ApiImplicitParams({@ApiImplicitParam(name = "mobilePhoneNo", required = true, paramType = "form"),
+            @ApiImplicitParam(name = "deviceNo", paramType = "form")})
+    @ApiResponses(value = {@ApiResponse(code = 2100, message = "该手机号未注册"),
+            @ApiResponse(code = 0000, message = "操作成功", response = CustomerVo.class)
+    })
     public Result getCustomerByMobilePhoneNo() {
         Logger.debug(">>getCustomerByMobilePhoneNo params：" + Json.toJson(form().bindFromRequest().data()));
         CustomerFormVo customerFormVo = customerForm.bindFromRequest().get();
@@ -82,12 +68,11 @@ public class CustomerController extends Controller {
             message = new Message(MsgCode.PHONE_NUMBER_NOT_REGISTRY);
         }
 
-        MessageVo<CustomerVo> messageVo = new MessageVo<>(message);
+        MessageVo<CustomerVo> messageVo = new MessageVo<CustomerVo>(message);
         messageVo.setValue(customerVo);
         Logger.debug(">>getCustomerByMobilePhoneNo return：" + messageVo.toJson());
         return Controller.ok(messageVo.toJson());
     }
-
 
     /**
      * <pre>

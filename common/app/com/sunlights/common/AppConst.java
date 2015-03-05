@@ -52,6 +52,10 @@ public final class AppConst {
     public static String ROUTE_ACTION_METHOD = "ROUTE_ACTION_METHOD";
 
 
+    public static String PLATFORM_IOS = "ios";
+    public static String PLATFORM_ANDROID = "android";
+
+
     public static String FUND_CATEGORY_MONETARY = "MONETARY";
     public static String FUND_CATEGORY_STF= "STF";
     public static String FUND_GRAB_STATUS_NULL= "FUND-GRAB-STATUS-NULL";

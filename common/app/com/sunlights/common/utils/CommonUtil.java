@@ -138,11 +138,11 @@ public class CommonUtil {
         String name = "iPhone";
         int index = userAgent.indexOf(name);
         if (index > 0){
-            Logger.info(">>当前platform：ios");
+            Logger.info(">>当前platform：" + AppConst.PLATFORM_IOS);
             return "ios";
         }
 
-        Logger.info(">>当前platform：android");
+        Logger.info(">>当前platform：" + AppConst.PLATFORM_ANDROID);
         return "android";
     }
 

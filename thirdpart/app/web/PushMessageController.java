@@ -1,12 +1,5 @@
 package web;
 
-import com.sunlights.common.vo.MessageVo;
-import com.sunlights.common.vo.PushMessageVo;
-import com.wordnik.swagger.annotations.Api;
-import com.wordnik.swagger.annotations.ApiOperation;
-import com.wordnik.swagger.annotations.ApiResponse;
-import com.wordnik.swagger.annotations.ApiResponses;
-import models.User;
 import play.Logger;
 import play.data.Form;
 import play.db.jpa.Transactional;
@@ -15,6 +8,13 @@ import play.mvc.Controller;
 import play.mvc.Http;
 import play.mvc.Result;
 import services.PushMessageService;
+
+import com.sunlights.common.vo.MessageVo;
+import com.sunlights.common.vo.PushMessageVo;
+import com.wordnik.swagger.annotations.Api;
+import com.wordnik.swagger.annotations.ApiImplicitParam;
+import com.wordnik.swagger.annotations.ApiImplicitParams;
+import com.wordnik.swagger.annotations.ApiOperation;
 
 /**
  * <p>Project: thirdpartyservice</p>
@@ -34,6 +34,7 @@ public class PushMessageController extends Controller{
     @ApiOperation(value = "推送消息",
             nickname = "push",
             response = PushMessageVo.class, httpMethod = "POST")
+    @ApiImplicitParams({@ApiImplicitParam(value = "PushMessageVo object", required = true, dataType = "PushMessageVo", paramType = "body")})
     public Result sendPush() {
         Logger.info("sendPush params：" + request().body().asJson());
 

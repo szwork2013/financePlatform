@@ -10,10 +10,7 @@ import cn.jpush.api.push.model.PushPayload;
 import cn.jpush.api.push.model.audience.Audience;
 import cn.jpush.api.push.model.notification.IosNotification;
 import cn.jpush.api.push.model.notification.Notification;
-import com.sunlights.common.DictConst;
-import com.sunlights.common.MsgCode;
-import com.sunlights.common.ParameterConst;
-import com.sunlights.common.Severity;
+import com.sunlights.common.*;
 import com.sunlights.common.service.ParameterService;
 import com.sunlights.common.utils.ArithUtil;
 import com.sunlights.common.utils.ConfigUtil;
@@ -132,7 +129,7 @@ public class PushMessageService {
         }else if(DictConst.PUSH_PLATFORM_ANDROID.equals(platform)){
             pushPayload = builderAndroid(pushMessageVo);
         }else{
-            if ("android".equalsIgnoreCase(msgPlatform)) {
+            if (AppConst.PLATFORM_IOS.equals(msgPlatform)) {
                 pushPayload = builderAndroid(pushMessageVo);
             }else{
                 pushPayload = builderIos(pushMessageVo);
