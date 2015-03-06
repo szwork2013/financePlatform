@@ -378,3 +378,8 @@ INSERT INTO public.o_resource (id, name, code, seq_no, parent_id, type, uri, cre
 -- add resource 44 to role 1
 INSERT INTO public.o_role_resource (id, role_id, resource_id, create_time, update_time, deleted) VALUES (55, 1, 44, '2015-01-28 14:54:40.570', '2015-01-28 14:54:41.312', false);
 
+-- add resource user
+INSERT INTO public.o_resource (id, name, code, seq_no, parent_id, type, uri, create_time, update_time, deleted) VALUES (45, '用户管理', 'system:user', '12', 2, 'menu', '/#/users', '2015-01-28 13:23:49.902', '2015-01-28 13:23:51.476', false);
+-- add resource 45 to role 1
+INSERT INTO public.o_role_resource (id, role_id, resource_id, create_time, update_time, deleted) VALUES (56, 1, 45, '2015-01-28 14:54:40.570', '2015-01-28 14:54:41.312', false);
+
