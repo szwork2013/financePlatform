@@ -284,6 +284,8 @@ INSERT INTO public.o_resource (id, name, code, seq_no, parent_id, type, uri, cre
 INSERT INTO public.o_resource (id, name, code, seq_no, parent_id, type, uri, create_time, update_time, deleted) VALUES (42, '注册未购买', 'statistics:notpurchase', '4', 9, 'menu', '/#/statistics/notpurchase', '2015-01-28 13:23:49.902', '2015-01-28 13:23:51.476', false);
 
 
+
+
 INSERT INTO public.o_role_resource (id, role_id, resource_id, create_time, update_time, deleted) VALUES (1, 1, 1, '2015-01-28 14:54:40.570', '2015-01-28 14:54:41.312', false);
 INSERT INTO public.o_role_resource (id, role_id, resource_id, create_time, update_time, deleted) VALUES (2, 1, 2, '2015-01-28 14:54:40.570', '2015-01-28 14:54:41.312', false);
 INSERT INTO public.o_role_resource (id, role_id, resource_id, create_time, update_time, deleted) VALUES (3, 1, 3, '2015-01-28 14:54:40.570', '2015-01-28 14:54:41.312', false);
@@ -328,6 +330,9 @@ INSERT INTO public.o_role_resource (id, role_id, resource_id, create_time, updat
 INSERT INTO public.o_role_resource (id, role_id, resource_id, create_time, update_time, deleted) VALUES (42, 1, 42, '2015-01-28 14:54:40.570', '2015-01-28 14:54:41.312', false);
 
 
+
+
+
 INSERT INTO public.o_user_role (id, user_id, role_id, create_time, update_time, deleted) VALUES (1, 1, 1, '2015-01-28 15:05:48.918', '2015-01-28 15:05:50.854', false);
 
 
@@ -362,3 +367,14 @@ INSERT INTO public.o_role_resource (id, role_id, resource_id, create_time, updat
 INSERT INTO public.o_role_resource (id, role_id, resource_id, create_time, update_time, deleted) VALUES (52, 2, 16, '2015-01-28 14:54:40.570', '2015-01-28 14:54:41.312', false);
 INSERT INTO public.o_role_resource (id, role_id, resource_id, create_time, update_time, deleted) VALUES (53, 2, 17, '2015-01-28 14:54:40.570', '2015-01-28 14:54:41.312', false);
 INSERT INTO public.o_role_resource (id, role_id, resource_id, create_time, update_time, deleted) VALUES (54, 2, 18, '2015-01-28 14:54:40.570', '2015-01-28 14:54:41.312', false);
+
+-- add resource resource
+INSERT INTO public.o_resource (id, name, code, seq_no, parent_id, type, uri, create_time, update_time, deleted) VALUES (43, '资源管理', 'system:resource', '10', 2, 'menu', '/#/user/resources', '2015-01-28 13:23:49.902', '2015-01-28 13:23:51.476', false);
+-- add resource 43 to role 1
+INSERT INTO public.o_role_resource (id, role_id, resource_id, create_time, update_time, deleted) VALUES (43, 1, 43, '2015-01-28 14:54:40.570', '2015-01-28 14:54:41.312', false);
+
+-- add resource role
+INSERT INTO public.o_resource (id, name, code, seq_no, parent_id, type, uri, create_time, update_time, deleted) VALUES (44, '角色管理', 'system:role', '11', 2, 'menu', '/#/user/roles', '2015-01-28 13:23:49.902', '2015-01-28 13:23:51.476', false);
+-- add resource 44 to role 1
+INSERT INTO public.o_role_resource (id, role_id, resource_id, create_time, update_time, deleted) VALUES (55, 1, 44, '2015-01-28 14:54:40.570', '2015-01-28 14:54:41.312', false);
+

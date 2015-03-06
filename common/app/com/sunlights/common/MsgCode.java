@@ -100,6 +100,8 @@ public enum MsgCode {
     JOB_DATE_PARSING_ERROR("2014", "操作失败：", "请输入有效的时间。"),
     JOB_SCHEDULER_ERROR("2015", "操作失败：", "请重新操作。"),
 	DEPOSIT_INTEREST_EXIST_ERROR("2016", "操作失败：", "已存在的活期利率。"),
+	ROLE_CODE_EXIST_ERROR("2017", "操作失败：", "已存在的角色代码。"),
+	USER_NAME_EXIST_ERROR("2018", "操作失败：", "已存在的用户名。"),
     NOT_NULL("2004", "操作失败：", "传入参数'{0}'不能为空。"),
 
 	LOGIN_NOT_REGISTER_ERROR("2017", "登陆失败：", "没有该用户账号。"),
