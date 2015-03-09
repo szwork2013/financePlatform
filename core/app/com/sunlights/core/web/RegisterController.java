@@ -67,8 +67,8 @@ public class RegisterController extends Controller {
      * 2104	            验证码失效	         请重新获取
      * 2105	            未获取验证码	      请获取验证码
      * 2102	            验证码超过最大次数
-     *
-     * </pre>
+     *C
+     * </p>
      */
     @With(MsgCenterAction.class)
     public Result register() {

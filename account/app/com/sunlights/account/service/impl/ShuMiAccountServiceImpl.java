@@ -14,6 +14,7 @@ import com.sunlights.common.vo.Message;
 import com.sunlights.customer.service.impl.CustomerService;
 import com.sunlights.customer.vo.CustomerVo;
 import models.Customer;
+import models.CustomerSession;
 import models.ShuMiAccount;
 
 import java.sql.Timestamp;
@@ -43,17 +44,17 @@ public class ShuMiAccountServiceImpl implements ShuMiAccountService{
             shuMiAccount.setCreate_time(currentTime);
             shuMiAccount.setCustomerId(customer.getCustomerId());
             shuMiAccountDao.saveShuMiAccount(shuMiAccount);
-        }else{
-            if (!shuMiAccount.getShumi_tokenKey().equals(shuMiAccountVo.getShumi_tokenKey())
+        }else if (!shuMiAccount.getShumi_tokenKey().equals(shuMiAccountVo.getShumi_tokenKey())
                     || !shuMiAccount.getShumi_tokenSecret().equals(shuMiAccountVo.getShumi_tokenSecret())) {
-                shuMiAccount.setShumi_tokenKey(shuMiAccountVo.getShumi_tokenKey());
-                shuMiAccount.setShumi_tokenSecret(shuMiAccountVo.getShumi_tokenSecret());
-                shuMiAccount.setUpdate_time(currentTime);
-                shuMiAccountDao.updateShuMiAccount(shuMiAccount);
-            }
+
+            shuMiAccount.setShumi_tokenKey(shuMiAccountVo.getShumi_tokenKey());
+            shuMiAccount.setShumi_tokenSecret(shuMiAccountVo.getShumi_tokenSecret());
+            shuMiAccount.setUpdate_time(currentTime);
+            shuMiAccountDao.updateShuMiAccount(shuMiAccount);
         }
 
-        CustomerVo customerVo = customerService.getCustomerVoByPhoneNo(customer.getMobile(), customer.getDeviceNo());
+        CustomerSession customerSession = customerService.getCustomerSession(token);
+        CustomerVo customerVo = customerService.getCustomerVoByPhoneNo(customer.getMobile(), customerSession.getDeviceNo());
         MessageUtil.getInstance().setMessage(new Message(MsgCode.SAVE_SHUMI_ACCOUNT_SUCCESS), customerVo);
         
         return shuMiAccount;
@@ -64,7 +65,6 @@ public class ShuMiAccountServiceImpl implements ShuMiAccountService{
         Customer customer = customerService.getCustomerByToken(token);
 
         Timestamp currentTime = DBHelper.getCurrentTime();
-//        customer.setNickName(shuMiAccountVo.getShumi_userName());
         customer.setRealName(shuMiAccountVo.getShumi_realName());
         customer.setIdentityTyper(DictConst.CERTIFICATE_TYPE_1);
         customer.setIdentityNumber(shuMiAccountVo.getShumi_idNumber());

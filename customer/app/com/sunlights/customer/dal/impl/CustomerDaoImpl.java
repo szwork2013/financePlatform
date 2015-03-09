@@ -83,7 +83,7 @@ public class CustomerDaoImpl extends EntityBaseDao implements CustomerDao {
         List<Object[]> list = query.getResultList();
         CustomerVo customerVo = transCustomerVo(list);
         if (customerVo != null) {//手势设置查询
-            if (deviceNo != null) {
+            if (StringUtils.isNotEmpty(deviceNo)) {
                 String deviceNoSql = "select cg from CustomerGesture cg where cg.customerId = :customerId and cg.deviceNo = :deviceNo order by cg.updateTime desc";
                 query = em.createQuery(deviceNoSql, CustomerGesture.class);
                 query.setParameter("customerId", customerVo.getCustomerId());
