@@ -30,7 +30,7 @@ public class User extends IdEntity {
 	@Column(name = "update_time")
 	private Date updateTime;
 
-	@OneToMany(mappedBy = "user")
+	@OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
 	private List<UserRole> userRoles;
 
 	@OneToOne(mappedBy = "user", cascade = CascadeType.ALL)
