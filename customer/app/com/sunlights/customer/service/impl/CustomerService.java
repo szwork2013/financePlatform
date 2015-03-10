@@ -1,11 +1,14 @@
 package com.sunlights.customer.service.impl;
 
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.sunlights.common.AppConst;
 import com.sunlights.common.DictConst;
 import com.sunlights.common.MsgCode;
 import com.sunlights.common.ParameterConst;
 import com.sunlights.common.service.ParameterService;
 import com.sunlights.common.utils.CommonUtil;
+import com.sunlights.common.utils.ConfigUtil;
 import com.sunlights.common.utils.DBHelper;
 import com.sunlights.common.utils.MD5Helper;
 import com.sunlights.customer.dal.CustomerDao;
@@ -16,6 +19,10 @@ import models.CustomerMsgSetting;
 import models.CustomerSession;
 import play.Logger;
 import play.cache.Cache;
+import play.libs.F;
+import play.libs.Json;
+import play.libs.ws.WS;
+import play.libs.ws.WSResponse;
 import play.mvc.Http;
 
 import java.sql.Timestamp;
@@ -233,5 +240,28 @@ public class CustomerService {
         return customerId;
     }
 
+    /**
+     * 调用 p2p提供的创建用户 接口
+     * @param customer
+     * @return
+     */
+    public void createP2PUser(Customer customer) {
+        String path = ConfigUtil.getValueStr(ConfigUtil.P2P_USER);
+
+        ObjectNode objectNode = Json.newObject();
+        objectNode.put("authenticationId", customer.getAuthenticationId());
+        objectNode.put("mobilePhoneNo", customer.getMobile());
+
+        Logger.info("createP2PUser params:" + Json.toJson(objectNode));
+
+        WS.url(path).post(Json.toJson(objectNode)).map(
+                new F.Function<WSResponse, String>() {
+                    public String apply(WSResponse response) {
+                        JsonNode json = response.asJson();
+                        return json.asText();
+                    }
+                }
+        );
+    }
 
 }

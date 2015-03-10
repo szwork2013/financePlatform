@@ -7,6 +7,7 @@ import com.sunlights.account.service.impl.AccountServiceImpl;
 import com.sunlights.common.AppConst;
 import com.sunlights.common.DictConst;
 import com.sunlights.common.MsgCode;
+import com.sunlights.common.utils.CommonUtil;
 import com.sunlights.common.utils.MessageUtil;
 import com.sunlights.common.vo.Message;
 import com.sunlights.common.vo.MessageHeaderVo;
@@ -80,7 +81,7 @@ public class RegisterController extends Controller {
             @ApiImplicitParam(name = "passWord", required = true, paramType = "form"),
             @ApiImplicitParam(name = "deviceNo", paramType = "form"),
             @ApiImplicitParam(name = "verifyCode",paramType = "form"),
-            @ApiImplicitParam(name = "channel", required = true, paramType = "form", defaultValue = "0", allowableValues="0,1")})
+            @ApiImplicitParam(name = "channel", required = true, paramType = "form", defaultValue = "0", allowableValues="0,1,2")})
     @ApiResponses(value = {@ApiResponse(code = 0100, message = "注册成功", response = CustomerVo.class),
             @ApiResponse(code = 2001, message = "访问失败,参数为空"),
             @ApiResponse(code = 2101, message = "该手机号已注册"),
@@ -95,22 +96,24 @@ public class RegisterController extends Controller {
         CustomerFormVo customerFormVo = customerForm.bindFromRequest().get();
         String deviceNo = customerFormVo.getDeviceNo();
 
+        restChannelByAppPlatform(customerFormVo);
         Customer customer = loginService.register(customerFormVo);
 
         List<MessageHeaderVo> list = Lists.newArrayList();
         if (customer != null) {
             accountService.createBaseAccount(customer.getCustomerId(), null);
+            CustomerSession customerSession = customerService.createCustomerSession(customer, Controller.request().remoteAddress(), deviceNo);
+            customerService.sessionLoginSessionId(Controller.session(), Controller.response(), customerSession);
 
             Message message = new Message(MsgCode.REGISTRY_SUCCESS);
             CustomerVo customerVo = null;
 
-            if (AppConst.Channel.CHANNEL_PC.getChannel().equals(customerFormVo.getChannel())) {
+            if (AppConst.CHANNEL_PC.equals(customerFormVo.getChannel())) {
                 customerVo = customerService.getCustomerVoByUserName(customerFormVo.getMobilePhoneNo());
             }else{
-                CustomerSession customerSession = customerService.createCustomerSession(customer, Controller.request().remoteAddress(), deviceNo);
-                customerService.sessionLoginSessionId(Controller.session(), Controller.response(), customerSession);
                 customerService.sessionPushRegId(request(), customerSession.getCustomerId(), deviceNo);
                 customerVo = customerService.getCustomerVoByPhoneNo(customer.getMobile(), deviceNo);
+
             }
             MessageUtil.getInstance().setMessage(message, customerVo);
 
@@ -126,10 +129,16 @@ public class RegisterController extends Controller {
         return Controller.ok(json);
     }
 
-
-
-
-
+    private void restChannelByAppPlatform(CustomerFormVo customerFormVo) {
+        if (!AppConst.CHANNEL_PC.equals(customerFormVo.getChannel())) {
+            String platform = CommonUtil.getCurrentPlatform(request());
+            if (AppConst.PLATFORM_IOS.equals(platform)){
+                customerFormVo.setChannel(AppConst.CHANNEL_IOS);
+            }else{
+                customerFormVo.setChannel(AppConst.CHANNEL_ANDROID);
+            }
+        }
+    }
 
 
 }

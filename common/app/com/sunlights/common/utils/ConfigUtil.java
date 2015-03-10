@@ -18,6 +18,7 @@ public class ConfigUtil {
     public static String proxy_host = "proxy_host";
     public static String proxy_port = "proxy_port";
     public static String apns_production = "apns_production";
+    public static String P2P_USER = "p2p_user";
 
     public static String getValueStr(String name){
         Configuration root = Configuration.root();

@@ -127,6 +127,7 @@ public class CustomerController extends Controller {
         Logger.info(">>login返回：" + json.toString());
 
         response().setHeader(AppConst.HEADER_MSG, MessageUtil.getInstance().setMessageHeader(list));
+
         return Controller.ok(json);
     }
 
@@ -161,24 +162,22 @@ public class CustomerController extends Controller {
 
         CustomerFormVo customerFormVo = customerForm.bindFromRequest().get();
 
-        String mobilePhoneNo = customerFormVo.getMobilePhoneNo();
-        String deviceNo = customerFormVo.getDeviceNo();
-        String passWord = customerFormVo.getPassWord();
-        String channel = customerFormVo.getChannel();
+        Customer customer = loginService.resetPwd(customerFormVo);
 
-        Customer customer = loginService.resetPwd(mobilePhoneNo, passWord, deviceNo);
+        if (!AppConst.CHANNEL_PC.equals(customerFormVo.getChannel())) {
 
-        Http.Cookie cookie = Controller.request().cookie(AppConst.TOKEN);
-        String token = cookie == null ? null : cookie.value();
-        CustomerSession userSession = customerService.getCustomerSession(token);
-        if (userSession == null) {// 若为未登录操作重置密码，则自动登录
-            Logger.info("===============重置密码之后自动登录===========");
-            // 自动登录
-            loginService.saveLoginHistory(customer, customerFormVo);
-            userSession = customerService.createCustomerSession(customer, Controller.request().remoteAddress(), deviceNo);
-            customerService.sessionPushRegId(request(), userSession.getCustomerId(), customerFormVo.getDeviceNo());
+            Http.Cookie cookie = Controller.request().cookie(AppConst.TOKEN);
+            String token = cookie == null ? null : cookie.value();
+            CustomerSession userSession = customerService.getCustomerSession(token);
+            if (userSession == null) {// 若为未登录操作重置密码，则自动登录
+                Logger.info("===============重置密码之后自动登录===========");
+                // 自动登录
+                loginService.saveLoginHistory(customer, customerFormVo);
+                userSession = customerService.createCustomerSession(customer, Controller.request().remoteAddress(), customerFormVo.getDeviceNo());
+                customerService.sessionPushRegId(request(), userSession.getCustomerId(), customerFormVo.getDeviceNo());
+            }
+            customerService.sessionLoginSessionId(Controller.session(), Controller.response(), userSession);
         }
-        customerService.sessionLoginSessionId(Controller.session(), Controller.response(), userSession);
 
         JsonNode json = MessageUtil.getInstance().toJson();
         Logger.info("================resetpwd返回信息：" + json.toString());

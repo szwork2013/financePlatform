@@ -1,7 +1,7 @@
 package com.sunlights.customer.dal;
 
+import com.sunlights.customer.vo.AuthenticationVo;
 import models.Authentication;
-import models.Customer;
 
 /**
  * <p>Project: financeplatform</p>
@@ -14,10 +14,8 @@ import models.Customer;
  */
 public interface AuthenticationDao {
     
-    public Customer findCustomer(String userName, String password);
-
-    public Customer findCustomer(String userName);
-
+    public AuthenticationVo findAuthenticationVo(String userName);
+    
     public Authentication findAuthentication(String userName, String password);
 
     public Authentication findAuthentication(String userName);

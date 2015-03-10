@@ -16,6 +16,11 @@ import models.CustomerSession;
  */
 public interface LoginService {
 
+    /**
+     * 注册新用户
+      * @param customerFormVo
+     * @return 若成功返回 <code>Customer</code>对象 不成功返回null
+     */
   public Customer register(CustomerFormVo customerFormVo);
 
   public CustomerSession login(CustomerFormVo vo, String token, String clientAddress);
@@ -36,7 +41,7 @@ public interface LoginService {
    *
    * @return
    */
-  public Customer resetPwd(String mobilePhoneNo, String passWord, String deviceNo);
+  public Customer resetPwd(CustomerFormVo customerFormVo);
 
   /**
    * 保存手势密码

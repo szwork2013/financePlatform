@@ -54,24 +54,14 @@ public final class AppConst {
     public static String PLATFORM_IOS = "ios";
     public static String PLATFORM_ANDROID = "android";
 
+    public static String CHANNEL_IOS = "0";
+    public static String CHANNEL_PC = "1";
+    public static String CHANNEL_ANDROID = "2";
+
     public static String FUND_CATEGORY_MONETARY = "MONETARY";
     public static String FUND_CATEGORY_STF= "STF";
     public static String FUND_GRAB_STATUS_NULL= "FUND-GRAB-STATUS-NULL";
     public static String FUND_GRAB_STATUS_OVERDUE= "FUND-GRAB-STATUS-OVERDUE";
     public static String FUND_GRAB_STATUS_SYNCHRONIZED= "FUND-GRAB-STATUS-SYNCHRONIZED";
 
-
-    public enum Channel{
-        CHANNEL_APP("0"), CHANNEL_PC("1");
-
-        private String channel;
-
-        Channel(String channel){
-            this.channel = channel;
-        }
-
-        public String getChannel() {
-            return channel;
-        }
-    }
 }

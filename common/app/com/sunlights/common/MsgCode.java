@@ -21,6 +21,7 @@ public enum MsgCode {
     MISSING_PARAM_CONFIG("2003", "参数未配置", "参数编码：{0}"),
     PARAM_IS_NOT_NUMBER("2004", "参数不是数字类型", "参数编码：{0}"),
     HEADER_IS_EMPTY("2020", "header中{0}不能为空", ""),
+    CONNECT_TIMEOUT("2021", "连接超时", "请重新再试"),
 
     REGISTRY_SUCCESS("0100","注册成功",""),
     LOGIN_SUCCESS("0101","登录成功",""),

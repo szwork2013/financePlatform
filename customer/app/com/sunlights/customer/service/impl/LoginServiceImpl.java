@@ -14,10 +14,10 @@ import com.sunlights.customer.dal.impl.AuthenticationDaoImpl;
 import com.sunlights.customer.dal.impl.CustomerDaoImpl;
 import com.sunlights.customer.dal.impl.LoginDaoImpl;
 import com.sunlights.customer.service.LoginService;
+import com.sunlights.customer.vo.AuthenticationVo;
 import com.sunlights.customer.vo.CustomerFormVo;
 import com.sunlights.customer.vo.CustomerVo;
 import models.*;
-import org.apache.commons.lang3.StringUtils;
 import play.Logger;
 
 import java.math.BigDecimal;
@@ -142,17 +142,8 @@ public class LoginServiceImpl implements LoginService {
             throw CommonUtil.getInstance().errorBusinessException(MsgCode.PHONE_NUMBER_ALREADY_REGISTRY);
         }
 
-        if (!AppConst.Channel.CHANNEL_PC.getChannel().equals(channel)) {
-            CustomerVerifyCodeVo customerVerifyCodeVo = new CustomerVerifyCodeVo();
-            customerVerifyCodeVo.setMobile(mobilePhoneNo);
-            customerVerifyCodeVo.setVerifyType(AppConst.VERIFY_CODE_REGISTER);
-            customerVerifyCodeVo.setDeviceNo(deviceNo);
-            customerVerifyCodeVo.setVerifyCode(verifyCode);
-            boolean success = verifyCodeService.validateVerifyCode(customerVerifyCodeVo);
-
-            if (!success) {
-                return null;
-            }
+        if (fromApp(channel) && !isVerifyCodeRight(mobilePhoneNo, verifyCode, deviceNo)){
+            return null;
         }
 
         Authentication authentication = createAuthentication(mobilePhoneNo, passWord, channel);
@@ -161,13 +152,25 @@ public class LoginServiceImpl implements LoginService {
 
         saveLoginHistory(customer, vo);
 
-        if (AppConst.Channel.CHANNEL_PC.equals(channel)) {
-            //TODO ws pc create  t_user
+        if (fromApp(channel)) {
+            customerService.createP2PUser(customer);
         }
 
         return customer;
 	}
 
+    private boolean isVerifyCodeRight(String mobilePhoneNo, String verifyCode, String deviceNo) {
+        CustomerVerifyCodeVo customerVerifyCodeVo = new CustomerVerifyCodeVo();
+        customerVerifyCodeVo.setMobile(mobilePhoneNo);
+        customerVerifyCodeVo.setVerifyType(AppConst.VERIFY_CODE_REGISTER);
+        customerVerifyCodeVo.setDeviceNo(deviceNo);
+        customerVerifyCodeVo.setVerifyCode(verifyCode);
+        return verifyCodeService.validateVerifyCode(customerVerifyCodeVo);
+    }
+
+    private boolean fromApp(String channel) {
+        return !AppConst.CHANNEL_PC.equals(channel);
+    }
 
     private Customer saveCustomer(CustomerFormVo vo, Long authenticationId) {
         String mobilePhoneNo = vo.getMobilePhoneNo();
@@ -182,7 +185,6 @@ public class LoginServiceImpl implements LoginService {
         customer.setNickName(nickName);
         customer.setMobile(mobilePhoneNo);
         customer.setLoginPassWord(new MD5Helper().encrypt(passWord));
-        customer.setRegChannel(DictConst.CUSTOMER_CHANNEL_1);
         customer.setRegWay(DictConst.CUSTOMER_CHANNEL_1);
         customer.setCustomerType(DictConst.CUSTOMER_TYPE_2);
         customer.setProperty(DictConst.CUSTOMER_PROPERTY_1);
@@ -243,22 +245,38 @@ public class LoginServiceImpl implements LoginService {
 	 * 重置密码
 	 * @return
 	 */
-	public Customer resetPwd(String mobilePhoneNo, String passWord, String deviceNo) {
+	public Customer resetPwd(CustomerFormVo customerFormVo) {
+        String mobilePhoneNo = customerFormVo.getMobilePhoneNo();
+        String passWord = customerFormVo.getPassWord();
+        String deviceNo = customerFormVo.getDeviceNo();
+        String channel = customerFormVo.getChannel();
+
         CommonUtil.getInstance().validateParams(mobilePhoneNo, passWord);
-		Customer customer = getCustomerByMobilePhoneNo(mobilePhoneNo);
-		if (customer == null) {
+
+		AuthenticationVo authenticationVo = findAuthenticationVoByUserName(mobilePhoneNo);
+		if (authenticationVo == null) {
 			throw CommonUtil.getInstance().errorBusinessException(MsgCode.PHONE_NUMBER_NOT_REGISTRY);
 		}
 		Timestamp currentTime = DBHelper.getCurrentTime();
-        customer.setLoginPassWord(new MD5Helper().encrypt(passWord));
-        customer.setUpdateTime(currentTime);
-        customerService.updateCustomer(customer);
+
+        Authentication authentication = authenticationVo.getAuthentication();
+        authentication.setPassword(new MD5Helper().encrypt(passWord));
+        authentication.setUpdateTime(currentTime);
+        authenticationDao.updateAuthentication(authentication);
 
         Message message = new Message(MsgCode.PASSWORD_CHANGE_SUCCESS);
-        CustomerVo customerVoByPhoneNo = customerService.getCustomerVoByPhoneNo(mobilePhoneNo, deviceNo);
-        MessageUtil.getInstance().setMessage(message, customerVoByPhoneNo);
+        CustomerVo customerVo = null;
 
-        return customer;
+        if (AppConst.CHANNEL_PC.equals(channel)) {
+              //TODO ws pc
+            customerVo = customerService.getCustomerVoByUserName(mobilePhoneNo);
+        }else{
+            customerVo = customerService.getCustomerVoByPhoneNo(mobilePhoneNo, deviceNo);
+        }
+
+        MessageUtil.getInstance().setMessage(message, customerVo);
+
+        return authenticationVo.getCustomer();
 	}
     /**
      * 退出
@@ -366,7 +384,7 @@ public class LoginServiceImpl implements LoginService {
     public void saveLoginHistory(Customer customer, CustomerFormVo customerFormVo){
         Timestamp currentTime = DBHelper.getCurrentTime();
         LoginHistory loginHistory = new LoginHistory();
-        loginHistory.setChannel(StringUtils.isEmpty(customerFormVo.getChannel()) ? AppConst.Channel.CHANNEL_APP.getChannel() : AppConst.Channel.CHANNEL_PC.getChannel());
+        loginHistory.setChannel(customerFormVo.getChannel());
         loginHistory.setCustomerId(customer.getCustomerId());
         loginHistory.setDeviceNo(customerFormVo.getDeviceNo());
         loginHistory.setPwdInd(AppConst.STATUS_VALID);
@@ -402,6 +420,9 @@ public class LoginServiceImpl implements LoginService {
     private Customer getCustomerByMobilePhoneNo(String  mobilePhoneNo) {
         Customer customer = customerService.getCustomerByMobile(mobilePhoneNo);
         return customer;
+    }
+    private AuthenticationVo findAuthenticationVoByUserName(String  userName) {
+        return authenticationDao.findAuthenticationVo(userName);
     }
 
     /**
