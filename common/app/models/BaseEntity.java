@@ -19,18 +19,10 @@ public abstract class BaseEntity extends IdEntity {
     @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "CREATE_TIME")
     private Date createTime;
-    @Column(name = "CREATE_BY", length = 30)
-    private String createBy;
 
     @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "UPDATE_TIME")
     private Date updateTime;
-
-    @Column(name = "UPDATE_BY", length = 30)
-    private String updateBy;
-
-    @Column(name = "DELETED")//"CHAR(1)"?
-    private boolean deleted;//String "Y" or "N" ?
 
     public Date getCreateTime() {
         return createTime;
@@ -48,29 +40,6 @@ public abstract class BaseEntity extends IdEntity {
         this.updateTime = updateTime;
     }
 
-    public boolean isDeleted() {
-        return deleted;
-    }
-
-    public void setDeleted(boolean deleted) {
-        this.deleted = deleted;
-    }
-
-    public String getCreateBy() {
-        return createBy;
-    }
-
-    public void setCreateBy(String createBy) {
-        this.createBy = createBy;
-    }
-
-    public String getUpdateBy() {
-        return updateBy;
-    }
-
-    public void setUpdateBy(String updateBy) {
-        this.updateBy = updateBy;
-    }
 
     @PrePersist
     public void initTimeStamps() {
@@ -80,7 +49,6 @@ public abstract class BaseEntity extends IdEntity {
             createTime = new Date();
         }
         updateTime = createTime;
-        deleted = false;
     }
 
     @PreUpdate

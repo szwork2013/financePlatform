@@ -7,17 +7,17 @@ import com.sunlights.common.service.VerifyCodeService;
 import com.sunlights.common.utils.*;
 import com.sunlights.common.vo.CustomerVerifyCodeVo;
 import com.sunlights.common.vo.Message;
+import com.sunlights.customer.dal.AuthenticationDao;
 import com.sunlights.customer.dal.CustomerDao;
 import com.sunlights.customer.dal.LoginDao;
+import com.sunlights.customer.dal.impl.AuthenticationDaoImpl;
 import com.sunlights.customer.dal.impl.CustomerDaoImpl;
 import com.sunlights.customer.dal.impl.LoginDaoImpl;
 import com.sunlights.customer.service.LoginService;
 import com.sunlights.customer.vo.CustomerFormVo;
 import com.sunlights.customer.vo.CustomerVo;
-import models.Customer;
-import models.CustomerGesture;
-import models.CustomerSession;
-import models.LoginHistory;
+import models.*;
+import org.apache.commons.lang3.StringUtils;
 import play.Logger;
 
 import java.math.BigDecimal;
@@ -31,16 +31,11 @@ import java.sql.Timestamp;
 
 public class LoginServiceImpl implements LoginService {
 
-
     private LoginDao loginDao = new LoginDaoImpl();
-
     private ParameterService parameterService=new ParameterService();
-
     private CustomerDao customerDao=new CustomerDaoImpl();
-
+    private AuthenticationDao authenticationDao = new AuthenticationDaoImpl();
     private CustomerService customerService=new CustomerService();
-
-
     private VerifyCodeService verifyCodeService=new VerifyCodeService();
 
 	/**
@@ -50,7 +45,7 @@ public class LoginServiceImpl implements LoginService {
 		String mobilePhoneNo = vo.getMobilePhoneNo();
 		String passWord = vo.getPassWord();
 		String deviceNo = vo.getDeviceNo();
-		//
+
         CommonUtil.getInstance().validateParams(mobilePhoneNo, passWord, deviceNo);
         Customer customer = getCustomerByMobilePhoneNo(mobilePhoneNo);
         if (customer == null) {
@@ -60,7 +55,7 @@ public class LoginServiceImpl implements LoginService {
         CustomerSession customerSession = customerService.getCustomerSession(token);
         if (customerSession != null) {
             if (new MD5Helper().encrypt(passWord).equals(customer.getLoginPassWord())) {
-                saveLoginHistory(customer, deviceNo);
+                saveLoginHistory(customer, vo);
                 return customerSession;
             }
         }
@@ -71,7 +66,7 @@ public class LoginServiceImpl implements LoginService {
             return null;
         }
 
-        saveLoginHistory(customer, deviceNo);
+        saveLoginHistory(customer, vo);
         customerSession = customerService.createCustomerSession(customer, remoteAddress, deviceNo);
 
         return customerSession;
@@ -102,7 +97,7 @@ public class LoginServiceImpl implements LoginService {
         if (customerSession != null) {
             //并且此次手势密码输入正确  直接返回（用于手势解屏）
             if (new MD5Helper().encrypt(gesturePassWord).equals(customerGesture.getGesturePassword())) {
-                saveLoginHistory(customer, deviceNo);
+                saveLoginHistory(customer, vo);
             	return customerSession;
             }
         }else{
@@ -121,7 +116,7 @@ public class LoginServiceImpl implements LoginService {
     		return null;
         }
 
-        saveLoginHistory(customer, deviceNo);
+        saveLoginHistory(customer, vo);
         customerSession = customerService.createCustomerSession(customer, clientAddress, deviceNo);
 
         return customerSession;
@@ -137,6 +132,7 @@ public class LoginServiceImpl implements LoginService {
 		String passWord = vo.getPassWord();
 		String verifyCode = vo.getVerifyCode();
 		String deviceNo = vo.getDeviceNo();
+        String channel = vo.getChannel();
 
         Logger.info("=============recommendPhone:" + vo.getRecommendPhone());
         CommonUtil.getInstance().validateParams(mobilePhoneNo, passWord);
@@ -145,33 +141,43 @@ public class LoginServiceImpl implements LoginService {
         if (oldUserMstr != null) {
             throw CommonUtil.getInstance().errorBusinessException(MsgCode.PHONE_NUMBER_ALREADY_REGISTRY);
         }
-        CustomerVerifyCodeVo customerVerifyCodeVo = new CustomerVerifyCodeVo();
-        customerVerifyCodeVo.setMobile(mobilePhoneNo);
-        customerVerifyCodeVo.setVerifyType(AppConst.VERIFY_CODE_REGISTER);
-        customerVerifyCodeVo.setDeviceNo(deviceNo);
-        customerVerifyCodeVo.setVerifyCode(verifyCode);
-        boolean success = verifyCodeService.validateVerifyCode(customerVerifyCodeVo);
 
-        if (!success) {
-            return null;
+        if (!AppConst.CHANNEL_PC.equals(channel)) {
+            CustomerVerifyCodeVo customerVerifyCodeVo = new CustomerVerifyCodeVo();
+            customerVerifyCodeVo.setMobile(mobilePhoneNo);
+            customerVerifyCodeVo.setVerifyType(AppConst.VERIFY_CODE_REGISTER);
+            customerVerifyCodeVo.setDeviceNo(deviceNo);
+            customerVerifyCodeVo.setVerifyCode(verifyCode);
+            boolean success = verifyCodeService.validateVerifyCode(customerVerifyCodeVo);
+
+            if (!success) {
+                return null;
+            }
         }
 
-        Customer customer = saveCustomer(vo);
+        Authentication authentication = createAuthentication(mobilePhoneNo, passWord, channel);
 
-        saveLoginHistory(customer, deviceNo);
+        Customer customer = saveCustomer(vo, authentication.getId());
+
+        saveLoginHistory(customer, vo);
+
+        if (AppConst.CHANNEL_PC.equals(channel)) {
+            //TODO ws pc create  t_user
+        }
 
         return customer;
 	}
 
-    private Customer saveCustomer(CustomerFormVo vo) {
+
+    private Customer saveCustomer(CustomerFormVo vo, Long authenticationId) {
         String mobilePhoneNo = vo.getMobilePhoneNo();
         String passWord = vo.getPassWord();
         String nickName = vo.getNickName();
-        String deviceNo = vo.getDeviceNo();
         String recommendPhone = vo.getRecommendPhone();
 
         Timestamp currentTime = DBHelper.getCurrentTime();
         Customer customer = new Customer();
+        customer.setAuthenticationId(authenticationId);
         customer.setLoginId(mobilePhoneNo);
         customer.setNickName(nickName);
         customer.setMobile(mobilePhoneNo);
@@ -180,13 +186,25 @@ public class LoginServiceImpl implements LoginService {
         customer.setRegWay(DictConst.CUSTOMER_CHANNEL_1);
         customer.setCustomerType(DictConst.CUSTOMER_TYPE_2);
         customer.setProperty(DictConst.CUSTOMER_PROPERTY_1);
-        customer.setDeviceNo(deviceNo);
         customer.setStatus(DictConst.CUSTOMER_STATUS_2);
         customer.setRecommendPhone(recommendPhone);
         customer.setCreateTime(currentTime);
         customer.setUpdateTime(currentTime);
         customerService.saveCustomer(customer);
         return customer;
+    }
+
+    private Authentication createAuthentication(String userName, String password, String channel){
+        Timestamp currentTime = DBHelper.getCurrentTime();
+
+        Authentication authentication = new Authentication();
+        authentication.setUserName(userName);
+        authentication.setPassword(new MD5Helper().encrypt(password));
+        authentication.setChannel(channel);
+        authentication.setCreateTime(currentTime);
+        authenticationDao.createAuthentication(authentication);
+
+        return authentication;
     }
 
     /**
@@ -345,11 +363,12 @@ public class LoginServiceImpl implements LoginService {
         customerDao.saveCustomerGesture(customerGesture);
     }
 
-    public void saveLoginHistory(Customer customer, String deviceNo){
+    public void saveLoginHistory(Customer customer, CustomerFormVo customerFormVo){
         Timestamp currentTime = DBHelper.getCurrentTime();
         LoginHistory loginHistory = new LoginHistory();
+        loginHistory.setChannel(StringUtils.isEmpty(customerFormVo.getChannel()) ? AppConst.CHANNEL_APP : AppConst.CHANNEL_PC);
         loginHistory.setCustomerId(customer.getCustomerId());
-        loginHistory.setDeviceNo(deviceNo);
+        loginHistory.setDeviceNo(customerFormVo.getDeviceNo());
         loginHistory.setPwdInd(AppConst.STATUS_VALID);
         loginHistory.setGestureInd(AppConst.STATUS_VALID);
         loginHistory.setSocialInd(AppConst.STATUS_VALID);
@@ -384,6 +403,7 @@ public class LoginServiceImpl implements LoginService {
         Customer customer = customerService.getCustomerByMobile(mobilePhoneNo);
         return customer;
     }
+
     /**
      * 验证暂时锁定状态、时间是否已过
      * @param customer

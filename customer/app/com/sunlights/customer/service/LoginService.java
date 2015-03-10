@@ -47,5 +47,5 @@ public interface LoginService {
 
   public void confirmPwd(String mobilePhoneNo, String password);
 
-  public void saveLoginHistory(Customer customer, String deviceNo);
+  public void saveLoginHistory(Customer customer, CustomerFormVo customerFormVo);
 }

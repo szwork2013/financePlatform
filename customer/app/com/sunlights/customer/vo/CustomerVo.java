@@ -2,6 +2,7 @@ package com.sunlights.customer.vo;
 
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonInclude;
 
 import java.io.Serializable;
 
@@ -15,18 +16,21 @@ import java.io.Serializable;
  *
  * @author <a href="mailto:jiaming.wang@sunlights.cc">wangJiaMing</a>
  */
+@JsonInclude(value = JsonInclude.Include.NON_EMPTY)
 public class CustomerVo implements Serializable {
     private String userName;//用户名
     private String nickName;
     private String mobilePhoneNo;//手机号
     private String mobileDisplayNo;//带*显示手机号
     private String email;//邮箱
-    private String gestureOpened = "0";//手势开启/关闭  关闭0   开启 1
-    private String certify = "0";//判断是否实名认证     false 0 true 1
+    private String gestureOpened;//手势开启/关闭  关闭0   开启 1
+    private String certify;//判断是否实名认证     false 0 true 1
     private String idCardNo;//身份证号  实名认证才返回，非实名认证返回null
-    private String bankCardCount = "0";//绑定的银行卡数量
-    private String tradePwdFlag = "0";//交易密码是否设置 0 未  1已
-    private String gestureSetted = "0";//是否曾经设置过手势 0表示从未设置过，1表示曾设置过
+    private String bankCardCount;//绑定的银行卡数量
+    private String tradePwdFlag;//交易密码是否设置 0 未  1已
+    private String gestureSetted;//是否曾经设置过手势 0表示从未设置过，1表示曾设置过
+
+    private String authenticationId;
 
     @JsonIgnore
     private String customerId;
@@ -228,6 +232,14 @@ public class CustomerVo implements Serializable {
 
     public void setGestureSetted(String gestureSetted) {
         this.gestureSetted = gestureSetted;
+    }
+
+    public String getAuthenticationId() {
+        return authenticationId;
+    }
+
+    public void setAuthenticationId(String authenticationId) {
+        this.authenticationId = authenticationId;
     }
 
     @Override

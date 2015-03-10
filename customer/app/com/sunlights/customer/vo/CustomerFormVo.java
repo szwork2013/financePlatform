@@ -5,14 +5,14 @@ import java.io.Serializable;
 public class CustomerFormVo implements Serializable {
   private String mobilePhoneNo;//手机号
   private String deviceNo;//设备号
+
   private String passWord;
   private String nickName;
-  private String userName;//真实姓名
+  private String userName;
   private String idCardNo;//身份证号
   private String verifyCode;//验证码
   private String type;//验证码类型
-
-
+  private String channel;//0移动端 1pc端
 
   private String gesturePassWord;//手势密码
   private String gestureOpened;//手势开启/关闭
@@ -109,5 +109,13 @@ public class CustomerFormVo implements Serializable {
 
     public void setRecommendPhone(String recommendPhone) {
         this.recommendPhone = recommendPhone;
+    }
+
+    public String getChannel() {
+        return channel;
+    }
+
+    public void setChannel(String channel) {
+        this.channel = channel;
     }
 }

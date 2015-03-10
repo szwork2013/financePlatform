@@ -55,6 +55,8 @@ public final class AppConst {
     public static String PLATFORM_IOS = "ios";
     public static String PLATFORM_ANDROID = "android";
 
+    public static String CHANNEL_APP = "0";
+    public static String CHANNEL_PC = "1";
 
     public static String FUND_CATEGORY_MONETARY = "MONETARY";
     public static String FUND_CATEGORY_STF= "STF";

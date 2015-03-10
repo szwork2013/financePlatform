@@ -17,6 +17,8 @@ import java.util.Date;
 public class Customer extends IdEntity {
   @Column(length = 30, name = "CUSTOMER_ID")
   private String customerId;
+  @Column(name = "AUTHENTICATION_ID")
+  private Long authenticationId;
 
   @Column(length = 20, name = "LOGIN_ID")
   private String loginId;
@@ -74,7 +76,15 @@ public class Customer extends IdEntity {
   public Customer() {
   }
 
-  public String getCustomerId() {
+    public Long getAuthenticationId() {
+        return authenticationId;
+    }
+
+    public void setAuthenticationId(Long authenticationId) {
+        this.authenticationId = authenticationId;
+    }
+
+    public String getCustomerId() {
     return customerId;
   }
 

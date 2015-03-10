@@ -36,12 +36,27 @@ public class CustomerService {
     private CustomerDao customerDao = new CustomerDaoImpl();
     private ParameterService parameterService = new ParameterService();
 
+    /**
+     * App端
+     * @param mobilePhoneNo
+     * @param deviceNo
+     * @return
+     */
     public CustomerVo getCustomerVoByPhoneNo(String mobilePhoneNo, String deviceNo) {
         return customerDao.getCustomerVoByPhoneNo(mobilePhoneNo, deviceNo);
     }
 
-    public CustomerVo getCustomerVoByIdCardNo(String idCardNo, String userName) {
-        return customerDao.getCustomerVoByIdCardNo(idCardNo, userName);
+    public CustomerVo getCustomerVoByIdCardNo(String idCardNo, String realName) {
+        return customerDao.getCustomerVoByIdCardNo(idCardNo, realName);
+    }
+
+    /**
+     * PC端
+     * @param userName
+     * @return
+     */
+    public CustomerVo getCustomerVoByUserName(String userName){
+        return customerDao.getCustomerVoByUserName(userName);
     }
 
     public Customer getCustomerByMobile(String mobile) {

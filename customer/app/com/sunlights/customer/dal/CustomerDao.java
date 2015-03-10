@@ -2,10 +2,7 @@ package com.sunlights.customer.dal;
 
 import com.sunlights.customer.vo.CustomerVo;
 import com.sunlights.common.vo.MsgSettingVo;
-import models.Customer;
-import models.CustomerGesture;
-import models.CustomerMsgSetting;
-import models.CustomerSession;
+import models.*;
 
 import java.sql.Timestamp;
 import java.util.List;
@@ -20,40 +17,53 @@ import java.util.List;
  * @author <a href="mailto:jiaming.wang@sunlights.cc">wangJiaMing</a>
  */
 public interface CustomerDao {
-  public String getCustomerIdSeq();
+    public String getCustomerIdSeq();
 
-  public Customer getCustomerByMobile(String mobile);
+    public Customer getCustomerByMobile(String mobile);
 
-  public Customer getCustomerByCustomerId(String customerId);
+    public Customer getCustomerByCustomerId(String customerId);
 
-  public Customer saveCustomer(Customer customer);
+    public Customer saveCustomer(Customer customer);
 
-  public Customer updateCustomer(Customer customer);
+    public Customer updateCustomer(Customer customer);
 
-  public CustomerVo getCustomerVoByPhoneNo(String mobilePhoneNo, String deviceNo);
+    /**
+     * app端查询组装返回数据
+     * @param mobilePhoneNo
+     * @param deviceNo
+     * @return
+     */
+    public CustomerVo getCustomerVoByPhoneNo(String mobilePhoneNo, String deviceNo);
 
-  public CustomerVo getCustomerVoByIdCardNo(String idCardNo, String userName);
+    public CustomerVo getCustomerVoByIdCardNo(String idCardNo, String realName);
 
-  public CustomerSession findCustomerSessionByToken(String token, Timestamp nMin);
+    /**
+     * pc端查询组装返回数据
+     * @param userName
+     * @return
+     */
+    public CustomerVo getCustomerVoByUserName(String userName);
 
-  public CustomerSession findCustomerSessionByCustomerId(String customerId, String deviceNo);
+    public CustomerSession findCustomerSessionByToken(String token, Timestamp nMin);
 
-  public CustomerSession saveCustomerSession(CustomerSession customerSession);
+    public CustomerSession findCustomerSessionByCustomerId(String customerId, String deviceNo);
 
-  public CustomerSession updateCustomerSession(CustomerSession customerSession);
+    public CustomerSession saveCustomerSession(CustomerSession customerSession);
 
-  public CustomerGesture saveCustomerGesture(CustomerGesture customerGesture);
+    public CustomerSession updateCustomerSession(CustomerSession customerSession);
 
-  public CustomerGesture updateCustomerGesture(CustomerGesture customerGesture);
+    public CustomerGesture saveCustomerGesture(CustomerGesture customerGesture);
 
-  public CustomerGesture findCustomerGestureByDeviceNo(String customerId, String deviceNo);
+    public CustomerGesture updateCustomerGesture(CustomerGesture customerGesture);
+
+    public CustomerGesture findCustomerGestureByDeviceNo(String customerId, String deviceNo);
 
     /**
      * 通过被推荐人查询推荐人信息
      * @param customerId 被推荐人
      * @return
      */
-  public Customer findRecommenderInfo(String customerId);
+    public Customer findRecommenderInfo(String customerId);
 
     /**
      * 查询客户所属aiias 记录

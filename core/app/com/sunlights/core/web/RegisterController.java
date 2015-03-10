@@ -10,12 +10,14 @@ import com.sunlights.common.MsgCode;
 import com.sunlights.common.utils.MessageUtil;
 import com.sunlights.common.vo.Message;
 import com.sunlights.common.vo.MessageHeaderVo;
+import com.sunlights.common.vo.MessageVo;
 import com.sunlights.customer.action.MsgCenterAction;
 import com.sunlights.customer.service.LoginService;
 import com.sunlights.customer.service.impl.CustomerService;
 import com.sunlights.customer.service.impl.LoginServiceImpl;
 import com.sunlights.customer.vo.CustomerFormVo;
 import com.sunlights.customer.vo.CustomerVo;
+import com.wordnik.swagger.annotations.*;
 import models.Customer;
 import models.CustomerSession;
 import play.Logger;
@@ -40,6 +42,7 @@ import static play.data.Form.form;
  * @author <a href="mailto:jiaming.wang@sunlights.cc">wangJiaMing</a>
  */
 @Transactional
+@Api(value = "/core", description = "注册服务")
 public class RegisterController extends Controller {
 
     private Form<CustomerFormVo> customerForm = Form.form(CustomerFormVo.class);
@@ -70,35 +73,62 @@ public class RegisterController extends Controller {
      *C
      * </p>
      */
+    @ApiOperation(value = "用户注册",
+            notes = "MessageVo 的value是CustomerVo对象", response = MessageVo.class, nickname = "register", httpMethod = "POST")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "mobilePhoneNo", required = true, paramType = "form"),
+            @ApiImplicitParam(name = "passWord", required = true, paramType = "form"),
+            @ApiImplicitParam(name = "deviceNo", paramType = "form"),
+            @ApiImplicitParam(name = "verifyCode",paramType = "form"),
+            @ApiImplicitParam(name = "channel", required = true, paramType = "form", defaultValue = "0", allowableValues="0,1")})
+    @ApiResponses(value = {@ApiResponse(code = 0100, message = "注册成功", response = CustomerVo.class),
+            @ApiResponse(code = 2001, message = "访问失败,参数为空"),
+            @ApiResponse(code = 2101, message = "该手机号已注册"),
+            @ApiResponse(code = 2103, message = "验证码不正确,请重新输入"),
+            @ApiResponse(code = 2104, message = "验证码失效,请重新获取"),
+            @ApiResponse(code = 2105, message = "未获取验证码,请获取验证码")
+    })
     @With(MsgCenterAction.class)
     public Result register() {
         Logger.info("==========register====================");
         Logger.debug(">>register params：" + Json.toJson(form().bindFromRequest().data()));
         CustomerFormVo customerFormVo = customerForm.bindFromRequest().get();
-        Customer customer = loginService.register(customerFormVo);
-        List<MessageHeaderVo> list = Lists.newArrayList();
-
         String deviceNo = customerFormVo.getDeviceNo();
 
+        Customer customer = loginService.register(customerFormVo);
+
+        List<MessageHeaderVo> list = Lists.newArrayList();
         if (customer != null) {
             CustomerSession customerSession = customerService.createCustomerSession(customer, Controller.request().remoteAddress(), deviceNo);
             customerService.sessionLoginSessionId(Controller.session(), Controller.response(), customerSession);
-            customerService.sessionPushRegId(request(), customerSession.getCustomerId(), deviceNo);
             accountService.createBaseAccount(customer.getCustomerId(), null);
             Message message = new Message(MsgCode.REGISTRY_SUCCESS);
-            CustomerVo customerVo = customerService.getCustomerVoByPhoneNo(customer.getMobile(), deviceNo);
+
+            CustomerVo customerVo = null;
+            if (AppConst.CHANNEL_PC.equals(customerFormVo.getChannel())) {
+                customerVo = customerService.getCustomerVoByUserName(customerFormVo.getUserName());
+            }else{
+                customerService.sessionPushRegId(request(), customerSession.getCustomerId(), deviceNo);
+                customerVo = customerService.getCustomerVoByPhoneNo(customer.getMobile(), deviceNo);
+            }
             MessageUtil.getInstance().setMessage(message, customerVo);
 
             MessageHeaderVo messageHeaderVo = new MessageHeaderVo(DictConst.PUSH_TYPE_4, null, customer.getCustomerId());
             list.add(messageHeaderVo);
         }
 
-        JsonNode json = MessageUtil.getInstance().toJson();
-
-        Logger.debug(">>register return：" + json.toString());
         Controller.response().setHeader("Access-Control-Allow-Origin","*");
         Controller.response().setHeader(AppConst.HEADER_MSG, MessageUtil.getInstance().setMessageHeader(list));
 
+        JsonNode json = MessageUtil.getInstance().toJson();
+        Logger.debug(">>register return：" + json.toString());
         return Controller.ok(json);
     }
+
+
+
+
+
+
+
 }

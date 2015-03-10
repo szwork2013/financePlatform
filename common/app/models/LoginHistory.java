@@ -19,6 +19,8 @@ import java.util.Date;
 public class LoginHistory extends IdEntity{
     @Column(length = 30,name = "CUSTOMER_ID")
     private String customerId;
+    @Column(length = 10)
+    private String channel;
     @Column(length = 40,name = "DEVICE_NO")
     private String deviceNo;//设备号
     @Column(length = 1,name = "SUCCESS_IND")
@@ -132,5 +134,13 @@ public class LoginHistory extends IdEntity{
 
     public void setLogNum(long logNum) {
         this.logNum = logNum;
+    }
+
+    public String getChannel() {
+        return channel;
+    }
+
+    public void setChannel(String channel) {
+        this.channel = channel;
     }
 }

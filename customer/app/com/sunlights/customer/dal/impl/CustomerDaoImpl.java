@@ -106,7 +106,7 @@ public class CustomerDaoImpl extends EntityBaseDao implements CustomerDao {
         return customerVo;
     }
 
-    public CustomerVo getCustomerVoByIdCardNo(String idCardNo, String userName) {
+    public CustomerVo getCustomerVoByIdCardNo(String idCardNo, String realName) {
         String sql = " select c.mobile,c.real_name,c.nick_name,c.email,c.identity_number," +
                      " case when c.identity_typer = :identityTyper and c.identity_number is not null THEN '1' ELSE '0' END as certify," +
                      " case when a.trade_password is null THEN '0' ELSE '1' END as tradePwdFlag," +
@@ -114,7 +114,7 @@ public class CustomerDaoImpl extends EntityBaseDao implements CustomerDao {
                      "  c.customer_id " +
                      " from    c_customer c,f_basic_account a" +
                      " where   c.customer_id = a.cust_id" +
-                     " and     c.real_name = :userName" +
+                     " and     c.real_name = :realName" +
                      " and     c.identity_typer = :identityTyper" +
                      " and     c.identity_number = :idCardNo";
 
@@ -123,7 +123,7 @@ public class CustomerDaoImpl extends EntityBaseDao implements CustomerDao {
         Query query = em.createNativeQuery(sql);
         query.setParameter("identityTyper", DictConst.CERTIFICATE_TYPE_1);
         query.setParameter("idCardNo", idCardNo);
-        query.setParameter("userName", userName);
+        query.setParameter("realName", realName);
         List list = query.getResultList();
 
         CustomerVo customerVo = transCustomerVo(list);
@@ -135,11 +135,30 @@ public class CustomerDaoImpl extends EntityBaseDao implements CustomerDao {
         return customerVo;
     }
 
+    public CustomerVo getCustomerVoByUserName(String userName){
+        String sql = " select c.mobile,c.real_name,c.email,c.customer_id,c.authentication_id" +
+                "  from c_customer c, c_authentication a " +
+                " where c.authentication_id = a.id " +
+                "  and  a.user_name = :userName";
+        Logger.debug(sql);
+
+        Query query = em.createNativeQuery(sql);
+        query.setParameter("userName", userName);
+        List<Object[]> list = query.getResultList();
+        if (list.isEmpty()) {
+            return null;
+        }
+
+        String keys = "mobilePhoneNo,userName,email,customerId,authenticationId";
+        List<CustomerVo> customerVos = ConverterUtil.convert(keys, list, CustomerVo.class);
+
+        return customerVos.get(0);
+    }
+
     private CustomerVo transCustomerVo(List<Object[]> list) {
         if (list.isEmpty()){
             return null;
         }
-
 
         String keys = "mobilePhoneNo,userName,nickName,email,idCardNo,certify,tradePwdFlag,bankCardCount,customerId";
         List<CustomerVo> customerVos = ConverterUtil.convert(keys, list, CustomerVo.class);

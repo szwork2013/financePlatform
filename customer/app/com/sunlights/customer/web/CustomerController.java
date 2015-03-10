@@ -164,6 +164,7 @@ public class CustomerController extends Controller {
         String mobilePhoneNo = customerFormVo.getMobilePhoneNo();
         String deviceNo = customerFormVo.getDeviceNo();
         String passWord = customerFormVo.getPassWord();
+        String channel = customerFormVo.getChannel();
 
         Customer customer = loginService.resetPwd(mobilePhoneNo, passWord, deviceNo);
 
@@ -173,7 +174,7 @@ public class CustomerController extends Controller {
         if (userSession == null) {// 若为未登录操作重置密码，则自动登录
             Logger.info("===============重置密码之后自动登录===========");
             // 自动登录
-            loginService.saveLoginHistory(customer, deviceNo);
+            loginService.saveLoginHistory(customer, customerFormVo);
             userSession = customerService.createCustomerSession(customer, Controller.request().remoteAddress(), deviceNo);
             customerService.sessionPushRegId(request(), userSession.getCustomerId(), customerFormVo.getDeviceNo());
         }
