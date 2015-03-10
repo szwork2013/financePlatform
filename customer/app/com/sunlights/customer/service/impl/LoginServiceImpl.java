@@ -142,7 +142,7 @@ public class LoginServiceImpl implements LoginService {
             throw CommonUtil.getInstance().errorBusinessException(MsgCode.PHONE_NUMBER_ALREADY_REGISTRY);
         }
 
-        if (!AppConst.CHANNEL_PC.equals(channel)) {
+        if (!AppConst.Channel.CHANNEL_PC.getChannel().equals(channel)) {
             CustomerVerifyCodeVo customerVerifyCodeVo = new CustomerVerifyCodeVo();
             customerVerifyCodeVo.setMobile(mobilePhoneNo);
             customerVerifyCodeVo.setVerifyType(AppConst.VERIFY_CODE_REGISTER);
@@ -161,7 +161,7 @@ public class LoginServiceImpl implements LoginService {
 
         saveLoginHistory(customer, vo);
 
-        if (AppConst.CHANNEL_PC.equals(channel)) {
+        if (AppConst.Channel.CHANNEL_PC.equals(channel)) {
             //TODO ws pc create  t_user
         }
 
@@ -366,7 +366,7 @@ public class LoginServiceImpl implements LoginService {
     public void saveLoginHistory(Customer customer, CustomerFormVo customerFormVo){
         Timestamp currentTime = DBHelper.getCurrentTime();
         LoginHistory loginHistory = new LoginHistory();
-        loginHistory.setChannel(StringUtils.isEmpty(customerFormVo.getChannel()) ? AppConst.CHANNEL_APP : AppConst.CHANNEL_PC);
+        loginHistory.setChannel(StringUtils.isEmpty(customerFormVo.getChannel()) ? AppConst.Channel.CHANNEL_APP.getChannel() : AppConst.Channel.CHANNEL_PC.getChannel());
         loginHistory.setCustomerId(customer.getCustomerId());
         loginHistory.setDeviceNo(customerFormVo.getDeviceNo());
         loginHistory.setPwdInd(AppConst.STATUS_VALID);

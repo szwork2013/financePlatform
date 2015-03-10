@@ -99,15 +99,16 @@ public class RegisterController extends Controller {
 
         List<MessageHeaderVo> list = Lists.newArrayList();
         if (customer != null) {
-            CustomerSession customerSession = customerService.createCustomerSession(customer, Controller.request().remoteAddress(), deviceNo);
-            customerService.sessionLoginSessionId(Controller.session(), Controller.response(), customerSession);
             accountService.createBaseAccount(customer.getCustomerId(), null);
-            Message message = new Message(MsgCode.REGISTRY_SUCCESS);
 
+            Message message = new Message(MsgCode.REGISTRY_SUCCESS);
             CustomerVo customerVo = null;
-            if (AppConst.CHANNEL_PC.equals(customerFormVo.getChannel())) {
+
+            if (AppConst.Channel.CHANNEL_PC.getChannel().equals(customerFormVo.getChannel())) {
                 customerVo = customerService.getCustomerVoByUserName(customerFormVo.getMobilePhoneNo());
             }else{
+                CustomerSession customerSession = customerService.createCustomerSession(customer, Controller.request().remoteAddress(), deviceNo);
+                customerService.sessionLoginSessionId(Controller.session(), Controller.response(), customerSession);
                 customerService.sessionPushRegId(request(), customerSession.getCustomerId(), deviceNo);
                 customerVo = customerService.getCustomerVoByPhoneNo(customer.getMobile(), deviceNo);
             }
