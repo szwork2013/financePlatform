@@ -109,17 +109,20 @@ public class BaseTest extends WithApplication {
         return fakeRequest;
     }
 
-    protected Http.Cookie getCookieAfterLogin(String mobilePhoneNo, String passWord) {
+    protected Http.Cookie getCookieAfterLogin(String mobilePhoneNo, String passWord, String channel) {
         Logger.info("===============login=====Test=============");
         final Map<String, String> formParams = new HashMap<>();
         formParams.put("mobilePhoneNo", mobilePhoneNo);
         formParams.put("deviceNo", getDeviceNo());
         formParams.put("passWord", passWord);
+        formParams.put("channel", channel);
 
         play.mvc.Result result = getResult("/customer/login", formParams);
         assertThat(status(result)).isEqualTo(OK);
-        Http.Cookie tokenCookie = cookie("token", result);
-        Logger.info("token = " + tokenCookie.value());
+        if(!AppConst.CHANNEL_PC.equals(channel)) {
+            Http.Cookie tokenCookie = cookie("token", result);
+            Logger.info("token = " + tokenCookie.value());
+        }
         MessageVo message = toMessageVo(result);
         assertThat(message.getMessage().getCode()).isEqualTo("0101");
         assertThat(message.getMessage().getSummary()).isEqualTo("登录成功");

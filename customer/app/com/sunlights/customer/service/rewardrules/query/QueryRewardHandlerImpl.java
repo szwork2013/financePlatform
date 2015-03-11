@@ -62,13 +62,14 @@ public class QueryRewardHandlerImpl implements QueryRewardHandler {
             rewardResultVo.setReturnMessage(new Message(Severity.INFO, MsgCode.NOT_CONFIG_ACTIVITY_SCENE));
             rewardResultVo.setNotGet(0L);
             rewardResultVo.setAlreadyGet(0L);
+            rewardResultVo.setStatus(null);//活动被关闭的时候返回空
         } else {
             Map<Long, List<ObtainRewardRuleVo>> ruleMap = requestVo.getObtainRewardRuleMap();
             if(ruleMap == null || ruleMap.isEmpty()) {
                 rewardResultVo.setReturnMessage(new Message(Severity.INFO, MsgCode.NOT_CONFIG_ACTIVITY_SCENE));
                 rewardResultVo.setNotGet(0L);
                 rewardResultVo.setAlreadyGet(0L);
-                rewardResultVo.setStatus(ActivityConstant.ACTIVITY_CUSTONER_STATUS_FORBIDDEN);
+                rewardResultVo.setStatus(null);//活动被关闭的时候返回空
             } else {
                 Long canGet = 0L;
                 for(Map.Entry<Long, List<ObtainRewardRuleVo>> entry : ruleMap.entrySet()) {

@@ -46,28 +46,37 @@ public class LoginServiceImpl implements LoginService {
 		String passWord = vo.getPassWord();
 		String deviceNo = vo.getDeviceNo();
 
-        CommonUtil.getInstance().validateParams(mobilePhoneNo, passWord, deviceNo);
-        Customer customer = getCustomerByMobilePhoneNo(mobilePhoneNo);
-        if (customer == null) {
-        	throw CommonUtil.getInstance().errorBusinessException(MsgCode.PHONE_NUMBER_NOT_REGISTRY);
-        }
-        //若为已登录状态跳出，（如：手机后台激活）
-        CustomerSession customerSession = customerService.getCustomerSession(token);
-        if (customerSession != null) {
-            if (new MD5Helper().encrypt(passWord).equals(customer.getLoginPassWord())) {
-                saveLoginHistory(customer, vo);
-                return customerSession;
-            }
-        }
-        validateLoginTime(customer, deviceNo);
-        //
-        if (!customer.getLoginPassWord().equals(new MD5Helper().encrypt(passWord))) {
-            saveLoginFail(customer, deviceNo, false);
-            return null;
+        CommonUtil.getInstance().validateParams(mobilePhoneNo, passWord);
+        AuthenticationVo authenticationVo = findAuthenticationVoByUserName(mobilePhoneNo);
+
+        if (authenticationVo == null) {
+            throw CommonUtil.getInstance().errorBusinessException(MsgCode.PHONE_NUMBER_NOT_REGISTRY);
         }
 
-        saveLoginHistory(customer, vo);
-        customerSession = customerService.createCustomerSession(customer, remoteAddress, deviceNo);
+        Authentication authentication = authenticationVo.getAuthentication();
+        Customer customer = authenticationVo.getCustomer();
+
+        //若为已登录状态跳出，（如：手机后台激活）
+        CustomerSession customerSession = null;
+        if(fromApp(vo.getChannel())) {
+            customerSession = customerService.getCustomerSession(token);
+            if (customerSession != null) {
+                if (new MD5Helper().encrypt(passWord).equals(authentication.getPassword())) {
+                    saveLoginHistory(customer, vo);
+                    return customerSession;
+                }
+            }
+            validateLoginTime(customer, deviceNo);
+            //
+            if (!customer.getLoginPassWord().equals(new MD5Helper().encrypt(passWord))) {
+                saveLoginFail(customer, deviceNo, false);
+                return null;
+            }
+
+            saveLoginHistory(customer, vo);
+            customerSession = customerService.createCustomerSession(customer, remoteAddress, deviceNo);
+        }
+
 
         return customerSession;
 	}

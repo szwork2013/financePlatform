@@ -1,6 +1,7 @@
 package com.sunlights.account.web;
 
 import com.sunlights.BaseTest;
+import com.sunlights.common.AppConst;
 import com.sunlights.common.MsgCode;
 import com.sunlights.common.vo.MessageVo;
 import com.sunlights.customer.ActivityConstant;
@@ -34,7 +35,8 @@ public class RewardControllerTest extends BaseTest {
         super.startPlay();
         final String mobilePhoneNo = "15821948594";
         final String password = "111111";
-        cookie = getCookieAfterLogin(mobilePhoneNo, password);
+        String channel = AppConst.CHANNEL_PC;
+        cookie = getCookieAfterLogin(mobilePhoneNo, password, channel);
 
     }
 

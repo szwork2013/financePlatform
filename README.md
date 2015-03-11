@@ -122,6 +122,8 @@ trade->core
 # Swagger使用
 
 [swagger for play demo] (https://github.com/swagger-api/swagger-core/tree/master/samples/java-play2)
+[swagger Annotations] (https://github.com/swagger-api/swagger-core/wiki/Annotations)
+
 
 
 启动好FP后，在浏览器上

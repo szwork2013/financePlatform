@@ -1,10 +1,13 @@
 package com.sunlights.customer.vo;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
+
 import java.io.Serializable;
 
 /**
  * Created by tangweiqu on 2014/11/19.
  */
+
 public class ObtainRewardVo implements Serializable {
 
     /**

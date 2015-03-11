@@ -1,6 +1,7 @@
 package com.sunlights.account.web;
 
 import com.sunlights.BaseTest;
+import com.sunlights.common.AppConst;
 import com.sunlights.common.vo.MessageVo;
 import org.junit.Before;
 import org.junit.Test;
@@ -30,8 +31,9 @@ public class AccountControllerTest extends BaseTest {
         super.startPlay();
         final String mobilePhoneNo = "13811599308";
         final String password = "1";
+        String channel = AppConst.CHANNEL_PC;
 
-        cookie = getCookieAfterLogin(mobilePhoneNo, password);
+        cookie = getCookieAfterLogin(mobilePhoneNo, password,channel);
 
     }
 

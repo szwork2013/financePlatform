@@ -1,6 +1,7 @@
 package com.sunlights.trade.web;
 
 import com.sunlights.BaseTest;
+import com.sunlights.common.AppConst;
 import com.sunlights.common.utils.CommonUtil;
 import com.sunlights.common.vo.MessageVo;
 import models.ProductManage;
@@ -29,7 +30,8 @@ public class ShuMiTradeControllerTest extends BaseTest {
     public void login() {
         String mobilePhoneNo = "13811599308";
         String password = "1";
-        cookie = getCookieAfterLogin(mobilePhoneNo, password);
+        String channel = AppConst.CHANNEL_PC;
+        cookie = getCookieAfterLogin(mobilePhoneNo, password, channel);
     }
 
     @Test
