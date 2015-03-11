@@ -123,6 +123,7 @@ public class ActivityController extends ActivityBaseController  {
             message.setSeverity(Severity.INFO);
             messageUtil.setMessage(message, obtainRewardVo);
         } else if(MsgCode.OPERATE_SUCCESS.getCode().equals(message.getCode())){
+            message.setSummary(MsgCode.OBTAIN_SUCC.getMessage());
             message.setCode(MsgCode.OBTAIN_SUCC.getCode());
             obtainRewardVo = obtainRewardVos.get(0);
 

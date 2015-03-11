@@ -16,6 +16,7 @@ public enum MsgCode {
 
     OPERATE_SUCCESS("0000", "操作成功",""),
     CONVERTER_FAIL("0004", "模型转换错误"),
+    QUERY_VERSION_SUCC("0001", "版本查询成功"),
     ACCESS_FAIL("2001", "访问失败", "传入参数不能为空"),
     LOGIN_TIMEOUT("2002","登录超时", "请重新登录"),
     MISSING_PARAM_CONFIG("2003", "参数未配置", "参数编码：{0}"),
@@ -110,7 +111,7 @@ public enum MsgCode {
 	LOGIN_PASSWORD_INCORRECT_ERROR("2019", "登陆失败：", "密码错误。"),
 
     //活动积分模块
-    OBTAIN_SUCC("0220", "获取积分成功"),
+    OBTAIN_SUCC("0220", "签到成功"),
     ACTIVITY_QUERY_SUCC("0221", "查询成功"),
     REWARD_QUERY_SUCC("0222", "查询成功"),
     SHARE_QUERY_SUCC("0223", "分享查询成功"),

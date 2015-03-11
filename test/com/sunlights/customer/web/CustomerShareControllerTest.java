@@ -1,6 +1,7 @@
 package com.sunlights.customer.web;
 
 import com.sunlights.BaseTest;
+import com.sunlights.common.AppConst;
 import com.sunlights.common.MsgCode;
 import com.sunlights.common.vo.MessageVo;
 import com.sunlights.customer.vo.ShareVo;
@@ -25,7 +26,8 @@ public class CustomerShareControllerTest extends BaseTest {
         super.startPlay();
         final String mobilePhoneNo = "13811599307";
         final String password = "1";
-        cookie = getCookieAfterLogin(mobilePhoneNo, password);
+        String channel = AppConst.CHANNEL_PC;
+        cookie = getCookieAfterLogin(mobilePhoneNo, password, channel);
 
     }
 

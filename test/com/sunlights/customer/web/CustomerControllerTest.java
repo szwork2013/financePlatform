@@ -1,6 +1,7 @@
 package com.sunlights.customer.web;
 
 import com.sunlights.BaseTest;
+import com.sunlights.common.AppConst;
 import com.sunlights.common.vo.MessageVo;
 import org.junit.Test;
 import play.Logger;
@@ -46,18 +47,32 @@ public class CustomerControllerTest extends BaseTest {
     }
 
     @Test
+    public void testLoginPC() throws Exception {
+
+        String mobilePhoneNo = "15821948369";
+        String deviceNo = getDeviceNo();
+        String passWord = "111111";
+        String channel = AppConst.CHANNEL_PC;
+
+        getCookieAfterLogin(mobilePhoneNo, passWord, channel);
+
+    }
+
+    @Test
     public void testLogin() throws Exception {
 
-        String mobilePhoneNo = "15821948594";
+        String mobilePhoneNo = "15821948369";
         String deviceNo = getDeviceNo();
-        String passWord = "222222";
+        String passWord = "111111";
+        String channel = AppConst.CHANNEL_IOS;
 
         Map<String, String> formParams = new HashMap<>();
         formParams.put("mobilePhoneNo", mobilePhoneNo);
         formParams.put("deviceNo", deviceNo);
         formParams.put("passWord", passWord);
+        formParams.put("channel", channel);
 
-        Http.Cookie cookie = getCookieAfterLogin(mobilePhoneNo, passWord);
+        Http.Cookie cookie = getCookieAfterLogin(mobilePhoneNo, passWord, channel);
 
         Logger.info("===============savegespwd=====Test=============");
         savegespwd(formParams, cookie);
@@ -119,13 +134,14 @@ public class CustomerControllerTest extends BaseTest {
         String mobilePhoneNo = "15821948594";
         String deviceNo = getDeviceNo();
         String passWord = "111111";
+        String channel = "1";
 
         Map<String, String> formParams = new HashMap<>();
         formParams.put("mobilePhoneNo", mobilePhoneNo);
         formParams.put("deviceNo", deviceNo);
         formParams.put("passWord", passWord);
 
-        Http.Cookie cookie = getCookieAfterLogin(mobilePhoneNo, passWord);
+        Http.Cookie cookie = getCookieAfterLogin(mobilePhoneNo, passWord, channel);
 
         Logger.info("===============resetPwd======Test============");
         resetpwdWithCookie(formParams, cookie);

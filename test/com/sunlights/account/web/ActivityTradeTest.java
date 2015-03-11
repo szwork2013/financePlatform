@@ -1,6 +1,7 @@
 package com.sunlights.account.web;
 
 import com.sunlights.BaseTest;
+import com.sunlights.common.AppConst;
 import com.sunlights.common.utils.CommonUtil;
 import org.junit.Test;
 import play.Logger;
@@ -42,7 +43,7 @@ public class ActivityTradeTest extends BaseTest {
                     formParams.put("passWord", "1");
 
                     getResult("/core/register", formParams);
-                    cookie = getCookieAfterLogin(mobilePhoneNo, "1");
+                    cookie = getCookieAfterLogin(mobilePhoneNo, "1", AppConst.CHANNEL_PC);
                     tradeTest();
                 }
             });
