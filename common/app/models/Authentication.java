@@ -14,8 +14,7 @@ import javax.persistence.*;
 @Entity
 @Table(name = "c_authentication")
 @NamedQueries({
-        @NamedQuery(name="findAuthentication",query="select a from Authentication a where a.userName = :userName and a.password = :password"),
-        @NamedQuery(name="findAuthenticationVoByUserName",query="select new com.sunlights.customer.vo.AuthenticationVo(a,c) from Authentication a,Customer c where c.authenticationId = a.id and a.userName = :userName")
+        @NamedQuery(name="findAuthentication",query="select a from Authentication a where a.userName = :userName and a.password = :password")
 })
 public class Authentication extends BaseEntity{
     @Column(length = 20, name = "user_name")

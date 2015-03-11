@@ -20,7 +20,8 @@ import java.util.List;
 public class AuthenticationDaoImpl extends EntityBaseDao implements AuthenticationDao {
     @Override
     public AuthenticationVo findAuthenticationVo(String userName) {
-        Query query = em.createNamedQuery("findAuthenticationVoByUserName", AuthenticationVo.class);
+        String authenticationVoQuery = "select new com.sunlights.customer.vo.AuthenticationVo(a,c) from Authentication a,Customer c where c.authenticationId = a.id and a.userName = :userName";
+        Query query = em.createQuery(authenticationVoQuery, AuthenticationVo.class);
         query.setParameter("userName", userName);
         List<AuthenticationVo> list = query.getResultList();
         return list.isEmpty() ? null : list.get(0);
