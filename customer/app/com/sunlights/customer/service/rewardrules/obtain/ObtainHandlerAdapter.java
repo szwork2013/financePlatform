@@ -17,6 +17,6 @@ public class ObtainHandlerAdapter implements HandlerAdapter {
 
     @Override
     public void handle(ActivityRequestVo requestVo, ActivityResponseVo responseVo, Object handler) throws Exception {
-        ((ObtainRuleHandler)handler).obtain(requestVo, responseVo);
+        ((ObtainRuleHandler) handler).obtain(requestVo, responseVo);
     }
 }

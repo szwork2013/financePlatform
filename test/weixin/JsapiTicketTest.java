@@ -4,9 +4,7 @@ import org.fest.assertions.Assertions;
 import org.junit.Test;
 import play.test.WithApplication;
 
-import static org.junit.Assert.*;
-
-public class JsapiTicketTest extends WithApplication{
+public class JsapiTicketTest extends WithApplication {
 
     @Test
     public void testGetTicket() throws Exception {

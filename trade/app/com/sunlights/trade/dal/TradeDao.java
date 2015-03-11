@@ -18,24 +18,26 @@ import java.util.List;
  */
 public interface TradeDao {
 
-  public String getTradeNoSeq();
+    public String getTradeNoSeq();
 
-  /**
-   * 获取交易记录
-   * @param customerId        客户号
-   * @param productCode
-   * @return
-   */
-  public List<TradeVo> getTradeListByCustomerId(String customerId, String productCode, PageVo pageVo);
+    /**
+     * 获取交易记录
+     *
+     * @param customerId  客户号
+     * @param productCode
+     * @return
+     */
+    public List<TradeVo> getTradeListByCustomerId(String customerId, String productCode, PageVo pageVo);
 
     /**
      * 获取正在赎回中的金额
+     *
      * @return
      */
-  public BigDecimal getTradeRedeemAmount(String customerId, String productCode);
+    public BigDecimal getTradeRedeemAmount(String customerId, String productCode);
 
-  public Trade saveTrade(Trade trade);
+    public Trade saveTrade(Trade trade);
 
-  public Trade updateTrade(Trade trade);
+    public Trade updateTrade(Trade trade);
 
 }

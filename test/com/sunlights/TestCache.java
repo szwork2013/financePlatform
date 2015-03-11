@@ -21,6 +21,7 @@ import java.util.List;
 public class TestCache extends WithApplication {
     private String title = "";
     Activity activity = null;
+
     @Test
     public void testCache() {
 
@@ -49,7 +50,7 @@ public class TestCache extends WithApplication {
                 String old = activitiesNew.get(0).getTitle();
                 Logger.info("不同事物里的值(不是缓存的) = " + old);
 
-                List<Activity> activitiesLater = (List<Activity>)Cache.get(ActivityConstant.ACTIVITY_INVITE_SCENE_CODE);
+                List<Activity> activitiesLater = (List<Activity>) Cache.get(ActivityConstant.ACTIVITY_INVITE_SCENE_CODE);
                 String titleLater = activitiesLater.get(0).getTitle();
 
                 Logger.info(" : 从不同事物中的缓存中cache = " + titleLater);
@@ -127,7 +128,7 @@ public class TestCache extends WithApplication {
         });
 
         Long start = System.currentTimeMillis();
-        for(int i = 0; i < 10000; i++) {
+        for (int i = 0; i < 10000; i++) {
             JPA.withTransaction(new F.Callback0() {
                 @Override
                 public void invoke() throws Throwable {

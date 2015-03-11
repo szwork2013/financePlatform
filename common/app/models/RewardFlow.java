@@ -11,7 +11,7 @@ import java.util.Date;
  */
 @Entity
 @Table(name = "F_REWARD_FLOW")
-public class RewardFlow extends IdEntity{
+public class RewardFlow extends IdEntity {
     @Column(name = "customer_Id")
     private String custId;
     @Column(name = "ACTIVITY_ID")

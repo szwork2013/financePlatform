@@ -12,11 +12,11 @@ public interface RewardFlowDao {
 
     public RewardFlow saveRewardFlow(RewardFlow rewardFlow);
 
-    public List<RewardFlow> findByCondition(RewardFlow rewardFlow, String startDate, String endDate, boolean isAsc) throws Exception ;
+    public List<RewardFlow> findByCondition(RewardFlow rewardFlow, String startDate, String endDate, boolean isAsc) throws Exception;
 
-    public RewardFlow findOneByCondition(RewardFlow rewardFlow, String startDate, String endDate) throws Exception ;
+    public RewardFlow findOneByCondition(RewardFlow rewardFlow, String startDate, String endDate) throws Exception;
 
-    public List<RewardFlow> findByCondition(RewardFlow rewardFlow) throws Exception ;
+    public List<RewardFlow> findByCondition(RewardFlow rewardFlow) throws Exception;
 
 
     public List<RewardFlow> getMyFlowByPage(PageVo pageVo);

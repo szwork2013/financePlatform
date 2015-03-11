@@ -40,7 +40,7 @@ public class CapitalController extends Controller {
      * @return
      */
     public Result getTotalCapitalInfo() {
-        customerService.validateCustomerSession(request(),session(),response());
+        customerService.validateCustomerSession(request(), session(), response());
         Http.Cookie cookie = request().cookie(AppConst.TOKEN);
         String token = cookie == null ? null : cookie.value();
 
@@ -55,7 +55,7 @@ public class CapitalController extends Controller {
      * @return
      */
     public Result getAllCapital4Prd() {
-        customerService.validateCustomerSession(request(),session(),response());
+        customerService.validateCustomerSession(request(), session(), response());
         Http.Cookie cookie = request().cookie(AppConst.TOKEN);
         String token = cookie == null ? null : cookie.value();
 
@@ -77,7 +77,7 @@ public class CapitalController extends Controller {
      * @return
      */
     public Result getMyCapital() {
-        customerService.validateCustomerSession(request(),session(),response());
+        customerService.validateCustomerSession(request(), session(), response());
         Http.Cookie cookie = request().cookie(AppConst.TOKEN);
         String token = cookie == null ? null : cookie.value();
 
@@ -97,7 +97,7 @@ public class CapitalController extends Controller {
     public Result findYesterdayProfitList() {
         CapitalFormVo capitalFormVo = capitalFormVoForm.bindFromRequest().get();
 
-        customerService.validateCustomerSession(request(),session(),response());
+        customerService.validateCustomerSession(request(), session(), response());
         Http.Cookie cookie = request().cookie(AppConst.TOKEN);
         String token = cookie == null ? null : cookie.value();
 

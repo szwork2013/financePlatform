@@ -13,7 +13,7 @@ import play.Logger;
  * 3：@see com.sunlights.account.service.rewardrules.obtain.RewardFlowHandler 生成奖励流水（分邀请人和被邀请人）
  * 4：@see com.sunlights.account.service.rewardrules.obtain.CustJoinActivityHandler 客户参加活动后的总结
  * 5：@see com.sunlights.account.service.rewardrules.obtain.ResultAssignHandler 获取奖励成功后结果赋值
- *
+ * <p/>
  * Created by tangweiqun on 2014/12/2.
  */
 public class RegisterObtainRuleHandler extends AbstractObtainRuleHandler {

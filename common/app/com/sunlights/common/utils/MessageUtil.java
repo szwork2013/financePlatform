@@ -17,53 +17,53 @@ import java.util.List;
  */
 public class MessageUtil {
 
-	private MessageVo mesageVo;
+    private MessageVo mesageVo;
 
-	private MessageUtil() {
-		super();
-	}
+    private MessageUtil() {
+        super();
+    }
 
-	private static ThreadLocal<MessageUtil> instance = new ThreadLocal<MessageUtil>() {
-		protected MessageUtil initialValue() {
-			return (new MessageUtil());
-		}
-	};
+    private static ThreadLocal<MessageUtil> instance = new ThreadLocal<MessageUtil>() {
+        protected MessageUtil initialValue() {
+            return (new MessageUtil());
+        }
+    };
 
-	public static MessageUtil getInstance() {
-		return instance.get();
-	}
+    public static MessageUtil getInstance() {
+        return instance.get();
+    }
 
-	public void setMessage(Message message) {
-		mesageVo = new MessageVo(message);
-	}
+    public void setMessage(Message message) {
+        mesageVo = new MessageVo(message);
+    }
 
-	public void setMessage(Message message, Object value) {
-		setMessage(message);
-		mesageVo.setValue(value);
-	}
+    public void setMessage(Message message, Object value) {
+        setMessage(message);
+        mesageVo.setValue(value);
+    }
 
-	public String setMessageHeader(List<MessageHeaderVo> value) {
-		Message message = mesageVo == null ? new Message(Severity.ERROR, MsgCode.OPERATE_FAILURE) : mesageVo.getMessage();
-		ObjectNode json = Json.newObject();
-		json.put("message", message.getSeverity());
-		json.put("headerValue", Json.toJson(value));
+    public String setMessageHeader(List<MessageHeaderVo> value) {
+        Message message = mesageVo == null ? new Message(Severity.ERROR, MsgCode.OPERATE_FAILURE) : mesageVo.getMessage();
+        ObjectNode json = Json.newObject();
+        json.put("message", message.getSeverity());
+        json.put("headerValue", Json.toJson(value));
 
         Logger.info(json.toString());
         return json.toString();
-	}
+    }
 
-	public JsonNode toJson() {
-		return Json.toJson(mesageVo);
-	}
+    public JsonNode toJson() {
+        return Json.toJson(mesageVo);
+    }
 
-	public JsonNode msgToJson(Message message, Object value) {
-		setMessage(message, value);
-		return toJson();
-	}
+    public JsonNode msgToJson(Message message, Object value) {
+        setMessage(message, value);
+        return toJson();
+    }
 
-	public JsonNode msgToJson(Message message) {
-		setMessage(message);
-		return toJson();
-	}
+    public JsonNode msgToJson(Message message) {
+        setMessage(message);
+        return toJson();
+    }
 
 }

@@ -1,7 +1,6 @@
 package com.sunlights.customer.factory;
 
 import com.sunlights.common.cache.CacheFactory;
-import com.sunlights.common.cache.Cacheable;
 import com.sunlights.customer.dal.ExchangeSceneDao;
 import com.sunlights.customer.dal.impl.ExchangeSceneDaoImpl;
 

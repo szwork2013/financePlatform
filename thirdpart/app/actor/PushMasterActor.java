@@ -4,7 +4,6 @@ import akka.actor.ActorRef;
 import akka.actor.Props;
 import akka.actor.UntypedActor;
 import akka.routing.RoundRobinPool;
-
 import com.sunlights.common.vo.PushMessageVo;
 
 /**

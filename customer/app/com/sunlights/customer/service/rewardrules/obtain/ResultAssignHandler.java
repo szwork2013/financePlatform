@@ -11,7 +11,6 @@ import com.sunlights.customer.service.rewardrules.vo.ActivityRequestVo;
 import com.sunlights.customer.service.rewardrules.vo.ActivityResponseVo;
 import com.sunlights.customer.service.rewardrules.vo.RewardFlowRecordVo;
 import com.sunlights.customer.vo.ActivityResultVo;
-import play.Configuration;
 import play.Logger;
 
 import java.text.MessageFormat;
@@ -35,7 +34,7 @@ public class ResultAssignHandler extends AbstractObtainRuleHandler {
     @Override
     public void obtainInternal(ActivityRequestVo requestVo, ActivityResponseVo responseVo) throws Exception {
         List<RewardFlowRecordVo> rewardFlowRecordVos = responseVo.getRewardFlowRecordVos();
-        if(rewardFlowRecordVos == null || rewardFlowRecordVos.isEmpty()) {
+        if (rewardFlowRecordVos == null || rewardFlowRecordVos.isEmpty()) {
             Logger.info("没有获得的奖励结果");
             Message message = new Message(Severity.INFO, MsgCode.NOT_CONFIG_ACTIVITY_SCENE);
             message.setSummary("参加活动失败");
@@ -45,8 +44,7 @@ public class ResultAssignHandler extends AbstractObtainRuleHandler {
         }
 
 
-
-        for(RewardFlowRecordVo rewardFlowRecordVo : rewardFlowRecordVos) {
+        for (RewardFlowRecordVo rewardFlowRecordVo : rewardFlowRecordVos) {
 
             Logger.debug("rewardFlowRecordVo.getScene() = " + rewardFlowRecordVo.getScene() + " rewardFlowRecordVo.getActivityType() = " + rewardFlowRecordVo.getActivityType() + " rewardFlowRecordVo.getRewardType() = " + rewardFlowRecordVo.getRewardType());
 
@@ -66,7 +64,6 @@ public class ResultAssignHandler extends AbstractObtainRuleHandler {
 
             Logger.debug("新接口返回结果 rewardFlowRecordVo = " + rewardFlowRecordVo);
         }
-
 
 
     }

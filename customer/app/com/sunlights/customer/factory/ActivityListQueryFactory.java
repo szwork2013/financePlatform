@@ -11,9 +11,9 @@ import com.sunlights.customer.service.impl.JuBaoPenActivityListQueryImpl;
 public class ActivityListQueryFactory {
 
     public static ActivityListQuery getQueryStyle(String filter) {
-        if(ActivityConstant.ACTIVITY_QUERY_CENTER.equals(filter)) {
+        if (ActivityConstant.ACTIVITY_QUERY_CENTER.equals(filter)) {
             return new CenterActivityListQueryImpl();
-        } else if(ActivityConstant.ACTIVITY_QUERY_JUBAOPEN.equals(filter)) {
+        } else if (ActivityConstant.ACTIVITY_QUERY_JUBAOPEN.equals(filter)) {
             return new JuBaoPenActivityListQueryImpl();
         }
         return null;

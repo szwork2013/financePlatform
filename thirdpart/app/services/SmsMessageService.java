@@ -28,12 +28,12 @@ public class SmsMessageService {
 
     private ParameterService parameterService = new ParameterService();
 
-    public MessageSmsTxn sendSms(MessageSmsTxn smsMessage){
+    public MessageSmsTxn sendSms(MessageSmsTxn smsMessage) {
         String result = executeSend(smsMessage);
         Logger.info(result);
         if ("0,成功".equals(result)) {
             smsMessage.setSuccessInd(AppConst.STATUS_VALID);
-        }else{
+        } else {
             smsMessage.setSuccessInd(AppConst.STATUS_INVALID);
         }
         smsMessage.setReturnMsg(result);

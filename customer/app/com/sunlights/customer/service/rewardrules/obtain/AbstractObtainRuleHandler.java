@@ -12,10 +12,10 @@ import play.Logger;
  * 2：执行当前节点处理类的逻辑
  * 3：判断当前节点是否有下一个处理类，有的话则执行下一个处理类的逻辑
  * 4：性能统计
- *
+ * <p/>
  * Created by tangweiqun on 2014/12/2.
  */
-public abstract class AbstractObtainRuleHandler implements ObtainRuleHandler{
+public abstract class AbstractObtainRuleHandler implements ObtainRuleHandler {
 
     private ObtainRuleHandler nextHandler;
 
@@ -40,19 +40,19 @@ public abstract class AbstractObtainRuleHandler implements ObtainRuleHandler{
 
     @Override
     public void obtain(ActivityRequestVo requestVo, ActivityResponseVo responseVo) throws Exception {
-        if(responseVo.isFlowStop()) {
+        if (responseVo.isFlowStop()) {
             Logger.debug("退出获取奖励流程：" + toString());
             return;
         }
         long start = System.currentTimeMillis();
         try {
             obtainInternal(requestVo, responseVo);
-            if(this.nextHandler != null) {
+            if (this.nextHandler != null) {
                 this.nextHandler.obtain(requestVo, responseVo);
             }
 
         } finally {
-            if(isPerformanceRecord()) {
+            if (isPerformanceRecord()) {
                 Logger.debug("[" + toString() + "]花费时间 : " + (System.currentTimeMillis() - start));
             }
         }

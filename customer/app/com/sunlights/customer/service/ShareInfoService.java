@@ -2,7 +2,6 @@ package com.sunlights.customer.service;
 
 import com.sunlights.customer.vo.ShareInfoContext;
 import com.sunlights.customer.vo.ShareInfoVo;
-import models.ShareInfo;
 
 /**
  * Created by tangweiqun on 2014/12/15.

@@ -78,7 +78,7 @@ public class BankCardServiceImpl implements BankCardService {
     @Override
     public String getBankCardByCustId(String custId) {
         BankCard bankCard = bankCardDao.getByCustId(custId);
-        if (bankCard != null){
+        if (bankCard != null) {
             return bankCard.getBankCardNo();
         }
         return null;

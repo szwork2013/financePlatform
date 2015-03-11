@@ -16,7 +16,7 @@ import java.util.Map;
 
 /**
  * 送红包的话，如果没有在金豆荚中绑定银行卡，则不送红包
- *
+ * <p/>
  * Created by tangweiqun on 2014/12/19.
  */
 public class ValidBankCardHandler extends AbstractObtainRuleHandler {
@@ -36,15 +36,15 @@ public class ValidBankCardHandler extends AbstractObtainRuleHandler {
         Logger.debug("送红包时银行卡校验");
         String custId = requestVo.getCustId();
         String bankCard = bankCardService.getBankCardByCustId(custId);
-        if(StringUtils.isEmpty(bankCard)) {
+        if (StringUtils.isEmpty(bankCard)) {
             Map<Long, List<ObtainRewardRuleVo>> obtainRewardRuleMap = requestVo.getObtainRewardRuleMap();
             Map<Long, List<ObtainRewardRuleVo>> result = new HashMap<Long, List<ObtainRewardRuleVo>>();
-            for(Map.Entry<Long, List<ObtainRewardRuleVo>> entry : obtainRewardRuleMap.entrySet()) {
+            for (Map.Entry<Long, List<ObtainRewardRuleVo>> entry : obtainRewardRuleMap.entrySet()) {
                 Long key = entry.getKey();
                 List<ObtainRewardRuleVo> obtainRewardRuleVos = entry.getValue();
                 List<ObtainRewardRuleVo> resultList = new ArrayList<ObtainRewardRuleVo>(obtainRewardRuleVos);
-                for(ObtainRewardRuleVo obtainRewardRuleVo : obtainRewardRuleVos) {
-                    if(ActivityConstant.REWARD_TYPE_REDPACKET.equals(obtainRewardRuleVo.getRewardTypeModel().getCode())) {
+                for (ObtainRewardRuleVo obtainRewardRuleVo : obtainRewardRuleVos) {
+                    if (ActivityConstant.REWARD_TYPE_REDPACKET.equals(obtainRewardRuleVo.getRewardTypeModel().getCode())) {
                         Logger.debug("没有银行卡，不送红包");
                         resultList.remove(obtainRewardRuleVo);
                     }

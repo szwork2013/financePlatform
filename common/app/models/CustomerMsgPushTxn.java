@@ -14,7 +14,7 @@ import java.util.Date;
  */
 @Entity
 @Table(name = "c_customer_msg_push_txn")
-public class CustomerMsgPushTxn extends IdEntity{
+public class CustomerMsgPushTxn extends IdEntity {
     @Column(name = "message_rule_id")
     private Long messageRuleId;
     private String title;

@@ -33,7 +33,7 @@ public class AccountControllerTest extends BaseTest {
         final String password = "1";
         String channel = AppConst.CHANNEL_PC;
 
-        cookie = getCookieAfterLogin(mobilePhoneNo, password,channel);
+        cookie = getCookieAfterLogin(mobilePhoneNo, password, channel);
 
     }
 

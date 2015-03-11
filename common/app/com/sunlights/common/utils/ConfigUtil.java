@@ -20,7 +20,7 @@ public class ConfigUtil {
     public static String apns_production = "apns_production";
     public static String P2P_USER = "p2p_user";
 
-    public static String getValueStr(String name){
+    public static String getValueStr(String name) {
         Configuration root = Configuration.root();
 
         if (root == null || root.getString(name) == null) {
@@ -35,10 +35,11 @@ public class ConfigUtil {
 
     /**
      * 默认false
+     *
      * @param name
      * @return
      */
-    public static boolean getValueBoolean(String name){
+    public static boolean getValueBoolean(String name) {
         Configuration root = Configuration.root();
 
         if (root.getBoolean(name) == null) {
@@ -51,7 +52,7 @@ public class ConfigUtil {
         return value;
     }
 
-    public static int getValueInt(String name){
+    public static int getValueInt(String name) {
         Configuration root = Configuration.root();
 
         if (root.getInt(name) == null) {
@@ -66,10 +67,10 @@ public class ConfigUtil {
 
     public static void setProxy(HttpClient httpClient) {
         String proxyHost = getValueStr(proxy_host);
-        Logger.info("proxy_host:"+ proxyHost);
-        if(proxyHost != null) {
+        Logger.info("proxy_host:" + proxyHost);
+        if (proxyHost != null) {
             int proxyPort = getValueInt(proxy_port);
-            Logger.info(" proxy_port:"+proxyPort);
+            Logger.info(" proxy_port:" + proxyPort);
             httpClient.getHostConfiguration().setProxy(proxyHost, proxyPort);
         }
     }

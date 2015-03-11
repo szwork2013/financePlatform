@@ -7,7 +7,7 @@ import java.lang.reflect.Method;
 
 /**
  * 处理打了Cacheable注解的方法
- *
+ * <p/>
  * Created by tangweiqun on 2014/12/6.
  */
 class CacheMethodHandler implements MethodHandler {
@@ -22,7 +22,7 @@ class CacheMethodHandler implements MethodHandler {
 
         key = buildKey(self, thisMethod, args, key);
         Object obj = Cache.get(key);
-        if(obj != null) {
+        if (obj != null) {
             return clazz.cast(obj);
         } else {
             Object objNew = proceed.invoke(self, args);
@@ -35,8 +35,8 @@ class CacheMethodHandler implements MethodHandler {
     private String buildKey(Object self, Method thisMethod, Object[] args, String key) {
         StringBuilder sb = new StringBuilder();
         sb.append(key).append("-").append(self.getClass().getSimpleName()).append("-").append(thisMethod.getName()).append("-");
-        if(args != null) {
-            for(Object obj : args) {
+        if (args != null) {
+            for (Object obj : args) {
                 sb.append(obj == null ? "null" : obj.toString());
             }
         }
@@ -45,7 +45,7 @@ class CacheMethodHandler implements MethodHandler {
     }
 
     private void setDuration(String key, int duration, Object objNew) {
-        if(duration <= 0) {
+        if (duration <= 0) {
             Cache.set(key, objNew);
         } else {
             Cache.set(key, objNew, duration);

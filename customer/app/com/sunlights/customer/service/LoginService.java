@@ -18,39 +18,40 @@ public interface LoginService {
 
     /**
      * 注册新用户
-      * @param customerFormVo
+     *
+     * @param customerFormVo
      * @return 若成功返回 <code>Customer</code>对象 不成功返回null
      */
-  public Customer register(CustomerFormVo customerFormVo);
+    public Customer register(CustomerFormVo customerFormVo);
 
-  public CustomerSession login(CustomerFormVo vo, String token, String clientAddress);
+    public CustomerSession login(CustomerFormVo vo, String token, String clientAddress);
 
-  public CustomerSession loginByGesture(CustomerFormVo vo, String token, String clientAddress);
+    public CustomerSession loginByGesture(CustomerFormVo vo, String token, String clientAddress);
 
-  public void logout(String mobilePhoneNo, String deviceNo, String token);
+    public void logout(String mobilePhoneNo, String deviceNo, String token);
 
-  /**
-   * 忘记密码验证码校对
-   *
-   * @return
-   */
-  public boolean resetpwdCertify(CustomerFormVo vo);
+    /**
+     * 忘记密码验证码校对
+     *
+     * @return
+     */
+    public boolean resetpwdCertify(CustomerFormVo vo);
 
-  /**
-   * 重置密码
-   *
-   * @return
-   */
-  public Customer resetPwd(CustomerFormVo customerFormVo);
+    /**
+     * 重置密码
+     *
+     * @return
+     */
+    public Customer resetPwd(CustomerFormVo customerFormVo);
 
-  /**
-   * 保存手势密码
-   *
-   * @return
-   */
-  public CustomerVo saveGesturePwd(CustomerFormVo vo);
+    /**
+     * 保存手势密码
+     *
+     * @return
+     */
+    public CustomerVo saveGesturePwd(CustomerFormVo vo);
 
-  public void confirmPwd(String mobilePhoneNo, String password);
+    public void confirmPwd(String mobilePhoneNo, String password);
 
-  public void saveLoginHistory(Customer customer, CustomerFormVo customerFormVo);
+    public void saveLoginHistory(Customer customer, CustomerFormVo customerFormVo);
 }

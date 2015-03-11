@@ -14,7 +14,7 @@ public class ExchangeRewardRuleDaoImpl extends EntityBaseDao implements Exchange
     @Override
     public ExchangeRewardRule findByRewardType(String rewardType) {
         List<ExchangeRewardRule> exchangeRewardRuleList = findBy(ExchangeRewardRule.class, "rewardType", rewardType);
-        if(exchangeRewardRuleList != null && !exchangeRewardRuleList.isEmpty()) {
+        if (exchangeRewardRuleList != null && !exchangeRewardRuleList.isEmpty()) {
             return exchangeRewardRuleList.get(0);
         }
         return null;

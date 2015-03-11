@@ -25,38 +25,38 @@ import java.sql.Timestamp;
  * @author <a href="mailto:zhencai.yuan@sunlights.cc">yuanzhencai</a>
  */
 public class OpenAccountPactServiceImpl implements OpenAccountPactService {
-  private OpenAccountPactDao openAccountPactDao = new OpenAccountPactDaoImpl();
-  private BankCardService bankCardService = new BankCardServiceImpl();
+    private OpenAccountPactDao openAccountPactDao = new OpenAccountPactDaoImpl();
+    private BankCardService bankCardService = new BankCardServiceImpl();
 
-  @Cacheable(key = "findAgreementVoByAgreementNo", duration = 300)
-  @Override
-  public AgreementVo findAgreementVoByAgreementNo(String agreementNo) {
-    if (StringUtils.isEmpty(agreementNo)) {
-      return null;
+    @Cacheable(key = "findAgreementVoByAgreementNo", duration = 300)
+    @Override
+    public AgreementVo findAgreementVoByAgreementNo(String agreementNo) {
+        if (StringUtils.isEmpty(agreementNo)) {
+            return null;
+        }
+        OpenAccountPact openAccountPact = openAccountPactDao.findOpenAccountPactByAgreementNo(agreementNo);
+        if (openAccountPact == null) {
+            return null;
+        }
+        return new AgreementVo(openAccountPact);
     }
-    OpenAccountPact openAccountPact = openAccountPactDao.findOpenAccountPactByAgreementNo(agreementNo);
-    if (openAccountPact == null) {
-      return null;
+
+
+    @Override
+    public void createFundOpenAccount(String customerId, BankCardVo bankCardVo) {
+        String bankCardNo = bankCardVo.getBankCard();
+        FundOpenAccount fundOpenAccount = openAccountPactDao.findFundOpenAccount(customerId, bankCardNo);
+        if (fundOpenAccount == null) {
+            Timestamp currentTime = DBHelper.getCurrentTime();
+
+            fundOpenAccount = new FundOpenAccount();
+            fundOpenAccount.setCustomerId(customerId);
+            fundOpenAccount.setBankCode(bankCardVo.getBankCode());
+            fundOpenAccount.setBranchBankName(bankCardVo.getBankName());
+            fundOpenAccount.setBankCardNo(bankCardNo);
+            fundOpenAccount.setCreateTime(currentTime);
+            fundOpenAccount.setUpdateTime(currentTime);
+            openAccountPactDao.saveFundOpenAccount(fundOpenAccount);
+        }
     }
-    return new AgreementVo(openAccountPact);
-  }
-
-
-  @Override
-  public void createFundOpenAccount(String customerId, BankCardVo bankCardVo) {
-    String bankCardNo = bankCardVo.getBankCard();
-    FundOpenAccount fundOpenAccount = openAccountPactDao.findFundOpenAccount(customerId, bankCardNo);
-    if (fundOpenAccount == null) {
-      Timestamp currentTime = DBHelper.getCurrentTime();
-
-      fundOpenAccount = new FundOpenAccount();
-      fundOpenAccount.setCustomerId(customerId);
-      fundOpenAccount.setBankCode(bankCardVo.getBankCode());
-      fundOpenAccount.setBranchBankName(bankCardVo.getBankName());
-      fundOpenAccount.setBankCardNo(bankCardNo);
-      fundOpenAccount.setCreateTime(currentTime);
-      fundOpenAccount.setUpdateTime(currentTime);
-      openAccountPactDao.saveFundOpenAccount(fundOpenAccount);
-    }
-  }
 }

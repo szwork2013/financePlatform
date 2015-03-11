@@ -22,7 +22,7 @@ import java.text.MessageFormat;
  * 兑换奖励功能链上的节点处理类--兑换结果的处理
  * 1：分析和处理兑换的结果*
  * 2：结果写到响应对象中
- *
+ * <p/>
  * Created by tangweiqun on 2014/12/3.
  */
 public class ExchangeResultHandler extends AbstractExchangeRuleHandler {

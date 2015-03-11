@@ -71,7 +71,7 @@ public class RegisterController extends Controller {
      * 2104	            验证码失效	         请重新获取
      * 2105	            未获取验证码	      请获取验证码
      * 2102	            验证码超过最大次数
-     *C
+     * C
      * </p>
      */
     @ApiOperation(value = "用户注册",
@@ -80,8 +80,8 @@ public class RegisterController extends Controller {
             @ApiImplicitParam(name = "mobilePhoneNo", required = true, paramType = "form"),
             @ApiImplicitParam(name = "passWord", required = true, paramType = "form"),
             @ApiImplicitParam(name = "deviceNo", paramType = "form"),
-            @ApiImplicitParam(name = "verifyCode",paramType = "form"),
-            @ApiImplicitParam(name = "channel", required = true, paramType = "form", defaultValue = "0", allowableValues="0,1,2")})
+            @ApiImplicitParam(name = "verifyCode", paramType = "form"),
+            @ApiImplicitParam(name = "channel", required = true, paramType = "form", defaultValue = "0", allowableValues = "0,1,2")})
     @ApiResponses(value = {@ApiResponse(code = 0100, message = "注册成功", response = CustomerVo.class),
             @ApiResponse(code = 2001, message = "访问失败,参数为空"),
             @ApiResponse(code = 2101, message = "该手机号已注册"),
@@ -110,7 +110,7 @@ public class RegisterController extends Controller {
 
             if (AppConst.CHANNEL_PC.equals(customerFormVo.getChannel())) {
                 customerVo = customerService.getCustomerVoByUserName(customerFormVo.getMobilePhoneNo());
-            }else{
+            } else {
                 customerService.sessionPushRegId(request(), customerSession.getCustomerId(), deviceNo);
                 customerVo = customerService.getCustomerVoByPhoneNo(customer.getMobile(), deviceNo);
 
@@ -121,7 +121,7 @@ public class RegisterController extends Controller {
             list.add(messageHeaderVo);
         }
 
-        Controller.response().setHeader("Access-Control-Allow-Origin","*");
+        Controller.response().setHeader("Access-Control-Allow-Origin", "*");
         Controller.response().setHeader(AppConst.HEADER_MSG, MessageUtil.getInstance().setMessageHeader(list));
 
         JsonNode json = MessageUtil.getInstance().toJson();
@@ -132,9 +132,9 @@ public class RegisterController extends Controller {
     private void restChannelByAppPlatform(CustomerFormVo customerFormVo) {
         if (!AppConst.CHANNEL_PC.equals(customerFormVo.getChannel())) {
             String platform = CommonUtil.getCurrentPlatform(request());
-            if (AppConst.PLATFORM_IOS.equals(platform)){
+            if (AppConst.PLATFORM_IOS.equals(platform)) {
                 customerFormVo.setChannel(AppConst.CHANNEL_IOS);
-            }else{
+            } else {
                 customerFormVo.setChannel(AppConst.CHANNEL_ANDROID);
             }
         }

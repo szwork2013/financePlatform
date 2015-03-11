@@ -57,7 +57,7 @@ public class DepositInterestVo {
 
     public void inDepositInterest(DepositInterest depositInterest) {
         try {
-            ConverterUtil.fromEntity(this,depositInterest);
+            ConverterUtil.fromEntity(this, depositInterest);
         } catch (ConverterException e) {
             e.printStackTrace();
         }

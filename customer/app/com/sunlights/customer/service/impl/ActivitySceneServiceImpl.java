@@ -1,14 +1,11 @@
 package com.sunlights.customer.service.impl;
 
 import com.sunlights.common.cache.Cacheable;
-import com.sunlights.common.utils.CommonUtil;
 import com.sunlights.common.utils.ConverterUtil;
-import com.sunlights.customer.ActivityConstant;
 import com.sunlights.customer.dal.ActivitySceneDao;
 import com.sunlights.customer.dal.impl.ActivitySceneDaoImpl;
 import com.sunlights.customer.service.ActivitySceneService;
 import com.sunlights.customer.vo.ActivitySceneVo;
-import models.Activity;
 import models.ActivityScene;
 import play.Logger;
 
@@ -25,7 +22,7 @@ public class ActivitySceneServiceImpl implements ActivitySceneService {
     public ActivitySceneVo getSceneByCode(String scene) {
         ActivityScene activityScene = activitySceneDao.getSceneByCode(scene);
         ActivitySceneVo activitySceneVo = null;
-        if(activityScene != null) {
+        if (activityScene != null) {
             activitySceneVo = new ActivitySceneVo();
             try {
                 activitySceneVo = ConverterUtil.fromEntity(activitySceneVo, activityScene);

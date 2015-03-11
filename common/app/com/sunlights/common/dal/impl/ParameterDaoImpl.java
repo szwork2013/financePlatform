@@ -19,7 +19,7 @@ import java.util.List;
  */
 public class ParameterDaoImpl extends EntityBaseDao implements ParameterDao {
 
-    public List<Parameter> loadAllParameter(){
+    public List<Parameter> loadAllParameter() {
         List<Parameter> list = findBy(Parameter.class, AppConst.STATUS_FLAG, AppConst.STATUS_VALID);
         return list;
     }

@@ -1,17 +1,14 @@
 package com.sunlights.customer.service.rewardrules.exchange;
 
-import com.google.common.collect.Lists;
 import com.sunlights.common.DictConst;
 import com.sunlights.common.vo.MessageHeaderVo;
 import com.sunlights.customer.service.rewardrules.vo.ActivityRequestVo;
 import com.sunlights.customer.service.rewardrules.vo.ActivityResponseVo;
 import models.ExchangeScene;
 
-import java.util.List;
-
 /**
  * 红包取现发送消息
- *
+ * <p/>
  * Created by tangweiqun on 2014/12/19.
  */
 public class RedPacketExchangeSendMessageHandler extends AbstractExchangeRuleHandler {

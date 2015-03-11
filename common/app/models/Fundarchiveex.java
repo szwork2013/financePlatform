@@ -5,12 +5,10 @@ import org.apache.commons.lang3.StringUtils;
 
 import javax.persistence.Basic;
 import javax.persistence.Entity;
-import javax.persistence.Id;
 import javax.persistence.Table;
 import java.math.BigDecimal;
 import java.sql.Timestamp;
 import java.text.ParseException;
-import java.util.Date;
 
 /**
  * Created by Administrator on 2014/12/18.

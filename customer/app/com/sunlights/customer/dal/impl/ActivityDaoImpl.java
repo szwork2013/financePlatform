@@ -24,7 +24,7 @@ public class ActivityDaoImpl extends EntityBaseDao implements ActivityDao {
     @Override
     public List<Activity> getActivityVos(PageVo pageVo) {
         String currentDate = CommonUtil.dateToString(new Date(), CommonUtil.DATE_FORMAT_SHORT);
-        String jpql = " select a from Activity a where a.status = 'N' and a.image is not null and a.url is not null  and a.beginTime <= '" +currentDate+ "' and a.endTime >= '" + currentDate + "' order by a.createTime desc ";
+        String jpql = " select a from Activity a where a.status = 'N' and a.image is not null and a.url is not null  and a.beginTime <= '" + currentDate + "' and a.endTime >= '" + currentDate + "' order by a.createTime desc ";
         List<Activity> activities = pageDao.findXsqlBy(jpql, pageVo);
         return activities;
     }
@@ -35,11 +35,10 @@ public class ActivityDaoImpl extends EntityBaseDao implements ActivityDao {
     }
 
 
-
     @Override
     public Activity findById(Long id) {
         List<Activity> activities = findBy(Activity.class, "id", id);
-        if(activities == null || activities.isEmpty()) {
+        if (activities == null || activities.isEmpty()) {
             return null;
         }
         return activities.get(0);
@@ -53,20 +52,20 @@ public class ActivityDaoImpl extends EntityBaseDao implements ActivityDao {
     @Override
     public List<Activity> getCurrrentValidActivities() {
         String currentDate = CommonUtil.dateToString(new Date(), CommonUtil.DATE_FORMAT_SHORT);
-        String jpql = " select a from Activity a where a.status = 'N'  and a.beginTime <= '" +currentDate+ "' and a.endTime >= '" + currentDate + "' order by a.createTime desc ";
+        String jpql = " select a from Activity a where a.status = 'N'  and a.beginTime <= '" + currentDate + "' and a.endTime >= '" + currentDate + "' order by a.createTime desc ";
         List<Activity> activities = find(jpql);
         return activities;
     }
 
     @Override
-    public int countRegisterHasSend(Long id){
+    public int countRegisterHasSend(Long id) {
         String countSql = "select count(1) " +
                 " from f_cust_activity_join rf,c_customer c,f_activity a " +
                 " where rf.customer_id = c.customer_id " +
                 " and rf.activity_id = a.id " +
                 " and c.create_time >= a.begin_time " +
                 " and a.id = :id";
-        
+
         Query query = em.createNativeQuery(countSql);
         query.setParameter("id", id);
         return Integer.valueOf(query.getSingleResult().toString());

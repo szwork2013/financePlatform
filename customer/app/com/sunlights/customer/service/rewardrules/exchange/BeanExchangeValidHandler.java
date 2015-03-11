@@ -24,10 +24,10 @@ import java.math.BigDecimal;
  * 兑换奖励的校验节点处理类
  * 1：检验兑换奖励的数量是否超限，超限的话则终止流程
  * 2：判断兑换奖励的数量是否大于客户持有数量-冻结数量  如果大于的话则终止流程
- *
+ * <p/>
  * Created by tangweiqun on 2014/12/3.
  */
-public class BeanExchangeValidHandler extends AbstractExchangeRuleHandler{
+public class BeanExchangeValidHandler extends AbstractExchangeRuleHandler {
 
     private HoldRewardService holdRewardService = new HoldRewardServiceImpl();
 
@@ -41,7 +41,7 @@ public class BeanExchangeValidHandler extends AbstractExchangeRuleHandler{
 
     @Override
     public void exchangeInternal(ActivityRequestVo requestVo, ActivityResponseVo responseVo) throws Exception {
-        ExchangeScene exchangeScene =requestVo.get("exchangeScene", ExchangeScene.class);
+        ExchangeScene exchangeScene = requestVo.get("exchangeScene", ExchangeScene.class);
         RewardType rewardType = requestVo.get("rewardType", RewardType.class);
         String exchangeAmt = requestVo.get("exchangeAmt", String.class);
         BigDecimal exchangeMoney = BigDecimal.valueOf(Double.valueOf(exchangeAmt));
@@ -51,7 +51,7 @@ public class BeanExchangeValidHandler extends AbstractExchangeRuleHandler{
         DataBean4ExchangeVo dataBean4ExchangeVo = exchangeSceneService.getDataBean4ExchangeVo();
 
         String limitAmt = dataBean4ExchangeVo.getExchangeList().get(0);
-        if(new BigDecimal(exchangeAmt).doubleValue() < Double.valueOf(limitAmt)) {
+        if (new BigDecimal(exchangeAmt).doubleValue() < Double.valueOf(limitAmt)) {
             responseVo.setMessage(new Message(Severity.WARN, MsgCode.BEAN_EXCHANGE_NOTENOUGH));
             responseVo.setFlowStop(true);
             return;
@@ -62,7 +62,7 @@ public class BeanExchangeValidHandler extends AbstractExchangeRuleHandler{
         //单位转换
         Long subRewardAmt = exchangeMoney.divide(exchangeRewardRule.getRate()).longValue();
 
-        if(subRewardAmt > exchangeScene.getExchangeLimit()) {
+        if (subRewardAmt > exchangeScene.getExchangeLimit()) {
             Message message = new Message(Severity.WARN, MsgCode.EXCHANGE_OVER_LIMIT);
             message.setDetail(Configuration.root().getString("detail.exchange" + MsgCode.EXCHANGE_OVER_LIMIT.getCode()));
             responseVo.setMessage(message);
@@ -72,7 +72,7 @@ public class BeanExchangeValidHandler extends AbstractExchangeRuleHandler{
 
 
         Long totalReward = holdRewardService.getHoldRewardByCustId(requestVo.getCustId(), requestVo.getRewardType());
-        if(totalReward < subRewardAmt) {
+        if (totalReward < subRewardAmt) {
             Message message = new Message(Severity.WARN, MsgCode.EXCHANGE_OVER_LIMIT);
             message.setDetail(Configuration.root().getString("detail.exchange" + MsgCode.EXCHANGE_OVER_LIMIT.getCode()));
             responseVo.setMessage(message);

@@ -1,9 +1,7 @@
 package models;
 
-import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.Id;
 
 /**
  * <p>Project: financePlatform</p>
@@ -22,9 +20,9 @@ public class Code extends IdEntity {
     private String code;
     @Column(name = "value")
     private String value;
-    @Column(name="\"DESC\"")
+    @Column(name = "\"DESC\"")
     private String desc;
-    @Column(name="on_sale")
+    @Column(name = "on_sale")
     private Integer onSale;
 
     public String getCategory() {
@@ -59,11 +57,11 @@ public class Code extends IdEntity {
         this.desc = desc;
     }
 
-	public Integer getOnSale () {
-		return onSale;
-	}
+    public Integer getOnSale() {
+        return onSale;
+    }
 
-	public void setOnSale (Integer onSale) {
-		this.onSale = onSale;
-	}
+    public void setOnSale(Integer onSale) {
+        this.onSale = onSale;
+    }
 }

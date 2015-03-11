@@ -17,10 +17,10 @@ import java.util.Date;
 @Entity
 @Table(name = "c_customer_msg_setting")
 @NamedQueries({
-        @NamedQuery(name="findAliasByGroupId",query="select cms.alias from CustomerGroup cg,CustomerMsgSetting cms where cg.customerId = cms.customerId and cms.pushOpenStatus = 'Y' and cg.id = ?1"),
-        @NamedQuery(name="findAliasByCustomerId",query="select cms.alias from CustomerMsgSetting cms where cms.pushOpenStatus = 'Y' and cms.customerId = ?1"),
-        @NamedQuery(name="findRegistrationIdsByCustomerId",query="select cms.registrationId from CustomerMsgSetting cms where cms.pushOpenStatus = 'Y' and cms.customerId = ?1"),
-        @NamedQuery(name="findSettingByRegIdAndDeviceNo",query="select cms from CustomerMsgSetting cms where cms.pushOpenStatus = 'Y' and cms.registrationId = ?1 and cms.deviceNo = ?2")
+        @NamedQuery(name = "findAliasByGroupId", query = "select cms.alias from CustomerGroup cg,CustomerMsgSetting cms where cg.customerId = cms.customerId and cms.pushOpenStatus = 'Y' and cg.id = ?1"),
+        @NamedQuery(name = "findAliasByCustomerId", query = "select cms.alias from CustomerMsgSetting cms where cms.pushOpenStatus = 'Y' and cms.customerId = ?1"),
+        @NamedQuery(name = "findRegistrationIdsByCustomerId", query = "select cms.registrationId from CustomerMsgSetting cms where cms.pushOpenStatus = 'Y' and cms.customerId = ?1"),
+        @NamedQuery(name = "findSettingByRegIdAndDeviceNo", query = "select cms from CustomerMsgSetting cms where cms.pushOpenStatus = 'Y' and cms.registrationId = ?1 and cms.deviceNo = ?2")
 })
 public class CustomerMsgSetting extends IdEntity {
     @Column(name = "customer_id", length = 30)

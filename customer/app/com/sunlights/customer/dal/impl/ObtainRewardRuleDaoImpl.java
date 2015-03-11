@@ -35,15 +35,15 @@ public class ObtainRewardRuleDaoImpl extends EntityBaseDao implements ObtainRewa
 
     @Override
     public List<ObtainRewardRule> findFirstPurchaseEffective(Long activityId) {
-        Map<String,Object> map = Maps.newHashMapWithExpectedSize(1);
+        Map<String, Object> map = Maps.newHashMapWithExpectedSize(1);
         map.put("activityId", activityId);
         String sql = "select fr " +
-                "  from ObtainRewardRule fr ,Activity fa" + 
+                "  from ObtainRewardRule fr ,Activity fa" +
                 " where fr.activityId = fa.id" +
                 "   and fr.status = 'N'" +
                 "   and fa.status = 'N'" +
-                "   and fa.scene = 'ASC005'" + 
-                "   and fa.beginTime <= current_date" + 
+                "   and fa.scene = 'ASC005'" +
+                "   and fa.beginTime <= current_date" +
                 "   and fa.endTime >= current_date" +
                 "   /~ and fa.activityId = {activityId} ~/";
 

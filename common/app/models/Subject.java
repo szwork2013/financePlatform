@@ -14,12 +14,12 @@ import java.util.Date;
  *
  * @author <a href="mailto:jiaming.wang@sunlights.cc">wangJiaMing</a>
  */
-public class Subject extends IdEntity{
-    @Column(name = "subject_no",length = 6)
+public class Subject extends IdEntity {
+    @Column(name = "subject_no", length = 6)
     private String subjectNo;
-    @Column(name = "description",length = 20)
+    @Column(name = "description", length = 20)
     private String description;
-    @Column(name = "dc_flag",length = 50)
+    @Column(name = "dc_flag", length = 50)
     private String dcFlag;
     @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "create_time")

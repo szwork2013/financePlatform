@@ -1,8 +1,8 @@
 package actor;
 
-import play.libs.Akka;
 import akka.actor.ActorRef;
 import akka.actor.Props;
+import play.libs.Akka;
 
 /**
  * Created by Administrator on 2014/9/17.

@@ -15,7 +15,7 @@ import java.util.List;
  *
  * @author <a href="mailto:jiaming.wang@sunlights.cc">wangJiaMing</a>
  */
-public class ShuMiAccountDaoImpl extends EntityBaseDao implements ShuMiAccountDao{
+public class ShuMiAccountDaoImpl extends EntityBaseDao implements ShuMiAccountDao {
     @Override
     public ShuMiAccount saveShuMiAccount(ShuMiAccount shuMiAccount) {
         return create(shuMiAccount);
@@ -24,7 +24,7 @@ public class ShuMiAccountDaoImpl extends EntityBaseDao implements ShuMiAccountDa
     @Override
     public ShuMiAccount findShuMiAccountByCustomerId(String customerId) {
         List<ShuMiAccount> list = findBy(ShuMiAccount.class, "customerId", customerId);
-        if (list.isEmpty()){
+        if (list.isEmpty()) {
             return null;
         }
         return list.get(0);

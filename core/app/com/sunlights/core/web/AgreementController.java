@@ -25,26 +25,26 @@ import play.mvc.Result;
  */
 @Transactional
 public class AgreementController extends Controller {
-  private static MessageUtil messageUtil = MessageUtil.getInstance();
-  private static Form<AgreementVo> agreementVoForm = Form.form(AgreementVo.class);
-  private OpenAccountPactService openAccountPactService = CoreFactory.getOpenAccountPactService();
+    private static MessageUtil messageUtil = MessageUtil.getInstance();
+    private static Form<AgreementVo> agreementVoForm = Form.form(AgreementVo.class);
+    private OpenAccountPactService openAccountPactService = CoreFactory.getOpenAccountPactService();
 
-  public Result findAgreementVoByAgreementNo() {
-    Http.RequestBody body = request().body();
-    AgreementVo agreementVo = new AgreementVo();
-    if (body.asFormUrlEncoded() != null) {
-      agreementVo = agreementVoForm.bindFromRequest().get();
+    public Result findAgreementVoByAgreementNo() {
+        Http.RequestBody body = request().body();
+        AgreementVo agreementVo = new AgreementVo();
+        if (body.asFormUrlEncoded() != null) {
+            agreementVo = agreementVoForm.bindFromRequest().get();
+        }
+        if (StringUtils.isEmpty(agreementVo.getCode())) {
+            messageUtil.setMessage(new Message(Severity.ERROR, MsgCode.SEARCH_FAIL_EMPTY_PROTOCOL_NO));
+            return ok(messageUtil.toJson());
+        }
+        AgreementVo av = openAccountPactService.findAgreementVoByAgreementNo(agreementVo.getCode());
+        if (av == null) {
+            messageUtil.setMessage(new Message(Severity.ERROR, MsgCode.SEARCH_FAIL_PROTOCOL_NONE));
+        } else {
+            messageUtil.setMessage(new Message(Severity.INFO, MsgCode.OPERATE_SUCCESS), av);
+        }
+        return ok(messageUtil.toJson());
     }
-    if (StringUtils.isEmpty(agreementVo.getCode())) {
-      messageUtil.setMessage(new Message(Severity.ERROR, MsgCode.SEARCH_FAIL_EMPTY_PROTOCOL_NO));
-      return ok(messageUtil.toJson());
-    }
-    AgreementVo av = openAccountPactService.findAgreementVoByAgreementNo(agreementVo.getCode());
-    if (av == null) {
-      messageUtil.setMessage(new Message(Severity.ERROR, MsgCode.SEARCH_FAIL_PROTOCOL_NONE));
-    } else {
-      messageUtil.setMessage(new Message(Severity.INFO, MsgCode.OPERATE_SUCCESS), av);
-    }
-    return ok(messageUtil.toJson());
-  }
 }

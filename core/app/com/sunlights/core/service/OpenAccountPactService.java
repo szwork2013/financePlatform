@@ -13,7 +13,7 @@ import com.sunlights.customer.vo.BankCardVo;
  * @author <a href="mailto:zhencai.yuan@sunlights.cc">yuanzhencai</a>
  */
 public interface OpenAccountPactService {
-  public AgreementVo findAgreementVoByAgreementNo(String agreementNo);
+    public AgreementVo findAgreementVoByAgreementNo(String agreementNo);
 
-  public void createFundOpenAccount(String customerId, BankCardVo bankCardVo);
+    public void createFundOpenAccount(String customerId, BankCardVo bankCardVo);
 }

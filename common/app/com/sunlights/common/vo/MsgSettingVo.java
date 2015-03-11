@@ -11,7 +11,7 @@ import java.io.Serializable;
  *
  * @author <a href="mailto:jiaming.wang@sunlights.cc">wangJiaMing</a>
  */
-public class MsgSettingVo implements Serializable{
+public class MsgSettingVo implements Serializable {
     private String registrationId;
     private String deviceNo;
     private String customerId;

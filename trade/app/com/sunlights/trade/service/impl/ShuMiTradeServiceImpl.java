@@ -50,7 +50,7 @@ import java.util.List;
  *
  * @author <a href="mailto:jiaming.wang@sunlights.cc">wangJiaMing</a>
  */
-public class ShuMiTradeServiceImpl implements ShuMiTradeService{
+public class ShuMiTradeServiceImpl implements ShuMiTradeService {
     private TradeDao tradeDao = new TradeDaoImpl();
     private CustomerService customerService = new CustomerService();
     private CapitalService capitalService = new CapitalServiceImpl();
@@ -74,7 +74,7 @@ public class ShuMiTradeServiceImpl implements ShuMiTradeService{
         String companyId = null;
         if (fundNav == null) {
             MessageUtil.getInstance().setMessage(new Message(Severity.WARN, MsgCode.TRADE_ORDER_NOCODE));
-        }else{
+        } else {
             companyId = fundNav.getIaGuid();
         }
 
@@ -143,7 +143,7 @@ public class ShuMiTradeServiceImpl implements ShuMiTradeService{
         openAccountPactService.createFundOpenAccount(customerId, bankCardVo);
     }
 
-    private Trade createTrade(ShuMiTradeFormVo shuMiTradeFormVo, String customerId, String type, FundNav fundNav){
+    private Trade createTrade(ShuMiTradeFormVo shuMiTradeFormVo, String customerId, String type, FundNav fundNav) {
         String applySum = shuMiTradeFormVo.getApplySum();
         String fundCode = shuMiTradeFormVo.getFundCode();
         String fundName = shuMiTradeFormVo.getFundName();
@@ -168,7 +168,7 @@ public class ShuMiTradeServiceImpl implements ShuMiTradeService{
         //数米 申购付款成功才回调
         if (DictConst.TRADE_TYPE_1.equals(type)) {
             trade.setPayStatus(DictConst.PAYMENT_STATUS_3);//未付款
-        }else{//赎回
+        } else {//赎回
             trade.setPayStatus(DictConst.PAYMENT_STATUS_2);
         }
         trade.setProductCode(fundCode);

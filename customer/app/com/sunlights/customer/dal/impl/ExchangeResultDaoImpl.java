@@ -9,7 +9,7 @@ import java.util.Date;
 /**
  * Created by tangweiqun on 2014/12/4.
  */
-public class ExchangeResultDaoImpl extends EntityBaseDao implements ExchangeResultDao{
+public class ExchangeResultDaoImpl extends EntityBaseDao implements ExchangeResultDao {
 
     @Override
     public void doInsert(ExchangeResult exchangeResult) {

@@ -9,9 +9,6 @@ import com.sunlights.customer.factory.ActivityServiceFactory;
 import com.sunlights.customer.service.ActivitySceneService;
 import com.sunlights.customer.service.ActivityService;
 import com.sunlights.customer.service.ObtainRewardRuleService;
-import com.sunlights.customer.service.impl.ActivitySceneServiceImpl;
-import com.sunlights.customer.service.impl.ActivityServiceImpl;
-import com.sunlights.customer.service.impl.ObtainRewardRuleServiceImpl;
 import com.sunlights.customer.service.rewardrules.vo.ActivityRequestVo;
 import com.sunlights.customer.service.rewardrules.vo.ActivityResponseVo;
 import com.sunlights.customer.service.rewardrules.vo.ObtainRewardRuleVo;
@@ -46,27 +43,27 @@ public class ObtainRuleGainHandler extends AbstractObtainRuleHandler {
     public void obtainInternal(ActivityRequestVo requestVo, ActivityResponseVo responseVo) throws Exception {
         boolean isNotConfig = false;
         ActivityScene activityScene = requestVo.getActivityScene();
-        if(activityScene == null) {
+        if (activityScene == null) {
             activityScene = activitySceneService.getSceneByCode(requestVo.getScene());
         }
 
-        if(activityScene != null && ActivityConstant.ACTIVITY_CUSTONER_STATUS_NOMAL.equals(activityScene.getStatus())) {
+        if (activityScene != null && ActivityConstant.ACTIVITY_CUSTONER_STATUS_NOMAL.equals(activityScene.getStatus())) {
             requestVo.setActivityScene(activityScene);
             List<Activity> activities = activityService.getActivityByScene(activityScene.getScene());
-            if(activities == null || activities.isEmpty()) {
+            if (activities == null || activities.isEmpty()) {
                 isNotConfig = true;
             } else {
                 requestVo.setActivities(activities);
                 Map<Long, List<ObtainRewardRuleVo>> obtainRewardRuleMap = new HashMap<Long, List<ObtainRewardRuleVo>>();
-                for(Activity activity : activities) {
+                for (Activity activity : activities) {
                     List<ObtainRewardRuleVo> obtainRewardRules = obtainRewardRuleService.getByVosActivityId(activity.getId());
-                    if(obtainRewardRules == null || obtainRewardRules.isEmpty() || ActivityConstant.ACTIVITY_CUSTONER_STATUS_FORBIDDEN.equals(activity.getStatus())) {
+                    if (obtainRewardRules == null || obtainRewardRules.isEmpty() || ActivityConstant.ACTIVITY_CUSTONER_STATUS_FORBIDDEN.equals(activity.getStatus())) {
                         Logger.debug("获取规则无效");
                         continue;
                     }
                     obtainRewardRuleMap.put(activity.getId(), obtainRewardRules);
                 }
-                if(obtainRewardRuleMap.isEmpty()) {
+                if (obtainRewardRuleMap.isEmpty()) {
                     isNotConfig = true;
                 } else {
                     requestVo.setObtainRewardRuleMap(obtainRewardRuleMap);
@@ -76,7 +73,7 @@ public class ObtainRuleGainHandler extends AbstractObtainRuleHandler {
             isNotConfig = true;
         }
 
-        if(isNotConfig) {
+        if (isNotConfig) {
             Logger.debug("还没有配置的活动场景 scene = " + requestVo.getScene());
             Message message = new Message(Severity.INFO, MsgCode.NOT_CONFIG_ACTIVITY_SCENE);
             responseVo.setMessage(message);

@@ -25,15 +25,15 @@ import static play.test.Helpers.contentAsString;
 public class ActivityTradeTest extends BaseTest {
 
     @Test
-    public void testActivityTrade() throws Exception{
+    public void testActivityTrade() throws Exception {
         final Random random = new Random();
 
-        for (int i = 0; i<= 2; i++) {
+        for (int i = 0; i <= 2; i++) {
             Thread thread = new Thread(new Runnable() {
                 @Override
                 public void run() {
                     String mobilePhoneNo = "222222";
-                    for (int j = 0; j< 5; j++) {
+                    for (int j = 0; j < 5; j++) {
                         mobilePhoneNo += random.nextInt(9);
                     }
                     final Map<String, String> formParams = new HashMap<>();

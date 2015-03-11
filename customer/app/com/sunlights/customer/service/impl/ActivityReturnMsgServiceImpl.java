@@ -18,7 +18,7 @@ public class ActivityReturnMsgServiceImpl implements ActivityReturnMsgService {
     @Override
     public String getReturnMsg(String scene, String type, String rewardType, String category, String errorCode) {
 
-        if(StringUtils.isEmpty(errorCode)) {
+        if (StringUtils.isEmpty(errorCode)) {
             errorCode = MsgCode.OPERATE_SUCCESS.getCode();
         }
         ActivityReturnMsg activityReturnMsg = new ActivityReturnMsg();
@@ -30,7 +30,7 @@ public class ActivityReturnMsgServiceImpl implements ActivityReturnMsgService {
 
         activityReturnMsg = activityReturnMsgDao.getByCondition(activityReturnMsg);
 
-        if(activityReturnMsg == null) {
+        if (activityReturnMsg == null) {
             return "";
         }
 

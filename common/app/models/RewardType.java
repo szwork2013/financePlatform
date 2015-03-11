@@ -8,7 +8,7 @@ import java.util.Date;
  */
 @Entity
 @Table(name = "F_REWARD_TYPE")
-public class RewardType extends IdEntity{
+public class RewardType extends IdEntity {
     @Column(name = "CODE")
     private String code;
     @Column(name = "NAME")

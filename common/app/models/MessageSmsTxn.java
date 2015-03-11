@@ -29,7 +29,7 @@ public class MessageSmsTxn extends IdEntity {
     private String recStatus;//回执状态
     @Column(length = 400, name = "return_msg")
     private String returnMsg;
-    @Column(length = 1,name = "success_ind")
+    @Column(length = 1, name = "success_ind")
     private String successInd = AppConst.STATUS_INVALID;
     @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "CREATE_TIME")

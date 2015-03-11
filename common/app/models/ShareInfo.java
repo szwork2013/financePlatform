@@ -8,7 +8,7 @@ import java.util.Date;
  */
 @Entity
 @Table(name = "c_share_info")
-public class ShareInfo extends IdEntity  {
+public class ShareInfo extends IdEntity {
     @Column(name = "TYPE")
     private String shareType;
     @Column(name = "TITLE")

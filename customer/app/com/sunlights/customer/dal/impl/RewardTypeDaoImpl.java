@@ -15,7 +15,7 @@ public class RewardTypeDaoImpl extends EntityBaseDao implements RewardTypeDao {
     @Override
     public RewardType findByTypeCode(String code) {
         List<RewardType> rewardTypes = findBy(RewardType.class, "code", code);
-        if(rewardTypes != null && !rewardTypes.isEmpty()) {
+        if (rewardTypes != null && !rewardTypes.isEmpty()) {
             return rewardTypes.get(0);
         }
         return null;

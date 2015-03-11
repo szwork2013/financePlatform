@@ -1,7 +1,5 @@
 package com.sunlights.customer.vo;
 
-import com.sunlights.customer.service.rewardrules.vo.ActivityRequestVo;
-
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
@@ -9,7 +7,7 @@ import java.util.List;
 /**
  * Created by tangweiqun on 2014/12/4.
  */
-public class TradeObtainRewardSuccVo  implements Serializable {
+public class TradeObtainRewardSuccVo implements Serializable {
     private String fundCode;
 
     private String supplySum;

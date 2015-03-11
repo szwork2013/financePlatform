@@ -8,30 +8,30 @@ import models.Bank;
  */
 public class BankVo {
 
-  public String id;
-  // 代码
-  public String bankCode;
-  // 名称
-  public String bankName;
-  // 英文名称
-  public String enName;
-  // 状态
-  public String status;
+    public String id;
+    // 代码
+    public String bankCode;
+    // 名称
+    public String bankName;
+    // 英文名称
+    public String enName;
+    // 状态
+    public String status;
 
-  public BankVo() {
-    super();
-  }
+    public BankVo() {
+        super();
+    }
 
-  public BankVo(Bank bank) {
-    inBank(bank);
-  }
+    public BankVo(Bank bank) {
+        inBank(bank);
+    }
 
-  public void inBank(Bank bank) {
-    this.id = bank.getId().toString();
-    this.bankCode = bank.getBankCode();
-    this.bankName = bank.getBankName();
-    this.enName = bank.getEnName();
-    this.status = bank.getStatus();
+    public void inBank(Bank bank) {
+        this.id = bank.getId().toString();
+        this.bankCode = bank.getBankCode();
+        this.bankName = bank.getBankName();
+        this.enName = bank.getEnName();
+        this.status = bank.getStatus();
 
-  }
+    }
 }

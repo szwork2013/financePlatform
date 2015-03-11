@@ -27,7 +27,7 @@ public class ReCommendHandler extends AbstractObtainRuleHandler {
     @Override
     public void obtainInternal(ActivityRequestVo requestVo, ActivityResponseVo responseVo) throws Exception {
         Customer customer = customerDao.findRecommenderInfo(requestVo.getCustId());
-        if(customer == null) {
+        if (customer == null) {
             Logger.debug("没有推荐人");
             return;
         } else {

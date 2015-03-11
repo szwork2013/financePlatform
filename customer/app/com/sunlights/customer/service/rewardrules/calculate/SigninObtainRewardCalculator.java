@@ -10,7 +10,7 @@ import java.math.BigDecimal;
 /**
  * Created by tangweiqun on 2014/12/2.
  */
-public class SigninObtainRewardCalculator implements ObtainRewardCalculator{
+public class SigninObtainRewardCalculator implements ObtainRewardCalculator {
 
     @Override
     public ObtainRewardCalcVo calcObtainReward(ActivityRequestVo requestVo, ObtainRewardRuleVo obtainRewardRuleVo) {

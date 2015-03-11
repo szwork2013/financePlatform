@@ -17,7 +17,7 @@ public class AuthenticationVo {
     private Customer customer;
     private String password;
 
-    public AuthenticationVo(Authentication authentication, Customer customer){
+    public AuthenticationVo(Authentication authentication, Customer customer) {
         this.authentication = authentication;
         this.customer = customer;
     }

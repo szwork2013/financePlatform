@@ -57,7 +57,7 @@ public class ExchangeRewardController extends ActivityBaseController {
             }
             pageVo.setList(list);
             pageVo.setCount(list.size());
-        }else{
+        } else {
             pageVo.setList(result);
         }
 
@@ -80,7 +80,7 @@ public class ExchangeRewardController extends ActivityBaseController {
         return ok(messageUtil.toJson());
     }
 
-    public Result prepareDataBeforeBeanExchange(){
+    public Result prepareDataBeforeBeanExchange() {
         DataBean4ExchangeVo dataBean4ExchangeVo = exchangeSceneService.getDataBean4ExchangeVo();
 
         messageUtil.setMessage(new Message(Severity.INFO, MsgCode.BEAN_BEFORE_EXCHANGE_SUCC), dataBean4ExchangeVo);
@@ -128,11 +128,11 @@ public class ExchangeRewardController extends ActivityBaseController {
         resultVo.setPayed(exchangeParamter.getAmount());
         resultVo.setAccountDate(exchangeSceneService.calcAccountDate(exchangeScene.getTimeLimit(), null, true));
 
-        if(MsgCode.OPERATE_SUCCESS.getCode().equals(message.getCode())) {
+        if (MsgCode.OPERATE_SUCCESS.getCode().equals(message.getCode())) {
             if (ActivityConstant.ACTIVITY_EXCHANGE_BEAN_SCENE_CODE.equals(exchangeScene.getScene())) {
                 message.setCode(MsgCode.EXCHANGE_SUCC.getCode());
                 messageUtil.setMessage(message);
-            }else{
+            } else {
                 message.setCode(MsgCode.EXCHANGE_SUCC.getCode());
                 messageUtil.setMessage(message, resultVo);
             }

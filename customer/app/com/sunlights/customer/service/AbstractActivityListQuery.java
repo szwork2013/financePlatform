@@ -5,7 +5,6 @@ import com.sunlights.common.vo.PageVo;
 import com.sunlights.customer.ActivityConstant;
 import com.sunlights.customer.ActivityPageUtil;
 import com.sunlights.customer.factory.ActivityServiceFactory;
-import com.sunlights.customer.service.impl.ActivityServiceImpl;
 import com.sunlights.customer.vo.ActivityQueryContext;
 import com.sunlights.customer.vo.ActivityVo;
 import models.Activity;
@@ -18,7 +17,7 @@ import java.util.List;
 /**
  * Created by tangweiqun on 2014/12/17.
  */
-public abstract class AbstractActivityListQuery implements ActivityListQuery{
+public abstract class AbstractActivityListQuery implements ActivityListQuery {
     private ActivityService activityService = ActivityServiceFactory.getActivityService();
 
     @Override
@@ -36,14 +35,14 @@ public abstract class AbstractActivityListQuery implements ActivityListQuery{
         }
 
         ActivityVo vo = null;
-        for(Activity activity : pageActivities) {
+        for (Activity activity : pageActivities) {
             vo = new ActivityVo();
             vo.setId(activity.getId());
             vo.setName(activity.getTitle());
             vo.setImage(activityService.getFileFuleUrl(activity.getImage(), "activity.imagePath"));
             vo.setUrl(activityService.getFileFuleUrl(activity.getUrl(), "activity.html5Path") + "?activityId=" + activity.getId());
             vo.setStartDate(CommonUtil.dateToString(activity.getBeginTime(), CommonUtil.DATE_FORMAT_SHORT));
-            vo.setEndDate(CommonUtil.dateToString(activity.getEndTime(),  CommonUtil.DATE_FORMAT_SHORT));
+            vo.setEndDate(CommonUtil.dateToString(activity.getEndTime(), CommonUtil.DATE_FORMAT_SHORT));
             activityVos.add(vo);
         }
         return activityVos;
@@ -53,15 +52,15 @@ public abstract class AbstractActivityListQuery implements ActivityListQuery{
     public List<Activity> filter(List<Activity> allActivities, ActivityQueryContext context) {
         List<Activity> result = new ArrayList<Activity>();
         //TODO 可能会有性能问题
-        for(Activity activity : allActivities) {
-            if(ActivityConstant.ACTIVITY_STATUS_FORBIDDEN.equals(activity.getStatus())) {
+        for (Activity activity : allActivities) {
+            if (ActivityConstant.ACTIVITY_STATUS_FORBIDDEN.equals(activity.getStatus())) {
                 continue;
             }
-            if(activity.getBeginTime().getTime() > System.currentTimeMillis() || activity.getEndTime().getTime() < System.currentTimeMillis()) {
+            if (activity.getBeginTime().getTime() > System.currentTimeMillis() || activity.getEndTime().getTime() < System.currentTimeMillis()) {
                 continue;
             }
 
-            if(StringUtils.isEmpty(activity.getImage()) || StringUtils.isEmpty(activity.getUrl())) {
+            if (StringUtils.isEmpty(activity.getImage()) || StringUtils.isEmpty(activity.getUrl())) {
                 continue;
             }
             result.add(activity);

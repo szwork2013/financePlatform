@@ -14,7 +14,7 @@ import java.util.List;
  *
  * @author <a href="mailto:jiaming.wang@sunlights.cc">wangJiaMing</a>
  */
-public class PushMessageVo implements Serializable{
+public class PushMessageVo implements Serializable {
     private Long pushTxnId;
     private String title;
     private String content;//消息中心内容

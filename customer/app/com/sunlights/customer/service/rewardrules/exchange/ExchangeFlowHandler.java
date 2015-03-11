@@ -15,10 +15,10 @@ import java.math.BigDecimal;
 /**
  * 兑换奖励流程中的节点
  * 负责冻结用户需要兑换的奖励，并产生兑换流水
- *
+ * <p/>
  * Created by tangweiqun on 2014/12/3.
  */
-public class ExchangeFlowHandler extends AbstractExchangeRuleHandler{
+public class ExchangeFlowHandler extends AbstractExchangeRuleHandler {
 
     private HoldRewardService holdRewardService = new HoldRewardServiceImpl();
 

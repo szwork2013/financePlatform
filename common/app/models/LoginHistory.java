@@ -12,24 +12,24 @@ import java.util.Date;
 @Entity
 @Table(name = "C_LOGIN_HISTORY")
 @NamedQueries({
-        @NamedQuery(name="findByPwd",query="select c from LoginHistory c where c.customerId = ?1 and c.deviceNo = ?2 and c.pwdInd = 'Y' order by c.createTime desc"),
-        @NamedQuery(name="findByGesturePwd",query="select c from LoginHistory c where c.customerId = ?1 and c.deviceNo = ?2 and c.gestureInd = 'Y' order by c.createTime desc"),
-        @NamedQuery(name="findByLoginCustomer",query="select c from LoginHistory c where c.customerId = ?1 and c.deviceNo = ?2 and c.successInd = 'Y' and c.loginTime is not null and c.logoutTime is null order by c.createTime desc")
+        @NamedQuery(name = "findByPwd", query = "select c from LoginHistory c where c.customerId = ?1 and c.deviceNo = ?2 and c.pwdInd = 'Y' order by c.createTime desc"),
+        @NamedQuery(name = "findByGesturePwd", query = "select c from LoginHistory c where c.customerId = ?1 and c.deviceNo = ?2 and c.gestureInd = 'Y' order by c.createTime desc"),
+        @NamedQuery(name = "findByLoginCustomer", query = "select c from LoginHistory c where c.customerId = ?1 and c.deviceNo = ?2 and c.successInd = 'Y' and c.loginTime is not null and c.logoutTime is null order by c.createTime desc")
 })
-public class LoginHistory extends IdEntity{
-    @Column(length = 30,name = "CUSTOMER_ID")
+public class LoginHistory extends IdEntity {
+    @Column(length = 30, name = "CUSTOMER_ID")
     private String customerId;
     @Column(length = 10)
     private String channel;
-    @Column(length = 40,name = "DEVICE_NO")
+    @Column(length = 40, name = "DEVICE_NO")
     private String deviceNo;//设备号
-    @Column(length = 1,name = "SUCCESS_IND")
+    @Column(length = 1, name = "SUCCESS_IND")
     private String successInd = AppConst.STATUS_VALID;
-    @Column(length = 1,name = "PWD_IND")
+    @Column(length = 1, name = "PWD_IND")
     private String pwdInd = AppConst.STATUS_INVALID;
-    @Column(length = 1,name = "GESTURE_IND")
+    @Column(length = 1, name = "GESTURE_IND")
     private String gestureInd = AppConst.STATUS_INVALID;
-    @Column(length = 1,name = "SOCIAL_IND")
+    @Column(length = 1, name = "SOCIAL_IND")
     private String socialInd = AppConst.STATUS_INVALID;
     @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "LOGIN_TIME")
@@ -37,7 +37,7 @@ public class LoginHistory extends IdEntity{
     @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "LOGOUT_TIME")
     private Date logoutTime;
-    @Column(length = 3,name = "LOG_NUM")
+    @Column(length = 3, name = "LOG_NUM")
     private long logNum = 0;
     @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "UPDATE_TIME")
@@ -45,6 +45,7 @@ public class LoginHistory extends IdEntity{
     @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "CREATE_TIME")
     private Date createTime;
+
     public LoginHistory() {
     }
 

@@ -1,7 +1,6 @@
 package com.sunlights.customer.service.rewardrules;
 
 
-
 import com.sunlights.common.MsgCode;
 import com.sunlights.common.Severity;
 import com.sunlights.common.vo.Message;
@@ -22,7 +21,7 @@ import play.Logger;
  * 5：执行执行链中的处理功能链的逻辑
  * 6：执行执行链中的后过滤器
  * 7：清理请求对象中所占有的资源
- *
+ * <p/>
  * Created by tangweiqun on 2014/12/1.
  */
 public class ActivityHandlerService {
@@ -35,7 +34,7 @@ public class ActivityHandlerService {
             processeRequest = checkRequest(requestVo);
             mappedHandler = getHandler(processeRequest);
 
-            if(mappedHandler == null || mappedHandler.getHandler() == null) {
+            if (mappedHandler == null || mappedHandler.getHandler() == null) {
                 Message message = new Message(Severity.INFO, MsgCode.NOT_CONFIG_ACTIVITY_SCENE);
                 responseVo.setMessage(message);
                 responseVo.setFlowStop(true);
@@ -59,25 +58,25 @@ public class ActivityHandlerService {
 
 
     protected ActivityRequestVo checkRequest(ActivityRequestVo requestVo) {
-        if(requestVo == null || StringUtils.isEmpty(requestVo.getScene())) {
+        if (requestVo == null || StringUtils.isEmpty(requestVo.getScene())) {
             throw new IllegalArgumentException("请求参数的scene不能为空");
         }
         return requestVo;
     }
 
     protected HandlerExecutionChain getHandler(ActivityRequestVo requestVo) throws Exception {
-        for(HandlerMapping hm : RewardRuleFactory.getHandlerMapping()) {
+        for (HandlerMapping hm : RewardRuleFactory.getHandlerMapping()) {
             HandlerExecutionChain handler = hm.getHandler(requestVo);
-            if(handler != null) {
+            if (handler != null) {
                 return handler;
             }
         }
         return null;
     }
 
-    protected  HandlerAdapter getHandlerAdapter(Object handler) {
-        for(HandlerAdapter ha : RewardRuleFactory.getHandlerAdapters()) {
-            if(ha.supports(handler)) {
+    protected HandlerAdapter getHandlerAdapter(Object handler) {
+        for (HandlerAdapter ha : RewardRuleFactory.getHandlerAdapters()) {
+            if (ha.supports(handler)) {
                 return ha;
             }
         }

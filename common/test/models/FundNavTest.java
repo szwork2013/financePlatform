@@ -8,14 +8,12 @@ import play.libs.Json;
 import java.util.HashMap;
 import java.util.Map;
 
-import static org.junit.Assert.*;
-
 public class FundNavTest {
 
     @Test
     public void testScale() {
 
-        Map<String , String> keys = new HashMap<String, String>();
+        Map<String, String> keys = new HashMap<String, String>();
         keys.put("yield1M", "yield_1m");
 
         String jsonString = "{\n" +

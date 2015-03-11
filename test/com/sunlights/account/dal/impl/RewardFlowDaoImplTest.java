@@ -12,9 +12,6 @@ import play.test.WithApplication;
 
 import java.util.List;
 
-import static play.test.Helpers.fakeApplication;
-import static play.test.Helpers.running;
-
 public class RewardFlowDaoImplTest extends WithApplication {
 
     @Test

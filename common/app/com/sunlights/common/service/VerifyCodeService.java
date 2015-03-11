@@ -25,9 +25,10 @@ public class VerifyCodeService {
 
     private CustomerVerifyCodeDao customerVerifyCodeDao = new CustomerVerifyCodeDaoImpl();
     private ParameterService parameterService = new ParameterService();
-    
+
     /**
      * <P>Description: 获取验证码</p>
+     *
      * @return
      */
     public synchronized String genVerificationCode(final String mobilePhoneNo, String type, String deviceNo) {
@@ -44,7 +45,7 @@ public class VerifyCodeService {
                 verifyCode = preCustomerVerifyCode.getVerifyCode();
                 Logger.info("===========verifyCode:" + verifyCode);
                 return verifyCode;
-            }else{
+            } else {
                 preCustomerVerifyCode.setStatus(AppConst.STATUS_INVALID);
                 preCustomerVerifyCode.setUpdateTime(currentTimestamp);
                 customerVerifyCodeDao.updateCustomerVerifyCode(preCustomerVerifyCode);
@@ -69,7 +70,7 @@ public class VerifyCodeService {
     }
 
     private void checkValidVerifyCode(String type) {
-        if (!AppConst.VALID_VERIFY_CODES.contains(type)){
+        if (!AppConst.VALID_VERIFY_CODES.contains(type)) {
             throw CommonUtil.getInstance().errorBusinessException(MsgCode.ACCESS_FAIL);
         }
     }
@@ -88,10 +89,11 @@ public class VerifyCodeService {
 
     /**
      * 验证码验证
+     *
      * @return
      */
-    public boolean validateVerifyCode(CustomerVerifyCodeVo customerVerifyCodeVo){
-        if("true".equals(Configuration.root().getString("mock"))) {
+    public boolean validateVerifyCode(CustomerVerifyCodeVo customerVerifyCodeVo) {
+        if ("true".equals(Configuration.root().getString("mock"))) {
             return true;
         }
         CustomerVerifyCode customerVerifyCode = customerVerifyCodeDao.findVerifyCodeByType(customerVerifyCodeVo.getMobile(), customerVerifyCodeVo.getVerifyType());

@@ -25,7 +25,6 @@ public class Global extends GlobalSettings {
     }
 
 
-
     @Override
     public F.Promise<Result> onError(Http.RequestHeader reqHeader, Throwable reqthrow) {
         String uri = reqHeader.uri();

@@ -1,7 +1,6 @@
 package com.sunlights.customer.service.rewardrules.query;
 
 
-
 import com.sunlights.customer.vo.RewardResultVo;
 
 /**

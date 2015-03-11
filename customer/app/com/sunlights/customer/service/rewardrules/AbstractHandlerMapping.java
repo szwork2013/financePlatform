@@ -21,15 +21,15 @@ public abstract class AbstractHandlerMapping implements HandlerMapping {
     @Override
     public HandlerExecutionChain getHandler(ActivityRequestVo requestVo) throws Exception {
         Object handler = getHandlerInternal(requestVo);
-        if(handler == null) {
+        if (handler == null) {
             handler = defaultHandler;
         }
 
-        if(handler == null) {
+        if (handler == null) {
             return null;
         }
 
-        if(handler instanceof String) {
+        if (handler instanceof String) {
             String handlerName = (String) handler;
             handler = Class.forName(handlerName).newInstance();
         }
@@ -39,7 +39,7 @@ public abstract class AbstractHandlerMapping implements HandlerMapping {
     public abstract Object getHandlerInternal(ActivityRequestVo requestVo) throws Exception;
 
     public HandlerExecutionChain getHandlerExcutionChain(Object handler, ActivityRequestVo requestVo) {
-        HandlerExecutionChain chain = (handler instanceof HandlerExecutionChain) ? (HandlerExecutionChain)handler : new HandlerExecutionChain(handler);
+        HandlerExecutionChain chain = (handler instanceof HandlerExecutionChain) ? (HandlerExecutionChain) handler : new HandlerExecutionChain(handler);
         //TODO 在这里将过滤器组合到chain中
         return chain;
     }

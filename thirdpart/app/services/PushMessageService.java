@@ -36,7 +36,7 @@ public class PushMessageService {
     private ParameterService parameterService = new ParameterService();
     private static int maxLength = 1000;
 
-    public MessageVo sendPush(PushMessageVo pushMessageVo){
+    public MessageVo sendPush(PushMessageVo pushMessageVo) {
         String appKey = parameterService.getParameterByName(ParameterConst.APP_KEY);
         String secretKey = parameterService.getParameterByName(ParameterConst.SECRET_KEY);
         Logger.info(">>sendPush>>> start");
@@ -47,13 +47,13 @@ public class PushMessageService {
 
         if (length <= maxLength) {
             messageVo = executePush(pushMessageVo, appKey, secretKey);
-        } else{
-            int num = Integer.valueOf(ArithUtil.bigUpScale0(new BigDecimal((double)length/ maxLength)).toString());
+        } else {
+            int num = Integer.valueOf(ArithUtil.bigUpScale0(new BigDecimal((double) length / maxLength)).toString());
             for (int i = 1; i <= num; i++) {
                 PushMessageVo vo = pushMessageVo;
                 if (i * maxLength > length) {
                     vo.getRegistrationIdList().subList(i * maxLength, length);
-                }else{
+                } else {
                     vo.getRegistrationIdList().subList((i - 1) * maxLength, i * maxLength);
                 }
                 messageVo = executePush(vo, appKey, secretKey);
@@ -69,14 +69,14 @@ public class PushMessageService {
         MessageVo messageVo = new MessageVo();
         JPushClient jPushClient = null;
         try {
-            PushPayload pushPayload  = builderPushPayLoad(pushMessageVo);
+            PushPayload pushPayload = builderPushPayLoad(pushMessageVo);
 
             String proxyHost = ConfigUtil.getValueStr(ConfigUtil.proxy_host);
-            if(proxyHost != null) {
+            if (proxyHost != null) {
                 int proxyPort = ConfigUtil.getValueInt(ConfigUtil.proxy_port);
                 HttpProxy httpProxy = new HttpProxy(proxyHost, proxyPort);
                 jPushClient = new JPushClient(secretKey, appKey, 1, httpProxy);
-            }else{
+            } else {
                 jPushClient = new JPushClient(secretKey, appKey);
             }
 
@@ -95,12 +95,12 @@ public class PushMessageService {
             Logger.error(">>出错了", e);
             Logger.info(MessageFormat.format(">> sendPush exception-->> personalInd：{0},messagePushTxnId：{1}", pushMessageVo.getPersonalInd(), pushMessageVo.getPushTxnId()));
             errorMsg = MessageFormat.format("异常信息code:{0},msg:{1}", e.getErrorCode(), e.getErrorMessage());
-            Logger.error(">>出错详情：" , errorMsg);
+            Logger.error(">>出错详情：", errorMsg);
 
             messageVo.setMessage(new Message(Severity.ERROR, e.getErrorCode() + "", e.getErrorMessage(), errorMsg));
             messageVo.setValue(errorMsg);
             e.printStackTrace();
-        } catch (Exception e){
+        } catch (Exception e) {
             Logger.error(">>出错了", e);
             Logger.info(MessageFormat.format(">> sendPush exception-->> personalInd：{0},messagePushTxnId：{1}", pushMessageVo.getPersonalInd(), pushMessageVo.getPushTxnId()));
             String detailMsg = e.getMessage();
@@ -126,19 +126,19 @@ public class PushMessageService {
 
         if (DictConst.PUSH_PLATFORM_IOS.equals(platform)) {
             pushPayload = builderIos(pushMessageVo);
-        }else if(DictConst.PUSH_PLATFORM_ANDROID.equals(platform)){
+        } else if (DictConst.PUSH_PLATFORM_ANDROID.equals(platform)) {
             pushPayload = builderAndroid(pushMessageVo);
-        }else{
+        } else {
             if (AppConst.PLATFORM_IOS.equals(msgPlatform)) {
                 pushPayload = builderAndroid(pushMessageVo);
-            }else{
+            } else {
                 pushPayload = builderIos(pushMessageVo);
             }
         }
         return pushPayload;
     }
 
-    private PushPayload builderAndroid(PushMessageVo pushMessageVo){
+    private PushPayload builderAndroid(PushMessageVo pushMessageVo) {
         String contentPush = pushMessageVo.getContentPush();
         String title = pushMessageVo.getTitle();
         List<String> aliasList = pushMessageVo.getAliasList();
@@ -151,7 +151,7 @@ public class PushMessageService {
 
         if (registrationIdList.isEmpty()) {
             builder.setAudience(Audience.all());
-        }else {
+        } else {
             builder.setAudience(Audience.registrationId(registrationIdList));//1000
         }
         boolean apns_production = ConfigUtil.getValueBoolean(ConfigUtil.apns_production);
@@ -160,7 +160,8 @@ public class PushMessageService {
 
         return builder.build();
     }
-    private PushPayload builderAll(PushMessageVo pushMessageVo){
+
+    private PushPayload builderAll(PushMessageVo pushMessageVo) {
         String contentPush = pushMessageVo.getContentPush();
         String title = pushMessageVo.getTitle();
 
@@ -174,7 +175,8 @@ public class PushMessageService {
 
         return builder.build();
     }
-    private PushPayload builderIos(PushMessageVo pushMessageVo){
+
+    private PushPayload builderIos(PushMessageVo pushMessageVo) {
         String contentPush = pushMessageVo.getContentPush();
         String title = pushMessageVo.getTitle();
         List<String> aliasList = pushMessageVo.getAliasList();
@@ -189,7 +191,7 @@ public class PushMessageService {
 
         if (registrationIdList.isEmpty()) {
             builder.setAudience(Audience.all());
-        }else {
+        } else {
             builder.setAudience(Audience.registrationId(registrationIdList));//1000
         }
 
@@ -199,9 +201,6 @@ public class PushMessageService {
 
         return builder.build();
     }
-
-
-
 
 
 }

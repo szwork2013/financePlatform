@@ -5,11 +5,11 @@ package com.sunlights.customer;
  */
 public interface ActivityConstant {
     /**
-     *  活动相关实体的状态--表示正常状态
+     * 活动相关实体的状态--表示正常状态
      */
     String ACTIVITY_STATUS_NOMAL = "N";
     /**
-     *  活动相关实体的状态--表示禁止状态
+     * 活动相关实体的状态--表示禁止状态
      */
     String ACTIVITY_STATUS_FORBIDDEN = "F";
 
@@ -61,15 +61,25 @@ public interface ActivityConstant {
     /**
      * 以下是活动类型
      */
-    /**注册类*/
+    /**
+     * 注册类
+     */
     String ACTIVITY_TYPE_REGISTER = "ATT001";
-    /**首次购买类*/
+    /**
+     * 首次购买类
+     */
     String ACTIVITY_TYPE_FIRST_PURCHASE = "ATT002";
-    /**购买类*/
+    /**
+     * 购买类
+     */
     String ACTIVITY_TYPE_PURCHASE = "ATT003";
-    /**签到类*/
+    /**
+     * 签到类
+     */
     String ACTIVITY_TYPE_SIGNIN = "ATT004";
-    /**邀请类*/
+    /**
+     * 邀请类
+     */
     String ACTIVITY_TYPE_INVITE = "ATT005";
 
     /**

@@ -30,13 +30,13 @@ public class JsonUtil {
      * @param jsonStr
      * @return
      */
-    public static Map jsonToMap(String jsonStr){
+    public static Map jsonToMap(String jsonStr) {
         try {
             JsonNode jsonNode = Json.parse(jsonStr);
             Map map = Json.fromJson(jsonNode, Map.class);
             return map;
-        }catch (Exception e){
-            Logger.error("Json解析失败，错误信息为："+ e.getMessage());
+        } catch (Exception e) {
+            Logger.error("Json解析失败，错误信息为：" + e.getMessage());
             return new HashMap();
         }
     }

@@ -14,7 +14,7 @@ public class ShareInfoDaoImpl extends EntityBaseDao implements ShareInfoDao {
     @Override
     public ShareInfo getByType(String type) {
         List<ShareInfo> shareInfos = findBy(ShareInfo.class, "shareType", type);
-        if(shareInfos == null || shareInfos.isEmpty()) {
+        if (shareInfos == null || shareInfos.isEmpty()) {
             return null;
         }
         return shareInfos.get(0);

@@ -11,7 +11,7 @@ import java.util.Date;
  */
 @Entity
 @Table(name = "t_chk_result")
-public class CheckResult extends  IdEntity{
+public class CheckResult extends IdEntity {
     @Column(name = "chk_date")
     private Date chkDate;
     @Column(name = "trade_no")

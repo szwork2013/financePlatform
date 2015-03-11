@@ -49,7 +49,7 @@ public class MsgCenterActionService {
     private final static String REGISTER = "register";
 
 
-    public void sendMsg(String routeActionMethod, List<MessageHeaderVo> messageHeaderVoList){
+    public void sendMsg(String routeActionMethod, List<MessageHeaderVo> messageHeaderVoList) {
         Logger.info(">>sendMsg>>>");
         for (MessageHeaderVo messageActivityVo : messageHeaderVoList) {
             String messageType = messageActivityVo.getMessageType();
@@ -65,11 +65,11 @@ public class MsgCenterActionService {
                 if (LOGIN.equals(routeActionMethod) || LOGINBYGES.equals(routeActionMethod)) {
                     routeActionMethod = LOGIN;
                     ruleCodeList = findLoginUnRemindRuleCodeList(customerId, routeActionMethod);
-                }else if(REGISTER.equals(routeActionMethod)) {//注册完成后自动登录
+                } else if (REGISTER.equals(routeActionMethod)) {//注册完成后自动登录
                     routeActionMethod = REGISTER;
                     ruleCodeList = findLoginUnRemindRuleCodeList(customerId, routeActionMethod);
                 }
-            }else{//活动类、交易类  信息
+            } else {//活动类、交易类  信息
                 ruleCodeList = getRuleCodeList(routeActionMethod, messageType, scene);
             }
             Logger.info(">>ruleCodeList size:" + ruleCodeList.size());
@@ -84,7 +84,7 @@ public class MsgCenterActionService {
         PushMessageVo pushMessageVo = centerDao.findMessageRuleByCode(ruleCode);
         if (pushMessageVo == null) {
             Logger.info(MessageFormat.format(">>消息规则{0} 未配置！", ruleCode));
-            return ;
+            return;
         }
         pushMessageVo.setCustomerId(messageActivityVo.getCustomerId());
         pushMessageVo.setContent(MessageFormat.format(pushMessageVo.getContent(), messageActivityVo.getParams().toArray()));
@@ -106,12 +106,12 @@ public class MsgCenterActionService {
                 pushMessageVo.setContentPush(MessageFormat.format(pushMessageVo.getContentPush(), messageActivityVo.getParams().toArray()));
                 sendPush(pushMessageVo);
             }
-        }else{//针对某个群组操作
+        } else {//针对某个群组操作
         }
 
     }
 
-    private List<String> findLoginUnRemindRuleCodeList(String customerId, String methodNameStr){
+    private List<String> findLoginUnRemindRuleCodeList(String customerId, String methodNameStr) {
         List<Activity> activityList = activityService.getCurrentValidActivities();
         if (activityList.isEmpty()) {
             return Lists.newArrayList();
@@ -121,15 +121,15 @@ public class MsgCenterActionService {
             activityIdList.add(activity.getId());
         }
 
-        String activityIdStr = activityIdList.toString().replace("[","(").replace("]", ")");
-        List<String> ruleCodeList = centerDao.findUnRemindRuleCodeList(customerId,activityIdStr, methodNameStr);
+        String activityIdStr = activityIdList.toString().replace("[", "(").replace("]", ")");
+        List<String> ruleCodeList = centerDao.findUnRemindRuleCodeList(customerId, activityIdStr, methodNameStr);
         return ruleCodeList;
     }
 
     private List<String> getRuleCodeList(String routeActionMethod, String messageType, String scene) {
         List<String> list = centerDao.findMessageRuleCodeList(routeActionMethod, messageType, scene);
 
-        if (list.isEmpty()){
+        if (list.isEmpty()) {
             Logger.info(">>未配置消息规则映射表");
         }
 
@@ -137,7 +137,6 @@ public class MsgCenterActionService {
     }
 
     /**
-     *
      * @param pushMessageVo 规则信息
      */
     private void sendPush(PushMessageVo pushMessageVo) {
@@ -147,7 +146,7 @@ public class MsgCenterActionService {
 
         if (registrationIds.isEmpty()) {
             Logger.debug(MessageFormat.format("未查询到需要信息发送的接收者！当前客户号：{0}", customerId));
-            return ;
+            return;
         }
 
         CustomerMsgPushTxn customerMsgPushTxn = createCustomerMsgPushTxn(pushMessageVo);
@@ -168,7 +167,7 @@ public class MsgCenterActionService {
             pushMessageVo.setRegistrationIdList(registrationIdList);
             if ("Y".equals(msgSettingVo.getLoginStatus())) {//login
                 badge = centerDao.countUnReadNum(customerId, msgSettingVo.getDeviceNo());
-            }else{
+            } else {
                 badge = centerDao.countUnReadNum(msgSettingVo.getDeviceNo());
             }
             pushMessageVo.setBadge(badge);
@@ -181,7 +180,6 @@ public class MsgCenterActionService {
     }
 
     /**
-     *
      * @param pushMessageVo 短信信息
      */
     private void sendSms(PushMessageVo pushMessageVo) {
@@ -199,7 +197,7 @@ public class MsgCenterActionService {
         try {
             MessageSmsTxn resultMessageSmsTxn = smsMessageService.sendSms(messageSmsTxn);
             centerDao.createMessageSmsTxn(resultMessageSmsTxn);
-        }catch (Exception e){
+        } catch (Exception e) {
             centerDao.createMessageSmsTxn(messageSmsTxn);
             Logger.error(">>messageSmsTxn:" + Json.toJson(messageSmsTxn), e);
             e.printStackTrace();
@@ -211,7 +209,7 @@ public class MsgCenterActionService {
         Logger.info(">>executePushWS>>> start");
         try {
             return pushMessageService.sendPush(pushMessageVo);
-        }catch (Exception e){
+        } catch (Exception e) {
             Logger.error(">>CustomerMsgPushTxn:" + Json.toJson(pushMessageVo), e);
             e.printStackTrace();
         }

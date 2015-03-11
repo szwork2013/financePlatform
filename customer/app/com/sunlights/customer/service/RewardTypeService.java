@@ -8,7 +8,6 @@ import models.RewardType;
 public interface RewardTypeService {
 
 
-
     public RewardType findByTypeCode(String code);
 
 }

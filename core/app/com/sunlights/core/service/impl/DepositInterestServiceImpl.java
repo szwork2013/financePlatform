@@ -18,6 +18,6 @@ public class DepositInterestServiceImpl implements DepositInterestService {
     @Override
     public BigDecimal findCurrent() {
         DepositInterestVo depositInterest = depositInterestDao.findLatestDepositInterest();
-        return depositInterest == null ?  null : depositInterest.getCurrent();
+        return depositInterest == null ? null : depositInterest.getCurrent();
     }
 }

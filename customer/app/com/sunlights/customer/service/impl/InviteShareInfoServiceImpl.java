@@ -1,13 +1,10 @@
 package com.sunlights.customer.service.impl;
 
-import com.sunlights.common.MsgCode;
-import com.sunlights.common.utils.CommonUtil;
 import com.sunlights.customer.ActivityConstant;
 import com.sunlights.customer.dal.CustomerDao;
 import com.sunlights.customer.dal.impl.CustomerDaoImpl;
 import com.sunlights.customer.service.AbstractShareInfoService;
 import com.sunlights.customer.vo.ShareInfoContext;
-import models.Activity;
 import models.Customer;
 import models.ShareInfo;
 import org.apache.commons.lang3.StringUtils;
@@ -25,7 +22,7 @@ public class InviteShareInfoServiceImpl extends AbstractShareInfoService {
         /*if(StringUtils.isEmpty(context.getCustNo())) {
             throw CommonUtil.getInstance().errorBusinessException(MsgCode.LOGIN_TIMEOUT);
         }*/
-        if(StringUtils.isEmpty(context.getCustNo())) {
+        if (StringUtils.isEmpty(context.getCustNo())) {
             context.setRefId(ActivityConstant.NOT_LOGIN_CUSTOMER_NO);
         } else {
             context.setRefId(context.getCustNo());
@@ -40,7 +37,7 @@ public class InviteShareInfoServiceImpl extends AbstractShareInfoService {
         StringBuilder sb = new StringBuilder();
         String mobile = getMobile(context.getCustNo());
         sb.append(shareInfo.getBaseUrl());
-        if(Integer.valueOf(ActivityConstant.ACCOUNT_COMMON_ONE).equals(shareInfo.getRelateRefId())) {
+        if (Integer.valueOf(ActivityConstant.ACCOUNT_COMMON_ONE).equals(shareInfo.getRelateRefId())) {
             //sb.append(context.getCommonParamter());
             sb.append("?mobile=" + mobile + "&scene=ASC002");
         }
@@ -49,10 +46,11 @@ public class InviteShareInfoServiceImpl extends AbstractShareInfoService {
 
     /**
      * 获得手机号
+     *
      * @return
      */
-    private String getMobile(String custNo){
-        if(StringUtils.isEmpty(custNo)) {
+    private String getMobile(String custNo) {
+        if (StringUtils.isEmpty(custNo)) {
             return "";
         }
         Customer customer = customerDao.getCustomerByCustomerId(custNo);

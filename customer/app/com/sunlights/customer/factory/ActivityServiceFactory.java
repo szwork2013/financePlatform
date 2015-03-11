@@ -9,11 +9,11 @@ import com.sunlights.customer.service.impl.*;
  */
 public class ActivityServiceFactory {
 
-    public static ActivityService getActivityService()  {
+    public static ActivityService getActivityService() {
         return CacheFactory.getProxyCacheObject(ActivityServiceImpl.class);
     }
 
-    public static ActivityReturnMsgService getActivityReturnMsgService(){
+    public static ActivityReturnMsgService getActivityReturnMsgService() {
         return CacheFactory.getProxyCacheObject(ActivityReturnMsgServiceImpl.class);
     }
 

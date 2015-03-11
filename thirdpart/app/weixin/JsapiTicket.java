@@ -40,7 +40,7 @@ public class JsapiTicket {
 
     private static final JsapiTicket instance = new JsapiTicket();
 
-    private JsapiTicket(){
+    private JsapiTicket() {
         try {
             cacheFormCallable = createCallableCache();
         } catch (Exception e) {
@@ -48,12 +48,13 @@ public class JsapiTicket {
         }
     }
 
-    public static final JsapiTicket getInstance(){
+    public static final JsapiTicket getInstance() {
         return instance;
     }
 
     /**
      * 创建一个缓存对象
+     *
      * @throws Exception
      */
     private static Cache<String, String> createCallableCache() throws Exception {
@@ -108,8 +109,8 @@ public class JsapiTicket {
             //解析json数据
             Map map = JsonUtil.jsonToMap(result);
             Object value = map.get(keyName);
-            if(value !=null){
-                accessCode = (String)value;
+            if (value != null) {
+                accessCode = (String) value;
             }
         }
 

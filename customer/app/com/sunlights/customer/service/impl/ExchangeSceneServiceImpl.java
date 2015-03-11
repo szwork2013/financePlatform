@@ -51,18 +51,18 @@ public class ExchangeSceneServiceImpl implements ExchangeSceneService {
         List<ExchangeSceneVo> result = new ArrayList<ExchangeSceneVo>();
         ExchangeSceneListVo exchangeSceneListVo = new ExchangeSceneListVo();
         ExchangeSceneVo exchangeSceneVo = null;
-        for(ExchangeScene exchangeScene : exchangeScenes) {
+        for (ExchangeScene exchangeScene : exchangeScenes) {
             String activityType = exchangeScene.getActivityType();
             String rewardType = exchangeScene.getRewardType();
             List<HoldReward> holdRewards = holdRewardDao.findByCustIdAndRewardType(custId, rewardType, activityType, false);
             Logger.debug("holdRewards == " + holdRewards.size());
             Long total = Long.valueOf(0);
             BigDecimal money = BigDecimal.ZERO;
-            for(HoldReward holdReward : holdRewards) {
+            for (HoldReward holdReward : holdRewards) {
                 total += (holdReward.getHoldReward() - holdReward.getFrozenReward());
                 money = money.add(holdReward.getHoldMoney().subtract(holdReward.getFrozenMoney()));
             }
-            if(total < exchangeScene.getRequireAmt() || total == 0L) {
+            if (total < exchangeScene.getRequireAmt() || total == 0L) {
                 Logger.debug("total = " + total + " < " + " RequireAmt = " + exchangeScene.getRequireAmt());
                 continue;
             }
@@ -74,9 +74,9 @@ public class ExchangeSceneServiceImpl implements ExchangeSceneService {
                 DataBean4ExchangeVo dataBean4ExchangeVo = getDataBean4ExchangeVo();
                 double rate = Double.valueOf(dataBean4ExchangeVo.getRate());
                 int exchangeAmount = Integer.valueOf(dataBean4ExchangeVo.getExchangeList().get(0));
-                BigDecimal limitLowExchangeNum = new BigDecimal(exchangeAmount/rate);
+                BigDecimal limitLowExchangeNum = new BigDecimal(exchangeAmount / rate);
                 exchangeSceneVo.setDetail(ArithUtil.BigToString(limitLowExchangeNum) + "金豆即可兑换");
-            }else{
+            } else {
                 //TODO 这样的话不能将多个参数替换
                 String detaiTemplate = Configuration.root().getString(exchangeScene.getScene() + "." + exchangeScene.getRewardType() + "." + exchangeScene.getActivityType());
                 exchangeSceneVo.setDetail(MessageFormat.format(detaiTemplate, money));
@@ -104,13 +104,13 @@ public class ExchangeSceneServiceImpl implements ExchangeSceneService {
         BigDecimal canPayed = BigDecimal.ZERO;
         BigDecimal totalMoney = BigDecimal.ZERO;
 
-        for(HoldReward holdReward : holdRewards) {
+        for (HoldReward holdReward : holdRewards) {
             total += (holdReward.getHoldReward() - holdReward.getFrozenReward());
             money = money.add(holdReward.getHoldMoney().subtract(holdReward.getFrozenMoney()));
             totalMoney = totalMoney.add(holdReward.getGetMoney());
             canPayed = canPayed.add(money);
         }
-        if(total > exchangeScene.getExchangeLimit()) {
+        if (total > exchangeScene.getExchangeLimit()) {
             canPayed = BigDecimal.valueOf(exchangeScene.getExchangeLimit()).divide(BigDecimal.valueOf(rewardTypeModel.getUnit()));
         }
 
@@ -129,7 +129,7 @@ public class ExchangeSceneServiceImpl implements ExchangeSceneService {
         return data4ExchangeVo;
     }
 
-    public DataBean4ExchangeVo getDataBean4ExchangeVo(){
+    public DataBean4ExchangeVo getDataBean4ExchangeVo() {
         ExchangeRewardRule exchangeRewardRule = exchangeRewardRuleService.findByRewardType(ActivityConstant.REWARD_TYPE_JINDOU);
         String exchangeBean = parameterService.getParameterByName(ParameterConst.EXCHANGE_BEAN);
         if (StringUtils.isEmpty(exchangeBean)) {
@@ -165,16 +165,16 @@ public class ExchangeSceneServiceImpl implements ExchangeSceneService {
 
     @Override
     public String calcAccountDate(Integer days, Date exchangeDate, boolean isLongDate) {
-        if(days == null) {
+        if (days == null) {
             days = 0;
         }
         Calendar calendar = Calendar.getInstance();
-        if(exchangeDate != null) {
+        if (exchangeDate != null) {
             calendar.setTime(exchangeDate);
         }
         calendar.add(Calendar.DATE, days);
         String dateFormatStr = CommonUtil.DATE_FORMAT_LONG;
-        if(!isLongDate) {
+        if (!isLongDate) {
             dateFormatStr = CommonUtil.DATE_FORMAT_SHORT;
         }
         String accountDate = CommonUtil.dateToString(new Date(calendar.getTimeInMillis()), dateFormatStr);

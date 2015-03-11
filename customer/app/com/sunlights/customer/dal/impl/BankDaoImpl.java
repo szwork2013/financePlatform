@@ -18,10 +18,10 @@ import java.util.List;
  */
 public class BankDaoImpl extends EntityBaseDao implements BankDao {
 
-  @Override
-  public Bank findBankByBankCode(String bankCode) {
-    return super.findUniqueBy(Bank.class, "bankCode", bankCode);
-  }
+    @Override
+    public Bank findBankByBankCode(String bankCode) {
+        return super.findUniqueBy(Bank.class, "bankCode", bankCode);
+    }
 
     @Override
     public Bank findBankByBankName(String bankName) {

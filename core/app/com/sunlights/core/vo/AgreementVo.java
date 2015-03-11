@@ -10,63 +10,63 @@ import java.util.Date;
  * Created by yuan on 10/8/14.
  */
 public class AgreementVo {
-  // 协议名称
-  private String title;
-  // 链接
-  private String link;
-  // 更新时间
-  private String updatedAt;
-  // 协议编号
-  private String code;
+    // 协议名称
+    private String title;
+    // 链接
+    private String link;
+    // 更新时间
+    private String updatedAt;
+    // 协议编号
+    private String code;
 
-  public AgreementVo() {
-    super();
-  }
-
-  public AgreementVo(OpenAccountPact openAccountPact) {
-    inOpenAccountPact(openAccountPact);
-  }
-
-  private void inOpenAccountPact(OpenAccountPact openAccountPact) {
-    this.code = openAccountPact.getAgreementNo();
-    this.title = openAccountPact.getAgreementName();
-    this.link = openAccountPact.getFilePath() + openAccountPact.getFileName();
-    if (openAccountPact.getUpdateDate() != null) {
-      this.updatedAt = CommonUtil.dateToString(new Date(openAccountPact.getUpdateDate().getTime()), CommonUtil.DATE_FORMAT_LONG);
+    public AgreementVo() {
+        super();
     }
-  }
 
-  public String getTitle() {
-    return title;
-  }
+    public AgreementVo(OpenAccountPact openAccountPact) {
+        inOpenAccountPact(openAccountPact);
+    }
 
-  public void setTitle(String title) {
-    this.title = title;
-  }
+    private void inOpenAccountPact(OpenAccountPact openAccountPact) {
+        this.code = openAccountPact.getAgreementNo();
+        this.title = openAccountPact.getAgreementName();
+        this.link = openAccountPact.getFilePath() + openAccountPact.getFileName();
+        if (openAccountPact.getUpdateDate() != null) {
+            this.updatedAt = CommonUtil.dateToString(new Date(openAccountPact.getUpdateDate().getTime()), CommonUtil.DATE_FORMAT_LONG);
+        }
+    }
 
-  public String getLink() {
-    return link;
-  }
+    public String getTitle() {
+        return title;
+    }
 
-  public void setLink(String link) {
-    this.link = link;
-  }
+    public void setTitle(String title) {
+        this.title = title;
+    }
 
-  public String getUpdatedAt() {
-    return updatedAt;
-  }
+    public String getLink() {
+        return link;
+    }
 
-  public void setUpdatedAt(String updatedAt) {
-    this.updatedAt = updatedAt;
-  }
+    public void setLink(String link) {
+        this.link = link;
+    }
 
-  public String getCode() {
-    return code;
-  }
+    public String getUpdatedAt() {
+        return updatedAt;
+    }
 
-  public void setCode(String code) {
-    this.code = code;
-  }
+    public void setUpdatedAt(String updatedAt) {
+        this.updatedAt = updatedAt;
+    }
+
+    public String getCode() {
+        return code;
+    }
+
+    public void setCode(String code) {
+        this.code = code;
+    }
 
     @Override
     public boolean equals(Object o) {

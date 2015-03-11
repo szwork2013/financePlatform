@@ -35,7 +35,6 @@ public class RewardFlowServiceImpl implements RewardFlowService {
     private RewardTypeService rewardTypeService = ActivityServiceFactory.getRewardTypeService();
 
 
-
     @Override
     public void saveRewardFlow(RewardFlow rewardFlow) {
         rewardFlowDao.saveRewardFlow(rewardFlow);
@@ -84,10 +83,10 @@ public class RewardFlowServiceImpl implements RewardFlowService {
             rewardFlow.setScene(scene);
             List<RewardFlow> result = rewardFlowDao.findByCondition(rewardFlow);
             RewardFlow temp = null;
-            if(result != null && result.size() > 0) {
+            if (result != null && result.size() > 0) {
                 temp = result.get(0);
             }
-            if(temp != null) {
+            if (temp != null) {
                 vo = new RewardResultVo();
                 vo.setStatus(ActivityConstant.ACTIVITY_CUSTONER_STATUS_NOMAL);
                 vo.setAlreadyGet(temp.getRewardAmt());
@@ -110,16 +109,16 @@ public class RewardFlowServiceImpl implements RewardFlowService {
     }
 
     private void transRewardFlow(List<RewardFlow> rewardFlows, List<RewardFlowVo> rewardFlowVos) {
-        if(rewardFlows == null || rewardFlows.isEmpty()) {
+        if (rewardFlows == null || rewardFlows.isEmpty()) {
             return;
         }
         RewardFlowVo rewardFlowVo = null;
-        for(RewardFlow rewardFlow : rewardFlows) {
+        for (RewardFlow rewardFlow : rewardFlows) {
             rewardFlowVo = new RewardFlowVo();
             RewardType rewardType = rewardTypeService.findByTypeCode(rewardFlow.getRewardType());
             rewardFlowVo.setTitle(rewardFlow.getActivityTitle());
             rewardFlowVo.setCreateTime(CommonUtil.dateToString(rewardFlow.getCreateTime(), CommonUtil.DATE_FORMAT_LONG));
-            if(rewardFlow.getOperatorType().equals(ActivityConstant.REWARD_FLOW_OBTAIN)) {
+            if (rewardFlow.getOperatorType().equals(ActivityConstant.REWARD_FLOW_OBTAIN)) {
                 rewardFlowVo.setAmount(takePrefix(BigDecimal.valueOf(rewardFlow.getRewardAmt()).divide(BigDecimal.valueOf(rewardType.getUnit())), "+"));
             } else {
                 if (ActivityConstant.ACTIVITY_EXCHANGE_BEAN_SCENE_CODE.equals(rewardFlow.getScene())) {
@@ -150,7 +149,7 @@ public class RewardFlowServiceImpl implements RewardFlowService {
         Data4ExchangeItem item = new Data4ExchangeItem();
         try {
             List<RewardFlow> rewardFlows = rewardFlowDao.findByCondition(rewardFlow);
-            for(RewardFlow temp : rewardFlows) {
+            for (RewardFlow temp : rewardFlows) {
                 item.setTitle(temp.getActivityTitle());
                 item.setCreateTime(CommonUtil.dateToString(temp.getCreateTime(), CommonUtil.DATE_FORMAT_LONG));
 

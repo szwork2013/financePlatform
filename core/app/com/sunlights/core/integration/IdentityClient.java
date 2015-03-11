@@ -29,11 +29,10 @@ public class IdentityClient {
     private ParameterService parameterService = new ParameterService();
 
     /**
-     *
      * @param idCardNo
      * @param userName
      */
-    public void identity(String idCardNo, String userName){
+    public void identity(String idCardNo, String userName) {
         //check input params
         ObjectNode CheckRequest = Json.newObject();
         CheckRequest.put("IDNumber", idCardNo);
@@ -65,12 +64,12 @@ public class IdentityClient {
                 throw CommonUtil.getInstance().fatalBusinessException(MsgCode.CERTIFY_NAME_FAIL, e.getMessage());
             }
 
-            IdentifierVo identifierVo =Json.fromJson(Json.parse(returnStr), IdentifierVo.class);
+            IdentifierVo identifierVo = Json.fromJson(Json.parse(returnStr), IdentifierVo.class);
             if (!"100".equals(identifierVo.ResponseCode)) {
                 throw CommonUtil.getInstance().fatalBusinessException(MsgCode.CERTIFY_NAME_FAIL, "失败code:" + identifierVo.ResponseCode);
-            }else{
+            } else {
                 if (!"一致".equals(identifierVo.getResult())) {
-                    throw CommonUtil.getInstance().errorBusinessException(MsgCode.CERTIFY_INFO_FAIL,identifierVo.getResult());
+                    throw CommonUtil.getInstance().errorBusinessException(MsgCode.CERTIFY_INFO_FAIL, identifierVo.getResult());
                 }
             }
         }

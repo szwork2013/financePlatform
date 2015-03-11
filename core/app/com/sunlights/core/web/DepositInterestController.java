@@ -19,16 +19,15 @@ import java.math.BigDecimal;
 @Transactional
 public class DepositInterestController extends Controller {
 
-	private DepositInterestService depositInterestService = new DepositInterestServiceImpl();
+    private DepositInterestService depositInterestService = new DepositInterestServiceImpl();
 
 
+    private MessageUtil messageUtil = MessageUtil.getInstance();
 
-	private MessageUtil messageUtil = MessageUtil.getInstance();
-
-	public Result findCurrent() {
+    public Result findCurrent() {
         Logger.info("[DepositInterestController1] + findCurrent");
         BigDecimal current = depositInterestService.findCurrent();
-		messageUtil.setMessage(new Message(Severity.INFO, MsgCode.OPERATE_SUCCESS), current);
-		return ok(messageUtil.toJson());
-	}
+        messageUtil.setMessage(new Message(Severity.INFO, MsgCode.OPERATE_SUCCESS), current);
+        return ok(messageUtil.toJson());
+    }
 }

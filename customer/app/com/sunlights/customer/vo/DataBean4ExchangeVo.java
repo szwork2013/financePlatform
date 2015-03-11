@@ -14,7 +14,7 @@ import java.util.List;
  *
  * @author <a href="mailto:jiaming.wang@sunlights.cc">wangJiaMing</a>
  */
-public class DataBean4ExchangeVo implements Serializable{
+public class DataBean4ExchangeVo implements Serializable {
     private String rate;//元：金豆=1：100
     private List<String> exchangeList = Lists.newArrayList();//可兑换金额
 

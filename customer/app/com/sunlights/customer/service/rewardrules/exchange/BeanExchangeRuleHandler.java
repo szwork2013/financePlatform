@@ -13,7 +13,7 @@ import play.Logger;
  *
  * @author <a href="mailto:jiaming.wang@sunlights.cc">wangJiaMing</a>
  */
-public class BeanExchangeRuleHandler extends AbstractExchangeRuleHandler{
+public class BeanExchangeRuleHandler extends AbstractExchangeRuleHandler {
 
     @Override
     public void exchange(ActivityRequestVo requestVo, ActivityResponseVo responseVo) throws Exception {

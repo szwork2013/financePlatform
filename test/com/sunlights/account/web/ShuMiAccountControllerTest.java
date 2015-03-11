@@ -22,7 +22,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import static org.fest.assertions.Assertions.assertThat;
-import static play.test.Helpers.*;
+import static play.test.Helpers.contentAsString;
 
 public class ShuMiAccountControllerTest extends BaseTest {
     private static Http.Cookie cookie;
@@ -101,7 +101,6 @@ public class ShuMiAccountControllerTest extends BaseTest {
                 JPA.em().remove(shuMiAccount);
             }
         });
-
 
 
     }

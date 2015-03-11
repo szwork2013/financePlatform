@@ -10,7 +10,6 @@ import com.sunlights.customer.service.rewardrules.vo.ActivityRequestVo;
 import com.sunlights.customer.service.rewardrules.vo.ActivityResponseVo;
 import com.sunlights.customer.service.rewardrules.vo.ObtainRewardRuleVo;
 import com.sunlights.customer.vo.RewardResultVo;
-import models.ObtainRewardRule;
 import play.Logger;
 
 import java.util.List;
@@ -38,7 +37,7 @@ public class QueryRewardHandlerImpl implements QueryRewardHandler {
         }
         RewardResultVo rewardResultVo = new RewardResultVo();
 
-        if(responseVo.getMessage().getCode().equals(MsgCode.OPERATE_SUCCESS.getCode())) {
+        if (responseVo.getMessage().getCode().equals(MsgCode.OPERATE_SUCCESS.getCode())) {
             rewardResultVo.setReturnMessage(new Message(Severity.INFO, MsgCode.ACTIVITY_QUERY_SUCC));
             rewardResultVo.setStatus(ActivityConstant.ACTIVITY_CUSTONER_STATUS_NOMAL);
             rewardResultVo = judge(requestVo, responseVo, rewardResultVo, true);
@@ -58,26 +57,26 @@ public class QueryRewardHandlerImpl implements QueryRewardHandler {
         } catch (Exception e) {
             Logger.error("查询今日签到信息系统错误", e);
         }
-        if(responseVo.getMessage().getCode().equals(MsgCode.NOT_CONFIG_ACTIVITY_SCENE.getCode())) {
+        if (responseVo.getMessage().getCode().equals(MsgCode.NOT_CONFIG_ACTIVITY_SCENE.getCode())) {
             rewardResultVo.setReturnMessage(new Message(Severity.INFO, MsgCode.NOT_CONFIG_ACTIVITY_SCENE));
             rewardResultVo.setNotGet(0L);
             rewardResultVo.setAlreadyGet(0L);
             rewardResultVo.setStatus(null);//活动被关闭的时候返回空
         } else {
             Map<Long, List<ObtainRewardRuleVo>> ruleMap = requestVo.getObtainRewardRuleMap();
-            if(ruleMap == null || ruleMap.isEmpty()) {
+            if (ruleMap == null || ruleMap.isEmpty()) {
                 rewardResultVo.setReturnMessage(new Message(Severity.INFO, MsgCode.NOT_CONFIG_ACTIVITY_SCENE));
                 rewardResultVo.setNotGet(0L);
                 rewardResultVo.setAlreadyGet(0L);
                 rewardResultVo.setStatus(null);//活动被关闭的时候返回空
             } else {
                 Long canGet = 0L;
-                for(Map.Entry<Long, List<ObtainRewardRuleVo>> entry : ruleMap.entrySet()) {
-                    for(ObtainRewardRuleVo obtainRewardRuleVo : entry.getValue()) {
+                for (Map.Entry<Long, List<ObtainRewardRuleVo>> entry : ruleMap.entrySet()) {
+                    for (ObtainRewardRuleVo obtainRewardRuleVo : entry.getValue()) {
                         canGet += obtainRewardRuleVo.getShouldReward();
                     }
                 }
-                if(isSucc) {
+                if (isSucc) {
                     rewardResultVo.setNotGet(canGet);
                     rewardResultVo.setAlreadyGet(0L);
                 } else {

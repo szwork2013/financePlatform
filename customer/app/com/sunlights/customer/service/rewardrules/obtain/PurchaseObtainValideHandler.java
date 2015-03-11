@@ -19,7 +19,7 @@ import java.util.List;
 
 /**
  * 确定购买活动是否是首次购买，并最终确定活动场景(是首次购买还是购买)
- *
+ * <p/>
  * Created by tangweiqun on 2014/12/2.
  */
 public class PurchaseObtainValideHandler extends AbstractObtainRuleHandler {
@@ -38,7 +38,7 @@ public class PurchaseObtainValideHandler extends AbstractObtainRuleHandler {
     @Override
     public void obtainInternal(ActivityRequestVo requestVo, ActivityResponseVo responseVo) throws Exception {
         boolean hasFirstPurchase = activityService.validateHasFirstPurchase(requestVo.getCustId(), requestVo.getActivityId());
-        if(!hasFirstPurchase) {
+        if (!hasFirstPurchase) {
             requestVo.setScene(ActivityConstant.ACTIVITY_FIRST_PURCHASE_SCENE_CODE);
             Logger.debug("首次购买 scene = " + requestVo.getScene());
             return;
@@ -50,7 +50,7 @@ public class PurchaseObtainValideHandler extends AbstractObtainRuleHandler {
 
             List<ActivityScene> activityScenes = activitySceneService.getScenesByActivityType(ActivityConstant.ACTIVITY_TYPE_PURCHASE);
 
-            if(activityScenes != null && isSupportPrd(activityScenes, prdType, prdCode)) {
+            if (activityScenes != null && isSupportPrd(activityScenes, prdType, prdCode)) {
                 requestVo.setScene(ActivityConstant.ACTIVITY_PURCHASE_RECOMMEND_SCENE_CODE);
             } else {
                 Message message = new Message(Severity.INFO, MsgCode.NOT_CONFIG_ACTIVITY_SCENE);
@@ -65,11 +65,11 @@ public class PurchaseObtainValideHandler extends AbstractObtainRuleHandler {
     }
 
     private boolean isSupportPrd(List<ActivityScene> activityScenes, String prdType, String prdCode) {
-        if(StringUtils.isEmpty(prdCode)) {
+        if (StringUtils.isEmpty(prdCode)) {
             return false;
         }
-        for(ActivityScene activityScene : activityScenes) {
-            if(prdCode.equals(activityScene.getPrdCode())) {
+        for (ActivityScene activityScene : activityScenes) {
+            if (prdCode.equals(activityScene.getPrdCode())) {
                 return true;
             }
         }

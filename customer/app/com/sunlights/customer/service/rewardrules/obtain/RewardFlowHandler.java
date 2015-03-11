@@ -4,10 +4,8 @@ package com.sunlights.customer.service.rewardrules.obtain;
 import com.sunlights.customer.ActivityConstant;
 import com.sunlights.customer.service.ActivityService;
 import com.sunlights.customer.service.HoldRewardService;
-import com.sunlights.customer.service.RewardFlowService;
 import com.sunlights.customer.service.impl.ActivityServiceImpl;
 import com.sunlights.customer.service.impl.HoldRewardServiceImpl;
-import com.sunlights.customer.service.impl.RewardFlowServiceImpl;
 import com.sunlights.customer.service.rewardrules.calculate.ObtainRewardCalcVo;
 import com.sunlights.customer.service.rewardrules.calculate.ObtainRewardCalculator;
 import com.sunlights.customer.service.rewardrules.calculate.RewardCalculatorFactory;
@@ -26,10 +24,10 @@ import java.util.Map;
 
 /**
  * 生成奖励流水（分邀请人和被邀请人）
- *
+ * <p/>
  * Created by tangweiqun on 2014/12/2.
  */
-public class RewardFlowHandler extends AbstractObtainRuleHandler{
+public class RewardFlowHandler extends AbstractObtainRuleHandler {
     private HoldRewardService holdRewardService = new HoldRewardServiceImpl();
 
     private ActivityService activityService = new ActivityServiceImpl();
@@ -47,22 +45,22 @@ public class RewardFlowHandler extends AbstractObtainRuleHandler{
         ActivityScene activityScene = requestVo.getActivityScene();
         List<Activity> activities = requestVo.getActivities();
         Map<Long, List<ObtainRewardRuleVo>> obtainRewardRuleMap = requestVo.getObtainRewardRuleMap();
-        for(Activity activity : activities) {
+        for (Activity activity : activities) {
             List<ObtainRewardRuleVo> obtainRewardRuleVos = obtainRewardRuleMap.get(activity.getId());
-            if(obtainRewardRuleVos == null || obtainRewardRuleVos.isEmpty()) {
+            if (obtainRewardRuleVos == null || obtainRewardRuleVos.isEmpty()) {
                 Logger.debug("没有找到获取规则 scene = " + requestVo.getScene());
                 continue;
             }
-            for(ObtainRewardRuleVo obtainRewardRuleVo : obtainRewardRuleVos) {
-                if(ActivityConstant.ACTIVITY_CUSTONER_STATUS_FORBIDDEN.equals(obtainRewardRuleVo.getStatus())) {
+            for (ObtainRewardRuleVo obtainRewardRuleVo : obtainRewardRuleVos) {
+                if (ActivityConstant.ACTIVITY_CUSTONER_STATUS_FORBIDDEN.equals(obtainRewardRuleVo.getStatus())) {
                     Logger.debug("获取规则无效");
                     continue;
                 }
                 RewardFlowRecordVo rewardFlowRecordVo = new RewardFlowRecordVo();
-                if(obtainRewardRuleVo.getInviter() == ActivityConstant.ACCOUNT_COMMON_ONE && StringUtils.isNotEmpty(requestVo.getRecommendCustId())) {
+                if (obtainRewardRuleVo.getInviter() == ActivityConstant.ACCOUNT_COMMON_ONE && StringUtils.isNotEmpty(requestVo.getRecommendCustId())) {
                     rewardFlowRecordVo.setCustId(requestVo.getRecommendCustId());
                     rewardFlowRecordVo.setRecommender(true);
-                } else if (obtainRewardRuleVo.getInviter() == ActivityConstant.ACCOUNT_COMMON_ZERO){
+                } else if (obtainRewardRuleVo.getInviter() == ActivityConstant.ACCOUNT_COMMON_ZERO) {
                     rewardFlowRecordVo.setCustId(requestVo.getCustId());
                 } else {
                     Logger.info("没有推荐人，继续下一个获取规则的执行");
@@ -79,7 +77,7 @@ public class RewardFlowHandler extends AbstractObtainRuleHandler{
 
                 ObtainRewardCalculator calculator = RewardCalculatorFactory.getCalculator(activityScene.getScene());
                 Integer unit = obtainRewardRuleVo.getRewardTypeModel().getUnit();
-                if(calculator == null) {
+                if (calculator == null) {
                     rewardFlowRecordVo.setRewardAmtResult(obtainRewardRuleVo.getShouldReward());
                     rewardFlowRecordVo.setRewardAmtFromTrans(BigDecimal.valueOf(obtainRewardRuleVo.getShouldReward()).divide(BigDecimal.valueOf(unit)));
                     rewardFlowRecordVo.setMoneyResult(obtainRewardRuleVo.getExchangeRewardRule().getRate().multiply(BigDecimal.valueOf(rewardFlowRecordVo.getRewardAmtResult())));

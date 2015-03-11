@@ -14,13 +14,13 @@ import java.util.Date;
         @NamedQuery(name = "findVerifyCodeByType", query = "select c FROM CustomerVerifyCode c where c.mobile = ?1 and c.verifyType = ?2 and c.status = 'Y' order by createTime desc")
 })
 public class CustomerVerifyCode extends IdEntity {
-    @Column(length = 40,name = "VERIFY_CODE")
+    @Column(length = 40, name = "VERIFY_CODE")
     private String verifyCode; // 验证码
-    @Column(length = 11,name = "MOBILE")
+    @Column(length = 11, name = "MOBILE")
     private String mobile;//电话
-    @Column(length = 40,name = "DEVICE_NO")
+    @Column(length = 40, name = "DEVICE_NO")
     private String deviceNo;//设备号
-    @Column(length = 20,name = "VERIFY_TYPE")
+    @Column(length = 20, name = "VERIFY_TYPE")
     private String verifyType;//验证码类型
     @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "UPDATE_TIME")

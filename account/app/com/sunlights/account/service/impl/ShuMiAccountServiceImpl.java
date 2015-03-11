@@ -28,7 +28,7 @@ import java.sql.Timestamp;
  *
  * @author <a href="mailto:jiaming.wang@sunlights.cc">wangJiaMing</a>
  */
-public class ShuMiAccountServiceImpl implements ShuMiAccountService{
+public class ShuMiAccountServiceImpl implements ShuMiAccountService {
     private ShuMiAccountDao shuMiAccountDao = new ShuMiAccountDaoImpl();
     private CustomerService customerService = new CustomerService();
 
@@ -44,8 +44,8 @@ public class ShuMiAccountServiceImpl implements ShuMiAccountService{
             shuMiAccount.setCreate_time(currentTime);
             shuMiAccount.setCustomerId(customer.getCustomerId());
             shuMiAccountDao.saveShuMiAccount(shuMiAccount);
-        }else if (!shuMiAccount.getShumi_tokenKey().equals(shuMiAccountVo.getShumi_tokenKey())
-                    || !shuMiAccount.getShumi_tokenSecret().equals(shuMiAccountVo.getShumi_tokenSecret())) {
+        } else if (!shuMiAccount.getShumi_tokenKey().equals(shuMiAccountVo.getShumi_tokenKey())
+                || !shuMiAccount.getShumi_tokenSecret().equals(shuMiAccountVo.getShumi_tokenSecret())) {
 
             shuMiAccount.setShumi_tokenKey(shuMiAccountVo.getShumi_tokenKey());
             shuMiAccount.setShumi_tokenSecret(shuMiAccountVo.getShumi_tokenSecret());
@@ -56,7 +56,7 @@ public class ShuMiAccountServiceImpl implements ShuMiAccountService{
         CustomerSession customerSession = customerService.getCustomerSession(token);
         CustomerVo customerVo = customerService.getCustomerVoByPhoneNo(customer.getMobile(), customerSession.getDeviceNo());
         MessageUtil.getInstance().setMessage(new Message(MsgCode.SAVE_SHUMI_ACCOUNT_SUCCESS), customerVo);
-        
+
         return shuMiAccount;
     }
 

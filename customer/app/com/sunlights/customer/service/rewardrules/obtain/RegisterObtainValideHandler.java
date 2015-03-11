@@ -11,7 +11,6 @@ import com.sunlights.customer.service.impl.CustJoinActivityServiceImpl;
 import com.sunlights.customer.service.impl.RewardFlowServiceImpl;
 import com.sunlights.customer.service.rewardrules.vo.ActivityRequestVo;
 import com.sunlights.customer.service.rewardrules.vo.ActivityResponseVo;
-import com.sunlights.customer.vo.RewardResultVo;
 import models.CustJoinActivity;
 import play.Logger;
 
@@ -19,7 +18,7 @@ import play.Logger;
  * 校验注册场景的活动是否需要参加
  * Created by tangweiqun on 2014/12/2.
  */
-public class RegisterObtainValideHandler extends AbstractObtainRuleHandler{
+public class RegisterObtainValideHandler extends AbstractObtainRuleHandler {
 
     private RewardFlowService rewardFlowService = new RewardFlowServiceImpl();
 
@@ -39,7 +38,7 @@ public class RegisterObtainValideHandler extends AbstractObtainRuleHandler{
 
         CustJoinActivity custJoinActivity = custJoinActivityService.getByCustAndActivity(requestVo.getCustId(), requestVo.getActivityId(), ActivityConstant.ACTIVITY_REGISTER_SCENE_CODE);
 
-        if(custJoinActivity != null) {
+        if (custJoinActivity != null) {
             Logger.debug("已经注册了");
             Message message = new Message(Severity.INFO, MsgCode.ALREADY_REGISTER);
             message.setDetail("您已经注册");

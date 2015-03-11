@@ -25,14 +25,14 @@ import services.SmsMessageService;
 public class SmsMessageController extends Controller {
     private Form<MessageSmsTxn> smsMessageFrom = Form.form(MessageSmsTxn.class);
     private SmsMessageService smsMessageService = new SmsMessageService();
-    
-    public Result sendSms(){
+
+    public Result sendSms() {
 
         MessageSmsTxn smsMessage = null;
         Http.RequestBody body = request().body();
         if (body.asJson() != null) {
             smsMessage = Json.fromJson(body.asJson(), MessageSmsTxn.class);
-        }else{
+        } else {
             smsMessage = smsMessageFrom.bindFromRequest().get();
         }
         Logger.debug("sendSms params：" + Json.toJson(smsMessage));

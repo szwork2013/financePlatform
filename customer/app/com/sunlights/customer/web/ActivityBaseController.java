@@ -16,7 +16,7 @@ import play.mvc.Http;
 /**
  * Created by tangweiqun on 2014/11/19.
  */
-public class ActivityBaseController  extends Controller{
+public class ActivityBaseController extends Controller {
     private Form<ActivityParamter> activityParameterForm = Form.form(ActivityParamter.class);
 
     private Form<ExchangeParamter> exchangeParamterForm = Form.form(ExchangeParamter.class);
@@ -53,7 +53,7 @@ public class ActivityBaseController  extends Controller{
     }
 
     public String getToken() {
-        customerService.validateCustomerSession(request(),session(),response());
+        customerService.validateCustomerSession(request(), session(), response());
         Http.Cookie cookie = request().cookie(AppConst.TOKEN);
         String token = cookie == null ? null : cookie.value();
         return token;

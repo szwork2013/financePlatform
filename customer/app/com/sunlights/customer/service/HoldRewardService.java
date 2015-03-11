@@ -12,7 +12,7 @@ import java.math.BigDecimal;
  */
 public interface HoldRewardService {
 
-    public void modifyHoldReward(String custId, String rewardType,String activityType, BigDecimal money, Long rewardAmt);
+    public void modifyHoldReward(String custId, String rewardType, String activityType, BigDecimal money, Long rewardAmt);
 
     public Long getHoldRewardByCustId(String custId, String rewardType);
 
@@ -20,7 +20,7 @@ public interface HoldRewardService {
 
     public RewardFlow genRewardFlow(RewardFlowRecordVo rewardFlowRecordVo);
 
-    public void frozenReward(String custId, String rewardType,String activityType, Long frozenAmt, BigDecimal exchangeMoney);
+    public void frozenReward(String custId, String rewardType, String activityType, Long frozenAmt, BigDecimal exchangeMoney);
 
     public HoldRewardVo getTotalReward(String custId);
 }

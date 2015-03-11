@@ -59,17 +59,17 @@ public class TradeServiceImpl implements TradeService {
     private PaymentService paymentService = new PaymentService();
 
     @Override
-    public List<TradeVo> getTradeListByToken(String token, TradeSearchFormVo tradeSearchFormVo, PageVo pageVo){
+    public List<TradeVo> getTradeListByToken(String token, TradeSearchFormVo tradeSearchFormVo, PageVo pageVo) {
         CustomerSession customerSession = customerService.getCustomerSession(token);
-        return getTradeListByCustomerId(customerSession.getCustomerId(), tradeSearchFormVo.getPrdCode() ,pageVo);
+        return getTradeListByCustomerId(customerSession.getCustomerId(), tradeSearchFormVo.getPrdCode(), pageVo);
     }
 
-    private List<TradeVo> getTradeListByCustomerId(String customerId, String prdCode, PageVo pageVo){
-        List<TradeVo> list = tradeDao.getTradeListByCustomerId(customerId, prdCode ,pageVo);
+    private List<TradeVo> getTradeListByCustomerId(String customerId, String prdCode, PageVo pageVo) {
+        List<TradeVo> list = tradeDao.getTradeListByCustomerId(customerId, prdCode, pageVo);
         return list;
     }
 
-    public CapitalProductTradeVo findCapitalProductDetailTrade(String token, TradeSearchFormVo tradeSearchFormVo){
+    public CapitalProductTradeVo findCapitalProductDetailTrade(String token, TradeSearchFormVo tradeSearchFormVo) {
         String prdCode = tradeSearchFormVo.getPrdCode();
         String prdType = tradeSearchFormVo.getPrdType();
         CommonUtil.getInstance().validateParams(prdType, prdCode);
@@ -111,8 +111,7 @@ public class TradeServiceImpl implements TradeService {
     }
 
 
-
-    public TotalCapitalInfo tradeFundOrder(TradeFormVo tradeFormVo, String token){
+    public TotalCapitalInfo tradeFundOrder(TradeFormVo tradeFormVo, String token) {
         String bankCardNo = tradeFormVo.getBankCardNo();
         String prdType = tradeFormVo.getPrdType();
         String mobilePhoneNo = tradeFormVo.getMobilePhoneNo();
@@ -121,7 +120,7 @@ public class TradeServiceImpl implements TradeService {
         String tradeAmount = tradeFormVo.getTradeAmount();
         String quantity = tradeFormVo.getQuantity();
 
-        CommonUtil.getInstance().validateParams(bankCardNo, prdCode, prdType, mobilePhoneNo, deviceNo,tradeAmount,quantity);
+        CommonUtil.getInstance().validateParams(bankCardNo, prdCode, prdType, mobilePhoneNo, deviceNo, tradeAmount, quantity);
         tradeValidate(mobilePhoneNo, deviceNo);
 
         CustomerSession customerSession = customerService.getCustomerSession(token);
@@ -140,7 +139,7 @@ public class TradeServiceImpl implements TradeService {
         //开户
         openAccountPactService.createFundOpenAccount(customerId, bankCardVo);
         //子帐号
-        accountService.createSubAccount(customerId,fundCompany.getFundCompanyId(), prdType);
+        accountService.createSubAccount(customerId, fundCompany.getFundCompanyId(), prdType);
         //下单记录
         Trade trade = createTrade(tradeFormVo, bankCardVo, customerId, fund, DictConst.TRADE_TYPE_1);
         //调用支付接口
@@ -189,12 +188,12 @@ public class TradeServiceImpl implements TradeService {
         return capitalService.createHoldCapital(acctChangFlowVo);
     }
 
-    private Trade updateTrade(Trade trade){
+    private Trade updateTrade(Trade trade) {
         trade.setUpdateTime(DBHelper.getCurrentTime());
         return tradeDao.updateTrade(trade);
     }
 
-    private Trade createTrade(TradeFormVo tradeFormVo, BankCardVo bankCardVo, String customerId, Fund fund, String type){
+    private Trade createTrade(TradeFormVo tradeFormVo, BankCardVo bankCardVo, String customerId, Fund fund, String type) {
         String tradeAmount = tradeFormVo.getTradeAmount();
         String quantity = tradeFormVo.getQuantity();
         String prdCode = tradeFormVo.getPrdCode();
@@ -208,7 +207,7 @@ public class TradeServiceImpl implements TradeService {
         trade.setType(type);
         if (DictConst.TRADE_TYPE_1.equals(type)) {//申购
             trade.setTradeAmount(new BigDecimal(tradeAmount));
-        }else{//赎回
+        } else {//赎回
             trade.setTradeAmount(new BigDecimal(tradeAmount).negate());
         }
         trade.setTradeStatus(DictConst.TRADE_STATUS_1);//申购中
@@ -229,14 +228,14 @@ public class TradeServiceImpl implements TradeService {
     }
 
 
-    private String generateTradeNo(){
+    private String generateTradeNo() {
         SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMddHHmmssss");
         String time = sdf.format(DBHelper.getCurrentTime());
         return time + tradeDao.getTradeNoSeq();
     }
 
 
-    public TotalCapitalInfo tradeFundRedeem(TradeFormVo tradeFormVo, String token){
+    public TotalCapitalInfo tradeFundRedeem(TradeFormVo tradeFormVo, String token) {
         String prdType = tradeFormVo.getPrdType();
         String mobilePhoneNo = tradeFormVo.getMobilePhoneNo();
         String deviceNo = tradeFormVo.getDeviceNo();
@@ -244,7 +243,7 @@ public class TradeServiceImpl implements TradeService {
         String tradeAmount = tradeFormVo.getTradeAmount();
         String quantity = tradeFormVo.getQuantity();
 
-        CommonUtil.getInstance().validateParams(prdCode, prdType, mobilePhoneNo, deviceNo,tradeAmount,quantity);
+        CommonUtil.getInstance().validateParams(prdCode, prdType, mobilePhoneNo, deviceNo, tradeAmount, quantity);
         tradeValidate(mobilePhoneNo, deviceNo);
 
         CustomerSession customerSession = customerService.getCustomerSession(token);
@@ -281,7 +280,6 @@ public class TradeServiceImpl implements TradeService {
 
         return totalCapitalInfo;
     }
-
 
 
 }

@@ -88,7 +88,6 @@ public class RegisterControllerTest extends BaseTest {
     }
 
 
-
     @Test
     public void testP2pRegister() throws Exception {
 

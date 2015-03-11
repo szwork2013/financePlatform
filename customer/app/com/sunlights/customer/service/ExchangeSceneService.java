@@ -22,6 +22,7 @@ public interface ExchangeSceneService {
 
     /**
      * 金豆兑换话费 查询比率&金额列表
+     *
      * @return
      */
     public DataBean4ExchangeVo getDataBean4ExchangeVo();

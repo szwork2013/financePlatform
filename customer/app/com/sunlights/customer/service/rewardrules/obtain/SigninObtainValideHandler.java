@@ -33,7 +33,7 @@ public class SigninObtainValideHandler extends AbstractObtainRuleHandler {
     public void obtainInternal(ActivityRequestVo requestVo, ActivityResponseVo responseVo) throws Exception {
 
         CustJoinActivity custJoinActivity = custJoinActivityService.getTodayRecordByCustAndActivity(requestVo.getCustId(), requestVo.getActivityId(), requestVo.getScene());
-        if(custJoinActivity != null) {
+        if (custJoinActivity != null) {
             String template = activityReturnMsgService.getReturnMsg(requestVo.getScene(), null, null,
                     ActivityConstant.RETURN_MSG_CATEGORY_REWARD_TRADE, MsgCode.ALREADY_SIGN.getCode());
             Logger.debug("您今天已经签过到了");

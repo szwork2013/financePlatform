@@ -23,26 +23,25 @@ import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 
 public class AccountServiceImpl implements AccountService {
-	
-	private AccountDao accountDao = new AccountDaoImpl();
+
+    private AccountDao accountDao = new AccountDaoImpl();
     private CustomerService customerService = new CustomerService();
 
-	public boolean createBaseAccount(String custId, String tradePassword) {
-		BaseAccount baseAccount = new BaseAccount();
-		baseAccount.setCustId(custId);
-		baseAccount.setTradePassword(tradePassword);
-		baseAccount.setBaseAccountNo(new StringBuilder(custId).append(AccountConstant.BASE_ACCOUNT_HOUZUI).toString());
-		baseAccount.setStatus(AccountConstant.BASE_ACCOUNT_NOMAL_STATUS);
-		baseAccount.setBalance(BigDecimal.ZERO);
-		baseAccount.setCreateTime(new Timestamp(System.currentTimeMillis()));
-		accountDao.saveBaseAccount(baseAccount);
-		return true;
-	}
+    public boolean createBaseAccount(String custId, String tradePassword) {
+        BaseAccount baseAccount = new BaseAccount();
+        baseAccount.setCustId(custId);
+        baseAccount.setTradePassword(tradePassword);
+        baseAccount.setBaseAccountNo(new StringBuilder(custId).append(AccountConstant.BASE_ACCOUNT_HOUZUI).toString());
+        baseAccount.setStatus(AccountConstant.BASE_ACCOUNT_NOMAL_STATUS);
+        baseAccount.setBalance(BigDecimal.ZERO);
+        baseAccount.setCreateTime(new Timestamp(System.currentTimeMillis()));
+        accountDao.saveBaseAccount(baseAccount);
+        return true;
+    }
 
 
-
-	@Override
-	public void createSubAccount(String custId, String fundCompanyId, String prdType) {
+    @Override
+    public void createSubAccount(String custId, String fundCompanyId, String prdType) {
         //与基金公司开户
 //        if (fundCompanyId != null && DictConst.FP_PRODUCT_TYPE_1.equals(prdType)) {
 //            boolean isExist = accountDao.findFundAgreementExist(custId, fundCompanyId);
@@ -70,10 +69,10 @@ public class AccountServiceImpl implements AccountService {
         if (!prdAccountConfigExist) {
             accountDao.savePrdAccountConfig(subAccount.getSubAccount(), prdType);
         }
-	}
+    }
 
-	@Override
-	public void dealAccount(AcctChangeFlowVo acctChangeFlowVo) {
+    @Override
+    public void dealAccount(AcctChangeFlowVo acctChangeFlowVo) {
         String customerId = acctChangeFlowVo.getCustomerId();
         String prdCode = acctChangeFlowVo.getPrdCode();
         String tradeNo = acctChangeFlowVo.getTradeNo();
@@ -87,7 +86,7 @@ public class AccountServiceImpl implements AccountService {
         if (DictConst.TRADE_TYPE_1.equals(tradeType)) {
             acctChangFlow.setSubjectNo(AppConst.SUBJECT_PURCHASE);
             acctChangFlow.setAmount(amount);
-        }else if (DictConst.TRADE_TYPE_2.equals(tradeType)){
+        } else if (DictConst.TRADE_TYPE_2.equals(tradeType)) {
             acctChangFlow.setAmount(amount.negate());
             acctChangFlow.setSubjectNo(AppConst.SUBJECT_REDEEM);
         }
@@ -118,11 +117,12 @@ public class AccountServiceImpl implements AccountService {
 
     /**
      * 交易密码设置/修改
+     *
      * @param customerFormVo
      * @param token
      * @return
      */
-    public BaseAccount resetTradePwd(CustomerFormVo customerFormVo, String token){
+    public BaseAccount resetTradePwd(CustomerFormVo customerFormVo, String token) {
         String mobilePhoneNo = customerFormVo.getMobilePhoneNo();
         String tradePassword = customerFormVo.getPassWord();
 
@@ -130,7 +130,7 @@ public class AccountServiceImpl implements AccountService {
         BaseAccount baseAccount = null;
         if (customerSession == null) {//为非法客户
             throw new BusinessRuntimeException(new Message(Severity.ERROR, MsgCode.LOGIN_TIMEOUT));
-        }else{
+        } else {
             Timestamp currentTime = DBHelper.getCurrentTime();
             if (mobilePhoneNo == null || "".equals(mobilePhoneNo.trim())) {//为首次购买的未注册的 客户
                 Customer customer = customerService.getCustomerByCustomerId(customerSession.getCustomerId());
@@ -149,8 +149,6 @@ public class AccountServiceImpl implements AccountService {
 
         return baseAccount;
     }
-
-
 
 
 }

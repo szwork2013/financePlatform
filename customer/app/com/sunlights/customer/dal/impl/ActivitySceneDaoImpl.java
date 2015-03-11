@@ -3,7 +3,6 @@ package com.sunlights.customer.dal.impl;
 import com.sunlights.common.dal.EntityBaseDao;
 import com.sunlights.customer.dal.ActivitySceneDao;
 import models.ActivityScene;
-import models.HoldReward;
 
 import java.util.HashMap;
 import java.util.List;
@@ -17,7 +16,7 @@ public class ActivitySceneDaoImpl extends EntityBaseDao implements ActivityScene
     @Override
     public ActivityScene getSceneByCode(String scene) {
         List<ActivityScene> activityScenes = super.findBy(ActivityScene.class, "scene", scene);
-        if(activityScenes == null || activityScenes.isEmpty()) {
+        if (activityScenes == null || activityScenes.isEmpty()) {
             return null;
         }
         return activityScenes.get(0);

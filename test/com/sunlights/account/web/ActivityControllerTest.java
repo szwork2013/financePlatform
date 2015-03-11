@@ -1,15 +1,16 @@
 package com.sunlights.account.web;
 
 import com.sunlights.BaseTest;
-
-
 import com.sunlights.common.AppConst;
 import com.sunlights.common.MsgCode;
 import com.sunlights.common.vo.MessageVo;
 import com.sunlights.common.vo.PageVo;
 import com.sunlights.customer.ActivityConstant;
 import com.sunlights.customer.service.impl.CustJoinActivityServiceImpl;
-import com.sunlights.customer.vo.*;
+import com.sunlights.customer.vo.ActivityVo;
+import com.sunlights.customer.vo.ExchangeResultVo;
+import com.sunlights.customer.vo.ObtainRewardVo;
+import com.sunlights.customer.vo.TradeObtainRewardFailVo;
 import models.CustJoinActivity;
 import org.junit.Before;
 import org.junit.Test;
@@ -25,7 +26,8 @@ import java.util.Map;
 
 import static org.fest.assertions.Assertions.assertThat;
 import static play.mvc.Http.Status.OK;
-import static play.test.Helpers.*;
+import static play.test.Helpers.contentAsString;
+import static play.test.Helpers.status;
 
 public class ActivityControllerTest extends BaseTest {
     private static Http.Cookie cookie;
@@ -36,7 +38,7 @@ public class ActivityControllerTest extends BaseTest {
         final String mobilePhoneNo = "13811599308";
         final String password = "1";
         String channel = AppConst.CHANNEL_PC;
-        cookie = getCookieAfterLogin(mobilePhoneNo, password,channel);
+        cookie = getCookieAfterLogin(mobilePhoneNo, password, channel);
 
     }
 

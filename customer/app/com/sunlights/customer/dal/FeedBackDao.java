@@ -12,5 +12,5 @@ import models.FeedBack;
  * @author <a href="mailto:jiaming.wang@sunlights.cc">wangJiaMing</a>
  */
 public interface FeedBackDao {
-  public FeedBack saveFeedBack(FeedBack feedBack);
+    public FeedBack saveFeedBack(FeedBack feedBack);
 }

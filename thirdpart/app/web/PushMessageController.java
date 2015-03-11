@@ -1,5 +1,11 @@
 package web;
 
+import com.sunlights.common.vo.MessageVo;
+import com.sunlights.common.vo.PushMessageVo;
+import com.wordnik.swagger.annotations.Api;
+import com.wordnik.swagger.annotations.ApiImplicitParam;
+import com.wordnik.swagger.annotations.ApiImplicitParams;
+import com.wordnik.swagger.annotations.ApiOperation;
 import play.Logger;
 import play.data.Form;
 import play.db.jpa.Transactional;
@@ -8,13 +14,6 @@ import play.mvc.Controller;
 import play.mvc.Http;
 import play.mvc.Result;
 import services.PushMessageService;
-
-import com.sunlights.common.vo.MessageVo;
-import com.sunlights.common.vo.PushMessageVo;
-import com.wordnik.swagger.annotations.Api;
-import com.wordnik.swagger.annotations.ApiImplicitParam;
-import com.wordnik.swagger.annotations.ApiImplicitParams;
-import com.wordnik.swagger.annotations.ApiOperation;
 
 /**
  * <p>Project: thirdpartyservice</p>
@@ -27,7 +26,7 @@ import com.wordnik.swagger.annotations.ApiOperation;
  */
 @Transactional
 @Api(value = "/thirdpart", description = "第三方服务接口")
-public class PushMessageController extends Controller{
+public class PushMessageController extends Controller {
     private Form<PushMessageVo> pushMessageVoFrom = Form.form(PushMessageVo.class);
     private PushMessageService pushMessageService = new PushMessageService();
 
@@ -42,7 +41,7 @@ public class PushMessageController extends Controller{
         Http.RequestBody body = request().body();
         if (body.asJson() != null) {
             pushMessageVo = Json.fromJson(body.asJson(), PushMessageVo.class);
-        }else{
+        } else {
             pushMessageVo = pushMessageVoFrom.bindFromRequest().get();
         }
         MessageVo messageVo = pushMessageService.sendPush(pushMessageVo);

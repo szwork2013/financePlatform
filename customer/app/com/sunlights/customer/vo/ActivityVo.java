@@ -7,7 +7,7 @@ import java.io.Serializable;
 /**
  * Created by Administrator on 2014/11/13.
  */
-public class ActivityVo  implements Serializable {
+public class ActivityVo implements Serializable {
 
     private Long id;
 
@@ -26,7 +26,7 @@ public class ActivityVo  implements Serializable {
     }
 
     public ActivityVo(Activity activity) {
-        if(activity != null) {
+        if (activity != null) {
             this.id = activity.getId();
             this.name = activity.getTitle();
             this.image = activity.getImage();

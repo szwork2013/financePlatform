@@ -42,20 +42,22 @@ public class ActivityShareInfoServiceImpl extends AbstractShareInfoService {
         StringBuilder sb = new StringBuilder();
         sb.append(shareInfo.getBaseUrl());
         String mobile = getMobile(context.getCustNo());
-        if(Integer.valueOf(ActivityConstant.ACCOUNT_COMMON_ONE).equals(shareInfo.getRelateRefId())) {
+        if (Integer.valueOf(ActivityConstant.ACCOUNT_COMMON_ONE).equals(shareInfo.getRelateRefId())) {
             Activity activity = activityService.getByUnknowCondition(context.getRefId());
             sb.append("/" + activity.getUrl());
-          //  sb.append(context.getCommonParamter());
-            sb.append("?info=" + mobile +"|" + activity.getId());
+            //  sb.append(context.getCommonParamter());
+            sb.append("?info=" + mobile + "|" + activity.getId());
         }
         return sb.toString();
     }
+
     /**
      * 获得手机号
+     *
      * @return
      */
-    private String getMobile(String custNo){
-        if(StringUtils.isEmpty(custNo)) {
+    private String getMobile(String custNo) {
+        if (StringUtils.isEmpty(custNo)) {
             return "";
         }
         Customer customer = customerDao.getCustomerByCustomerId(custNo);

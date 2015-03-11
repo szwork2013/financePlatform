@@ -18,7 +18,7 @@ public class BankCardDaoImpl extends EntityBaseDao implements BankCardDao {
         Query query = em.createQuery(sql, BankCard.class);
         query.setParameter("customerId", custId);
         List<BankCard> bankCardList = query.getResultList();
-        if (!bankCardList.isEmpty()){
+        if (!bankCardList.isEmpty()) {
             return bankCardList.get(0);
         }
         sql = "select bc from BankCard bc where bc.customerId = :customerId and bc.deleted = false and bc.loadAllInd = 'Y'";

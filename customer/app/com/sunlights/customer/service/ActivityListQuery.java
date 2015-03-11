@@ -1,6 +1,5 @@
 package com.sunlights.customer.service;
 
-import com.sunlights.common.vo.PageVo;
 import com.sunlights.customer.vo.ActivityQueryContext;
 import com.sunlights.customer.vo.ActivityVo;
 

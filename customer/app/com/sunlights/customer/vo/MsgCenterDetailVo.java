@@ -14,10 +14,10 @@ import java.util.Date;
  *
  * @author <a href="mailto:jiaming.wang@sunlights.cc">wangJiaMing</a>
  */
-public class MsgCenterDetailVo implements Serializable{
+public class MsgCenterDetailVo implements Serializable {
     private String title;
     private String content;
-    @JsonFormat(pattern = "yyyy-MM-dd HH:mm", timezone="GMT+8")
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm", timezone = "GMT+8")
     private Date createTime;
 
     public String getTitle() {

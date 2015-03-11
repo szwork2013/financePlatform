@@ -14,29 +14,29 @@ import java.util.Date;
  */
 @Entity
 @Table(name = "f_shumi_account")
-@NamedQuery(name = "findShuMiAccount" ,query = "select sm from ShuMiAccount sm where sm.customerId = ?1")
-public class ShuMiAccount extends IdEntity{
-    @Column(name = "customer_id",length = 30)
+@NamedQuery(name = "findShuMiAccount", query = "select sm from ShuMiAccount sm where sm.customerId = ?1")
+public class ShuMiAccount extends IdEntity {
+    @Column(name = "customer_id", length = 30)
     private String customerId;
-    @Column(name = "shumi_tokenKey",length = 500)
+    @Column(name = "shumi_tokenKey", length = 500)
     private String shumi_tokenKey;
-    @Column(name = "shumi_tokenSecret",length = 500)
+    @Column(name = "shumi_tokenSecret", length = 500)
     private String shumi_tokenSecret;
-    @Column(name = "shumi_userName",length = 50)
+    @Column(name = "shumi_userName", length = 50)
     private String shumi_userName;
-    @Column(name = "shumi_realName",length = 50)
+    @Column(name = "shumi_realName", length = 50)
     private String shumi_realName;//
-    @Column(name = "shumi_idNumber",length = 100)
+    @Column(name = "shumi_idNumber", length = 100)
     private String shumi_idNumber;//
-    @Column(name = "shumi_bankName",length = 100)
+    @Column(name = "shumi_bankName", length = 100)
     private String shumi_bankName;
-    @Column(name = "shumi_bankCardNo",length = 100)
+    @Column(name = "shumi_bankCardNo", length = 100)
     private String shumi_bankCardNo;
-    @Column(name = "shumi_bankSerial",length = 100)
+    @Column(name = "shumi_bankSerial", length = 100)
     private String shumi_bankSerial;
-    @Column(name = "shumi_phoneNum",length = 20)
+    @Column(name = "shumi_phoneNum", length = 20)
     private String shumi_phoneNum;//
-    @Column(name = "shumi_email",length = 50)
+    @Column(name = "shumi_email", length = 50)
     private String shumi_email;
     @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "create_time")

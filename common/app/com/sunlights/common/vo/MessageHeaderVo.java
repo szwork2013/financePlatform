@@ -15,23 +15,23 @@ import java.util.List;
  *
  * @author <a href="mailto:jiaming.wang@sunlights.cc">wangJiaMing</a>
  */
-public class MessageHeaderVo implements Serializable{
+public class MessageHeaderVo implements Serializable {
     private String messageType;
     private String scene;
     private String customerId;
     private List<String> params = Lists.newArrayList();
 
-    public MessageHeaderVo(){
+    public MessageHeaderVo() {
 
     }
 
-    public MessageHeaderVo(String messageType, String scene, String customerId){
+    public MessageHeaderVo(String messageType, String scene, String customerId) {
         this.messageType = messageType;
         this.scene = scene;
         this.customerId = customerId;
     }
 
-    public void buildParams(String... strings){
+    public void buildParams(String... strings) {
         if (strings == null) {
             return;
         }

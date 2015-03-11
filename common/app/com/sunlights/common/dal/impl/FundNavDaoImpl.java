@@ -13,7 +13,7 @@ import java.util.List;
 /**
  * Created by guxuelong on 2014/12/15.
  */
-public class FundNavDaoImpl extends EntityBaseDao implements FundNavDao{
+public class FundNavDaoImpl extends EntityBaseDao implements FundNavDao {
     private static final String START_TIME = " 00:00:00";
     private static final String END_TIME = " 23:59:59";
     private static final String QUERY_BY_UPDATE_DATE = "select t from FundNav t where  t.updateTime >= :dateTimeStart  and t.updateTime <= :dateTimeEnd";
@@ -21,7 +21,7 @@ public class FundNavDaoImpl extends EntityBaseDao implements FundNavDao{
     @Override
     public List<FundNav> queryByUpdateTime(String updateTime) {
         Query query = super.createQuery(QUERY_BY_UPDATE_DATE);
-        setTradeTimePara(updateTime,query);
+        setTradeTimePara(updateTime, query);
         return query.getResultList();
     }
 
@@ -29,6 +29,7 @@ public class FundNavDaoImpl extends EntityBaseDao implements FundNavDao{
         query.setParameter("dateTimeStart", getDate(dateTime, START_TIME));
         query.setParameter("dateTimeEnd", getDate(dateTime, END_TIME));
     }
+
     private Date getDate(String dateTime, String time) {
         try {
             return CommonUtil.stringToDate(dateTime + time, CommonUtil.DATE_FORMAT_LONG);

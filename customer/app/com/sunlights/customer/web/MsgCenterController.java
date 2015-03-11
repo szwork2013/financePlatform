@@ -38,15 +38,15 @@ import static play.data.Form.form;
  * @author <a href="mailto:jiaming.wang@sunlights.cc">wangJiaMing</a>
  */
 @Transactional
-public class MsgCenterController extends Controller{
+public class MsgCenterController extends Controller {
     private Form<PageVo> pageVoForm = form(PageVo.class);
     private MsgCenterService msgCenterService = new MsgCenterServiceImpl();
     private CustomerService customerService = new CustomerService();
-    
-    public Result findMsgCenterVoList(){
+
+    public Result findMsgCenterVoList() {
         Logger.info(">>findMsgCenterVoList params：" + Json.toJson(form().bindFromRequest().data()));
         List<MsgCenterVo> list = Lists.newArrayList();
-        
+
         PageVo pageVo = pageVoForm.bindFromRequest().get();
         if (pageVo == null) {
             pageVo = new PageVo();
@@ -64,11 +64,11 @@ public class MsgCenterController extends Controller{
             if (customerSession != null) {
                 customerId = customerSession.getCustomerId();
                 pageVo.put("customerId", customerId);
-                list =  msgCenterService.findMsgCenterVoListWithLogin(pageVo);
+                list = msgCenterService.findMsgCenterVoListWithLogin(pageVo);
             }
         }
         if (customerId == null) {
-            list =  msgCenterService.findMsgCenterVoList(pageVo);
+            list = msgCenterService.findMsgCenterVoList(pageVo);
         }
 
         pageVo.setList(list);
@@ -79,8 +79,8 @@ public class MsgCenterController extends Controller{
         Logger.info(">>findMsgCenterVoList return：" + MessageUtil.getInstance().toJson());
         return ok(MessageUtil.getInstance().toJson());
     }
-    
-    public Result findMsgCenterDetail(){
+
+    public Result findMsgCenterDetail() {
         Logger.info(">>findMsgCenterDetail params：" + Json.toJson(form().bindFromRequest().data()));
 
         String customerId = null;
@@ -93,7 +93,7 @@ public class MsgCenterController extends Controller{
         String deviceNo = request().getHeader(AppConst.HEADER_DEVICE);
         Logger.info(">>deviceNo:" + deviceNo);
 
-        Map<String,String> params = form().bindFromRequest().data();
+        Map<String, String> params = form().bindFromRequest().data();
         String msgIdStr = params.get("msgId");
         String sendType = params.get("sendType");
         CommonUtil.getInstance().validateParams(msgIdStr, sendType, deviceNo);
@@ -115,7 +115,7 @@ public class MsgCenterController extends Controller{
         return ok(MessageUtil.getInstance().toJson());
     }
 
-    public Result countUnReadNum(){
+    public Result countUnReadNum() {
         Logger.info(">>countUnReadNum params：" + Json.toJson(form().bindFromRequest().data()));
 
         String customerId = null;
@@ -138,7 +138,7 @@ public class MsgCenterController extends Controller{
         return ok(MessageUtil.getInstance().toJson());
     }
 
-    public Result enablePush(){
+    public Result enablePush() {
         String registrationId = request().getHeader(AppConst.HEADER_REGISTRATION_ID);
         String deviceNo = request().getHeader(AppConst.HEADER_DEVICE);
 
@@ -160,7 +160,7 @@ public class MsgCenterController extends Controller{
         return ok(MessageUtil.getInstance().toJson());
     }
 
-    public Result disablePush(){
+    public Result disablePush() {
         String registrationId = request().getHeader(AppConst.HEADER_REGISTRATION_ID);
         String deviceNo = request().getHeader(AppConst.HEADER_DEVICE);
 
@@ -175,5 +175,5 @@ public class MsgCenterController extends Controller{
         Logger.info(">>disablePush return：" + MessageUtil.getInstance().toJson());
         return ok(MessageUtil.getInstance().toJson());
     }
-    
+
 }

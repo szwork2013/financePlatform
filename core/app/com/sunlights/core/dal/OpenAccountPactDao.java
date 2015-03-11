@@ -13,10 +13,10 @@ import models.OpenAccountPact;
  * @author <a href="mailto:zhencai.yuan@sunlights.cc">yuanzhencai</a>
  */
 public interface OpenAccountPactDao {
-  public OpenAccountPact findOpenAccountPactByAgreementNo(String agreementNo);
+    public OpenAccountPact findOpenAccountPactByAgreementNo(String agreementNo);
 
 
-  public FundOpenAccount findFundOpenAccount(String customerId, String bankCardNo);
+    public FundOpenAccount findFundOpenAccount(String customerId, String bankCardNo);
 
-  public FundOpenAccount saveFundOpenAccount(FundOpenAccount fundOpenAccount);
+    public FundOpenAccount saveFundOpenAccount(FundOpenAccount fundOpenAccount);
 }

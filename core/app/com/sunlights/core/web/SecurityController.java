@@ -27,14 +27,14 @@ import play.mvc.Result;
 import static play.data.Form.form;
 
 /**
-* <p>Project: fsp</p>
-* <p>Title: SafeFacade.java</p>
-* <p>Description: </p>
-* <p>Copyright (c) 2014 Sunlights.cc</p>
-* <p>All Rights Reserved.</p>
-*
-* @author <a href="mailto:jiaming.wang@sunlights.cc">wangJiaMing</a>
-*/
+ * <p>Project: fsp</p>
+ * <p>Title: SafeFacade.java</p>
+ * <p>Description: </p>
+ * <p>Copyright (c) 2014 Sunlights.cc</p>
+ * <p>All Rights Reserved.</p>
+ *
+ * @author <a href="mailto:jiaming.wang@sunlights.cc">wangJiaMing</a>
+ */
 
 
 @Transactional
@@ -68,12 +68,12 @@ public class SecurityController extends Controller {
         String verifyCode = verifyCodeService.genVerificationCode(mobilePhoneNo, verifyType, deviceNo);
 
 //        if (!AppConst.STATUS_VALID.equals(parameterService.getParameterByName(ParameterConst.SMS_TEST))) {
-            smsMessageService.sendSms(mobilePhoneNo, verifyCode, verifyType);
+        smsMessageService.sendSms(mobilePhoneNo, verifyCode, verifyType);
 //        }
 
         Message message = new Message(MsgCode.OPERATE_SUCCESS);
         MessageVo messageVo = new MessageVo(message);
-        Controller.response().setHeader("Access-Control-Allow-Origin","*");
+        Controller.response().setHeader("Access-Control-Allow-Origin", "*");
         Logger.debug(">>genVerificationCode return：" + Json.toJson(messageVo));
         return Controller.ok(Json.toJson(messageVo));
     }

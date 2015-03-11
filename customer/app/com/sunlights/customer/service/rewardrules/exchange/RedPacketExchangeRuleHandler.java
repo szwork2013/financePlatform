@@ -6,7 +6,7 @@ import play.Logger;
 
 /**
  * 红包取现处理链上的第一个处理类
- *      负责组装红包取现的逻辑处理功能链
+ * 负责组装红包取现的逻辑处理功能链
  * Created by tangweiqun on 2014/12/3.
  */
 public class RedPacketExchangeRuleHandler extends AbstractExchangeRuleHandler {

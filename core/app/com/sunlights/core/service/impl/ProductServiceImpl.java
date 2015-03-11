@@ -81,7 +81,7 @@ public class ProductServiceImpl extends EntityBaseDao implements ProductService 
     private void convertPageVo(PageVo pageVo) {
         String category = (String) pageVo.get("EQS_category");
         FundCategory fundCategory = FundCategory.findFundCategoryBy(category);
-        if(fundCategory == null) {
+        if (fundCategory == null) {
             throw new BusinessRuntimeException(new Message(Severity.ERROR, MsgCode.SEARCH_FAIL_FUND_CATEGORY_EMPTY));
         }
         if (FundCategory.MONETARY.equals(fundCategory)) {

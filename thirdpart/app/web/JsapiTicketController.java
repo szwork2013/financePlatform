@@ -9,9 +9,6 @@ package web;
 
 import com.wordnik.swagger.annotations.Api;
 import com.wordnik.swagger.annotations.ApiOperation;
-import com.wordnik.swagger.annotations.ApiResponse;
-import com.wordnik.swagger.annotations.ApiResponses;
-import models.User;
 import play.mvc.Controller;
 import play.mvc.Result;
 import weixin.JsapiTicket;
@@ -32,7 +29,7 @@ public class JsapiTicketController extends Controller {
             nickname = "getTicket",
             httpMethod = "GET")
     public Result getTicket() {
-        Controller.response().setHeader("Access-Control-Allow-Origin","*");
+        Controller.response().setHeader("Access-Control-Allow-Origin", "*");
         try {
             return ok(JsapiTicket.getInstance().getTicket());
         } catch (Exception e) {

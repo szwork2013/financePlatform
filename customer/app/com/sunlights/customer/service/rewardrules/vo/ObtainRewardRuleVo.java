@@ -10,7 +10,7 @@ import java.util.List;
 /**
  * Created by Administrator on 2014/12/2.
  */
-public class ObtainRewardRuleVo extends ObtainRewardRule{
+public class ObtainRewardRuleVo extends ObtainRewardRule {
 
     private RewardType rewardTypeModel;
 

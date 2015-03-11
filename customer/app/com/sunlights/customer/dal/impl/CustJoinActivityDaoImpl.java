@@ -5,7 +5,6 @@ import com.sunlights.common.dal.EntityBaseDao;
 import com.sunlights.common.utils.CommonUtil;
 import com.sunlights.customer.dal.CustJoinActivityDao;
 import models.CustJoinActivity;
-import models.HoldReward;
 
 import java.util.Date;
 import java.util.HashMap;

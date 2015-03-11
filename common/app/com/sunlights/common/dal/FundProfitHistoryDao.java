@@ -10,10 +10,15 @@ import java.util.List;
  */
 public interface FundProfitHistoryDao {
     void insertFundProfitHistory(FundProfitHistory fundProfitHistory);
+
     void updateFundProfitHistory(FundProfitHistory fundProfitHistory);
+
     void deleteFundProfitHistory(FundProfitHistory fundProfitHistory);
+
     FundProfitHistory findFundProfitHistoryByDateTime(Timestamp dateTime);
+
     List<FundProfitHistory> findFundProfitHistory(FundProfitHistory fundProfitHistory);
+
     FundProfitHistory findFundProfitHistoryByCodeAndDate(FundProfitHistory fundProfitHistories);
 
     /**

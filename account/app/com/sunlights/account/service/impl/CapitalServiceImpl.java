@@ -108,7 +108,7 @@ public class CapitalServiceImpl implements CapitalService {
     private HoldCapital saveHoldCapital(AcctChangeFlowVo acctChangeFlowVo, BigDecimal tradeAmount, BigDecimal holdCapitalAmount, BigDecimal yesterdayProfit, BigDecimal totalProfit) {
         BigDecimal amount = acctChangeFlowVo.getAmount();
         if ("2".equals(acctChangeFlowVo.getTradeType())) {//TODO
-            if (holdCapitalAmount.compareTo(amount) < 0){
+            if (holdCapitalAmount.compareTo(amount) < 0) {
                 throw new BusinessRuntimeException(new Message(Severity.ERROR, MsgCode.TRADE_AMOUNT_VALIDATE));
             }
             amount = acctChangeFlowVo.getAmount().negate();
@@ -145,7 +145,7 @@ public class CapitalServiceImpl implements CapitalService {
         return list;
     }
 
-    public HoldCapital findHoldCapital(String customerId, String productCode){
+    public HoldCapital findHoldCapital(String customerId, String productCode) {
         return capitalDao.findHoldCapital(customerId, productCode);
     }
 

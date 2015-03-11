@@ -23,19 +23,17 @@ public class CustJoinActivityServiceImpl implements CustJoinActivityService {
         custJoinActivity.setActivityId(activityId);
         custJoinActivity.setScene(scene);
         List<CustJoinActivity> custJoinActivityList = custJoinActivityDao.queryByCondition(custJoinActivity);
-        if(custJoinActivityList != null && !custJoinActivityList.isEmpty()) {
+        if (custJoinActivityList != null && !custJoinActivityList.isEmpty()) {
             return custJoinActivityList.get(0);
         }
         return null;
     }
 
 
-
     @Override
     public void saveCustJoinActivity(CustJoinActivity custJoinActivity) {
         custJoinActivityDao.doInsert(custJoinActivity);
     }
-
 
 
     @Override
@@ -50,7 +48,7 @@ public class CustJoinActivityServiceImpl implements CustJoinActivityService {
         String endDate = dateStr + " 23:59:59";
         Logger.debug("startDate = " + startDate + " endDate = " + endDate);
         List<CustJoinActivity> custJoinActivityList = custJoinActivityDao.queryByCondition(custJoinActivity, startDate, endDate);
-        if(custJoinActivityList != null && !custJoinActivityList.isEmpty()) {
+        if (custJoinActivityList != null && !custJoinActivityList.isEmpty()) {
             return custJoinActivityList.get(0);
         }
         return null;
@@ -62,9 +60,9 @@ public class CustJoinActivityServiceImpl implements CustJoinActivityService {
         custJoinActivity.setCustId(custNo);
         List<CustJoinActivity> custJoinActivityList = custJoinActivityDao.queryByCondition(custJoinActivity);
         Map<String, List<CustJoinActivity>> mapResult = new HashMap<String, List<CustJoinActivity>>();
-        for(CustJoinActivity temp : custJoinActivityList) {
+        for (CustJoinActivity temp : custJoinActivityList) {
             String scene = temp.getScene();
-            if(mapResult.containsKey(scene)) {
+            if (mapResult.containsKey(scene)) {
                 mapResult.get(scene).add(temp);
             } else {
                 List<CustJoinActivity> list = new ArrayList<CustJoinActivity>();

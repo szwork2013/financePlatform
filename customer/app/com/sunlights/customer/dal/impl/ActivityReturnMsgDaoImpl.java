@@ -3,7 +3,6 @@ package com.sunlights.customer.dal.impl;
 import com.sunlights.common.dal.EntityBaseDao;
 import com.sunlights.customer.dal.ActivityReturnMsgDao;
 import models.ActivityReturnMsg;
-import models.ActivityScene;
 
 import java.util.HashMap;
 import java.util.List;
@@ -17,7 +16,7 @@ public class ActivityReturnMsgDaoImpl extends EntityBaseDao implements ActivityR
     @Override
     public ActivityReturnMsg getByCondition(ActivityReturnMsg activityReturnMsg) {
         List<ActivityReturnMsg> list = getList(activityReturnMsg);
-        if(list == null || list.isEmpty()) {
+        if (list == null || list.isEmpty()) {
             return null;
         }
         return list.get(0);

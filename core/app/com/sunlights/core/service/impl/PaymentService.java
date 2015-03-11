@@ -10,7 +10,7 @@ package com.sunlights.core.service.impl;
  * @author <a href="mailto:jiaming.wang@sunlights.cc">wangJiaMing</a>
  */
 public class PaymentService {
-    public boolean payment(){
+    public boolean payment() {
         return true;
     }
 }

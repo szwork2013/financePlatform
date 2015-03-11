@@ -12,11 +12,11 @@ import static play.test.Helpers.contentAsString;
  */
 public class TestUtil {
 
-  public static final String APPLICATION_X_WWW_FORM_URLENCODED = "application/x-www-form-urlencoded";
+    public static final String APPLICATION_X_WWW_FORM_URLENCODED = "application/x-www-form-urlencoded";
 
-  public static MessageVo toMessageVo(Result result) {
-    String content = contentAsString(result);
-    JsonNode jsonNode = Json.parse(content);
-    return Json.fromJson(jsonNode, MessageVo.class);
-  }
+    public static MessageVo toMessageVo(Result result) {
+        String content = contentAsString(result);
+        JsonNode jsonNode = Json.parse(content);
+        return Json.fromJson(jsonNode, MessageVo.class);
+    }
 }

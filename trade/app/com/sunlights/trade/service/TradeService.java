@@ -21,14 +21,16 @@ import java.util.List;
 public interface TradeService {
     /**
      * 获取交易记录
-     * @param token 客户号
+     *
+     * @param token             客户号
      * @param tradeSearchFormVo
      * @return
      */
-    public List<TradeVo> getTradeListByToken(String token, TradeSearchFormVo tradeSearchFormVo,PageVo pageVo);
+    public List<TradeVo> getTradeListByToken(String token, TradeSearchFormVo tradeSearchFormVo, PageVo pageVo);
 
     /**
      * 产品详情及记录
+     *
      * @param token
      * @param tradeSearchFormVo
      * @return
@@ -38,6 +40,7 @@ public interface TradeService {
 
     /**
      * 下单
+     *
      * @param tradeFormVo
      * @param token
      */
@@ -45,6 +48,7 @@ public interface TradeService {
 
     /**
      * 赎回
+     *
      * @param tradeFormVo
      * @param token
      * @return

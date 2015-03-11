@@ -9,7 +9,7 @@ import com.sunlights.customer.ActivityConstant;
 public class RewardCalculatorFactory {
 
     public static ObtainRewardCalculator getCalculator(String scene) {
-        if(ActivityConstant.ACTIVITY_SIGNIN_SCENE_CODE.equals(scene)) {
+        if (ActivityConstant.ACTIVITY_SIGNIN_SCENE_CODE.equals(scene)) {
             return new SigninObtainRewardCalculator();
         }
         return null;

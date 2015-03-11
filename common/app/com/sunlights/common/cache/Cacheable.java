@@ -10,13 +10,14 @@ import java.lang.annotation.Target;
  * 作用是：
  * 如果某个方法打上了这个注解的话，那么这个方法查出来的数据会缓存到缓存中，
  * 等待下次查询的时候则直接从缓存中出去数据
- *
+ * <p/>
  * 用法例子：
  * ActivityService activityService = ActivityServiceFactory.getActivityService();
  * List<Activity> activities = activityService.getActivityByScene("ASC002");
  * 在方法上getActivityByScene有注解
- *      @Cacheable(key="scene", duration = 150)：代表这个方法查出来的数据将会放到缓存中，key为 scene-ActivityServiceImpl-getActivityByScene-ASC002；在缓存中存在时间为150秒
  *
+ * @Cacheable(key="scene", duration = 150)：代表这个方法查出来的数据将会放到缓存中，key为 scene-ActivityServiceImpl-getActivityByScene-ASC002；在缓存中存在时间为150秒
+ * <p/>
  * Created by tangweiqun on 2014/12/6.
  */
 @Target({ElementType.TYPE, ElementType.METHOD})

@@ -106,7 +106,7 @@ public class ArithUtil {
 
     public static BigDecimal round(BigDecimal initData, int scale) {
 
-        if(initData == null) {
+        if (initData == null) {
             return null;
         }
 

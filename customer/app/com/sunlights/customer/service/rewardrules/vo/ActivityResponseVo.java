@@ -37,7 +37,7 @@ public class ActivityResponseVo {
      */
     private List<RewardFlowRecordVo> rewardFlowRecordVos = new ArrayList<RewardFlowRecordVo>();
     //老接口返回的结果
-    private List<ObtainRewardVo>  obtainRewardVos = Lists.newArrayList();
+    private List<ObtainRewardVo> obtainRewardVos = Lists.newArrayList();
     //新接口返回的结果
     private List<ActivityResultVo> activityResultVos;
     //发送消息需要的信息
@@ -92,7 +92,7 @@ public class ActivityResponseVo {
     }
 
     public void addRewardFlowRecordVo(RewardFlowRecordVo rewardFlowRecordVo) {
-        if(this.rewardFlowRecordVos == null) {
+        if (this.rewardFlowRecordVos == null) {
             rewardFlowRecordVos = new ArrayList<RewardFlowRecordVo>();
         }
 
@@ -109,7 +109,7 @@ public class ActivityResponseVo {
     }
 
     public void addActivityResultVo(ActivityResultVo activityResultVo) {
-        if(this.activityResultVos == null) {
+        if (this.activityResultVos == null) {
             activityResultVos = new ArrayList<ActivityResultVo>();
         }
 
@@ -121,10 +121,10 @@ public class ActivityResponseVo {
     }
 
     public void addMessageHeaderVo(MessageHeaderVo messageHeaderVo) {
-        if(this.messageHeaderVos == null) {
+        if (this.messageHeaderVos == null) {
             this.messageHeaderVos = Lists.newArrayList();
         }
-        if(messageHeaderVo == null) {
+        if (messageHeaderVo == null) {
             return;
         }
         this.messageHeaderVos.add(messageHeaderVo);

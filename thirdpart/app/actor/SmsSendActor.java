@@ -19,20 +19,20 @@ import services.SmsMessageService;
 public class SmsSendActor extends UntypedActor {
 
     @Override
-  public void onReceive(Object message) throws Exception {
-    if (message instanceof MessageSmsTxn) {
-      Logger.info("==============smsSendActor onReceive =====");
-      final MessageSmsTxn sm = (MessageSmsTxn) message;
-      JPA.withTransaction(new F.Callback0() {
-          @Override
-          public void invoke() throws Throwable {
-              Logger.info("==============smsSendActor invoke =====");
-              SmsMessageService smsMessageService = new SmsMessageService();
-              smsMessageService.sendSms(sm);
-          }
-      });
-    } else {
-      unhandled(message);
+    public void onReceive(Object message) throws Exception {
+        if (message instanceof MessageSmsTxn) {
+            Logger.info("==============smsSendActor onReceive =====");
+            final MessageSmsTxn sm = (MessageSmsTxn) message;
+            JPA.withTransaction(new F.Callback0() {
+                @Override
+                public void invoke() throws Throwable {
+                    Logger.info("==============smsSendActor invoke =====");
+                    SmsMessageService smsMessageService = new SmsMessageService();
+                    smsMessageService.sendSms(sm);
+                }
+            });
+        } else {
+            unhandled(message);
+        }
     }
-  }
 }

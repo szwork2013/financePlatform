@@ -5,7 +5,7 @@ import java.io.Serializable;
 /**
  * Created by tangweiqun on 2014/11/20.
  */
-public class RewardFlowVo implements Serializable{
+public class RewardFlowVo implements Serializable {
 
     private String title;
 

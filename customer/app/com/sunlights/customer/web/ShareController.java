@@ -48,8 +48,8 @@ public class ShareController extends ActivityBaseController {
         String custNo = null;
         Message message = null;
         try {
-           CustomerSession customerSession = getCustomerSession();
-           custNo = customerSession.getCustomerId();//获得客户id
+            CustomerSession customerSession = getCustomerSession();
+            custNo = customerSession.getCustomerId();//获得客户id
         } catch (Exception e) {
             Logger.debug("没有登录。。");
         }

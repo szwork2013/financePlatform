@@ -20,19 +20,19 @@ import org.apache.commons.lang3.StringUtils;
  *
  * @author <a href="mailto:jiaming.wang@sunlights.cc">wangJiaMing</a>
  */
-public class BeanExchangeNullFieldValidHandler extends AbstractExchangeRuleHandler{
+public class BeanExchangeNullFieldValidHandler extends AbstractExchangeRuleHandler {
 
 
     @Override
     public void exchangeInternal(ActivityRequestVo requestVo, ActivityResponseVo responseVo) throws Exception {
-        ExchangeScene exchangeScene =requestVo.get("exchangeScene", ExchangeScene.class);
+        ExchangeScene exchangeScene = requestVo.get("exchangeScene", ExchangeScene.class);
 
         String mobile = requestVo.get("phone", String.class);
         String exchangeAmt = requestVo.get("exchangeAmt", String.class);
 
-        if(ActivityConstant.ACTIVITY_EXCHANGE_BEAN_SCENE_CODE.equals(exchangeScene.getScene())) {
+        if (ActivityConstant.ACTIVITY_EXCHANGE_BEAN_SCENE_CODE.equals(exchangeScene.getScene())) {
             Message message = new Message(Severity.INFO, MsgCode.PARAMTER_NOT_CAN_NULL);
-            if(StringUtils.isEmpty(mobile)) {
+            if (StringUtils.isEmpty(mobile)) {
                 message.setDetail("手机号码不能为空");
                 responseVo.setMessage(message);
                 responseVo.setFlowStop(true);
@@ -49,9 +49,9 @@ public class BeanExchangeNullFieldValidHandler extends AbstractExchangeRuleHandl
             ParameterService parameterService = new ParameterService();
             if (mobile.matches(parameterService.getParameterByName(ParameterConst.CMCC))) {
                 requestVo.set("carrierCode", ParameterConst.CMCC);
-            }else if (mobile.matches(parameterService.getParameterByName(ParameterConst.CTCC))){
+            } else if (mobile.matches(parameterService.getParameterByName(ParameterConst.CTCC))) {
                 requestVo.set("carrierCode", ParameterConst.CTCC);
-            }else if (mobile.matches(parameterService.getParameterByName(ParameterConst.CUCC))) {
+            } else if (mobile.matches(parameterService.getParameterByName(ParameterConst.CUCC))) {
                 requestVo.set("carrierCode", ParameterConst.CUCC);
             }
             if (requestVo.get("carrierCode", String.class) == null) {
@@ -61,7 +61,7 @@ public class BeanExchangeNullFieldValidHandler extends AbstractExchangeRuleHandl
                 return;
             }
 
-            if(StringUtils.isEmpty(exchangeAmt)) {
+            if (StringUtils.isEmpty(exchangeAmt)) {
                 message.setDetail("兑换金额不能为空");
                 responseVo.setMessage(message);
                 responseVo.setFlowStop(true);

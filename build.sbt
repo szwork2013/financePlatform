@@ -29,3 +29,9 @@ libraryDependencies ++= Seq(
 sources in(Compile, doc) := Seq.empty
 
 publishArtifact in(Compile, packageDoc) := false
+
+com.etsy.sbt.Checkstyle.checkstyleSettings
+
+com.etsy.sbt.Checkstyle.CheckstyleTasks.checkstyleConfig := file("checkstyle/checkstyle.xml")
+
+

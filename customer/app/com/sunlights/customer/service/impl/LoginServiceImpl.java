@@ -26,25 +26,24 @@ import java.sql.Timestamp;
 
 /**
  * @author Administrator
- * 
  */
 
 public class LoginServiceImpl implements LoginService {
 
     private LoginDao loginDao = new LoginDaoImpl();
-    private ParameterService parameterService=new ParameterService();
-    private CustomerDao customerDao=new CustomerDaoImpl();
+    private ParameterService parameterService = new ParameterService();
+    private CustomerDao customerDao = new CustomerDaoImpl();
     private AuthenticationDao authenticationDao = new AuthenticationDaoImpl();
-    private CustomerService customerService=new CustomerService();
-    private VerifyCodeService verifyCodeService=new VerifyCodeService();
+    private CustomerService customerService = new CustomerService();
+    private VerifyCodeService verifyCodeService = new VerifyCodeService();
 
-	/**
-	 * 登录
-	 */
-	public CustomerSession login(CustomerFormVo vo, String token, String remoteAddress) {
-		String mobilePhoneNo = vo.getMobilePhoneNo();
-		String passWord = vo.getPassWord();
-		String deviceNo = vo.getDeviceNo();
+    /**
+     * 登录
+     */
+    public CustomerSession login(CustomerFormVo vo, String token, String remoteAddress) {
+        String mobilePhoneNo = vo.getMobilePhoneNo();
+        String passWord = vo.getPassWord();
+        String deviceNo = vo.getDeviceNo();
 
         CommonUtil.getInstance().validateParams(mobilePhoneNo, passWord);
         AuthenticationVo authenticationVo = findAuthenticationVoByUserName(mobilePhoneNo);
@@ -58,7 +57,7 @@ public class LoginServiceImpl implements LoginService {
 
         //若为已登录状态跳出，（如：手机后台激活）
         CustomerSession customerSession = null;
-        if(fromApp(vo.getChannel())) {
+        if (fromApp(vo.getChannel())) {
             customerSession = customerService.getCustomerSession(token);
             if (customerSession != null) {
                 if (new MD5Helper().encrypt(passWord).equals(authentication.getPassword())) {
@@ -79,14 +78,14 @@ public class LoginServiceImpl implements LoginService {
 
 
         return customerSession;
-	}
+    }
 
-	/**
-	 * 手势登录
-	 * 
-	 * @return
-	 */
-	public CustomerSession loginByGesture(CustomerFormVo vo, String token, String clientAddress) {
+    /**
+     * 手势登录
+     *
+     * @return
+     */
+    public CustomerSession loginByGesture(CustomerFormVo vo, String token, String clientAddress) {
         String mobilePhoneNo = vo.getMobilePhoneNo();
         String gesturePassWord = vo.getGesturePassWord();
         String deviceNo = vo.getDeviceNo();
@@ -107,51 +106,52 @@ public class LoginServiceImpl implements LoginService {
             //并且此次手势密码输入正确  直接返回（用于手势解屏）
             if (new MD5Helper().encrypt(gesturePassWord).equals(customerGesture.getGesturePassword())) {
                 saveLoginHistory(customer, vo);
-            	return customerSession;
+                return customerSession;
             }
-        }else{
+        } else {
             validateLoginTime(customer, deviceNo);//验证暂时锁定状态是否已过
         }
         //
         if (!new MD5Helper().encrypt(gesturePassWord).equals(customerGesture.getGesturePassword())) {
             LoginHistory loginHistory = saveLoginFail(customer, deviceNo, true);
-        	long PWD_MAX = parameterService.getParameterNumeric(ParameterConst.PWD_MAX);// 登录失败的最大次数
-    		if (loginHistory.getLogNum() % PWD_MAX == 0) {// 此次为PWD_MAX * n次    手势删除，若为登录状态则登出
-    			customerGesture.setStatus(AppConst.STATUS_INVALID);
-    			customerGesture.setUpdateTime(DBHelper.getCurrentTime());
+            long PWD_MAX = parameterService.getParameterNumeric(ParameterConst.PWD_MAX);// 登录失败的最大次数
+            if (loginHistory.getLogNum() % PWD_MAX == 0) {// 此次为PWD_MAX * n次    手势删除，若为登录状态则登出
+                customerGesture.setStatus(AppConst.STATUS_INVALID);
+                customerGesture.setUpdateTime(DBHelper.getCurrentTime());
                 customerDao.updateCustomerGesture(customerGesture);
-    			logout(customer.getMobile(), deviceNo, token);
-    		}
-    		return null;
+                logout(customer.getMobile(), deviceNo, token);
+            }
+            return null;
         }
 
         saveLoginHistory(customer, vo);
         customerSession = customerService.createCustomerSession(customer, clientAddress, deviceNo);
 
         return customerSession;
-	}
+    }
 
 
-	/**
-	 * 注册
-	 * @return
-	 */
-	public Customer register(CustomerFormVo vo) {
-		String mobilePhoneNo = vo.getMobilePhoneNo();
-		String passWord = vo.getPassWord();
-		String verifyCode = vo.getVerifyCode();
-		String deviceNo = vo.getDeviceNo();
+    /**
+     * 注册
+     *
+     * @return
+     */
+    public Customer register(CustomerFormVo vo) {
+        String mobilePhoneNo = vo.getMobilePhoneNo();
+        String passWord = vo.getPassWord();
+        String verifyCode = vo.getVerifyCode();
+        String deviceNo = vo.getDeviceNo();
         String channel = vo.getChannel();
 
         Logger.info("=============recommendPhone:" + vo.getRecommendPhone());
         CommonUtil.getInstance().validateParams(mobilePhoneNo, passWord);
-        
+
         Customer oldUserMstr = getCustomerByMobilePhoneNo(mobilePhoneNo);
         if (oldUserMstr != null) {
             throw CommonUtil.getInstance().errorBusinessException(MsgCode.PHONE_NUMBER_ALREADY_REGISTRY);
         }
 
-        if (fromApp(channel) && !isVerifyCodeRight(mobilePhoneNo, verifyCode, deviceNo)){
+        if (fromApp(channel) && !isVerifyCodeRight(mobilePhoneNo, verifyCode, deviceNo)) {
             return null;
         }
 
@@ -168,7 +168,7 @@ public class LoginServiceImpl implements LoginService {
         }
 
         return customer;
-	}
+    }
 
     private boolean isVerifyCodeRight(String mobilePhoneNo, String verifyCode, String deviceNo) {
         CustomerVerifyCodeVo customerVerifyCodeVo = new CustomerVerifyCodeVo();
@@ -207,7 +207,7 @@ public class LoginServiceImpl implements LoginService {
         return customer;
     }
 
-    private Authentication createAuthentication(String userName, String password, String channel){
+    private Authentication createAuthentication(String userName, String password, String channel) {
         Timestamp currentTime = DBHelper.getCurrentTime();
 
         Authentication authentication = new Authentication();
@@ -221,11 +221,11 @@ public class LoginServiceImpl implements LoginService {
     }
 
     /**
-	 * 忘记密码验证码校对
-	 * 
-	 * @return
-	 */
-	public boolean resetpwdCertify(CustomerFormVo vo) {
+     * 忘记密码验证码校对
+     *
+     * @return
+     */
+    public boolean resetpwdCertify(CustomerFormVo vo) {
         String mobilePhoneNo = vo.getMobilePhoneNo();
         String verifyCode = vo.getVerifyCode();
         String userName = vo.getUserName();
@@ -233,10 +233,10 @@ public class LoginServiceImpl implements LoginService {
         String deviceNo = vo.getDeviceNo();
 
         CommonUtil.getInstance().validateParams(mobilePhoneNo);
-		Customer customer = getCustomerByMobilePhoneNo(mobilePhoneNo);
-		if (customer == null) {
-			throw CommonUtil.getInstance().errorBusinessException(MsgCode.PHONE_NUMBER_NOT_REGISTRY);
-		}
+        Customer customer = getCustomerByMobilePhoneNo(mobilePhoneNo);
+        if (customer == null) {
+            throw CommonUtil.getInstance().errorBusinessException(MsgCode.PHONE_NUMBER_NOT_REGISTRY);
+        }
 
         if (DictConst.CERTIFICATE_TYPE_1.equals(customer.getIdentityTyper())) { //若为实名验证过的用户，判断真实姓名和身份证号是否和数据库中一致，
             if (!idCardNo.equals(customer.getIdentityNumber()) || !userName.equals(customer.getRealName())) {
@@ -251,12 +251,14 @@ public class LoginServiceImpl implements LoginService {
         boolean success = verifyCodeService.validateVerifyCode(customerVerifyCodeVo);
 
         return success;
-	}
-	/**
-	 * 重置密码
-	 * @return
-	 */
-	public Customer resetPwd(CustomerFormVo customerFormVo) {
+    }
+
+    /**
+     * 重置密码
+     *
+     * @return
+     */
+    public Customer resetPwd(CustomerFormVo customerFormVo) {
         String mobilePhoneNo = customerFormVo.getMobilePhoneNo();
         String passWord = customerFormVo.getPassWord();
         String deviceNo = customerFormVo.getDeviceNo();
@@ -264,11 +266,11 @@ public class LoginServiceImpl implements LoginService {
 
         CommonUtil.getInstance().validateParams(mobilePhoneNo, passWord);
 
-		AuthenticationVo authenticationVo = findAuthenticationVoByUserName(mobilePhoneNo);
-		if (authenticationVo == null) {
-			throw CommonUtil.getInstance().errorBusinessException(MsgCode.PHONE_NUMBER_NOT_REGISTRY);
-		}
-		Timestamp currentTime = DBHelper.getCurrentTime();
+        AuthenticationVo authenticationVo = findAuthenticationVoByUserName(mobilePhoneNo);
+        if (authenticationVo == null) {
+            throw CommonUtil.getInstance().errorBusinessException(MsgCode.PHONE_NUMBER_NOT_REGISTRY);
+        }
+        Timestamp currentTime = DBHelper.getCurrentTime();
 
         Authentication authentication = authenticationVo.getAuthentication();
         authentication.setPassword(new MD5Helper().encrypt(passWord));
@@ -279,23 +281,25 @@ public class LoginServiceImpl implements LoginService {
         CustomerVo customerVo = null;
 
         if (AppConst.CHANNEL_PC.equals(channel)) {
-              //TODO ws pc
+            //TODO ws pc
             customerVo = customerService.getCustomerVoByUserName(mobilePhoneNo);
-        }else{
+        } else {
             customerVo = customerService.getCustomerVoByPhoneNo(mobilePhoneNo, deviceNo);
         }
 
         MessageUtil.getInstance().setMessage(message, customerVo);
 
         return authenticationVo.getCustomer();
-	}
+    }
+
     /**
      * 退出
+     *
      * @param mobilePhoneNo
      * @param deviceNo
      * @param token
      */
-	public void logout(String mobilePhoneNo, String deviceNo, String token) {
+    public void logout(String mobilePhoneNo, String deviceNo, String token) {
         Customer customer = getCustomerByMobilePhoneNo(mobilePhoneNo);
         if (customer == null) {
             throw CommonUtil.getInstance().errorBusinessException(MsgCode.PHONE_NUMBER_NOT_REGISTRY);
@@ -303,7 +307,7 @@ public class LoginServiceImpl implements LoginService {
         CustomerSession customerSession = null;
         if (token != null) {
             customerSession = customerService.getCustomerSession(token);
-        }else{
+        } else {
             customerSession = customerDao.findCustomerSessionByCustomerId(customer.getCustomerId(), deviceNo);
         }
         Timestamp currentTime = DBHelper.getCurrentTime();
@@ -315,53 +319,53 @@ public class LoginServiceImpl implements LoginService {
             customerDao.updateCustomerSession(customerSession);
         }
         LoginHistory loginHistory = loginDao.findByLoginCustomer(customer.getCustomerId(), deviceNo);
-        if(loginHistory != null){
+        if (loginHistory != null) {
             loginHistory.setLogoutTime(currentTime);
             loginHistory.setUpdateTime(currentTime);
             loginDao.updateLoginHistory(loginHistory);
         }
 
-	}
-	
-	/**
-	 * 密码确认
-	 * 
-	 * @return
-	 */
-	public void confirmPwd(String mobilePhoneNo, String password) {
+    }
+
+    /**
+     * 密码确认
+     *
+     * @return
+     */
+    public void confirmPwd(String mobilePhoneNo, String password) {
         CommonUtil.getInstance().validateParams(mobilePhoneNo, password);
-		AuthenticationVo authenticationVo = findAuthenticationVoByUserName(mobilePhoneNo);
-		if (authenticationVo == null) {
-			throw CommonUtil.getInstance().errorBusinessException(MsgCode.PHONE_NUMBER_NOT_REGISTRY);
-		}
-		if (!new MD5Helper().encrypt(password).equals(authenticationVo.getAuthentication().getPassword())) {
+        AuthenticationVo authenticationVo = findAuthenticationVoByUserName(mobilePhoneNo);
+        if (authenticationVo == null) {
+            throw CommonUtil.getInstance().errorBusinessException(MsgCode.PHONE_NUMBER_NOT_REGISTRY);
+        }
+        if (!new MD5Helper().encrypt(password).equals(authenticationVo.getAuthentication().getPassword())) {
             throw new BusinessRuntimeException(new Message(Severity.ERROR, MsgCode.PASSWORD_CONFIRM_ERROR));
-		}
-	}
-	
-	/**
-	 * 保存手势密码
-	 * 
-	 * @return
-	 */
-	public CustomerVo saveGesturePwd(CustomerFormVo vo) {
+        }
+    }
+
+    /**
+     * 保存手势密码
+     *
+     * @return
+     */
+    public CustomerVo saveGesturePwd(CustomerFormVo vo) {
         String mobilePhoneNo = vo.getMobilePhoneNo();
         String gesturePassWord = vo.getGesturePassWord();
         String gestureOpened = vo.getGestureOpened();
         String deviceNo = vo.getDeviceNo();
 
         Customer customer = checkFormVo(mobilePhoneNo, gesturePassWord, gestureOpened);
-		Timestamp currentTime = DBHelper.getCurrentTime();
-		CustomerGesture customerGesture = customerDao.findCustomerGestureByDeviceNo(customer.getCustomerId(), deviceNo);
-		if (customerGesture != null && !AppConst.VALID_CERTIFY.equals(gestureOpened)) {// 关闭手势密码
+        Timestamp currentTime = DBHelper.getCurrentTime();
+        CustomerGesture customerGesture = customerDao.findCustomerGestureByDeviceNo(customer.getCustomerId(), deviceNo);
+        if (customerGesture != null && !AppConst.VALID_CERTIFY.equals(gestureOpened)) {// 关闭手势密码
             closeGesture(currentTime, customerGesture);
-		} else if (AppConst.VALID_CERTIFY.equals(gestureOpened)) {// 开启
+        } else if (AppConst.VALID_CERTIFY.equals(gestureOpened)) {// 开启
             openGesture(gesturePassWord, deviceNo, customer, currentTime);
-		}
+        }
 
         CustomerVo customerVoByPhoneNo = customerService.getCustomerVoByPhoneNo(mobilePhoneNo, deviceNo);
         return customerVoByPhoneNo;
-	}
+    }
 
     private Customer checkFormVo(String mobilePhoneNo, String gesturePassWord, String gestureOpened) {
         if (mobilePhoneNo == null
@@ -392,7 +396,7 @@ public class LoginServiceImpl implements LoginService {
         customerDao.saveCustomerGesture(customerGesture);
     }
 
-    public void saveLoginHistory(Customer customer, CustomerFormVo customerFormVo){
+    public void saveLoginHistory(Customer customer, CustomerFormVo customerFormVo) {
         Timestamp currentTime = DBHelper.getCurrentTime();
         LoginHistory loginHistory = new LoginHistory();
         loginHistory.setChannel(customerFormVo.getChannel());
@@ -412,36 +416,40 @@ public class LoginServiceImpl implements LoginService {
 
     /**
      * 用户被暂时锁定的时间 = 倍数(向上取整) * RELIEVE_SUSLOCK_PERIOD(每次的停留时间)
+     *
      * @param oldTimes
      * @param PWD_MAX
      * @return
      */
-    private long getTotalMinute(long oldTimes, long PWD_MAX){
+    private long getTotalMinute(long oldTimes, long PWD_MAX) {
         long RELIEVE_SUSLOCK_PERIOD = parameterService.getParameterNumeric(ParameterConst.RELIEVE_SUSLOCK_PERIOD);
         BigDecimal failTimes = ArithUtil.bigUpScale0(new BigDecimal((double) oldTimes / PWD_MAX));
-        long times = (long)Math.pow(2, failTimes.subtract(BigDecimal.ONE).doubleValue());
+        long times = (long) Math.pow(2, failTimes.subtract(BigDecimal.ONE).doubleValue());
         long returnTime = times * RELIEVE_SUSLOCK_PERIOD;
         return returnTime;
     }
 
     /**
      * 用户查询
+     *
      * @return
      */
-    private Customer getCustomerByMobilePhoneNo(String  mobilePhoneNo) {
+    private Customer getCustomerByMobilePhoneNo(String mobilePhoneNo) {
         Customer customer = customerService.getCustomerByMobile(mobilePhoneNo);
         return customer;
     }
-    private AuthenticationVo findAuthenticationVoByUserName(String  userName) {
+
+    private AuthenticationVo findAuthenticationVoByUserName(String userName) {
         return authenticationDao.findAuthenticationVo(userName);
     }
 
     /**
      * 验证暂时锁定状态、时间是否已过
+     *
      * @param customer
      * @param deviceNo
      */
-    private void validateLoginTime(Customer customer, String deviceNo){
+    private void validateLoginTime(Customer customer, String deviceNo) {
         LoginHistory oldHistory = loginDao.findByPwd(customer.getCustomerId(), deviceNo);
         if (oldHistory != null) {
             Timestamp currentTime = DBHelper.getCurrentTime();
@@ -457,14 +465,14 @@ public class LoginServiceImpl implements LoginService {
         }
     }
 
-    private LoginHistory saveLoginFail(Customer customer, String deviceNo, boolean isGestureLogin){
+    private LoginHistory saveLoginFail(Customer customer, String deviceNo, boolean isGestureLogin) {
         Timestamp currentTime = DBHelper.getCurrentTime();
         long oldNum = 0;
         long PWD_MAX = parameterService.getParameterNumeric(ParameterConst.PWD_MAX);//登录失败的最大次数
         LoginHistory oldHistory = null;
         if (isGestureLogin) {
             oldHistory = loginDao.findByGesturePwd(customer.getCustomerId(), deviceNo);
-        }else{
+        } else {
             oldHistory = loginDao.findByPwd(customer.getCustomerId(), deviceNo);
         }
 
@@ -484,7 +492,7 @@ public class LoginServiceImpl implements LoginService {
         loginHistory.setDeviceNo(deviceNo);
         if (isGestureLogin) {
             loginHistory.setGestureInd(AppConst.STATUS_VALID);
-        }else{
+        } else {
             loginHistory.setPwdInd(AppConst.STATUS_VALID);
         }
         loginHistory.setLogNum(oldNum + 1);
@@ -499,17 +507,17 @@ public class LoginServiceImpl implements LoginService {
         return loginHistory;
     }
 
-    private void addFailMessage(LoginHistory loginHistory, boolean isGestureLogin){
+    private void addFailMessage(LoginHistory loginHistory, boolean isGestureLogin) {
         long PWD_MAX = parameterService.getParameterNumeric(ParameterConst.PWD_MAX);//登录失败的最大次数
         Message message = null;
-        if (isGestureLogin){
+        if (isGestureLogin) {
             if (loginHistory.getLogNum() % PWD_MAX != 0) {
                 long times = PWD_MAX - loginHistory.getLogNum() % PWD_MAX;
                 message = new Message(Severity.ERROR, MsgCode.GESTURE_PASSWORD_ERROR, times);
             } else {// 此次为PWD_MAX * n次    做清除操作，若为登录状态则登出
                 message = new Message(Severity.ERROR, MsgCode.GESTURE_LOGIN_ERROR_OVER_COUNT);
             }
-        }else{
+        } else {
             if (loginHistory.getLogNum() % PWD_MAX != 0) {
                 long times = PWD_MAX - loginHistory.getLogNum() % PWD_MAX;
                 message = new Message(Severity.ERROR, MsgCode.PASSWORD_ERROR, times);

@@ -8,7 +8,7 @@ import java.util.Date;
  */
 @Entity
 @Table(name = "F_GET_REWARD_RULE")
-public class ObtainRewardRule extends IdEntity{
+public class ObtainRewardRule extends IdEntity {
     @Column(name = "ACTIVITY_ID")
     private Long activityId;
     @Column(name = "REWARD_TYPE")
@@ -130,7 +130,6 @@ public class ObtainRewardRule extends IdEntity{
     }
 
 
-
     public Integer getActivityChannel() {
         return activityChannel;
     }
@@ -138,7 +137,6 @@ public class ObtainRewardRule extends IdEntity{
     public void setActivityChannel(Integer activityChannel) {
         this.activityChannel = activityChannel;
     }
-
 
 
     public Date getCreateTime() {

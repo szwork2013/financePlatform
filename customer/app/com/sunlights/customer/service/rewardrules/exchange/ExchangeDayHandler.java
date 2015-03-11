@@ -17,10 +17,10 @@ import models.RewardFlow;
  *
  * @author <a href="mailto:jiaming.wang@sunlights.cc">wangJiaMing</a>
  */
-public class ExchangeDayHandler extends AbstractExchangeRuleHandler{
+public class ExchangeDayHandler extends AbstractExchangeRuleHandler {
     @Override
     public void exchangeInternal(ActivityRequestVo requestVo, ActivityResponseVo responseVo) throws Exception {
-        ExchangeScene exchangeScene =requestVo.get("exchangeScene", ExchangeScene.class);
+        ExchangeScene exchangeScene = requestVo.get("exchangeScene", ExchangeScene.class);
 
         String scene = exchangeScene.getScene();
 

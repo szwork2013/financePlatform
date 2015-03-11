@@ -11,7 +11,7 @@ import java.util.Date;
  */
 @Entity
 @Table(name = "t_chk_info")
-public class CheckInfo extends  IdEntity{
+public class CheckInfo extends IdEntity {
     @Column(name = "trade_no")
     private String tradeNo;
     @Column(name = "partner_id")
@@ -38,6 +38,7 @@ public class CheckInfo extends  IdEntity{
     public String getTradeNo() {
         return tradeNo;
     }
+
     public void setTradeNo(String tradeNo) {
         this.tradeNo = tradeNo;
     }
@@ -45,6 +46,7 @@ public class CheckInfo extends  IdEntity{
     public String getPartnerId() {
         return partnerId;
     }
+
     public void setPartnerId(String partnerId) {
         this.partnerId = partnerId;
     }
@@ -52,6 +54,7 @@ public class CheckInfo extends  IdEntity{
     public Date getTradeDate() {
         return tradeDate;
     }
+
     public void setTradeDate(Date tradeDate) {
         this.tradeDate = tradeDate;
     }
@@ -59,6 +62,7 @@ public class CheckInfo extends  IdEntity{
     public String getProductName() {
         return productName;
     }
+
     public void setProductName(String productName) {
         this.productName = productName;
     }
@@ -66,6 +70,7 @@ public class CheckInfo extends  IdEntity{
     public String getProductCode() {
         return productCode;
     }
+
     public void setProductCode(String productCode) {
         this.productCode = productCode;
     }
@@ -73,6 +78,7 @@ public class CheckInfo extends  IdEntity{
     public String getProductType() {
         return productType;
     }
+
     public void setProductType(String productType) {
         this.productType = productType;
     }
@@ -80,6 +86,7 @@ public class CheckInfo extends  IdEntity{
     public String getTradeType() {
         return tradeType;
     }
+
     public void setTradeType(String tradeType) {
         this.tradeType = tradeType;
     }
@@ -87,6 +94,7 @@ public class CheckInfo extends  IdEntity{
     public BigDecimal getTradeAmount() {
         return tradeAmount;
     }
+
     public void setTradeAmount(BigDecimal tradeAmount) {
         this.tradeAmount = tradeAmount;
     }
@@ -94,6 +102,7 @@ public class CheckInfo extends  IdEntity{
     public String getChkStatus() {
         return chkStatus;
     }
+
     public void setChkStatus(String chkStatus) {
         this.chkStatus = chkStatus;
     }
@@ -101,6 +110,7 @@ public class CheckInfo extends  IdEntity{
     public Date getCreateTime() {
         return createTime;
     }
+
     public void setCreateTime(Date createTime) {
         this.createTime = createTime;
     }
@@ -109,6 +119,7 @@ public class CheckInfo extends  IdEntity{
     public Date getUpdateTime() {
         return updateTime;
     }
+
     public void setUpdateTime(Date updateTime) {
         this.updateTime = updateTime;
     }

@@ -21,132 +21,132 @@ import java.util.Date;
  * @author calvin
  */
 public final class PropertyFilter {
-  public static final String OR_SEPARATOR = "_OR_";
-  public static final String PARAM_PREFIX = "_";
+    public static final String OR_SEPARATOR = "_OR_";
+    public static final String PARAM_PREFIX = "_";
 
-  /**
-   * GT: Greater Than , >
-   * GE: Greater than or Equivalent with , >=
-   * LT: Less than, <
-   * LE: Less than or Equivalent with, <=
-   * EQ: EQuivalent with, ==
-   * NE: Not Equivalent with, !=
-   */
-  public enum MatchType {
-    EQ, LIKE, LT, GT, LE, GE, NE
-  }
+    /**
+     * GT: Greater Than , >
+     * GE: Greater than or Equivalent with , >=
+     * LT: Less than, <
+     * LE: Less than or Equivalent with, <=
+     * EQ: EQuivalent with, ==
+     * NE: Not Equivalent with, !=
+     */
+    public enum MatchType {
+        EQ, LIKE, LT, GT, LE, GE, NE
+    }
 
-  public enum LikeMatchPatten {
-    P, S, ALL
-  }
+    public enum LikeMatchPatten {
+        P, S, ALL
+    }
 
-  public enum PropertyType {
-    S(String.class), I(Integer.class), L(Long.class), N(Double.class), D(Date.class), B(Boolean.class);
-
-
-    private Class<?> clazz;
+    public enum PropertyType {
+        S(String.class), I(Integer.class), L(Long.class), N(Double.class), D(Date.class), B(Boolean.class);
 
 
-    PropertyType(Class<?> clazz) {
-      this.clazz = clazz;
+        private Class<?> clazz;
+
+
+        PropertyType(Class<?> clazz) {
+            this.clazz = clazz;
+        }
+
+
+        public Class<?> getValue() {
+            return clazz;
+        }
     }
 
 
-    public Class<?> getValue() {
-      return clazz;
+    private String[] propertyNames = null;
+    private Class<?> propertyType = null;
+    private Object propertyValue = null;
+    private MatchType matchType = null;
+
+    private LikeMatchPatten likeMatchPatten = null;
+
+    /**
+     * @param filterName
+     * @param value
+     */
+    public PropertyFilter(final String filterName, final String value) {
+
+        String matchTypeStr;
+        String matchPattenCode = LikeMatchPatten.ALL.toString();
+        String matchTypeCode;
+        String propertyTypeCode;
+
+        if (filterName.contains("LIKE") && filterName.charAt(0) != 'L') {
+            matchTypeStr = StringUtils.substringBefore(filterName, PARAM_PREFIX);
+            matchPattenCode = StringUtils.substring(matchTypeStr, 0, 1);
+            matchTypeCode = StringUtils.substring(matchTypeStr, 1, matchTypeStr.length() - 1);
+            propertyTypeCode = StringUtils.substring(matchTypeStr, matchTypeStr.length() - 1, matchTypeStr.length());
+        } else {
+            matchTypeStr = StringUtils.substringBefore(filterName, PARAM_PREFIX);
+            matchTypeCode = StringUtils.substring(matchTypeStr, 0, matchTypeStr.length() - 1);
+            propertyTypeCode = StringUtils.substring(matchTypeStr, matchTypeStr.length() - 1, matchTypeStr.length());
+        }
+
+        try {
+            matchType = Enum.valueOf(MatchType.class, matchTypeCode);
+            likeMatchPatten = Enum.valueOf(LikeMatchPatten.class, matchPattenCode);
+        } catch (RuntimeException e) {
+            throw new IllegalArgumentException("filter name: " + filterName
+                    + "Not prepared in accordance with rules, not get more types of property.", e);
+        }
+
+
+        try {
+            propertyType = Enum.valueOf(PropertyType.class, propertyTypeCode).getValue();
+        } catch (RuntimeException e) {
+            throw new IllegalArgumentException("filter name: " + filterName
+                    + "Not prepared in accordance with the rules, attribute value types can not be.", e);
+        }
+
+
+        String propertyNameStr = StringUtils.substringAfter(filterName, PARAM_PREFIX);
+        propertyNames = StringUtils.split(propertyNameStr, PropertyFilter.OR_SEPARATOR);
+
+        Validate.isTrue(propertyNames.length > 0, "filter name: " + filterName
+                + "Not prepared in accordance with the rules, property names can not be.");
+
+        this.propertyValue = ConvertUtils.convert(value, propertyType);
     }
-  }
 
-
-  private String[] propertyNames = null;
-  private Class<?> propertyType = null;
-  private Object propertyValue = null;
-  private MatchType matchType = null;
-
-  private LikeMatchPatten likeMatchPatten = null;
-
-  /**
-   * @param filterName
-   * @param value
-   */
-  public PropertyFilter(final String filterName, final String value) {
-
-    String matchTypeStr;
-    String matchPattenCode = LikeMatchPatten.ALL.toString();
-    String matchTypeCode;
-    String propertyTypeCode;
-
-    if (filterName.contains("LIKE") && filterName.charAt(0) != 'L') {
-      matchTypeStr = StringUtils.substringBefore(filterName, PARAM_PREFIX);
-      matchPattenCode = StringUtils.substring(matchTypeStr, 0, 1);
-      matchTypeCode = StringUtils.substring(matchTypeStr, 1, matchTypeStr.length() - 1);
-      propertyTypeCode = StringUtils.substring(matchTypeStr, matchTypeStr.length() - 1, matchTypeStr.length());
-    } else {
-      matchTypeStr = StringUtils.substringBefore(filterName, PARAM_PREFIX);
-      matchTypeCode = StringUtils.substring(matchTypeStr, 0, matchTypeStr.length() - 1);
-      propertyTypeCode = StringUtils.substring(matchTypeStr, matchTypeStr.length() - 1, matchTypeStr.length());
-    }
-
-    try {
-      matchType = Enum.valueOf(MatchType.class, matchTypeCode);
-      likeMatchPatten = Enum.valueOf(LikeMatchPatten.class, matchPattenCode);
-    } catch (RuntimeException e) {
-      throw new IllegalArgumentException("filter name: " + filterName
-          + "Not prepared in accordance with rules, not get more types of property.", e);
+    public boolean isMultiProperty() {
+        return (propertyNames.length > 1);
     }
 
 
-    try {
-      propertyType = Enum.valueOf(PropertyType.class, propertyTypeCode).getValue();
-    } catch (RuntimeException e) {
-      throw new IllegalArgumentException("filter name: " + filterName
-          + "Not prepared in accordance with the rules, attribute value types can not be.", e);
+    public String[] getPropertyNames() {
+        return propertyNames;
     }
 
 
-    String propertyNameStr = StringUtils.substringAfter(filterName, PARAM_PREFIX);
-    propertyNames = StringUtils.split(propertyNameStr, PropertyFilter.OR_SEPARATOR);
-
-    Validate.isTrue(propertyNames.length > 0, "filter name: " + filterName
-        + "Not prepared in accordance with the rules, property names can not be.");
-
-    this.propertyValue = ConvertUtils.convert(value, propertyType);
-  }
-
-  public boolean isMultiProperty() {
-    return (propertyNames.length > 1);
-  }
-
-
-  public String[] getPropertyNames() {
-    return propertyNames;
-  }
-
-
-  public String getPropertyName() {
-    if (propertyNames.length > 1) {
-      throw new IllegalArgumentException("There are not only one property");
+    public String getPropertyName() {
+        if (propertyNames.length > 1) {
+            throw new IllegalArgumentException("There are not only one property");
+        }
+        return propertyNames[0];
     }
-    return propertyNames[0];
-  }
 
 
-  public Object getPropertyValue() {
-    return propertyValue;
-  }
+    public Object getPropertyValue() {
+        return propertyValue;
+    }
 
 
-  public Class<?> getPropertyType() {
-    return propertyType;
-  }
+    public Class<?> getPropertyType() {
+        return propertyType;
+    }
 
 
-  public MatchType getMatchType() {
-    return matchType;
-  }
+    public MatchType getMatchType() {
+        return matchType;
+    }
 
 
-  public LikeMatchPatten getLikeMatchPatten() {
-    return likeMatchPatten;
-  }
+    public LikeMatchPatten getLikeMatchPatten() {
+        return likeMatchPatten;
+    }
 }

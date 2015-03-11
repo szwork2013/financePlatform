@@ -27,7 +27,7 @@ import java.util.List;
  *
  * @author <a href="mailto:jiaming.wang@sunlights.cc">wangJiaMing</a>
  */
-public class MsgCenterAction extends Action.Simple{
+public class MsgCenterAction extends Action.Simple {
     @Override
     public F.Promise<Result> call(Http.Context context) throws Throwable {
         F.Promise<Result> result = delegate.call(context);
@@ -53,11 +53,11 @@ public class MsgCenterAction extends Action.Simple{
                     MessageHeaderVo messageHeaderVo = Json.fromJson(node, MessageHeaderVo.class);
                     messageHeaderVoList.add(messageHeaderVo);
                 }
-            }else{
+            } else {
                 return result;
             }
 
-            final String routeActionMethod = (String)context.args.get(AppConst.ROUTE_ACTION_METHOD);
+            final String routeActionMethod = (String) context.args.get(AppConst.ROUTE_ACTION_METHOD);
             JPA.withTransaction(new F.Callback0() {
                 @Override
                 public void invoke() throws Throwable {
@@ -73,7 +73,7 @@ public class MsgCenterAction extends Action.Simple{
                 }
             });
 
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
 
@@ -86,7 +86,7 @@ public class MsgCenterAction extends Action.Simple{
         Iterator<Http.Cookie> iterable = cookies.iterator();
         while (iterable.hasNext()) {
             Http.Cookie cookie = iterable.next();
-            if (AppConst.TOKEN.equals(cookie.name())){
+            if (AppConst.TOKEN.equals(cookie.name())) {
                 String value = cookie.value();
                 return value;
             }

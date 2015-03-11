@@ -31,7 +31,7 @@ public class ConverterTest extends WithApplication {
 
 
     @Test
-    public void convertMap2Entity() throws Exception{
+    public void convertMap2Entity() throws Exception {
         String keys = "customerId,prdCode, prdName, amount";
         List values = new ArrayList();
         values.add("aaaa");
@@ -46,7 +46,6 @@ public class ConverterTest extends WithApplication {
         Assertions.assertThat(acctChangFlow.getCustomerId()).isEqualTo("aaaa");
         Assertions.assertThat(acctChangFlow.getAmount().intValue()).isEqualTo(5);
     }
-
 
 
 }

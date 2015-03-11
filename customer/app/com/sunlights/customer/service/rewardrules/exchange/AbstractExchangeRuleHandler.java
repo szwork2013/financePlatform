@@ -11,7 +11,7 @@ import play.Logger;
  * 2：如果流程没有结束则执行当前所在的处理类
  * 3：判断是否这个处理类的下一个处理类是否为空，不为空的话则执行下一个处理类
  * 4：如果需要做性能统计则打印当前处理类执行耗费的时间
- *
+ * <p/>
  * Created by tangweiqun on 2014/12/3.
  */
 public abstract class AbstractExchangeRuleHandler implements ExchangeRuleHandler {
@@ -39,19 +39,19 @@ public abstract class AbstractExchangeRuleHandler implements ExchangeRuleHandler
 
     @Override
     public void exchange(ActivityRequestVo requestVo, ActivityResponseVo responseVo) throws Exception {
-        if(responseVo.isFlowStop()) {
+        if (responseVo.isFlowStop()) {
             Logger.debug("退出获取奖励流程：" + toString() + " responseVo = " + responseVo.getMessage().getSummary());
             return;
         }
         long start = System.currentTimeMillis();
         try {
             exchangeInternal(requestVo, responseVo);
-            if(this.nextHandler != null) {
+            if (this.nextHandler != null) {
                 this.nextHandler.exchange(requestVo, responseVo);
             }
 
         } finally {
-            if(isPerformanceRecord()) {
+            if (isPerformanceRecord()) {
                 Logger.debug("[" + toString() + "]花费时间 : " + (System.currentTimeMillis() - start));
             }
         }

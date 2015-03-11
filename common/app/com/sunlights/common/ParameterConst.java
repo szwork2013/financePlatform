@@ -53,19 +53,19 @@ public final class ParameterConst {
     public static String SESSION_EXPIRY = "SESSION_EXPIRY";
 
     /**
-     *  实名认证-N真实调用/非N 测试模式
+     * 实名认证-N真实调用/非N 测试模式
      */
     public static String CERTIFY_TEST = "CERTIFY_TEST";
     /**
-     *  实名认证-URL地址
+     * 实名认证-URL地址
      */
     public static String CERTIFY_URL = "CERTIFY_URL";
     /**
-     *  实名认证-帐号用户名
+     * 实名认证-帐号用户名
      */
     public static String CERTIFY_USERNAME = "CERTIFY_USERNAME";
     /**
-     *  实名认证-帐号密码
+     * 实名认证-帐号密码
      */
     public static String CERTIFY_PASSWORD = "CERTIFY_PASSWORD";
 
@@ -79,15 +79,15 @@ public final class ParameterConst {
      */
     public static String SMS_ACCOUNT = "SMS_ACCOUNT";
     /**
-     *短信接口-授权码
+     * 短信接口-授权码
      */
     public static String SMS_WARRANTYCODE = "SMS_WARRANTYCODE";
     /**
-     *短信接口-密码
+     * 短信接口-密码
      */
     public static String SMS_PASSWORD = "SMS_PASSWORD";
     /**
-     *短信接口-通道编号
+     * 短信接口-通道编号
      */
     public static String SMS_CHANNEL = "SMS_CHANNEL";
     /**

@@ -36,7 +36,7 @@ public class CommonService {
     private static void initDicts() {
         String jpql = "select d from Dict d where d.status = 'Y' order by d.codeCat,d.seqNo";
 
-        List<Dict> dicts = JPA.em().createQuery( jpql).getResultList();
+        List<Dict> dicts = JPA.em().createQuery(jpql).getResultList();
         for (int i = 0; i < dicts.size(); i++) {
             Dict dict = dicts.get(i);
             String catPointKey = dict.getCodeCat() + "." + dict.getCodeKey();

@@ -49,13 +49,9 @@ public class CustomerVo implements Serializable {
     private String shumi_email;
 
 
-
-
-
     public CustomerVo() {
 
     }
-
 
 
     public String getUserName() {

@@ -37,20 +37,20 @@ import static play.data.Form.form;
  * @author <a href="mailto:jiaming.wang@sunlights.cc">wangJiaMing</a>
  */
 @Transactional
-public class ShuMiTradeController extends Controller{
+public class ShuMiTradeController extends Controller {
     private Form<ShuMiTradeFormVo> shuMiTradeFormVoForm = Form.form(ShuMiTradeFormVo.class);
-    
+
     private CustomerService customerService = new CustomerService();
     private ShuMiTradeService shuMiTradeService = new ShuMiTradeServiceImpl();
 
     private ActivityHandlerService activityHandlerService = new ActivityHandlerService();
-    
+
 
     @With(MsgCenterAction.class)
-    public Result tradeOrder(){
+    public Result tradeOrder() {
         Logger.info("----------tradeOrder start ------------");
         Logger.debug(">>tradeOrder params：" + Json.toJson(form().bindFromRequest().data()));
-        CustomerSession customerSession = customerService.validateCustomerSession(request(),session(),response());
+        CustomerSession customerSession = customerService.validateCustomerSession(request(), session(), response());
 
         String token = request().cookie(AppConst.TOKEN).value();
         ShuMiTradeFormVo tradeFormVo = shuMiTradeFormVoForm.bindFromRequest().get();
@@ -60,7 +60,7 @@ public class ShuMiTradeController extends Controller{
 
         List<MessageHeaderVo> tradeHeaderMsg = shuMiTradeService.shuMiTradeOrder(tradeFormVo, token);
 
-        Logger.debug(">>tradeOrder return：" +  MessageUtil.getInstance().toJson());
+        Logger.debug(">>tradeOrder return：" + MessageUtil.getInstance().toJson());
 
         List<MessageHeaderVo> ActivityMessageHeaderVos = takeActivity(customerSession.getCustomerId(), tradeFormVo);
         tradeHeaderMsg.addAll(ActivityMessageHeaderVos);
@@ -90,10 +90,10 @@ public class ShuMiTradeController extends Controller{
     }
 
     @With(MsgCenterAction.class)
-    public Result tradeRedeem(){
+    public Result tradeRedeem() {
         Logger.info("----------tradeRedeem start ------------");
         Logger.debug(">>tradeRedeem params：" + Json.toJson(form().bindFromRequest().data()));
-        customerService.validateCustomerSession(request(),session(),response());
+        customerService.validateCustomerSession(request(), session(), response());
 
         String token = request().cookie(AppConst.TOKEN).value();
         ShuMiTradeFormVo tradeFormVo = shuMiTradeFormVoForm.bindFromRequest().get();
@@ -111,10 +111,10 @@ public class ShuMiTradeController extends Controller{
     }
 
     @With(MsgCenterAction.class)
-    public Result tradeQuickRedeem(){
+    public Result tradeQuickRedeem() {
         Logger.info("----------tradeQuickRedeem start ------------");
         Logger.debug(">>tradeQuickRedeem params：" + Json.toJson(form().bindFromRequest().data()));
-        customerService.validateCustomerSession(request(),session(),response());
+        customerService.validateCustomerSession(request(), session(), response());
 
         String token = request().cookie(AppConst.TOKEN).value();
         ShuMiTradeFormVo tradeFormVo = shuMiTradeFormVoForm.bindFromRequest().get();

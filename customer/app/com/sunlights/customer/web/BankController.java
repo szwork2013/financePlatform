@@ -60,18 +60,18 @@ public class BankController extends Controller {
         if (body.asFormUrlEncoded() != null) {
             bankCardVo = bankCardVoForm.bindFromRequest().get();
         }
-        
+
         CustomerSession customerSession = customerService.validateCustomerSession(request(), session(), response());
         bankCardService.createBankCard(customerSession.getCustomerId(), bankCardVo);
         Logger.debug(">>createBankCard return ：" + MessageUtil.getInstance().toJson());
         return ok(MessageUtil.getInstance().toJson());
     }
 
-    public Result saveAllBankCard(){
-        Map<String,String> params = Form.form().bindFromRequest().data();
+    public Result saveAllBankCard() {
+        Map<String, String> params = Form.form().bindFromRequest().data();
         Logger.debug(">>params saveAllBankCard ：" + Json.toJson(params));
         List<BankCardFormVo> list = Lists.newArrayList();
-        
+
         String cards = params.get("cards");
         JsonNode json = Json.parse(cards);
         if (json.isArray()) {
@@ -90,11 +90,6 @@ public class BankController extends Controller {
         Logger.debug(">>saveAllBankCard return：" + MessageUtil.getInstance().toJson());
         return ok(MessageUtil.getInstance().toJson());
     }
-
-
-
-
-
 
 
     public Result deleteBankCards() {
@@ -132,7 +127,7 @@ public class BankController extends Controller {
         customerService.validateCustomerSession(request(), session(), response());
 //        boolean validated = bankService.validateBankCard(token, bankCardVo);
 //        if (validated) {
-            MessageUtil.getInstance().setMessage(new Message(Severity.INFO, MsgCode.OPERATE_SUCCESS), true);
+        MessageUtil.getInstance().setMessage(new Message(Severity.INFO, MsgCode.OPERATE_SUCCESS), true);
 //        } else {
 //            MessageUtil.getInstance().setMessage(new Message(Severity.INFO, MsgCode.BANK_CARD_CERTIFY_FAIL), false);
 //        }

@@ -12,6 +12,7 @@ public interface CustJoinActivityDao {
     public void doInsert(CustJoinActivity custJoinActivity);
 
     public List<CustJoinActivity> queryByCondition(CustJoinActivity custJoinActivity);
+
     public List<CustJoinActivity> queryByCondition(CustJoinActivity custJoinActivity, String startDate, String endDate);
 
 

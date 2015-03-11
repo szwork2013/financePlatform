@@ -20,21 +20,21 @@ import java.util.List;
 public class PageService {
 
 
-  private PageDao pageDao = new PageDaoImpl();
+    private PageDao pageDao = new PageDaoImpl();
 
-  public <X> List<X> findBy(String queryString, PageVo pager) {
-    return pageDao.findBy(queryString, pager);
-  }
+    public <X> List<X> findBy(String queryString, PageVo pager) {
+        return pageDao.findBy(queryString, pager);
+    }
 
-  public <X> List<X> findNativeBy(String queryString, PageVo pager) {
-    return pageDao.findNativeBy(queryString, pager);
-  }
+    public <X> List<X> findNativeBy(String queryString, PageVo pager) {
+        return pageDao.findNativeBy(queryString, pager);
+    }
 
-  public <X> List<X> findXsqlBy(String xsql, PageVo pager) {
-    return pageDao.findXsqlBy(xsql, pager);
-  }
+    public <X> List<X> findXsqlBy(String xsql, PageVo pager) {
+        return pageDao.findXsqlBy(xsql, pager);
+    }
 
-  public <X> List<X> findNativeXsqlBy(String xsql, PageVo pager) {
-    return pageDao.findNativeXsqlBy(xsql, pager);
-  }
+    public <X> List<X> findNativeXsqlBy(String xsql, PageVo pager) {
+        return pageDao.findNativeXsqlBy(xsql, pager);
+    }
 }

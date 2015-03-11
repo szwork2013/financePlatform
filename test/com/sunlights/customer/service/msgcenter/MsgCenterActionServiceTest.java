@@ -33,7 +33,7 @@ import static org.fest.assertions.Assertions.assertThat;
  *
  * @author <a href="mailto:jiaming.wang@sunlights.cc">wangJiaMing</a>
  */
-public class MsgCenterActionServiceTest extends BaseTest{
+public class MsgCenterActionServiceTest extends BaseTest {
 
     //methodName
     private final static String REGISTER = "register";
@@ -49,7 +49,7 @@ public class MsgCenterActionServiceTest extends BaseTest{
     private List<MessageRuleMapping> messageRuleMappingList = Lists.newArrayList();
 
     @Before
-    public void prepare(){
+    public void prepare() {
         super.startPlay();
         JPA.withTransaction(new F.Callback0() {
             @Override
@@ -76,7 +76,7 @@ public class MsgCenterActionServiceTest extends BaseTest{
     }
 
     @Test
-    public void registerRemindTest(){
+    public void registerRemindTest() {
 
         JPA.withTransaction(new F.Callback0() {
             @Override
@@ -115,7 +115,7 @@ public class MsgCenterActionServiceTest extends BaseTest{
 
 
     @Test
-    public void loginRemindTest(){
+    public void loginRemindTest() {
 
         JPA.withTransaction(new F.Callback0() {
             @Override
@@ -154,7 +154,7 @@ public class MsgCenterActionServiceTest extends BaseTest{
 
 
     @Test
-    public void registerTest(){
+    public void registerTest() {
         JPA.withTransaction(new F.Callback0() {
             @Override
             public void invoke() throws Throwable {
@@ -175,7 +175,7 @@ public class MsgCenterActionServiceTest extends BaseTest{
                     String scene = messageRuleMapping.getScene();
                     String ruleCode = messageRuleMapping.getRuleCode();
 
-                    if (registerObtainReward.equals(methodName) && REGISTER_BEAN.equals(ruleCode)){//注册活动
+                    if (registerObtainReward.equals(methodName) && REGISTER_BEAN.equals(ruleCode)) {//注册活动
                         Logger.info(">>注册活动测试");
                         params.add("30");
                         customerMsgPushTxnList = saveMessage(em, msgCenterActionService, customerId, messageType, scene, ruleCode, params);

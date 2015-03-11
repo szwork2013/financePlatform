@@ -1,7 +1,5 @@
 package com.sunlights.customer.vo;
 
-import com.fasterxml.jackson.annotation.JsonInclude;
-
 import java.io.Serializable;
 
 /**

@@ -1,6 +1,10 @@
 package models;
 
-import javax.persistence.*;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 import java.math.BigDecimal;
 import java.util.Date;
 
@@ -15,16 +19,16 @@ import java.util.Date;
  */
 @Entity
 @Table(name = "f_acct_chang_flow")
-public class AcctChangFlow extends IdEntity{
-    @Column(name = "PRODUCT_CODE",length = 8)
+public class AcctChangFlow extends IdEntity {
+    @Column(name = "PRODUCT_CODE", length = 8)
     private String productCode;
-    @Column(name = "TRADE_NO",length = 20)
+    @Column(name = "TRADE_NO", length = 20)
     private String tradeNo;
-    @Column(name = "SUBJECT_NO",length = 6)
+    @Column(name = "SUBJECT_NO", length = 6)
     private String subjectNo;
-    @Column(name = "AMOUNT",precision = 18,scale = 4)
+    @Column(name = "AMOUNT", precision = 18, scale = 4)
     private BigDecimal amount;
-    @Column(name = "CUSTOMER_ID",length = 30)
+    @Column(name = "CUSTOMER_ID", length = 30)
     private String customerId;
     @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "CREATE_TIME")

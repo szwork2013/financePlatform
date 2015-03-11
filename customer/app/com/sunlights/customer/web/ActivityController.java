@@ -29,7 +29,7 @@ import java.util.List;
  * Created by tangweiqun on 2014/11/13.
  */
 @Transactional
-public class ActivityController extends ActivityBaseController  {
+public class ActivityController extends ActivityBaseController {
 
 
     private ActivityHandlerService activityHandlerService = new ActivityHandlerService();
@@ -50,7 +50,7 @@ public class ActivityController extends ActivityBaseController  {
         pageVo.setPageSize(activityParamter.getPageSize());
         String filter = activityParamter.getFilter();
 
-        if(StringUtils.isEmpty(filter)) {
+        if (StringUtils.isEmpty(filter)) {
             filter = ActivityConstant.ACTIVITY_QUERY_CENTER;
         }
         Logger.debug("filter = " + filter);
@@ -61,7 +61,7 @@ public class ActivityController extends ActivityBaseController  {
 
         ActivityListQuery activityListQuery = ActivityListQueryFactory.getQueryStyle(filter);
 
-        if(activityListQuery == null) {
+        if (activityListQuery == null) {
             Logger.error("不支持的活动查询的方式");
             throw new RuntimeException("不支持的活动查询的方式 filter = " + filter);
         }
@@ -78,6 +78,7 @@ public class ActivityController extends ActivityBaseController  {
     /**
      * 用户获取奖励接口(签到)
      * 调用这个接口需要将活动场景参数送过来
+     *
      * @return
      */
 
@@ -99,7 +100,7 @@ public class ActivityController extends ActivityBaseController  {
         //2:获取获取奖励需要的参数
         CustomerSession customerSession = customerService.getCustomerSession(token);
         String custNo = customerSession.getCustomerId();
-        if(StringUtils.isEmpty(scene)) {
+        if (StringUtils.isEmpty(scene)) {
             scene = activityParamter.getScene();
         }
 
@@ -114,7 +115,7 @@ public class ActivityController extends ActivityBaseController  {
         List<ObtainRewardVo> obtainRewardVos = responseVo.getObtainRewardVo();
         ObtainRewardVo obtainRewardVo = null;
         Message message = responseVo.getMessage();
-        if(obtainRewardVos == null || obtainRewardVos.isEmpty()) {
+        if (obtainRewardVos == null || obtainRewardVos.isEmpty()) {
             obtainRewardVo = new ObtainRewardVo();
             obtainRewardVo.setAlreadyGet(0L);
             obtainRewardVo.setNotGet(0L);
@@ -122,7 +123,7 @@ public class ActivityController extends ActivityBaseController  {
             obtainRewardVo.setStatus(ActivityConstant.ACTIVITY_CUSTONER_STATUS_FORBIDDEN);
             message.setSeverity(Severity.INFO);
             messageUtil.setMessage(message, obtainRewardVo);
-        } else if(MsgCode.OPERATE_SUCCESS.getCode().equals(message.getCode())){
+        } else if (MsgCode.OPERATE_SUCCESS.getCode().equals(message.getCode())) {
             message.setSummary(MsgCode.OBTAIN_SUCC.getMessage());
             message.setCode(MsgCode.OBTAIN_SUCC.getCode());
             obtainRewardVo = obtainRewardVos.get(0);
@@ -138,6 +139,7 @@ public class ActivityController extends ActivityBaseController  {
 
     /**
      * 注册获取奖励
+     *
      * @return
      */
     @With(MsgCenterAction.class)
@@ -147,6 +149,7 @@ public class ActivityController extends ActivityBaseController  {
 
     /**
      * 购买获取奖励
+     *
      * @return
      */
     @Deprecated
@@ -157,7 +160,7 @@ public class ActivityController extends ActivityBaseController  {
         ActivityParamter activityParamter = getActivityParamter();
         String scene = "";
         Message message = null;
-        if(ActivityConstant.TRADE_TYPE_PURCHASE.equals(activityParamter.getTradeType())) {
+        if (ActivityConstant.TRADE_TYPE_PURCHASE.equals(activityParamter.getTradeType())) {
             scene = ActivityConstant.ACTIVITY_PURCHASE_SCENE_CODE;
         } else {
             Logger.debug("不支持的交易类型tradeType = " + activityParamter.getTradeType());
@@ -188,7 +191,7 @@ public class ActivityController extends ActivityBaseController  {
         message = responseVo.getMessage();
         List<ActivityResultVo> activityResultVos = responseVo.getActivityResultVos();
 
-        if(MsgCode.OPERATE_SUCCESS.getCode().equals(message.getCode())) {
+        if (MsgCode.OPERATE_SUCCESS.getCode().equals(message.getCode())) {
             message.setCode(MsgCode.OBTAIN_SUCC.getCode());
             TradeObtainRewardSuccVo tradeObtainRewardSuccVo = new TradeObtainRewardSuccVo();
             tradeObtainRewardSuccVo.setFundCode(activityParamter.getFundCode());

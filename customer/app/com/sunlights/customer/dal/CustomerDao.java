@@ -1,8 +1,11 @@
 package com.sunlights.customer.dal;
 
-import com.sunlights.customer.vo.CustomerVo;
 import com.sunlights.common.vo.MsgSettingVo;
-import models.*;
+import com.sunlights.customer.vo.CustomerVo;
+import models.Customer;
+import models.CustomerGesture;
+import models.CustomerMsgSetting;
+import models.CustomerSession;
 
 import java.sql.Timestamp;
 import java.util.List;
@@ -29,6 +32,7 @@ public interface CustomerDao {
 
     /**
      * app端查询组装返回数据
+     *
      * @param mobilePhoneNo
      * @param deviceNo
      * @return
@@ -39,6 +43,7 @@ public interface CustomerDao {
 
     /**
      * pc端查询组装返回数据
+     *
      * @param userName
      * @return
      */
@@ -60,6 +65,7 @@ public interface CustomerDao {
 
     /**
      * 通过被推荐人查询推荐人信息
+     *
      * @param customerId 被推荐人
      * @return
      */
@@ -67,6 +73,7 @@ public interface CustomerDao {
 
     /**
      * 查询客户所属aiias 记录
+     *
      * @param customerId
      * @return
      */
@@ -74,12 +81,16 @@ public interface CustomerDao {
 
     /**
      * 通过customerId查询 当前客户在所有手机registrationId 集合
+     *
      * @param customerId
      * @return
      */
-    public List<MsgSettingVo>  findRegistrationIdsByCustomerId(String customerId);
+    public List<MsgSettingVo> findRegistrationIdsByCustomerId(String customerId);
+
     public CustomerMsgSetting findCustomerMsgSetting(String registrationId, String deviceNo);
+
     public CustomerMsgSetting updateCustomerMsgSetting(CustomerMsgSetting customerMsgSetting);
+
     public CustomerMsgSetting createCustomerMsgSetting(CustomerMsgSetting customerMsgSetting);
 
 

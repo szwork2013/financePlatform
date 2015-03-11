@@ -62,7 +62,7 @@ public class MsgCenterServiceImpl implements MsgCenterService {
     public int countUnReadNum(String customerId, String deviceNo) {
         if (customerId != null) {
             return msgCenterDao.countUnReadNum(customerId, deviceNo);
-        }else{
+        } else {
             return msgCenterDao.countUnReadNum(deviceNo);
         }
     }

@@ -12,7 +12,7 @@ import java.math.BigDecimal;
  *
  * @author <a href="mailto:jiaming.wang@sunlights.cc">wangJiaMing</a>
  */
-public class AcctChangeFlowVo implements Serializable{
+public class AcctChangeFlowVo implements Serializable {
     private String customerId;
     private String prdCode;
     private String prdName;

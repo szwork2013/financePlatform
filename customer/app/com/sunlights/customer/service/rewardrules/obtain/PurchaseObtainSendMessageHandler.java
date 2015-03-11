@@ -1,7 +1,6 @@
 package com.sunlights.customer.service.rewardrules.obtain;
 
 import com.sunlights.common.DictConst;
-import com.sunlights.common.MsgCode;
 import com.sunlights.common.vo.MessageHeaderVo;
 import com.sunlights.customer.ActivityConstant;
 import com.sunlights.customer.factory.ActivityServiceFactory;
@@ -9,7 +8,6 @@ import com.sunlights.customer.service.ActivityReturnMsgService;
 import com.sunlights.customer.service.rewardrules.vo.ActivityRequestVo;
 import com.sunlights.customer.service.rewardrules.vo.ActivityResponseVo;
 import com.sunlights.customer.service.rewardrules.vo.RewardFlowRecordVo;
-import play.Configuration;
 import play.Logger;
 
 import java.text.MessageFormat;
@@ -17,7 +15,7 @@ import java.util.List;
 
 /**
  * 购买消息发送
- *
+ * <p/>
  * Created by tangweiqun on 2014/12/19.
  */
 public class PurchaseObtainSendMessageHandler extends AbstractObtainRuleHandler {
@@ -37,7 +35,7 @@ public class PurchaseObtainSendMessageHandler extends AbstractObtainRuleHandler 
         String scene = requestVo.getScene();
         String custNo = requestVo.getCustId();
 
-        if(!ActivityConstant.ACTIVITY_FIRST_PURCHASE_SCENE_CODE.equals(scene)) {
+        if (!ActivityConstant.ACTIVITY_FIRST_PURCHASE_SCENE_CODE.equals(scene)) {
             Logger.debug("购买暂时不支持发消息");
             return;
         }
@@ -45,13 +43,13 @@ public class PurchaseObtainSendMessageHandler extends AbstractObtainRuleHandler 
         MessageHeaderVo messageHeaderVo = null;
         List<RewardFlowRecordVo> rewardFlowRecordVos = responseVo.getRewardFlowRecordVos();
         RewardFlowRecordVo rewardFlowRecordVo = null;
-        for(int i = 0; i < rewardFlowRecordVos.size(); i++) {
+        for (int i = 0; i < rewardFlowRecordVos.size(); i++) {
             rewardFlowRecordVo = rewardFlowRecordVos.get(i);
             //String template = Configuration.root().getString("message." + rewardFlowRecordVo.getRewardType());
             String template = activityReturnMsgService.getReturnMsg(rewardFlowRecordVo.getScene(), rewardFlowRecordVo.getActivityType(), rewardFlowRecordVo.getRewardType(),
                     ActivityConstant.RETURN_MSG_CATEGORY_MESSAGE_SEND, null);
 
-            if(rewardFlowRecordVo.isRecommender()) {
+            if (rewardFlowRecordVo.isRecommender()) {
                 messageHeaderVo = new MessageHeaderVo(DictConst.PUSH_TYPE_2, ActivityConstant.ACTIVITY_INVITE_SCENE_CODE, requestVo.getRecommendCustId());
             } else {
                 messageHeaderVo = new MessageHeaderVo(DictConst.PUSH_TYPE_2, scene, custNo);

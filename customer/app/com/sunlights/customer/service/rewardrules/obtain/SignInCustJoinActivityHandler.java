@@ -16,7 +16,7 @@ import java.util.List;
 /**
  * 客户参加活动后的总结---签到场景
  * 功能：将客户与参加这次活动记录下来，方便下次参加活动时为做活动决策提供数据来源
- *
+ * <p/>
  * Created by tangweiqun on 2014/12/2.
  */
 public class SignInCustJoinActivityHandler extends AbstractObtainRuleHandler {
@@ -34,10 +34,10 @@ public class SignInCustJoinActivityHandler extends AbstractObtainRuleHandler {
     public void obtainInternal(ActivityRequestVo requestVo, ActivityResponseVo responseVo) throws Exception {
 
         List<RewardFlowRecordVo> rewardFlowRecordVos = responseVo.getRewardFlowRecordVos();
-        for(RewardFlowRecordVo rewardFlowRecordVo : rewardFlowRecordVos) {
+        for (RewardFlowRecordVo rewardFlowRecordVo : rewardFlowRecordVos) {
             CustJoinActivity custJoinActivity = null;
-            custJoinActivity = custJoinActivityService.getTodayRecordByCustAndActivity(rewardFlowRecordVo.getCustId(),rewardFlowRecordVo.getActivityId(), requestVo.getScene());
-            if(custJoinActivity == null) {
+            custJoinActivity = custJoinActivityService.getTodayRecordByCustAndActivity(rewardFlowRecordVo.getCustId(), rewardFlowRecordVo.getActivityId(), requestVo.getScene());
+            if (custJoinActivity == null) {
                 custJoinActivity = new CustJoinActivity();
                 custJoinActivity.setCustId(rewardFlowRecordVo.getCustId());
                 custJoinActivity.setActivityId(rewardFlowRecordVo.getActivityId());

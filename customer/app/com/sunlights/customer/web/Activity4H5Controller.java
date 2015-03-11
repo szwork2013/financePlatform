@@ -6,7 +6,8 @@ import com.sunlights.common.vo.Message;
 import com.sunlights.customer.factory.ActivityServiceFactory;
 import com.sunlights.customer.service.ActivityService;
 import com.sunlights.customer.vo.Activity4H5Vo;
-import com.wordnik.swagger.annotations.*;
+import com.wordnik.swagger.annotations.ApiImplicitParam;
+import com.wordnik.swagger.annotations.ApiOperation;
 import play.Logger;
 import play.db.jpa.Transactional;
 import play.libs.Json;
@@ -30,18 +31,18 @@ public class Activity4H5Controller extends ActivityBaseController {
         Activity4H5Vo activity4H5Vo = activityService.getH5InfoById(activityId);
 
         Logger.debug("activity4H5Vo = " + activity4H5Vo);
-        Controller.response().setHeader("Access-Control-Allow-Origin","*");
+        Controller.response().setHeader("Access-Control-Allow-Origin", "*");
 
         return ok(Json.toJson(activity4H5Vo));
     }
 
 
-    public Result getActivityRemain(String id){
+    public Result getActivityRemain(String id) {
         Logger.info(">>getActivityRemain params:" + id);
         Long activityId = Long.valueOf(id);
         Integer remainCount = activityService.countActivityRemain(activityId);
 
-        Controller.response().setHeader("Access-Control-Allow-Origin","*");
+        Controller.response().setHeader("Access-Control-Allow-Origin", "*");
 
         MessageUtil.getInstance().setMessage(new Message(MsgCode.OPERATE_SUCCESS), remainCount);
 
@@ -52,12 +53,12 @@ public class Activity4H5Controller extends ActivityBaseController {
 
     @ApiOperation(value = "判断活动是否结束", httpMethod = "GET")
     @ApiImplicitParam(name = "id", value = "activity id", required = true, dataType = "string", paramType = "path")
-    public Result validateActivityIsOver(String id){
+    public Result validateActivityIsOver(String id) {
         Logger.info(">>validateActivityIsOver params:" + id);
         Long activityId = Long.valueOf(id);
         boolean isOver = activityService.validateActivityIsOver(activityId);
 
-        Controller.response().setHeader("Access-Control-Allow-Origin","*");
+        Controller.response().setHeader("Access-Control-Allow-Origin", "*");
 
         MessageUtil.getInstance().setMessage(new Message(MsgCode.OPERATE_SUCCESS), isOver);
 

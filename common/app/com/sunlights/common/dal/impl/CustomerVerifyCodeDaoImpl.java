@@ -18,23 +18,23 @@ import java.util.List;
  */
 public class CustomerVerifyCodeDaoImpl extends EntityBaseDao implements CustomerVerifyCodeDao {
 
-  @Override
-  public CustomerVerifyCode saveCustomerVerifyCode(CustomerVerifyCode customerVerifyCode) {
-    return create(customerVerifyCode);
-  }
-
-  @Override
-  public CustomerVerifyCode updateCustomerVerifyCode(CustomerVerifyCode customerVerifyCode) {
-    return update(customerVerifyCode);
-  }
-
-  public CustomerVerifyCode findVerifyCodeByType(String mobilePhoneNo, String verifyType) {
-    Query query = createNameQuery("findVerifyCodeByType", mobilePhoneNo, verifyType);
-    List<CustomerVerifyCode> list = query.getResultList();
-    if (list.isEmpty()) {
-        return null;
+    @Override
+    public CustomerVerifyCode saveCustomerVerifyCode(CustomerVerifyCode customerVerifyCode) {
+        return create(customerVerifyCode);
     }
-      return list.get(0);
-  }
+
+    @Override
+    public CustomerVerifyCode updateCustomerVerifyCode(CustomerVerifyCode customerVerifyCode) {
+        return update(customerVerifyCode);
+    }
+
+    public CustomerVerifyCode findVerifyCodeByType(String mobilePhoneNo, String verifyType) {
+        Query query = createNameQuery("findVerifyCodeByType", mobilePhoneNo, verifyType);
+        List<CustomerVerifyCode> list = query.getResultList();
+        if (list.isEmpty()) {
+            return null;
+        }
+        return list.get(0);
+    }
 
 }

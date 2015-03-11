@@ -13,9 +13,9 @@ import models.Authentication;
  * @author <a href="mailto:jiaming.wang@sunlights.cc">wangJiaMing</a>
  */
 public interface AuthenticationDao {
-    
+
     public AuthenticationVo findAuthenticationVo(String userName);
-    
+
     public Authentication findAuthentication(String userName, String password);
 
     public Authentication findAuthentication(String userName);

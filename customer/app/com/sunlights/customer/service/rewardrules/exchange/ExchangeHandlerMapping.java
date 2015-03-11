@@ -9,11 +9,11 @@ import com.sunlights.customer.service.rewardrules.vo.ActivityRequestVo;
 /**
  * Created by tangweiqun on 2014/12/1.
  */
-public class ExchangeHandlerMapping  extends AbstractHandlerMapping {
+public class ExchangeHandlerMapping extends AbstractHandlerMapping {
     @Override
     public Object getHandlerInternal(ActivityRequestVo requestVo) throws Exception {
         Object handler = RewardRuleFactory.getObtainRuleHandlerMap().get(requestVo.getScene());
-        if(handler != null) {
+        if (handler != null) {
             return buildChainHandler(handler);
         }
         return null;

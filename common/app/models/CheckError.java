@@ -31,6 +31,7 @@ public class CheckError extends IdEntity {
     public Date getChkDate() {
         return chkDate;
     }
+
     public void setChkDate(Date chkDate) {
         this.chkDate = chkDate;
     }
@@ -38,6 +39,7 @@ public class CheckError extends IdEntity {
     public String getTradeNo() {
         return tradeNo;
     }
+
     public void setTradeNo(String tradeNo) {
         this.tradeNo = tradeNo;
     }
@@ -45,6 +47,7 @@ public class CheckError extends IdEntity {
     public String getPartnerId() {
         return partnerId;
     }
+
     public void setPartnerId(String partnerId) {
         this.partnerId = partnerId;
     }
@@ -52,6 +55,7 @@ public class CheckError extends IdEntity {
     public String getTradeType() {
         return tradeType;
     }
+
     public void setTradeType(String tradeType) {
         this.tradeType = tradeType;
     }
@@ -59,6 +63,7 @@ public class CheckError extends IdEntity {
     public String getDealStatus() {
         return dealStatus;
     }
+
     public void setDealStatus(String dealStatus) {
         this.dealStatus = dealStatus;
     }
@@ -66,6 +71,7 @@ public class CheckError extends IdEntity {
     public String getErrDetail() {
         return errDetail;
     }
+
     public void setErrDetail(String errDetail) {
         this.errDetail = errDetail;
     }
@@ -73,6 +79,7 @@ public class CheckError extends IdEntity {
     public Date getCreateTime() {
         return createTime;
     }
+
     public void setCreateTime(Date createTime) {
         this.createTime = createTime;
     }
@@ -80,6 +87,7 @@ public class CheckError extends IdEntity {
     public Date getUpdateTime() {
         return updateTime;
     }
+
     public void setUpdateTime(Date updateTime) {
         this.updateTime = updateTime;
     }

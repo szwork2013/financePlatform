@@ -12,13 +12,13 @@ import models.LoginHistory;
  * @author <a href="mailto:jiaming.wang@sunlights.cc">wangJiaMing</a>
  */
 public interface LoginDao {
-  public LoginHistory saveLoginHistory(LoginHistory loginHistory);
+    public LoginHistory saveLoginHistory(LoginHistory loginHistory);
 
-  public LoginHistory updateLoginHistory(LoginHistory loginHistory);
+    public LoginHistory updateLoginHistory(LoginHistory loginHistory);
 
-  public LoginHistory findByPwd(String customerId, String deviceNo);
+    public LoginHistory findByPwd(String customerId, String deviceNo);
 
-  public LoginHistory findByGesturePwd(String customerId, String deviceNo);
+    public LoginHistory findByGesturePwd(String customerId, String deviceNo);
 
-  public LoginHistory findByLoginCustomer(String customerId, String deviceNo);
+    public LoginHistory findByLoginCustomer(String customerId, String deviceNo);
 }

@@ -11,7 +11,7 @@ import java.io.Serializable;
  *
  * @author <a href="mailto:jiaming.wang@sunlights.cc">wangJiaMing</a>
  */
-public class ShuMiAccountVo implements Serializable{
+public class ShuMiAccountVo implements Serializable {
     private String shumi_tokenKey;
     private String shumi_tokenSecret;
     private String shumi_userName;

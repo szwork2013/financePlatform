@@ -12,7 +12,7 @@ public class CommonUtilTest {
     @Test
     public void testStringToDate() throws Exception {
         Date date = CommonUtil.stringToDate("2014-11-12");
-        assertEquals("1415721600000", date.getTime()+"");
+        assertEquals("1415721600000", date.getTime() + "");
         Timestamp smUpdateTime = new Timestamp(CommonUtil.stringToDate("2013-12-27 20:03:20.760", CommonUtil.DATE_FORMAT_ICU).getTime());
     }
 }

@@ -12,43 +12,43 @@ import java.io.Serializable;
  * @author <a href="mailto:jiaming.wang@sunlights.cc">wangJiaMing</a>
  */
 public class CustomerVerifyCodeVo implements Serializable {
-  private String mobile;
-  private String verifyType;
-  private String verifyCode;
-  private String deviceNo;
+    private String mobile;
+    private String verifyType;
+    private String verifyCode;
+    private String deviceNo;
 
-  public CustomerVerifyCodeVo() {
-  }
+    public CustomerVerifyCodeVo() {
+    }
 
-  public String getMobile() {
-    return mobile;
-  }
+    public String getMobile() {
+        return mobile;
+    }
 
-  public void setMobile(String mobile) {
-    this.mobile = mobile;
-  }
+    public void setMobile(String mobile) {
+        this.mobile = mobile;
+    }
 
-  public String getVerifyType() {
-    return verifyType;
-  }
+    public String getVerifyType() {
+        return verifyType;
+    }
 
-  public void setVerifyType(String verifyType) {
-    this.verifyType = verifyType;
-  }
+    public void setVerifyType(String verifyType) {
+        this.verifyType = verifyType;
+    }
 
-  public String getVerifyCode() {
-    return verifyCode;
-  }
+    public String getVerifyCode() {
+        return verifyCode;
+    }
 
-  public void setVerifyCode(String verifyCode) {
-    this.verifyCode = verifyCode;
-  }
+    public void setVerifyCode(String verifyCode) {
+        this.verifyCode = verifyCode;
+    }
 
-  public String getDeviceNo() {
-    return deviceNo;
-  }
+    public String getDeviceNo() {
+        return deviceNo;
+    }
 
-  public void setDeviceNo(String deviceNo) {
-    this.deviceNo = deviceNo;
-  }
+    public void setDeviceNo(String deviceNo) {
+        this.deviceNo = deviceNo;
+    }
 }

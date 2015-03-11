@@ -16,18 +16,18 @@ import java.text.MessageFormat;
 import java.util.List;
 
 /**
- *
  * 为了兼容注册和签到送金豆的接口，这个返回接口所需要的数据结构
- *
+ * <p/>
  * Created by tangweiqun on 2014/12/4.
  */
-public class OldResultAssignHandler extends AbstractObtainRuleHandler{
+public class OldResultAssignHandler extends AbstractObtainRuleHandler {
 
     private ActivityReturnMsgService activityReturnMsgService = ActivityServiceFactory.getActivityReturnMsgService();
+
     @Override
     public void obtainInternal(ActivityRequestVo requestVo, ActivityResponseVo responseVo) throws Exception {
         List<RewardFlowRecordVo> rewardFlowRecordVos = responseVo.getRewardFlowRecordVos();
-        if(rewardFlowRecordVos == null || rewardFlowRecordVos.isEmpty()) {
+        if (rewardFlowRecordVos == null || rewardFlowRecordVos.isEmpty()) {
             Logger.info("没有获得的奖励结果");
             Message message = new Message(Severity.INFO, MsgCode.NOT_CONFIG_ACTIVITY_SCENE);
             message.setSummary("参加活动失败");
@@ -37,8 +37,8 @@ public class OldResultAssignHandler extends AbstractObtainRuleHandler{
         }
 
 
-        for(RewardFlowRecordVo rewardFlowRecordVo : rewardFlowRecordVos) {
-            if(rewardFlowRecordVo.isRecommender()) {
+        for (RewardFlowRecordVo rewardFlowRecordVo : rewardFlowRecordVos) {
+            if (rewardFlowRecordVo.isRecommender()) {
                 continue;
             }
             ObtainRewardVo obtainRewardVo = new ObtainRewardVo();

@@ -14,7 +14,7 @@ import java.util.List;
 /**
  * Created by guxuelong on 2014/11/27.
  */
-public class FundProfitHistoryDaoImpl  extends EntityBaseDao implements FundProfitHistoryDao {
+public class FundProfitHistoryDaoImpl extends EntityBaseDao implements FundProfitHistoryDao {
     private static final String QUERY_FUND_PROFIT_HISTORY = "select t from FundProfitHistory t where t.fundCode = :fundCode and t.dateTime >= :dateTimeStart  and t.dateTime <= :dateTimeEnd";
     private static final String START_TIME = " 00:00:00";
     private static final String END_TIME = " 23:59:59";
@@ -50,7 +50,7 @@ public class FundProfitHistoryDaoImpl  extends EntityBaseDao implements FundProf
     public FundProfitHistory findFundProfitHistoryByCodeAndDate(FundProfitHistory fundProfitHistories) {
         Query query = super.createQuery(QUERY_FUND_PROFIT_HISTORY);
         query.setParameter("fundCode", fundProfitHistories.getFundCode());
-        setTradeTimePara(CommonUtil.dateToString(fundProfitHistories.getDateTime()),query);
+        setTradeTimePara(CommonUtil.dateToString(fundProfitHistories.getDateTime()), query);
         if (query.getResultList() == null || query.getResultList().size() == 0) {
             return null;
         }
@@ -66,7 +66,7 @@ public class FundProfitHistoryDaoImpl  extends EntityBaseDao implements FundProf
     @Override
     public List<FundProfitHistory> findByUpdateDate(String updateDate) {
         Query query = super.createQuery(QUERY_BY_UPDATE_DATE);
-        setTradeTimePara(updateDate,query);
+        setTradeTimePara(updateDate, query);
         return query.getResultList();
     }
 

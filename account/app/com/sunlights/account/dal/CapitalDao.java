@@ -16,6 +16,7 @@ public interface CapitalDao {
 
     /**
      * 持有产品信息
+     *
      * @param custId
      * @param pageVo
      * @return
@@ -24,6 +25,7 @@ public interface CapitalDao {
 
     /**
      * 昨日收益历史信息
+     *
      * @return
      */
     public List<CapitalVo> findCapitalProfitListByCustId(String customerId, PageVo pageVo);

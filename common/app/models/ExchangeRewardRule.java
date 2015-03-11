@@ -9,7 +9,7 @@ import java.util.Date;
  */
 @Entity
 @Table(name = "F_EXCHANGE_REWARD_RULE")
-public class ExchangeRewardRule extends IdEntity{
+public class ExchangeRewardRule extends IdEntity {
     @Column(name = "REWARD_TYPE")
     private String rewardType;
     @Column(name = "STATUS")

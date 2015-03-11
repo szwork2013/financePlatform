@@ -23,10 +23,10 @@ public class FeedBackServiceImpl implements FeedBackService {
 
     private CustomerService customerService = new CustomerService();
     private FeedBackDao feedBackDao = new FeedBackDaoImpl();
-    
-    public FeedBack saveFeedBack(String mobile, String content, String deviceNo){
+
+    public FeedBack saveFeedBack(String mobile, String content, String deviceNo) {
         Timestamp currentTime = DBHelper.getCurrentTime();
-        
+
         FeedBack feedBack = new FeedBack();
         feedBack.setMobile(mobile);
 

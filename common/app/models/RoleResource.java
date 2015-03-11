@@ -10,62 +10,62 @@ import java.util.Date;
 @Table(name = "o_role_resource")
 public class RoleResource extends IdEntity {
 
-	@Temporal(TemporalType.TIMESTAMP)
-	@Column(name = "create_time")
-	private Date createTime;
+    @Temporal(TemporalType.TIMESTAMP)
+    @Column(name = "create_time")
+    private Date createTime;
 
-	@Temporal(TemporalType.TIMESTAMP)
-	@Column(name = "update_time")
-	private Date updateTime;
+    @Temporal(TemporalType.TIMESTAMP)
+    @Column(name = "update_time")
+    private Date updateTime;
 
-	@Column(name = "deleted")
-	private Boolean deleted;
+    @Column(name = "deleted")
+    private Boolean deleted;
 
-	@ManyToOne
-	@JoinColumn(name = "role_id", referencedColumnName = "id")
-	private Role role;
+    @ManyToOne
+    @JoinColumn(name = "role_id", referencedColumnName = "id")
+    private Role role;
 
-	@ManyToOne
-	@JoinColumn(name = "resource_id", referencedColumnName = "id")
-	private Resource resource;
+    @ManyToOne
+    @JoinColumn(name = "resource_id", referencedColumnName = "id")
+    private Resource resource;
 
-	public Date getCreateTime () {
-		return createTime;
-	}
+    public Date getCreateTime() {
+        return createTime;
+    }
 
-	public void setCreateTime (Date createTime) {
-		this.createTime = createTime;
-	}
+    public void setCreateTime(Date createTime) {
+        this.createTime = createTime;
+    }
 
-	public Date getUpdateTime () {
-		return updateTime;
-	}
+    public Date getUpdateTime() {
+        return updateTime;
+    }
 
-	public void setUpdateTime (Date updateTime) {
-		this.updateTime = updateTime;
-	}
+    public void setUpdateTime(Date updateTime) {
+        this.updateTime = updateTime;
+    }
 
-	public Boolean getDeleted () {
-		return deleted;
-	}
+    public Boolean getDeleted() {
+        return deleted;
+    }
 
-	public void setDeleted (Boolean deleted) {
-		this.deleted = deleted;
-	}
+    public void setDeleted(Boolean deleted) {
+        this.deleted = deleted;
+    }
 
-	public Role getRole () {
-		return role;
-	}
+    public Role getRole() {
+        return role;
+    }
 
-	public void setRole (Role role) {
-		this.role = role;
-	}
+    public void setRole(Role role) {
+        this.role = role;
+    }
 
-	public Resource getResource () {
-		return resource;
-	}
+    public Resource getResource() {
+        return resource;
+    }
 
-	public void setResource (Resource resource) {
-		this.resource = resource;
-	}
+    public void setResource(Resource resource) {
+        this.resource = resource;
+    }
 }

@@ -9,6 +9,6 @@ public interface ShortUrlService {
 
     public String add(String type, String refId, ShareInfo shareInfo);
 
-    public String getShortUrl(String type, String refId,ShareInfo shareInfo);
+    public String getShortUrl(String type, String refId, ShareInfo shareInfo);
 
 }

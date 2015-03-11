@@ -26,7 +26,7 @@ import java.util.List;
 public class CapitalDaoImpl extends EntityBaseDao implements CapitalDao {
     private PageDao pageDao = new PageDaoImpl();
 
-    private List<HoldCapital> getHoldCapitalList(PageVo pageVo){
+    private List<HoldCapital> getHoldCapitalList(PageVo pageVo) {
         String sql = "select hc " +
                 "from HoldCapital hc " +
                 "where 1 = 1" +
@@ -74,6 +74,7 @@ public class CapitalDaoImpl extends EntityBaseDao implements CapitalDao {
         }
         return list.get(0);
     }
+
     private List<CapitalVo> transCapitalVoList(List<HoldCapital> list) {
         List<CapitalVo> capitalVoList = new ArrayList<CapitalVo>();
         for (HoldCapital holdCapital : list) {
@@ -87,6 +88,7 @@ public class CapitalDaoImpl extends EntityBaseDao implements CapitalDao {
         }
         return capitalVoList;
     }
+
     private List<Capital4Product> transCapital4Products(List<HoldCapital> list) {
         List<Capital4Product> capital4ProductList = new ArrayList<Capital4Product>();
         for (HoldCapital holdCapital : list) {

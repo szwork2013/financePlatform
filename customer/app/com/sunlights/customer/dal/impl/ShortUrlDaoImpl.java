@@ -2,7 +2,6 @@ package com.sunlights.customer.dal.impl;
 
 import com.sunlights.common.dal.EntityBaseDao;
 import com.sunlights.customer.dal.ShortUrlDao;
-import models.ActivityScene;
 import models.ShortUrl;
 
 import java.util.Date;
@@ -33,7 +32,7 @@ public class ShortUrlDaoImpl extends EntityBaseDao implements ShortUrlDao {
 
         List<ShortUrl> list = findByMap(jpql.toString(), params);
 
-        if(list == null || list.isEmpty()) {
+        if (list == null || list.isEmpty()) {
             return null;
         }
         return list.get(0);

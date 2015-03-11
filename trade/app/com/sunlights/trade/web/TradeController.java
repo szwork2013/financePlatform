@@ -32,17 +32,17 @@ import java.util.List;
  * @author <a href="mailto:jiaming.wang@sunlights.cc">wangJiaMing</a>
  */
 @Transactional
-public class TradeController extends Controller{
+public class TradeController extends Controller {
     private Form<TradeSearchFormVo> tradeSearchFormVoForm = Form.form(TradeSearchFormVo.class);
     private Form<TradeFormVo> tradeFormVoForm = Form.form(TradeFormVo.class);
 
     private TradeService tradeService = new TradeServiceImpl();
     private CustomerService customerService = new CustomerService();
 
-    public Result getTradeList(){
+    public Result getTradeList() {
         Logger.info("----------getTradeList start ------------");
 
-        customerService.validateCustomerSession(request(),session(),response());
+        customerService.validateCustomerSession(request(), session(), response());
 
         TradeSearchFormVo tradeSearchFormVo = tradeSearchFormVoForm.bindFromRequest().get();
         String token = request().cookie(AppConst.TOKEN).value();
@@ -61,10 +61,10 @@ public class TradeController extends Controller{
         return ok(json);
     }
 
-    public Result findCapitalProductDetailTrade(){
+    public Result findCapitalProductDetailTrade() {
         Logger.info("----------findCapitalProductDetailTrade start ------------");
 
-        customerService.validateCustomerSession(request(),session(),response());
+        customerService.validateCustomerSession(request(), session(), response());
 
         TradeSearchFormVo tradeSearchFormVo = tradeSearchFormVoForm.bindFromRequest().get();
         String token = request().cookie(AppConst.TOKEN).value();
@@ -77,10 +77,10 @@ public class TradeController extends Controller{
         return ok(json);
     }
 
-    public Result tradeOrder(){
+    public Result tradeOrder() {
         Logger.info("----------tradeOrder start ------------");
 
-        customerService.validateCustomerSession(request(),session(),response());
+        customerService.validateCustomerSession(request(), session(), response());
 
         TradeFormVo tradeFormVo = tradeFormVoForm.bindFromRequest().get();
         String token = request().cookie(AppConst.TOKEN).value();
@@ -94,11 +94,11 @@ public class TradeController extends Controller{
     }
 
 
-    public Result tradeRedeem(){
+    public Result tradeRedeem() {
         Logger.info("----------tradeRedeem start ------------");
 
-        customerService.validateCustomerSession(request(),session(),response());
-        
+        customerService.validateCustomerSession(request(), session(), response());
+
         TradeFormVo tradeFormVo = tradeFormVoForm.bindFromRequest().get();
         String token = request().cookie(AppConst.TOKEN).value();
 

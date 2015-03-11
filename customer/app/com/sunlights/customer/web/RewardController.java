@@ -36,6 +36,7 @@ public class RewardController extends ActivityBaseController {
 
     /**
      * 获取登录客户签到可以获取的奖励数
+     *
      * @return
      */
     public Result getSingInCanObtainRewards() {
@@ -57,7 +58,8 @@ public class RewardController extends ActivityBaseController {
 
 
     /**
-     *  我的金豆详情
+     * 我的金豆详情
+     *
      * @return
      */
     public Result getMyRewardDetail() {

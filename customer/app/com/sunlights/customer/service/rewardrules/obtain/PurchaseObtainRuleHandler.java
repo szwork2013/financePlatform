@@ -14,10 +14,10 @@ import play.Logger;
  * 4：@see com.sunlights.account.service.rewardrules.obtain.RewardFlowHandler 生成奖励流水（分邀请人和被邀请人）
  * 5：@see com.sunlights.account.service.rewardrules.obtain.CustJoinActivityHandler 客户参加活动后的总结
  * 6：@see com.sunlights.account.service.rewardrules.obtain.ResultAssignHandler 获取奖励成功后结果赋值
- *
+ * <p/>
  * Created by tangweiqun on 2014/12/2.
  */
-public class PurchaseObtainRuleHandler extends AbstractObtainRuleHandler{
+public class PurchaseObtainRuleHandler extends AbstractObtainRuleHandler {
 
     @Override
     public void obtain(ActivityRequestVo requestVo, ActivityResponseVo responseVo) throws Exception {
@@ -34,7 +34,7 @@ public class PurchaseObtainRuleHandler extends AbstractObtainRuleHandler{
         setNextHandler(purchaseObtainValideHandler)
                 .setNextHandler(obtainRuleGainHandler)
                 .setNextHandler(reCommendHandler)
-                //.setNextHandler(validBankCardHandler)
+                        //.setNextHandler(validBankCardHandler)
                 .setNextHandler(rewardFlowHandler)
                 .setNextHandler(custJoinActivityHandler)
                 .setNextHandler(resultAssignHandler)

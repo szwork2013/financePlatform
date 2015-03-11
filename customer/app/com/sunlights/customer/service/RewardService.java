@@ -2,7 +2,7 @@ package com.sunlights.customer.service;
 
 /**
  * 奖励体系提供的服务
- *
+ * <p/>
  * Created by tangweiqun on 2014/11/12.
  */
 public interface RewardService {

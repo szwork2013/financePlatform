@@ -17,83 +17,83 @@ import java.util.Date;
 @Entity
 @Table(name = "sms_message")
 public class SmsMessage extends IdEntity {
-  @Column(length = 40)
-  private String smsId;
-  @Column(length = 11)
-  private String mobile;
-  @Column(length = 200)
-  private String content;
-  @Column(length = 40, name = "rec_status")
-  private String recStatus;//回执状态
-  @Column(length = 200, name = "return_msg")
-  private String returnMsg;
-  @Column(length = 1,name = "success_ind")
-  private String successInd = AppConst.STATUS_INVALID;
-  @Temporal(TemporalType.TIMESTAMP)
-  @Column(name = "CREATE_TIME")
-  private Date createTime;//创建事件
-  @Temporal(TemporalType.TIMESTAMP)
-  @Column(name = "UPDATE_TIME")
-  private Date updateTime;//修改时间
+    @Column(length = 40)
+    private String smsId;
+    @Column(length = 11)
+    private String mobile;
+    @Column(length = 200)
+    private String content;
+    @Column(length = 40, name = "rec_status")
+    private String recStatus;//回执状态
+    @Column(length = 200, name = "return_msg")
+    private String returnMsg;
+    @Column(length = 1, name = "success_ind")
+    private String successInd = AppConst.STATUS_INVALID;
+    @Temporal(TemporalType.TIMESTAMP)
+    @Column(name = "CREATE_TIME")
+    private Date createTime;//创建事件
+    @Temporal(TemporalType.TIMESTAMP)
+    @Column(name = "UPDATE_TIME")
+    private Date updateTime;//修改时间
 
-  public SmsMessage() {
-  }
+    public SmsMessage() {
+    }
 
-  public String getSmsId() {
-    return smsId;
-  }
+    public String getSmsId() {
+        return smsId;
+    }
 
-  public void setSmsId(String smsId) {
-    this.smsId = smsId;
-  }
+    public void setSmsId(String smsId) {
+        this.smsId = smsId;
+    }
 
-  public String getMobile() {
-    return mobile;
-  }
+    public String getMobile() {
+        return mobile;
+    }
 
-  public void setMobile(String mobile) {
-    this.mobile = mobile;
-  }
+    public void setMobile(String mobile) {
+        this.mobile = mobile;
+    }
 
-  public String getContent() {
-    return content;
-  }
+    public String getContent() {
+        return content;
+    }
 
-  public void setContent(String content) {
-    this.content = content;
-  }
+    public void setContent(String content) {
+        this.content = content;
+    }
 
-  public String getRecStatus() {
-    return recStatus;
-  }
+    public String getRecStatus() {
+        return recStatus;
+    }
 
-  public void setRecStatus(String recStatus) {
-    this.recStatus = recStatus;
-  }
+    public void setRecStatus(String recStatus) {
+        this.recStatus = recStatus;
+    }
 
-  public String getReturnMsg() {
-    return returnMsg;
-  }
+    public String getReturnMsg() {
+        return returnMsg;
+    }
 
-  public void setReturnMsg(String returnMsg) {
-    this.returnMsg = returnMsg;
-  }
+    public void setReturnMsg(String returnMsg) {
+        this.returnMsg = returnMsg;
+    }
 
-  public Date getCreateTime() {
-    return createTime;
-  }
+    public Date getCreateTime() {
+        return createTime;
+    }
 
-  public void setCreateTime(Date createTime) {
-    this.createTime = createTime;
-  }
+    public void setCreateTime(Date createTime) {
+        this.createTime = createTime;
+    }
 
-  public Date getUpdateTime() {
-    return updateTime;
-  }
+    public Date getUpdateTime() {
+        return updateTime;
+    }
 
-  public void setUpdateTime(Date updateTime) {
-    this.updateTime = updateTime;
-  }
+    public void setUpdateTime(Date updateTime) {
+        this.updateTime = updateTime;
+    }
 
     public String getSuccessInd() {
         return successInd;

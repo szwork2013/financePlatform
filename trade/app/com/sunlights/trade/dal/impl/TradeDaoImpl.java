@@ -39,7 +39,7 @@ public class TradeDaoImpl extends EntityBaseDao implements TradeDao {
 
     @Override
     public List<TradeVo> getTradeListByCustomerId(String customerId, String productCode, PageVo pageVo) {
-        String sql =  "select t " +
+        String sql = "select t " +
                 "from  Trade t " +
                 "where 1 = 1" +
                 " /~ and t.custId = {customerId} ~/" +

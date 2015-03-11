@@ -11,8 +11,8 @@ import java.io.Serializable;
  *
  * @author <a href="mailto:jiaming.wang@sunlights.cc">wangJiaMing</a>
  */
-public class ShuMiTradeFormVo implements Serializable{
-   //申购、赎回
+public class ShuMiTradeFormVo implements Serializable {
+    //申购、赎回
     private String applySerial;//申请编号
     private String fundCode;// -->基金代码
     private String fundName;

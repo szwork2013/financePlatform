@@ -20,28 +20,34 @@ public interface MsgCenterService {
 
     /**
      * 登录后消息中心分页查询
+     *
      * @param pageVo
      * @return
      */
     public List<MsgCenterVo> findMsgCenterVoListWithLogin(PageVo pageVo);
+
     public List<MsgCenterVo> findMsgCenterVoList(PageVo pageVo);
 
     public MsgCenterDetailVo findMsgCenterDetail(Long msgId, String sendType);
+
     public void saveMsgReadHistory(CustomerMsgReadHistory customerMsgReadHistory);
 
     /**
      * 未读数量记录
+     *
      * @return
      */
     public int countUnReadNum(String customerId, String deviceNo);
 
     /**
      * 推送信息设置
+     *
      * @param registrationId
      * @param deviceNo
      * @return
      */
     public void enablePush(String registrationId, String deviceNo, String platform);
+
     public void disablePush(String registrationId, String deviceNo);
 
 

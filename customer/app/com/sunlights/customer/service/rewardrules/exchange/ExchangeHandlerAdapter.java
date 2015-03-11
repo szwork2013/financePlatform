@@ -17,7 +17,7 @@ public class ExchangeHandlerAdapter implements HandlerAdapter {
     @Override
     public void handle(ActivityRequestVo requestVo, ActivityResponseVo responseVo, Object handler)
             throws Exception {
-        ((ExchangeRuleHandler)handler).exchange(requestVo, responseVo);
+        ((ExchangeRuleHandler) handler).exchange(requestVo, responseVo);
     }
 
 }

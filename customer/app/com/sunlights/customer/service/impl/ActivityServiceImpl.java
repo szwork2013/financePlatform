@@ -36,7 +36,7 @@ import java.util.List;
 /**
  * Created by tangweiqun on 2014/11/17.
  */
-public class ActivityServiceImpl implements ActivityService{
+public class ActivityServiceImpl implements ActivityService {
 
     private ActivityDao activityDao = new ActivityDaoImpl();
     private ObtainRewardRuleDao obtainRewardRuleDao = new ObtainRewardRuleDaoImpl();
@@ -53,7 +53,7 @@ public class ActivityServiceImpl implements ActivityService{
             return activityVos;
         }
         ActivityVo vo = null;
-        for(Activity activity : activities) {
+        for (Activity activity : activities) {
             vo = new ActivityVo();
             vo.setId(activity.getId());
             vo.setName(activity.getTitle());
@@ -72,18 +72,18 @@ public class ActivityServiceImpl implements ActivityService{
         return new StringBuilder().append(server).append(":").append(port).append(remoteDir).append("/").append(fileName).toString();
     }
 
-    @Cacheable(key="scene", duration = 300)
+    @Cacheable(key = "scene", duration = 300)
     @Override
     public List<Activity> getActivityByScene(String scene) {
         //TODO
         return activityDao.getActivityByScene(scene);
     }
 
-    @Cacheable(key="activityTitleByPrdCode", duration = 300)
+    @Cacheable(key = "activityTitleByPrdCode", duration = 300)
     @Override
     public List<String> getActivityTitles(String prdCode) {
         List<String> titles = new ArrayList<String>();
-        if(prdCode == null) {
+        if (prdCode == null) {
             return titles;
         }
         ActivityScene activityScene = new ActivityScene();
@@ -91,21 +91,20 @@ public class ActivityServiceImpl implements ActivityService{
         activityScene.setPrdCode(prdCode);
 
         List<ActivityScene> activityScenes = activitySceneDao.getScenes(activityScene);
-        if(activityScenes == null || activityScenes.isEmpty()) {
+        if (activityScenes == null || activityScenes.isEmpty()) {
             return titles;
         }
         activityScene = activityScenes.get(0);
         List<Activity> activities = getActivityByScene(activityScene.getScene());
-        if(activities == null || activities.isEmpty()) {
+        if (activities == null || activities.isEmpty()) {
             return titles;
         }
 
-        for(Activity activity : activities) {
+        for (Activity activity : activities) {
             titles.add(activity.getTitle());
         }
         return titles;
     }
-
 
 
     @Cacheable(key = "allActivities", duration = 300)
@@ -126,7 +125,7 @@ public class ActivityServiceImpl implements ActivityService{
     public Activity4H5Vo getH5InfoById(Long id) {
         Activity4H5Vo activity4H5Vo = new Activity4H5Vo();
         Activity activity = activityDao.findById(id);
-        if(activity == null) {
+        if (activity == null) {
             return activity4H5Vo;
         }
         activity4H5Vo.setImageUrl(getFileFuleUrl(activity.getImage(), "activity.imagePath"));
@@ -134,7 +133,7 @@ public class ActivityServiceImpl implements ActivityService{
         return activity4H5Vo;
     }
 
-    @Cacheable(key="getByUnknowCondition", duration = 300)
+    @Cacheable(key = "getByUnknowCondition", duration = 300)
     @Override
     public Activity getByUnknowCondition(String condition) {
         Activity activity = new Activity();
@@ -142,7 +141,7 @@ public class ActivityServiceImpl implements ActivityService{
             activity = activityDao.findById(Long.valueOf(condition));
         } catch (Exception e) {
             List<Activity> activities = activityDao.getActivityByScene(condition);
-            if(activities != null && !activities.isEmpty()) {
+            if (activities != null && !activities.isEmpty()) {
                 activity = activities.get(0);
             }
         }
@@ -171,9 +170,9 @@ public class ActivityServiceImpl implements ActivityService{
         Long activityId = obtainRewardRule.getActivityId();
 
         int hasSendCount = 0;
-        if (DictConst.ACTIVITY_NEW_REGISTER_TRADE.equals(activityCondition)){
+        if (DictConst.ACTIVITY_NEW_REGISTER_TRADE.equals(activityCondition)) {
             hasSendCount = activityDao.countRegisterHasSend(activityId);
-        }else if (DictConst.ACTIVITY_NEW_TRADE.equals(activityCondition)) {
+        } else if (DictConst.ACTIVITY_NEW_TRADE.equals(activityCondition)) {
             hasSendCount = activityDao.countTradeHasSend(activityId);
         }
 
@@ -182,7 +181,7 @@ public class ActivityServiceImpl implements ActivityService{
 
         BigDecimal remainCount = BigDecimal.ZERO.compareTo(showRemainCount) >= 0 ? BigDecimal.ZERO : showRemainCount;
 
-        return remainCount.intValue() ;
+        return remainCount.intValue();
     }
 
     @Override
@@ -212,10 +211,10 @@ public class ActivityServiceImpl implements ActivityService{
     }
 
     @Override
-    public boolean validateHasFirstPurchase(String customerId, Long activityId){
+    public boolean validateHasFirstPurchase(String customerId, Long activityId) {
         //活动内首次申购 验证
         CustJoinActivity custJoinActivity = custJoinActivityService.getByCustAndActivity(customerId, activityId, ActivityConstant.ACTIVITY_FIRST_PURCHASE_SCENE_CODE);
-        if(custJoinActivity != null) {
+        if (custJoinActivity != null) {
             return true;
         }
 

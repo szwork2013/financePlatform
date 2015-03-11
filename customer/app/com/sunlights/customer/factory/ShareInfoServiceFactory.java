@@ -11,9 +11,9 @@ import com.sunlights.customer.service.impl.InviteShareInfoServiceImpl;
 public class ShareInfoServiceFactory {
 
     public static ShareInfoService createShareInfoService(String type) {
-        if(ActivityConstant.SHARE_TYPE_ACTIVITY.equals(type)) {
+        if (ActivityConstant.SHARE_TYPE_ACTIVITY.equals(type)) {
             return new ActivityShareInfoServiceImpl();
-        } else if(ActivityConstant.SHARE_TYPE_INVITER.equals(type)) {
+        } else if (ActivityConstant.SHARE_TYPE_INVITER.equals(type)) {
             return new InviteShareInfoServiceImpl();
         }
         return null;

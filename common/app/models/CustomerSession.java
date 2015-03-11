@@ -11,18 +11,18 @@ import java.util.Date;
 @Entity
 @Table(name = "C_CUSTOMER_SESSION")
 @NamedQueries({
-        @NamedQuery(name="findCSByCustomerId",query="select c from CustomerSession c where c.customerId = ?1 and c.deviceNo = ?2 and c.status = 'Y' order by c.createTime desc")
+        @NamedQuery(name = "findCSByCustomerId", query = "select c from CustomerSession c where c.customerId = ?1 and c.deviceNo = ?2 and c.status = 'Y' order by c.createTime desc")
 })
 public class CustomerSession extends IdEntity {
-    @Column(length = 30,name = "CUSTOMER_ID")
+    @Column(length = 30, name = "CUSTOMER_ID")
     private String customerId;
     @Column(length = 400)
     private String token;
-    @Column(length = 40,name = "DEVICE_NO")
+    @Column(length = 40, name = "DEVICE_NO")
     private String deviceNo; // 设备号
-    @Column(length = 40,name = "DEVICE_NAME")
+    @Column(length = 40, name = "DEVICE_NAME")
     private String deviceName; // 设备名称
-    @Column(length = 40,name = "CLIENT_ADDRESS")
+    @Column(length = 40, name = "CLIENT_ADDRESS")
     private String clientAddress; // 客户端IP地址
     @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "UPDATE_TIME")

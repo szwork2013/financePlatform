@@ -16,7 +16,7 @@ import java.util.Date;
 @Table(name = "c_question_record")
 public class QuestionRecord extends IdEntity {
     private String problem;
-    @Column(name = "phone_no",length = 20)
+    @Column(name = "phone_no", length = 20)
     private String phoneNo;
     @Column(name = "customer_name")
     private String customerName;

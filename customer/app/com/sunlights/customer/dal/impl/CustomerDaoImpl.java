@@ -8,9 +8,9 @@ import com.sunlights.common.dal.EntityBaseDao;
 import com.sunlights.common.exceptions.ConverterException;
 import com.sunlights.common.utils.ConverterUtil;
 import com.sunlights.common.utils.DBHelper;
+import com.sunlights.common.vo.MsgSettingVo;
 import com.sunlights.customer.dal.CustomerDao;
 import com.sunlights.customer.vo.CustomerVo;
-import com.sunlights.common.vo.MsgSettingVo;
 import models.*;
 import org.apache.commons.lang3.StringUtils;
 import play.Logger;
@@ -68,13 +68,13 @@ public class CustomerDaoImpl extends EntityBaseDao implements CustomerDao {
 
     public CustomerVo getCustomerVoByPhoneNo(String mobilePhoneNo, String deviceNo) {
         String sql = " select c.mobile,c.real_name,c.nick_name,c.email,c.identity_number," +
-                     " case when c.identity_typer = :identityTyper and c.identity_number is not null THEN '1' ELSE '0' END as certify," +
-                     " case when a.trade_password is null THEN '0' ELSE '1' END as tradePwdFlag," +
-                     " (select count(1) from c_bank_card bc where bc.customer_id = c.customer_id) as bankCardCount," +
-                     " c.customer_id" +
-                     " from c_customer c,f_basic_account a" +
-                     " where  c.customer_id = a.cust_id" +
-                     " and  c.mobile = :mobilePhoneNo";
+                " case when c.identity_typer = :identityTyper and c.identity_number is not null THEN '1' ELSE '0' END as certify," +
+                " case when a.trade_password is null THEN '0' ELSE '1' END as tradePwdFlag," +
+                " (select count(1) from c_bank_card bc where bc.customer_id = c.customer_id) as bankCardCount," +
+                " c.customer_id" +
+                " from c_customer c,f_basic_account a" +
+                " where  c.customer_id = a.cust_id" +
+                " and  c.mobile = :mobilePhoneNo";
         Logger.debug(sql);
 
         Query query = em.createNativeQuery(sql);
@@ -92,11 +92,11 @@ public class CustomerDaoImpl extends EntityBaseDao implements CustomerDao {
                 if (customerGestureList.isEmpty()) {
                     customerVo.setGestureOpened("0");
                     customerVo.setGestureSetted("0");
-                }else{
+                } else {
                     customerVo.setGestureOpened(AppConst.STATUS_VALID.equals(customerGestureList.get(0).getStatus()) ? "1" : "0");
                     customerVo.setGestureSetted("1");
                 }
-            }else{
+            } else {
                 customerVo.setGestureOpened("0");
                 customerVo.setGestureSetted("0");
             }
@@ -108,15 +108,15 @@ public class CustomerDaoImpl extends EntityBaseDao implements CustomerDao {
 
     public CustomerVo getCustomerVoByIdCardNo(String idCardNo, String realName) {
         String sql = " select c.mobile,c.real_name,c.nick_name,c.email,c.identity_number," +
-                     " case when c.identity_typer = :identityTyper and c.identity_number is not null THEN '1' ELSE '0' END as certify," +
-                     " case when a.trade_password is null THEN '0' ELSE '1' END as tradePwdFlag," +
-                     " (select count(1) from c_bank_card bc where bc.customer_id = c.customer_id) as bankCardCount, " +
-                     "  c.customer_id " +
-                     " from    c_customer c,f_basic_account a" +
-                     " where   c.customer_id = a.cust_id" +
-                     " and     c.real_name = :realName" +
-                     " and     c.identity_typer = :identityTyper" +
-                     " and     c.identity_number = :idCardNo";
+                " case when c.identity_typer = :identityTyper and c.identity_number is not null THEN '1' ELSE '0' END as certify," +
+                " case when a.trade_password is null THEN '0' ELSE '1' END as tradePwdFlag," +
+                " (select count(1) from c_bank_card bc where bc.customer_id = c.customer_id) as bankCardCount, " +
+                "  c.customer_id " +
+                " from    c_customer c,f_basic_account a" +
+                " where   c.customer_id = a.cust_id" +
+                " and     c.real_name = :realName" +
+                " and     c.identity_typer = :identityTyper" +
+                " and     c.identity_number = :idCardNo";
 
         Logger.debug(sql);
 
@@ -135,7 +135,7 @@ public class CustomerDaoImpl extends EntityBaseDao implements CustomerDao {
         return customerVo;
     }
 
-    public CustomerVo getCustomerVoByUserName(String userName){
+    public CustomerVo getCustomerVoByUserName(String userName) {
         String sql = " select c.mobile,c.real_name,c.email,c.customer_id,c.authentication_id" +
                 "  from c_customer c, c_authentication a " +
                 " where c.authentication_id = a.id " +
@@ -156,7 +156,7 @@ public class CustomerDaoImpl extends EntityBaseDao implements CustomerDao {
     }
 
     private CustomerVo transCustomerVo(List<Object[]> list) {
-        if (list.isEmpty()){
+        if (list.isEmpty()) {
             return null;
         }
 
@@ -175,11 +175,11 @@ public class CustomerDaoImpl extends EntityBaseDao implements CustomerDao {
         return customerVo;
     }
 
-    private void findShuMiAccount(CustomerVo customerVo){
+    private void findShuMiAccount(CustomerVo customerVo) {
         Query query = createNameQuery("findShuMiAccount", customerVo.getCustomerId());
         List<ShuMiAccount> list = query.getResultList();
         if (list.isEmpty()) {
-            return ;
+            return;
         }
         try {
             ConverterUtil.fromEntity(customerVo, list.get(0));
@@ -250,9 +250,9 @@ public class CustomerDaoImpl extends EntityBaseDao implements CustomerDao {
 
     @Override
     public Customer findRecommenderInfo(String customerId) {
-       if(StringUtils.isEmpty(customerId)) {
-           return null;
-       }
+        if (StringUtils.isEmpty(customerId)) {
+            return null;
+        }
 
         StringBuilder sb = new StringBuilder();
 
@@ -264,7 +264,7 @@ public class CustomerDaoImpl extends EntityBaseDao implements CustomerDao {
 
         filterMap.put("EQS_customerId", customerId);
         List<String> resultRows = createNativeQueryByMap(sb.toString(), filterMap).getResultList();
-        if(resultRows == null || resultRows.isEmpty()) {
+        if (resultRows == null || resultRows.isEmpty()) {
             return null;
         }
         Customer customer = new Customer();
@@ -324,7 +324,7 @@ public class CustomerDaoImpl extends EntityBaseDao implements CustomerDao {
     }
 
     @Override
-    public boolean validateHasFirstPurchase(String customerId){
+    public boolean validateHasFirstPurchase(String customerId) {
         String sql = "select count(1) from t_trade t where t.cust_id = :customerId and t.create_time > :currentTime";
         Query query = em.createNativeQuery(sql);
         query.setParameter("customerId", customerId);

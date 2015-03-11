@@ -8,7 +8,8 @@ import java.util.Set;
  */
 public final class AppConst {
 
-    private AppConst(){}
+    private AppConst() {
+    }
 
     //---- core ---
     public static String VERIFY_CODE_REGISTER = "REGISTER";
@@ -16,7 +17,8 @@ public final class AppConst {
     public static String VERIFY_CODE_RESET_ACCOUNT = "RESETACCOUNT";
 
     public static Set<String> VALID_VERIFY_CODES = new HashSet<>();
-    static{
+
+    static {
         VALID_VERIFY_CODES.add(VERIFY_CODE_REGISTER);
         VALID_VERIFY_CODES.add(VERIFY_CODE_RESETPWD);
         VALID_VERIFY_CODES.add(VERIFY_CODE_RESET_ACCOUNT);
@@ -59,9 +61,9 @@ public final class AppConst {
     public static String CHANNEL_ANDROID = "2";
 
     public static String FUND_CATEGORY_MONETARY = "MONETARY";
-    public static String FUND_CATEGORY_STF= "STF";
-    public static String FUND_GRAB_STATUS_NULL= "FUND-GRAB-STATUS-NULL";
-    public static String FUND_GRAB_STATUS_OVERDUE= "FUND-GRAB-STATUS-OVERDUE";
-    public static String FUND_GRAB_STATUS_SYNCHRONIZED= "FUND-GRAB-STATUS-SYNCHRONIZED";
+    public static String FUND_CATEGORY_STF = "STF";
+    public static String FUND_GRAB_STATUS_NULL = "FUND-GRAB-STATUS-NULL";
+    public static String FUND_GRAB_STATUS_OVERDUE = "FUND-GRAB-STATUS-OVERDUE";
+    public static String FUND_GRAB_STATUS_SYNCHRONIZED = "FUND-GRAB-STATUS-SYNCHRONIZED";
 
 }

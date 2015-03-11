@@ -40,7 +40,7 @@ public class HoldRewardDaoImpl extends EntityBaseDao implements HoldRewardDao {
         sb.append("/~  and a.customer_Id  = {custId} ~/");
         sb.append("/~  and a.REWARD_TYPE  = {rewardType} ~/ ");
         sb.append("/~  and a.ACTIVITY_TYPE  = {activityType} ~/");
-        if(isLock) {
+        if (isLock) {
             sb.append(" for update ");
         }
 
@@ -67,11 +67,11 @@ public class HoldRewardDaoImpl extends EntityBaseDao implements HoldRewardDao {
         holdReward.setHoldReward(0L);
         holdReward.setCustId(custId);
         holdReward.setRewardType(rewardType);
-        if(holdRewards == null || holdRewards.isEmpty()) {
+        if (holdRewards == null || holdRewards.isEmpty()) {
             return holdReward;
         }
 
-        for(HoldReward temp : holdRewards) {
+        for (HoldReward temp : holdRewards) {
             holdReward.setFrozenReward(temp.getFrozenReward() + holdReward.getFrozenReward());
             holdReward.setFrozenMoney(holdReward.getFrozenMoney().add(temp.getFrozenMoney()));
             holdReward.setHoldReward(holdReward.getHoldReward() + temp.getHoldReward());
@@ -90,7 +90,7 @@ public class HoldRewardDaoImpl extends EntityBaseDao implements HoldRewardDao {
     @Override
     public HoldReward findByCondition(String custId, String rewardType, String activityType, boolean isLock) {
         List<HoldReward> holdRewards = findByCustIdAndRewardType(custId, rewardType, activityType, isLock);
-        if(holdRewards == null || holdRewards.isEmpty()) {
+        if (holdRewards == null || holdRewards.isEmpty()) {
             return null;
         }
         return holdRewards.get(0);

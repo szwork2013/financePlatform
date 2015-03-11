@@ -6,7 +6,7 @@ import java.io.Serializable;
  * TODO: 为何所有的属性都整成了String类型？
  * Created by tangweiqun on 2014/11/20.
  */
-public class HoldRewardVo implements Serializable{
+public class HoldRewardVo implements Serializable {
     //总金豆数量
     private String totalReward;
 

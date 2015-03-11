@@ -2,7 +2,6 @@ package com.sunlights.core.service;
 
 import com.sunlights.common.vo.PageVo;
 import com.sunlights.core.vo.AttentionVo;
-import com.sunlights.core.vo.ProductVo;
 
 import java.util.List;
 

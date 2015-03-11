@@ -10,7 +10,7 @@ import models.ExchangeRewardRule;
 /**
  * Created by tangweiqun on 2014/11/19.
  */
-public class ExchangeRewardRuleServiceImpl  implements ExchangeRewardRuleService {
+public class ExchangeRewardRuleServiceImpl implements ExchangeRewardRuleService {
 
     private ExchangeRewardRuleDao exchangeRewardRuleDao = new ExchangeRewardRuleDaoImpl();
 

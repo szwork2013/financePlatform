@@ -22,8 +22,8 @@ public enum RewardFlowStatus {
     }
 
     public static String getDescByStatus(int status) {
-        for(RewardFlowStatus rewardFlowStatus : RewardFlowStatus.values()) {
-            if(rewardFlowStatus.getStatus() == status) {
+        for (RewardFlowStatus rewardFlowStatus : RewardFlowStatus.values()) {
+            if (rewardFlowStatus.getStatus() == status) {
                 return rewardFlowStatus.getDesc();
             }
         }

@@ -15,7 +15,7 @@ import models.FeedBack;
  */
 public class FeedBackDaoImpl extends EntityBaseDao implements FeedBackDao {
 
-  public FeedBack saveFeedBack(FeedBack feedBack) {
-    return create(feedBack);
-  }
+    public FeedBack saveFeedBack(FeedBack feedBack) {
+        return create(feedBack);
+    }
 }

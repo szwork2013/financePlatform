@@ -54,6 +54,7 @@ public final class ConverterUtil {
 
     /**
      * 把Map对象转换为对应的对象，map的key和实体的属性需要对应
+     *
      * @param mapObj
      * @param object
      * @param <O>
@@ -65,7 +66,7 @@ public final class ConverterUtil {
             try {
                 BeanUtils.setProperty(object, key, mapObj.get(key));
             } catch (Exception e) {
-                throw new ConverterException(object.getClass().getName()+" 没有对应的属性：" + key, e);
+                throw new ConverterException(object.getClass().getName() + " 没有对应的属性：" + key, e);
             }
         }
         return object;
@@ -73,27 +74,28 @@ public final class ConverterUtil {
 
     /**
      * 把两个list对象转换为一个map对象
+     *
      * @param keys
      * @param values
      * @return
      */
-    public static Map<String, Object> createMap(List<String> keys, List<Object> values){
-        if(keys == null || values == null || keys.size()!=values.size()){
+    public static Map<String, Object> createMap(List<String> keys, List<Object> values) {
+        if (keys == null || values == null || keys.size() != values.size()) {
             throw new IllegalArgumentException("keys和values不能为空，且他们的size要相等");
         }
 
         Map<String, Object> result = Maps.newHashMap();
         for (int i = 0; i < keys.size(); i++) {
-			Object value = values.get(i);
-			if(value != null) {
-				result.put(keys.get(i), value);
-			}
+            Object value = values.get(i);
+            if (value != null) {
+                result.put(keys.get(i), value);
+            }
         }
 
         return result;
     }
 
-    public static<T> List<T> convert(String keys, List<Object[]> resultRows, Class<T> clazz) {
+    public static <T> List<T> convert(String keys, List<Object[]> resultRows, Class<T> clazz) {
         List<T> list = Lists.newArrayList();
         for (Object[] row : resultRows) {
             List<Object> objects = Arrays.asList(row);
@@ -113,21 +115,22 @@ public final class ConverterUtil {
     /**
      * 转换相同类型不同的对象的值
      * 将oldObject中不为空的值而newObject为空的值转到newObject中去
+     *
      * @param oldObject
      * @param newObject
      * @param clazz
      * @param <T>
      * @throws Exception
      */
-    public static<T> void covertSameObjValue(T oldObject, T newObject, Class<T> clazz) throws Exception {
+    public static <T> void covertSameObjValue(T oldObject, T newObject, Class<T> clazz) throws Exception {
         Field[] declaredFields = clazz.getDeclaredFields();
-        for(Field field : declaredFields) {
+        for (Field field : declaredFields) {
             //获取成员变量的名字
             String name = field.getName();    //获取成员变量的名字，此处为id，name,age
             //System.out.println(name);
 
             //获取get和set方法的名字
-            String firstLetter = name.substring(0,1).toUpperCase();    //将属性的首字母转换为大写
+            String firstLetter = name.substring(0, 1).toUpperCase();    //将属性的首字母转换为大写
             String getMethodName = "get" + firstLetter + name.substring(1);
             String setMethodName = "set" + firstLetter + name.substring(1);
             //System.out.println(getMethodName + "," + setMethodName);
@@ -138,7 +141,7 @@ public final class ConverterUtil {
 
             //调用get方法获取旧的对象的值
             Object value = getMethod.invoke(newObject);
-            if(value == null) {
+            if (value == null) {
                 Object oldValue = getMethod.invoke(oldObject);
                 //调用set方法将这个值复制到新的对象中去
                 setMethod.invoke(newObject, oldValue);

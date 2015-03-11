@@ -86,7 +86,6 @@ public class Activity extends IdEntity {
     }
 
 
-
     public void setAppId(Long appId) {
         this.appId = appId;
     }
@@ -114,7 +113,6 @@ public class Activity extends IdEntity {
     public void setClickTime(Long clickTime) {
         this.clickTime = clickTime;
     }
-
 
 
     public String getStyle() {

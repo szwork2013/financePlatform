@@ -16,7 +16,6 @@ import models.ObtainRewardRule;
 import models.RewardType;
 import play.Logger;
 
-import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -43,12 +42,12 @@ public class ObtainRewardRuleServiceImpl implements ObtainRewardRuleService {
     public List<ObtainRewardRuleVo> getByVosActivityId(Long activityId) {
 
         List<ObtainRewardRule> obtainRewardRules = getByActivityId(activityId);
-        if(obtainRewardRules == null || obtainRewardRules.isEmpty()) {
+        if (obtainRewardRules == null || obtainRewardRules.isEmpty()) {
             return null;
         }
         List<ObtainRewardRuleVo> results = new ArrayList<ObtainRewardRuleVo>();
         ObtainRewardRuleVo obtainRewardRuleVo = null;
-        for(ObtainRewardRule obtainRewardRule : obtainRewardRules) {
+        for (ObtainRewardRule obtainRewardRule : obtainRewardRules) {
             obtainRewardRuleVo = new ObtainRewardRuleVo();
             try {
                 obtainRewardRuleVo = ConverterUtil.fromEntity(obtainRewardRuleVo, obtainRewardRule);

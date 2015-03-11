@@ -17,19 +17,19 @@ import models.MessageSmsTxn;
  */
 public class SmsMasterActor extends UntypedActor {
 
-  ActorRef lastSender = getContext().system().deadLetters();
+    ActorRef lastSender = getContext().system().deadLetters();
 
-  private final ActorRef smsSendRouter = this
-      .getContext()
-      .actorOf(Props.create(SmsSendActor.class)
-          .withRouter(new RoundRobinPool(100)), "smsSendRouter");
+    private final ActorRef smsSendRouter = this
+            .getContext()
+            .actorOf(Props.create(SmsSendActor.class)
+                    .withRouter(new RoundRobinPool(100)), "smsSendRouter");
 
-  @Override
-  public void onReceive(Object message) throws Exception {
-    if (message instanceof MessageSmsTxn) {
-      smsSendRouter.tell(message, getSelf());
-    } else {
-      unhandled(message);
+    @Override
+    public void onReceive(Object message) throws Exception {
+        if (message instanceof MessageSmsTxn) {
+            smsSendRouter.tell(message, getSelf());
+        } else {
+            unhandled(message);
+        }
     }
-  }
 }

@@ -8,7 +8,6 @@ import java.util.List;
 import java.util.Map;
 
 /**
- *
  * Created by tangweiqun on 2014/12/1.
  */
 public class ActivityRequestVo {
@@ -62,7 +61,7 @@ public class ActivityRequestVo {
         attributes = new HashMap<String, Object>();
     }
 
-    public void set(String name,Object value){
+    public void set(String name, Object value) {
         this.attributes.put(name, value);
     }
 
@@ -71,9 +70,9 @@ public class ActivityRequestVo {
         return getDataInternal(name, clazz, attributes);
     }
 
-    private <T> T getDataInternal(String name, Class<T> clazz,  Map<String, Object> resource) {
+    private <T> T getDataInternal(String name, Class<T> clazz, Map<String, Object> resource) {
         Object obj = resource.get(name);
-        if(obj == null) {
+        if (obj == null) {
             return null;
         }
         return clazz.cast(obj);
@@ -83,12 +82,13 @@ public class ActivityRequestVo {
 
         ActivityRequestVo requestVo = new ActivityRequestVo();
 
-        for(String key : this.attributes.keySet()){
+        for (String key : this.attributes.keySet()) {
             requestVo.set(key, this.attributes.get(key));
         }
 
         return requestVo;
     }
+
     public void recyle() {
         this.attributes = null;
     }

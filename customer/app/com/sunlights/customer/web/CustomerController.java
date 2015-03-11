@@ -113,10 +113,10 @@ public class CustomerController extends Controller {
     @With(MsgCenterAction.class)
     public Result login() {
         Logger.info("==========login====================");
-        
+
         Map<String, String> params = form().bindFromRequest().data();
         Logger.debug(">>login params:" + Json.toJson(params));
-        
+
         CustomerFormVo customerFormVo = customerForm.bindFromRequest().get();
         String mobilePhoneNo = customerFormVo.getMobilePhoneNo();
         String deviceNo = customerFormVo.getDeviceNo();
@@ -127,7 +127,7 @@ public class CustomerController extends Controller {
         List<MessageHeaderVo> list = Lists.newArrayList();
 
         CustomerSession customerSession = loginService.login(customerFormVo, token, request.remoteAddress());
-        if(customerSession != null && !AppConst.CHANNEL_PC.equals(customerFormVo.getChannel())) {
+        if (customerSession != null && !AppConst.CHANNEL_PC.equals(customerFormVo.getChannel())) {
             Message message = new Message(MsgCode.LOGIN_SUCCESS);
             CustomerVo customerVo = customerService.getCustomerVoByPhoneNo(mobilePhoneNo, deviceNo);
             MessageUtil.getInstance().setMessage(message, customerVo);
@@ -136,7 +136,7 @@ public class CustomerController extends Controller {
             MessageHeaderVo messageHeaderVo = new MessageHeaderVo(DictConst.PUSH_TYPE_4, null, customerSession.getCustomerId());
             list.add(messageHeaderVo);
             response().setHeader(AppConst.HEADER_MSG, MessageUtil.getInstance().setMessageHeader(list));
-        } else if(AppConst.CHANNEL_PC.equals(customerFormVo.getChannel())) {
+        } else if (AppConst.CHANNEL_PC.equals(customerFormVo.getChannel())) {
             Message message = new Message(MsgCode.LOGIN_SUCCESS);
             //CustomerVo customerVo = customerService.getCustomerVoByPhoneNo(mobilePhoneNo, deviceNo);
             MessageUtil.getInstance().setMessage(message);
@@ -303,27 +303,27 @@ public class CustomerController extends Controller {
         Http.Cookie cookie = request().cookie(AppConst.TOKEN);
         String token = cookie == null ? null : cookie.value();
         try {
-            customerService.validateCustomerSession(request(),session(),response());
+            customerService.validateCustomerSession(request(), session(), response());
         } catch (Exception e) {
             Logger.error("还没登陆");
             token = null;
         }
         Logger.debug("token = " + token);
         JudjeTokenVo judjeTokenVo = new JudjeTokenVo();
-        if(token == null) {
+        if (token == null) {
             judjeTokenVo.setExistToken(false);
         } else {
             judjeTokenVo.setExistToken(true);
         }
         messageUtil.setMessage(new Message(Severity.INFO, MsgCode.OPERATE_SUCCESS), judjeTokenVo);
-        Controller.response().setHeader("Access-Control-Allow-Origin","*");
+        Controller.response().setHeader("Access-Control-Allow-Origin", "*");
         JsonNode jsonNode = messageUtil.toJson();
         Logger.debug("jsonNode = " + jsonNode);
         return ok(jsonNode);
     }
 
 
-    public Result cleanParameterCache(){
+    public Result cleanParameterCache() {
         ParameterService service = new ParameterService();
         service.clearAll();
 

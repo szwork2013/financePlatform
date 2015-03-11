@@ -29,20 +29,20 @@ import java.util.Map;
  */
 @Transactional
 public class ShortUrlController extends Controller {
-    
 
-    public Result getShortURL(){
+
+    public Result getShortURL() {
         String path = null;
         Http.RequestBody body = request().body();
 
         if (body.asJson() != null) {
             path = body.asJson().get("path").asText();
-        }else{
+        } else {
             Map<String, String> params = Form.form().bindFromRequest().data();
             path = params.get("path");
         }
         Logger.debug("getShortURL params：" + path);
-        
+
         String shortUrl = ShortUrlService.getShortURL(path);
 
         Logger.info("getShortURL return：" + shortUrl);

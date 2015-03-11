@@ -39,7 +39,7 @@ public class RewardFlowDaoImpl extends EntityBaseDao implements RewardFlowDao {
                 .append("/~  and h.createTime  >= {startDate} ~/")
                 .append("/~  and h.createTime  <= {endDate} ~/")
                 .append(" order by h.createTime ");
-        if(!isAsc) {
+        if (!isAsc) {
             jpql.append(" desc ");
         }
         Map<String, Object> params = new HashMap<String, Object>();
@@ -57,7 +57,7 @@ public class RewardFlowDaoImpl extends EntityBaseDao implements RewardFlowDao {
     @Override
     public RewardFlow findOneByCondition(RewardFlow rewardFlow, String startDate, String endDate) throws Exception {
         List<RewardFlow> rewardFlows = findByCondition(rewardFlow, startDate, endDate, true);
-        if(rewardFlows == null || rewardFlows.isEmpty()) {
+        if (rewardFlows == null || rewardFlows.isEmpty()) {
             return null;
         }
         return rewardFlows.get(0);

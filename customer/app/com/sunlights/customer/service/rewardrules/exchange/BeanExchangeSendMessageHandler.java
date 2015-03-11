@@ -12,7 +12,7 @@ import java.text.MessageFormat;
 
 /**
  * 红包取现发送消息
- *
+ * <p/>
  * Created by tangweiqun on 2014/12/19.
  */
 public class BeanExchangeSendMessageHandler extends AbstractExchangeRuleHandler {

@@ -15,7 +15,7 @@ import javax.persistence.Table;
  */
 @Entity
 @Table(name = "c_message_rule_mapping")
-public class MessageRuleMapping extends IdEntity{
+public class MessageRuleMapping extends IdEntity {
     @Column(name = "method_name")
     private String methodName;
     @Column(name = "rule_code")

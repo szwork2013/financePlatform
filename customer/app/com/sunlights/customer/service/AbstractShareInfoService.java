@@ -23,7 +23,7 @@ public abstract class AbstractShareInfoService implements ShareInfoService {
     @Override
     public ShareInfoVo getShareInfoByType(ShareInfoContext context) {
         ShareInfo shareInfo = shareInfoDao.getByType(context.getType());
-        if(shareInfo == null) {
+        if (shareInfo == null) {
             throw new RuntimeException("不支持的分享");
         }
         ShareInfoVo shareInfoVo = new ShareInfoVo();

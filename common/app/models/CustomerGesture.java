@@ -11,14 +11,14 @@ import java.util.Date;
 @Entity
 @Table(name = "C_CUSTOMER_GESTURE")
 @NamedQueries({
-        @NamedQuery(name="findCGByCustomerId",query="select cg from CustomerGesture cg where cg.customerId = ?1 and cg.deviceNo = ?2 and cg.status = 'Y'")
+        @NamedQuery(name = "findCGByCustomerId", query = "select cg from CustomerGesture cg where cg.customerId = ?1 and cg.deviceNo = ?2 and cg.status = 'Y'")
 })
 public class CustomerGesture extends IdEntity {
-    @Column(length = 30,name = "CUSTOMER_ID")
+    @Column(length = 30, name = "CUSTOMER_ID")
     private String customerId;
-    @Column(length = 40,name = "DEVICE_NO")
+    @Column(length = 40, name = "DEVICE_NO")
     private String deviceNo;//设备号
-    @Column(length = 40,name = "GESTURE_PASSWORD")
+    @Column(length = 40, name = "GESTURE_PASSWORD")
     private String gesturePassword;//手势密码
     @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "UPDATE_TIME")

@@ -46,6 +46,7 @@ public class CustomerService {
 
     /**
      * App端
+     *
      * @param mobilePhoneNo
      * @param deviceNo
      * @return
@@ -60,10 +61,11 @@ public class CustomerService {
 
     /**
      * PC端
+     *
      * @param userName
      * @return
      */
-    public CustomerVo getCustomerVoByUserName(String userName){
+    public CustomerVo getCustomerVoByUserName(String userName) {
         return customerDao.getCustomerVoByUserName(userName);
     }
 
@@ -160,25 +162,26 @@ public class CustomerService {
 
     /**
      * 缓存 设置 推送registrationId
+     *
      * @param request
      * @param customerId
      */
-    public void sessionPushRegId(Http.Request request, String customerId, String deviceNo){
+    public void sessionPushRegId(Http.Request request, String customerId, String deviceNo) {
         String registrationId = request.getHeader(AppConst.HEADER_REGISTRATION_ID);
         String platform = CommonUtil.getCurrentPlatform(request);
 
         Logger.info(MessageFormat.format(">>sessionPushRegId：registrationId={0}, customerId={1}, deviceNo = {2}, platform = {3}", registrationId, customerId, deviceNo, platform));
         if (registrationId == null || customerId == null || deviceNo == null) {
-            return ;
+            return;
         }
         long cacheTime = parameterService.getParameterNumeric(ParameterConst.CACHE_EXPIRY);
         CustomerMsgSetting customerMsgSetting = null;
-        String preCustomerId = (String)Cache.get(AppConst.HEADER_REGISTRATION_ID + "_" + registrationId);
+        String preCustomerId = (String) Cache.get(AppConst.HEADER_REGISTRATION_ID + "_" + registrationId);
         if (!customerId.equals(preCustomerId)) {
             customerMsgSetting = customerDao.findCustomerMsgSetting(registrationId, deviceNo);
             if (preCustomerId == null && customerMsgSetting != null && customerId.equals(customerMsgSetting.getCustomerId())) {//缓存超时失效查询数据库比对
                 Cache.set(AppConst.HEADER_REGISTRATION_ID + "_" + registrationId, customerId, (int) cacheTime * 60);
-                return ;
+                return;
             }
 
             CustomerMsgSetting newCustomerMsgSetting = new CustomerMsgSetting();
@@ -243,6 +246,7 @@ public class CustomerService {
 
     /**
      * 调用 p2p提供的创建用户 接口
+     *
      * @param authenticationVo
      * @return
      */
@@ -251,7 +255,7 @@ public class CustomerService {
 
         if (StringUtils.isEmpty(path)) {
             Logger.info("未配置调用p2p创建用户接口路径");
-            return ;
+            return;
         }
 
         Customer customer = authenticationVo.getCustomer();
@@ -265,12 +269,12 @@ public class CustomerService {
 
         try {
             F.Promise<String> registerPromise = WS.url(path).post(Json.toJson(objectNode)).map(
-                new F.Function<WSResponse, String>() {
-                    public String apply(WSResponse response) {
-                        JsonNode json = response.asJson();
-                        return json.toString();
+                    new F.Function<WSResponse, String>() {
+                        public String apply(WSResponse response) {
+                            JsonNode json = response.asJson();
+                            return json.toString();
+                        }
                     }
-                }
             );
 
             String returnStr = registerPromise.get(9000);
@@ -281,7 +285,7 @@ public class CustomerService {
                 throw new BusinessRuntimeException(message);
             }
 
-        }catch (Exception e){
+        } catch (Exception e) {
             Logger.error(MessageFormat.format("调用p2p创建用户接口失败，错误信息{0}", e.getMessage()));
             Message message = new Message(Severity.ERROR, MsgCode.CONNECT_TIMEOUT);
             throw new BusinessRuntimeException(message);

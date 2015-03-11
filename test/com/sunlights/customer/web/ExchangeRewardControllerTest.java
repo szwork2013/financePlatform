@@ -111,7 +111,7 @@ public class ExchangeRewardControllerTest extends BaseTest {
     }
 
     @Test
-    public void testPrepareDataBeforeBeanExchange() throws Exception{
+    public void testPrepareDataBeforeBeanExchange() throws Exception {
         Logger.info("============testPrepareDataBeforeBeanExchange start====");
 
         Map<String, String> formParams = new HashMap<>();
@@ -142,9 +142,8 @@ public class ExchangeRewardControllerTest extends BaseTest {
     }
 
 
-
     @Test
-    public void testExchangeReward() throws Exception{
+    public void testExchangeReward() throws Exception {
         Logger.info("============testExchangeReward start====");
 
         Map<String, String> formParams = new HashMap<>();
@@ -158,7 +157,6 @@ public class ExchangeRewardControllerTest extends BaseTest {
         MessageVo message = toMessageVo(result);
         assertThat(message.getMessage().getCode()).isEqualTo(MsgCode.EXCHANGE_SUCC.getCode());
     }
-
 
 
 }
