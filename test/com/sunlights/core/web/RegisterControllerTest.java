@@ -3,11 +3,9 @@ package com.sunlights.core.web;
 import com.sunlights.BaseTest;
 import com.sunlights.common.service.VerifyCodeService;
 import com.sunlights.common.vo.MessageVo;
+import com.sunlights.customer.vo.AuthenticationVo;
 import com.sunlights.customer.vo.CustomerVo;
-import models.BaseAccount;
-import models.Customer;
-import models.CustomerSession;
-import models.LoginHistory;
+import models.*;
 import org.junit.Test;
 import play.Logger;
 import play.db.jpa.JPA;
@@ -84,13 +82,55 @@ public class RegisterControllerTest extends BaseTest {
         assertThat(testfundVo1).isEqualTo(fundVo1);//此处判断value
 
 
+        removeRegister(mobilePhoneNo);
+
+
+    }
+
+
+
+    @Test
+    public void testP2pRegister() throws Exception {
+
+        final String mobilePhoneNo = "18522222243";
+        final String channel = "1";
+
+        final Map<String, String> formParams = new HashMap<>();
+        formParams.put("mobilePhoneNo", mobilePhoneNo);
+        formParams.put("passWord", "1");
+        formParams.put("channel", channel);
+
+        play.mvc.Result result = null;
+        MessageVo message = null;
+
+        result = getResult("/core/register", formParams);
+        Logger.info("result is " + contentAsString(result));
+        assertThat(status(result)).isEqualTo(OK);
+
+        message = toMessageVo(result);
+        assertThat(message.getMessage().getCode()).isEqualTo("0100");
+        assertThat(message.getMessage().getSummary()).isEqualTo("注册成功");
+        CustomerVo customerVo = Json.fromJson(Json.toJson(message.getValue()), CustomerVo.class);
+        assertThat(mobilePhoneNo).isEqualTo(customerVo.getMobilePhoneNo());
+
+
+        removeRegister(mobilePhoneNo);
+
+
+    }
+
+    private void removeRegister(final String mobilePhoneNo) {
         JPA.withTransaction(new F.Callback0() {
             @Override
             public void invoke() throws Throwable {
                 EntityManager em = JPA.em();
-                Query query = em.createQuery("select c from Customer c where c.mobile = :mobile", Customer.class);
-                query.setParameter("mobile", mobilePhoneNo);
-                Customer customer = (Customer) query.getSingleResult();
+
+                Query query = em.createNamedQuery("findAuthenticationVoByUserName", Authentication.class);
+                query.setParameter("userName", mobilePhoneNo);
+                AuthenticationVo authenticationVo = (AuthenticationVo) query.getSingleResult();
+
+                Customer customer = authenticationVo.getCustomer();
+                Authentication authentication = authenticationVo.getAuthentication();
 
                 query = em.createQuery("select ba from BaseAccount ba where ba.custId = :customerId", BaseAccount.class);
                 query.setParameter("customerId", customer.getCustomerId());
@@ -107,12 +147,10 @@ public class RegisterControllerTest extends BaseTest {
                 em.remove(loginHistory);
                 em.remove(baseAccount);
                 em.remove(customerSession);
+                em.remove(authentication);
                 em.remove(customer);
             }
         });
-
-
     }
-
 
 }

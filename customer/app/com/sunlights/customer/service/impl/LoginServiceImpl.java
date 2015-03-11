@@ -153,7 +153,9 @@ public class LoginServiceImpl implements LoginService {
         saveLoginHistory(customer, vo);
 
         if (fromApp(channel)) {
-            customerService.createP2PUser(customer);
+            AuthenticationVo authenticationVo = new AuthenticationVo(authentication, customer);
+            authenticationVo.setPassword(passWord);
+            customerService.createP2PUser(authenticationVo);
         }
 
         return customer;
@@ -319,11 +321,11 @@ public class LoginServiceImpl implements LoginService {
 	 */
 	public void confirmPwd(String mobilePhoneNo, String password) {
         CommonUtil.getInstance().validateParams(mobilePhoneNo, password);
-		Customer userMstr = getCustomerByMobilePhoneNo(mobilePhoneNo);
-		if (userMstr == null) {
+		AuthenticationVo authenticationVo = findAuthenticationVoByUserName(mobilePhoneNo);
+		if (authenticationVo == null) {
 			throw CommonUtil.getInstance().errorBusinessException(MsgCode.PHONE_NUMBER_NOT_REGISTRY);
 		}
-		if (!new MD5Helper().encrypt(password).equals(userMstr.getLoginPassWord())) {
+		if (!new MD5Helper().encrypt(password).equals(authenticationVo.getAuthentication().getPassword())) {
             throw new BusinessRuntimeException(new Message(Severity.ERROR, MsgCode.PASSWORD_CONFIRM_ERROR));
 		}
 	}

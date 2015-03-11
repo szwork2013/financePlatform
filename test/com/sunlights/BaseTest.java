@@ -1,6 +1,7 @@
 package com.sunlights;
 
 import com.fasterxml.jackson.databind.JsonNode;
+import com.sunlights.common.AppConst;
 import com.sunlights.common.vo.MessageVo;
 import models.CustomerSession;
 import play.Logger;
@@ -42,7 +43,8 @@ public class BaseTest extends WithApplication {
         formParams.put("passWord", passWord);
         formParams.put("deviceNo", "1111111");
 
-        FakeRequest formRequest = fakeRequest(POST, "/customer/login").withHeader(CONTENT_TYPE, APPLICATION_X_WWW_FORM_URLENCODED).withFormUrlEncodedBody(formParams);
+        FakeRequest formRequest = fakeRequest(POST, "/customer/login");
+        setHeader(formRequest).withFormUrlEncodedBody(formParams);
         play.mvc.Result result = route(formRequest);
         assertThat(status(result)).isEqualTo(OK);
         MessageVo message = toMessageVo(result);
@@ -85,16 +87,26 @@ public class BaseTest extends WithApplication {
 
     protected Result getResult(String routes, Map formParams) {
         formParams.put("deviceNo", getDeviceNo());
-        FakeRequest fakeRequest = fakeRequest(POST, routes).withHeader(CONTENT_TYPE, APPLICATION_X_WWW_FORM_URLENCODED).withFormUrlEncodedBody(formParams);
+        FakeRequest fakeRequest = fakeRequest(POST, routes);
+        setHeader(fakeRequest).withFormUrlEncodedBody(formParams);
         return route(fakeRequest);
     }
 
 
     protected Result getResult(String routes, Map formParams, Http.Cookie cookie) {
         formParams.put("deviceNo", getDeviceNo());
-        FakeRequest fakeRequest = fakeRequest(POST, routes).withHeader(CONTENT_TYPE, APPLICATION_X_WWW_FORM_URLENCODED).withCookies(cookie).withFormUrlEncodedBody(formParams);
+        FakeRequest fakeRequest = fakeRequest(POST, routes);
+        setHeader(fakeRequest).withCookies(cookie).withFormUrlEncodedBody(formParams);
         play.mvc.Result result = route(fakeRequest);
         return result;
+    }
+
+    private FakeRequest setHeader(FakeRequest fakeRequest){
+        fakeRequest.withHeader(CONTENT_TYPE, APPLICATION_X_WWW_FORM_URLENCODED);
+        fakeRequest.withHeader(AppConst.HEADER_USER_AGENT, "Mozilla/5.0 (iPhone; CPU iPhone OS 7_1 like Mac OS X) AppleWebKit/537.51.2 (KHTML, like Gecko) Mobile/11D167\\jindoujialicai\\1.3-M1");
+        fakeRequest.withHeader(AppConst.HEADER_DEVICE, "23564F8D-B9EC-4BF8-88DA-68D4ACECAF88");
+
+        return fakeRequest;
     }
 
     protected Http.Cookie getCookieAfterLogin(String mobilePhoneNo, String passWord) {

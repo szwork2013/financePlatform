@@ -2,21 +2,22 @@ package com.sunlights.customer.service.impl;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
-import com.sunlights.common.AppConst;
-import com.sunlights.common.DictConst;
-import com.sunlights.common.MsgCode;
-import com.sunlights.common.ParameterConst;
+import com.sunlights.common.*;
+import com.sunlights.common.exceptions.BusinessRuntimeException;
 import com.sunlights.common.service.ParameterService;
 import com.sunlights.common.utils.CommonUtil;
 import com.sunlights.common.utils.ConfigUtil;
 import com.sunlights.common.utils.DBHelper;
 import com.sunlights.common.utils.MD5Helper;
+import com.sunlights.common.vo.Message;
 import com.sunlights.customer.dal.CustomerDao;
 import com.sunlights.customer.dal.impl.CustomerDaoImpl;
+import com.sunlights.customer.vo.AuthenticationVo;
 import com.sunlights.customer.vo.CustomerVo;
 import models.Customer;
 import models.CustomerMsgSetting;
 import models.CustomerSession;
+import org.apache.commons.lang3.StringUtils;
 import play.Logger;
 import play.cache.Cache;
 import play.libs.F;
@@ -167,7 +168,7 @@ public class CustomerService {
         String platform = CommonUtil.getCurrentPlatform(request);
 
         Logger.info(MessageFormat.format(">>sessionPushRegId：registrationId={0}, customerId={1}, deviceNo = {2}, platform = {3}", registrationId, customerId, deviceNo, platform));
-        if (registrationId == null || customerId == null) {
+        if (registrationId == null || customerId == null || deviceNo == null) {
             return ;
         }
         long cacheTime = parameterService.getParameterNumeric(ParameterConst.CACHE_EXPIRY);
@@ -242,26 +243,50 @@ public class CustomerService {
 
     /**
      * 调用 p2p提供的创建用户 接口
-     * @param customer
+     * @param authenticationVo
      * @return
      */
-    public void createP2PUser(Customer customer) {
+    public void createP2PUser(AuthenticationVo authenticationVo) {
         String path = ConfigUtil.getValueStr(ConfigUtil.P2P_USER);
+
+        if (StringUtils.isEmpty(path)) {
+            Logger.info("未配置调用p2p创建用户接口路径");
+            return ;
+        }
+
+        Customer customer = authenticationVo.getCustomer();
 
         ObjectNode objectNode = Json.newObject();
         objectNode.put("authenticationId", customer.getAuthenticationId());
         objectNode.put("mobilePhoneNo", customer.getMobile());
+        objectNode.put("password", authenticationVo.getPassword());
 
         Logger.info("createP2PUser params:" + Json.toJson(objectNode));
 
-        WS.url(path).post(Json.toJson(objectNode)).map(
+        try {
+            F.Promise<String> registerPromise = WS.url(path).post(Json.toJson(objectNode)).map(
                 new F.Function<WSResponse, String>() {
                     public String apply(WSResponse response) {
                         JsonNode json = response.asJson();
-                        return json.asText();
+                        return json.toString();
                     }
                 }
-        );
+            );
+
+            String returnStr = registerPromise.get(9000);
+            Logger.info("createP2PUser returnStr:" + returnStr);
+
+            Message message = Json.fromJson(Json.parse(returnStr), Message.class);
+            if (message.getSeverity() != 0) {
+                throw new BusinessRuntimeException(message);
+            }
+
+        }catch (Exception e){
+            Logger.error(MessageFormat.format("调用p2p创建用户接口失败，错误信息{0}", e.getMessage()));
+            Message message = new Message(Severity.ERROR, MsgCode.CONNECT_TIMEOUT);
+            throw new BusinessRuntimeException(message);
+        }
+
     }
 
 }

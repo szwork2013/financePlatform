@@ -15,6 +15,7 @@ import models.Customer;
 public class AuthenticationVo {
     private Authentication authentication;
     private Customer customer;
+    private String password;
 
     public AuthenticationVo(Authentication authentication, Customer customer){
         this.authentication = authentication;
@@ -35,5 +36,13 @@ public class AuthenticationVo {
 
     public void setCustomer(Customer customer) {
         this.customer = customer;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
     }
 }
