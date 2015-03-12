@@ -2,15 +2,15 @@
 # This file defines all application routes (Higher priority routes first)
 # ~~~~
 
-->         /api/customer                  customer.Routes
+->         /customer                  customer.Routes
 
-->         /api/account                   account.Routes
+->         /account                   account.Routes
 
-->         /api/trade                     trade.Routes
+->         /trade                     trade.Routes
 
-->         /api/core                      core.Routes
+->         /core                      core.Routes
 
-->         /api/thirdpart                 thirdpart.Routes
+->         /thirdpart                 thirdpart.Routes
 
 
 
