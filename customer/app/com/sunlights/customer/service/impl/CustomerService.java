@@ -266,31 +266,32 @@ public class CustomerService {
         objectNode.put("password", authenticationVo.getPassword());
 
         Logger.info("createP2PUser params:" + Json.toJson(objectNode));
-
+        String returnStr = null;
         try {
             F.Promise<String> registerPromise = WS.url(path).post(Json.toJson(objectNode)).map(
-                    new F.Function<WSResponse, String>() {
-                        public String apply(WSResponse response) {
-                            JsonNode json = response.asJson();
-                            return json.toString();
-                        }
+                new F.Function<WSResponse, String>() {
+                    public String apply(WSResponse response) {
+                        JsonNode json = response.asJson();
+                        return json.toString();
                     }
+                }
             );
-
-            String returnStr = registerPromise.get(9000);
-            Logger.info("createP2PUser returnStr:" + returnStr);
-
-            Message message = Json.fromJson(Json.parse(returnStr), Message.class);
-            if (message.getSeverity() != 0) {
-                throw new BusinessRuntimeException(message);
-            }
-
+            returnStr = registerPromise.get(9000);
         } catch (Exception e) {
             Logger.error(MessageFormat.format("调用p2p创建用户接口失败，错误信息{0}", e.getMessage()));
             Message message = new Message(Severity.ERROR, MsgCode.CONNECT_TIMEOUT);
             throw new BusinessRuntimeException(message);
         }
 
+        Logger.info("createP2PUser returnStr:" + returnStr);
+
+        Message message = Json.fromJson(Json.parse(returnStr), Message.class);
+        if (message.getSeverity() != 0) {
+            Logger.error(MessageFormat.format("调用p2p创建用户接口失败，错误信息{0}", Json.toJson(message)));
+            throw new BusinessRuntimeException(message);
+        }
+
+        Logger.info("调用p2p创建用户接口成功");
     }
 
 }
