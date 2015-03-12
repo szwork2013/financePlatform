@@ -38,6 +38,11 @@ POST        /bank/bankcard/delete             @com.sunlights.customer.web.BankCo
 POST        /bank/bankcard/validate           @com.sunlights.customer.web.BankController.validateBankCard
 POST        /bank/bankcard/saveall            @com.sunlights.customer.web.BankController.saveAllBankCard
 
+
+#version
+POST         /checkupdateversion               @com.sunlights.core.web.VersionCheckController.checkVersion
+GET         /refreshversion/:platform         @com.sunlights.core.web.VersionCheckController.refreshVersion(platform: String)
+
 # Map static resources from the /public folder to the /assets URL path
 GET         /assets/*file                     controllers.Assets.at(path="/public", file)
 

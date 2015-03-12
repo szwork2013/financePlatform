@@ -78,7 +78,7 @@ public class JsapiTicket {
                 }
             });
         } catch (ExecutionException e) {
-            e.printStackTrace();
+            Logger.error("获取ticket失败", e);
             return null;
         }
     }

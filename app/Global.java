@@ -3,9 +3,11 @@ import com.sunlights.common.Severity;
 import com.sunlights.common.exceptions.BusinessRuntimeException;
 import com.sunlights.common.utils.MessageUtil;
 import com.sunlights.common.vo.Message;
+import filter.VersionCheckFilter;
 import play.Application;
 import play.GlobalSettings;
 import play.Logger;
+import play.api.mvc.EssentialFilter;
 import play.libs.F;
 import play.mvc.Http;
 import play.mvc.Result;
@@ -24,6 +26,11 @@ public class Global extends GlobalSettings {
         super.onStart(application);
     }
 
+    @Override
+    public <T extends EssentialFilter> Class<T>[] filters() {
+        Class[] filters = {VersionCheckFilter.class};
+        return filters;
+    }
 
     @Override
     public F.Promise<Result> onError(Http.RequestHeader reqHeader, Throwable reqthrow) {

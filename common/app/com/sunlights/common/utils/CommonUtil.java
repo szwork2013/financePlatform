@@ -111,9 +111,24 @@ public class CommonUtil {
         return (value == null) ? 0 : value;
     }
 
-
+    @Deprecated
     public static String getCurrentVersion(Http.Request request) {
         String userAgent = request.getHeader(AppConst.HEADER_USER_AGENT);
+        //Mozilla/5.0 (iPhone; CPU iPhone OS 7_1 like Mac OS X) AppleWebKit/537.51.2 (KHTML, like Gecko) Mobile/11D167\jindoujialicai\1.2
+
+        return getCurrentVersionFromStr(userAgent);
+    }
+    @Deprecated
+    public static String getCurrentPlatform(Http.Request request) {
+        String userAgent = request.getHeader(AppConst.HEADER_USER_AGENT);
+        //Mozilla/5.0 (iPhone; CPU iPhone OS 7_1 like Mac OS X) AppleWebKit/537.51.2 (KHTML, like Gecko) Mobile/11D167\jindoujialicai\1.2
+
+
+        return getCurrentPlatformFromStr(userAgent);
+    }
+
+    public static String getCurrentVersionFromStr(String userAgent) {
+        //String userAgent = request.getHeader(AppConst.HEADER_USER_AGENT);
         //Mozilla/5.0 (iPhone; CPU iPhone OS 7_1 like Mac OS X) AppleWebKit/537.51.2 (KHTML, like Gecko) Mobile/11D167\jindoujialicai\1.2
 
         Logger.info(">>userAgent:" + userAgent);
@@ -129,8 +144,8 @@ public class CommonUtil {
         return version;
     }
 
-    public static String getCurrentPlatform(Http.Request request) {
-        String userAgent = request.getHeader(AppConst.HEADER_USER_AGENT);
+    public static String getCurrentPlatformFromStr(String userAgent) {
+        //String userAgent = request.getHeader(AppConst.HEADER_USER_AGENT);
         //Mozilla/5.0 (iPhone; CPU iPhone OS 7_1 like Mac OS X) AppleWebKit/537.51.2 (KHTML, like Gecko) Mobile/11D167\jindoujialicai\1.2
 
         Logger.info(">>userAgent:" + userAgent);
@@ -144,6 +159,13 @@ public class CommonUtil {
 
         Logger.info(">>当前platform：" + AppConst.PLATFORM_ANDROID);
         return AppConst.PLATFORM_ANDROID;
+    }
+
+    public static void checkPlatform(String platform) {
+        if(AppConst.PLATFORM_IOS.equals(platform) || AppConst.PLATFORM_ANDROID.equals(platform)) {
+            return;
+        }
+        throw CommonUtil.getInstance().errorBusinessException(MsgCode.NOT_SUPPORT_PLATFORM);
     }
 
 
