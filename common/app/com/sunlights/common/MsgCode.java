@@ -24,6 +24,8 @@ public enum MsgCode {
     HEADER_IS_EMPTY("2020", "header中{0}不能为空", ""),
     CONNECT_TIMEOUT("2021", "连接超时", "请重新再试"),
 
+    NOT_SUPPORT_PLATFORM("3000", "不支持的平台", "不支持的平台"),
+
     REGISTRY_SUCCESS("0100", "注册成功", ""),
     LOGIN_SUCCESS("0101", "登录成功", ""),
     PASSWORD_CHANGE_SUCCESS("0102", "修改密码成功", ""),
@@ -143,7 +145,15 @@ public enum MsgCode {
     BEAN_EXCHANGE_SUCC("0227", "金豆兑换成功", "您本次兑换{0}元话费到{1}，预计在{2}个工作日内收到。"),
 
 
-    EXCHANGE_CHECK_INFO("0228", "上传成功：", "兑换成功{0}条记录，兑换失败{1}条记录。"),;
+    EXCHANGE_CHECK_INFO("0228", "上传成功：", "兑换成功{0}条记录，兑换失败{1}条记录。"),
+
+    //版本信息错误吗
+    MUST_UPDATE_VERSION("1303", "金豆荚理财", "您的App版本过低, 请升级到: V{0}"),
+    CURRENT_LATEST_VERSION("0301", "金豆荚理财", "当前版本已经是最新版本:V{0}"),
+    REMIND_UPDATE_VERSION("0302", "金豆荚理财", "有新版本V{0}, 是否升级?"),
+    UPDATE_VERSION_TO_CURRENT("0303", "金豆荚理财", "您的App版本过低, 请升级到: V{0}"),
+    NOT_COFIG_VERSION_RULE("1302", "金豆荚理财", "没有配置v{0}版本规则"),
+    ;
 
 
     private String code;
