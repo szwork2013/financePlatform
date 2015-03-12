@@ -14,22 +14,22 @@ import javax.persistence.*;
 @Entity
 @Table(name = "c_authentication")
 @NamedQueries({
-        @NamedQuery(name = "findAuthentication", query = "select a from Authentication a where a.userName = :userName and a.password = :password")
+        @NamedQuery(name = "findAuthentication", query = "select a from Authentication a where a.mobile = :mobile and a.password = :password")
 })
 public class Authentication extends BaseEntity {
-    @Column(length = 20, name = "user_name")
-    private String userName;
+    @Column(length = 20, name = "mobile")
+    private String mobile;
     @Column(length = 50)
     private String password;
     @Column(length = 10)
     private String channel;
 
-    public String getUserName() {
-        return userName;
+    public String getMobile() {
+        return mobile;
     }
 
-    public void setUserName(String userName) {
-        this.userName = userName;
+    public void setMobile(String mobile) {
+        this.mobile = mobile;
     }
 
     public String getPassword() {

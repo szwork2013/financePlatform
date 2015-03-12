@@ -14,11 +14,11 @@ import models.Authentication;
  */
 public interface AuthenticationDao {
 
-    public AuthenticationVo findAuthenticationVo(String userName);
+    public AuthenticationVo findAuthenticationVo(String mobile);
 
-    public Authentication findAuthentication(String userName, String password);
+    public Authentication findAuthentication(String mobile, String password);
 
-    public Authentication findAuthentication(String userName);
+    public Authentication findAuthentication(String mobile);
 
     public Authentication createAuthentication(Authentication authentication);
 

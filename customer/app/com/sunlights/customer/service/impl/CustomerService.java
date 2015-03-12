@@ -62,11 +62,11 @@ public class CustomerService {
     /**
      * PC端
      *
-     * @param userName
+     * @param mobile
      * @return
      */
-    public CustomerVo getCustomerVoByUserName(String userName) {
-        return customerDao.getCustomerVoByUserName(userName);
+    public CustomerVo getCustomerVoByAuthenticationMobile(String mobile) {
+        return customerDao.getCustomerVoByAuthenticationMobile(mobile);
     }
 
     public Customer getCustomerByMobile(String mobile) {

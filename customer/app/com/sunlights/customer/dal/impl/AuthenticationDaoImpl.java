@@ -19,26 +19,26 @@ import java.util.List;
  */
 public class AuthenticationDaoImpl extends EntityBaseDao implements AuthenticationDao {
     @Override
-    public AuthenticationVo findAuthenticationVo(String userName) {
-        String authenticationVoQuery = "select new com.sunlights.customer.vo.AuthenticationVo(a,c) from Authentication a,Customer c where c.authenticationId = a.id and a.userName = :userName";
+    public AuthenticationVo findAuthenticationVo(String mobile) {
+        String authenticationVoQuery = "select new com.sunlights.customer.vo.AuthenticationVo(a,c) from Authentication a,Customer c where c.authenticationId = a.id and a.mobile = :mobile";
         Query query = em.createQuery(authenticationVoQuery, AuthenticationVo.class);
-        query.setParameter("userName", userName);
+        query.setParameter("mobile", mobile);
         List<AuthenticationVo> list = query.getResultList();
         return list.isEmpty() ? null : list.get(0);
     }
 
     @Override
-    public Authentication findAuthentication(String userName, String password) {
+    public Authentication findAuthentication(String mobile, String password) {
         Query query = em.createNamedQuery("findAuthentication", Authentication.class);
-        query.setParameter("userName", userName);
+        query.setParameter("mobile", mobile);
         query.setParameter("password", password);
         List<Authentication> list = query.getResultList();
         return list.isEmpty() ? null : list.get(0);
     }
 
     @Override
-    public Authentication findAuthentication(String userName) {
-        List<Authentication> list = super.findBy(Authentication.class, "userName", userName);
+    public Authentication findAuthentication(String mobile) {
+        List<Authentication> list = super.findBy(Authentication.class, "mobile", mobile);
         return list.isEmpty() ? null : list.get(0);
     }
 

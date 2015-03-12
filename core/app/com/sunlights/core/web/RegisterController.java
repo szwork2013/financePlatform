@@ -109,7 +109,7 @@ public class RegisterController extends Controller {
             CustomerVo customerVo = null;
 
             if (AppConst.CHANNEL_PC.equals(customerFormVo.getChannel())) {
-                customerVo = customerService.getCustomerVoByUserName(customerFormVo.getMobilePhoneNo());
+                customerVo = customerService.getCustomerVoByAuthenticationMobile(customerFormVo.getMobilePhoneNo());
             } else {
                 customerService.sessionPushRegId(request(), customerSession.getCustomerId(), deviceNo);
                 customerVo = customerService.getCustomerVoByPhoneNo(customer.getMobile(), deviceNo);

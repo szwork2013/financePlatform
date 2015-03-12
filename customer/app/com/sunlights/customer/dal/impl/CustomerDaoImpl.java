@@ -135,15 +135,15 @@ public class CustomerDaoImpl extends EntityBaseDao implements CustomerDao {
         return customerVo;
     }
 
-    public CustomerVo getCustomerVoByUserName(String userName) {
+    public CustomerVo getCustomerVoByAuthenticationMobile(String mobile) {
         String sql = " select c.mobile,c.real_name,c.email,c.customer_id,c.authentication_id" +
                 "  from c_customer c, c_authentication a " +
                 " where c.authentication_id = a.id " +
-                "  and  a.user_name = :userName";
+                "  and  a.mobile = :mobile";
         Logger.debug(sql);
 
         Query query = em.createNativeQuery(sql);
-        query.setParameter("userName", userName);
+        query.setParameter("mobile", mobile);
         List<Object[]> list = query.getResultList();
         if (list.isEmpty()) {
             return null;

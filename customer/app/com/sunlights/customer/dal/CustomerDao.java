@@ -44,10 +44,10 @@ public interface CustomerDao {
     /**
      * pc端查询组装返回数据
      *
-     * @param userName
+     * @param mobile
      * @return
      */
-    public CustomerVo getCustomerVoByUserName(String userName);
+    public CustomerVo getCustomerVoByAuthenticationMobile(String mobile);
 
     public CustomerSession findCustomerSessionByToken(String token, Timestamp nMin);
 
