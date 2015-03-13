@@ -252,6 +252,7 @@ public class CustomerService {
      */
     public void createP2PUser(AuthenticationVo authenticationVo) {
         String path = ConfigUtil.getValueStr(ConfigUtil.P2P_USER);
+        Logger.info("调用p2p创建用户接口路径" + path);
 
         if (StringUtils.isEmpty(path)) {
             Logger.info("未配置调用p2p创建用户接口路径");
