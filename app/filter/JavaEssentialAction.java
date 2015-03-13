@@ -15,5 +15,6 @@ import scala.runtime.AbstractFunction1;
  *
  * @author <a href="mailto:zhencai.yuan@sunlights.cc">yuanzhencai</a>
  */
-public abstract class JavaEssentialAction extends AbstractFunction1<RequestHeader, Iteratee<byte[], Result>> implements EssentialAction {
+public abstract class JavaEssentialAction extends AbstractFunction1<RequestHeader, Iteratee<byte[], Result>>
+        implements EssentialAction {
 }
