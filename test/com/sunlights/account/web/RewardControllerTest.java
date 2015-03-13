@@ -33,9 +33,9 @@ public class RewardControllerTest extends BaseTest {
     @Before
     public void getCookie() {
         super.startPlay();
-        final String mobilePhoneNo = "15821948594";
+        final String mobilePhoneNo = "15821948369";
         final String password = "111111";
-        String channel = AppConst.CHANNEL_PC;
+        String channel = AppConst.CHANNEL_IOS;
         cookie = getCookieAfterLogin(mobilePhoneNo, password, channel);
 
     }

@@ -39,8 +39,8 @@ public abstract class AbstractActivityListQuery implements ActivityListQuery {
             vo = new ActivityVo();
             vo.setId(activity.getId());
             vo.setName(activity.getTitle());
-            vo.setImage(activityService.getFileFuleUrl(activity.getImage(), "activity.imagePath"));
-            vo.setUrl(activityService.getFileFuleUrl(activity.getUrl(), "activity.html5Path") + "?activityId=" + activity.getId());
+            vo.setImage(activityService.getFileFuleUrl(activity.getImage(), ActivityConstant.ACTIVITY_IMAGE_PATH));
+            vo.setUrl(activityService.getFileFuleUrl(activity.getUrl(), ActivityConstant.ACTIVITY_HTML5_PATH) + "?activityId=" + activity.getId());
             vo.setStartDate(CommonUtil.dateToString(activity.getBeginTime(), CommonUtil.DATE_FORMAT_SHORT));
             vo.setEndDate(CommonUtil.dateToString(activity.getEndTime(), CommonUtil.DATE_FORMAT_SHORT));
             activityVos.add(vo);
