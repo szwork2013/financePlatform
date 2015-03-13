@@ -72,7 +72,7 @@ public class RewardFlowHandler extends AbstractObtainRuleHandler {
                 rewardFlowRecordVo.setRewardType(obtainRewardRuleVo.getRewardType());
                 rewardFlowRecordVo.setScene(requestVo.getScene());
                 rewardFlowRecordVo.setOperatorType(ActivityConstant.REWARD_FLOW_OBTAIN);
-                rewardFlowRecordVo.setRuleUrl(activityService.getFileFuleUrl(activity.getUrl(), "activity.html5Path") + "?activityId=" + activity.getId());
+                rewardFlowRecordVo.setRuleUrl(activityService.getFileFuleUrl(activity.getUrl(), ActivityConstant.ACTIVITY_HTML5_PATH) + "?activityId=" + activity.getId());
 
 
                 ObtainRewardCalculator calculator = RewardCalculatorFactory.getCalculator(activityScene.getScene());

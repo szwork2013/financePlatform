@@ -56,6 +56,8 @@ public final class AppConst {
     public static String PLATFORM_IOS = "ios";
     public static String PLATFORM_ANDROID = "android";
 
+    public static String ANDROID_LATEST_VERSION = "ANDROID_LATEST_VERSION";
+
     public static String CHANNEL_IOS = "0";
     public static String CHANNEL_PC = "1";
     public static String CHANNEL_ANDROID = "2";

@@ -35,9 +35,9 @@ public class ActivityControllerTest extends BaseTest {
     @Before
     public void getCookie() {
         super.startPlay();
-        final String mobilePhoneNo = "13811599308";
-        final String password = "1";
-        String channel = AppConst.CHANNEL_PC;
+        final String mobilePhoneNo = "15821948369";
+        final String password = "111111";
+        String channel = AppConst.CHANNEL_IOS;
         cookie = getCookieAfterLogin(mobilePhoneNo, password, channel);
 
     }
@@ -81,7 +81,7 @@ public class ActivityControllerTest extends BaseTest {
         Map<String, String> formParams = new HashMap<>();
         formParams.put("index", index);
         formParams.put("pageSize", pageSize);
-        //formParams.put("filter", "1");
+        formParams.put("filter", "1");
         play.mvc.Result result = getResult("/account/activity/list", formParams, cookie);
         Logger.info("============testGetActivityList result====\n" + contentAsString(result));
 

@@ -16,6 +16,7 @@ import play.api.mvc.EssentialAction;
 import play.api.mvc.EssentialFilter;
 import play.api.mvc.RequestHeader;
 import play.api.mvc.Result;
+import play.db.jpa.Transactional;
 import scala.Option;
 
 import java.text.MessageFormat;
@@ -25,6 +26,7 @@ import static play.mvc.Results.ok;
 /**
  * Created by tangweiqun on 2015/3/11.
  */
+@Transactional
 public class VersionCheckFilter implements EssentialFilter {
 
     private final AppVersionService appVersionService = AppVersionServiceImpl.getInstance();
@@ -42,19 +44,24 @@ public class VersionCheckFilter implements EssentialFilter {
                 String userAgent = rh.headers().get(AppConst.HEADER_USER_AGENT).get();
 
                 String platform = CommonUtil.getCurrentPlatformFromStr(userAgent);
-                String clientVersion = CommonUtil.getCurrentVersionFromStr(userAgent);
+                //这个过滤器只适用于ios的
+                if(AppConst.CHANNEL_IOS.equals(platform)) {
+                    String clientVersion = CommonUtil.getCurrentVersionFromStr(userAgent);
 
-                String latestVersion = appVersionService.getLatestVersionFromAppStore(platform);
+                    String latestVersion = appVersionService.getLatestVersionFromAppStore(platform);
 
-                Logger.debug("userAgent == " + userAgent + " latestVersion = " + latestVersion);
+                    Logger.debug("userAgent == " + userAgent + " latestVersion = " + latestVersion);
 
-                //TODO  为了支持临时的方案
-                boolean isUpdate = clientVersion.compareTo("1.3") <= 0 && latestVersion.compareTo("2.0") >= 0;
+                    //TODO  为了支持临时的方案
+                    boolean isUpdate = clientVersion.compareTo("1.3") <= 0 && latestVersion.compareTo("2.0") >= 0;
 
-                if (isUpdate) {
-                    JsonNode json = MessageUtil.getInstance().msgToJson(new Message(Severity.WARN, MsgCode.MUST_UPDATE_VERSION, latestVersion));
-                    Logger.debug(">>信息：" + json.toString());
-                    return Done.apply(ok(json).toScala(), null);
+                    if (isUpdate) {
+                        JsonNode json = MessageUtil.getInstance().msgToJson(new Message(Severity.WARN, MsgCode.MUST_UPDATE_VERSION, latestVersion));
+                        Logger.debug(">>信息：" + json.toString());
+                        return Done.apply(ok(json).toScala(), null);
+                    } else {
+                        return next.apply(rh);
+                    }
                 } else {
                     return next.apply(rh);
                 }

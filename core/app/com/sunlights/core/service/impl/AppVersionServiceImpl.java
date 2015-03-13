@@ -3,12 +3,16 @@ package com.sunlights.core.service.impl;
 import com.google.common.cache.Cache;
 import com.google.common.cache.CacheBuilder;
 import com.sunlights.common.AppConst;
+import com.sunlights.common.service.ParameterService;
 import com.sunlights.common.utils.CommonUtil;
 import com.sunlights.common.utils.ConfigUtil;
 import com.sunlights.core.service.AppVersionService;
 import org.apache.commons.httpclient.HttpClient;
 import org.apache.commons.httpclient.methods.GetMethod;
 import play.Logger;
+import play.db.jpa.JPA;
+import play.db.jpa.Transactional;
+import play.libs.F;
 import util.JsonUtil;
 
 import java.io.IOException;
@@ -21,6 +25,7 @@ import java.util.concurrent.TimeUnit;
 /**
  * Created by tangweiqun on 2015/3/12.
  */
+
 public class AppVersionServiceImpl implements AppVersionService {
     private static final String ACCESS_TOKEN_URL_IOS = "https://itunes.apple.com/cn/lookup?id=948242790";
 
@@ -35,6 +40,7 @@ public class AppVersionServiceImpl implements AppVersionService {
     private AppVersionServiceImpl() {
         try {
             cacheFormCallable = createCallableCache();
+
         } catch (Exception e) {
             Logger.error(e.getMessage());
         }
@@ -67,9 +73,11 @@ public class AppVersionServiceImpl implements AppVersionService {
                 @Override
                 public String call() throws Exception {
                     if(AppConst.PLATFORM_IOS.equals(platform)) {
-                        return getValueByHttpClient(ACCESS_TOKEN_URL_IOS, VERSION);
+                        return "1.7";
+                        //return getValueByHttpClient(ACCESS_TOKEN_URL_IOS, VERSION);
                     } else if(AppConst.PLATFORM_ANDROID.equals(platform)) {
-                        return "1.0";//TODO 暂时不知道怎么实现
+                        ParameterService parameterService = new ParameterService();
+                        return parameterService.getParameterByName(AppConst.ANDROID_LATEST_VERSION);
                     }
                     return null;
                 }
