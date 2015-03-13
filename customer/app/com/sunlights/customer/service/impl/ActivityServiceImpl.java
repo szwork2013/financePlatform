@@ -3,6 +3,7 @@ package com.sunlights.customer.service.impl;
 
 import com.sunlights.common.DictConst;
 import com.sunlights.common.cache.Cacheable;
+import com.sunlights.common.service.ParameterService;
 import com.sunlights.common.utils.ArithUtil;
 import com.sunlights.common.utils.CommonUtil;
 import com.sunlights.common.utils.DBHelper;
@@ -44,6 +45,8 @@ public class ActivityServiceImpl implements ActivityService {
     private CustJoinActivityService custJoinActivityService = new CustJoinActivityServiceImpl();
     private CustomerDao customerDao = new CustomerDaoImpl();
 
+    private ParameterService parameterService = new ParameterService();
+
     @Deprecated
     @Override
     public List<ActivityVo> getActivityVos(PageVo pageVo) {
@@ -57,18 +60,20 @@ public class ActivityServiceImpl implements ActivityService {
             vo = new ActivityVo();
             vo.setId(activity.getId());
             vo.setName(activity.getTitle());
-            vo.setImage(getFileFuleUrl(activity.getImage(), "activity.imagePath"));
-            vo.setUrl(getFileFuleUrl(activity.getUrl(), "activity.html5Path") + "?activityId=" + activity.getId());
+            vo.setImage(getFileFuleUrl(activity.getImage(), ActivityConstant.ACTIVITY_IMAGE_PATH));
+            vo.setUrl(getFileFuleUrl(activity.getUrl(), ActivityConstant.ACTIVITY_HTML5_PATH) + "?activityId=" + activity.getId());
             activityVos.add(vo);
         }
         return activityVos;
     }
 
+
+
     @Override
     public String getFileFuleUrl(String fileName, String remotDir) {
-        String server = Configuration.root().getString("activity.server");
-        String port = Configuration.root().getString("activity.port");
-        String remoteDir = Configuration.root().getString(remotDir);
+        String server = parameterService.getParameterByName(ActivityConstant.ACTIVITY_SERVER);
+        String port = parameterService.getParameterByName(ActivityConstant.ACTIVITY_SERVER_PORT);
+        String remoteDir = parameterService.getParameterByName(remotDir);
         return new StringBuilder().append(server).append(":").append(port).append(remoteDir).append("/").append(fileName).toString();
     }
 
@@ -128,7 +133,7 @@ public class ActivityServiceImpl implements ActivityService {
         if (activity == null) {
             return activity4H5Vo;
         }
-        activity4H5Vo.setImageUrl(getFileFuleUrl(activity.getImage(), "activity.imagePath"));
+        activity4H5Vo.setImageUrl(getFileFuleUrl(activity.getImage(), ActivityConstant.ACTIVITY_IMAGE_PATH));
         activity4H5Vo.setContent(activity.getH5Content());
         return activity4H5Vo;
     }

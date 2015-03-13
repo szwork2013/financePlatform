@@ -88,7 +88,7 @@ public class HoldRewardServiceImpl implements HoldRewardService {
 
         transf(holdReward, holdRewardVo);
 
-        holdRewardVo.setRuleUrl(activityService.getFileFuleUrl(rewardTypeModel.getRuleUrl(), "activity.html5Path"));
+        holdRewardVo.setRuleUrl(activityService.getFileFuleUrl(rewardTypeModel.getRuleUrl(), ActivityConstant.ACTIVITY_HTML5_PATH));
 
         List<RewardFlowVo> list = Lists.newArrayList();
         List<RewardFlow> rewardFlows = rewardFlowService.findByCustIdAndRewardType(custId, rewardType);
@@ -221,7 +221,7 @@ public class HoldRewardServiceImpl implements HoldRewardService {
         holdRewardVo.setRedPacket(redPacket.equals(BigDecimal.ZERO) ? "0.00" : redPacket.toString());
         holdRewardVo.setTotalCash(goldBeanCash);
         holdRewardVo.setTotalReward(totalGoldBean.toString());
-        holdRewardVo.setRuleUrl(activityService.getFileFuleUrl(rewardTypeModel.getRuleUrl(), "activity.html5Path"));
+        holdRewardVo.setRuleUrl(activityService.getFileFuleUrl(rewardTypeModel.getRuleUrl(), ActivityConstant.ACTIVITY_HTML5_PATH));
 
         return holdRewardVo;
     }

@@ -23,10 +23,64 @@ import static play.test.Helpers.route;
 public class VersionCheckControllerTest extends BaseTest {
 
     @Test
-    public void testCheckVersionReminderUpdate() throws Exception {
+    public void testCheckVersionReminderUpdateIOS() throws Exception {
 
-        FakeRequest fakeRequest = fakeRequest(GET, "/core/checkupdateversion");
-        fakeRequest.withHeader(AppConst.HEADER_USER_AGENT, "Mozilla/5.0 (iPhone; CPU iPhone OS 7_1 like Mac OS X) AppleWebKit/537.51.2 (KHTML, like Gecko) Mobile/11D167\\jindoujialicai\\1.3-M1");
+        FakeRequest fakeRequest = fakeRequest(POST, "/core/checkupdateversion");
+        fakeRequest.withHeader(AppConst.HEADER_USER_AGENT, "Mozilla/5.0 (iPhone; CPU iPhone OS 7_1 like Mac OS X) AppleWebKit/537.51.2 (KHTML, like Gecko) Mobile/11D167\\jindoujialicai\\1.3");
+
+
+        play.mvc.Result result = route(fakeRequest);
+
+        assertThat(status(result)).isEqualTo(OK);
+
+        final MessageVo message = toMessageVo(result);
+
+        Logger.info("============testCheckVersionReminderUpdateIOS result====\n" + contentAsString(result));
+
+        assertThat(message.getMessage().getCode()).isEqualTo(MsgCode.REMIND_UPDATE_VERSION.getCode());
+    }
+
+    @Test
+    public void testCheckVersionMustUpdateIOS() throws Exception {
+
+        FakeRequest fakeRequest = fakeRequest(POST, "/core/checkupdateversion");
+        fakeRequest.withHeader(AppConst.HEADER_USER_AGENT, "Mozilla/5.0 (iPhone; CPU iPhone OS 7_1 like Mac OS X) AppleWebKit/537.51.2 (KHTML, like Gecko) Mobile/11D167\\jindoujialicai\\1.2");
+
+
+        play.mvc.Result result = route(fakeRequest);
+
+        assertThat(status(result)).isEqualTo(OK);
+
+        final MessageVo message = toMessageVo(result);
+
+        Logger.info("============testSignInObtainReward result====\n" + contentAsString(result));
+
+        assertThat(message.getMessage().getCode()).isEqualTo(MsgCode.UPDATE_VERSION_TO_CURRENT.getCode());
+    }
+
+    @Test
+    public void testCheckVersionLatestVersionIOS() throws Exception {
+
+        FakeRequest fakeRequest = fakeRequest(POST, "/core/checkupdateversion");
+        fakeRequest.withHeader(AppConst.HEADER_USER_AGENT, "Mozilla/5.0 (iPhone; CPU iPhone OS 7_1 like Mac OS X) AppleWebKit/537.51.2 (KHTML, like Gecko) Mobile/11D167\\jindoujialicai\\1.6");
+
+
+        play.mvc.Result result = route(fakeRequest);
+
+        assertThat(status(result)).isEqualTo(OK);
+
+        final MessageVo message = toMessageVo(result);
+
+        Logger.info("============testCheckVersionLatestVersion result====\n" + contentAsString(result));
+
+        assertThat(message.getMessage().getCode()).isEqualTo(MsgCode.CURRENT_LATEST_VERSION.getCode());
+    }
+
+    @Test
+    public void testCheckVersionReminderUpdateAndroid() throws Exception {
+
+        FakeRequest fakeRequest = fakeRequest(POST, "/core/checkupdateversion");
+        fakeRequest.withHeader(AppConst.HEADER_USER_AGENT, "Mozilla/5.0 (Android; CPU Android OS 7_1 like Mac OS X) AppleWebKit/537.51.2 (KHTML, like Gecko) Mobile/11D167\\jindoujialicai\\1.2");
 
 
         play.mvc.Result result = route(fakeRequest);
@@ -41,10 +95,10 @@ public class VersionCheckControllerTest extends BaseTest {
     }
 
     @Test
-    public void testCheckVersionMustUpdate() throws Exception {
+    public void testCheckVersionMustUpdateAndroid() throws Exception {
 
-        FakeRequest fakeRequest = fakeRequest(GET, "/core/checkupdateversion");
-        fakeRequest.withHeader(AppConst.HEADER_USER_AGENT, "Mozilla/5.0 (iPhone; CPU iPhone OS 7_1 like Mac OS X) AppleWebKit/537.51.2 (KHTML, like Gecko) Mobile/11D167\\jindoujialicai\\1.2-M1");
+        FakeRequest fakeRequest = fakeRequest(POST, "/core/checkupdateversion");
+        fakeRequest.withHeader(AppConst.HEADER_USER_AGENT, "Mozilla/5.0 (Android; CPU Android OS 7_1 like Mac OS X) AppleWebKit/537.51.2 (KHTML, like Gecko) Mobile/11D167\\jindoujialicai\\0.9");
 
 
         play.mvc.Result result = route(fakeRequest);
@@ -55,14 +109,14 @@ public class VersionCheckControllerTest extends BaseTest {
 
         Logger.info("============testSignInObtainReward result====\n" + contentAsString(result));
 
-        assertThat(message.getMessage().getCode()).isEqualTo(MsgCode.MUST_UPDATE_VERSION.getCode());
+        assertThat(message.getMessage().getCode()).isEqualTo(MsgCode.UPDATE_VERSION_TO_CURRENT.getCode());
     }
 
     @Test
-    public void testCheckVersionLatestVersion() throws Exception {
+    public void testCheckVersionLatestVersionAndroid() throws Exception {
 
-        FakeRequest fakeRequest = fakeRequest(GET, "/core/checkupdateversion");
-        fakeRequest.withHeader(AppConst.HEADER_USER_AGENT, "Mozilla/5.0 (iPhone; CPU iPhone OS 7_1 like Mac OS X) AppleWebKit/537.51.2 (KHTML, like Gecko) Mobile/11D167\\jindoujialicai\\1.3");
+        FakeRequest fakeRequest = fakeRequest(POST, "/core/checkupdateversion");
+        fakeRequest.withHeader(AppConst.HEADER_USER_AGENT, "Mozilla/5.0 (Android; CPU Android OS 7_1 like Mac OS X) AppleWebKit/537.51.2 (KHTML, like Gecko) Mobile/11D167\\jindoujialicai\\1.3");
 
 
         play.mvc.Result result = route(fakeRequest);
@@ -80,7 +134,7 @@ public class VersionCheckControllerTest extends BaseTest {
     public void refreshVersion() throws Exception {
 
         FakeRequest fakeRequest = fakeRequest(GET, "/core/refreshversion/ios");
-        //fakeRequest.withHeader(AppConst.HEADER_USER_AGENT, "Mozilla/5.0 (iPhone; CPU iPhone OS 7_1 like Mac OS X) AppleWebKit/537.51.2 (KHTML, like Gecko) Mobile/11D167\\jindoujialicai\\1.3");
+        fakeRequest.withHeader(AppConst.HEADER_USER_AGENT, "Mozilla/5.0 (iPhone; CPU iPhone OS 7_1 like Mac OS X) AppleWebKit/537.51.2 (KHTML, like Gecko) Mobile/11D167\\jindoujialicai\\1.3");
 
 
         play.mvc.Result result = route(fakeRequest);
