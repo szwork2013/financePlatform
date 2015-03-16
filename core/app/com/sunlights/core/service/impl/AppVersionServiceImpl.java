@@ -10,9 +10,6 @@ import com.sunlights.core.service.AppVersionService;
 import org.apache.commons.httpclient.HttpClient;
 import org.apache.commons.httpclient.methods.GetMethod;
 import play.Logger;
-import play.db.jpa.JPA;
-import play.db.jpa.Transactional;
-import play.libs.F;
 import util.JsonUtil;
 
 import java.io.IOException;
@@ -77,6 +74,7 @@ public class AppVersionServiceImpl implements AppVersionService {
                         //return getValueByHttpClient(ACCESS_TOKEN_URL_IOS, VERSION);
                     } else if(AppConst.PLATFORM_ANDROID.equals(platform)) {
                         ParameterService parameterService = new ParameterService();
+                        parameterService.clearAll();
                         return parameterService.getParameterByName(AppConst.ANDROID_LATEST_VERSION);
                     }
                     return null;

@@ -40,8 +40,8 @@ POST        /bank/bankcard/saveall            @com.sunlights.customer.web.BankCo
 
 
 #version
-POST         /version               @com.sunlights.core.web.VersionCheckController.checkVersion
-GET          /version/:platform         @com.sunlights.core.web.VersionCheckController.refreshVersion(platform: String)
+POST         /version                        @com.sunlights.core.web.VersionCheckController.checkVersion
+GET          /version/:platform              @com.sunlights.core.web.VersionCheckController.refreshVersion(platform: String)
 
 # Map static resources from the /public folder to the /assets URL path
 GET         /assets/*file                     controllers.Assets.at(path="/public", file)
