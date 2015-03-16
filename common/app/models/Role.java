@@ -31,7 +31,7 @@ public class Role extends IdEntity {
     private Boolean deleted;
 
 
-    @OneToMany(mappedBy = "role")
+    @OneToMany(mappedBy = "role", cascade = CascadeType.ALL)
     private List<RoleResource> roleResources;
 
     @OneToMany(mappedBy = "role")
