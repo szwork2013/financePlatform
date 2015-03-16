@@ -30,9 +30,9 @@ public class VersionCheckController extends Controller {
     private MessageUtil messageUtil = MessageUtil.getInstance();
 
     @ApiOperation(value = "检查版本信息",
-            notes = "MessageVo 的value是null", nickname = "version", httpMethod = "GET")
+            notes = "User-Agent的值类似：Mozilla/5.0 (Android; CPU Android OS 7_1 like Mac OS X) AppleWebKit/537.51.2 (KHTML, like Gecko) Mobile/11D167\\jindoujialicai\\0.9", nickname = "version", httpMethod = "GET")
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "User-Agent", required = true, paramType = "head"),
+            @ApiImplicitParam(name = "User-Agent", required = true, paramType = "header"),
     })
     @ApiResponses(value = {@ApiResponse(code = 0301, message = "当前版本已经是最新版本:{0}"),
             @ApiResponse(code = 0302, message = "有新版本{0},是否升级"),
@@ -54,9 +54,9 @@ public class VersionCheckController extends Controller {
 
 
     @ApiOperation(value = "刷新版本信息",
-            notes = "MessageVo 的value是null", nickname = "version", httpMethod = "GET")
+            notes = "platform的值只能是 ios 或者 android ", nickname = "version", httpMethod = "GET")
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "platform", required = true, paramType = "url"),
+            @ApiImplicitParam(name = "platform", required = true, paramType = "path"),
     })
     @ApiResponses(value = {@ApiResponse(code = 0000, message = "操作成功"),
     })
