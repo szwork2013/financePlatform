@@ -6,6 +6,8 @@ import org.apache.commons.lang3.StringUtils;
 import play.libs.Json;
 import play.mvc.Http;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLDecoder;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -19,7 +21,11 @@ public class RequestUtil {
     public static <A> A getHeaderValue(String paramName, Class<A> aClass) {
         Http.Request request = request();
         String paramValue = request.getHeader(paramName);
-        if (StringUtils.isBlank(paramValue)) {
+		try {
+			paramValue = URLDecoder.decode(paramValue, "utf-8");
+		} catch (UnsupportedEncodingException e) {
+		}
+		if (StringUtils.isBlank(paramValue)) {
             throw new BusinessRuntimeException("Cannot find [" + paramName + "] from request header.");
         }
 
