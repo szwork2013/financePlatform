@@ -18,7 +18,9 @@ import play.mvc.Result;
 /**
  * Created by tangweiqun on 2015/3/12.
  */
+
 @Transactional
+@Api(value = "/core")
 public class VersionCheckController extends Controller {
 
     private VersionRuleConfigService versionRuleConfigService = new VersionRuleConfigServiceImpl();
@@ -28,7 +30,7 @@ public class VersionCheckController extends Controller {
     private MessageUtil messageUtil = MessageUtil.getInstance();
 
     @ApiOperation(value = "检查版本信息",
-            notes = "MessageVo 的value是null", nickname = "checkVersion", httpMethod = "GET")
+            notes = "MessageVo 的value是null", nickname = "version", httpMethod = "GET")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "User-Agent", required = true, paramType = "head"),
     })
@@ -52,7 +54,7 @@ public class VersionCheckController extends Controller {
 
 
     @ApiOperation(value = "刷新版本信息",
-            notes = "MessageVo 的value是null", nickname = "refreshVersion", httpMethod = "GET")
+            notes = "MessageVo 的value是null", nickname = "version", httpMethod = "GET")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "platform", required = true, paramType = "url"),
     })

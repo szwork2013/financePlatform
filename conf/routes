@@ -24,4 +24,4 @@ GET        /api-docs/trade            controllers.ApiHelpController.getResource(
 GET        /api-docs/core             controllers.ApiHelpController.getResource(path = "/core")
 GET        /api-docs/thirdpart        controllers.ApiHelpController.getResource(path = "/thirdpart")
 
-GET        /swagger                   controllers.Application.swagger
+GET        /docs                      controllers.Application.swagger
