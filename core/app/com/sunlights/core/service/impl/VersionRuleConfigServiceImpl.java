@@ -8,6 +8,7 @@ import com.sunlights.core.dal.impl.VersionRuleConfigDaoImpl;
 import com.sunlights.core.service.AppVersionService;
 import com.sunlights.core.service.VersionRuleConfigService;
 import models.VersionRuleConfig;
+import org.apache.commons.lang3.StringUtils;
 import play.Logger;
 
 /**
@@ -38,6 +39,13 @@ public class VersionRuleConfigServiceImpl implements VersionRuleConfigService {
         Message message;
         String latestVersion = appVersionService.getLatestVersionFromAppStore(platform);
         String compareVersion = getComparedVersion(versionRuleConfig, latestVersion);
+        /**
+         * 如果user-agent里的版本号为空，则强制更新
+         */
+        if(StringUtils.isEmpty(currentClientVersion)) {
+            return new Message(MsgCode.UPDATE_VERSION_TO_CURRENT, compareVersion);
+        }
+
         if (currentClientVersion.compareTo(compareVersion) == 0) {
             message = new Message(MsgCode.CURRENT_LATEST_VERSION, compareVersion);
         } else {
