@@ -128,9 +128,9 @@ trade->core
 
 启动好FP后，在浏览器上
 
-1. 如果是本地的话，打开http://localhost:9000/swagger
-2. 如果是测试环境，打开https://uat.sunlights.me/swagger
-3. 如果是生产环境，打开http://api.sunlights.me/swagger, 或者https://api-1.sunlights.me/swagger
+1. 如果是本地的话，打开http://localhost:9000/docs
+2. 如果是测试环境，打开https://api-2.sunlights.me/api/docs
+3. 如果是生产环境，打开https://api.sunlights.me/api/docs, 或者https://api-1.sunlights.me/swagger
 
 
 
