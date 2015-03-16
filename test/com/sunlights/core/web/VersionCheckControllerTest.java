@@ -25,7 +25,7 @@ public class VersionCheckControllerTest extends BaseTest {
     @Test
     public void testCheckVersionReminderUpdateIOS() throws Exception {
 
-        FakeRequest fakeRequest = fakeRequest(POST, "/core/checkupdateversion");
+        FakeRequest fakeRequest = fakeRequest(POST, "/core/version");
         fakeRequest.withHeader(AppConst.HEADER_USER_AGENT, "Mozilla/5.0 (iPhone; CPU iPhone OS 7_1 like Mac OS X) AppleWebKit/537.51.2 (KHTML, like Gecko) Mobile/11D167\\jindoujialicai\\1.3");
 
 
@@ -43,7 +43,7 @@ public class VersionCheckControllerTest extends BaseTest {
     @Test
     public void testCheckVersionMustUpdateIOS() throws Exception {
 
-        FakeRequest fakeRequest = fakeRequest(POST, "/core/checkupdateversion");
+        FakeRequest fakeRequest = fakeRequest(POST, "/core/version");
         fakeRequest.withHeader(AppConst.HEADER_USER_AGENT, "Mozilla/5.0 (iPhone; CPU iPhone OS 7_1 like Mac OS X) AppleWebKit/537.51.2 (KHTML, like Gecko) Mobile/11D167\\jindoujialicai\\1.2");
 
 
@@ -61,7 +61,7 @@ public class VersionCheckControllerTest extends BaseTest {
     @Test
     public void testCheckVersionLatestVersionIOS() throws Exception {
 
-        FakeRequest fakeRequest = fakeRequest(POST, "/core/checkupdateversion");
+        FakeRequest fakeRequest = fakeRequest(POST, "/core/version");
         fakeRequest.withHeader(AppConst.HEADER_USER_AGENT, "Mozilla/5.0 (iPhone; CPU iPhone OS 7_1 like Mac OS X) AppleWebKit/537.51.2 (KHTML, like Gecko) Mobile/11D167\\jindoujialicai\\1.6");
 
 
@@ -79,7 +79,7 @@ public class VersionCheckControllerTest extends BaseTest {
     @Test
     public void testCheckVersionReminderUpdateAndroid() throws Exception {
 
-        FakeRequest fakeRequest = fakeRequest(POST, "/core/checkupdateversion");
+        FakeRequest fakeRequest = fakeRequest(POST, "/core/version");
         fakeRequest.withHeader(AppConst.HEADER_USER_AGENT, "Mozilla/5.0 (Android; CPU Android OS 7_1 like Mac OS X) AppleWebKit/537.51.2 (KHTML, like Gecko) Mobile/11D167\\jindoujialicai\\1.2");
 
 
@@ -97,7 +97,7 @@ public class VersionCheckControllerTest extends BaseTest {
     @Test
     public void testCheckVersionMustUpdateAndroid() throws Exception {
 
-        FakeRequest fakeRequest = fakeRequest(POST, "/core/checkupdateversion");
+        FakeRequest fakeRequest = fakeRequest(POST, "/core/version");
         fakeRequest.withHeader(AppConst.HEADER_USER_AGENT, "Mozilla/5.0 (Android; CPU Android OS 7_1 like Mac OS X) AppleWebKit/537.51.2 (KHTML, like Gecko) Mobile/11D167\\jindoujialicai\\0.9");
 
 
@@ -115,7 +115,7 @@ public class VersionCheckControllerTest extends BaseTest {
     @Test
     public void testCheckVersionLatestVersionAndroid() throws Exception {
 
-        FakeRequest fakeRequest = fakeRequest(POST, "/core/checkupdateversion");
+        FakeRequest fakeRequest = fakeRequest(POST, "/core/version");
         fakeRequest.withHeader(AppConst.HEADER_USER_AGENT, "Mozilla/5.0 (Android; CPU Android OS 7_1 like Mac OS X) AppleWebKit/537.51.2 (KHTML, like Gecko) Mobile/11D167\\jindoujialicai\\1.3");
 
 
@@ -133,7 +133,7 @@ public class VersionCheckControllerTest extends BaseTest {
     @Test
     public void refreshVersion() throws Exception {
 
-        FakeRequest fakeRequest = fakeRequest(GET, "/core/refreshversion/ios");
+        FakeRequest fakeRequest = fakeRequest(GET, "/core/version/ios");
         fakeRequest.withHeader(AppConst.HEADER_USER_AGENT, "Mozilla/5.0 (iPhone; CPU iPhone OS 7_1 like Mac OS X) AppleWebKit/537.51.2 (KHTML, like Gecko) Mobile/11D167\\jindoujialicai\\1.3");
 
 
