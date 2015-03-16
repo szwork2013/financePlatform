@@ -24,38 +24,44 @@ public class VersionRuleConfigServiceImpl implements VersionRuleConfigService {
     @Override
     public Message checkVersion(String platform, String currentClientVersion) {
         CommonUtil.checkPlatform(platform);
-
         VersionRuleConfig versionRuleConfig = versionRuleConfigDao.findByPlatform(platform);
-
-        Message message;
 
         if(versionRuleConfig == null) {
             Logger.error("没有配置响应平台的版本规则");
-            message = new Message(MsgCode.NOT_COFIG_VERSION_RULE, platform);
-            return message;
+            return new Message(MsgCode.NOT_COFIG_VERSION_RULE, platform);
+        } else {
+            return versionMessage(platform, currentClientVersion, versionRuleConfig);
         }
+    }
 
+    private Message versionMessage(String platform, String currentClientVersion, VersionRuleConfig versionRuleConfig) {
+        Message message;
         String latestVersion = appVersionService.getLatestVersionFromAppStore(platform);
+        String compareVersion = getComparedVersion(versionRuleConfig, latestVersion);
+        if (currentClientVersion.compareTo(compareVersion) == 0) {
+            message = new Message(MsgCode.CURRENT_LATEST_VERSION, compareVersion);
+        } else {
+            String minSupportVersion = versionRuleConfig.getMinSupportVersion();
+            if (currentClientVersion.compareTo(minSupportVersion) < 0) {
+                message = new Message(MsgCode.UPDATE_VERSION_TO_CURRENT, compareVersion);
+            } else if (currentClientVersion.compareTo(minSupportVersion) >= 0 && currentClientVersion.compareTo(compareVersion) < 0) {
+                message = new Message(MsgCode.REMIND_UPDATE_VERSION, latestVersion);
+            } else {
+                message = new Message(MsgCode.NOT_COFIG_VERSION_RULE);
+            }
+        }
+        return message;
+    }
 
+    private String getComparedVersion(VersionRuleConfig versionRuleConfig, String latestVersion) {
         String tempLatest = "";
-
-        if(versionRuleConfig.getMaxSupportVersion().compareTo(latestVersion) == 0) {
-            tempLatest = versionRuleConfig.getMaxSupportVersion();
-        } else if(versionRuleConfig.getMaxSupportVersion().compareTo(latestVersion) < 0) {
+        String maxSupportVersion = versionRuleConfig.getMaxSupportVersion();
+        if(maxSupportVersion.compareTo(latestVersion) == 0) {
+            tempLatest = maxSupportVersion;
+        } else if(maxSupportVersion.compareTo(latestVersion) < 0) {
             tempLatest = latestVersion;
         }
-
-        if(currentClientVersion.compareTo(tempLatest) == 0) {
-            message = new Message(MsgCode.CURRENT_LATEST_VERSION, tempLatest);
-        } else if(currentClientVersion.compareTo(versionRuleConfig.getMinSupportVersion()) < 0) {
-            message = new Message(MsgCode.UPDATE_VERSION_TO_CURRENT, tempLatest);
-        } else if(currentClientVersion.compareTo(versionRuleConfig.getMinSupportVersion()) >= 0 && currentClientVersion.compareTo(tempLatest) < 0){
-            message = new Message(MsgCode.REMIND_UPDATE_VERSION, latestVersion);
-        } else {
-            message = new Message(MsgCode.NOT_COFIG_VERSION_RULE);
-        }
-
-        return message;
+        return tempLatest;
     }
 
 
