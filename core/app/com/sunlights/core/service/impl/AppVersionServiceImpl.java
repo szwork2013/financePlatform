@@ -74,7 +74,6 @@ public class AppVersionServiceImpl implements AppVersionService {
                         return getValueByHttpClient(ACCESS_TOKEN_URL_IOS, VERSION);
                     } else if(AppConst.PLATFORM_ANDROID.equals(platform)) {
                         ParameterService parameterService = new ParameterService();
-                        parameterService.clearAll();
                         return parameterService.getParameterByName(AppConst.ANDROID_LATEST_VERSION);
                     }
                     return null;
