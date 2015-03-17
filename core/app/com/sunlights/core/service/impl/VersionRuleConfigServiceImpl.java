@@ -38,7 +38,7 @@ public class VersionRuleConfigServiceImpl implements VersionRuleConfigService {
     private Message versionMessage(String platform, String currentClientVersion, VersionRuleConfig versionRuleConfig) {
         Message message;
         String latestVersion = appVersionService.getLatestVersionFromAppStore(platform);
-        String compareVersion = getComparedVersion(versionRuleConfig, latestVersion);
+        String compareVersion = latestVersion;
         /**
          * 如果user-agent里的版本号为空，则强制更新
          */
@@ -46,8 +46,8 @@ public class VersionRuleConfigServiceImpl implements VersionRuleConfigService {
             return new Message(MsgCode.UPDATE_VERSION_TO_CURRENT, compareVersion);
         }
 
-        if (currentClientVersion.compareTo(compareVersion) == 0) {
-            message = new Message(MsgCode.CURRENT_LATEST_VERSION, compareVersion);
+        if (currentClientVersion.compareTo(compareVersion) >= 0) {
+            message = new Message(MsgCode.CURRENT_LATEST_VERSION, currentClientVersion);
         } else {
             String minSupportVersion = versionRuleConfig.getMinSupportVersion();
             if (currentClientVersion.compareTo(minSupportVersion) < 0) {
@@ -59,17 +59,6 @@ public class VersionRuleConfigServiceImpl implements VersionRuleConfigService {
             }
         }
         return message;
-    }
-
-    private String getComparedVersion(VersionRuleConfig versionRuleConfig, String latestVersion) {
-        String tempLatest = "";
-        String maxSupportVersion = versionRuleConfig.getMaxSupportVersion();
-        if(maxSupportVersion.compareTo(latestVersion) == 0) {
-            tempLatest = maxSupportVersion;
-        } else if(maxSupportVersion.compareTo(latestVersion) < 0) {
-            tempLatest = latestVersion;
-        }
-        return tempLatest;
     }
 
 

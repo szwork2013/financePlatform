@@ -136,7 +136,7 @@ public class CommonUtil {
         String name = "jindoujialicai";
         int index = userAgent.indexOf(name);
         if (index <= 0) {
-            return "0";
+            return "";
         }
         String version = userAgent.substring(index + name.length() + 1, userAgent.length());
         Logger.info(">>当前版本号：" + version);

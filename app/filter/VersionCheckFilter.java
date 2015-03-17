@@ -9,6 +9,8 @@ import com.sunlights.common.utils.MessageUtil;
 import com.sunlights.common.vo.Message;
 import com.sunlights.core.service.AppVersionService;
 import com.sunlights.core.service.impl.AppVersionServiceImpl;
+import org.apache.commons.lang3.StringUtils;
+import play.Configuration;
 import play.Logger;
 import play.api.libs.iteratee.Done;
 import play.api.libs.iteratee.Iteratee;
@@ -43,17 +45,28 @@ public class VersionCheckFilter implements EssentialFilter {
             public Iteratee<byte[], Result> apply(RequestHeader rh) {
                 String userAgent = rh.headers().get(AppConst.HEADER_USER_AGENT).get();
 
+                String clientVersion = CommonUtil.getCurrentVersionFromStr(userAgent);
+
                 String platform = CommonUtil.getCurrentPlatformFromStr(userAgent);
+
+                String latestVersion = appVersionService.getLatestVersionFromAppStore(platform);
+
+                Logger.debug("userAgent == " + userAgent + " latestVersion = " + latestVersion + " platform = " + platform);
+
+                if(StringUtils.isEmpty(clientVersion)) {
+                    JsonNode json = MessageUtil.getInstance().msgToJson(new Message(Severity.WARN, MsgCode.MUST_UPDATE_VERSION, latestVersion));
+                    Logger.debug(">>信息：" + json.toString());
+                    return Done.apply(ok(json).toScala(), null);
+                }
+
                 //这个过滤器只适用于ios的
-                if(AppConst.CHANNEL_IOS.equals(platform)) {
-                    String clientVersion = CommonUtil.getCurrentVersionFromStr(userAgent);
-
-                    String latestVersion = appVersionService.getLatestVersionFromAppStore(platform);
-
-                    Logger.debug("userAgent == " + userAgent + " latestVersion = " + latestVersion);
+                if(AppConst.PLATFORM_IOS.equals(platform)) {
 
                     //TODO  为了支持临时的方案
-                    boolean isUpdate = clientVersion.compareTo("1.3") <= 0 && latestVersion.compareTo("2.0") >= 0;
+                    boolean isUpdate = clientVersion.compareTo(Configuration.root().getString("ios.autoupdate.clientVersion")) <= 0
+                            && latestVersion.compareTo(Configuration.root().getString("ios.autoupdate.appStoreversion")) >= 0;
+
+                    Logger.debug("isUpdate = " + isUpdate);
 
                     if (isUpdate) {
                         JsonNode json = MessageUtil.getInstance().msgToJson(new Message(Severity.WARN, MsgCode.MUST_UPDATE_VERSION, latestVersion));
