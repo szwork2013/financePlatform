@@ -147,18 +147,28 @@ public class CommonUtil {
     public static String getCurrentPlatformFromStr(String userAgent) {
         //String userAgent = request.getHeader(AppConst.HEADER_USER_AGENT);
         //Mozilla/5.0 (iPhone; CPU iPhone OS 7_1 like Mac OS X) AppleWebKit/537.51.2 (KHTML, like Gecko) Mobile/11D167\jindoujialicai\1.2
-
+//        Mozilla/5.0 (Linux; U; Android 4.3; zh-; HUAWEI C8816 Build/HuaweiC8816) AppleWebKit/534.30 (KHTML, like Gecko) Version/4.0 Mobile Safari/534.30\jindoujialicai\1.2
         Logger.info(">>userAgent:" + userAgent);
 
-        String name = "iPhone";
+        if (StringUtils.isEmpty(userAgent)) {//pc端
+            return AppConst.PLATFORM_PC;
+        }
+
+        String name = "Android";
         int index = userAgent.indexOf(name);
+        if (index > 0) {
+            Logger.info(">>当前platform：" + AppConst.PLATFORM_ANDROID);
+            return AppConst.PLATFORM_ANDROID;
+        }
+
+        name = "iPhone";
+        index = userAgent.indexOf(name);
         if (index > 0) {
             Logger.info(">>当前platform：" + AppConst.PLATFORM_IOS);
             return AppConst.PLATFORM_IOS;
         }
 
-        Logger.info(">>当前platform：" + AppConst.PLATFORM_ANDROID);
-        return AppConst.PLATFORM_ANDROID;
+        return AppConst.PLATFORM_PC;
     }
 
     public static void checkPlatform(String platform) {

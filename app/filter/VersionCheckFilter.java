@@ -19,9 +19,6 @@ import play.api.mvc.EssentialFilter;
 import play.api.mvc.RequestHeader;
 import play.api.mvc.Result;
 import play.db.jpa.Transactional;
-import scala.Option;
-
-import java.text.MessageFormat;
 
 import static play.mvc.Results.ok;
 
@@ -48,6 +45,10 @@ public class VersionCheckFilter implements EssentialFilter {
                 String clientVersion = CommonUtil.getCurrentVersionFromStr(userAgent);
 
                 String platform = CommonUtil.getCurrentPlatformFromStr(userAgent);
+
+                if (AppConst.PLATFORM_PC.equals(platform)) {
+                    return next.apply(rh);
+                }
 
                 String latestVersion = appVersionService.getLatestVersionFromAppStore(platform);
 

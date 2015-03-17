@@ -10,6 +10,8 @@ import com.sunlights.core.service.AppVersionService;
 import org.apache.commons.httpclient.HttpClient;
 import org.apache.commons.httpclient.methods.GetMethod;
 import play.Logger;
+import play.db.jpa.JPA;
+import play.libs.F;
 import util.JsonUtil;
 
 import java.io.IOException;
@@ -73,15 +75,22 @@ public class AppVersionServiceImpl implements AppVersionService {
                         //return "1.7";
                         return getValueByHttpClient(ACCESS_TOKEN_URL_IOS, VERSION);
                     } else if(AppConst.PLATFORM_ANDROID.equals(platform)) {
-                        ParameterService parameterService = new ParameterService();
-                        return parameterService.getParameterByName(AppConst.ANDROID_LATEST_VERSION);
+                        final String[] androidLatestVersion = new String[1];
+                        JPA.withTransaction(new F.Callback0() {
+                            @Override
+                            public void invoke() throws Throwable {
+                                ParameterService parameterService = new ParameterService();
+                                androidLatestVersion[0] = parameterService.getParameterByName(AppConst.ANDROID_LATEST_VERSION);
+                            }
+                        });
+                        return androidLatestVersion[0];
                     }
-                    return null;
+                    return "";
                 }
             });
         } catch (ExecutionException e) {
             Logger.error("获取最新版本失败", e);
-            return null;
+            return "";
         }
     }
 
