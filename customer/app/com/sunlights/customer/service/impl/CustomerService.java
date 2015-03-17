@@ -189,7 +189,7 @@ public class CustomerService {
             newCustomerMsgSetting.setCustomerId(customerId);
             newCustomerMsgSetting.setDeviceNo(deviceNo);
             newCustomerMsgSetting.setPlatform(platform);
-            resetRegistrationId(newCustomerMsgSetting, newCustomerMsgSetting);
+            resetRegistrationId(customerMsgSetting, newCustomerMsgSetting);
         }
 
         Cache.set(AppConst.HEADER_REGISTRATION_ID + "_" + registrationId, customerId, (int) cacheTime * 60);
