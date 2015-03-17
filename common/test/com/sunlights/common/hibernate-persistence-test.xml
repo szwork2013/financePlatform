@@ -5,10 +5,12 @@
 
     <persistence-unit name="test" transaction-type="RESOURCE_LOCAL">
         <provider>org.hibernate.jpa.HibernatePersistenceProvider</provider>
-        <non-jta-data-source>TestDS</non-jta-data-source>
         <properties>
             <property name="hibernate.dialect" value="org.hibernate.dialect.PostgreSQL9Dialect"/>
             <property name="hibernate.connection.driver_class" value="org.postgresql.Driver"/>
+            <property name="hibernate.connection.url" value="jdbc:postgresql://192.168.0.88:5432/sunlightstest"/>
+            <property name="hibernate.connection.username" value="sunlights"/>
+            <property name="hibernate.connection.password" value="sunlights"/>
         </properties>
     </persistence-unit>
 </persistence>
