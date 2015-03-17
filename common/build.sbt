@@ -24,7 +24,10 @@ libraryDependencies ++= Seq(
   "rapid" % "xsqlbuider" % "1.0.4",
   "com.sunlights" % "QRCode" % "1.0",
   "commons-httpclient" % "commons-httpclient" % "3.1",
-  "com.wordnik" %% "swagger-play2" % "1.3.12"
+  "com.wordnik" %% "swagger-play2" % "1.3.12",
+  "org.unitils" % "unitils-core" % "3.4.2",
+  "org.unitils" % "unitils-dbunit" % "3.4.2",
+  "org.unitils" % "unitils-orm" % "3.4.2"
 )
 
 sources in(Compile, doc) := Seq.empty
