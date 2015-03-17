@@ -70,11 +70,10 @@ public class AppVersionServiceImpl implements AppVersionService {
                 @Override
                 public String call() throws Exception {
                     if(AppConst.PLATFORM_IOS.equals(platform)) {
-                        return "1.7";
-                        //return getValueByHttpClient(ACCESS_TOKEN_URL_IOS, VERSION);
+                        //return "1.7";
+                        return getValueByHttpClient(ACCESS_TOKEN_URL_IOS, VERSION);
                     } else if(AppConst.PLATFORM_ANDROID.equals(platform)) {
                         ParameterService parameterService = new ParameterService();
-                        parameterService.clearAll();
                         return parameterService.getParameterByName(AppConst.ANDROID_LATEST_VERSION);
                     }
                     return null;
