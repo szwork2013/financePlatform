@@ -24,11 +24,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.springframework.context.ApplicationContext;
 import org.unitils.UnitilsJUnit4;
-import org.unitils.dbunit.annotation.DataSet;
-import org.unitils.dbunit.annotation.ExpectedDataSet;
-import org.unitils.orm.jpa.JpaUnitils;
 import org.unitils.orm.jpa.annotation.JpaEntityManagerFactory;
-import org.unitils.reflectionassert.ReflectionAssert;
 import org.unitils.spring.annotation.SpringApplicationContext;
 import play.db.jpa.JPA;
 import play.test.FakeApplication;
@@ -36,7 +32,7 @@ import play.test.Helpers;
 
 public class HibernateJpaTest extends UnitilsJUnit4 {
 
-    @SpringApplicationContext({"com/sunlights/common/hibernateJpaJotmSpringTest-spring.xml"})
+    @SpringApplicationContext({"hibernateJpaSpringTest-spring.xml"})
     ApplicationContext applicationContext;
 
     @JpaEntityManagerFactory

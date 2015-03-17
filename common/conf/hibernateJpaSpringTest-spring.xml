@@ -7,7 +7,7 @@
         <property name="jpaVendorAdapter">
         	<bean class="org.unitils.orm.jpa.util.provider.hibernate.UnitilsHibernateJpaVendorAdapter"/>
         </property>
-        <property name="persistenceXmlLocation" value="com/sunlights/common/hibernate-persistence-test.xml"/>
+        <property name="persistenceXmlLocation" value="hibernate-persistence-test.xml"/>
     </bean>
 
 	<bean id="dataSource" class="org.unitils.database.UnitilsDataSourceFactoryBean"/>
