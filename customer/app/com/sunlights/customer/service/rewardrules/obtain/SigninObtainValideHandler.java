@@ -32,7 +32,7 @@ public class SigninObtainValideHandler extends AbstractObtainRuleHandler {
     @Override
     public void obtainInternal(ActivityRequestVo requestVo, ActivityResponseVo responseVo) throws Exception {
 
-        CustJoinActivity custJoinActivity = custJoinActivityService.getTodayRecordByCustAndActivity(requestVo.getCustId(), requestVo.getActivityId(), requestVo.getScene());
+        CustJoinActivity custJoinActivity = custJoinActivityService.getTodayRecordByCustAndActivity(requestVo.getCustId(), null, requestVo.getScene());
         if (custJoinActivity != null) {
             String template = activityReturnMsgService.getReturnMsg(requestVo.getScene(), null, null,
                     ActivityConstant.RETURN_MSG_CATEGORY_REWARD_TRADE, MsgCode.ALREADY_SIGN.getCode());

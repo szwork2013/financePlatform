@@ -5,8 +5,10 @@ import com.sunlights.common.MsgCode;
 import com.sunlights.common.utils.CommonUtil;
 import com.sunlights.common.utils.MessageUtil;
 import com.sunlights.common.vo.Message;
+import com.sunlights.core.service.AndroidAppStoreUrlService;
 import com.sunlights.core.service.AppVersionService;
 import com.sunlights.core.service.VersionRuleConfigService;
+import com.sunlights.core.service.impl.AndroidAppStoreUrlServiceImpl;
 import com.sunlights.core.service.impl.AppVersionServiceImpl;
 import com.sunlights.core.service.impl.VersionRuleConfigServiceImpl;
 import com.wordnik.swagger.annotations.*;
@@ -14,6 +16,9 @@ import play.Logger;
 import play.db.jpa.Transactional;
 import play.mvc.Controller;
 import play.mvc.Result;
+
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Created by tangweiqun on 2015/3/12.
@@ -24,6 +29,8 @@ import play.mvc.Result;
 public class VersionCheckController extends Controller {
 
     private VersionRuleConfigService versionRuleConfigService = new VersionRuleConfigServiceImpl();
+
+    private AndroidAppStoreUrlService androidAppStoreUrlService = new AndroidAppStoreUrlServiceImpl();
 
     private AppVersionService appVersionService = AppVersionServiceImpl.getInstance();
 
@@ -45,7 +52,15 @@ public class VersionCheckController extends Controller {
         String platform = CommonUtil.getCurrentPlatformFromStr(userAgent);
 
         Message message = versionRuleConfigService.checkVersion(platform, clientVersion);
-        messageUtil.setMessage(message, null);
+
+        String downloadUrl = null;
+        if(AppConst.PLATFORM_ANDROID.equals(platform)) {
+            downloadUrl = androidAppStoreUrlService.getAppStoreUrl();
+        }
+
+        Map<String, String> valueMap = new HashMap<String, String>();
+        valueMap.put("downloadUrl", downloadUrl);
+        messageUtil.setMessage(message, valueMap);
 
         Logger.debug("核对版本信息：" + messageUtil.toJson().toString());
 

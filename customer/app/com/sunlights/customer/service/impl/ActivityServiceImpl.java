@@ -67,7 +67,10 @@ public class ActivityServiceImpl implements ActivityService {
         return activityVos;
     }
 
-
+    @Override
+    public List<Activity> canAttendActivities(String scene) {
+        return activityDao.canAttendActivities(scene);
+    }
 
     @Override
     public String getFileFuleUrl(String fileName, String remotDir) {
@@ -163,7 +166,8 @@ public class ActivityServiceImpl implements ActivityService {
         return getRemainNum(obtainRewardRule);
     }
 
-    private synchronized Integer getRemainNum(ObtainRewardRule obtainRewardRule) {
+    @Override
+    public Integer getRemainNum(ObtainRewardRule obtainRewardRule) {
 
         Integer totalCount = obtainRewardRule.getTotalCount();
         Integer outTotalCount = obtainRewardRule.getOutTotalCount();
@@ -201,7 +205,7 @@ public class ActivityServiceImpl implements ActivityService {
         try {
             currentTime = CommonUtil.stringToDate(CommonUtil.dateToString(currentTime, CommonUtil.DATE_FORMAT_SHORT), CommonUtil.DATE_FORMAT_SHORT);
         } catch (ParseException e) {
-            e.printStackTrace();
+            Logger.error("解析时间错误", e);
         }
         if (activity.getEndTime() != null && activity.getEndTime().before(currentTime)) {
             return true;

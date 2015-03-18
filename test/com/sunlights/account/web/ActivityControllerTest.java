@@ -166,7 +166,7 @@ public class ActivityControllerTest extends BaseTest {
                 play.mvc.Result result = null;
 
                 com.sunlights.customer.service.CustJoinActivityService custJoinActivityService = new CustJoinActivityServiceImpl();
-                CustJoinActivity custJoinActivity = custJoinActivityService.getByCustAndActivity("20141206134951010000000044", null, ActivityConstant.ACTIVITY_FIRST_PURCHASE_SCENE_CODE);
+                CustJoinActivity custJoinActivity = custJoinActivityService.getByCustAndActivity("20150310104724010000000292", null, ActivityConstant.ACTIVITY_FIRST_PURCHASE_SCENE_CODE);
                 //2:签到获取金豆正常测试
                 formParams = new HashMap<String, String>();
                 formParams.put("tradeType", "0");
@@ -176,21 +176,6 @@ public class ActivityControllerTest extends BaseTest {
                 result = getResult("/account/activity/trade", formParams, cookie);
                 assertThat(status(result)).isEqualTo(OK);
                 final MessageVo message = toMessageVo(result);
-
-                /**
-                 * 验证message与value
-                 */
-                String testString = null;
-                try {
-                    testString = getJsonFile("json/CusttTradeReward.json");//获得json文件内容
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-                MessageVo testMessage = toMessageVo(testString);
-                assertThat(testMessage.getMessage()).isEqualTo(message.getMessage());//此处判断message
-                TradeObtainRewardFailVo testObtainRewardVo = Json.fromJson(Json.toJson(testMessage.getValue()), TradeObtainRewardFailVo.class);
-                TradeObtainRewardFailVo obtainRewardVo = Json.fromJson(Json.toJson(message.getValue()), TradeObtainRewardFailVo.class);
-                assertThat(testObtainRewardVo).isEqualTo(obtainRewardVo);//此处判断value
 
                 Logger.info("============testPurchaseObtainReward result====\n" + contentAsString(result));
                 if (custJoinActivity != null) {

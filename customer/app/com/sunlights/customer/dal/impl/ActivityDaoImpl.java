@@ -34,6 +34,12 @@ public class ActivityDaoImpl extends EntityBaseDao implements ActivityDao {
         return findBy(Activity.class, "scene", scene);
     }
 
+    @Override
+    public List<Activity> canAttendActivities(String scene) {
+        String currentDate = CommonUtil.dateToString(new Date(), CommonUtil.DATE_FORMAT_SHORT);
+        String jpql = " select a from Activity a where a.status = 'N' and a.scene = '" + scene+ "' and a.beginTime <= '" + currentDate + "' and a.endTime >= '" + currentDate + "' order by a.createTime desc ";
+        return super.find(jpql);
+    }
 
     @Override
     public Activity findById(Long id) {

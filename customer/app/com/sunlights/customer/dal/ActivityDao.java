@@ -20,6 +20,13 @@ public interface ActivityDao {
      */
     public List<Activity> getActivityByScene(String scene);
 
+    /**
+     * 获取指定场景下可以参加的活动
+     * @param scene
+     * @return
+     */
+    public List<Activity> canAttendActivities(String scene);
+
 
     public Activity findById(Long id);
 

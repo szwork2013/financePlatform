@@ -49,7 +49,7 @@ public class ObtainRuleGainHandler extends AbstractObtainRuleHandler {
 
         if (activityScene != null && ActivityConstant.ACTIVITY_CUSTONER_STATUS_NOMAL.equals(activityScene.getStatus())) {
             requestVo.setActivityScene(activityScene);
-            List<Activity> activities = activityService.getActivityByScene(activityScene.getScene());
+            List<Activity> activities = activityService.canAttendActivities(activityScene.getScene());
             if (activities == null || activities.isEmpty()) {
                 isNotConfig = true;
             } else {
@@ -57,7 +57,7 @@ public class ObtainRuleGainHandler extends AbstractObtainRuleHandler {
                 Map<Long, List<ObtainRewardRuleVo>> obtainRewardRuleMap = new HashMap<Long, List<ObtainRewardRuleVo>>();
                 for (Activity activity : activities) {
                     List<ObtainRewardRuleVo> obtainRewardRules = obtainRewardRuleService.getByVosActivityId(activity.getId());
-                    if (obtainRewardRules == null || obtainRewardRules.isEmpty() || ActivityConstant.ACTIVITY_CUSTONER_STATUS_FORBIDDEN.equals(activity.getStatus())) {
+                    if (obtainRewardRules == null || obtainRewardRules.isEmpty()) {
                         Logger.debug("获取规则无效");
                         continue;
                     }
