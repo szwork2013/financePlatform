@@ -183,6 +183,7 @@ public class ProductController extends Controller {
         int pageSize = pageVo.getPageSize();
         String type = (String)pageVo.get("EQS_productType");
 
+        List<FundVo> returnList = Lists.newArrayList();
         List<FundVo> meetAllList = Lists.newArrayList();
         for (FundVo fundVo : cacheList) {
             if (StringUtils.isNotEmpty(type) && !type.equals(fundVo.getType())) {
@@ -191,7 +192,15 @@ public class ProductController extends Controller {
 
             meetAllList.add(fundVo);
         }
-        List<FundVo> returnList = meetAllList.subList(index, index + pageSize);
+        if (index >= meetAllList.size()) {
+            return returnList;
+        }
+        if (index + pageSize > meetAllList.size()) {
+            returnList = meetAllList.subList(index, meetAllList.size());
+        }else{
+            returnList = meetAllList.subList(index, index + pageSize);
+        }
+
         pageVo.setCount(meetAllList.size());
         return returnList;
     }
