@@ -1,12 +1,12 @@
 package services;
 
-import com.fasterxml.jackson.databind.JsonNode;
-import org.apache.commons.lang3.StringUtils;
+import com.sunlights.common.utils.ConfigUtil;
+import org.apache.commons.httpclient.HttpClient;
+import org.apache.commons.httpclient.HttpStatus;
+import org.apache.commons.httpclient.NameValuePair;
+import org.apache.commons.httpclient.methods.PostMethod;
 import play.Logger;
-import play.libs.F;
-import play.libs.ws.WS;
-import play.libs.ws.WSRequestHolder;
-import play.libs.ws.WSResponse;
+import play.libs.Json;
 
 
 /**
@@ -20,31 +20,39 @@ public class ShortUrlService {
      * @return
      */
     public static String getShortURL(String path) {
-        String apipath = "https://api.weibo.com/2/short_url/shorten.json";
-        //https://api.weibo.com/2/short_url/shorten.json?source=5786724301&url_long=http://www.baidu.com
-        WSRequestHolder requestHolder = WS.url(apipath)
-                .setQueryParameter("source", "5786724301")//App Key
-                .setQueryParameter("url_long", path);//路径
+//        https://api.weibo.com/2/short_url/shorten.json?source=5786724301&url_long=http://www.baidu.com
+        Logger.info("==============调用短URL接口============");
+        HttpClient httpClient = new HttpClient();
+        ConfigUtil.setProxy(httpClient);
 
-        F.Promise<String> jsonPromise = requestHolder.get().map(
-                new F.Function<WSResponse, String>() {
-                    public String apply(WSResponse response) {
-                        JsonNode json = response.asJson();
-                        Logger.info("return json:" + json.toString());
-                        if (null != json && null != json.get("urls")) {
-                            String url_sort = json.get("urls").get(0).get("url_short").toString();
-                            if (StringUtils.isNotEmpty(url_sort)) {
-                                return url_sort;
-                            } else {
-                                return null;
-                            }
-                        } else {
-                            return null;
-                        }
-                    }
-                }
-        );
+        String result = null;
+        try {
+            String url = "https://api.weibo.com/2/short_url/shorten.json";
 
-        return jsonPromise.get(8000).replace("\"", "");//去掉双引号
+            PostMethod postMethod = new PostMethod(url);
+            postMethod.addRequestHeader("Content-Type", "application/x-www-form-urlencoded;charset=gbk");// 在头文件中设置转码
+
+            NameValuePair[] data = {
+                    new NameValuePair("source", "5786724301"),
+                    new NameValuePair("url_long", path)};
+            postMethod.setRequestBody(data);
+            int statusCode = httpClient.executeMethod(postMethod);
+            Logger.info("调用短URL接口返回statusCode：" + statusCode);
+
+            result = postMethod.getResponseBodyAsString();
+            if (statusCode == HttpStatus.SC_OK) {
+                Logger.info("调用短URL接口结果为：" + result);
+            } else {
+                Logger.info("调用短URL接口失败：" + result);
+            }
+            postMethod.releaseConnection();
+        } catch (Exception e) {
+            e.printStackTrace();
+            Logger.info(e.getMessage());
+        }
+
+        String url_sort = Json.parse(result).get("urls").get(0).get("url_short").toString();
+
+        return url_sort;
     }
 }
