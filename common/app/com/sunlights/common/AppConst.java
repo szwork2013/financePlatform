@@ -63,6 +63,10 @@ public final class AppConst {
     public static String CHANNEL_PC = "1";
     public static String CHANNEL_ANDROID = "2";
 
+    public static String CACHE_PRODUCT_MONETARY_LIST = "product_monetary_list";//货币型产品缓存
+    public static String CACHE_PRODUCT_STF_LIST = "product_stf_list";//定期理财缓存
+    public static String CACHE_PRODUCT_INDEX = "product_index";//首页缓存
+
     public static String FUND_CATEGORY_MONETARY = "MONETARY";
     public static String FUND_CATEGORY_STF = "STF";
     public static String FUND_GRAB_STATUS_NULL = "FUND-GRAB-STATUS-NULL";

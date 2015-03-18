@@ -9,6 +9,8 @@ POST        /product/chart                    @com.sunlights.core.web.ProductCon
 POST        /product/index                    @com.sunlights.core.web.ProductController.findProductIndex
 POST        /v2.0/product/index               @com.sunlights.core.web.ProductController.findProductsIndex
 POST        /products                         @com.sunlights.core.web.ProductController.findProductsBy
+GET         /product/reload                   @com.sunlights.core.web.ProductController.reloadProduct
+
 POST        /product/attentions               @com.sunlights.core.web.AttentionController.findProductAttentions
 POST        /product/attention/create         @com.sunlights.core.web.AttentionController.createProductAttention
 POST        /product/attentions/create        @com.sunlights.core.web.AttentionController.createProductAttentions
@@ -40,8 +42,8 @@ POST        /bank/bankcard/saveall            @com.sunlights.customer.web.BankCo
 
 
 #version
-POST         /version                        @com.sunlights.core.web.VersionCheckController.checkVersion
-GET          /version/:platform              @com.sunlights.core.web.VersionCheckController.refreshVersion(platform: String)
+POST        /version                          @com.sunlights.core.web.VersionCheckController.checkVersion
+GET         /version/:platform                @com.sunlights.core.web.VersionCheckController.refreshVersion(platform: String)
 
 # Map static resources from the /public folder to the /assets URL path
 GET         /assets/*file                     controllers.Assets.at(path="/public", file)
