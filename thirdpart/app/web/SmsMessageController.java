@@ -1,7 +1,7 @@
 package web;
 
 
-import models.MessageSmsTxn;
+import com.sunlights.common.vo.SmsMessageVo;
 import play.Logger;
 import play.data.Form;
 import play.db.jpa.Transactional;
@@ -23,15 +23,15 @@ import services.SmsMessageService;
  */
 @Transactional
 public class SmsMessageController extends Controller {
-    private Form<MessageSmsTxn> smsMessageFrom = Form.form(MessageSmsTxn.class);
+    private Form<SmsMessageVo> smsMessageFrom = Form.form(SmsMessageVo.class);
     private SmsMessageService smsMessageService = new SmsMessageService();
 
     public Result sendSms() {
 
-        MessageSmsTxn smsMessage = null;
+        SmsMessageVo smsMessage = null;
         Http.RequestBody body = request().body();
         if (body.asJson() != null) {
-            smsMessage = Json.fromJson(body.asJson(), MessageSmsTxn.class);
+            smsMessage = Json.fromJson(body.asJson(), SmsMessageVo.class);
         } else {
             smsMessage = smsMessageFrom.bindFromRequest().get();
         }

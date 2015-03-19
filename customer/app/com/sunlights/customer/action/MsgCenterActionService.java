@@ -195,9 +195,16 @@ public class MsgCenterActionService {
 
         Logger.debug(">>待发送消息内容：" + Json.toJson(messageSmsTxn));
         try {
-            MessageSmsTxn resultMessageSmsTxn = smsMessageService.sendSms(messageSmsTxn);
-            centerDao.createMessageSmsTxn(resultMessageSmsTxn);
+            SmsMessageVo smsMessageVo = new SmsMessageVo();
+            smsMessageVo.setContent(messageSmsTxn.getContent());
+            smsMessageVo.setMobile(messageSmsTxn.getMobile());
+            smsMessageVo.setSmsId(messageSmsTxn.getSmsId());
+
+            SmsMessageVo resultMessageSmsTxn = smsMessageService.sendSms(smsMessageVo);
+            messageSmsTxn.setSuccessInd(resultMessageSmsTxn.getSuccessInd());
+            centerDao.createMessageSmsTxn(messageSmsTxn);
         } catch (Exception e) {
+            messageSmsTxn.setSuccessInd(AppConst.STATUS_INVALID);
             centerDao.createMessageSmsTxn(messageSmsTxn);
             Logger.error(">>messageSmsTxn:" + Json.toJson(messageSmsTxn), e);
             e.printStackTrace();

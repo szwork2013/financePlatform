@@ -5,9 +5,8 @@ import com.sunlights.common.AppConst;
 import com.sunlights.common.ParameterConst;
 import com.sunlights.common.service.ParameterService;
 import com.sunlights.common.utils.ConfigUtil;
-import com.sunlights.common.utils.DBHelper;
 import com.sunlights.common.utils.MD5Helper;
-import models.MessageSmsTxn;
+import com.sunlights.common.vo.SmsMessageVo;
 import org.apache.commons.httpclient.HttpClient;
 import org.apache.commons.httpclient.HttpStatus;
 import org.apache.commons.httpclient.NameValuePair;
@@ -28,21 +27,19 @@ public class SmsMessageService {
 
     private ParameterService parameterService = new ParameterService();
 
-    public MessageSmsTxn sendSms(MessageSmsTxn smsMessage) {
-        String result = executeSend(smsMessage);
+    public SmsMessageVo sendSms(SmsMessageVo smsMessageVo) {
+        String result = executeSend(smsMessageVo);
         Logger.info(result);
         if ("0,成功".equals(result)) {
-            smsMessage.setSuccessInd(AppConst.STATUS_VALID);
+            smsMessageVo.setSuccessInd(AppConst.STATUS_VALID);
         } else {
-            smsMessage.setSuccessInd(AppConst.STATUS_INVALID);
+            smsMessageVo.setSuccessInd(AppConst.STATUS_INVALID);
         }
-        smsMessage.setReturnMsg(result);
-        smsMessage.setUpdateTime(DBHelper.getCurrentTime());
 
-        return smsMessage;
+        return smsMessageVo;
     }
 
-    public String executeSend(MessageSmsTxn smsMessage) {
+    public String executeSend(SmsMessageVo smsMessageVo) {
         Logger.info("==============调用短信接口============");
         HttpClient httpClient = new HttpClient();
 
@@ -63,10 +60,10 @@ public class SmsMessageService {
             NameValuePair[] data = {
                     new NameValuePair("account", account),
                     new NameValuePair("password", formatPwd(password, warrantyCode)),
-                    new NameValuePair("mobile", smsMessage.getMobile()),
-                    new NameValuePair("content", smsMessage.getContent()),
+                    new NameValuePair("mobile", smsMessageVo.getMobile()),
+                    new NameValuePair("content", smsMessageVo.getContent()),
                     new NameValuePair("channel", channel),
-                    new NameValuePair("smsid", smsMessage.getSmsId()),
+                    new NameValuePair("smsid", smsMessageVo.getSmsId()),
                     new NameValuePair("sendType", "1")};
             postMethod.setRequestBody(data);
             int statusCode = httpClient.executeMethod(postMethod);
