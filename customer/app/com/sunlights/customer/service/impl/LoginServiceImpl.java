@@ -57,8 +57,8 @@ public class LoginServiceImpl implements LoginService {
         Authentication authentication = authenticationVo.getAuthentication();
         Customer customer = authenticationVo.getCustomer();
 
-        //若为已登录状态跳出，（如：手机后台激活）
         CustomerSession customerSession = null;
+        //若为已登录状态跳出，（如：手机后台激活）
         if (fromApp(vo.getChannel())) {
             customerSession = customerService.getCustomerSession(token);
             if (customerSession != null) {
@@ -68,16 +68,16 @@ public class LoginServiceImpl implements LoginService {
                 }
             }
             validateLoginTime(customer, deviceNo);
-            //
             if (!new MD5Helper().encrypt(passWord).equals(authentication.getPassword())) {
                 saveLoginFail(customer, deviceNo, false);
                 return null;
             }
-
-            saveLoginHistory(customer, vo);
-            customerSession = customerService.createCustomerSession(customer, remoteAddress, deviceNo);
+        }else if (!new MD5Helper().encrypt(passWord).equals(authentication.getPassword())) {
+            throw new BusinessRuntimeException(new Message(Severity.ERROR, MsgCode.PASSWORD_CONFIRM_ERROR));
         }
 
+        saveLoginHistory(customer, vo);
+        customerSession = customerService.createCustomerSession(customer, remoteAddress, deviceNo);
 
         return customerSession;
     }
