@@ -5,6 +5,7 @@ import com.sunlights.customer.dal.RewardAccountDao;
 import com.sunlights.customer.dal.impl.RewardAccountDaoImpl;
 import com.sunlights.customer.service.RewardAccountService;
 import models.RewardAccountBalance;
+import play.Logger;
 
 import java.sql.Timestamp;
 
@@ -36,5 +37,8 @@ public class RewardAccountServiceImpl implements RewardAccountService {
         return rewardAccountBalanceDao.findRewardAccountByCustomerId(customerId);
     }
 
-
+    @Override
+    public void updateRewardAccount(String custId, String scene, String rewardType, long amt, String fundFlowType) {
+        Logger.debug("更新奖励账户成功");
+    }
 }

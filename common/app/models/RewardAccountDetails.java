@@ -27,6 +27,39 @@ public class RewardAccountDetails extends BaseEntity {
     @Column(name = "fundFlowType", length = 10)
     private String fundFlowType;
 
+    public static enum FundFlowType {
+        RANDOM_PAY("0","奖励收入"),
+        SEVERAL_PAY("1","奖励支出(兑换)");
+
+        private String type;
+        private String desc;
+
+        private FundFlowType(String type, String desc) {
+            this.type = type;
+            this.desc = desc;
+        }
+
+        public String getType() {
+            return type;
+        }
+
+        public String getDesc() {
+            return desc;
+        }
+
+        public static String getDescByStatus(String status) {
+            if(status == null) {
+                return null;
+            }
+            for(FundFlowType temp : FundFlowType.values()) {
+                if(status.equals(temp.getType())) {
+                    return temp.getDesc();
+                }
+            }
+            return null;
+        }
+    }
+
     public String getCustomerId() {
         return customerId;
     }

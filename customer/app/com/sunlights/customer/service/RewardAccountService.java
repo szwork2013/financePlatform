@@ -22,4 +22,6 @@ public interface RewardAccountService {
 
     public RewardAccountBalance findRewardAccountByCustomerId(String customerId);
 
+    public void updateRewardAccount(String custId, String scene, String rewardType, long amt, String fundFlowType);
+
 }
