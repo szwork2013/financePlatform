@@ -1,6 +1,8 @@
 package models;
 
 import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Table;
 
 /**
  * <p>Project: financeplatform</p>
@@ -11,8 +13,10 @@ import javax.persistence.Column;
  *
  * @author <a href="mailto:jiaming.wang@sunlights.cc">wangJiaMing</a>
  */
+@Entity
+@Table(name = "f_reward_account_details")
 public class RewardAccountDetails extends BaseEntity {
-    @Column(name = "customer_Id", length = 30)
+    @Column(name = "customer_id", length = 30)
     private String customerId;
     @Column(name = "reward_sequence", length = 20)
     private String rewordSequence;
@@ -24,12 +28,12 @@ public class RewardAccountDetails extends BaseEntity {
     private Long rewardAmountBalance;
     @Column(name = "income_expend_balance")
     private Long incomeExpendBalance;
-    @Column(name = "fundFlowType", length = 10)
+    @Column(name = "fund_flow_type", length = 10)
     private String fundFlowType;
 
     public static enum FundFlowType {
-        RANDOM_PAY("0","奖励收入"),
-        SEVERAL_PAY("1","奖励支出(兑换)");
+        INCOME("0","奖励收入"),
+        EXPEND("1","奖励支出(兑换)");
 
         private String type;
         private String desc;

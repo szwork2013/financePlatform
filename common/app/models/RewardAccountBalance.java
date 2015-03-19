@@ -1,6 +1,8 @@
 package models;
 
 import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Table;
 
 /**
 * <p>Project: financeplatform</p>
@@ -11,15 +13,17 @@ import javax.persistence.Column;
 *
 * @author <a href="mailto:jiaming.wang@sunlights.cc">wangJiaMing</a>
 */
+@Entity
+@Table(name = "f_reward_account_balance")
 public class RewardAccountBalance extends BaseEntity{
-    @Column(name = "customer_Id", length = 30)
+    @Column(name = "customer_id", length = 30)
     private String customerId;
-    @Column(name = "reword_account_balance")
-    private Long rewordAccountBalance;
-    @Column(name = "reword_income_balance")
-    private Long rewordIncomeBalance;
-    @Column(name = "reword_expend_balance")
-    private Long rewordExpendBalance;
+    @Column(name = "reward_account_balance")
+    private Long rewardAccountBalance;
+    @Column(name = "reward_income_balance")
+    private Long rewardIncomeBalance;
+    @Column(name = "reward_expend_balance")
+    private Long rewardExpendBalance;
 
     public String getCustomerId() {
         return customerId;
@@ -29,27 +33,27 @@ public class RewardAccountBalance extends BaseEntity{
         this.customerId = customerId;
     }
 
-    public Long getRewordAccountBalance() {
-        return rewordAccountBalance;
+    public Long getRewardAccountBalance() {
+        return rewardAccountBalance;
     }
 
-    public void setRewordAccountBalance(Long rewordAccountBalance) {
-        this.rewordAccountBalance = rewordAccountBalance;
+    public void setRewardAccountBalance(Long rewardAccountBalance) {
+        this.rewardAccountBalance = rewardAccountBalance;
     }
 
-    public Long getRewordIncomeBalance() {
-        return rewordIncomeBalance;
+    public Long getRewardIncomeBalance() {
+        return rewardIncomeBalance;
     }
 
-    public void setRewordIncomeBalance(Long rewordIncomeBalance) {
-        this.rewordIncomeBalance = rewordIncomeBalance;
+    public void setRewardIncomeBalance(Long rewardIncomeBalance) {
+        this.rewardIncomeBalance = rewardIncomeBalance;
     }
 
-    public Long getRewordExpendBalance() {
-        return rewordExpendBalance;
+    public Long getRewardExpendBalance() {
+        return rewardExpendBalance;
     }
 
-    public void setRewordExpendBalance(Long rewordExpendBalance) {
-        this.rewordExpendBalance = rewordExpendBalance;
+    public void setRewardExpendBalance(Long rewardExpendBalance) {
+        this.rewardExpendBalance = rewardExpendBalance;
     }
 }

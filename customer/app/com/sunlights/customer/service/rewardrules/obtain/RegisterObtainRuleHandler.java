@@ -28,6 +28,7 @@ public class RegisterObtainRuleHandler extends AbstractObtainRuleHandler {
         ReCommendHandler reCommendHandler = new ReCommendHandler();
         ValidBankCardHandler validBankCardHandler = new ValidBankCardHandler();
         RewardFlowHandler rewardFlowHandler = new RewardFlowHandler();
+        RewardAccountHandler rewardAccountHandler = new RewardAccountHandler();
         CustJoinActivityHandler custJoinActivityHandler = new CustJoinActivityHandler();
         OldResultAssignHandler oldResultAssignHandler = new OldResultAssignHandler();
         RigisterObtainSendMessageHandler rigisterObtainSendMessageHandler = new RigisterObtainSendMessageHandler();
@@ -38,6 +39,7 @@ public class RegisterObtainRuleHandler extends AbstractObtainRuleHandler {
                 .setNextHandler(reCommendHandler)
                 .setNextHandler(validBankCardHandler)
                 .setNextHandler(rewardFlowHandler)
+                .setNextHandler(rewardAccountHandler)
                 .setNextHandler(custJoinActivityHandler)
                 .setNextHandler(oldResultAssignHandler)
                 .setNextHandler(rigisterObtainSendMessageHandler);

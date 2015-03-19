@@ -23,16 +23,16 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.springframework.context.ApplicationContext;
-import org.unitils.UnitilsJUnit4;
+/*import org.unitils.UnitilsJUnit4;
 import org.unitils.orm.jpa.annotation.JpaEntityManagerFactory;
-import org.unitils.spring.annotation.SpringApplicationContext;
+import org.unitils.spring.annotation.SpringApplicationContext;*/
 import play.db.jpa.JPA;
 import play.test.FakeApplication;
 import play.test.Helpers;
 
-public class HibernateJpaTest extends UnitilsJUnit4 {
+public class HibernateJpaTest /**extends UnitilsJUnit4*/ {
 
-    @SpringApplicationContext({"hibernateJpaSpringTest-spring.xml"})
+    /*@SpringApplicationContext({"hibernateJpaSpringTest-spring.xml"})
     ApplicationContext applicationContext;
 
     @JpaEntityManagerFactory
@@ -65,7 +65,7 @@ public class HibernateJpaTest extends UnitilsJUnit4 {
     @Test
     public void testDummy(){
 
-    }
+    }*/
 
 //    @Test
 //    @DataSet("../datasets/SinglePerson.xml")

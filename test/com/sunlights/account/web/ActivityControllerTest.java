@@ -44,30 +44,33 @@ public class ActivityControllerTest extends BaseTest {
 
     @Test
     public void testSignInObtainReward() throws Exception {
+        JPA.withTransaction(new F.Callback0() {
+            @Override
+            public void invoke() throws Throwable {
 
+                Map<String, String> formParams = new HashMap<String, String>();
+                play.mvc.Result result = null;
+                com.sunlights.customer.service.CustJoinActivityService custJoinActivityService = new CustJoinActivityServiceImpl();
 
-        Map<String, String> formParams = new HashMap<String, String>();
-        play.mvc.Result result = null;
-        com.sunlights.customer.service.CustJoinActivityService custJoinActivityService = new CustJoinActivityServiceImpl();
+                CustJoinActivity custJoinActivity = custJoinActivityService.getTodayRecordByCustAndActivity("20150310104724010000000292", null, ActivityConstant.ACTIVITY_SIGNIN_SCENE_CODE);
+                //2:签到获取金豆正常测试
+                formParams = new HashMap<String, String>();
+                formParams.put("scene", ActivityConstant.ACTIVITY_SIGNIN_SCENE_CODE);
+                result = getResult("/account/activity/signin", formParams, cookie);
+                assertThat(status(result)).isEqualTo(OK);
 
-        CustJoinActivity custJoinActivity = custJoinActivityService.getTodayRecordByCustAndActivity("20150105103148010000000067", null, ActivityConstant.ACTIVITY_SIGNIN_SCENE_CODE);
-        //2:签到获取金豆正常测试
-        formParams = new HashMap<String, String>();
-        formParams.put("scene", ActivityConstant.ACTIVITY_SIGNIN_SCENE_CODE);
-        result = getResult("/account/activity/signin", formParams, cookie);
-        assertThat(status(result)).isEqualTo(OK);
+                final MessageVo message = toMessageVo(result);
 
-        final MessageVo message = toMessageVo(result);
+                if (custJoinActivity != null) {
+                    assertThat(message.getMessage().getCode()).isEqualTo(MsgCode.ALREADY_SIGN.getCode());
+                } else {
+                    assertThat(message.getMessage().getCode()).isEqualTo(MsgCode.OBTAIN_SUCC.getCode());
+                }
 
-        if (custJoinActivity != null) {
-            assertThat(message.getMessage().getCode()).isEqualTo(MsgCode.ALREADY_SIGN.getCode());
-        } else {
-            assertThat(message.getMessage().getCode()).isEqualTo(MsgCode.OBTAIN_SUCC.getCode());
-        }
+                Logger.info("============testSignInObtainReward result====\n" + contentAsString(result));
 
-        Logger.info("============testSignInObtainReward result====\n" + contentAsString(result));
-
-
+            }
+        });
     }
 
     @Test

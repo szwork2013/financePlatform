@@ -4,6 +4,7 @@ import com.sunlights.common.dal.EntityBaseDao;
 import com.sunlights.customer.dal.RewardAccountDao;
 import models.RewardAccountBalance;
 
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -23,12 +24,13 @@ public class RewardAccountDaoImpl extends EntityBaseDao implements RewardAccount
 
     @Override
     public RewardAccountBalance updateRewardAccount(RewardAccountBalance rewardAccountBalance) {
+        rewardAccountBalance.setUpdateTime(new Date());
         return update(rewardAccountBalance);
     }
 
     @Override
     public RewardAccountBalance findRewardAccountByCustomerId(String customerId) {
-        List<RewardAccountBalance> list = findBy(RewardAccountBalance.class, "customer_Id", customerId);
+        List<RewardAccountBalance> list = findBy(RewardAccountBalance.class, "customerId", customerId);
         return list.isEmpty() ? new RewardAccountBalance() : list.get(0);
     }
 }

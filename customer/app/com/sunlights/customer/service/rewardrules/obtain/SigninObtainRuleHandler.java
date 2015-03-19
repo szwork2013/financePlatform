@@ -24,12 +24,14 @@ public class SigninObtainRuleHandler extends AbstractObtainRuleHandler {
         SigninObtainValideHandler signinObtainValideHandler = new SigninObtainValideHandler();
         ObtainRuleGainHandler obtainRuleGainHandler = new ObtainRuleGainHandler();
         RewardFlowHandler rewardFlowHandler = new RewardFlowHandler();
+        RewardAccountHandler rewardAccountHandler = new RewardAccountHandler();
         SignInCustJoinActivityHandler signInCustJoinActivityHandler = new SignInCustJoinActivityHandler();
         OldResultAssignHandler oldResultAssignHandler = new OldResultAssignHandler();
 
         setNextHandler(signinObtainValideHandler)
                 .setNextHandler(obtainRuleGainHandler)
                 .setNextHandler(rewardFlowHandler)
+                .setNextHandler(rewardAccountHandler)
                 .setNextHandler(signInCustJoinActivityHandler)
                 .setNextHandler(oldResultAssignHandler);
 

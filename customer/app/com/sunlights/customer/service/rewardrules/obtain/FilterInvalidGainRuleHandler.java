@@ -93,5 +93,8 @@ public class FilterInvalidGainRuleHandler extends AbstractObtainRuleHandler {
         return false;
     }
 
-
+    @Override
+    public String toString() {
+        return "FilterInvalidGainRuleHandler";
+    }
 }
