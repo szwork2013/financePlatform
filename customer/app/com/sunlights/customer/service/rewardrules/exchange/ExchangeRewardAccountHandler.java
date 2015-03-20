@@ -1,5 +1,6 @@
 package com.sunlights.customer.service.rewardrules.exchange;
 
+import com.sunlights.customer.ActivityConstant;
 import com.sunlights.customer.service.RewardAccountService;
 import com.sunlights.customer.service.impl.RewardAccountServiceImpl;
 import com.sunlights.customer.service.rewardrules.vo.ActivityRequestVo;
@@ -24,8 +25,14 @@ public class ExchangeRewardAccountHandler extends AbstractExchangeRuleHandler{
     @Override
     public void exchangeInternal(ActivityRequestVo requestVo, ActivityResponseVo responseVo) throws Exception {
         BigDecimal exchangeMoney = requestVo.get("exchangeMoney", BigDecimal.class);
-        Long exchangeMoneyTrans = exchangeMoney.multiply(new BigDecimal(100)).longValue();
         ExchangeScene exchangeScene = requestVo.get("exchangeScene", ExchangeScene.class);
+
+        Long exchangeMoneyTrans = 0L;
+        if (ActivityConstant.REWARD_TYPE_JINDOU.equals(exchangeScene.getRewardType())) {
+            exchangeMoneyTrans = requestVo.get("subRewardAmt", Long.class);
+        }else{
+            exchangeMoneyTrans = exchangeMoney.multiply(new BigDecimal(100)).longValue();
+        }
 
         rewardAccountService.updateRewardAccount(requestVo.getCustId(), requestVo.getScene(), exchangeScene.getRewardType(), exchangeMoneyTrans, RewardAccountDetails.FundFlowType.EXPEND.getType());
     }

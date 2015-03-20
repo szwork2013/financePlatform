@@ -18,7 +18,8 @@ libraryDependencies ++= Seq(
   cache,
   javaWs,
   "commons-httpclient" % "commons-httpclient" % "3.1",
-  "com.sunlights" % "jpush-client" % "3.2.3"
+  "com.sunlights" % "jpush-client" % "3.2.3",
+  "com.google.code.gson" % "gson" % "2.3.1"
 )
 
 

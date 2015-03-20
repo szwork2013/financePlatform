@@ -27,7 +27,6 @@ comment on column c_Authentication.mobile is '用户名或手机号 用户名或
 comment on column c_Authentication.channel is '渠道号 channel 0-ios、1-web端 2android';
 comment on column c_Authentication.create_time is '创建时间';
 comment on column c_Authentication.update_time is '修改时间';
-create sequence SEQ_c_Authentication;
 
 --版本规则配置表
 create table  c_version_rule_config
@@ -48,7 +47,6 @@ comment on column c_version_rule_config.max_support_Version is '最大支持版�
 comment on column c_version_rule_config.channel is '渠道 1-表示android   2-表示ioS ';
 comment on column c_version_rule_config.create_time is '创建时间';
 comment on column c_version_rule_config.update_time is '修改时间';
-create sequence SEQ_c_version_rule_config;
 
 ALTER TABLE c_customer add COLUMN Authentication_id INTEGER;
 comment on column c_customer.Authentication_id is '认证ID';
