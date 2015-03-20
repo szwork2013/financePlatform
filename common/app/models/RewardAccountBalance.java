@@ -3,6 +3,7 @@ package models;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Table;
+import java.math.BigDecimal;
 
 /**
 * <p>Project: financeplatform</p>
@@ -19,11 +20,11 @@ public class RewardAccountBalance extends BaseEntity{
     @Column(name = "customer_id", length = 30)
     private String customerId;
     @Column(name = "reward_account_balance")
-    private Long rewardAccountBalance;
+    private BigDecimal rewardAccountBalance;
     @Column(name = "reward_income_balance")
-    private Long rewardIncomeBalance;
+    private BigDecimal rewardIncomeBalance;
     @Column(name = "reward_expend_balance")
-    private Long rewardExpendBalance;
+    private BigDecimal rewardExpendBalance;
 
     public String getCustomerId() {
         return customerId;
@@ -33,27 +34,27 @@ public class RewardAccountBalance extends BaseEntity{
         this.customerId = customerId;
     }
 
-    public Long getRewardAccountBalance() {
+    public BigDecimal getRewardAccountBalance() {
         return rewardAccountBalance;
     }
 
-    public void setRewardAccountBalance(Long rewardAccountBalance) {
+    public void setRewardAccountBalance(BigDecimal rewardAccountBalance) {
         this.rewardAccountBalance = rewardAccountBalance;
     }
 
-    public Long getRewardIncomeBalance() {
+    public BigDecimal getRewardIncomeBalance() {
         return rewardIncomeBalance;
     }
 
-    public void setRewardIncomeBalance(Long rewardIncomeBalance) {
+    public void setRewardIncomeBalance(BigDecimal rewardIncomeBalance) {
         this.rewardIncomeBalance = rewardIncomeBalance;
     }
 
-    public Long getRewardExpendBalance() {
+    public BigDecimal getRewardExpendBalance() {
         return rewardExpendBalance;
     }
 
-    public void setRewardExpendBalance(Long rewardExpendBalance) {
+    public void setRewardExpendBalance(BigDecimal rewardExpendBalance) {
         this.rewardExpendBalance = rewardExpendBalance;
     }
 }

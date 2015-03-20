@@ -3,6 +3,7 @@ package models;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Table;
+import java.math.BigDecimal;
 
 /**
  * <p>Project: financeplatform</p>
@@ -27,7 +28,7 @@ public class RewardAccountDetails extends BaseEntity {
     @Column(name = "reward_amount_balance")
     private Long rewardAmountBalance;
     @Column(name = "income_expend_balance")
-    private Long incomeExpendBalance;
+    private BigDecimal incomeExpendBalance;
     @Column(name = "fund_flow_type", length = 10)
     private String fundFlowType;
 
@@ -104,11 +105,11 @@ public class RewardAccountDetails extends BaseEntity {
         this.rewardAmountBalance = rewardAmountBalance;
     }
 
-    public Long getIncomeExpendBalance() {
+    public BigDecimal getIncomeExpendBalance() {
         return incomeExpendBalance;
     }
 
-    public void setIncomeExpendBalance(Long incomeExpendBalance) {
+    public void setIncomeExpendBalance(BigDecimal incomeExpendBalance) {
         this.incomeExpendBalance = incomeExpendBalance;
     }
 

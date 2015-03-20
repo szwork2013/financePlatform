@@ -5,10 +5,12 @@ import com.sunlights.customer.service.RewardAccountService;
 import com.sunlights.customer.service.impl.RewardAccountServiceImpl;
 import com.sunlights.customer.service.rewardrules.vo.ActivityRequestVo;
 import com.sunlights.customer.service.rewardrules.vo.ActivityResponseVo;
+import com.sunlights.customer.service.rewardrules.vo.RewardFlowRecordVo;
 import models.ExchangeScene;
 import models.RewardAccountDetails;
 
 import java.math.BigDecimal;
+import java.util.List;
 
 /**
  * <p>Project: financeplatform</p>
@@ -24,17 +26,18 @@ public class ExchangeRewardAccountHandler extends AbstractExchangeRuleHandler{
 
     @Override
     public void exchangeInternal(ActivityRequestVo requestVo, ActivityResponseVo responseVo) throws Exception {
-        BigDecimal exchangeMoney = requestVo.get("exchangeMoney", BigDecimal.class);
         ExchangeScene exchangeScene = requestVo.get("exchangeScene", ExchangeScene.class);
 
-        Long exchangeMoneyTrans = 0L;
-        if (ActivityConstant.REWARD_TYPE_JINDOU.equals(exchangeScene.getRewardType())) {
-            exchangeMoneyTrans = requestVo.get("subRewardAmt", Long.class);
-        }else{
-            exchangeMoneyTrans = exchangeMoney.multiply(new BigDecimal(100)).longValue();
+        List<RewardFlowRecordVo> rewardFlowRecordVos = responseVo.getRewardFlowRecordVos();
+        for(RewardFlowRecordVo rewardFlowRecordVo : rewardFlowRecordVos) {
+
+
+            rewardAccountService.updateRewardAccount(requestVo.getCustId(), requestVo.getScene(),
+                    exchangeScene.getRewardType(),rewardFlowRecordVo.getRewardAmtResult(),
+                    rewardFlowRecordVo.getMoneyResult(), RewardAccountDetails.FundFlowType.EXPEND.getType());
         }
 
-        rewardAccountService.updateRewardAccount(requestVo.getCustId(), requestVo.getScene(), exchangeScene.getRewardType(), exchangeMoneyTrans, RewardAccountDetails.FundFlowType.EXPEND.getType());
+
     }
 
     @Override

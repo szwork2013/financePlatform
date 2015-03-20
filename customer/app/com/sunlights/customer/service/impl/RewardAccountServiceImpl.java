@@ -12,6 +12,7 @@ import models.RewardAccountBalance;
 import models.RewardAccountDetails;
 import play.Logger;
 
+import java.math.BigDecimal;
 import java.sql.Timestamp;
 import java.util.Date;
 import java.util.concurrent.atomic.AtomicInteger;
@@ -49,7 +50,7 @@ public class RewardAccountServiceImpl implements RewardAccountService {
     }
 
     @Override
-    public void updateRewardAccount(String custId, String scene, String rewardType, long amt, String fundFlowType) {
+    public void updateRewardAccount(String custId, String scene, String rewardType, long amt, BigDecimal amtMoney, String fundFlowType) {
         RewardAccountBalance rewardAccountBalance = findRewardAccountByCustomerId(custId);
 
         RewardAccountDetails rewardAccountDetails = new RewardAccountDetails();
@@ -57,20 +58,19 @@ public class RewardAccountServiceImpl implements RewardAccountService {
         rewardAccountDetails.setCustomerId(custId);
         rewardAccountDetails.setFundFlowType(fundFlowType);
         rewardAccountDetails.setRewardType(rewardType);
-        rewardAccountDetails.setIncomeExpendBalance(amt);
+        rewardAccountDetails.setIncomeExpendBalance(amtMoney);
         rewardAccountDetails.setRewordSequence(createSeq());
-
-        if(RewardAccountDetails.FundFlowType.INCOME.getType().equals(fundFlowType)) {
-            rewardAccountBalance.setRewardAccountBalance(rewardAccountBalance.getRewardAccountBalance() + amt);
-            rewardAccountBalance.setRewardIncomeBalance(rewardAccountBalance.getRewardIncomeBalance() + amt);
-        } else {
-            rewardAccountBalance.setRewardAccountBalance(rewardAccountBalance.getRewardAccountBalance() - amt);
-            rewardAccountBalance.setRewardExpendBalance(rewardAccountBalance.getRewardExpendBalance() + amt);
-        }
-
-        rewardAccountDetails.setRewardAmountBalance(rewardAccountBalance.getRewardAccountBalance());
+        rewardAccountDetails.setRewardAmountBalance(amt);
 
         rewardAccountDetailsDao.doInsert(rewardAccountDetails);
+
+        if(RewardAccountDetails.FundFlowType.INCOME.getType().equals(fundFlowType)) {
+            rewardAccountBalance.setRewardAccountBalance(rewardAccountBalance.getRewardAccountBalance().add(amtMoney));
+            rewardAccountBalance.setRewardIncomeBalance(rewardAccountBalance.getRewardIncomeBalance().add(amtMoney));
+        } else {
+            rewardAccountBalance.setRewardAccountBalance(rewardAccountBalance.getRewardAccountBalance().subtract(amtMoney));
+            rewardAccountBalance.setRewardExpendBalance(rewardAccountBalance.getRewardExpendBalance().add(amtMoney));
+        }
 
         rewardAccountBalanceDao.updateRewardAccount(rewardAccountBalance);
 

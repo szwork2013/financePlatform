@@ -49,9 +49,10 @@ public class RewardAccountHandler extends AbstractObtainRuleHandler {
             String custId = rewardFlowRecordVo.getCustId();
             String scene = rewardFlowRecordVo.getScene();
             String rewardType = rewardFlowRecordVo.getRewardType();
-            long amt = (rewardFlowRecordVo.getMoneyResult().multiply(BigDecimal.valueOf(100))).longValue();
+            long amt = rewardFlowRecordVo.getRewardAmtResult();
 
-            rewardAccountService.updateRewardAccount(custId, scene, rewardType, amt, RewardAccountDetails.FundFlowType.INCOME.getType());
+            rewardAccountService.updateRewardAccount(custId, scene, rewardType, amt,
+                    rewardFlowRecordVo.getMoneyResult(), RewardAccountDetails.FundFlowType.INCOME.getType());
         }
     }
 
