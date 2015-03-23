@@ -106,6 +106,7 @@ public enum MsgCode {
     ROLE_CODE_EXIST_ERROR("2017", "操作失败：", "已存在的角色代码。"),
     USER_NAME_EXIST_ERROR("2018", "操作失败：", "已存在的用户名。"),
     BANK_CODE_EXIST_ERROR("2019", "操作失败：", "已存在的银行编码。"),
+	USER_EMAIL_EXIST_ERROR("2020", "操作失败：", "已存在的用户邮箱地址。"),
     NOT_NULL("2004", "操作失败：", "传入参数'{0}'不能为空。"),
 
     LOGIN_NOT_REGISTER_ERROR("2017", "登陆失败：", "没有该用户账号。"),
