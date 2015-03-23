@@ -297,7 +297,6 @@ INSERT INTO public.o_role_resource (id, role_id, resource_id, create_time, updat
 INSERT INTO public.o_role_resource (id, role_id, resource_id, create_time, update_time, deleted) VALUES (26, 1, 26, '2015-01-28 14:54:40.570', '2015-01-28 14:54:41.312', false);
 INSERT INTO public.o_role_resource (id, role_id, resource_id, create_time, update_time, deleted) VALUES (27, 1, 27, '2015-01-28 14:54:40.570', '2015-01-28 14:54:41.312', false);
 INSERT INTO public.o_role_resource (id, role_id, resource_id, create_time, update_time, deleted) VALUES (28, 1, 28, '2015-01-28 14:54:40.570', '2015-01-28 14:54:41.312', false);
-INSERT INTO public.o_role_resource (id, role_id, resource_id, create_time, update_time, deleted) VALUES (29, 1, 29, '2015-01-28 14:54:40.570', '2015-01-28 14:54:41.312', false);
 
 
 INSERT INTO public.o_user_role (id, user_id, role_id, create_time, update_time, deleted) VALUES (1, 1, 1, '2015-01-28 15:05:48.918', '2015-01-28 15:05:50.854', false);
