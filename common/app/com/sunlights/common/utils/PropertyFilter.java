@@ -103,12 +103,8 @@ public final class PropertyFilter {
 
 		Validate.isTrue(propertyNames.length > 0, "filter name: " + filterName
 				+ "Not prepared in accordance with the rules, property names can not be.");
-		try {
-			this.propertyValue = ConvertUtils.convert(value, propertyType);
-		} catch (Exception e) {
-			DateTimeFormatter fmt = ISODateTimeFormat.dateTime();
-			this.propertyValue = fmt.parseDateTime(value).toDate();
-		}
+		this.propertyValue = ConvertUtils.convert(value, propertyType);
+
 	}
 
 	public boolean isMultiProperty() {
