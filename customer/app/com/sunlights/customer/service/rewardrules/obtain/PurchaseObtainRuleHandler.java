@@ -24,18 +24,24 @@ public class PurchaseObtainRuleHandler extends AbstractObtainRuleHandler {
         Logger.debug("申购送奖励开始 requestVo = " + requestVo);
         PurchaseObtainValideHandler purchaseObtainValideHandler = new PurchaseObtainValideHandler();
         ObtainRuleGainHandler obtainRuleGainHandler = new ObtainRuleGainHandler();
+
+        FilterInvalidGainRuleHandler countAttendActivityNumValideHandler = new FilterInvalidGainRuleHandler();
+
         ReCommendHandler reCommendHandler = new ReCommendHandler();
         //ValidBankCardHandler validBankCardHandler = new ValidBankCardHandler();
         RewardFlowHandler rewardFlowHandler = new RewardFlowHandler();
+        RewardAccountHandler rewardAccountHandler = new RewardAccountHandler();
         CustJoinActivityHandler custJoinActivityHandler = new CustJoinActivityHandler();
         ResultAssignHandler resultAssignHandler = new ResultAssignHandler();
         PurchaseObtainSendMessageHandler purchaseObtainSendMessageHandler = new PurchaseObtainSendMessageHandler();
 
         setNextHandler(purchaseObtainValideHandler)
                 .setNextHandler(obtainRuleGainHandler)
+                .setNextHandler(countAttendActivityNumValideHandler)
                 .setNextHandler(reCommendHandler)
                         //.setNextHandler(validBankCardHandler)
                 .setNextHandler(rewardFlowHandler)
+                .setNextHandler(rewardAccountHandler)
                 .setNextHandler(custJoinActivityHandler)
                 .setNextHandler(resultAssignHandler)
                 .setNextHandler(purchaseObtainSendMessageHandler);

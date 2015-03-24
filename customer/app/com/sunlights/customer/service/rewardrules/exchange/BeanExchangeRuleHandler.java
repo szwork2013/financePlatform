@@ -23,6 +23,7 @@ public class BeanExchangeRuleHandler extends AbstractExchangeRuleHandler {
         BeanExchangeValidHandler exchangeValidHandler = new BeanExchangeValidHandler();
         ExchangeDayHandler exchangeDayHandler = new ExchangeDayHandler();// 一天一次
         ExchangeFlowHandler exchangeFlowHandler = new ExchangeFlowHandler();
+        ExchangeRewardAccountHandler exchangeRewardAccountHandler = new ExchangeRewardAccountHandler();
         ExchangeResultHandler exchangeResultHandler = new ExchangeResultHandler();
 
         BeanExchangeSendMessageHandler beanExchangeSendMessageHandler = new BeanExchangeSendMessageHandler();
@@ -32,6 +33,7 @@ public class BeanExchangeRuleHandler extends AbstractExchangeRuleHandler {
                 .setNextHandler(exchangeDayHandler)
                 .setNextHandler(exchangeValidHandler)
                 .setNextHandler(exchangeFlowHandler)
+                .setNextHandler(exchangeRewardAccountHandler)
                 .setNextHandler(exchangeResultHandler)
                 .setNextHandler(beanExchangeSendMessageHandler);
 

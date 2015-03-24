@@ -10,7 +10,6 @@ package com.sunlights;
  * @author <a href="mailto:jiaming.wang@sunlights.cc">wangJiaMing</a>
  */
 
-import com.sunlights.common.utils.ConfigUtil;
 import org.dbunit.Assertion;
 import org.dbunit.IDatabaseTester;
 import org.dbunit.JdbcDatabaseTester;
@@ -45,15 +44,9 @@ public class DbTestUtil {
      * @return
      * @throws Exception
      */
-    protected IDatabaseConnection getIDatabaseConnection() throws Exception {
-        String driverClass = ConfigUtil.getValueStr("db.test.driver");
-        String db_user = ConfigUtil.getValueStr("db.test.user");
-        String db_inst = ConfigUtil.getValueStr("db.test.url");
-        String db_pwd = ConfigUtil.getValueStr("db.test.password");
-
-        IDatabaseTester databaseTester = new JdbcDatabaseTester(driverClass, db_inst, db_user, db_pwd);
+    protected IDatabaseConnection getIDatabaseConnection(String driverClass,String url,String db_user,String db_pwd) throws Exception {
+        IDatabaseTester databaseTester = new JdbcDatabaseTester(driverClass, url, db_user, db_pwd);
         IDatabaseConnection iconn =  databaseTester.getConnection();
-
         return iconn;
     }
 

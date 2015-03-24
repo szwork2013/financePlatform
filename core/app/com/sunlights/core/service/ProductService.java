@@ -52,4 +52,22 @@ public interface ProductService {
      */
     public ChartVo findProfitHistoryByDays(String chartType, String fundCode, int days);
 
+    /**
+     * 刷新产品首页、列表缓存
+     * @param notReloadP2p true不刷新p2p缓存  false反之
+     */
+    public void reloadProductCache(boolean notReloadP2p);
+
+    /**
+     * 从缓存中获取产品列表
+     * @param pageVo
+     * @return
+     */
+    public List<FundVo> findProductListFromCache(PageVo pageVo);
+
+    /**
+     * 从缓存中获取产品首页
+     * @return
+     */
+    public List<ProductVo> findProductIndexFromCache();
 }

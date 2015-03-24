@@ -1,0 +1,10 @@
+{
+    "message": {
+        "severity": 0,
+        "code": "0101",
+        "summary": "登录成功",
+        "detail": "",
+        "fields": { }
+    },
+    "value": null
+}

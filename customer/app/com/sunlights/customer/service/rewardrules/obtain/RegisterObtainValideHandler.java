@@ -36,7 +36,7 @@ public class RegisterObtainValideHandler extends AbstractObtainRuleHandler {
     @Override
     public void obtainInternal(ActivityRequestVo requestVo, ActivityResponseVo responseVo) throws Exception {
 
-        CustJoinActivity custJoinActivity = custJoinActivityService.getByCustAndActivity(requestVo.getCustId(), requestVo.getActivityId(), ActivityConstant.ACTIVITY_REGISTER_SCENE_CODE);
+        CustJoinActivity custJoinActivity = custJoinActivityService.getByCustAndActivity(requestVo.getCustId(), null, ActivityConstant.ACTIVITY_REGISTER_SCENE_CODE);
 
         if (custJoinActivity != null) {
             Logger.debug("已经注册了");

@@ -1,12 +1,19 @@
 package com.sunlights.core.dal.impl;
 
+import com.sunlights.common.DictConst;
 import com.sunlights.common.dal.EntityBaseDao;
+import com.sunlights.common.service.PageService;
+import com.sunlights.common.utils.CommonUtil;
+import com.sunlights.common.vo.PageVo;
 import com.sunlights.core.dal.FundDao;
 import com.sunlights.core.vo.FundDetailVo;
+import com.sunlights.core.vo.FundVo;
+import com.sunlights.core.vo.ProductVo;
 import models.*;
 import play.Logger;
 
 import javax.persistence.Query;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -19,6 +26,9 @@ import java.util.List;
  * @author <a href="mailto:zhencai.yuan@sunlights.cc">yuanzhencai</a>
  */
 public class FundDaoImpl extends EntityBaseDao implements FundDao {
+
+    private PageService pageService = new PageService();
+
     @Override
     public Fund findFundByCode(String code) {
         List<Fund> funds = super.findBy(Fund.class, "fundCode", code);
@@ -110,5 +120,40 @@ public class FundDaoImpl extends EntityBaseDao implements FundDao {
         return funds.isEmpty() ? null : funds.get(0);
     }
 
+    @Override
+    public List<ProductVo> findProductIndex(PageVo pageVo) {
+        String currentDate = CommonUtil.dateToString(new Date(), CommonUtil.DATE_FORMAT_LONG);
+        StringBuilder xsql = new StringBuilder();
+        xsql.append(" select new com.sunlights.core.vo.FundVo(f,pm)");
+        xsql.append(" from FundNav f , ProductManage pm");
+        xsql.append(" where f.fundcode = pm.productCode");
+        xsql.append(" and pm.upBeginTime < '" + currentDate + "'");
+        xsql.append(" and pm.downEndTime >= '" + currentDate + "'");
+        xsql.append(" and pm.recommendType = '" + DictConst.FP_RECOMMEND_TYPE_1 + "'");
+        xsql.append(" and pm.productStatus = '" + DictConst.FP_PRODUCT_MANAGE_STATUS_1 + "'");
+        xsql.append(" order by pm.priorityLevel");
+
+        List<ProductVo> fundVos = pageService.findXsqlBy(xsql.toString(), pageVo);
+        return fundVos;
+    }
+
+    @Override
+    public List<FundVo> findFunds(PageVo pageVo) {
+        String currentDate = CommonUtil.dateToString(new Date(), CommonUtil.DATE_FORMAT_LONG);
+        String jpql = " select new com.sunlights.core.vo.FundVo(f,pm)" +
+                " from FundNav f , ProductManage pm" +
+                " where f.fundcode = pm.productCode" +
+                " and pm.productStatus = '" + DictConst.FP_PRODUCT_MANAGE_STATUS_1 + "'" +
+                " and pm.upBeginTime < '" + currentDate + "'" +
+                " and pm.downEndTime >= '" + currentDate + "'" +
+                "/~ and pm.productType = {productType} ~/" +
+                "/~ and f.fundType = {fundType} ~/" +
+                "/~ and f.isMonetary = {isMonetary} ~/" +
+                "/~ and f.isStf = {isStf} ~/" +
+                " order by pm.recommendType,pm.recommendFlag,pm.priorityLevel,f.percentSevenDays desc,f.fundcode";
+
+        List<FundVo> fundVos = pageService.findXsqlBy(jpql, pageVo);
+        return fundVos;
+    }
 
 }

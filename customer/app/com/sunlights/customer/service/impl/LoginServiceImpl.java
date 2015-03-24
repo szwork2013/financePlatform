@@ -14,6 +14,7 @@ import com.sunlights.customer.dal.impl.AuthenticationDaoImpl;
 import com.sunlights.customer.dal.impl.CustomerDaoImpl;
 import com.sunlights.customer.dal.impl.LoginDaoImpl;
 import com.sunlights.customer.service.LoginService;
+import com.sunlights.customer.service.RewardAccountService;
 import com.sunlights.customer.vo.AuthenticationVo;
 import com.sunlights.customer.vo.CustomerFormVo;
 import com.sunlights.customer.vo.CustomerVo;
@@ -36,6 +37,7 @@ public class LoginServiceImpl implements LoginService {
     private AuthenticationDao authenticationDao = new AuthenticationDaoImpl();
     private CustomerService customerService = new CustomerService();
     private VerifyCodeService verifyCodeService = new VerifyCodeService();
+    private RewardAccountService rewardAccountBalanceService = new RewardAccountServiceImpl();
 
     /**
      * 登录
@@ -55,8 +57,8 @@ public class LoginServiceImpl implements LoginService {
         Authentication authentication = authenticationVo.getAuthentication();
         Customer customer = authenticationVo.getCustomer();
 
-        //若为已登录状态跳出，（如：手机后台激活）
         CustomerSession customerSession = null;
+        //若为已登录状态跳出，（如：手机后台激活）
         if (fromApp(vo.getChannel())) {
             customerSession = customerService.getCustomerSession(token);
             if (customerSession != null) {
@@ -66,16 +68,16 @@ public class LoginServiceImpl implements LoginService {
                 }
             }
             validateLoginTime(customer, deviceNo);
-            //
             if (!new MD5Helper().encrypt(passWord).equals(authentication.getPassword())) {
                 saveLoginFail(customer, deviceNo, false);
                 return null;
             }
-
-            saveLoginHistory(customer, vo);
-            customerSession = customerService.createCustomerSession(customer, remoteAddress, deviceNo);
+        }else if (!new MD5Helper().encrypt(passWord).equals(authentication.getPassword())) {
+            throw new BusinessRuntimeException(new Message(Severity.ERROR, MsgCode.PASSWORD_CONFIRM_ERROR));
         }
 
+        saveLoginHistory(customer, vo);
+        customerSession = customerService.createCustomerSession(customer, remoteAddress, deviceNo);
 
         return customerSession;
     }
@@ -165,6 +167,9 @@ public class LoginServiceImpl implements LoginService {
             authenticationVo.setPassword(passWord);
             customerService.createP2PUser(authenticationVo);
         }
+
+        //创建奖励账户
+        rewardAccountBalanceService.createRewardAccount(customer.getCustomerId());
 
         return customer;
 	}

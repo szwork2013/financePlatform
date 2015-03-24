@@ -29,14 +29,14 @@ public class ExchangeRewardControllerTest extends BaseTest {
     @Before
     public void getCookie() {
         super.startPlay();
-        final String mobilePhoneNo = "15821948594";
-        final String password = "1";
-        String channel = AppConst.CHANNEL_PC;
+        final String mobilePhoneNo = "15821948369";
+        final String password = "111111";
+        String channel = AppConst.CHANNEL_IOS;
         cookie = getCookieAfterLogin(mobilePhoneNo, password, channel);
 
     }
 
-    @Test
+    //@Test
     public void testQueryExchangeScenes() throws Exception {
 
         Logger.info("============testQueryExchangeScenes start====");
@@ -75,7 +75,7 @@ public class ExchangeRewardControllerTest extends BaseTest {
 
     }
 
-    @Test
+    //@Test
     public void testPrepareDataBeforeExchange() throws Exception {
 
         Logger.info("============testPrepareDataBeforeExchange start====");
@@ -110,7 +110,7 @@ public class ExchangeRewardControllerTest extends BaseTest {
 
     }
 
-    @Test
+    //@Test
     public void testPrepareDataBeforeBeanExchange() throws Exception {
         Logger.info("============testPrepareDataBeforeBeanExchange start====");
 

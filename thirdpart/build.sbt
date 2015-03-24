@@ -1,6 +1,6 @@
 name := "thirdpart"
 
-version := "1.0-SNAPSHOT"
+version := "1.1-SNAPSHOT"
 
 scalaVersion := "2.10.0"
 
@@ -18,10 +18,8 @@ libraryDependencies ++= Seq(
   cache,
   javaWs,
   "commons-httpclient" % "commons-httpclient" % "3.1",
-  "com.google.code.gson" % "gson" % "2.3.1",
   "com.sunlights" % "jpush-client" % "3.2.3",
-  "c3p0" % "c3p0" % "0.9.0.4",
-  "org.hibernate" % "hibernate-c3p0" % "4.3.6.Final"
+  "com.google.code.gson" % "gson" % "2.3.1"
 )
 
 

@@ -8,10 +8,13 @@ import com.sunlights.customer.ActivityConstant;
 import com.sunlights.customer.factory.ActivityServiceFactory;
 import com.sunlights.customer.service.ActivitySceneService;
 import com.sunlights.customer.service.ActivityService;
+import com.sunlights.customer.service.CustJoinActivityService;
 import com.sunlights.customer.service.impl.ActivityServiceImpl;
+import com.sunlights.customer.service.impl.CustJoinActivityServiceImpl;
 import com.sunlights.customer.service.rewardrules.vo.ActivityRequestVo;
 import com.sunlights.customer.service.rewardrules.vo.ActivityResponseVo;
 import models.ActivityScene;
+import models.CustJoinActivity;
 import org.apache.commons.lang3.StringUtils;
 import play.Logger;
 
@@ -27,6 +30,8 @@ public class PurchaseObtainValideHandler extends AbstractObtainRuleHandler {
 
     private ActivitySceneService activitySceneService = ActivityServiceFactory.getActivitySceneService();
 
+    private CustJoinActivityService custJoinActivityService = new CustJoinActivityServiceImpl();
+
     public PurchaseObtainValideHandler() {
 
     }
@@ -37,8 +42,10 @@ public class PurchaseObtainValideHandler extends AbstractObtainRuleHandler {
 
     @Override
     public void obtainInternal(ActivityRequestVo requestVo, ActivityResponseVo responseVo) throws Exception {
-        boolean hasFirstPurchase = activityService.validateHasFirstPurchase(requestVo.getCustId(), requestVo.getActivityId());
-        if (!hasFirstPurchase) {
+        CustJoinActivity custJoinActivity = custJoinActivityService.getByCustAndActivity(requestVo.getCustId(),
+                null, ActivityConstant.ACTIVITY_FIRST_PURCHASE_SCENE_CODE);
+
+        if (custJoinActivity == null) {
             requestVo.setScene(ActivityConstant.ACTIVITY_FIRST_PURCHASE_SCENE_CODE);
             Logger.debug("首次购买 scene = " + requestVo.getScene());
             return;

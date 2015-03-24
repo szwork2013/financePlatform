@@ -1,6 +1,9 @@
 package com.sunlights.core.dal;
 
+import com.sunlights.common.vo.PageVo;
 import com.sunlights.core.vo.FundDetailVo;
+import com.sunlights.core.vo.FundVo;
+import com.sunlights.core.vo.ProductVo;
 import models.*;
 
 import java.util.List;
@@ -30,4 +33,18 @@ public interface FundDao {
     public List<FundProfitHistory> findFundProfitHistoryByDays(String fundCode, int days);
 
     public Code findFundNameByFundCode(String fundCode);
+
+    /**
+     * 查询产品首页
+     * @param pageVo
+     * @return
+     */
+    public List<ProductVo> findProductIndex(PageVo pageVo);
+
+    /**
+     * 查询产品
+     * @param pageVo
+     * @return
+     */
+    public List<FundVo> findFunds(PageVo pageVo);
 }

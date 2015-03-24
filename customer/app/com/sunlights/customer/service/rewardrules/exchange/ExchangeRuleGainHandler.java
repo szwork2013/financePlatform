@@ -5,11 +5,15 @@ import com.sunlights.common.Severity;
 import com.sunlights.common.vo.Message;
 import com.sunlights.customer.ActivityConstant;
 import com.sunlights.customer.factory.ActivityServiceFactory;
+import com.sunlights.customer.service.ExchangeRewardRuleService;
 import com.sunlights.customer.service.ExchangeSceneService;
 import com.sunlights.customer.service.RewardTypeService;
+import com.sunlights.customer.service.impl.ExchangeRewardRuleServiceImpl;
 import com.sunlights.customer.service.impl.ExchangeSceneServiceImpl;
 import com.sunlights.customer.service.rewardrules.vo.ActivityRequestVo;
 import com.sunlights.customer.service.rewardrules.vo.ActivityResponseVo;
+import com.sunlights.customer.service.rewardrules.vo.ExchangeSceneRuleVo;
+import models.ExchangeRewardRule;
 import models.ExchangeScene;
 import models.RewardType;
 import play.Logger;
@@ -25,6 +29,7 @@ import play.Logger;
 public class ExchangeRuleGainHandler extends AbstractExchangeRuleHandler {
     private RewardTypeService rewardTypeService = ActivityServiceFactory.getRewardTypeService();
     private ExchangeSceneService exchangeSceneService = new ExchangeSceneServiceImpl();
+    private ExchangeRewardRuleService exchangeRewardRuleService = new ExchangeRewardRuleServiceImpl();
 
     public ExchangeRuleGainHandler() {
 
@@ -53,7 +58,16 @@ public class ExchangeRuleGainHandler extends AbstractExchangeRuleHandler {
 
         RewardType rewardType = rewardTypeService.findByTypeCode(requestVo.getRewardType());
 
+        ExchangeRewardRule exchangeRewardRule = exchangeRewardRuleService.findByRewardType(exchangeScene.getRewardType());
+
+        ExchangeSceneRuleVo exchangeSceneRuleVo = new ExchangeSceneRuleVo();
+        exchangeSceneRuleVo.setExchangeRewardRule(exchangeRewardRule);
+        exchangeSceneRuleVo.setExchangeScene(exchangeScene);
+        exchangeSceneRuleVo.setRewardTypeModel(rewardType);
+
         requestVo.set("rewardType", rewardType);
+
+        requestVo.set("exchangeSceneRuleVo", exchangeSceneRuleVo);
 
         Logger.debug("获取兑换场景成功");
     }

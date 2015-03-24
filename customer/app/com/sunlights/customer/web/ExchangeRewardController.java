@@ -119,7 +119,6 @@ public class ExchangeRewardController extends ActivityBaseController {
         requestVo.set("bankCardNo", exchangeParamter.getBankCard());
         requestVo.set("exchangeAmt", exchangeParamter.getAmount());
         requestVo.set("phone", exchangeParamter.getPhone());
-        requestVo.set("exchangeBeanNum", exchangeParamter.getExchangeBeanNum());
 
         activityHandlerService.service(requestVo, responseVo);
 

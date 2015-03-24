@@ -53,6 +53,6 @@ public class ShortUrlService {
 
         String url_sort = Json.parse(result).get("urls").get(0).get("url_short").toString();
 
-        return url_sort;
+        return url_sort.replace("\"", "");
     }
 }

@@ -15,4 +15,11 @@ public class RewardCalculatorFactory {
         return null;
     }
 
+    public static ExchangeRewardCalculator getExchangeCalculator(String scene) {
+        if (ActivityConstant.ACTIVITY_SIGNIN_SCENE_CODE.equals(scene)) {
+            return null;
+        }
+        return null;
+    }
+
 }

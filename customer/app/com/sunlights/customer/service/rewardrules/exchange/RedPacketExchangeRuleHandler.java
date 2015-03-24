@@ -18,6 +18,7 @@ public class RedPacketExchangeRuleHandler extends AbstractExchangeRuleHandler {
         ExchangeNullFieldValidHandler exchangeNullFieldValidHandler = new ExchangeNullFieldValidHandler();
         ExchangeValidHandler exchangeValidHandler = new ExchangeValidHandler();
         ExchangeFlowHandler exchangeFlowHandler = new ExchangeFlowHandler();
+        ExchangeRewardAccountHandler exchangeRewardAccountHandler = new ExchangeRewardAccountHandler();
         ExchangeResultHandler exchangeResultHandler = new ExchangeResultHandler();
 
         RedPacketExchangeSendMessageHandler redPacketExchangeSendMessageHandler = new RedPacketExchangeSendMessageHandler();
@@ -26,6 +27,7 @@ public class RedPacketExchangeRuleHandler extends AbstractExchangeRuleHandler {
                 .setNextHandler(exchangeNullFieldValidHandler)
                 .setNextHandler(exchangeValidHandler)
                 .setNextHandler(exchangeFlowHandler)
+                .setNextHandler(exchangeRewardAccountHandler)
                 .setNextHandler(exchangeResultHandler)
                 .setNextHandler(redPacketExchangeSendMessageHandler);
 
