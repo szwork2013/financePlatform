@@ -12,6 +12,7 @@ import com.sunlights.core.vo.AttentionVo;
 import com.sunlights.core.vo.ProductVo;
 import com.sunlights.customer.service.impl.CustomerService;
 import models.CustomerSession;
+import play.Logger;
 import play.data.Form;
 import play.db.jpa.Transactional;
 import play.libs.Json;
@@ -102,6 +103,7 @@ public class AttentionController extends Controller {
         } else if (body.asFormUrlEncoded() != null) {
             attentionVo = attentionVoForm.bindFromRequest().get();
         }
+        Logger.info(">>findProductAttentions params:" + Json.toJson(attentionVo));
         List<String> codes = attentionVo.getCodes() == null ? new ArrayList<String>() : attentionVo.getCodes();
         pageVo.put("codes", codes);
         List<ProductVo> pds = attentionService.findAttentions(pageVo);

@@ -1,12 +1,8 @@
 package com.sunlights.core.service.impl;
 
-import com.sunlights.common.DictConst;
-import com.sunlights.common.FundCategory;
-import com.sunlights.common.MsgCode;
-import com.sunlights.common.Severity;
-import com.sunlights.common.dal.EntityBaseDao;
+import com.google.common.collect.Lists;
+import com.sunlights.common.*;
 import com.sunlights.common.exceptions.BusinessRuntimeException;
-import com.sunlights.common.service.PageService;
 import com.sunlights.common.utils.ArithUtil;
 import com.sunlights.common.utils.CommonUtil;
 import com.sunlights.common.vo.Message;
@@ -19,10 +15,12 @@ import com.sunlights.core.vo.FundVo;
 import com.sunlights.core.vo.Point;
 import com.sunlights.core.vo.ProductVo;
 import models.*;
+import org.apache.commons.lang3.StringUtils;
+import play.Logger;
+import play.cache.Cache;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 /**
@@ -34,47 +32,21 @@ import java.util.List;
  *
  * @author <a href="mailto:zhencai.yuan@sunlights.cc">yuanzhencai</a>
  */
-public class ProductServiceImpl extends EntityBaseDao implements ProductService {
+public class ProductServiceImpl implements ProductService {
 
     public static final String CHART_TYPE = "1";
-    private PageService pageService = new PageService();
-
     private FundDao fundDao = new FundDaoImpl();
 
     @Override
     public List<ProductVo> findProductIndex(PageVo pageVo) {
-        String currentDate = CommonUtil.dateToString(new Date(), CommonUtil.DATE_FORMAT_LONG);
-        StringBuilder xsql = new StringBuilder();
-        xsql.append(" select new com.sunlights.core.vo.FundVo(f,pm)");
-        xsql.append(" from FundNav f , ProductManage pm");
-        xsql.append(" where f.fundcode = pm.productCode");
-        xsql.append(" and pm.upBeginTime < '" + currentDate + "'");
-        xsql.append(" and pm.downEndTime >= '" + currentDate + "'");
-        xsql.append(" and pm.recommendType = '" + DictConst.FP_RECOMMEND_TYPE_1 + "'");
-        xsql.append(" and pm.productStatus = '" + DictConst.FP_PRODUCT_MANAGE_STATUS_1 + "'");
-        xsql.append(" order by pm.priorityLevel");
-
-        List<ProductVo> fundVos = pageService.findXsqlBy(xsql.toString(), pageVo);
+        List<ProductVo> fundVos = fundDao.findProductIndex(pageVo);
         return fundVos;
     }
 
     @Override
     public List<FundVo> findFunds(PageVo pageVo) {
         this.convertPageVo(pageVo);
-        String currentDate = CommonUtil.dateToString(new Date(), CommonUtil.DATE_FORMAT_LONG);
-        String jpql = " select new com.sunlights.core.vo.FundVo(f,pm)" +
-                " from FundNav f , ProductManage pm" +
-                " where f.fundcode = pm.productCode" +
-                " and pm.productStatus = '" + DictConst.FP_PRODUCT_MANAGE_STATUS_1 + "'" +
-                " and pm.upBeginTime < '" + currentDate + "'" +
-                " and pm.downEndTime >= '" + currentDate + "'" +
-                "/~ and pm.productType = {productType} ~/" +
-                "/~ and f.fundType = {fundType} ~/" +
-                "/~ and f.isMonetary = {isMonetary} ~/" +
-                "/~ and f.isStf = {isStf} ~/" +
-                " order by pm.recommendType,pm.recommendFlag,pm.priorityLevel,f.percentSevenDays desc,f.fundcode";
-
-        List<FundVo> fundVos = pageService.findXsqlBy(jpql, pageVo);
+        List<FundVo> fundVos = fundDao.findFunds(pageVo);
         return fundVos;
     }
 
@@ -213,6 +185,106 @@ public class ProductServiceImpl extends EntityBaseDao implements ProductService 
             pointsTemp.add(points.get(i));
         }
         return pointsTemp;
+    }
+
+    @Override
+    public void reloadProductCache(boolean notReloadP2p){
+        Cache.remove(AppConst.CACHE_PRODUCT_MONETARY_LIST);
+        Cache.remove(AppConst.CACHE_PRODUCT_STF_LIST);
+        Cache.remove(AppConst.CACHE_PRODUCT_INDEX);
+
+        productMonetaryListLoad();
+        productStfListLoad();
+        productIndexListLoad();
+    }
+
+    @Override
+    public List<ProductVo> findProductIndexFromCache(){
+        List<ProductVo> list = (List) Cache.get(AppConst.CACHE_PRODUCT_INDEX);
+
+        if (list == null || list.isEmpty()) {//加载
+            list = productIndexListLoad();
+        }
+
+        return list;
+    }
+
+    @Override
+    public List<FundVo> findProductListFromCache(PageVo pageVo){
+        String category = (String) pageVo.get("EQS_category");
+        FundCategory fundCategory = FundCategory.findFundCategoryBy(category);
+        if (fundCategory == null) {
+            throw new BusinessRuntimeException(new Message(Severity.ERROR, MsgCode.SEARCH_FAIL_FUND_CATEGORY_EMPTY));
+        }
+
+        List<FundVo> cacheList = Lists.newArrayList();
+        if (FundCategory.MONETARY.equals(fundCategory)) {
+            cacheList = (List) Cache.get(AppConst.CACHE_PRODUCT_MONETARY_LIST);
+            if (cacheList == null || cacheList.isEmpty()) {
+                cacheList = productMonetaryListLoad();
+            }
+        } else if (FundCategory.STF.equals(fundCategory)) {
+            cacheList = (List) Cache.get(AppConst.CACHE_PRODUCT_STF_LIST);
+            if (cacheList == null || cacheList.isEmpty()) {
+                cacheList = productStfListLoad();
+            }
+        }
+
+        List<FundVo> returnList = getProductReturnList(pageVo, cacheList);
+
+        return returnList;
+    }
+
+    private List<FundVo> getProductReturnList(PageVo pageVo, List<FundVo> cacheList) {
+        int index = pageVo.getIndex();
+        int pageSize = pageVo.getPageSize();
+        String type = (String)pageVo.get("EQS_productType");
+
+        List<FundVo> returnList = Lists.newArrayList();
+        List<FundVo> meetAllList = Lists.newArrayList();
+        for (FundVo fundVo : cacheList) {
+            if (StringUtils.isNotEmpty(type) && !type.equals(fundVo.getType())) {
+                continue;
+            }
+
+            meetAllList.add(fundVo);
+        }
+        if (index >= meetAllList.size()) {
+            return returnList;
+        }
+        if (index + pageSize > meetAllList.size()) {
+            returnList = meetAllList.subList(index, meetAllList.size());
+        }else{
+            returnList = meetAllList.subList(index, index + pageSize);
+        }
+
+        pageVo.setCount(meetAllList.size());
+        return returnList;
+    }
+
+    private List<FundVo> productMonetaryListLoad() {
+        PageVo pageVo = new PageVo();
+        pageVo.put("EQS_category", AppConst.FUND_CATEGORY_MONETARY);
+        List<FundVo> monetaryList = findFunds(pageVo);
+        Cache.set(AppConst.CACHE_PRODUCT_MONETARY_LIST, monetaryList);
+        Logger.info(">>货币型产品列表缓存重新加载完成");
+
+        return monetaryList;
+    }
+    private List<FundVo> productStfListLoad() {
+        PageVo pageVo = new PageVo();
+        pageVo.put("EQS_category", AppConst.FUND_CATEGORY_STF);
+        List<FundVo> stfList = findFunds(pageVo);
+        Cache.set(AppConst.CACHE_PRODUCT_STF_LIST, stfList);
+        Logger.info(">>定期理财型产品列表缓存重新加载完成");
+        return stfList;
+    }
+    private List<ProductVo> productIndexListLoad() {
+        PageVo pageVo = new PageVo();
+        List<ProductVo> list = findProductIndex(pageVo);
+        Cache.set(AppConst.CACHE_PRODUCT_INDEX, list);
+        Logger.info(">>产品首页缓存重新加载完成");
+        return list;
     }
 
 }
