@@ -5,6 +5,8 @@ import com.sunlights.common.MsgCode;
 import com.sunlights.common.Severity;
 import com.sunlights.common.exceptions.BusinessRuntimeException;
 import org.apache.commons.lang3.StringUtils;
+import org.joda.time.format.DateTimeFormatter;
+import org.joda.time.format.ISODateTimeFormat;
 import play.Logger;
 import play.mvc.Http;
 
@@ -24,159 +26,176 @@ import java.util.Date;
  * @author <a href="mailto:jiaming.wang@sunlights.cc">wangJiaMing</a>
  */
 public class CommonUtil {
-    private static CommonUtil commonUtil = new CommonUtil();
+	private static CommonUtil commonUtil = new CommonUtil();
 
-    public static CommonUtil getInstance() {
-        return commonUtil;
-    }
+	public static CommonUtil getInstance() {
+		return commonUtil;
+	}
 
-    private static String BLANK = "--";
+	private static String BLANK = "--";
 
-    public CommonUtil() {
+	public CommonUtil() {
 
-    }
+	}
 
-    /**
-     * 参数验证
-     *
-     * @param params
-     */
-    public void validateParams(String... params) {
-        for (String param : params) {
-            if (StringUtils.isEmpty(param)) {
-                throw errorBusinessException(MsgCode.ACCESS_FAIL, param);
-            }
-        }
-    }
+	/**
+	 * 参数验证
+	 *
+	 * @param params
+	 */
+	public void validateParams(String... params) {
+		for (String param : params) {
+			if (StringUtils.isEmpty(param)) {
+				throw errorBusinessException(MsgCode.ACCESS_FAIL, param);
+			}
+		}
+	}
 
-    public BusinessRuntimeException errorBusinessException(MsgCode msgCode, Object... params) {
-        String detail = getDetail(msgCode, params);
-        return new BusinessRuntimeException(Severity.ERROR, msgCode.getCode(), msgCode.getMessage(), detail);
-    }
+	public BusinessRuntimeException errorBusinessException(MsgCode msgCode, Object... params) {
+		String detail = getDetail(msgCode, params);
+		return new BusinessRuntimeException(Severity.ERROR, msgCode.getCode(), msgCode.getMessage(), detail);
+	}
 
-    private String getDetail(MsgCode msgCode, Object[] params) {
-        String detail = msgCode.getDetail();
-        if (params != null) {
-            detail = MessageFormat.format(detail, params);
-        }
-        return detail;
-    }
+	private String getDetail(MsgCode msgCode, Object[] params) {
+		String detail = msgCode.getDetail();
+		if (params != null) {
+			detail = MessageFormat.format(detail, params);
+		}
+		return detail;
+	}
 
-    public BusinessRuntimeException fatalBusinessException(MsgCode msgCode, Object... params) {
-        String detail = getDetail(msgCode, params);
-        return new BusinessRuntimeException(Severity.FATAL, msgCode.getCode(), msgCode.getMessage(), detail);
-    }
+	public BusinessRuntimeException fatalBusinessException(MsgCode msgCode, Object... params) {
+		String detail = getDetail(msgCode, params);
+		return new BusinessRuntimeException(Severity.FATAL, msgCode.getCode(), msgCode.getMessage(), detail);
+	}
 
-    public static final String DATE_FORMAT_SHORT = "yyyy-MM-dd";
+	public static final String DATE_FORMAT_SHORT = "yyyy-MM-dd";
 
-    public static final String DATE_FORMAT_YYYY_MM_DD_HH_MM = "yyyy-MM-dd HH:mm";
+	public static final String DATE_FORMAT_YYYY_MM_DD_HH_MM = "yyyy-MM-dd HH:mm";
 
-    public static final String DATE_FORMAT_LONG = "yyyy-MM-dd HH:mm:ss";
+	public static final String DATE_FORMAT_LONG = "yyyy-MM-dd HH:mm:ss";
 
-    public static final String DATE_FORMAT_ICU = "yyyy-MM-dd HH:mm:ss.SSS";
+	public static final String DATE_FORMAT_ICU = "yyyy-MM-dd HH:mm:ss.SSS";
 
-    public static final String YYYYMMDDHHMMSS = "yyyyMMddHHmmss";
+	public static final String YYYYMMDDHHMMSS = "yyyyMMddHHmmss";
 
-    private static final DateFormat DATE_FORMAT = new SimpleDateFormat(DATE_FORMAT_SHORT);
+	private static final DateFormat DATE_FORMAT = new SimpleDateFormat(DATE_FORMAT_SHORT);
 
-    public static synchronized String dateToString(Date date, String... format) {
-        if (date == null) {
-            return "";
-        }
+	public static synchronized String dateToString(Date date, String... format) {
+		if (date == null) {
+			return "";
+		}
 
-        if (format != null && format.length > 0) {
-            return new SimpleDateFormat(format[0]).format(date);
-        } else {
-            return DATE_FORMAT.format(date);
-        }
-    }
+		if (format != null && format.length > 0) {
+			return new SimpleDateFormat(format[0]).format(date);
+		} else {
+			return DATE_FORMAT.format(date);
+		}
+	}
 
-    public static synchronized Date stringToDate(String dateString, String... format) throws ParseException {
-        if (StringUtils.isEmpty(dateString)) {
-            return new Date();
-        }
+	public static synchronized Date stringToDate(String dateString, String... format) throws ParseException {
+		if (StringUtils.isEmpty(dateString)) {
+			return new Date();
+		}
 
-        if (format != null && format.length > 0) {
-            return new SimpleDateFormat(format[0]).parse(dateString);
-        } else {
-            return DATE_FORMAT.parse(dateString);
-        }
-    }
+		if (format != null && format.length > 0) {
+			return new SimpleDateFormat(format[0]).parse(dateString);
+		} else {
+			return DATE_FORMAT.parse(dateString);
+		}
+	}
 
-    public static String format(String value) {
-        return StringUtils.isEmpty(value) ? BLANK : value;
-    }
+	public static Date stringToDateTime(String dateString) throws ParseException {
+		if (StringUtils.isEmpty(dateString)) {
+			return new Date();
+		}
+		DateTimeFormatter fmt = ISODateTimeFormat.dateTime();
+		return fmt.parseDateTime(dateString).toDate();
+	}
 
-    public static Integer format(Integer value) {
-        return (value == null) ? 0 : value;
-    }
+	public static String format(String value) {
+		return StringUtils.isEmpty(value) ? BLANK : value;
+	}
 
-    @Deprecated
-    public static String getCurrentVersion(Http.Request request) {
-        String userAgent = request.getHeader(AppConst.HEADER_USER_AGENT);
-        //Mozilla/5.0 (iPhone; CPU iPhone OS 7_1 like Mac OS X) AppleWebKit/537.51.2 (KHTML, like Gecko) Mobile/11D167\jindoujialicai\1.2
+	public static Integer format(Integer value) {
+		return (value == null) ? 0 : value;
+	}
 
-        return getCurrentVersionFromStr(userAgent);
-    }
-    @Deprecated
-    public static String getCurrentPlatform(Http.Request request) {
-        String userAgent = request.getHeader(AppConst.HEADER_USER_AGENT);
-        //Mozilla/5.0 (iPhone; CPU iPhone OS 7_1 like Mac OS X) AppleWebKit/537.51.2 (KHTML, like Gecko) Mobile/11D167\jindoujialicai\1.2
+	@Deprecated
+	public static String getCurrentVersion(Http.Request request) {
+		String userAgent = request.getHeader(AppConst.HEADER_USER_AGENT);
+		// Mozilla/5.0 (iPhone; CPU iPhone OS 7_1 like Mac OS X)
+		// AppleWebKit/537.51.2 (KHTML, like Gecko)
+		// Mobile/11D167\jindoujialicai\1.2
 
+		return getCurrentVersionFromStr(userAgent);
+	}
 
-        return getCurrentPlatformFromStr(userAgent);
-    }
+	@Deprecated
+	public static String getCurrentPlatform(Http.Request request) {
+		String userAgent = request.getHeader(AppConst.HEADER_USER_AGENT);
+		// Mozilla/5.0 (iPhone; CPU iPhone OS 7_1 like Mac OS X)
+		// AppleWebKit/537.51.2 (KHTML, like Gecko)
+		// Mobile/11D167\jindoujialicai\1.2
 
-    public static String getCurrentVersionFromStr(String userAgent) {
-        //String userAgent = request.getHeader(AppConst.HEADER_USER_AGENT);
-        //Mozilla/5.0 (iPhone; CPU iPhone OS 7_1 like Mac OS X) AppleWebKit/537.51.2 (KHTML, like Gecko) Mobile/11D167\jindoujialicai\1.2
+		return getCurrentPlatformFromStr(userAgent);
+	}
 
-        Logger.info(">>userAgent:" + userAgent);
+	public static String getCurrentVersionFromStr(String userAgent) {
+		// String userAgent = request.getHeader(AppConst.HEADER_USER_AGENT);
+		// Mozilla/5.0 (iPhone; CPU iPhone OS 7_1 like Mac OS X)
+		// AppleWebKit/537.51.2 (KHTML, like Gecko)
+		// Mobile/11D167\jindoujialicai\1.2
 
-        String name = "jindoujialicai";
-        int index = userAgent.indexOf(name);
-        if (index <= 0) {
-            return "";
-        }
-        String version = userAgent.substring(index + name.length() + 1, userAgent.length());
-        Logger.info(">>当前版本号：" + version);
+		Logger.info(">>userAgent:" + userAgent);
 
-        return version;
-    }
+		String name = "jindoujialicai";
+		int index = userAgent.indexOf(name);
+		if (index <= 0) {
+			return "";
+		}
+		String version = userAgent.substring(index + name.length() + 1, userAgent.length());
+		Logger.info(">>当前版本号：" + version);
 
-    public static String getCurrentPlatformFromStr(String userAgent) {
-        //String userAgent = request.getHeader(AppConst.HEADER_USER_AGENT);
-        //Mozilla/5.0 (iPhone; CPU iPhone OS 7_1 like Mac OS X) AppleWebKit/537.51.2 (KHTML, like Gecko) Mobile/11D167\jindoujialicai\1.2
-//        Mozilla/5.0 (Linux; U; Android 4.3; zh-; HUAWEI C8816 Build/HuaweiC8816) AppleWebKit/534.30 (KHTML, like Gecko) Version/4.0 Mobile Safari/534.30\jindoujialicai\1.2
-        Logger.info(">>userAgent:" + userAgent);
+		return version;
+	}
 
-        if (StringUtils.isEmpty(userAgent)) {//pc端
-            return AppConst.PLATFORM_PC;
-        }
+	public static String getCurrentPlatformFromStr(String userAgent) {
+		// String userAgent = request.getHeader(AppConst.HEADER_USER_AGENT);
+		// Mozilla/5.0 (iPhone; CPU iPhone OS 7_1 like Mac OS X)
+		// AppleWebKit/537.51.2 (KHTML, like Gecko)
+		// Mobile/11D167\jindoujialicai\1.2
+		// Mozilla/5.0 (Linux; U; Android 4.3; zh-; HUAWEI C8816
+		// Build/HuaweiC8816) AppleWebKit/534.30 (KHTML, like Gecko) Version/4.0
+		// Mobile Safari/534.30\jindoujialicai\1.2
+		Logger.info(">>userAgent:" + userAgent);
 
-        String name = "Android";
-        int index = userAgent.indexOf(name);
-        if (index > 0) {
-            Logger.info(">>当前platform：" + AppConst.PLATFORM_ANDROID);
-            return AppConst.PLATFORM_ANDROID;
-        }
+		if (StringUtils.isEmpty(userAgent)) {// pc端
+			return AppConst.PLATFORM_PC;
+		}
 
-        name = "iPhone";
-        index = userAgent.indexOf(name);
-        if (index > 0) {
-            Logger.info(">>当前platform：" + AppConst.PLATFORM_IOS);
-            return AppConst.PLATFORM_IOS;
-        }
+		String name = "Android";
+		int index = userAgent.indexOf(name);
+		if (index > 0) {
+			Logger.info(">>当前platform：" + AppConst.PLATFORM_ANDROID);
+			return AppConst.PLATFORM_ANDROID;
+		}
 
-        return AppConst.PLATFORM_PC;
-    }
+		name = "iPhone";
+		index = userAgent.indexOf(name);
+		if (index > 0) {
+			Logger.info(">>当前platform：" + AppConst.PLATFORM_IOS);
+			return AppConst.PLATFORM_IOS;
+		}
 
-    public static void checkPlatform(String platform) {
-        if(AppConst.PLATFORM_IOS.equals(platform) || AppConst.PLATFORM_ANDROID.equals(platform)) {
-            return;
-        }
-        throw CommonUtil.getInstance().errorBusinessException(MsgCode.NOT_SUPPORT_PLATFORM);
-    }
+		return AppConst.PLATFORM_PC;
+	}
 
+	public static void checkPlatform(String platform) {
+		if (AppConst.PLATFORM_IOS.equals(platform) || AppConst.PLATFORM_ANDROID.equals(platform)) {
+			return;
+		}
+		throw CommonUtil.getInstance().errorBusinessException(MsgCode.NOT_SUPPORT_PLATFORM);
+	}
 
 }
