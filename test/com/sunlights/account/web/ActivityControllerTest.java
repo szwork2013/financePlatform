@@ -42,7 +42,7 @@ public class ActivityControllerTest extends BaseTest {
 
     }
 
-    @Test
+    //@Test
     public void testSignInObtainReward() throws Exception {
         JPA.withTransaction(new F.Callback0() {
             @Override
@@ -73,7 +73,7 @@ public class ActivityControllerTest extends BaseTest {
         });
     }
 
-    //@Test
+    @Test
     public void testGetActivityList() throws Exception {
 
         Logger.info("============testGetActivityList start====");
@@ -110,7 +110,7 @@ public class ActivityControllerTest extends BaseTest {
     }
 
 
-    @Test
+    //@Test
     public void testRegisterObtainReward() {
 
         JPA.withTransaction(new F.Callback0() {
@@ -143,7 +143,7 @@ public class ActivityControllerTest extends BaseTest {
 
     }
 
-    @Test
+    //@Test
     public void testPurchaseObtainReward() {
 
         Logger.info("============testPurchaseObtainReward start====");
@@ -181,7 +181,7 @@ public class ActivityControllerTest extends BaseTest {
 
     }
 
-    @Test
+    //@Test
     public void testExchangeReward() {
 
         Logger.info("============testPurchaseObtainReward start====");
