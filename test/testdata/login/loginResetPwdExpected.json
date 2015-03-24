@@ -1,0 +1,21 @@
+{
+    "message": {
+        "severity": 0,
+        "code": "0102",
+        "summary": "修改密码成功",
+        "detail": "",
+        "fields": { }
+    },
+    "value": {
+        "userName": "*佳明",
+        "nickName": "jm",
+        "mobilePhoneNo": "15821948594",
+        "mobileDisplayNo": "158****8594",
+        "gestureOpened": "1",
+        "certify": "1",
+        "idCardNo": "362531******0033",
+        "bankCardCount": "0",
+        "tradePwdFlag": "0",
+        "gestureSetted": "1"
+    }
+}

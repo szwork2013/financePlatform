@@ -86,6 +86,8 @@ public class ShuMiTradeServiceImpl implements ShuMiTradeService {
 
         //产品申购人数+1
         productService.addProductPurchasedNum(shuMiTradeFormVo.getFundCode());
+        //产品刷新缓存
+        productService.reloadProductCache(true);
 
         List<MessageHeaderVo> list = buildMessageHeaderVos(shuMiTradeFormVo, customer, customerId, trade);
         return list;
