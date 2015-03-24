@@ -1,0 +1,10 @@
+{
+    "message": {
+        "severity": 0,
+        "code": "0104",
+        "summary": "登出成功",
+        "detail": "",
+        "fields": { }
+    },
+    "value": null
+}

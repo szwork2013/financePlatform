@@ -1,0 +1,7 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<dataset>
+    <c_customer id="22763" customer_id="20141129170520010000000038" customer_type="FP.CUSTOMER.TYPE.2" device_no="0E5F398E-C812-47C4-BB28-22E1226BFF11" identity_number="362531198912060033" identity_typer="FP.CERTIFICATE.TYPE.1" login_id="15821948594" login_password="3B63ACDC9E91869B0A822EC07148E80A" mobile="15821948594" nick_name="jm" property="FP.CUSTOMER.PROPERTY.1" real_name="&#29579;&#20339;&#26126;" reg_channel="FP.CUSTOMER.CHANNEL.1" reg_way="FP.CUSTOMER.CHANNEL.1" status="FP.CUSTOMER.STATUS.2" create_time="2014-11-29 17:05:20.0" update_time="2015-02-09 13:55:21.0" authentication_id="22763"/>
+    <c_authentication id="22763" password="3B63ACDC9E91869B0A822EC07148E80A" channel="0" create_time="2015-03-13 14:34:47.0" update_time="2015-03-13 14:34:47.0" mobile="15821948594"/>
+    <f_basic_account id="83580" account_no="201503201524100100000000808888" status="N" balance="0.0000" create_time="2015-03-04 10:57:32.0" update_time="2015-03-04 10:57:32.0" cust_id="20141129170520010000000038"/>
+    <c_customer_session id="63045" customer_id="20141129170520010000000038" token="2EBEC8910382BA815688D77378F2F677" client_address="10.168.76.12" status="Y" create_time="2015-03-04 10:57:32.0" update_time="2015-03-04 10:57:32.0" device_no="23564F8D-B9EC-4BF8-88DA-68D4ACECAF88"/>
+</dataset>
