@@ -1,12 +1,10 @@
-package com.sunlights.customer.service.impl;
+package com.sunlights.customer.service.share;
 
 import com.sunlights.customer.ActivityConstant;
 import com.sunlights.customer.dal.CustomerDao;
 import com.sunlights.customer.dal.impl.CustomerDaoImpl;
 import com.sunlights.customer.factory.ActivityServiceFactory;
-import com.sunlights.customer.service.AbstractShareInfoService;
 import com.sunlights.customer.service.ActivityService;
-import com.sunlights.customer.vo.ShareInfoContext;
 import com.sunlights.customer.vo.ShareInfoVo;
 import models.Activity;
 import models.Customer;

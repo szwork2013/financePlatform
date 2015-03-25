@@ -21,6 +21,10 @@ public class ShareInfo extends IdEntity {
     private String imageUrl;
     @Column(name = "IS_REF_ID")
     private Integer relateRefId;
+    @Column(name = "PARENT_ID")
+    private Long parentId;
+    @Column(name = "REF_ID")
+    private String refId;
 
     @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "CREATE_TIME")
@@ -93,5 +97,21 @@ public class ShareInfo extends IdEntity {
 
     public void setUpdateTime(Date updateTime) {
         this.updateTime = updateTime;
+    }
+
+    public Long getParentId() {
+        return parentId;
+    }
+
+    public void setParentId(Long parentId) {
+        this.parentId = parentId;
+    }
+
+    public String getRefId() {
+        return refId;
+    }
+
+    public void setRefId(String refId) {
+        this.refId = refId;
     }
 }

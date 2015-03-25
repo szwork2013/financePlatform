@@ -1,10 +1,8 @@
-package com.sunlights.customer.service.impl;
+package com.sunlights.customer.service.share;
 
 import com.sunlights.customer.ActivityConstant;
 import com.sunlights.customer.dal.CustomerDao;
 import com.sunlights.customer.dal.impl.CustomerDaoImpl;
-import com.sunlights.customer.service.AbstractShareInfoService;
-import com.sunlights.customer.vo.ShareInfoContext;
 import models.Customer;
 import models.ShareInfo;
 import org.apache.commons.lang3.StringUtils;
@@ -39,7 +37,7 @@ public class InviteShareInfoServiceImpl extends AbstractShareInfoService {
         sb.append(shareInfo.getBaseUrl());
         if (Integer.valueOf(ActivityConstant.ACCOUNT_COMMON_ONE).equals(shareInfo.getRelateRefId())) {
             //sb.append(context.getCommonParamter());
-            sb.append("?mobile=" + mobile + "&scene=ASC002");
+            sb.append("?mobile=" + mobile);
         }
         return sb.toString();
     }

@@ -1,28 +1,28 @@
-package com.sunlights.customer.service;
+package com.sunlights.customer.service.share;
 
 import com.sunlights.customer.dal.ShareInfoDao;
 import com.sunlights.customer.dal.ShortUrlDao;
-import com.sunlights.customer.dal.impl.ShareInfoDaoImpl;
 import com.sunlights.customer.dal.impl.ShortUrlDaoImpl;
-import com.sunlights.customer.vo.ShareInfoContext;
+import com.sunlights.customer.factory.ShareInfoDaoFactory;
 import com.sunlights.customer.vo.ShareInfoVo;
 import models.ShareInfo;
 import models.ShortUrl;
-import play.Configuration;
 import play.Logger;
 
-import java.net.URLEncoder;
+import java.util.List;
 
 /**
  * Created by tangweiqun on 2014/12/17.
  */
 public abstract class AbstractShareInfoService implements ShareInfoService {
-    private ShareInfoDao shareInfoDao = new ShareInfoDaoImpl();
+    private ShareInfoDao shareInfoDao = ShareInfoDaoFactory.getShareInfoDao();
     private ShortUrlDao shortUrlDao = new ShortUrlDaoImpl();
+    private services.ShortUrlService shortUrlService = new services.ShortUrlService();
 
     @Override
     public ShareInfoVo getShareInfoByType(ShareInfoContext context) {
-        ShareInfo shareInfo = shareInfoDao.getByType(context.getType());
+        //根据分享种类获取配置的分享信息
+        ShareInfo shareInfo = getBasicShareInfoModel(context.getType(), context.getRefId());
         if (shareInfo == null) {
             throw new RuntimeException("不支持的分享");
         }
@@ -46,30 +46,18 @@ public abstract class AbstractShareInfoService implements ShareInfoService {
     }
 
     public String getShortUrl(ShareInfoContext context) {
-        String shortUrlStr = saveURL(context);
-        return shortUrlStr;
+        ShortUrl shortUrl = shortUrlDao.getShortUrl(context.getType(), context.getRefId());
+
+        if(shortUrl != null) {
+            return shortUrl.getShortUrl();
+        }
+
+        return saveURL(context);
     }
 
     public String saveURL(ShareInfoContext context) {
-        String shareTitle = context.getShareInfo().getTitle();
-        String descContent = context.getShareInfoVo().getContent();
-        String imgUrl = context.getShareInfo().getImageUrl();
-        String appid = Configuration.root().getString("appId");
-
-        try {
-            shareTitle = URLEncoder.encode(shareTitle, "UTF-8");
-            descContent = URLEncoder.encode(descContent, "UTF-8");
-        } catch (Exception e) {
-            Logger.error(">>saveURL : ", e);
-        }
-
-        String commonParamter = "?appid=" + appid + "&imgUrl=" + imgUrl + "&descContent=" + descContent + "&shareTitle=" + shareTitle;
-        context.setCommonParamter(commonParamter);
-
         String longUrl = getLongUrl(context);
         Logger.info("longUrl :" + longUrl);
-
-        services.ShortUrlService shortUrlService = new services.ShortUrlService();
 
         String shortUrlStr = shortUrlService.getShortURL(longUrl);
         Logger.info("shortUrlStr :" + shortUrlStr);
@@ -82,6 +70,32 @@ public abstract class AbstractShareInfoService implements ShareInfoService {
         shortUrlDao.doSave(shortUrl);
 
         return shortUrlStr;
+    }
+
+
+    @Override
+    public ShareInfo getBasicShareInfoModel(String type, String refId) {
+        ShareInfo shareInfoParent = shareInfoDao.getByType(type);
+
+        List<ShareInfo> specialInfos = shareInfoDao.getByParentId(shareInfoParent.getId());
+
+        if(specialInfos == null || specialInfos.isEmpty()) {
+            return shareInfoParent;
+        }
+
+        return transform(specialInfos, shareInfoParent, refId);
+    }
+
+    private ShareInfo transform(List<ShareInfo> specialInfos, ShareInfo shareInfoParent, String refId) {
+        for(ShareInfo temp : specialInfos) {
+            if(temp.getRefId().equals(refId)) {
+                shareInfoParent.setBaseUrl(getNotNullStr(temp.getBaseUrl(), shareInfoParent.getBaseUrl()));
+                shareInfoParent.setContent(getNotNullStr(temp.getContent(), shareInfoParent.getContent()));
+                shareInfoParent.setImageUrl(getNotNullStr(temp.getImageUrl(), shareInfoParent.getImageUrl()));
+                shareInfoParent.setTitle(getNotNullStr(temp.getTitle(), shareInfoParent.getTitle()));
+            }
+        }
+        return shareInfoParent;
     }
 
     public abstract String getLongUrl(ShareInfoContext context);

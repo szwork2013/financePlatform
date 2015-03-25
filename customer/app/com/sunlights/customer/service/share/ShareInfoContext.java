@@ -1,16 +1,17 @@
-package com.sunlights.customer.vo;
+package com.sunlights.customer.service.share;
 
+import com.sunlights.customer.vo.ShareInfoVo;
 import models.ShareInfo;
 
 /**
  * Created by Administrator on 2014/12/17.
  */
 public class ShareInfoContext {
-
+    //分享种类  是分享产品  、 分享活动，分享app等
     private String type;
-
+    //如果分享和具体的业务类型有关则需要，比如分享活动是指具体分享某个活动的,则refId为活动的id
     private String refId;
-
+    //客户号
     private String custNo;
 
     private ShareInfo shareInfo;
