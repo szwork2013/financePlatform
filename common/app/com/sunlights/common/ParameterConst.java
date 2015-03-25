@@ -124,4 +124,9 @@ public final class ParameterConst {
      * 金豆兑换话费可兑换的份额列表
      */
     public static String EXCHANGE_BEAN = "EXCHANGE_BEAN";
+
+    /**
+     * 国定假日安排，每天之间用；隔开，格式yyyy-MM-dd
+     */
+    public static String HOLIDAY_DATE = "HOLIDAY_DATE";
 }

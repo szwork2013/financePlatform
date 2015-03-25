@@ -19,7 +19,10 @@ libraryDependencies ++= Seq(
   javaWs,
   "commons-httpclient" % "commons-httpclient" % "3.1",
   "com.sunlights" % "jpush-client" % "3.2.3",
-  "com.google.code.gson" % "gson" % "2.3.1"
+  "com.google.code.gson" % "gson" % "2.3.1",
+  "de.jollyday" % "jollyday" % "0.4.7",
+  "net.objectlab.kit" % "datecalc-common" % "1.4.0",
+  "net.objectlab.kit" % "datecalc-joda" % "1.4.0"
 )
 
 
