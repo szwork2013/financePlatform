@@ -10,6 +10,8 @@ POST        /push             @web.PushMessageController.sendPush
 
 POST        /shorturl         @web.ShortUrlController.getShortURL
 
+POST        /datecalc         @web.DateCalcController.dateCalc
+
 # Map static resources from the /public folder to the /assets URL path
 
 GET         /getTicket        @web.JsapiTicketController.getTicket
