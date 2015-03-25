@@ -146,10 +146,11 @@ public class RewardFlowServiceImpl implements RewardFlowService {
         rewardFlow.setRewardType(rewardType);
         rewardFlow.setOperatorType(ActivityConstant.REWARD_FLOW_OBTAIN);
         List<Data4ExchangeItem> items = new ArrayList<Data4ExchangeItem>();
-        Data4ExchangeItem item = new Data4ExchangeItem();
+        Data4ExchangeItem item = null;
         try {
             List<RewardFlow> rewardFlows = rewardFlowDao.findByCondition(rewardFlow);
             for (RewardFlow temp : rewardFlows) {
+                item = new Data4ExchangeItem();
                 item.setTitle(temp.getActivityTitle());
                 item.setCreateTime(CommonUtil.dateToString(temp.getCreateTime(), CommonUtil.DATE_FORMAT_LONG));
 
