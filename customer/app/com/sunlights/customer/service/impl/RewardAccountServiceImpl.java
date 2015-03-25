@@ -7,7 +7,6 @@ import com.sunlights.customer.dal.RewardAccountDetailsDao;
 import com.sunlights.customer.dal.impl.RewardAccountDaoImpl;
 import com.sunlights.customer.dal.impl.RewardAccountDetailsDaoImpl;
 import com.sunlights.customer.service.RewardAccountService;
-import models.Fund;
 import models.RewardAccountBalance;
 import models.RewardAccountDetails;
 import play.Logger;
@@ -39,6 +38,9 @@ public class RewardAccountServiceImpl implements RewardAccountService {
 
         RewardAccountBalance rewardAccountBalance = new RewardAccountBalance();
         rewardAccountBalance.setCustomerId(customerId);
+        rewardAccountBalance.setRewardAccountBalance(BigDecimal.ZERO);
+        rewardAccountBalance.setRewardExpendBalance(BigDecimal.ZERO);
+        rewardAccountBalance.setRewardIncomeBalance(BigDecimal.ZERO);
         rewardAccountBalance.setCreateTime(currentTime);
         rewardAccountBalanceDao.createRewardAccount(rewardAccountBalance);
         return rewardAccountBalance;

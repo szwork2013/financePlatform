@@ -1,11 +1,7 @@
 package com.sunlights.core.web;
 
-import com.google.common.collect.Lists;
-import com.sunlights.common.AppConst;
-import com.sunlights.common.FundCategory;
 import com.sunlights.common.MsgCode;
 import com.sunlights.common.Severity;
-import com.sunlights.common.exceptions.BusinessRuntimeException;
 import com.sunlights.common.utils.MessageUtil;
 import com.sunlights.common.vo.Message;
 import com.sunlights.common.vo.PageVo;
@@ -15,9 +11,6 @@ import com.sunlights.core.vo.ChartVo;
 import com.sunlights.core.vo.FundVo;
 import com.sunlights.core.vo.ProductParameter;
 import com.sunlights.core.vo.ProductVo;
-import org.apache.commons.lang3.StringUtils;
-import play.Logger;
-import play.cache.Cache;
 import play.data.Form;
 import play.db.jpa.Transactional;
 import play.libs.Json;
@@ -58,7 +51,7 @@ public class ProductController extends Controller {
             pageVo.setPageSize(productParameter.getPageSize());
             pageVo.put("EQS_category", productParameter.getCategory());
             pageVo.put("EQS_productType", productParameter.getType());
-            List<FundVo> funds = findProductListFromCache(pageVo);
+            List<FundVo> funds = productService.findProductListFromCache(pageVo);
             pageVo.setList(funds);
             messageUtil.setMessage(new Message(Severity.INFO, MsgCode.OPERATE_SUCCESS), pageVo);
             return ok(messageUtil.toJson());
@@ -69,14 +62,14 @@ public class ProductController extends Controller {
 
     public Result findProductIndex() {
         ProductVo productVo = null;
-        List<ProductVo> productVos = findProductIndexFromCache();
+        List<ProductVo> productVos = productService.findProductIndexFromCache();
         productVo = productVos.isEmpty() ? null : productVos.get(0);
         messageUtil.setMessage(new Message(Severity.INFO, MsgCode.OPERATE_SUCCESS), productVo);
         return ok(messageUtil.toJson());
     }
 
     public Result findProductsIndex() {
-        List<ProductVo> productVos = findProductIndexFromCache();
+        List<ProductVo> productVos = productService.findProductIndexFromCache();
         messageUtil.setMessage(new Message(Severity.INFO, MsgCode.OPERATE_SUCCESS), productVos);
         return ok(messageUtil.toJson());
     }
@@ -140,14 +133,7 @@ public class ProductController extends Controller {
 
 
     public Result reloadProduct(){
-        Cache.remove(AppConst.CACHE_PRODUCT_MONETARY_LIST);
-        Cache.remove(AppConst.CACHE_PRODUCT_STF_LIST);
-        Cache.remove(AppConst.CACHE_PRODUCT_INDEX);
-
-        productMonetaryListLoad();
-        productStfListLoad();
-        productIndexListLoad();
-
+        productService.reloadProductCache(false);
         messageUtil.setMessage(new Message(Severity.INFO, MsgCode.OPERATE_SUCCESS));
         return ok(messageUtil.toJson());
     }
