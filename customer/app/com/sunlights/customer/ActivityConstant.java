@@ -122,7 +122,8 @@ public interface ActivityConstant {
     String TRADE_TYPE_REDEEM = "1";
 
     String SHARE_TYPE_INVITER = "0";
-    String SHARE_TYPE_PRODUCT = "1";
+    String SHARE_TYPE_PRODUCT_JDJ = "1";
+    String SHARE_TYPE_PRODUCT_P2P = "4";
     String SHARE_TYPE_PROFIT = "2";
     String SHARE_TYPE_ACTIVITY = "3";
 

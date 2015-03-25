@@ -30,14 +30,14 @@ import com.sunlights.trade.vo.ShuMiTradeFormVo;
 import models.Customer;
 import models.FundNav;
 import models.Trade;
-import org.apache.commons.lang3.time.DateUtils;
+import org.joda.time.LocalDate;
 import play.Logger;
+import services.DateCalcService;
 
 import java.math.BigDecimal;
 import java.sql.Timestamp;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
@@ -59,6 +59,7 @@ public class ShuMiTradeServiceImpl implements ShuMiTradeService {
     private ProductService productService = new ProductServiceImpl();
     private BankCardService bankCardService = new BankCardServiceImpl();
     private BankService bankService = new BankServiceImpl();
+    private DateCalcService dateCalcService = new DateCalcService();
 
     @Override
     public List<MessageHeaderVo> shuMiTradeOrder(ShuMiTradeFormVo shuMiTradeFormVo, String token) {
@@ -97,17 +98,15 @@ public class ShuMiTradeServiceImpl implements ShuMiTradeService {
     private List<MessageHeaderVo> buildMessageHeaderVos(ShuMiTradeFormVo shuMiTradeFormVo, Customer customer, String customerId, Trade trade) {
         List<MessageHeaderVo> list = Lists.newArrayList();
         MessageHeaderVo messageHeaderVo = new MessageHeaderVo(DictConst.PUSH_TYPE_3, null, customerId);
-        Long currentHours = DateUtils.getFragmentInHours(trade.getCreateTime(), Calendar.DATE);
-        Logger.info(">>currentHours:" + currentHours);
-        Date confirmDate = DateUtils.addDays(trade.getCreateTime(), 1);
-        Date earningDate = DateUtils.addDays(trade.getCreateTime(), 2);
-        if (currentHours >= 15) {
-            confirmDate = DateUtils.addDays(trade.getCreateTime(), 2);
-            earningDate = DateUtils.addDays(trade.getCreateTime(), 3);
-        }
+
+        Date tradeTime = trade.getCreateTime();
+
+        LocalDate confirmLocalDate = dateCalcService.getEndTradeDate(CommonUtil.dateToString(tradeTime, CommonUtil.DATE_FORMAT_LONG), 1);
+        LocalDate earningLocalDate = dateCalcService.getEndTradeDate(CommonUtil.dateToString(tradeTime, CommonUtil.DATE_FORMAT_LONG), 2);
+        
         messageHeaderVo.buildParams(customer.getRealName(), shuMiTradeFormVo.getFundName(),
-                CommonUtil.dateToString(confirmDate, CommonUtil.DATE_FORMAT_SHORT),
-                CommonUtil.dateToString(earningDate, CommonUtil.DATE_FORMAT_SHORT));
+                confirmLocalDate.toString(CommonUtil.DATE_FORMAT_SHORT),
+                earningLocalDate.toString(CommonUtil.DATE_FORMAT_SHORT));
         list.add(messageHeaderVo);
         return list;
     }

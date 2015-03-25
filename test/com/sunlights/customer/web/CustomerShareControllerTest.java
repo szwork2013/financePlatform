@@ -49,7 +49,7 @@ public class CustomerShareControllerTest extends BaseTest {
     }
 
 
-    @Test
+    //@Test
     public void testgetQRcodeToByte() throws Exception {//byte二维码
 
         Map<String, String> formParams = new HashMap<>();
@@ -64,6 +64,48 @@ public class CustomerShareControllerTest extends BaseTest {
     }
 
     @Test
+    public void JdjproductShareSucc() throws Exception {//分享好友
+
+        Map<String, String> formParams = new HashMap<>();
+        formParams.put("type", "1");
+        formParams.put("id", "41921");
+
+        play.mvc.Result result = getResult("/customer/activity/share", formParams, cookie);
+
+        Logger.info("result is :" + contentAsString(result));
+        assertThat(status(result)).isEqualTo(OK);
+        MessageVo message = toMessageVo(result);
+        assertThat(message.getMessage().getCode()).isEqualTo(MsgCode.SHARE_QUERY_SUCC.getCode());
+
+        ShareVo shareVo = Json.fromJson(Json.toJson(message.getValue()), ShareVo.class);
+
+        Logger.info("============testProductShare result====\n" + contentAsString(result));
+
+
+    }
+
+    @Test
+    public void P2pProductShareSucc() throws Exception {//分享好友
+
+        Map<String, String> formParams = new HashMap<>();
+        formParams.put("type", "4");
+        formParams.put("id", "41921");
+
+        play.mvc.Result result = getResult("/customer/activity/share", formParams, cookie);
+
+        Logger.info("result is :" + contentAsString(result));
+        assertThat(status(result)).isEqualTo(OK);
+        MessageVo message = toMessageVo(result);
+        assertThat(message.getMessage().getCode()).isEqualTo(MsgCode.SHARE_QUERY_SUCC.getCode());
+
+        ShareVo shareVo = Json.fromJson(Json.toJson(message.getValue()), ShareVo.class);
+
+        Logger.info("============testProductShare result====\n" + contentAsString(result));
+
+
+    }
+
+    //@Test
     public void testInviteShare() throws Exception {//分享好友
 
         Map<String, String> formParams = new HashMap<>();

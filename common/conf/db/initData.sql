@@ -300,3 +300,11 @@ INSERT INTO public.o_role_resource (id, role_id, resource_id, create_time, updat
 
 
 INSERT INTO public.o_user_role (id, user_id, role_id, create_time, update_time, deleted) VALUES (1, 1, 1, '2015-01-28 15:05:48.918', '2015-01-28 15:05:50.854', false);
+
+
+
+--activity
+INSERT INTO public.o_resource (id, name, code, seq_no, parent_id, type, uri, create_time, update_time, deleted) VALUES (29, '红包取现兑换结果', 'activity:red', '1', 5, 'menu', 'dashboard.red', '2015-01-28 13:23:49.902', '2015-01-28 13:23:51.476', false);
+INSERT INTO public.o_role_resource (id, role_id, resource_id, create_time, update_time, deleted) VALUES (29, 1, 29, '2015-01-28 14:54:40.570', '2015-01-28 14:54:41.312', false);
+
+

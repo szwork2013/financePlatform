@@ -4,11 +4,14 @@ import com.sunlights.common.MsgCode;
 import com.sunlights.common.Severity;
 import com.sunlights.common.exceptions.BusinessRuntimeException;
 import com.sunlights.common.vo.Message;
+import com.sunlights.common.vo.MessageVo;
 import com.sunlights.customer.factory.ShareInfoServiceFactory;
-import com.sunlights.customer.service.ShareInfoService;
-import com.sunlights.customer.vo.ShareInfoContext;
+import com.sunlights.customer.service.share.ShareInfoContext;
+import com.sunlights.customer.service.share.ShareInfoService;
+import com.sunlights.customer.vo.CustomerVo;
 import com.sunlights.customer.vo.ShareInfoVo;
 import com.sunlights.customer.vo.ShareVo;
+import com.wordnik.swagger.annotations.*;
 import models.CustomerSession;
 import play.Logger;
 import play.data.Form;
@@ -44,6 +47,13 @@ public class ShareController extends ActivityBaseController {
      *
      * @return
      */
+    @ApiOperation(value = "查询分享信息接口",
+            notes = "MessageVo 的value是ShareVo对象", response = MessageVo.class, nickname = "share", httpMethod = "POST")
+    @ApiImplicitParams({@ApiImplicitParam(name = "id", required = true, paramType = "form"),
+            @ApiImplicitParam(name = "type", paramType = "form")})
+    @ApiResponses(value = {@ApiResponse(code = 0223, message = "分享查询成功", response = ShareVo.class),
+            @ApiResponse(code = 2229, message = "不支持的分享类型")
+    })
     public Result share() {
         String custNo = null;
         Message message = null;
@@ -60,12 +70,7 @@ public class ShareController extends ActivityBaseController {
         Logger.info(MessageFormat.format(">>share params--->type:{0}, id:{1}", type, id));
 
         ShareInfoService shareInfoService = ShareInfoServiceFactory.createShareInfoService(type);
-        if (shareInfoService == null) {
-            Logger.error("不支持的分享类型");
-            message = new Message(Severity.INFO, MsgCode.NOT_SUPPORT_SHARE_TYPE);
-            messageUtil.setMessage(message);
-            return ok(messageUtil.toJson());
-        }
+
         message = new Message(Severity.INFO, MsgCode.SHARE_QUERY_SUCC);
         try {
             ShareInfoContext context = new ShareInfoContext();
