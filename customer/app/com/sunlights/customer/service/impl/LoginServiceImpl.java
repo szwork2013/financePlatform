@@ -15,6 +15,7 @@ import com.sunlights.customer.dal.impl.CustomerDaoImpl;
 import com.sunlights.customer.dal.impl.LoginDaoImpl;
 import com.sunlights.customer.service.LoginService;
 import com.sunlights.customer.service.RewardAccountService;
+import com.sunlights.customer.service.ShowStatisticsService;
 import com.sunlights.customer.vo.AuthenticationVo;
 import com.sunlights.customer.vo.CustomerFormVo;
 import com.sunlights.customer.vo.CustomerVo;
@@ -38,6 +39,8 @@ public class LoginServiceImpl implements LoginService {
     private CustomerService customerService = new CustomerService();
     private VerifyCodeService verifyCodeService = new VerifyCodeService();
     private RewardAccountService rewardAccountBalanceService = new RewardAccountServiceImpl();
+
+    private ShowStatisticsService showStatisticsService = new ShowStatisticsServiceImpl();
 
     /**
      * 登录
@@ -170,6 +173,9 @@ public class LoginServiceImpl implements LoginService {
 
         //创建奖励账户
         rewardAccountBalanceService.createRewardAccount(customer.getCustomerId());
+
+        //创建假的注册数
+        showStatisticsService.addRegisterShowStatistics();
 
         return customer;
 	}

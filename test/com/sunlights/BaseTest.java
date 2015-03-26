@@ -101,7 +101,7 @@ public class BaseTest extends WithApplication {
         return result;
     }
 
-    private FakeRequest setHeader(FakeRequest fakeRequest) {
+    public FakeRequest setHeader(FakeRequest fakeRequest) {
         fakeRequest.withHeader(CONTENT_TYPE, APPLICATION_X_WWW_FORM_URLENCODED);
         fakeRequest.withHeader(AppConst.HEADER_USER_AGENT, "Mozilla/5.0 (iPhone; CPU iPhone OS 7_1 like Mac OS X) AppleWebKit/537.51.2 (KHTML, like Gecko) Mobile/11D167\\jindoujialicai\\1.3-M1");
         fakeRequest.withHeader(AppConst.HEADER_DEVICE, "23564F8D-B9EC-4BF8-88DA-68D4ACECAF88");

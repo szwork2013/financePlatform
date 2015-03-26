@@ -50,8 +50,8 @@ public class ShareController extends ActivityBaseController {
      */
     @ApiOperation(value = "查询分享信息接口",
             notes = "MessageVo 的value是ShareVo对象", response = MessageVo.class, nickname = "share", httpMethod = "POST")
-    @ApiImplicitParams({@ApiImplicitParam(name = "id", paramType = "form"),
-            @ApiImplicitParam(name = "type", required = true, paramType = "form")})
+    @ApiImplicitParams({@ApiImplicitParam(name = "id", paramType = "form", value = "分享APP的话则需要登录，但是id可以为空；分享产品的话对应着产品编码；分享收益对应着客户编码；分享活动对应着活动id"),
+            @ApiImplicitParam(name = "type", required = true, paramType = "form", value = "分享类型：0: 分享app(需要登录)  1：表示分享产品(jdj)  2：表示分享收益  3：表示分享活动  4:分享产品(p2p)")})
     @ApiResponses(value = {@ApiResponse(code = 0223, message = "分享查询成功", response = ShareVo.class),
             @ApiResponse(code = 2229, message = "不支持的分享类型")
     })
