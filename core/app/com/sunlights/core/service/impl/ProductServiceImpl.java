@@ -188,13 +188,16 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public void reloadProductCache(boolean notReloadP2p){
+    public void refreshProductListCache(){
         Cache.remove(AppConst.CACHE_PRODUCT_MONETARY_LIST);
         Cache.remove(AppConst.CACHE_PRODUCT_STF_LIST);
-        Cache.remove(AppConst.CACHE_PRODUCT_INDEX);
-
         productMonetaryListLoad();
         productStfListLoad();
+    }
+
+    @Override
+    public void refreshProductIndexCache(){
+        Cache.remove(AppConst.CACHE_PRODUCT_INDEX);
         productIndexListLoad();
     }
 

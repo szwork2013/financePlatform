@@ -101,7 +101,8 @@ public class CustomerController extends Controller {
     @ApiImplicitParams({
             @ApiImplicitParam(name = "mobilePhoneNo", required = true, paramType = "form"),
             @ApiImplicitParam(name = "passWord", required = true, paramType = "form"),
-            @ApiImplicitParam(name = "channel", required = true, paramType = "form")
+            @ApiImplicitParam(name = "channel", value = "若为1时表示pc端登录,deviceNo可不填；反之为app登录，deviceNo必填", required = true, paramType = "form"),
+            @ApiImplicitParam(name = "deviceNo", value = "设备号", paramType = "form")
     })
     @ApiResponses(value = {@ApiResponse(code = 2001, message = "访问失败 参数为空"),
             @ApiResponse(code = 2002, message = "登录超时 请重新登录"),
@@ -127,19 +128,21 @@ public class CustomerController extends Controller {
         List<MessageHeaderVo> list = Lists.newArrayList();
 
         CustomerSession customerSession = loginService.login(customerFormVo, token, request.remoteAddress());
-        if (customerSession != null && !AppConst.CHANNEL_PC.equals(customerFormVo.getChannel())) {
-            Message message = new Message(MsgCode.LOGIN_SUCCESS);
-            CustomerVo customerVo = customerService.getCustomerVoByPhoneNo(mobilePhoneNo, deviceNo);
-            MessageUtil.getInstance().setMessage(message, customerVo);
+        if (customerSession != null){
             customerService.sessionLoginSessionId(Controller.session(), Controller.response(), customerSession);
-            customerService.sessionPushRegId(request(), customerSession.getCustomerId(), customerFormVo.getDeviceNo());
-            MessageHeaderVo messageHeaderVo = new MessageHeaderVo(DictConst.PUSH_TYPE_4, null, customerSession.getCustomerId());
-            list.add(messageHeaderVo);
-            response().setHeader(AppConst.HEADER_MSG, MessageUtil.getInstance().setMessageHeader(list));
-        } else if (AppConst.CHANNEL_PC.equals(customerFormVo.getChannel())) {
-            Message message = new Message(MsgCode.LOGIN_SUCCESS);
-            //CustomerVo customerVo = customerService.getCustomerVoByPhoneNo(mobilePhoneNo, deviceNo);
-            MessageUtil.getInstance().setMessage(message);
+            if (!AppConst.CHANNEL_PC.equals(customerFormVo.getChannel())) {
+                Message message = new Message(MsgCode.LOGIN_SUCCESS);
+                CustomerVo customerVo = customerService.getCustomerVoByPhoneNo(mobilePhoneNo, deviceNo);
+                MessageUtil.getInstance().setMessage(message, customerVo);
+                customerService.sessionPushRegId(request(), customerSession.getCustomerId(), customerFormVo.getDeviceNo());
+                MessageHeaderVo messageHeaderVo = new MessageHeaderVo(DictConst.PUSH_TYPE_4, null, customerSession.getCustomerId());
+                list.add(messageHeaderVo);
+                response().setHeader(AppConst.HEADER_MSG, MessageUtil.getInstance().setMessageHeader(list));
+            } else if (AppConst.CHANNEL_PC.equals(customerFormVo.getChannel())) {
+                Message message = new Message(MsgCode.LOGIN_SUCCESS);
+                //CustomerVo customerVo = customerService.getCustomerVoByPhoneNo(mobilePhoneNo, deviceNo);
+                MessageUtil.getInstance().setMessage(message);
+            }
         }
 
         JsonNode json = MessageUtil.getInstance().toJson();
@@ -340,6 +343,7 @@ public class CustomerController extends Controller {
 
     /**
      * 获取注册人数(提供给活动中的h5展示的，不是真正的注册用户数
+     *
      *
      * @return
      */

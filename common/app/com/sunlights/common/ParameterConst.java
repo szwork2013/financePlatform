@@ -129,4 +129,14 @@ public final class ParameterConst {
      * 国定假日安排，每天之间用；隔开，格式yyyy-MM-dd
      */
     public static String HOLIDAY_DATE = "HOLIDAY_DATE";
+
+    /**
+     * 待确认的交易描述信息
+     */
+    public final static String TRADE_PURCHASE_SHOWINCOME = "TRADE.PURCHASE.SHOWINCOME";
+    public final static String TRADE_PURCHASE_CONFIRMINCOME = "TRADE.PURCHASE.CONFIRMINCOME";
+    public final static String TRADE_PURCHASE_APPLY = "TRADE.PURCHASE.APPLY";
+    public final static String TRADE_REDEEM_CONFIRMTIME = "TRADE.REDEEM.CONFIRMTIME";
+    public final static String TRADE_REDEEM_CONFIRM = "TRADE.REDEEM.CONFIRM";
+    public final static String TRADE_REDEEM_APPLY = "TRADE.REDEEM.APPLY";
 }

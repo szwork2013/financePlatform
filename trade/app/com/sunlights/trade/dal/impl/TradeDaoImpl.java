@@ -54,6 +54,12 @@ public class TradeDaoImpl extends EntityBaseDao implements TradeDao {
     }
 
     @Override
+    public Trade findTradeByTradeNo(String tradeNo) {
+        List<Trade> tradeList = findBy(Trade.class, "tradeNo", tradeNo);
+        return tradeList.isEmpty() ? null : tradeList.get(0);
+    }
+
+    @Override
     public BigDecimal getTradeRedeemAmount(String customerId, String productCode) {
         String sql = "select count(t.trade_amount) from t_trade " +
                 "where t.cust_id = :customerId " +

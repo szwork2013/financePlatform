@@ -1,0 +1,23 @@
+{
+    "message": {
+        "severity": 0,
+        "code": "0000",
+        "summary": "操作成功",
+        "detail": "",
+        "fields": { }
+    },
+    "value": {
+        "tradeNo": "20150324201093",
+        "tradeTime": "2015-03-24 17:48",
+        "tradeInfoVoList": [
+            {
+                "timeInfo": "1~3个交易日后",
+                "desc": "预计取现到银行卡"
+            },
+            {
+                "timeInfo": "03-24 17:48",
+                "desc": "取现申请提交"
+            }
+        ]
+    }
+}

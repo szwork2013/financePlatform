@@ -191,11 +191,15 @@ public abstract class DBUnitBasedTest extends WithApplication {
      * @param resultFile
      * @throws Exception
      */
-    public void exportData(String tableNameListStr, String resultFile) throws Exception {
+    public void exportData(String tableNameListStr, String resultFile) {
         File file = Play.getFile(path + resultFile, Play.current());
 
         List<String> tableNameList = Arrays.asList(tableNameListStr.split(","));
-        dbTestUtil.exportData(databaseConnection, tableNameList, file.getPath());
+        try {
+            dbTestUtil.exportData(databaseConnection, tableNameList, file.getPath());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     public String getJsonFile(String jsonName) {

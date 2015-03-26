@@ -71,6 +71,8 @@ public class CommonUtil {
 
 	public static final String DATE_FORMAT_SHORT = "yyyy-MM-dd";
 
+    public static final String DATE_FORMAT_MM_DD_HH_MM = "MM-dd HH:mm";
+
 	public static final String DATE_FORMAT_YYYY_MM_DD_HH_MM = "yyyy-MM-dd HH:mm";
 
 	public static final String DATE_FORMAT_LONG = "yyyy-MM-dd HH:mm:ss";

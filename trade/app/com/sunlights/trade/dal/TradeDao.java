@@ -29,6 +29,8 @@ public interface TradeDao {
      */
     public List<TradeVo> getTradeListByCustomerId(String customerId, String productCode, PageVo pageVo);
 
+    public Trade findTradeByTradeNo(String tradeNo);
+
     /**
      * 获取正在赎回中的金额
      *
