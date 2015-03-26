@@ -12,7 +12,7 @@ public class UriFilterMap {
     public static List<String> uris = Lists.newArrayList();
 
     static {
-
+        uris.add("/customer/qrcode");
         uris.add("/thirdpart/getTicket");
         uris.add("/customer/getusermstr");
         uris.add("/activity/remain");
