@@ -338,4 +338,28 @@ public class CustomerController extends Controller {
 
     }
 
+    /**
+     * 获取注册人数(提供给活动中的h5展示的，不是真正的注册用户数
+     *
+     * @return
+     */
+    @ApiOperation(value = "获取注册人数(提供给活动中的h5展示的，不是真正的注册用户数",
+            notes = "MessageVo 的value是CustomerVo对象", response = MessageVo.class, nickname = "getRegisterNumbers4Activity", httpMethod = "POST")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "mobilePhoneNo", required = true, paramType = "form"),
+            @ApiImplicitParam(name = "passWord", required = true, paramType = "form"),
+            @ApiImplicitParam(name = "channel", required = true, paramType = "form")
+    })
+    @ApiResponses(value = {@ApiResponse(code = 2001, message = "访问失败 参数为空"),
+            @ApiResponse(code = 2002, message = "登录超时 请重新登录"),
+            @ApiResponse(code = 2100, message = "该手机号未注册"),
+            @ApiResponse(code = 2106, message = "密码错误次数过多 约xx分后再试"),
+            @ApiResponse(code = 2107, message = "密码错误 剩余次数xx"),
+            @ApiResponse(code = 0101, message = "登录成功", response = CustomerVo.class)
+    })
+    public Result getRegisterNumbers4Activity() {
+
+        return ok(messageUtil.toJson());
+    }
+
 }

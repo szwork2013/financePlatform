@@ -26,6 +26,7 @@ import java.text.MessageFormat;
  * Created by Administrator on 2014/12/3.
  */
 @Transactional
+@Api(value = "/customer", description = "分享信息服务")
 public class ShareController extends ActivityBaseController {
 
 
@@ -49,8 +50,8 @@ public class ShareController extends ActivityBaseController {
      */
     @ApiOperation(value = "查询分享信息接口",
             notes = "MessageVo 的value是ShareVo对象", response = MessageVo.class, nickname = "share", httpMethod = "POST")
-    @ApiImplicitParams({@ApiImplicitParam(name = "id", required = true, paramType = "form"),
-            @ApiImplicitParam(name = "type", paramType = "form")})
+    @ApiImplicitParams({@ApiImplicitParam(name = "id", paramType = "form"),
+            @ApiImplicitParam(name = "type", required = true, paramType = "form")})
     @ApiResponses(value = {@ApiResponse(code = 0223, message = "分享查询成功", response = ShareVo.class),
             @ApiResponse(code = 2229, message = "不支持的分享类型")
     })
