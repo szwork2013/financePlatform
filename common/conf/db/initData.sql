@@ -308,3 +308,11 @@ INSERT INTO public.o_resource (id, name, code, seq_no, parent_id, type, uri, cre
 INSERT INTO public.o_role_resource (id, role_id, resource_id, create_time, update_time, deleted) VALUES (29, 1, 29, '2015-01-28 14:54:40.570', '2015-01-28 14:54:41.312', false);
 
 
+--statistics
+INSERT INTO public.o_resource (id, name, code, seq_no, parent_id, type, uri, create_time, update_time, deleted) VALUES (30, '统计管理', 'statistics', '1', 1, 'menu', null, '2015-01-28 13:23:49.902', '2015-01-28 13:23:51.476', false);
+INSERT INTO public.o_resource (id, name, code, seq_no, parent_id, type, uri, create_time, update_time, deleted) VALUES (31, '推荐人', 'statistics:referrer', '1', 30, 'menu', 'dashboard.referrer', '2015-01-28 13:23:49.902', '2015-01-28 13:23:51.476', false);
+
+INSERT INTO public.o_role_resource (id, role_id, resource_id, create_time, update_time, deleted) VALUES (30, 1, 30, '2015-01-28 14:54:40.570', '2015-01-28 14:54:41.312', false);
+INSERT INTO public.o_role_resource (id, role_id, resource_id, create_time, update_time, deleted) VALUES (31, 1, 31, '2015-01-28 14:54:40.570', '2015-01-28 14:54:41.312', false);
+
+
