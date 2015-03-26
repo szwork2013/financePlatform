@@ -12,6 +12,9 @@ public class UriFilterMap {
     public static List<String> uris = Lists.newArrayList();
 
     static {
+
+        uris.add("/thirdpart/getTicket");
+        uris.add("/customer/getusermstr");
         uris.add("/activity/remain");
         uris.add("/activity/isover");
         uris.add("/activity/rule");

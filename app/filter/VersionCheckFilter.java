@@ -42,6 +42,8 @@ public class VersionCheckFilter implements EssentialFilter {
             public Iteratee<byte[], Result> apply(RequestHeader rh) {
                 String uri = rh.uri();
 
+                Logger.debug("uri: = " + uri);
+
                 if(UriFilterMap.isContain(uri)) {
                     return next.apply(rh);
                 }
