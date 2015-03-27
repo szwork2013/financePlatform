@@ -11,9 +11,9 @@ CREATE TABLE t_trade
   trade_status character(50), -- 1：存/取钱中、2：存/取钱成功、3：存/取失败【失败原因】
   confirm_status character(50), -- 0-不需发送；1-待确认；2-待确认；3-部分确认；4-确认完成；5-确认失败
   trade_time timestamp without time zone, -- 下单时间
-  create_time timestamp without timetimee, -- 创建时间
-  update_time timestamp without timeInfotime- 修改时间
-  delete_time timestamp without timeInfo zone, -- 删除时间
+  create_time timestamp without time zone, -- 创建时间
+  update_time timestamp without  time zone- 修改时间
+  delete_time timestamp without time zone, -- 删除时间
   cust_id character varying(30), -- 客户号
   bank_card_no character varying(40), -- 银行卡号
   bank_name character varying(50), -- 银行名称
