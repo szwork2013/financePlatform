@@ -16,6 +16,7 @@ import com.sunlights.customer.service.rewardrules.ActivityHandlerService;
 import com.sunlights.customer.service.rewardrules.vo.ActivityRequestVo;
 import com.sunlights.customer.service.rewardrules.vo.ActivityResponseVo;
 import com.sunlights.customer.vo.*;
+import models.Customer;
 import models.CustomerSession;
 import org.apache.commons.lang3.StringUtils;
 import play.Logger;
@@ -98,8 +99,15 @@ public class ActivityController extends ActivityBaseController {
         ActivityParamter activityParamter = getActivityParamter();
 
         //2:获取获取奖励需要的参数
-        CustomerSession customerSession = customerService.getCustomerSession(token);
-        String custNo = customerSession.getCustomerId();
+        String custNo = "";
+        if(StringUtils.isEmpty(token)) {
+            Customer customer = customerService.getCustomerByMobile(activityParamter.getMobilePhoneNo());
+            custNo = customer.getCustomerId();
+        } else {
+            CustomerSession customerSession = customerService.getCustomerSession(token);
+            custNo = customerSession.getCustomerId();
+        }
+
         if (StringUtils.isEmpty(scene)) {
             scene = activityParamter.getScene();
         }
