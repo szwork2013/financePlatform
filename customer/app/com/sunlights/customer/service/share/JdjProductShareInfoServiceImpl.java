@@ -18,7 +18,7 @@ public class JdjProductShareInfoServiceImpl extends AbstractShareInfoService {
         ShareInfo shareInfo = context.getShareInfo();
         StringBuilder sb = new StringBuilder();
         sb.append(shareInfo.getBaseUrl());
-        sb.append("?productCode=" + context.getRefId() + "&type=" + context.getType());
+        sb.append("?code=" + context.getRefId() + "&type=" + context.getType());
 
         return sb.toString();
     }
