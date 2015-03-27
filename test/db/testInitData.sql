@@ -31,12 +31,13 @@ insert into parameter (id, description, name, value, status) values (446524, 'te
 insert into parameter (id, description, name, value, status) values (5, '验证码在单位时间内最大次数1111', 'VERIFYCODE_MAX', '5', 'Y');
 insert into parameter (id, description, name, value, status) values (422464, '金豆兑换话费可兑换的份额列表，每份之间用；隔开', 'EXCHANGE_BEAN', '1;2;5;100;200;500', 'Y');
 insert into parameter (id, description, name, value, status) values (4273, '2015年国定假日安排，每天之间用；隔开，格式yyyy-MM-dd', 'HOLIDAY_DATE', '2015-01-01;2015-01-02;2015-01-03;2015-02-18;2015-02-19;2015-02-20;2015-02-21;2015-02-22;2015-02-23;2015-02-24;2015-04-04;2015-04-05;2015-04-06;2015-05-01;2015-05-02;2015-05-03;2015-06-20;2015-06-21;2015-06-22;2015-09-26;2015-09-27;2015-10-01;2015-10-02;2015-10-03;2015-10-04;2015-10-05;2015-10-06;2015-10-07', 'Y');
-insert into parameter ( id, description, name, value, status) values ((SELECT nextval('SRC')),'待确认的交易描述信息','TRADE.PURCHASE.SHOWINCOME','显示收益','Y');
-insert into parameter ( id, description, name, value, status) values ((SELECT nextval('SRC')),'待确认的交易描述信息','TRADE.PURCHASE.CONFIRMINCOME','确认份额并开始计算收益','Y');
-insert into parameter ( id, description, name, value, status) values ((SELECT nextval('SRC')),'待确认的交易描述信息','TRADE.PURCHASE.APPLY','购买申请提交','Y');
-insert into parameter ( id, description, name, value, status) values ((SELECT nextval('SRC')),'待确认的交易描述信息','TRADE.REDEEM.CONFIRMTIME','1~3个交易日后','Y');
-insert into parameter ( id, description, name, value, status) values ((SELECT nextval('SRC')),'待确认的交易描述信息','TRADE.REDEEM.CONFIRM','预计取现到银行卡','Y');
-insert into parameter ( id, description, name, value, status) values ((SELECT nextval('SRC')),'待确认的交易描述信息','TRADE.REDEEM.APPLY','取现申请提交','Y');
+insert into parameter ( id, description, name, value, status) values ((SELECT nextval('SRC')),'待确认的交易描述信息','TRADE_PURCHASE_SHOWINCOME','显示收益','Y');
+insert into parameter ( id, description, name, value, status) values ((SELECT nextval('SRC')),'待确认的交易描述信息','TRADE_PURCHASE_CONFIRMINCOME','确认份额并开始计算收益','Y');
+insert into parameter ( id, description, name, value, status) values ((SELECT nextval('SRC')),'待确认的交易描述信息','TRADE_PURCHASE_APPLY','购买申请提交','Y');
+insert into parameter ( id, description, name, value, status) values ((SELECT nextval('SRC')),'待确认的交易描述信息','TRADE_REDEEM_CONFIRMTIME','1~3个交易日后','Y');
+insert into parameter ( id, description, name, value, status) values ((SELECT nextval('SRC')),'待确认的交易描述信息','TRADE_REDEEM_CONFIRM','预计取现到银行卡','Y');
+insert into parameter ( id, description, name, value, status) values ((SELECT nextval('SRC')),'待确认的交易描述信息','TRADE_REDEEM_APPLY','取现申请提交','Y');
+insert into parameter ( id, description, name, value, status) values ((SELECT nextval('SRC')),'调用p2p接口开关，N不调用，否则调用','P2P_INTERFACE_SWITCH','Y','Y');
 
 
 

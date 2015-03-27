@@ -133,10 +133,16 @@ public final class ParameterConst {
     /**
      * 待确认的交易描述信息
      */
-    public final static String TRADE_PURCHASE_SHOWINCOME = "TRADE.PURCHASE.SHOWINCOME";
-    public final static String TRADE_PURCHASE_CONFIRMINCOME = "TRADE.PURCHASE.CONFIRMINCOME";
-    public final static String TRADE_PURCHASE_APPLY = "TRADE.PURCHASE.APPLY";
-    public final static String TRADE_REDEEM_CONFIRMTIME = "TRADE.REDEEM.CONFIRMTIME";
-    public final static String TRADE_REDEEM_CONFIRM = "TRADE.REDEEM.CONFIRM";
-    public final static String TRADE_REDEEM_APPLY = "TRADE.REDEEM.APPLY";
+    public final static String TRADE_PURCHASE_SHOWINCOME = "TRADE_PURCHASE_SHOWINCOME";
+    public final static String TRADE_PURCHASE_CONFIRMINCOME = "TRADE_PURCHASE_CONFIRMINCOME";
+    public final static String TRADE_PURCHASE_APPLY = "TRADE_PURCHASE_APPLY";
+    public final static String TRADE_REDEEM_CONFIRMTIME = "TRADE_REDEEM_CONFIRMTIME";
+    public final static String TRADE_REDEEM_CONFIRM = "TRADE_REDEEM_CONFIRM";
+    public final static String TRADE_REDEEM_APPLY = "TRADE_REDEEM_APPLY";
+
+
+    /**
+     * 调用p2p接口开关,默认Y需要调用，N不调用
+     */
+    public final static String P2P_INTERFACE_SWITCH = "P2P_INTERFACE_SWITCH";
 }

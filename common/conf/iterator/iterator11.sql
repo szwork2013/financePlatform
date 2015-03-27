@@ -64,12 +64,22 @@ CREATE OR REPLACE VIEW view_message_list AS
 
 
 
-insert into parameter ( id, description, name, value, status) values ((SELECT nextval('SRC')),'待确认的交易描述信息','TRADE.PURCHASE.SHOWINCOME','显示收益','Y');
-insert into parameter ( id, description, name, value, status) values ((SELECT nextval('SRC')),'待确认的交易描述信息','TRADE.PURCHASE.CONFIRMINCOME','确认份额并开始计算收益','Y');
-insert into parameter ( id, description, name, value, status) values ((SELECT nextval('SRC')),'待确认的交易描述信息','TRADE.PURCHASE.APPLY','购买申请提交','Y');
-insert into parameter ( id, description, name, value, status) values ((SELECT nextval('SRC')),'待确认的交易描述信息','TRADE.REDEEM.CONFIRMTIME','1~3个交易日后','Y');
-insert into parameter ( id, description, name, value, status) values ((SELECT nextval('SRC')),'待确认的交易描述信息','TRADE.REDEEM.CONFIRM','预计取现到银行卡','Y');
-insert into parameter ( id, description, name, value, status) values ((SELECT nextval('SRC')),'待确认的交易描述信息','TRADE.REDEEM.APPLY','取现申请提交','Y');
+insert into parameter ( id, description, name, value, status) values ((SELECT nextval('SRC')),'待确认的交易描述信息','TRADE_PURCHASE_SHOWINCOME','显示收益','Y');
+insert into parameter ( id, description, name, value, status) values ((SELECT nextval('SRC')),'待确认的交易描述信息','TRADE_PURCHASE_CONFIRMINCOME','确认份额并开始计算收益','Y');
+insert into parameter ( id, description, name, value, status) values ((SELECT nextval('SRC')),'待确认的交易描述信息','TRADE_PURCHASE_APPLY','购买申请提交','Y');
+insert into parameter ( id, description, name, value, status) values ((SELECT nextval('SRC')),'待确认的交易描述信息','TRADE_REDEEM_CONFIRMTIME','1~3个交易日后','Y');
+insert into parameter ( id, description, name, value, status) values ((SELECT nextval('SRC')),'待确认的交易描述信息','TRADE_REDEEM_CONFIRM','预计取现到银行卡','Y');
+insert into parameter ( id, description, name, value, status) values ((SELECT nextval('SRC')),'待确认的交易描述信息','TRADE_REDEEM_APPLY','取现申请提交','Y');
+insert into parameter ( id, description, name, value, status) values ((SELECT nextval('SRC')),'调用p2p接口开关，N不调用，否则调用','P2P_INTERFACE_SWITCH','Y','Y');
+
+
+update c_message_rule set content='尊敬的用户，恭喜您完成了首次购买，【金豆荚】赠送您{0}，请在“财富”中的“我的金豆荚”中查看现金红包。现在分享活动给朋友还能抽奖APPLE WATCH！【金豆荚】祝您理财愉快！',
+content_sms='尊敬的用户，恭喜您完成了首次购买，赠送您{0}元红包，请在“财富”中的“我的金豆荚”中查看现金红包。现在分享活动给朋友还能抽奖APPLE WATCH！详情点击{1}。祝您理财愉快！【金豆荚】',
+content_push='恭喜您完成了首次购买，【金豆荚】赠送您{0}，现在分享红包活动即有机会抽奖APPLE WATCH！' where code='FIRST_PURCHASE' and status='Y'
+
+
+update c_message_rule set content_sms='尊敬的用户，恭喜您在金豆荚注册成功，获得{0}金豆；此金豆需要您在金豆荚首次交易后才可使用。我们为您准备了丰富多样的理财产品，请在“理财”中购买。详情点击{1}。祝您理财愉快！【金豆荚】'
+where code='REGISTER_BEAN' and status='Y'
 
 
 
