@@ -98,6 +98,8 @@ public class ActivityController extends ActivityBaseController {
         String token = getToken();
         ActivityParamter activityParamter = getActivityParamter();
 
+
+
         //2:获取获取奖励需要的参数
         String custNo = "";
         if(StringUtils.isEmpty(token)) {
@@ -107,6 +109,7 @@ public class ActivityController extends ActivityBaseController {
             CustomerSession customerSession = customerService.getCustomerSession(token);
             custNo = customerSession.getCustomerId();
         }
+        Logger.debug("token = " + token + " mobile = " + activityParamter.getMobilePhoneNo() + " custNo = " + custNo);
 
         if (StringUtils.isEmpty(scene)) {
             scene = activityParamter.getScene();
