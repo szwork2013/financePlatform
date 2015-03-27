@@ -23,6 +23,8 @@ public class UriFilterMap {
         uris.add("/core/register");
         uris.add("/core/verificationcode");
         uris.add("/core/product/attentions");
+        uris.add("/core//product/detail");
+        uris.add("/core/deposit/interest/current");
     }
 
     public static boolean isContain(String uri) {
