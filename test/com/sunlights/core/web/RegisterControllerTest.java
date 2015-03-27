@@ -26,8 +26,8 @@ public class RegisterControllerTest extends BaseTest {
     @Test
     public void testRegister() throws Exception {
 
-        final String mobilePhoneNo = "18522222243";
-//                final String mobilePhoneNo = "15821948594";
+        final String mobilePhoneNo = "18522222215";
+
         final String deviceNo = getDeviceNo();
         final String type = "REGISTER";
 
@@ -50,7 +50,7 @@ public class RegisterControllerTest extends BaseTest {
                 VerifyCodeService verifyCodeService = new VerifyCodeService();
                 String verifyCode = verifyCodeService.genVerificationCode(mobilePhoneNo, type, deviceNo);
                 formParams.put("verifyCode", verifyCode);
-//                        formParams.put("verifyCode", "3333");
+
             }
         });
 

@@ -5,6 +5,7 @@ import com.sunlights.common.MsgCode;
 import com.sunlights.common.utils.MessageUtil;
 import com.sunlights.common.vo.Message;
 import com.sunlights.common.vo.MessageHeaderVo;
+import com.sunlights.common.vo.MessageVo;
 import com.sunlights.customer.ActivityConstant;
 import com.sunlights.customer.action.MsgCenterAction;
 import com.sunlights.customer.service.impl.CustomerService;
@@ -14,6 +15,11 @@ import com.sunlights.customer.service.rewardrules.vo.ActivityResponseVo;
 import com.sunlights.trade.service.ShuMiTradeService;
 import com.sunlights.trade.service.impl.ShuMiTradeServiceImpl;
 import com.sunlights.trade.vo.ShuMiTradeFormVo;
+import com.sunlights.trade.vo.TradeInfoVo;
+import com.wordnik.swagger.annotations.Api;
+import com.wordnik.swagger.annotations.ApiImplicitParam;
+import com.wordnik.swagger.annotations.ApiImplicitParams;
+import com.wordnik.swagger.annotations.ApiOperation;
 import models.CustomerSession;
 import play.Logger;
 import play.data.Form;
@@ -24,6 +30,7 @@ import play.mvc.Result;
 import play.mvc.With;
 
 import java.util.List;
+import java.util.Map;
 
 import static play.data.Form.form;
 
@@ -36,6 +43,7 @@ import static play.data.Form.form;
  *
  * @author <a href="mailto:jiaming.wang@sunlights.cc">wangJiaMing</a>
  */
+@Api(value = "/trade", description = "交易服务")
 @Transactional
 public class ShuMiTradeController extends Controller {
     private Form<ShuMiTradeFormVo> shuMiTradeFormVoForm = Form.form(ShuMiTradeFormVo.class);
@@ -130,4 +138,28 @@ public class ShuMiTradeController extends Controller {
 
         return ok(MessageUtil.getInstance().toJson());
     }
+
+    @ApiOperation(value = "获取交易收益日期列表",
+            notes = "MessageVo 的value是TradeInfoVo对象", nickname = "tradeinfo",
+            response = MessageVo.class, httpMethod = "POST")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "tradeNo", value = "交易流水号", required = true, paramType = "form"),
+    })
+    public Result tradeInfoList() {
+        Logger.info("----------tradeInfoList start ------------");
+        Map<String, String> params = Form.form().bindFromRequest().data();
+
+        Logger.debug(">>tradeInfoList params：" + Json.toJson(params));
+        customerService.validateCustomerSession(request(), session(), response());
+
+        String tradeNo = params.get("tradeNo");
+
+        TradeInfoVo tradeInfo = shuMiTradeService.findTradeInfo(tradeNo);
+
+        MessageUtil.getInstance().setMessage(new Message(MsgCode.OPERATE_SUCCESS), tradeInfo);
+        Logger.debug(">>tradeInfoList return：" + MessageUtil.getInstance().toJson());
+
+        return ok(MessageUtil.getInstance().toJson());
+    }
+
 }

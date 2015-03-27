@@ -2,6 +2,7 @@ package com.sunlights.trade.service;
 
 import com.sunlights.common.vo.MessageHeaderVo;
 import com.sunlights.trade.vo.ShuMiTradeFormVo;
+import com.sunlights.trade.vo.TradeInfoVo;
 
 import java.util.List;
 
@@ -18,5 +19,7 @@ public interface ShuMiTradeService {
     public List<MessageHeaderVo> shuMiTradeOrder(ShuMiTradeFormVo shuMiTradeFormVo, String token);
 
     public String shuMiTradeRedeem(ShuMiTradeFormVo shuMiTradeFormVo, String token);
+
+    public TradeInfoVo findTradeInfo(String tradeNo);
 
 }

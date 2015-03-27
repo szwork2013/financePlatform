@@ -23,9 +23,18 @@ public class ActivityParamter {
 
     private String rewardType;
 
+    private String mobilePhoneNo;
+
     private int index;
     private int pageSize;
 
+    public String getMobilePhoneNo() {
+        return mobilePhoneNo;
+    }
+
+    public void setMobilePhoneNo(String mobilePhoneNo) {
+        this.mobilePhoneNo = mobilePhoneNo;
+    }
 
     public int getIndex() {
         return index;

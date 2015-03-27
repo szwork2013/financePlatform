@@ -251,6 +251,11 @@ public class CustomerService {
      * @return
      */
     public void createP2PUser(AuthenticationVo authenticationVo) {
+        String p2pInterfaceSwitch = parameterService.getParameterByName(ParameterConst.P2P_INTERFACE_SWITCH);
+        if (AppConst.STATUS_INVALID.equals(p2pInterfaceSwitch)) {
+            return ;
+        }
+
         String path = ConfigUtil.getValueStr(ConfigUtil.P2P_USER);
         Logger.info("调用p2p创建用户接口路径" + path);
 

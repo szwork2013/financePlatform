@@ -1,0 +1,27 @@
+{
+    "message": {
+        "severity": 0,
+        "code": "0000",
+        "summary": "操作成功",
+        "detail": "",
+        "fields": { }
+    },
+    "value": {
+        "tradeNo": "20150324201093",
+        "tradeTime": "2015-03-24 17:48",
+        "tradeInfoVoList": [
+            {
+                "timeInfo": "2015-03-27",
+                "desc": "显示收益"
+            },
+            {
+                "timeInfo": "2015-03-26",
+                "desc": "确认份额并开始计算收益"
+            },
+            {
+                "timeInfo": "03-24 17:48",
+                "desc": "购买申请提交"
+            }
+        ]
+    }
+}

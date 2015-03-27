@@ -40,6 +40,14 @@ public class VersionCheckFilter implements EssentialFilter {
 
             @Override
             public Iteratee<byte[], Result> apply(RequestHeader rh) {
+                String uri = rh.uri();
+
+                Logger.debug("uri: = " + uri);
+
+                if(UriFilterMap.isContain(uri)) {
+                    return next.apply(rh);
+                }
+
                 String userAgent = rh.headers().get(AppConst.HEADER_USER_AGENT).get();
 
                 String clientVersion = CommonUtil.getCurrentVersionFromStr(userAgent);

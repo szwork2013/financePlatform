@@ -20,6 +20,7 @@ public class ConfigUtil {
     public static String apns_production = "apns_production";
     public static String P2P_USER = "p2p.user";
 
+
     public static String getValueStr(String name) {
         Configuration root = Configuration.root();
 

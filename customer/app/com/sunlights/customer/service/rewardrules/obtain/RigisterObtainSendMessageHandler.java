@@ -10,6 +10,7 @@ import com.sunlights.customer.service.rewardrules.vo.ActivityRequestVo;
 import com.sunlights.customer.service.rewardrules.vo.ActivityResponseVo;
 import com.sunlights.customer.service.rewardrules.vo.RewardFlowRecordVo;
 import models.Customer;
+import play.Configuration;
 import play.Logger;
 
 import java.text.MessageFormat;
@@ -54,7 +55,7 @@ public class RigisterObtainSendMessageHandler extends AbstractObtainRuleHandler 
                 messageHeaderVo.buildParams(customer.getMobile(), MessageFormat.format(template, rewardFlowRecordVo.getRewardAmtResult()));
             } else {
                 messageHeaderVo = new MessageHeaderVo(DictConst.PUSH_TYPE_2, scene, custNo);
-                messageHeaderVo.buildParams(MessageFormat.format(template, rewardFlowRecordVo.getRewardAmtFromTrans()));
+                messageHeaderVo.buildParams(MessageFormat.format(template, rewardFlowRecordVo.getRewardAmtFromTrans()), Configuration.root().getString("app.down.url"));
             }
             responseVo.addMessageHeaderVo(messageHeaderVo);
         }
