@@ -4,7 +4,6 @@ import com.sunlights.DBUnitBasedTest;
 import com.sunlights.customer.service.LoginService;
 import com.sunlights.customer.service.impl.LoginServiceImpl;
 import com.sunlights.customer.vo.CustomerFormVo;
-import org.dbunit.dataset.IDataSet;
 import org.junit.Test;
 import play.db.jpa.JPA;
 import play.libs.F;
@@ -20,14 +19,16 @@ import play.libs.F;
 */
 public class RegisterServiceTest extends DBUnitBasedTest {
 
-
+    @Override
+    public void rollback() {
+        needRollbackData("c_customer,c_authentication,c_customer_session,c_customer_msg_setting,c_login_history,f_basic_account");
+    }
 
     @Test
-    public void registerTest() throws Throwable{
-
-        JPA.withTransaction("test", false, new F.Function0<Object>() {
+    public void testRegisterService(){
+        JPA.withTransaction(new F.Callback0() {
             @Override
-            public Object apply() throws Throwable {
+            public void invoke() throws Throwable {
                 CustomerFormVo customerFormVo = new CustomerFormVo();
                 customerFormVo.setMobilePhoneNo("13511598305");
                 customerFormVo.setPassWord("111111");
@@ -35,48 +36,8 @@ public class RegisterServiceTest extends DBUnitBasedTest {
 
                 LoginService loginService = new LoginServiceImpl();
                 loginService.register(customerFormVo);
-
-                return null;
             }
         });
-
-//        needRollbackData("c_customer", "c_authentication");
-        IDataSet dataSet = getExpectedDataSet("registerExpected.xml");
-
-        assertDataSet(dataSet, "c_authentication", "password,mobile");
-        assertDataSet(dataSet, "c_customer", "login_password,mobile");
-
     }
 
-    @Override
-    public void rollback() {
-
-    }
-
-
-//    @Test
-//    public void registerP2PTest() throws Throwable{
-//
-//        JPA.withTransaction("test", false, new F.Function0<Object>() {
-//            @Override
-//            public Object apply() throws Throwable {
-//                CustomerFormVo customerFormVo = new CustomerFormVo();
-//                customerFormVo.setMobilePhoneNo("15821948594");
-//                customerFormVo.setPassWord("111111");
-//                customerFormVo.setChannel("1");
-//
-//                LoginService loginService = new LoginServiceImpl();
-//                loginService.register(customerFormVo);
-//
-//                return null;
-//            }
-//        });
-//
-//        needRollbackData("c_customer", "c_authentication");
-//        IDataSet dataSet = getExpectedDataSet("registerExpected2.xml");
-//
-//        assertDataSet(dataSet, "c_authentication", "password,mobile,channel");
-//        assertDataSet(dataSet, "c_customer", "login_password,mobile");
-//
-//    }
 }
