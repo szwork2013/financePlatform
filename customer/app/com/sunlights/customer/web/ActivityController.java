@@ -104,12 +104,12 @@ public class ActivityController extends ActivityBaseController {
         String custNo = "";
         if(StringUtils.isEmpty(token)) {
             Customer customer = customerService.getCustomerByMobile(activityParamter.getMobilePhoneNo());
+            Logger.debug("token = " + token + " mobile = " + activityParamter.getMobilePhoneNo() + " custNo = " + custNo);
             custNo = customer.getCustomerId();
         } else {
             CustomerSession customerSession = customerService.getCustomerSession(token);
             custNo = customerSession.getCustomerId();
         }
-        Logger.debug("token = " + token + " mobile = " + activityParamter.getMobilePhoneNo() + " custNo = " + custNo);
 
         if (StringUtils.isEmpty(scene)) {
             scene = activityParamter.getScene();
