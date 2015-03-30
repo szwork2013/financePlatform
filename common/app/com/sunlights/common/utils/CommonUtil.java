@@ -107,9 +107,9 @@ public class CommonUtil {
 		}
 	}
 
-	public static Date stringToDateTime(String dateString) throws ParseException {
+	public static Date stringToDateTime(String dateString) {
 		if (StringUtils.isEmpty(dateString)) {
-			return new Date();
+			return null;
 		}
 		DateTimeFormatter fmt = ISODateTimeFormat.dateTime();
 		return fmt.parseDateTime(dateString).toDate();
