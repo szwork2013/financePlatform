@@ -20,7 +20,7 @@ public class TradeControllerTest extends DBUnitBasedTest{
 
     @Override
     public void rollback() {
-        needRollbackData("c_customer,c_authentication,f_basic_account,c_customer_session,t_trade");
+        needRollbackData("c_customer,c_authentication,f_basic_account,c_customer_session,t_trade,t_trade_status_change_info");
     }
 
     @Test

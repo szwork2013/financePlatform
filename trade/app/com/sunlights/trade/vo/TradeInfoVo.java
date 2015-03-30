@@ -1,5 +1,6 @@
 package com.sunlights.trade.vo;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.google.common.collect.Lists;
 
 import java.io.Serializable;
@@ -14,6 +15,8 @@ import java.util.List;
  *
  * @author <a href="mailto:jiaming.wang@sunlights.cc">wangJiaMing</a>
  */
+
+@JsonInclude(value = JsonInclude.Include.NON_EMPTY)
 public class TradeInfoVo implements Serializable {
     private String tradeNo;
     private String tradeTime;

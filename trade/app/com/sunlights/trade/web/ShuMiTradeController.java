@@ -13,9 +13,12 @@ import com.sunlights.customer.service.rewardrules.ActivityHandlerService;
 import com.sunlights.customer.service.rewardrules.vo.ActivityRequestVo;
 import com.sunlights.customer.service.rewardrules.vo.ActivityResponseVo;
 import com.sunlights.trade.service.ShuMiTradeService;
+import com.sunlights.trade.service.TradeStatusChangeService;
 import com.sunlights.trade.service.impl.ShuMiTradeServiceImpl;
+import com.sunlights.trade.service.impl.TradeStatusChangeServiceImpl;
 import com.sunlights.trade.vo.ShuMiTradeFormVo;
 import com.sunlights.trade.vo.TradeInfoVo;
+import com.sunlights.trade.vo.TradeStatusInfoVo;
 import com.wordnik.swagger.annotations.Api;
 import com.wordnik.swagger.annotations.ApiImplicitParam;
 import com.wordnik.swagger.annotations.ApiImplicitParams;
@@ -50,7 +53,7 @@ public class ShuMiTradeController extends Controller {
 
     private CustomerService customerService = new CustomerService();
     private ShuMiTradeService shuMiTradeService = new ShuMiTradeServiceImpl();
-
+    private TradeStatusChangeService tradeStatusChangeService = new TradeStatusChangeServiceImpl();
     private ActivityHandlerService activityHandlerService = new ActivityHandlerService();
 
 
@@ -154,7 +157,10 @@ public class ShuMiTradeController extends Controller {
 
         String tradeNo = params.get("tradeNo");
 
-        TradeInfoVo tradeInfo = shuMiTradeService.findTradeInfo(tradeNo);
+        List<TradeStatusInfoVo> tradeStatusInfoVos = tradeStatusChangeService.findTradeStatusChangeList(tradeNo);
+        TradeInfoVo tradeInfo = new TradeInfoVo();
+        tradeInfo.setTradeNo(tradeNo);
+        tradeInfo.setTradeInfoVoList(tradeStatusInfoVos);
 
         MessageUtil.getInstance().setMessage(new Message(MsgCode.OPERATE_SUCCESS), tradeInfo);
         Logger.debug(">>tradeInfoList return：" + MessageUtil.getInstance().toJson());

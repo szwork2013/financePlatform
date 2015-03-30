@@ -59,7 +59,6 @@ CREATE OR REPLACE VIEW view_message_list AS
                FROM  c_customer_msg_push_txn cmpt) pt
           WHERE mr.id = pt.message_rule_id AND mr.msg_center_ind::text = 'Y'::text AND mr.sms_ind::text = 'N'::text and mr.status = 'Y'::text) t
   ORDER BY t.create_time DESC;
-  --GRANT ALL ON TABLE view_message_list TO postgres;
 
 
 
@@ -83,4 +82,67 @@ where code='REGISTER_BEAN' and status='Y'
 
 
 
+create table  f_show_statistics
+(
+       Id                INTEGER not null,
+       stat_count        INTEGER,
+       product_Code      VARCHAR(20),
+       stat_type         VARCHAR(10),
+       create_time       TIMESTAMP,
+       update_time       TIMESTAMP
+);
+alter  table f_show_statistics add constraint PK_f_show_statistics_Id primary key (Id);
+comment on table f_show_statistics is '产品显示信息统计';
+comment on column f_show_statistics.Id is '编号';
+comment on column f_show_statistics.stat_count is '统计数量';
+comment on column f_show_statistics.product_Code is '产品Code';
+comment on column f_show_statistics.stat_type is '统计类型 0-注册数量统计，1-产品购买数量统计';
+comment on column f_show_statistics.create_time is '创建时间';
+comment on column f_show_statistics.update_time is '修改时间';
 
+
+create table  t_trade_status_change_info
+(
+       Id                INTEGER not null,
+       trade_no          VARCHAR(20),
+       trade_time        TIMESTAMP,
+       status_change_time VARCHAR(200),
+       trade_type        VARCHAR(20),
+       status_desc       VARCHAR(50),
+       create_time       TIMESTAMP,
+       update_time       TIMESTAMP
+);
+alter  table t_trade_status_change_info add constraint PK_t_trade_snfo_Id primary key (Id);
+comment on table t_trade_status_change_info is '交易状态变更记录表';
+comment on column t_trade_status_change_info.Id is '编号';
+comment on column t_trade_status_change_info.trade_no is '交易流水号';
+comment on column t_trade_status_change_info.trade_time is '交易时间';
+comment on column t_trade_status_change_info.status_change_time is '状态变更时间';
+comment on column t_trade_status_change_info.trade_type is '交易类型 FP.TRADE.TYPE.1-申购，FP.TRADE.TYPE.2-赎回，FP.TRADE.TYPE.3-分红，';
+comment on column t_trade_status_change_info.status_desc is '状态描述';
+comment on column t_trade_status_change_info.create_time is '创建时间';
+comment on column t_trade_status_change_info.update_time is '修改时间';
+
+
+
+--UAT  undone
+create table  F_activity_report
+(
+       Id                INTEGER not null,
+       active_report_desc VARCHAR(100),
+       active_report_type VARCHAR(300),
+       channel           VARCHAR(10),
+       create_time       TIMESTAMP
+);
+alter  table F_activity_report add constraint PK_F_activity_report_Id primary key (Id);
+comment on table F_activity_report is '活动播报';
+comment on column F_activity_report.Id is '编号';
+comment on column F_activity_report.active_report_desc is '活动播报描述';
+comment on column F_activity_report.active_report_type is '奖励活动播报 0-注册活动，1-奖励活动';
+comment on column F_activity_report.channel is '渠道 0-web端，1-移动端';
+comment on column F_activity_report.create_time is '创建时间';
+
+--GRANT ALL ON TABLE view_message_list TO uat_user;
+--GRANT ALL ON TABLE f_show_statistics TO uat_user;
+--GRANT ALL ON TABLE F_activity_report TO uat_user;
+--GRANT ALL ON TABLE t_trade_status_change_info TO uat_user;
