@@ -4,6 +4,7 @@ import com.sunlights.common.cache.Cacheable;
 import com.sunlights.common.dal.EntityBaseDao;
 import com.sunlights.customer.dal.ShareInfoDao;
 import models.ShareInfo;
+import org.apache.commons.lang3.StringUtils;
 
 import java.util.List;
 
@@ -14,12 +15,19 @@ public class ShareInfoDaoImpl extends EntityBaseDao implements ShareInfoDao {
 
     @Cacheable(key = "getByType", duration = 300)
     @Override
-    public ShareInfo getByType(String type) {
+    public ShareInfo getParentByType(String type) {
         List<ShareInfo> shareInfos = findBy(ShareInfo.class, "shareType", type);
         if (shareInfos == null || shareInfos.isEmpty()) {
             return null;
         }
-        return shareInfos.get(0);
+
+        for(ShareInfo shareInfo : shareInfos) {
+            if(shareInfo.getParentId() == null) {
+                return shareInfo;
+            }
+        }
+
+        return null;
     }
 
     @Cacheable(key = "getByParentId", duration = 300)

@@ -9,7 +9,7 @@ import java.util.List;
  */
 public interface ShareInfoDao {
 
-    public ShareInfo getByType(String type);
+    public ShareInfo getParentByType(String type);
 
     public List<ShareInfo> getByParentId(Long parentId);
 

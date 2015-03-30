@@ -9,6 +9,8 @@ import models.ShareInfo;
 import models.ShortUrl;
 import play.Logger;
 
+import java.net.URI;
+import java.net.URLEncoder;
 import java.util.List;
 
 /**
@@ -59,6 +61,13 @@ public abstract class AbstractShareInfoService implements ShareInfoService {
         String longUrl = getLongUrl(context);
         Logger.info("longUrl :" + longUrl);
 
+        try {
+            new URI(longUrl);
+            longUrl = URLEncoder.encode(longUrl, "UTF-8");
+        } catch (Exception e) {
+            Logger.error(">>saveURL : ", e);
+        }
+
         String shortUrlStr = shortUrlService.getShortURL(longUrl);
         Logger.info("shortUrlStr :" + shortUrlStr);
 
@@ -75,7 +84,7 @@ public abstract class AbstractShareInfoService implements ShareInfoService {
 
     @Override
     public ShareInfo getBasicShareInfoModel(String type, String refId) {
-        ShareInfo shareInfoParent = shareInfoDao.getByType(type);
+        ShareInfo shareInfoParent = shareInfoDao.getParentByType(type);
 
         List<ShareInfo> specialInfos = shareInfoDao.getByParentId(shareInfoParent.getId());
 
