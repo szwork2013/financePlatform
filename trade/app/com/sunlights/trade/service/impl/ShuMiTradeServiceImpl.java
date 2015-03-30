@@ -7,7 +7,6 @@ import com.sunlights.account.service.impl.AccountServiceImpl;
 import com.sunlights.account.service.impl.CapitalServiceImpl;
 import com.sunlights.common.DictConst;
 import com.sunlights.common.MsgCode;
-import com.sunlights.common.ParameterConst;
 import com.sunlights.common.Severity;
 import com.sunlights.common.service.ParameterService;
 import com.sunlights.common.utils.CommonUtil;
@@ -28,9 +27,8 @@ import com.sunlights.customer.vo.BankCardVo;
 import com.sunlights.trade.dal.TradeDao;
 import com.sunlights.trade.dal.impl.TradeDaoImpl;
 import com.sunlights.trade.service.ShuMiTradeService;
+import com.sunlights.trade.service.TradeStatusChangeService;
 import com.sunlights.trade.vo.ShuMiTradeFormVo;
-import com.sunlights.trade.vo.TradeInfoVo;
-import com.sunlights.trade.vo.TradeStatusInfoVo;
 import models.Customer;
 import models.FundNav;
 import models.Trade;
@@ -63,8 +61,9 @@ public class ShuMiTradeServiceImpl implements ShuMiTradeService {
     private ProductService productService = new ProductServiceImpl();
     private BankCardService bankCardService = new BankCardServiceImpl();
     private BankService bankService = new BankServiceImpl();
-    private DateCalcService dateCalcService = new DateCalcService();
     private ParameterService parameterService = new ParameterService();
+    private DateCalcService dateCalcService = new DateCalcService();
+    private TradeStatusChangeService tradeStatusChangeService = new TradeStatusChangeServiceImpl();
 
     @Override
     public List<MessageHeaderVo> shuMiTradeOrder(ShuMiTradeFormVo shuMiTradeFormVo, String token) {
@@ -94,6 +93,8 @@ public class ShuMiTradeServiceImpl implements ShuMiTradeService {
         productService.addProductPurchasedNum(shuMiTradeFormVo.getFundCode());
         //产品刷新缓存
         productService.refreshProductListCache();
+        //生成收益日期线
+        tradeStatusChangeService.createTradeStatusChange(trade);
 
         List<MessageHeaderVo> list = buildMessageHeaderVos(shuMiTradeFormVo, customer, customerId, trade);
         return list;
@@ -127,77 +128,14 @@ public class ShuMiTradeServiceImpl implements ShuMiTradeService {
         }
         Trade trade = createTrade(shuMiTradeFormVo, customerId, DictConst.TRADE_TYPE_2, fundNav);
 
+        //生成收益日期线
+        tradeStatusChangeService.createTradeStatusChange(trade);
+
         List<MessageHeaderVo> list = Lists.newArrayList();
         MessageHeaderVo messageHeaderVo = new MessageHeaderVo(DictConst.PUSH_TYPE_3, null, customerId);
         messageHeaderVo.buildParams(customer.getRealName(), shuMiTradeFormVo.getFundName(), trade.getTradeAmount().toString(), trade.getBankName());
         list.add(messageHeaderVo);
         return MessageUtil.getInstance().setMessageHeader(list);
-    }
-
-    @Override
-    public TradeInfoVo findTradeInfo(String tradeNo) {
-        Trade trade = tradeDao.findTradeByTradeNo(tradeNo);
-
-        if (trade == null) {
-            return null;
-        }
-
-        Date tradeTime = trade.getTradeTime();
-        String tradeType = trade.getType();
-        List<TradeStatusInfoVo> tradeStatusInfoVos = Lists.newArrayList();
-        TradeInfoVo tradeInfoVo = new TradeInfoVo();
-
-        if (DictConst.TRADE_TYPE_1.equals(tradeType)) {
-            tradeStatusInfoVos = buildPurchaseTradeInfo(tradeTime);
-        }else if (DictConst.TRADE_TYPE_2.equals(tradeType)) {
-            tradeStatusInfoVos = buildRedeemTradeInfo(tradeTime);
-        }
-
-        tradeInfoVo.setTradeInfoVoList(tradeStatusInfoVos);
-        tradeInfoVo.setTradeNo(tradeNo);
-        tradeInfoVo.setTradeTime(CommonUtil.dateToString(tradeTime, CommonUtil.DATE_FORMAT_YYYY_MM_DD_HH_MM));
-
-        return tradeInfoVo;
-    }
-
-    private List<TradeStatusInfoVo> buildRedeemTradeInfo(Date tradeTime){
-        List<TradeStatusInfoVo> tradeStatusInfoVos = Lists.newArrayList();
-        TradeStatusInfoVo tradeStatusInfoVo = new TradeStatusInfoVo();
-
-        tradeStatusInfoVo.setTimeInfo(parameterService.getParameterByName(ParameterConst.TRADE_REDEEM_CONFIRMTIME));
-        tradeStatusInfoVo.setDesc(parameterService.getParameterByName(ParameterConst.TRADE_REDEEM_CONFIRM));
-        tradeStatusInfoVos.add(tradeStatusInfoVo);
-
-        tradeStatusInfoVo = new TradeStatusInfoVo();
-        tradeStatusInfoVo.setTimeInfo(CommonUtil.dateToString(tradeTime, CommonUtil.DATE_FORMAT_MM_DD_HH_MM));
-        tradeStatusInfoVo.setDesc(parameterService.getParameterByName(ParameterConst.TRADE_REDEEM_APPLY));
-        tradeStatusInfoVos.add(tradeStatusInfoVo);
-
-        return tradeStatusInfoVos;
-    }
-    
-    private List<TradeStatusInfoVo> buildPurchaseTradeInfo(Date tradeTime){
-        List<TradeStatusInfoVo> tradeStatusInfoVos = Lists.newArrayList();
-        TradeStatusInfoVo tradeStatusInfoVo = new TradeStatusInfoVo();
-
-        LocalDate confirmLocalDate = dateCalcService.getEndTradeDate(CommonUtil.dateToString(tradeTime, CommonUtil.DATE_FORMAT_LONG), 1);
-        LocalDate earningLocalDate = dateCalcService.getEndTradeDate(CommonUtil.dateToString(tradeTime, CommonUtil.DATE_FORMAT_LONG), 2);
-
-        tradeStatusInfoVo.setTimeInfo(earningLocalDate.toString(CommonUtil.DATE_FORMAT_SHORT));
-        tradeStatusInfoVo.setDesc(parameterService.getParameterByName(ParameterConst.TRADE_PURCHASE_SHOWINCOME));
-        tradeStatusInfoVos.add(tradeStatusInfoVo);
-
-        tradeStatusInfoVo = new TradeStatusInfoVo();
-        tradeStatusInfoVo.setTimeInfo(confirmLocalDate.toString(CommonUtil.DATE_FORMAT_SHORT));
-        tradeStatusInfoVo.setDesc(parameterService.getParameterByName(ParameterConst.TRADE_PURCHASE_CONFIRMINCOME));
-        tradeStatusInfoVos.add(tradeStatusInfoVo);
-
-        tradeStatusInfoVo = new TradeStatusInfoVo();
-        tradeStatusInfoVo.setTimeInfo(CommonUtil.dateToString(tradeTime, CommonUtil.DATE_FORMAT_MM_DD_HH_MM));
-        tradeStatusInfoVo.setDesc(parameterService.getParameterByName(ParameterConst.TRADE_PURCHASE_APPLY));
-        tradeStatusInfoVos.add(tradeStatusInfoVo);
-
-        return tradeStatusInfoVos;
     }
 
     private void createOpenAccountBankInfo(ShuMiTradeFormVo shuMiTradeFormVo, String customerId) {

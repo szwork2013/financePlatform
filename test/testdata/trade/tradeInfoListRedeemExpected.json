@@ -8,14 +8,13 @@
     },
     "value": {
         "tradeNo": "20150324201093",
-        "tradeTime": "2015-03-24 17:48",
         "tradeInfoVoList": [
             {
                 "timeInfo": "1~3个交易日后",
                 "desc": "预计取现到银行卡"
             },
             {
-                "timeInfo": "03-24 17:48",
+                "timeInfo": "03-30 13:13",
                 "desc": "取现申请提交"
             }
         ]

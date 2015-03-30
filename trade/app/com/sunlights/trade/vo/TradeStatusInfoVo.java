@@ -11,6 +11,8 @@ import java.io.Serializable;
  *
  * @author <a href="mailto:jiaming.wang@sunlights.cc">wangJiaMing</a>
  */
+
+
 public class TradeStatusInfoVo implements Serializable{
     private String timeInfo;
     private String desc;
