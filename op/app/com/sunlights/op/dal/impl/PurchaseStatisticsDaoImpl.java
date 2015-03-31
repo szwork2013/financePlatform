@@ -136,9 +136,9 @@ public class PurchaseStatisticsDaoImpl extends EntityBaseDao implements Purchase
         Query query;
         StringBuffer selectColumsFromTradeSummaryView = new StringBuffer();
         selectColumsFromTradeSummaryView.append("select v.summary_date,v.day_in_amount,v.in_amount_total,v.day_out_amount,v.out_amount_total,");
-        selectColumsFromTradeSummaryView.append("v.registration_date,v.registration_count,COALESCE(t.registration_total,vr.vw_registration_total) AS registration_total,");
-        selectColumsFromTradeSummaryView.append("v.purchase_date,v.in_customer_count,COALESCE(t.total_in_customer_count,vp.vw_total_in_customer_count) AS total_in_customer_count,");
-        selectColumsFromTradeSummaryView.append("t.out_customer_count,COALESCE(t.total_out_customer_count,vp.vw_total_out_customer_count) AS total_out_customer_count");
+        selectColumsFromTradeSummaryView.append("v.registration_date,v.registration_count,COALESCE(v.registration_total,vr.vw_registration_total) AS registration_total,");
+        selectColumsFromTradeSummaryView.append("v.purchase_date,v.in_customer_count,COALESCE(v.total_in_customer_count,vp.vw_total_in_customer_count) AS total_in_customer_count,");
+        selectColumsFromTradeSummaryView.append("v.out_customer_count,COALESCE(v.total_out_customer_count,vp.vw_total_out_customer_count) AS total_out_customer_count");
         String querySql = selectColumsFromTradeSummaryView.append(fromTradeSummaryView).append(" order by v.trade_date desc").toString();
         query = createNativeQueryByMap(querySql, pageVo.getFilter());
         query.setFirstResult(pageVo.getIndex());
