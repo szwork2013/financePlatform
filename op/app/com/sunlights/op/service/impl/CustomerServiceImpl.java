@@ -7,6 +7,12 @@ import com.sunlights.common.dal.impl.PageDaoImpl;
 import com.sunlights.common.service.PageService;
 import com.sunlights.common.utils.ConverterUtil;
 import com.sunlights.common.vo.PageVo;
+import com.sunlights.customer.service.HoldRewardService;
+import com.sunlights.customer.service.RewardFlowService;
+import com.sunlights.customer.service.impl.HoldRewardServiceImpl;
+import com.sunlights.customer.service.impl.RewardFlowServiceImpl;
+import com.sunlights.customer.vo.HoldRewardVo;
+import com.sunlights.customer.vo.RewardFlowVo;
 import com.sunlights.op.service.CustomerService;
 import com.sunlights.op.vo.BankCardVo;
 import com.sunlights.op.vo.CustomerVo;
@@ -26,6 +32,8 @@ public class CustomerServiceImpl implements CustomerService {
 
 	private EntityBaseDao entityBaseDao = new EntityBaseDao();
 	private PageService pageService = new PageService();
+	private HoldRewardService holdRewardService = new HoldRewardServiceImpl();
+	private RewardFlowService rewardFlowService = new RewardFlowServiceImpl();
 
 	@Override
 	public List<CustomerVo> findCustomersBy(PageVo pageVo) {
@@ -122,5 +130,19 @@ public class CustomerServiceImpl implements CustomerService {
 		List<FundTradeVo> fundTradeVos = ConverterUtil.convert(fields, list, FundTradeVo.class);
 
 		return fundTradeVos;
+	}
+
+	@Override
+	public CustomerVo findBalanceByCustomer (CustomerVo customerVo) {
+		HoldRewardVo totalReward = holdRewardService.getTotalReward(customerVo.getCustomerId());
+		customerVo.setBalance(totalReward.getTotalCash());
+		customerVo.setRedPacketAmount(totalReward.getRedPacket());
+		customerVo.setGoldenBeanCount(totalReward.getTotalReward());
+		return customerVo;
+	}
+
+	@Override
+	public List<RewardFlowVo> findExchanges (PageVo pageVo) {
+		return rewardFlowService.getMyFlowDetail(pageVo);
 	}
 }

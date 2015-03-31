@@ -1,13 +1,16 @@
 package com.sunlights.op.vo;
 
-
 import models.Customer;
+
+import com.fasterxml.jackson.annotation.JsonInclude;
 
 /**
  * Created by yuan on 9/24/14.
  */
+@JsonInclude(JsonInclude.Include.NON_EMPTY)
 public class CustomerVo {
     private Long id;//id
+    private String customerId;//用户编号
     private String nickName;//用户名
     private String userName;//用户名真实姓名
     private String passWord;//密码
@@ -16,6 +19,9 @@ public class CustomerVo {
     private String idCardNo;//身份证号
     private boolean locked;//锁定标识
 
+    private String balance;//余额
+    private String redPacketAmount;//红包余额
+    private String goldenBeanCount;//金豆剩余数
 
     public CustomerVo() {
         super();
@@ -27,6 +33,7 @@ public class CustomerVo {
 
     public void inCustomer(Customer customer) {
         this.id = customer.getId();
+		this.customerId = customer.getCustomerId();
         this.nickName = customer.getNickName();
         this.userName = customer.getRealName();
         this.passWord = customer.getLoginPassWord();
@@ -99,4 +106,36 @@ public class CustomerVo {
     public void setLocked(boolean locked) {
         this.locked = locked;
     }
+
+	public String getBalance () {
+		return balance;
+	}
+
+	public void setBalance (String balance) {
+		this.balance = balance;
+	}
+
+	public String getRedPacketAmount () {
+		return redPacketAmount;
+	}
+
+	public void setRedPacketAmount (String redPacketAmount) {
+		this.redPacketAmount = redPacketAmount;
+	}
+
+	public String getGoldenBeanCount () {
+		return goldenBeanCount;
+	}
+
+	public void setGoldenBeanCount (String goldenBeanCount) {
+		this.goldenBeanCount = goldenBeanCount;
+	}
+
+	public String getCustomerId () {
+		return customerId;
+	}
+
+	public void setCustomerId (String customerId) {
+		this.customerId = customerId;
+	}
 }
