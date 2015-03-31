@@ -23,6 +23,8 @@ public interface CustomerService {
 
 	public List<CustomerVo> findCustomersBy(PageVo pageVo);
 
+	public void saveCustomer(CustomerVo customerVo);
+
 	public void unlock(Long customerId);
 
 	public MessageSmsTxn createMessageSmsTxn(MessageSmsTxn messageSmsTxn);

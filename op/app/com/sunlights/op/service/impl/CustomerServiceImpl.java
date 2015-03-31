@@ -57,6 +57,16 @@ public class CustomerServiceImpl implements CustomerService {
 	}
 
 	@Override
+	public void saveCustomer (CustomerVo customerVo) {
+		Customer customer = entityBaseDao.find(Customer.class, customerVo.getId());
+		customer.setEmail(customerVo.getEmail());
+		customer.setMobile(customerVo.getMobilePhoneNo());
+		customer.setNickName(customerVo.getNickName());
+		customer.setUpdateTime(new Date());
+		entityBaseDao.update(customer);
+	}
+
+	@Override
 	public void unlock(Long customerId) {
 		Customer customer = entityBaseDao.find(Customer.class, customerId);
 
