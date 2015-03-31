@@ -18,27 +18,36 @@ public class BankCardVo {
 	private String bankName;
 	private String bankCardNo;
 
-	public Long getId () {
+	public BankCardVo() {
+	}
+
+	public BankCardVo(BankCard bankCard) {
+		this.id = bankCard.getId();
+		this.bankName = bankCard.getBankName();
+		this.bankCardNo = bankCard.getBankCardNo();
+	}
+
+	public Long getId() {
 		return id;
 	}
 
-	public void setId (Long id) {
+	public void setId(Long id) {
 		this.id = id;
 	}
 
-	public String getBankName () {
+	public String getBankName() {
 		return bankName;
 	}
 
-	public void setBankName (String bankName) {
+	public void setBankName(String bankName) {
 		this.bankName = bankName;
 	}
 
-	public String getBankCardNo () {
+	public String getBankCardNo() {
 		return bankCardNo;
 	}
 
-	public void setBankCardNo (String bankCardNo) {
+	public void setBankCardNo(String bankCardNo) {
 		this.bankCardNo = bankCardNo;
 	}
 }

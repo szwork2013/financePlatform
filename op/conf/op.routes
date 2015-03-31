@@ -161,5 +161,7 @@ GET           /statistics/purchases                @com.sunlights.op.web.Purchas
 GET           /statistics/purchase/excel           @com.sunlights.op.web.PurchaseStatisticsController.exportFirstPurchase()
 GET           /statistics/unpurchases              @com.sunlights.op.web.PurchaseStatisticsController.findUnPurchases()
 GET           /statistics/unpurchase/excel         @com.sunlights.op.web.PurchaseStatisticsController.exportUnPurchase()
+GET           /statistics/summaries                @com.sunlights.op.web.PurchaseStatisticsController.findSummaries()
+GET           /statistics/summary/excel            @com.sunlights.op.web.PurchaseStatisticsController.exportSummary()
 
 GET           /assets/*file                        controllers.Assets.at(path="/public", file)
