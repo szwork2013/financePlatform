@@ -11,6 +11,7 @@ import com.sunlights.op.service.impl.ProductManageServiceImpl;
 import com.sunlights.op.vo.CodeVo;
 import com.sunlights.op.vo.ProductManageVo;
 import org.apache.commons.lang3.StringUtils;
+import play.Logger;
 import play.db.jpa.Transactional;
 import play.libs.Json;
 import play.mvc.Controller;
@@ -138,5 +139,12 @@ public class ProductManageController extends Controller {
 		messageUtil.setMessage(new Message(Severity.ERROR, MsgCode.OPERATE_FAILURE));
 		return badRequest(messageUtil.toJson());
 	}
+
+    public Result refreshProduct(){
+        productManageService.refreshProduct();
+        Logger.info(">>>刷新产品缓存成功");
+        messageUtil.setMessage(new Message(Severity.INFO, MsgCode.OPERATE_SUCCESS));
+        return ok(messageUtil.toJson());
+    }
 
 }

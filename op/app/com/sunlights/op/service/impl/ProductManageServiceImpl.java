@@ -9,6 +9,8 @@ import com.sunlights.common.service.PageService;
 import com.sunlights.common.vo.DictVo;
 import com.sunlights.common.vo.Message;
 import com.sunlights.common.vo.PageVo;
+import com.sunlights.core.service.ProductService;
+import com.sunlights.core.service.impl.ProductServiceImpl;
 import com.sunlights.crawler.service.FundProfitHistoryService;
 import com.sunlights.crawler.service.impl.FundProfitHistoryServiceImpl;
 import com.sunlights.op.dal.ProductManageDao;
@@ -33,6 +35,8 @@ public class ProductManageServiceImpl implements ProductManageService {
     private PageService pageService = new PageService();
 
     private ProductManageDao productManageDao = new ProductManageDaoImpl();
+
+    private ProductService productService = new ProductServiceImpl();
 
     private CommonService commonService = new CommonService();
 
@@ -72,6 +76,13 @@ public class ProductManageServiceImpl implements ProductManageService {
 		entityBaseDao.create(productManage);
 
         grabProfitHistoryByCode(productManage.getProductCode());
+
+        refreshProduct();
+    }
+
+    public void refreshProduct() {
+        productService.refreshProductIndexCache();
+        productService.refreshProductListCache();
     }
 
     @Override
@@ -82,12 +93,16 @@ public class ProductManageServiceImpl implements ProductManageService {
         ProductManage productManage = productManageVo.convertToProductManage();
         productManage.setUpdateTime(new Date());
 		entityBaseDao.update(productManage);
+
+        refreshProduct();
     }
 
     @Override
     public void delete(ProductManageVo productManageVo) {
         ProductManage productManage = entityBaseDao.find(ProductManage.class, productManageVo.getId());
 		entityBaseDao.delete(productManage);
+
+        refreshProduct();
     }
 
     @Override
