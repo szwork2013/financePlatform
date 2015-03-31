@@ -14,6 +14,7 @@ GET         /hastoken                   @com.sunlights.customer.web.CustomerCont
 #share
 POST        /activity/share             @com.sunlights.customer.web.ShareController.share
 POST        /qrcode                     @com.sunlights.customer.web.QRcodeController.getQRcode
+GET        /activity/report             @com.sunlights.customer.web.ActivityReportController.getActivityReports
 
 #msg center
 POST        /message/list               @com.sunlights.customer.web.MsgCenterController.findMsgCenterVoList
