@@ -30,15 +30,15 @@ public class CustomerController extends Controller {
 	private MessageUtil messageUtil = MessageUtil.getInstance();
 	private CustomerService customerService = new CustomerServiceImpl();
 
-	public Result findExchanges () {
+	public Result findExchanges() {
 		return play.mvc.Results.TODO;
 	}
 
-	public Result findBalance () {
+	public Result findBalance() {
 		return play.mvc.Results.TODO;
 	}
 
-	public Result findFundTrades () {
+	public Result findFundTrades() {
 		PageVo pageVo = new PageVo();
 		Http.Request request = request();
 
@@ -51,7 +51,7 @@ public class CustomerController extends Controller {
 		return ok(messageUtil.toJson());
 	}
 
-	public Result findReferrers () {
+	public Result findReferrers() {
 		PageVo pageVo = new PageVo();
 		Http.Request request = request();
 
@@ -99,7 +99,7 @@ public class CustomerController extends Controller {
 		return ok(Json.toJson(pageVo));
 	}
 
-	public Result unlockCustomer() {
+	public Result saveCustomer() {
 		CustomerVo customerVo = null;
 
 		Http.RequestBody body = request().body();
@@ -108,10 +108,12 @@ public class CustomerController extends Controller {
 		}
 
 		if (customerVo != null && customerVo.getId() != null) {
-			customerService.unlock(customerVo.getId());
-			return ok("解锁成功。");
+			customerService.saveCustomer(customerVo);
+			messageUtil.setMessage(new Message(Severity.INFO, MsgCode.OPERATE_SUCCESS));
+			return ok(messageUtil.toJson());
 		}
-		return ok("解锁失败。");
+		messageUtil.setMessage(new Message(Severity.ERROR, MsgCode.OPERATE_FAILURE));
+		return badRequest(messageUtil.toJson());
 	}
 
 }
