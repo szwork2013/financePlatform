@@ -22,6 +22,8 @@ PUT           /customer                            @com.sunlights.op.web.Custome
 GET           /customer/bankcards                  @com.sunlights.op.web.CustomerController.findBankCardsBy()
 GET           /customer/referrers                  @com.sunlights.op.web.CustomerController.findReferrers()
 GET           /customer/fund/trades                @com.sunlights.op.web.CustomerController.findFundTrades()
+GET           /customer/balance                    @com.sunlights.op.web.CustomerController.findBalance()
+GET           /customer/exchanges                  @com.sunlights.op.web.CustomerController.findExchanges()
 
 GET           /verifycodes                         @com.sunlights.op.web.CustomerVerifyController.findCustomerVerifyCodes()
 

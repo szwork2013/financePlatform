@@ -30,6 +30,14 @@ public class CustomerController extends Controller {
 	private MessageUtil messageUtil = MessageUtil.getInstance();
 	private CustomerService customerService = new CustomerServiceImpl();
 
+	public Result findExchanges () {
+		return play.mvc.Results.TODO;
+	}
+
+	public Result findBalance () {
+		return play.mvc.Results.TODO;
+	}
+
 	public Result findFundTrades () {
 		PageVo pageVo = new PageVo();
 		Http.Request request = request();

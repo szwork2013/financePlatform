@@ -1,6 +1,7 @@
 package com.sunlights.op.service;
 
 import com.sunlights.common.vo.PageVo;
+import com.sunlights.customer.vo.RewardFlowVo;
 import com.sunlights.op.vo.BankCardVo;
 import com.sunlights.op.vo.CustomerVo;
 import com.sunlights.op.vo.FundTradeVo;
@@ -20,15 +21,19 @@ import java.util.List;
  */
 public interface CustomerService {
 
-	public List<CustomerVo> findCustomersBy (PageVo pageVo);
+	public List<CustomerVo> findCustomersBy(PageVo pageVo);
 
-	public void unlock (Long customerId);
+	public void unlock(Long customerId);
 
-	public MessageSmsTxn createMessageSmsTxn (MessageSmsTxn messageSmsTxn);
+	public MessageSmsTxn createMessageSmsTxn(MessageSmsTxn messageSmsTxn);
 
-	public List<BankCardVo> findBankCardsBy (PageVo pageVo);
+	public List<BankCardVo> findBankCardsBy(PageVo pageVo);
 
-	public List<ReferrerDetailVo> findReferrerDetailsBy (PageVo pageVo);
+	public List<ReferrerDetailVo> findReferrerDetailsBy(PageVo pageVo);
 
-	public List<FundTradeVo> findFundTradeVos (PageVo pageVo);
+	public List<FundTradeVo> findFundTradeVos(PageVo pageVo);
+
+	public CustomerVo findBalanceByCustomer(CustomerVo customerVo);
+
+	public List<RewardFlowVo> findExchanges(PageVo pageVo);
 }
