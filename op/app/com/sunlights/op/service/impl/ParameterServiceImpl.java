@@ -24,6 +24,7 @@ public class ParameterServiceImpl implements ParameterService {
 	private EntityBaseDao entityBaseDao = new EntityBaseDao();
 
     private PageService pageService = new PageService();
+    private com.sunlights.common.service.ParameterService parameterService = new com.sunlights.common.service.ParameterService();
 
     @Override
     public List<ParameterVo> findParametersBy(PageVo pageVo) {
@@ -43,17 +44,23 @@ public class ParameterServiceImpl implements ParameterService {
         Parameter parameter = parameterVo.convertToParameter();
         parameter.setStatus(AppConst.STATUS_VALID);
 		entityBaseDao.create(parameter);
+
+        parameterService.refresh();
     }
 
     @Override
     public void update(ParameterVo parameterVo) {
         Parameter parameter = parameterVo.convertToParameter();
 		entityBaseDao.update(parameter);
+
+        parameterService.refresh();
     }
 
     @Override
     public void delete(ParameterVo parameterVo) {
         Parameter parameter = entityBaseDao.find(Parameter.class, parameterVo.getId());
 		entityBaseDao.delete(parameter);
+
+        parameterService.refresh();
     }
 }
