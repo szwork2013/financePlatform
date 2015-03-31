@@ -1,5 +1,6 @@
 package com.sunlights.op.vo;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
 import models.Parameter;
 
 /**
@@ -11,6 +12,7 @@ import models.Parameter;
  *
  * @author <a href="mailto:zhencai.yuan@sunlights.cc">yuanzhencai</a>
  */
+@JsonInclude(JsonInclude.Include.NON_EMPTY)
 public class ParameterVo {
     private Long id;
     private String name;

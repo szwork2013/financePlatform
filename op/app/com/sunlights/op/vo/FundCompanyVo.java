@@ -1,5 +1,6 @@
 package com.sunlights.op.vo;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
 import models.FundCompany;
 
 import java.math.BigDecimal;
@@ -14,6 +15,7 @@ import java.util.Date;
  *
  * @author <a href="mailto:zhencai.yuan@sunlights.cc">yuanzhencai</a>
  */
+@JsonInclude(JsonInclude.Include.NON_EMPTY)
 public class FundCompanyVo {
     private Long id;
 

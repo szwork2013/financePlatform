@@ -1,5 +1,6 @@
 package com.sunlights.op.vo;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.sunlights.common.AppConst;
 import com.sunlights.common.service.CommonService;
 import models.ProductManage;
@@ -17,6 +18,7 @@ import java.util.Date;
  *
  * @author <a href="mailto:zhencai.yuan@sunlights.cc">yuanzhencai</a>
  */
+@JsonInclude(JsonInclude.Include.NON_EMPTY)
 public class ProductManageVo {
 
     private Long id;

@@ -1,11 +1,14 @@
 package com.sunlights.op.vo;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
+
 import java.math.BigDecimal;
 import java.util.Date;
 
 /**
  * Created by Yuan on 2015/3/27.
  */
+@JsonInclude(JsonInclude.Include.NON_EMPTY)
 public class TradeSummaryVo {
 	// 交易日期
 	private Date tradeDate;

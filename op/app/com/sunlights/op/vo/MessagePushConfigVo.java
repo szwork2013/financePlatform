@@ -1,5 +1,6 @@
 package com.sunlights.op.vo;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.sunlights.common.utils.CommonUtil;
 import models.MessagePushConfig;
 
@@ -8,6 +9,7 @@ import java.text.ParseException;
 /**
  * Created by Administrator on 2014/12/14.
  */
+@JsonInclude(JsonInclude.Include.NON_EMPTY)
 public class MessagePushConfigVo {
     private Long id ;
     private String remarks;
