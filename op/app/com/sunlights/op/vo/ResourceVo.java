@@ -1,5 +1,6 @@
 package com.sunlights.op.vo;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
 import models.Resource;
 
 import java.util.Date;
@@ -7,6 +8,7 @@ import java.util.Date;
 /**
  * Created by Yuan on 2015/3/5.
  */
+@JsonInclude(JsonInclude.Include.NON_EMPTY)
 public class ResourceVo {
 	private String name;
 	private String code;

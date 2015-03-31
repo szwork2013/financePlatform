@@ -1,6 +1,7 @@
 package com.sunlights.op.vo;
 
 
+import com.fasterxml.jackson.annotation.JsonInclude;
 import models.CustomerVerifyCode;
 
 import java.sql.Timestamp;
@@ -15,6 +16,7 @@ import java.util.Date;
  *
  * @author <a href="mailto:zhencai.yuan@sunlights.cc">yuanzhencai</a>
  */
+@JsonInclude(JsonInclude.Include.NON_EMPTY)
 public class VerifyCodeVo {
     private String mobile;//电话
     private String verifyCode; // 验证码

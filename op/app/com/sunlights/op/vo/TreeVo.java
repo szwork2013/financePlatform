@@ -1,5 +1,6 @@
 package com.sunlights.op.vo;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
 import models.Resource;
 
 import java.util.ArrayList;
@@ -8,6 +9,7 @@ import java.util.List;
 /**
  * Created by Yuan on 2015/3/9.
  */
+@JsonInclude(JsonInclude.Include.NON_EMPTY)
 public class TreeVo {
 	private Long id;
 	private String name;
