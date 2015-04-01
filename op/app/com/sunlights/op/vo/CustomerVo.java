@@ -4,6 +4,8 @@ import models.Customer;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 
+import java.util.Date;
+
 /**
  * Created by yuan on 9/24/14.
  */
@@ -22,6 +24,13 @@ public class CustomerVo {
     private String balance;//余额
     private String redPacketAmount;//红包余额
     private String goldenBeanCount;//金豆剩余数
+    private String status;//状态
+
+	private Date registrationDate; //注册时间
+	private Date loginTime;        //上次登录时间
+	private Date accountCreateTime;//开户时间
+	private Long bankCardCount;    //绑定银行卡数
+	private Long purchaserCount;   //成功推荐人数
 
     public CustomerVo() {
         super();
@@ -41,6 +50,7 @@ public class CustomerVo {
         this.email = customer.getEmail();
         this.idCardNo = customer.getIdentityNumber();
         this.locked = "U".equals(customer.getStatus());
+		this.status = customer.getStatus();
     }
 
     public Long getId() {
@@ -137,5 +147,53 @@ public class CustomerVo {
 
 	public void setCustomerId (String customerId) {
 		this.customerId = customerId;
+	}
+
+	public String getStatus () {
+		return status;
+	}
+
+	public void setStatus (String status) {
+		this.status = status;
+	}
+
+	public Date getRegistrationDate () {
+		return registrationDate;
+	}
+
+	public void setRegistrationDate (Date registrationDate) {
+		this.registrationDate = registrationDate;
+	}
+
+	public Date getLoginTime () {
+		return loginTime;
+	}
+
+	public void setLoginTime (Date loginTime) {
+		this.loginTime = loginTime;
+	}
+
+	public Date getAccountCreateTime () {
+		return accountCreateTime;
+	}
+
+	public void setAccountCreateTime (Date accountCreateTime) {
+		this.accountCreateTime = accountCreateTime;
+	}
+
+	public Long getBankCardCount () {
+		return bankCardCount;
+	}
+
+	public void setBankCardCount (Long bankCardCount) {
+		this.bankCardCount = bankCardCount;
+	}
+
+	public Long getPurchaserCount () {
+		return purchaserCount;
+	}
+
+	public void setPurchaserCount (Long purchaserCount) {
+		this.purchaserCount = purchaserCount;
 	}
 }

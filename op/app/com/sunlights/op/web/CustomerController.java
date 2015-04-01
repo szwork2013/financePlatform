@@ -30,6 +30,12 @@ public class CustomerController extends Controller {
 	private MessageUtil messageUtil = MessageUtil.getInstance();
 	private CustomerService customerService = new CustomerServiceImpl();
 
+	public Result findCustomerByMobile (String mobile) {
+		CustomerVo customerVo = customerService.findCustomerByMobile(mobile);
+		messageUtil.setMessage(new Message(Severity.INFO, MsgCode.OPERATE_SUCCESS), customerVo);
+		return ok(messageUtil.toJson());
+	}
+
 	public Result findExchanges() {
 		return play.mvc.Results.TODO;
 	}
@@ -96,7 +102,8 @@ public class CustomerController extends Controller {
 		List<CustomerVo> customerVos = customerService.findCustomersBy(pageVo);
 		pageVo.setList(customerVos);
 
-		return ok(Json.toJson(pageVo));
+		messageUtil.setMessage(new Message(Severity.INFO, MsgCode.OPERATE_SUCCESS), pageVo);
+		return ok(messageUtil.toJson());
 	}
 
 	public Result saveCustomer() {
