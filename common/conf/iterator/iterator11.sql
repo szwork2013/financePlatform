@@ -146,3 +146,6 @@ comment on column F_activity_report.create_time is '创建时间';
 --GRANT ALL ON TABLE f_show_statistics TO uat_user;
 --GRANT ALL ON TABLE F_activity_report TO uat_user;
 --GRANT ALL ON TABLE t_trade_status_change_info TO uat_user;
+
+ALTER TABLE c_share_info ADD COLUMN parent_id INT8;
+ALTER TABLE c_share_info ADD COLUMN ref_id VARCHAR (20);
