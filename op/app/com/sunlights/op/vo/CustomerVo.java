@@ -32,6 +32,9 @@ public class CustomerVo {
 	private Long bankCardCount;    //绑定银行卡数
 	private Long purchaserCount;   //成功推荐人数
 
+	private String referrer; //推荐人
+	private String referrerMobile; //推荐人手机号
+
     public CustomerVo() {
         super();
     }
@@ -195,5 +198,21 @@ public class CustomerVo {
 
 	public void setPurchaserCount (Long purchaserCount) {
 		this.purchaserCount = purchaserCount;
+	}
+
+	public String getReferrer () {
+		return referrer;
+	}
+
+	public void setReferrer (String referrer) {
+		this.referrer = referrer;
+	}
+
+	public String getReferrerMobile () {
+		return referrerMobile;
+	}
+
+	public void setReferrerMobile (String referrerMobile) {
+		this.referrerMobile = referrerMobile;
 	}
 }
