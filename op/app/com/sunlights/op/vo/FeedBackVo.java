@@ -1,5 +1,6 @@
 package com.sunlights.op.vo;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
 import models.FeedBack;
 
 import java.util.Date;
@@ -13,6 +14,7 @@ import java.util.Date;
  *
  * @author <a href="mailto:zhencai.yuan@sunlights.cc">yuanzhencai</a>
  */
+@JsonInclude(JsonInclude.Include.NON_EMPTY)
 public class FeedBackVo {
     private Long id;
     private String customerId;

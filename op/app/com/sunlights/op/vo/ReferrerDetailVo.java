@@ -1,4 +1,4 @@
-package com.sunlights.op.vo.statistics;
+package com.sunlights.op.vo;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 

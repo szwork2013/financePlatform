@@ -4,6 +4,7 @@ import com.sunlights.common.dal.EntityBaseDao;
 import com.sunlights.common.service.PageService;
 import com.sunlights.common.vo.PageVo;
 import com.sunlights.op.service.FundManageService;
+import com.sunlights.op.service.ProductManageService;
 import com.sunlights.op.vo.FundManageVo;
 import models.Fund;
 import models.FundNav;
@@ -22,6 +23,7 @@ import java.util.List;
  */
 public class FundManageServiceImpl extends EntityBaseDao implements FundManageService {
     private PageService pageService = new PageService();
+    private ProductManageService productManageService = new ProductManageServiceImpl();
 
     @Override
     public List<FundManageVo> findFundsBy(PageVo pageVo) {
@@ -44,6 +46,8 @@ public class FundManageServiceImpl extends EntityBaseDao implements FundManageSe
         fund.setCreateTime(new Date());
         fund.setUpdateTime(new Date());
         super.create(fund);
+
+        productManageService.refreshProduct();
     }
 
     @Override
@@ -51,12 +55,16 @@ public class FundManageServiceImpl extends EntityBaseDao implements FundManageSe
         FundNav fund = fundManageVo.convertToFund();
         fund.setUpdateTime(new Date());
         super.update(fund);
+
+        productManageService.refreshProduct();
     }
 
     @Override
     public void delete(FundManageVo fundManageVo) {
         Fund fund = super.find(Fund.class, fundManageVo.getFundcode());
         super.delete(fund);
+
+        productManageService.refreshProduct();
     }
 
 }

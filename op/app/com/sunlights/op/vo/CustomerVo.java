@@ -1,13 +1,18 @@
 package com.sunlights.op.vo;
 
-
 import models.Customer;
+
+import com.fasterxml.jackson.annotation.JsonInclude;
+
+import java.util.Date;
 
 /**
  * Created by yuan on 9/24/14.
  */
+@JsonInclude(JsonInclude.Include.NON_EMPTY)
 public class CustomerVo {
     private Long id;//id
+    private String customerId;//用户编号
     private String nickName;//用户名
     private String userName;//用户名真实姓名
     private String passWord;//密码
@@ -16,6 +21,20 @@ public class CustomerVo {
     private String idCardNo;//身份证号
     private boolean locked;//锁定标识
 
+    private String balance;//余额
+    private String redPacketAmount;//红包余额
+    private String goldenBeanCount;//金豆剩余数
+    private String status;//状态
+
+	private Date registrationDate; //注册时间
+	private Date loginTime;        //上次登录时间
+	private Date accountCreateTime;//开户时间
+	private Long bankCardCount;    //绑定银行卡数
+	private Long purchaserCount;   //成功推荐人数
+	private Date purchaserDate;   //首次购买时间
+
+	private String referrer; //推荐人
+	private String referrerMobile; //推荐人手机号
 
     public CustomerVo() {
         super();
@@ -27,6 +46,7 @@ public class CustomerVo {
 
     public void inCustomer(Customer customer) {
         this.id = customer.getId();
+		this.customerId = customer.getCustomerId();
         this.nickName = customer.getNickName();
         this.userName = customer.getRealName();
         this.passWord = customer.getLoginPassWord();
@@ -34,6 +54,7 @@ public class CustomerVo {
         this.email = customer.getEmail();
         this.idCardNo = customer.getIdentityNumber();
         this.locked = "U".equals(customer.getStatus());
+		this.status = customer.getStatus();
     }
 
     public Long getId() {
@@ -99,4 +120,108 @@ public class CustomerVo {
     public void setLocked(boolean locked) {
         this.locked = locked;
     }
+
+	public String getBalance () {
+		return balance;
+	}
+
+	public void setBalance (String balance) {
+		this.balance = balance;
+	}
+
+	public String getRedPacketAmount () {
+		return redPacketAmount;
+	}
+
+	public void setRedPacketAmount (String redPacketAmount) {
+		this.redPacketAmount = redPacketAmount;
+	}
+
+	public String getGoldenBeanCount () {
+		return goldenBeanCount;
+	}
+
+	public void setGoldenBeanCount (String goldenBeanCount) {
+		this.goldenBeanCount = goldenBeanCount;
+	}
+
+	public String getCustomerId () {
+		return customerId;
+	}
+
+	public void setCustomerId (String customerId) {
+		this.customerId = customerId;
+	}
+
+	public String getStatus () {
+		return status;
+	}
+
+	public void setStatus (String status) {
+		this.status = status;
+	}
+
+	public Date getRegistrationDate () {
+		return registrationDate;
+	}
+
+	public void setRegistrationDate (Date registrationDate) {
+		this.registrationDate = registrationDate;
+	}
+
+	public Date getLoginTime () {
+		return loginTime;
+	}
+
+	public void setLoginTime (Date loginTime) {
+		this.loginTime = loginTime;
+	}
+
+	public Date getAccountCreateTime () {
+		return accountCreateTime;
+	}
+
+	public void setAccountCreateTime (Date accountCreateTime) {
+		this.accountCreateTime = accountCreateTime;
+	}
+
+	public Long getBankCardCount () {
+		return bankCardCount;
+	}
+
+	public void setBankCardCount (Long bankCardCount) {
+		this.bankCardCount = bankCardCount;
+	}
+
+	public Long getPurchaserCount () {
+		return purchaserCount;
+	}
+
+	public void setPurchaserCount (Long purchaserCount) {
+		this.purchaserCount = purchaserCount;
+	}
+
+	public String getReferrer () {
+		return referrer;
+	}
+
+	public void setReferrer (String referrer) {
+		this.referrer = referrer;
+	}
+
+	public String getReferrerMobile () {
+		return referrerMobile;
+	}
+
+	public void setReferrerMobile (String referrerMobile) {
+		this.referrerMobile = referrerMobile;
+	}
+
+	public Date getPurchaserDate () {
+		return purchaserDate;
+	}
+
+	public void setPurchaserDate (Date purchaserDate) {
+		this.purchaserDate = purchaserDate;
+	}
 }

@@ -1,5 +1,6 @@
 package com.sunlights.op.vo;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
 import models.Bank;
 
 import java.util.Date;
@@ -7,6 +8,7 @@ import java.util.Date;
 /**
  * Created by Yuan on 2015/3/17.
  */
+@JsonInclude(JsonInclude.Include.NON_EMPTY)
 public class BankVo {
 	private Long id;
 	// 代码

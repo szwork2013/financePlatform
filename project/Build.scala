@@ -41,6 +41,7 @@ object FinancePlatformBuild extends Build {
   lazy val op = Project(id = "op", base = file("op"))
     .settings(scalaVersion := compileVersion)
     .dependsOn(customer)
+    .dependsOn(core)
     .dependsOn(common).enablePlugins(PlayJava)
 
   lazy val financePlatform = Project(id = "financePlatform", base = file("."))

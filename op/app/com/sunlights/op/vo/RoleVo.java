@@ -1,5 +1,6 @@
 package com.sunlights.op.vo;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
 import models.Role;
 
 import java.util.ArrayList;
@@ -9,6 +10,7 @@ import java.util.List;
 /**
  * Created by Yuan on 2015/3/5.
  */
+@JsonInclude(JsonInclude.Include.NON_EMPTY)
 public class RoleVo {
 
 	private Long id;

@@ -6,7 +6,6 @@ import com.sunlights.common.AppConst;
 import com.sunlights.common.DictConst;
 import com.sunlights.common.MsgCode;
 import com.sunlights.common.Severity;
-import com.sunlights.common.service.ParameterService;
 import com.sunlights.common.utils.MessageUtil;
 import com.sunlights.common.vo.Message;
 import com.sunlights.common.vo.MessageHeaderVo;
@@ -325,21 +324,6 @@ public class CustomerController extends Controller {
         return ok(jsonNode);
     }
 
-
-    public Result cleanParameterCache() {
-        ParameterService service = new ParameterService();
-        service.clearAll();
-
-        Logger.info(">>参数缓存清除成功");
-
-        service.loadAllParameter();
-
-        Logger.info(">>参数缓存重新加载成功");
-
-        messageUtil.setMessage(new Message(MsgCode.OPERATE_SUCCESS));
-        return ok(messageUtil.toJson());
-
-    }
 
     /**
      * 获取注册人数(提供给活动中的h5展示的，不是真正的注册用户数

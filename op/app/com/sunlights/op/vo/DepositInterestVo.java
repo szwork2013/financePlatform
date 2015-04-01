@@ -1,5 +1,6 @@
 package com.sunlights.op.vo;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
 import models.DepositInterest;
 
 import java.math.BigDecimal;
@@ -9,6 +10,7 @@ import java.util.Date;
 /**
  * Created by Administrator on 2014/12/16.
  */
+@JsonInclude(JsonInclude.Include.NON_EMPTY)
 public class DepositInterestVo {
 	private Long id;
 	private Date date;

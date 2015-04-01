@@ -104,12 +104,10 @@ public class ParameterController extends Controller {
         return badRequest(messageUtil.toJson());
     }
 
-    public Result cleanParameterCache(){
+    public Result refreshParameter(){
         com.sunlights.common.service.ParameterService service = new com.sunlights.common.service.ParameterService();
-        service.clearAll();
-
-        Logger.info(">>参数缓存清除成功");
-
+        service.refresh();
+        Logger.info(">>>参数缓存刷新完成");
         messageUtil.setMessage(new Message(MsgCode.OPERATE_SUCCESS));
         return ok(messageUtil.toJson());
 
