@@ -13,6 +13,7 @@ import com.sunlights.op.vo.CustomerVo;
 import com.sunlights.op.vo.FundTradeVo;
 import com.sunlights.op.vo.statistics.ReferrerDetailVo;
 import org.apache.commons.lang3.StringUtils;
+import play.Logger;
 import play.db.jpa.Transactional;
 import play.libs.Json;
 import play.mvc.Controller;

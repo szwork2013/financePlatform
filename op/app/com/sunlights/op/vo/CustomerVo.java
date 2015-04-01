@@ -31,6 +31,7 @@ public class CustomerVo {
 	private Date accountCreateTime;//开户时间
 	private Long bankCardCount;    //绑定银行卡数
 	private Long purchaserCount;   //成功推荐人数
+	private Date purchaserDate;   //首次购买时间
 
 	private String referrer; //推荐人
 	private String referrerMobile; //推荐人手机号
@@ -214,5 +215,13 @@ public class CustomerVo {
 
 	public void setReferrerMobile (String referrerMobile) {
 		this.referrerMobile = referrerMobile;
+	}
+
+	public Date getPurchaserDate () {
+		return purchaserDate;
+	}
+
+	public void setPurchaserDate (Date purchaserDate) {
+		this.purchaserDate = purchaserDate;
 	}
 }

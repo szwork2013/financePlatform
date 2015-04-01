@@ -1,9 +1,16 @@
 package com.sunlights.op.service.impl;
 
+import java.util.Date;
+import java.util.List;
+
+import javax.persistence.Query;
+
+import com.sunlights.common.service.CommonService;
+import models.Customer;
+import models.MessageSmsTxn;
+
 import com.sunlights.common.DictConst;
 import com.sunlights.common.dal.EntityBaseDao;
-import com.sunlights.common.dal.PageDao;
-import com.sunlights.common.dal.impl.PageDaoImpl;
 import com.sunlights.common.service.PageService;
 import com.sunlights.common.utils.ConverterUtil;
 import com.sunlights.common.vo.PageVo;
@@ -18,12 +25,6 @@ import com.sunlights.op.vo.BankCardVo;
 import com.sunlights.op.vo.CustomerVo;
 import com.sunlights.op.vo.FundTradeVo;
 import com.sunlights.op.vo.statistics.ReferrerDetailVo;
-import models.Customer;
-import models.MessageSmsTxn;
-
-import javax.persistence.Query;
-import java.util.Date;
-import java.util.List;
 
 /**
  * Created by Yuan on 2015/3/11.
@@ -97,11 +98,12 @@ public class CustomerServiceImpl implements CustomerService {
 	@Override
 	public List<ReferrerDetailVo> findReferrerDetailsBy(PageVo pageVo) {
 		StringBuffer xsql = new StringBuffer();
-		xsql.append(" SELECT DISTINCT ON (t.cust_id) t.cust_id,c.mobile,c.real_name,t.trade_time,t.trade_amount");
+		xsql.append(" SELECT DISTINCT ON (t.cust_id) t.cust_id,c.mobile,c.real_name,c.create_time,t.trade_time,t.trade_amount");
 		xsql.append(" FROM t_trade t JOIN c_customer c ON c.customer_id = t.cust_id");
 		xsql.append(" JOIN c_customer r ON c.recommend_phone = r.mobile");
 		xsql.append(" WHERE t.type = '" + DictConst.TRADE_TYPE_1 + "'");
 		xsql.append(" /~ and r.customerId = {customerId} ~/ ");
+		xsql.append(" /~ and c.recommend_phone = {telephone} ~/ ");
 		xsql.append(" ORDER BY t.cust_id,t.trade_time");
 
 		String countSql = "select count(1) from (" + xsql.toString() + ") as rs";
@@ -114,7 +116,7 @@ public class CustomerServiceImpl implements CustomerService {
 		query.setMaxResults(pageVo.getPageSize());
 		List list = query.getResultList();
 
-		String fields = "custId,mobile,realName,tradeDate,purchaseAmount";
+		String fields = "custId,mobile,realName,registrationDate,tradeDate,purchaseAmount";
 		List<ReferrerDetailVo> referrerDetailVos = ConverterUtil.convert(fields, list, ReferrerDetailVo.class);
 
 		return referrerDetailVos;
@@ -161,19 +163,23 @@ public class CustomerServiceImpl implements CustomerService {
 	@Override
 	public CustomerVo findCustomerByMobile(String mobile) {
 		StringBuffer sql = new StringBuffer();
-		sql.append(" SELECT c.customer_id,c.real_name,c.mobile,c.status,c.identity_number,c.email,c.create_time,c.recommend_phone,u.real_name as referrer,l.login_time,b.account_create_time,b.bank_card_count,r.purchaser_count");
+		sql.append(" SELECT c.customer_id,c.real_name,c.mobile,c.status,c.identity_number,c.email,c.create_time,c.recommend_phone,u.real_name as referrer,l.login_time,b.account_create_time,b.bank_card_count,r.purchaser_count,r.purchaser_date");
 		sql.append(" FROM c_customer c");
 		sql.append(" LEFT JOIN c_customer u ON c.recommend_phone = u.mobile");
 		sql.append(" LEFT JOIN (SELECT l.customer_id,MAX(l.login_time) AS login_time FROM c_login_history l GROUP BY l.customer_id) AS l ON c.customer_id = l.customer_id");
 		sql.append(" LEFT JOIN (SELECT b.customer_id,MIN(b.create_time) AS account_create_time,COUNT(1) AS bank_card_count FROM c_bank_card b GROUP BY b.customer_id) AS b ON c.customer_id = b.customer_id");
-		sql.append(" LEFT JOIN (SELECT c.recommend_phone,COUNT (DISTINCT( t.cust_id)) AS purchaser_count FROM t_trade t JOIN c_customer c ON c.customer_id = t.cust_id WHERE t.type = 'FP.TRADE.TYPE.1' GROUP BY c.recommend_phone) AS r ON c.mobile = r.recommend_phone");
+		sql.append(" LEFT JOIN (SELECT c.recommend_phone,COUNT (DISTINCT( t.cust_id)) AS purchaser_count,min(t.trade_time) as purchaser_date FROM t_trade t JOIN c_customer c ON c.customer_id = t.cust_id WHERE t.type = 'FP.TRADE.TYPE.1' GROUP BY c.recommend_phone) AS r ON c.mobile = r.recommend_phone");
 		sql.append(" WHERE c.mobile = ?1");
 
 		List<Object[]> list = entityBaseDao.createNativeQuery(sql.toString(), mobile);
 
-		String fields = "customerId,userName,mobilePhoneNo,status,idCardNo,email,registrationDate,referrerMobile,referrer,loginTime,accountCreateTime,bankCardCount,purchaserCount";
+		String fields = "customerId,userName,mobilePhoneNo,status,idCardNo,email,registrationDate,referrerMobile,referrer,loginTime,accountCreateTime,bankCardCount,purchaserCount,purchaserDate";
 		List<CustomerVo> customerVos = ConverterUtil.convert(fields, list, CustomerVo.class);
-
-		return customerVos.isEmpty() ? null : customerVos.get(0);
+		if( customerVos.isEmpty() ) {
+			return null;
+		}
+		CustomerVo customerVo = customerVos.get(0);
+		customerVo.setStatus(new CommonService().findValueByCatPointKey(customerVo.getStatus()));
+		return customerVo;
 	}
 }
