@@ -161,8 +161,9 @@ public class CustomerServiceImpl implements CustomerService {
 	@Override
 	public CustomerVo findCustomerByMobile(String mobile) {
 		StringBuffer sql = new StringBuffer();
-		sql.append(" SELECT c.customer_id,c.real_name,c.mobile,c.status,c.identity_number,c.email,c.create_time,l.login_time,b.account_create_time,b.bank_card_count,r.purchaser_count");
+		sql.append(" SELECT c.customer_id,c.real_name,c.mobile,c.status,c.identity_number,c.email,c.create_time,c.recommend_phone,u.real_name as referrer,l.login_time,b.account_create_time,b.bank_card_count,r.purchaser_count");
 		sql.append(" FROM c_customer c");
+		sql.append(" LEFT JOIN c_customer u ON c.recommend_phone = u.mobile");
 		sql.append(" LEFT JOIN (SELECT l.customer_id,MAX(l.login_time) AS login_time FROM c_login_history l GROUP BY l.customer_id) AS l ON c.customer_id = l.customer_id");
 		sql.append(" LEFT JOIN (SELECT b.customer_id,MIN(b.create_time) AS account_create_time,COUNT(1) AS bank_card_count FROM c_bank_card b GROUP BY b.customer_id) AS b ON c.customer_id = b.customer_id");
 		sql.append(" LEFT JOIN (SELECT c.recommend_phone,COUNT (DISTINCT( t.cust_id)) AS purchaser_count FROM t_trade t JOIN c_customer c ON c.customer_id = t.cust_id WHERE t.type = 'FP.TRADE.TYPE.1' GROUP BY c.recommend_phone) AS r ON c.mobile = r.recommend_phone");
@@ -170,7 +171,7 @@ public class CustomerServiceImpl implements CustomerService {
 
 		List<Object[]> list = entityBaseDao.createNativeQuery(sql.toString(), mobile);
 
-		String fields = "customerId,userName,mobilePhoneNo,status,idCardNo,email,registrationDate,loginTime,accountCreateTime,bankCardCount,purchaserCount";
+		String fields = "customerId,userName,mobilePhoneNo,status,idCardNo,email,registrationDate,referrerMobile,referrer,loginTime,accountCreateTime,bankCardCount,purchaserCount";
 		List<CustomerVo> customerVos = ConverterUtil.convert(fields, list, CustomerVo.class);
 
 		return customerVos.isEmpty() ? null : customerVos.get(0);
