@@ -38,4 +38,6 @@ public interface CustomerService {
 	public CustomerVo findBalanceByCustomer(CustomerVo customerVo);
 
 	public List<RewardFlowVo> findExchanges(PageVo pageVo);
+
+	public CustomerVo findCustomerByMobile(String mobile);
 }
