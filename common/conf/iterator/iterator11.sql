@@ -74,11 +74,11 @@ insert into parameter ( id, description, name, value, status) values ((SELECT ne
 
 update c_message_rule set content='尊敬的用户，恭喜您完成了首次购买，【金豆荚】赠送您{0}，请在“财富”中的“我的金豆荚”中查看现金红包。现在分享活动给朋友还能抽奖APPLE WATCH！【金豆荚】祝您理财愉快！',
 content_sms='尊敬的用户，恭喜您完成了首次购买，赠送您{0}元红包，请在“财富”中的“我的金豆荚”中查看现金红包。现在分享活动给朋友还能抽奖APPLE WATCH！详情点击{1}。祝您理财愉快！【金豆荚】',
-content_push='恭喜您完成了首次购买，【金豆荚】赠送您{0}，现在分享红包活动即有机会抽奖APPLE WATCH！' where code='FIRST_PURCHASE' and status='Y'
+content_push='恭喜您完成了首次购买，【金豆荚】赠送您{0}，现在分享红包活动即有机会抽奖APPLE WATCH！' where code='FIRST_PURCHASE' and status='Y';
 
 
 update c_message_rule set content_sms='尊敬的用户，恭喜您在金豆荚注册成功，获得{0}金豆；此金豆需要您在金豆荚首次交易后才可使用。我们为您准备了丰富多样的理财产品，请在“理财”中购买。详情点击{1}。祝您理财愉快！【金豆荚】'
-where code='REGISTER_BEAN' and status='Y'
+where code='REGISTER_BEAN' and status='Y';
 
 
 
@@ -345,6 +345,12 @@ INSERT INTO public.o_role_resource (id, role_id, resource_id, create_time, updat
 
 INSERT INTO public.o_resource (id, name, code, seq_no, parent_id, type, uri, create_time, update_time, deleted) VALUES (33, '注册未购买', 'statistics:unpurchase', '4', 30, 'menu', 'dashboard.statisticsUnPurchase', '2015-01-28 13:23:49.902', '2015-01-28 13:23:51.476',FALSE);
 INSERT INTO public.o_role_resource (id, role_id, resource_id, create_time, update_time, deleted) VALUES (33, 1, 33, '2015-01-28 14:54:40.570', '2015-01-28 14:54:41.312', FALSE);
+
+--customer
+INSERT INTO public.o_resource (id, name, code, seq_no, parent_id, type, uri, create_time, update_time, deleted) VALUES (42, '客户管理', 'customer', '1', 1, 'menu', null, '2015-01-28 13:23:49.902', '2015-01-28 13:23:51.476',FALSE);
+INSERT INTO public.o_resource (id, name, code, seq_no, parent_id, type, uri, create_time, update_time, deleted) VALUES (43, '客户基本信息', 'customer:index', '1', 42, 'menu', 'dashboard.customer', '2015-01-28 13:23:49.902', '2015-01-28 13:23:51.476',FALSE);
+INSERT INTO public.o_role_resource (id, role_id, resource_id, create_time, update_time, deleted) VALUES (42, 1, 42, '2015-01-28 14:54:40.570', '2015-01-28 14:54:41.312', FALSE);
+INSERT INTO public.o_role_resource (id, role_id, resource_id, create_time, update_time, deleted) VALUES (43, 1, 43, '2015-01-28 14:54:40.570', '2015-01-28 14:54:41.312', FALSE);
 
 
 ----------------------------------------------------------------------------------------------------
