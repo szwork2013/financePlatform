@@ -124,8 +124,7 @@ comment on column t_trade_status_change_info.create_time is '创建时间';
 comment on column t_trade_status_change_info.update_time is '修改时间';
 
 
-
---UAT  undone
+/* done at 2015-02-31*/
 create table  F_activity_report
 (
        Id                INTEGER not null,

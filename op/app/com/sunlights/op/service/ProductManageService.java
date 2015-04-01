@@ -39,4 +39,9 @@ public interface ProductManageService {
     public List<KeyValueVo> loadProducts(String prdType);
 
     public List<KeyValueVo> loadPrdTypes();
+
+    /**
+     * 产品刷新缓存
+     */
+    public void refreshProduct();
 }

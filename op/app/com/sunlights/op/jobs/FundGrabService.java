@@ -1,6 +1,8 @@
 package com.sunlights.op.jobs;
 
 import com.sunlights.common.FundCategory;
+import com.sunlights.core.service.ProductService;
+import com.sunlights.core.service.impl.ProductServiceImpl;
 import com.sunlights.crawler.GrabException;
 import com.sunlights.crawler.facade.ShuMiFundFacade;
 import com.sunlights.op.service.ProductManageService;
@@ -31,6 +33,10 @@ public class FundGrabService {
         } catch (GrabException e) {
             Logger.error("Grab Fund failure", e);
         }
+
+        ProductService productService = new ProductServiceImpl();
+        productService.refreshProductIndexCache();
+        productService.refreshProductListCache();
     }
 
     public void grabFundCode() {

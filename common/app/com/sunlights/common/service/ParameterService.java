@@ -7,6 +7,7 @@ import com.sunlights.common.exceptions.BusinessRuntimeException;
 import com.sunlights.common.utils.CommonUtil;
 import com.sunlights.common.utils.DBHelper;
 import models.Parameter;
+import play.Logger;
 
 import java.sql.Timestamp;
 import java.util.HashMap;
@@ -40,6 +41,12 @@ public class ParameterService {
 
     public void clearAll() {
         params.clear();
+    }
+
+    public void refresh(){
+        Logger.info(">>>刷新参数缓存>>>");
+        clearAll();
+        loadAllParameter();
     }
 
     public String getParameterByName(String name) {

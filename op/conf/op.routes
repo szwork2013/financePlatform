@@ -42,7 +42,7 @@ POST          /dict                                @com.sunlights.op.web.DictCon
 GET           /parameters                          @com.sunlights.op.web.ParameterController.findParameters
 DELETE        /parameter                           @com.sunlights.op.web.ParameterController.deleteParameter
 POST          /parameter                           @com.sunlights.op.web.ParameterController.saveParameter
-DELETE        /parameter/cache                     @com.sunlights.op.web.ParameterController.cleanParameterCache
+DELETE        /parameter/refresh                   @com.sunlights.op.web.ParameterController.refreshParameter
 
 
 #FundCompany
@@ -63,6 +63,7 @@ POST          /management                          @com.sunlights.op.web.Product
 GET           /management/codes                    @com.sunlights.op.web.ProductManageController.findCodes
 POST          /management/fund/profits             @com.sunlights.op.web.ProductManageController.grabFundProfits
 POST          /management/funds/profits            @com.sunlights.op.web.ProductManageController.grabAllFundProfits
+DELETE        /management/refresh                  @com.sunlights.op.web.ProductManageController.refreshProduct
 
 
 # Deposit Interest
@@ -156,7 +157,7 @@ GET           /statistics/purchase/excel           @com.sunlights.op.web.Purchas
 GET           /statistics/unpurchases              @com.sunlights.op.web.PurchaseStatisticsController.findUnPurchases()
 GET           /statistics/unpurchase/excel         @com.sunlights.op.web.PurchaseStatisticsController.exportUnPurchase()
 
-
+GET           /assets/*file                        controllers.Assets.at(path="/public", file)
 
 #activity
 GET           /activities                          @com.sunlights.op.web.activity.ActivityController.findActivities

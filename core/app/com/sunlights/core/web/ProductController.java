@@ -132,12 +132,5 @@ public class ProductController extends Controller {
     }
 
 
-    public Result reloadProduct(){
-        productService.refreshProductIndexCache();
-        productService.refreshProductListCache();
-        messageUtil.setMessage(new Message(Severity.INFO, MsgCode.OPERATE_SUCCESS));
-        return ok(messageUtil.toJson());
-    }
-
 
 }
