@@ -18,6 +18,8 @@ public interface RewardTypeService {
 
     public boolean remove(Long id);
 
+    public boolean removeByCode(String code);
+
     public List<RewardTypeVo> findAllTypeWithRule();
 
 

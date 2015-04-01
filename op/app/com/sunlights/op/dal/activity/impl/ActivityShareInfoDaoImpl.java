@@ -55,5 +55,10 @@ public class ActivityShareInfoDaoImpl extends EntityBaseDao implements ActivityS
         return shareInfos.get(0);
     }
 
+    @Override
+    public List<ShareInfo> findByParentId(Long parentId) {
+        return super.findBy(ShareInfo.class, "parentId", parentId);
+    }
+
 
 }

@@ -25,6 +25,13 @@ public class ActivityShareInfoController extends Controller {
         return ok(Json.toJson(activityShareInfos));
     }
 
+    public Result getByParantId(String parentId) {
+
+        List<ShareInfoVo> activityShareInfos = activityShareInfoService.getByParentId(parentId);
+
+        return ok(Json.toJson(activityShareInfos));
+    }
+
     public Result save() {
 
         Http.RequestBody body = request().body();
@@ -46,15 +53,11 @@ public class ActivityShareInfoController extends Controller {
         return ok("操作失败");
     }
 
-    public Result delete() {
-        Http.RequestBody body = request().body();
+    public Result delete(Long id) {
 
-        if (body.asJson() != null) {
-            ShareInfoVo shareInfoVo = Json.fromJson(body.asJson(), ShareInfoVo.class);
-            activityShareInfoService.remove(shareInfoVo.getId());
-            return ok("删除成功");
-        }
-        return ok("删除失败");
+        activityShareInfoService.remove(id);
+        return ok("删除成功");
+
     }
 
 }

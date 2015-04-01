@@ -135,25 +135,73 @@ GET           /statistics/purchases                @com.sunlights.op.web.Purchas
 GET           /statistics/purchase/excel           @com.sunlights.op.web.PurchaseStatisticsController.exportFirstPurchase()
 GET           /statistics/unpurchases              @com.sunlights.op.web.PurchaseStatisticsController.findUnPurchases()
 GET           /statistics/unpurchase/excel         @com.sunlights.op.web.PurchaseStatisticsController.exportUnPurchase()
-GET           /users                                         @com.sunlights.op.web.UserController.findUsers
-POST          /user                                          @com.sunlights.op.web.UserController.saveUser
+GET           /users                               @com.sunlights.op.web.UserController.findUsers
+POST          /user                                @com.sunlights.op.web.UserController.saveUser
 
-GET           /login/user                                    @com.sunlights.op.web.Application.login()
-DELETE        /login/user                                    @com.sunlights.op.web.Application.logout()
-GET           /login/currentuser                             @com.sunlights.op.web.Application.getCurrentUser()
-PUT           /password                                      @com.sunlights.op.web.Application.resetPassword()
+GET           /login/user                          @com.sunlights.op.web.Application.login()
+DELETE        /login/user                          @com.sunlights.op.web.Application.logout()
+GET           /login/currentuser                   @com.sunlights.op.web.Application.getCurrentUser()
+PUT           /password                            @com.sunlights.op.web.Application.resetPassword()
 
-GET           /exchangeresult/reds                           @com.sunlights.op.web.activity.ExchangeResultController.findRedPackets
-GET           /exchangeresult/red/excel                      @com.sunlights.op.web.activity.ExchangeResultController.exportRedPacket
-POST          /exchangeresult/red/excel                      @com.sunlights.op.web.activity.ExchangeResultController.uploadRedPacket
+GET           /exchangeresult/reds                 @com.sunlights.op.web.activity.ExchangeResultController.findRedPackets
+GET           /exchangeresult/red/excel            @com.sunlights.op.web.activity.ExchangeResultController.exportRedPacket
+POST          /exchangeresult/red/excel            @com.sunlights.op.web.activity.ExchangeResultController.uploadRedPacket
 
-GET           /referrers                                     @com.sunlights.op.web.ReferrerController.findReferrers()
-GET           /referrer/details                              @com.sunlights.op.web.ReferrerController.findReferrerDetails()
-GET           /raeferrer/excel                                @com.sunlights.op.web.ReferrerController.exportReferrer()
+GET           /referrers                           @com.sunlights.op.web.ReferrerController.findReferrers()
+GET           /referrer/details                    @com.sunlights.op.web.ReferrerController.findReferrerDetails()
+GET           /raeferrer/excel                     @com.sunlights.op.web.ReferrerController.exportReferrer()
 
-GET           /statistics/purchases                          @com.sunlights.op.web.PurchaseStatisticsController.findFirstPurchases()
-GET           /statistics/purchase/excel                     @com.sunlights.op.web.PurchaseStatisticsController.exportFirstPurchase()
-GET           /statistics/unpurchases                        @com.sunlights.op.web.PurchaseStatisticsController.findUnPurchases()
-GET           /statistics/unpurchase/excel                   @com.sunlights.op.web.PurchaseStatisticsController.exportUnPurchase()
+GET           /statistics/purchases                @com.sunlights.op.web.PurchaseStatisticsController.findFirstPurchases()
+GET           /statistics/purchase/excel           @com.sunlights.op.web.PurchaseStatisticsController.exportFirstPurchase()
+GET           /statistics/unpurchases              @com.sunlights.op.web.PurchaseStatisticsController.findUnPurchases()
+GET           /statistics/unpurchase/excel         @com.sunlights.op.web.PurchaseStatisticsController.exportUnPurchase()
 
-GET         /assets/*file                     controllers.Assets.at(path="/public", file)
+
+
+#activity
+GET           /activities                          @com.sunlights.op.web.activity.ActivityController.findActivities
+POST          /activity                            @com.sunlights.op.web.activity.ActivityController.saveActivity
+DELETE        /activity/:id                        @com.sunlights.op.web.activity.ActivityController.deleteActivity(id: Long)
+GET        /activity/type                         @com.sunlights.op.web.activity.ActivitySceneController.findActivityTypes
+POST          /activities/uploadFile               @com.sunlights.op.web.activity.ActivityController.uploadFiles
+
+#scene
+GET           /activity/scene                      @com.sunlights.op.web.activity.ActivitySceneController.findScenes
+POST          /activity/scene                      @com.sunlights.op.web.activity.ActivitySceneController.createScene
+PUT           /activity/scene                      @com.sunlights.op.web.activity.ActivitySceneController.updateScene
+DELETE        /activity/scene/:id                  @com.sunlights.op.web.activity.ActivitySceneController.deleteScene(id: Long)
+GET           /activity/scene/keyvalues        @com.sunlights.op.web.activity.ActivitySceneController.loadSceneKeyValue
+
+#reward
+GET           /rewardTypes                         @com.sunlights.op.web.activity.RewardTypeController.findRewardTypes
+POST          /rewardTypes                    @com.sunlights.op.web.activity.RewardTypeController.saveRewardType
+DELETE          /rewardTypes/:code                  @com.sunlights.op.web.activity.RewardTypeController.deleteRewardType(code: String)
+GET           /rewardTypes/kvType              @com.sunlights.op.web.activity.RewardTypeController.loadTypeKv
+
+GET          /obtainRewardRules/:activityId                   @com.sunlights.op.web.activity.ObtainRewardRuleController.findRulesByActivityId(activityId: Long)
+POST          /obtainRewardRules              @com.sunlights.op.web.activity.ObtainRewardRuleController.saveRule
+DELETE          /obtainRewardRules/:id            @com.sunlights.op.web.activity.ObtainRewardRuleController.deleteRule(id: Long)
+
+GET           /activityReturnMsg               @com.sunlights.op.web.activity.ActivityReturnMsgMgrController.findReturnMsgs
+POST          /activityReturnMsg              @com.sunlights.op.web.activity.ActivityReturnMsgMgrController.saveReturnMsg
+DELETE          /activityReturnMsg/:id            @com.sunlights.op.web.activity.ActivityReturnMsgMgrController.deleteReturnMsg(id: Long)
+GET          /errorMsg                        @com.sunlights.op.web.activity.ActivityReturnMsgMgrController.loadErrorMsg
+
+GET          /activityshareinfo                   @com.sunlights.op.web.activity.ActivityShareInfoController.getAll
+GET           /specialshare/:parentId              @com.sunlights.op.web.activity.ActivityShareInfoController.getByParantId(parentId: String)
+POST          /activityshareinfo              @com.sunlights.op.web.activity.ActivityShareInfoController.save
+DELETE          /activityshareinfo/:id            @com.sunlights.op.web.activity.ActivityShareInfoController.delete(id: Long)
+
+GET          /exchangeRewardRules                 @com.sunlights.op.web.activity.ExchangeRewardRuleController.findRulesByRewardType
+POST          /exchangeRewardRules            @com.sunlights.op.web.activity.ExchangeRewardRuleController.saveRule
+DELETE          /exchangeRewardRules/:id          @com.sunlights.op.web.activity.ExchangeRewardRuleController.deleteRule(id: Long)
+
+GET           /exchangescene                       @com.sunlights.op.web.activity.ExchangeSceneController.findAllScenes
+POST          /exchangescene                 @com.sunlights.op.web.activity.ExchangeSceneController.save
+DELETE          /exchangescene/:id                @com.sunlights.op.web.activity.ExchangeSceneController.delete(id: Long)
+
+GET          /exchangebeanresult                  @com.sunlights.op.web.activity.ExchangeBeanResultController.findBeanResultList
+GET          /exchangebean/export                 @com.sunlights.op.web.activity.ExchangeBeanResultController.exchangeBeanExport
+POST          /exchangebean/upload                 @com.sunlights.op.web.activity.ExchangeBeanResultController.upload
+
+GET           /assets/*file                        controllers.Assets.at(path="/public", file)

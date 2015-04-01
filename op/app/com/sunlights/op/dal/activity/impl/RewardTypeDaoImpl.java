@@ -33,8 +33,8 @@ public class RewardTypeDaoImpl extends EntityBaseDao implements RewardTypeDao {
     @Override
     public List<RewardTypeVo> findAllTypeWithRule() {
         StringBuilder sb = new StringBuilder();
-        String keys = "typeId,code,name,unit,ruleId,rate,limitTime";
-        String columns = " a.id,a.code,a.name,a.unit,b.id as ruleId, b.rate,b.limit_time ";
+        String keys = "typeId,code,name,unit,ruleUrl,ruleId,rate,limitTime";
+        String columns = " a.id,a.code,a.name,a.unit,a.rule_url, b.id as ruleId, b.rate,b.limit_time ";
         sb.append("select ").append(columns)
                 .append("FROM F_REWARD_TYPE a left join f_exchange_reward_rule b on a.code = b.reward_type order by a.code");
 
@@ -83,5 +83,16 @@ public class RewardTypeDaoImpl extends EntityBaseDao implements RewardTypeDao {
         } else {
             return types.get(0);
         }
+    }
+
+    @Override
+    public boolean removeByCode(String code) {
+        RewardType type = findByCode(code);
+        if(type == null) {
+            return false;
+        }
+
+        delete(type);
+        return false;
     }
 }

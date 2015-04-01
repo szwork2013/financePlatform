@@ -330,7 +330,7 @@ INSERT INTO public.o_role_resource (id, role_id, resource_id, create_time, updat
 VALUES (40, 1, 40, '2015-01-28 14:54:40.570', '2015-01-28 14:54:41.312', FALSE);
 
 INSERT INTO public.o_resource (id, name, code, seq_no, parent_id, type, uri, create_time, update_time, deleted)
-VALUES (41, '活动错误信息', 'activity:exchangescene', '8', 5, 'menu', 'dashboard.exchangescene', '2015-01-28 13:23:49.902', '2015-01-28 13:23:51.476', FALSE);
+VALUES (41, '活动错误信息', 'activity:errorMsg', '8', 5, 'menu', 'dashboard.errorMsg', '2015-01-28 13:23:49.902', '2015-01-28 13:23:51.476', FALSE);
 INSERT INTO public.o_role_resource (id, role_id, resource_id, create_time, update_time, deleted)
 VALUES (41, 1, 41, '2015-01-28 14:54:40.570', '2015-01-28 14:54:41.312', FALSE);
 

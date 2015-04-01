@@ -25,10 +25,9 @@ public class ObtainRewardRuleController extends Controller {
 
     private ObtainRewardRuleService obtainRewardRuleService = new ObtainRewardRuleServiceImpl();
 
-    public Result findRulesByActivityId() {
+    public Result findRulesByActivityId(Long activityId) {
 
-        Map<String, String> activityIdMap  = form().bindFromRequest().data();
-        List<ObtainRewardRuleVo> list = obtainRewardRuleService.findVosByActivityId(Long.valueOf(activityIdMap.get("value")));
+        List<ObtainRewardRuleVo> list = obtainRewardRuleService.findVosByActivityId(activityId);
         return ok(Json.toJson(list));
     }
 
@@ -59,18 +58,11 @@ public class ObtainRewardRuleController extends Controller {
         return ok("操作失败");
     }
 
-    public Result updateRule() {
 
-        return ok("更新失败");
-    }
+    public Result deleteRule(Long id) {
 
-    public Result deleteRule() {
-        Http.RequestBody body = request().body();
-        if (body.asJson() != null) {
-            ObtainRewardRuleVo rule = Json.fromJson(body.asJson(), ObtainRewardRuleVo.class);
-            obtainRewardRuleService.remove(rule.getId());
-            return ok("删除成功");
-        }
-        return ok("删除失败");
+        obtainRewardRuleService.remove(id);
+        return ok("删除成功");
+
     }
 }

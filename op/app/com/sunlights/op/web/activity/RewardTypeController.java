@@ -67,23 +67,13 @@ public class RewardTypeController extends Controller {
         return ok("操作失败");
     }
 
-    public Result updateRewardType() {
+    public Result deleteRewardType(String code) {
+        List<ExchangeRewardRule> exchangeRewardRules = exchangeRewardRuleService.findRulesByRewardType(code);
+        if(exchangeRewardRules != null && !exchangeRewardRules.isEmpty()) {
+            exchangeRewardRuleService.removeByTypeId(code);            }
+        rewardTypeService.removeByCode(code);
 
-        return ok("更新失败");
-    }
-
-    public Result deleteRewardType() {
-        Http.RequestBody body = request().body();
-        if (body.asJson() != null) {
-            RewardTypeVo rewardType = Json.fromJson(body.asJson(), RewardTypeVo.class);
-            List<ExchangeRewardRule> exchangeRewardRules = exchangeRewardRuleService.findRulesByRewardType(rewardType.getCode());
-            if(exchangeRewardRules != null && !exchangeRewardRules.isEmpty()) {
-                exchangeRewardRuleService.removeByTypeId(rewardType.getCode());
-            }
-            rewardTypeService.remove(rewardType.getTypeId());
-            return ok("删除成功");
-        }
-        return ok("删除失败");
+        return ok("删除成功");
     }
 
     public Result loadTypeKv() {

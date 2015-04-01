@@ -1,11 +1,13 @@
 package com.sunlights.op.web.activity;
 
 import com.sunlights.common.MsgCode;
+import com.sunlights.common.utils.RequestUtil;
 import com.sunlights.common.vo.PageVo;
 import com.sunlights.op.service.activity.ActivityReturnMsgService;
 import com.sunlights.op.service.activity.impl.ActivityReturnMsgServiceImpl;
 import com.sunlights.op.vo.KeyValueVo;
 import com.sunlights.op.vo.activity.ActivityReturnMsgVo;
+import org.apache.commons.lang3.StringUtils;
 import play.db.jpa.Transactional;
 import play.libs.Json;
 import play.mvc.Controller;
@@ -25,9 +27,12 @@ public class ActivityReturnMsgMgrController extends Controller {
 
     public Result findReturnMsgs() {
 
-        Http.RequestBody body = request().body();
+        PageVo pageVo = new PageVo();
+        Http.Request request = request();
 
-        PageVo pageVo = Json.fromJson(request().body().asJson(), PageVo.class);
+        if (!StringUtils.isBlank(request.getHeader("params"))) {
+            pageVo = RequestUtil.getHeaderValue("params", PageVo.class);
+        }
 
         List<ActivityReturnMsgVo> activityReturnMsgVos = activityReturnMsgService.findByCondition(pageVo);
 
@@ -54,15 +59,10 @@ public class ActivityReturnMsgMgrController extends Controller {
         return ok("操作失败");
     }
 
-    public Result deleteReturnMsg() {
-        Http.RequestBody body = request().body();
+    public Result deleteReturnMsg(Long id) {
+        activityReturnMsgService.remove(id);
+        return ok("删除成功");
 
-        if (body.asJson() != null) {
-            ActivityReturnMsgVo activityReturnMsgVo = Json.fromJson(body.asJson(), ActivityReturnMsgVo.class);
-            activityReturnMsgService.remove(activityReturnMsgVo.getId());
-            return ok("删除成功");
-        }
-        return ok("删除失败");
     }
 
     public Result loadErrorMsg() {

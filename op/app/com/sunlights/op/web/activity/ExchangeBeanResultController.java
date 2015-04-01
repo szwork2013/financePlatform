@@ -65,7 +65,13 @@ public class ExchangeBeanResultController extends Controller {
         Logger.info("--------------export exchangeBeanExport start--------------");
 
         PageVo pageVo = new PageVo();
-        resetFilter(pageVo, true);
+        Map<String, String[]> filterMap = request().queryString();
+        for (String key : filterMap.keySet()) {
+            String[] filter = filterMap.get(key);
+            if (filter.length > 0 && StringUtils.isNotBlank(filter[0])) {
+                pageVo.put(key, filter[0].replace("\"", ""));
+            }
+        }
 
         final List<ExchangeBeanResultVo> exchangeBeanList = exchangeResultService.findExchangeBeanList(pageVo);
         SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd");

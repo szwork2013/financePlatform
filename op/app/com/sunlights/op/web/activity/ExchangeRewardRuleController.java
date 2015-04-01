@@ -56,13 +56,10 @@ public class ExchangeRewardRuleController extends Controller {
 
 
 
-    public Result deleteRule() {
-        Http.RequestBody body = request().body();
-        if (body.asJson() != null) {
-            RewardTypeVo rewardTypeVo = Json.fromJson(body.asJson(), RewardTypeVo.class);
-            exchangeRewardRuleService.remove(rewardTypeVo.getRuleId());
-            return ok("删除成功");
-        }
-        return ok("删除失败");
+    public Result deleteRule(Long id) {
+
+        exchangeRewardRuleService.remove(id);
+        return ok("删除成功");
+
     }
 }
