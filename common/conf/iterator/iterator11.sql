@@ -141,6 +141,10 @@ comment on column F_activity_report.active_report_type is '奖励活动播报 0-
 comment on column F_activity_report.channel is '渠道 0-web端，1-移动端';
 comment on column F_activity_report.create_time is '创建时间';
 
+--GRANT ALL ON TABLE view_message_list TO uat_user;
+--GRANT ALL ON TABLE f_show_statistics TO uat_user;
+--GRANT ALL ON TABLE F_activity_report TO uat_user;
+--GRANT ALL ON TABLE t_trade_status_change_info TO uat_user;
 
 DELETE FROM public.O_USER_ROLE;
 DELETE FROM public.O_ROLE_RESOURCE;
@@ -325,7 +329,7 @@ INSERT INTO public.o_role_resource (id, role_id, resource_id, create_time, updat
 VALUES (40, 1, 40, '2015-01-28 14:54:40.570', '2015-01-28 14:54:41.312', FALSE);
 
 INSERT INTO public.o_resource (id, name, code, seq_no, parent_id, type, uri, create_time, update_time, deleted)
-VALUES (41, '活动错误信息', 'activity:exchangescene', '8', 5, 'menu', 'dashboard.exchangescene', '2015-01-28 13:23:49.902', '2015-01-28 13:23:51.476', FALSE);
+VALUES (41, '活动错误信息', 'activity:errorMsg', '8', 5, 'menu', 'dashboard.errorMsg', '2015-01-28 13:23:49.902', '2015-01-28 13:23:51.476', FALSE);
 INSERT INTO public.o_role_resource (id, role_id, resource_id, create_time, update_time, deleted)
 VALUES (41, 1, 41, '2015-01-28 14:54:40.570', '2015-01-28 14:54:41.312', FALSE);
 
@@ -492,7 +496,6 @@ CREATE OR REPLACE VIEW view_total_purchase_customer (vw_purchase_date, vw_total_
   ORDER BY ts.summary_date, t.purchase_date DESC;
 
 
-/*uat undone*/
 
 
 

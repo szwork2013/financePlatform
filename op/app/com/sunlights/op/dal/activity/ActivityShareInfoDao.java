@@ -19,4 +19,6 @@ public interface ActivityShareInfoDao {
 
     public ShareInfo findById(Long id);
 
+    public  List<ShareInfo> findByParentId(Long parentId);
+
 }

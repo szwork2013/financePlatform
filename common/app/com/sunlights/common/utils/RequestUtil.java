@@ -3,6 +3,7 @@ package com.sunlights.common.utils;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.sunlights.common.exceptions.BusinessRuntimeException;
 import org.apache.commons.lang3.StringUtils;
+import play.Logger;
 import play.libs.Json;
 import play.mvc.Http;
 
@@ -21,6 +22,8 @@ public class RequestUtil {
     public static <A> A getHeaderValue(String paramName, Class<A> aClass) {
         Http.Request request = request();
         String paramValue = request.getHeader(paramName);
+
+        Logger.debug("header paramValue1111 === " + paramValue);
 		try {
 			paramValue = URLDecoder.decode(paramValue, "utf-8");
 		} catch (UnsupportedEncodingException e) {
@@ -28,6 +31,8 @@ public class RequestUtil {
 		if (StringUtils.isBlank(paramValue)) {
             throw new BusinessRuntimeException("Cannot find [" + paramName + "] from request header.");
         }
+
+        Logger.debug("header paramValue2222 === " + paramValue);
 
         return Json.fromJson(Json.parse(paramValue), aClass);
     }

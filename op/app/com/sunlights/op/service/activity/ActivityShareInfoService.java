@@ -17,4 +17,6 @@ public interface ActivityShareInfoService {
 
     public void remove(Long id);
 
+    public List<ShareInfoVo> getByParentId(String parentId);
+
 }

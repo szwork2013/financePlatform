@@ -78,50 +78,13 @@ public class ActivityController extends Controller {
         return ok("操作失败");
     }
 
-    public Result getH5Content() {
-        Http.RequestBody body = request().body();
-        String h5Content = "";
 
-        if (body.asJson() != null) {
-            ActivityVo activityVo = Json.fromJson(body.asJson(), ActivityVo.class);
 
-            if(activityVo.getId() != null) {
-                h5Content = activityService.getH5Content(activityVo.getId());
-            }
-            if(h5Content == null) {
-                h5Content = "";
-            }
-            return ok(h5Content);
-        }
-        return ok("操作失败");
-    }
+    public Result deleteActivity(Long id) {
+        obtainRewardRuleService.deleteByActivityId(id);
+        activityService.deleteActivity(id);
+        return ok("删除成功");
 
-    public Result saveH5Content() {
-       // Http.RequestBody body = request().body();
-
-        Map<String, String> paramMap  = form().bindFromRequest().data();
-
-        //if (body.asJson() != null) {
-            //ActivityVo activityVo = Json.fromJson(body.asJson(), ActivityVo.class);
-            Long id = Long.valueOf(paramMap.get("id"));
-            String h5Content = paramMap.get("value");
-            activityService.saveH5Content(id, h5Content);
-
-            return ok("更新成功");
-        //}
-       // return ok("更新失败");
-    }
-
-    public Result deleteActivity() {
-        Http.RequestBody body = request().body();
-
-        if (body.asJson() != null) {
-            ActivityVo activityVo = Json.fromJson(body.asJson(), ActivityVo.class);
-            obtainRewardRuleService.deleteByActivityId(activityVo.getId());
-            activityService.deleteActivity(activityVo.getId());
-            return ok("删除成功");
-        }
-        return ok("删除失败");
     }
 
     public Result uploadFiles() {

@@ -51,14 +51,10 @@ public class ExchangeSceneController extends Controller {
         return ok("操作失败");
     }
 
-    public Result delete() {
-        Http.RequestBody body = request().body();
+    public Result delete(Long id) {
 
-        if (body.asJson() != null) {
-            ExchangeSceneVo exchangeScene = Json.fromJson(body.asJson(), ExchangeSceneVo.class);
-            exchangeSceneService.remove(exchangeScene.getId());
-            return ok("删除成功");
-        }
-        return ok("删除失败");
+        exchangeSceneService.remove(id);
+        return ok("删除成功");
+
     }
 }

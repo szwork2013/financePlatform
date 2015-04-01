@@ -24,4 +24,6 @@ public interface RewardTypeDao {
 
     public RewardType findByCode(String code);
 
+    public boolean removeByCode(String code);
+
 }

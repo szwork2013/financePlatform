@@ -45,4 +45,9 @@ public class RewardTypeServiceImpl implements RewardTypeService {
     public RewardType findByCode(String code) {
         return rewardTypeDao.findByCode(code);
     }
+
+    @Override
+    public boolean removeByCode(String code) {
+        return rewardTypeDao.removeByCode(code);
+    }
 }

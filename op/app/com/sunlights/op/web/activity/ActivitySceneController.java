@@ -3,6 +3,7 @@ package com.sunlights.op.web.activity;
 import com.sunlights.common.MsgCode;
 import com.sunlights.common.Severity;
 import com.sunlights.common.utils.MessageUtil;
+import com.sunlights.common.utils.RequestUtil;
 import com.sunlights.common.vo.Message;
 import com.sunlights.common.vo.PageVo;
 import com.sunlights.op.common.ActivityType;
@@ -10,6 +11,7 @@ import com.sunlights.op.service.activity.ActivitySceneService;
 import com.sunlights.op.service.activity.impl.ActivitySceneServiceImpl;
 import com.sunlights.op.vo.KeyValueVo;
 import com.sunlights.op.vo.activity.ActivitySceneVo;
+import org.apache.commons.lang3.StringUtils;
 import play.db.jpa.Transactional;
 import play.libs.Json;
 import play.mvc.Controller;
@@ -37,10 +39,10 @@ public class ActivitySceneController extends Controller {
 
     public Result findScenes() {
         PageVo pageVo = new PageVo();
-        Http.RequestBody body = request().body();
+        Http.Request request = request();
 
-        if (body.asJson() != null) {
-            pageVo = Json.fromJson(body.asJson(), PageVo.class);
+        if (!StringUtils.isBlank(request.getHeader("params"))) {
+            pageVo = RequestUtil.getHeaderValue("params", PageVo.class);
         }
 
         List<ActivitySceneVo> sceneVos = activitySceneService.findScenesBy(pageVo);
@@ -86,17 +88,16 @@ public class ActivitySceneController extends Controller {
         return badRequest(messageUtil.toJson());
     }
 
-    public Result deleteScene() {
-        Http.RequestBody body = request().body();
+    public Result deleteScene(Long id) {
 
-        if (body.asJson() != null) {
-            ActivitySceneVo sceneVo = Json.fromJson(body.asJson(), ActivitySceneVo.class);
-            activitySceneService.delete(sceneVo);
-            messageUtil.setMessage(new Message(Severity.INFO, MsgCode.DELETE_SUCCESS));
-            return ok(messageUtil.toJson());
-        }
-        messageUtil.setMessage(new Message(Severity.ERROR, MsgCode.DELETE_FAILURE));
-        return badRequest(messageUtil.toJson());
+        ActivitySceneVo sceneVo = new ActivitySceneVo();
+        sceneVo.setId(id);
+        activitySceneService.delete(sceneVo);
+        messageUtil.setMessage(new Message(Severity.INFO, MsgCode.DELETE_SUCCESS));
+        return ok(messageUtil.toJson());
+
+
+
     }
 
     public Result saveScene() {
