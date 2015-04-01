@@ -4,6 +4,7 @@ package com.sunlights.customer.web;
 import com.sunlights.common.AppConst;
 import com.sunlights.common.MsgCode;
 import com.sunlights.common.Severity;
+import com.sunlights.common.exceptions.BusinessRuntimeException;
 import com.sunlights.common.utils.MessageUtil;
 import com.sunlights.common.vo.Message;
 import com.sunlights.common.vo.MessageHeaderVo;
@@ -95,7 +96,13 @@ public class ActivityController extends ActivityBaseController {
      */
     public Result obtainReward(String scene) {
         //1：获取请求参数
-        String token = getToken();
+        String token = null;
+        try {
+            token = getToken();
+        } catch (BusinessRuntimeException e) {
+            token = null;
+        }
+
         ActivityParamter activityParamter = getActivityParamter();
 
 
