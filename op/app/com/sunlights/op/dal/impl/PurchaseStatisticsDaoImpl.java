@@ -7,6 +7,7 @@ import com.sunlights.common.utils.ConverterUtil;
 import com.sunlights.common.vo.PageVo;
 import com.sunlights.op.dal.PurchaseStatisticsDao;
 import com.sunlights.op.vo.PurchaseStatisticsVo;
+import com.sunlights.op.vo.TradeSummaryVo;
 
 import javax.persistence.Query;
 import java.util.List;
@@ -89,5 +90,45 @@ public class PurchaseStatisticsDaoImpl extends EntityBaseDao implements Purchase
 		List<PurchaseStatisticsVo> purchaseStatisticsVos = ConverterUtil.convert(fields, list, PurchaseStatisticsVo.class);
 
 		return purchaseStatisticsVos;
+	}
+
+	@Override
+	public List<TradeSummaryVo> findTradeSummaryVos (PageVo pageVo) {
+		Object beginTime = pageVo.get("GED_beginTime");
+		if (beginTime != null) {
+			pageVo.put("GED_beginTime", CommonUtil.stringToDateTime(beginTime.toString()));
+		}
+		Object endTime = pageVo.get("LTD_endTime");
+		if (endTime != null) {
+			pageVo.put("LTD_endTime", CommonUtil.stringToDateTime(endTime.toString()));
+		}
+
+		StringBuffer select = new StringBuffer();
+		select.append(" t.summary_date,t.day_in_amount,t.in_amount_total,t.day_out_amount,t.out_amount_total,");
+		select.append(" t.registration_date,t.registration_count,COALESCE(t.registration_total,vr.vw_registration_total) AS registration_total,");
+		select.append(" t.purchase_date,t.in_customer_count,COALESCE(t.total_in_customer_count,vp.vw_total_in_customer_count) AS total_in_customer_count,t.out_customer_count,COALESCE(t.total_out_customer_count,vp.vw_total_out_customer_count) AS total_out_customer_count");
+
+		StringBuffer xsql = new StringBuffer();
+		xsql.append(" SELECT count(1)");
+		xsql.append(" FROM total_trade_summary t");
+		xsql.append(" LEFT JOIN view_total_purchase_customer vp ON t.summary_date = vp.vw_purchase_date");
+		xsql.append(" LEFT JOIN view_total_registration_info vr ON t.summary_date = vr.vw_registration_date");
+		xsql.append(" WHERE 1=1");
+		xsql.append("  /~and t.summary_date >= {beginTime}~/ ");
+		xsql.append("  /~and t.summary_date <= {endTime}~/ ");
+
+		Query query = createNativeQueryByMap(xsql.toString(), pageVo.getFilter());
+		int count = Integer.valueOf(query.getSingleResult().toString());
+		pageVo.setCount(count);
+
+		String querySql = xsql.append(" order by t.trade_date desc").toString().replace("count(1)", select.toString());
+		query = createNativeQueryByMap(querySql, pageVo.getFilter());
+		query.setFirstResult(pageVo.getIndex());
+		query.setMaxResults(pageVo.getPageSize());
+		List list = query.getResultList();
+
+		String fields = "tradeDate,dayInAmount,inAmountTotal,dayOutAmount,outAmountTotal,registrationDate,registrationCount,registrationTotal,purchaseDate,inCustomerCount,totalInCustomerCount,outCustomerCount,totalOutCustomerCount";
+		List<TradeSummaryVo> tradeSummaryVos = ConverterUtil.convert(fields, list, TradeSummaryVo.class);
+		return tradeSummaryVos;
 	}
 }

@@ -1,11 +1,12 @@
 package com.sunlights.op.vo;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
 import models.MessageRuleMapping;
 
 /**
  * Created by Administrator on 2014/12/14.
  */
-
+@JsonInclude(JsonInclude.Include.NON_EMPTY)
 public class MessagePushMappingVo {
     private Long id ;
     private String methodName;

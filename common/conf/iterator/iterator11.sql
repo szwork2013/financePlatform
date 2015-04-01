@@ -491,3 +491,32 @@ CREATE OR REPLACE VIEW view_total_purchase_customer (vw_purchase_date, vw_total_
 
 
 
+
+
+
+
+
+
+
+/*权限脚本*/
+/*
+GRANT ALL ON TABLE view_message_list TO uat_user;
+GRANT ALL ON TABLE f_show_statistics TO uat_user;
+GRANT ALL ON TABLE F_activity_report TO uat_user;
+GRANT ALL ON TABLE t_trade_status_change_info TO uat_user;
+GRANT ALL ON TABLE F_activity_report TO uat_user;
+
+GRANT ALL ON TABLE total_trade_amount TO uat_user;
+GRANT ALL ON TABLE total_registration_info TO uat_user;
+GRANT ALL ON TABLE total_purchase_customer TO uat_user;
+GRANT ALL ON TABLE total_trade_summary TO uat_user;
+GRANT ALL ON TABLE view_total_registration_info TO uat_user;
+GRANT ALL ON TABLE view_total_purchase_customer TO uat_user;
+
+ */--GRANT ALL ON TABLE view_message_list TO uat_user;
+--GRANT ALL ON TABLE f_show_statistics TO uat_user;
+--GRANT ALL ON TABLE F_activity_report TO uat_user;
+--GRANT ALL ON TABLE t_trade_status_change_info TO uat_user;
+
+ALTER TABLE c_share_info ADD COLUMN parent_id INT8;
+ALTER TABLE c_share_info ADD COLUMN ref_id VARCHAR (20);

@@ -16,6 +16,7 @@ import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.text.MessageFormat;
 
+import static play.mvc.Results.badRequest;
 import static play.mvc.Results.ok;
 
 public class Global extends GlobalSettings {
@@ -81,7 +82,7 @@ public class Global extends GlobalSettings {
                 json = MessageUtil.getInstance().msgToJson(new Message(Severity.FATAL, errorCode, errorMessage, errorDetail));
             }
 
-            Result result = ok(json);
+            Result result = badRequest(json);
             Logger.info(">>异常信息：" + json.toString());
             return F.Promise.pure(result);
         }

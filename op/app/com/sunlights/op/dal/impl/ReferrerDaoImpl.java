@@ -27,7 +27,7 @@ public class ReferrerDaoImpl extends EntityBaseDao implements ReferrerDao {
 		xsql.append(" FROM c_customer c");
 		xsql.append(" LEFT JOIN (");
 		xsql.append(" SELECT SUM(t.trade_amount) AS trade_amount,t.cust_id AS cust_id FROM t_trade t WHERE t.type = '")
-				.append(DictConst.TRADE_STATUS_1).append("' GROUP BY t.cust_id");
+				.append(DictConst.TRADE_TYPE_1).append("' GROUP BY t.cust_id");
 		xsql.append(" ) AS t");
 		xsql.append(" ON t.cust_id = c.customer_id");
 		xsql.append(" JOIN c_customer r ON c.recommend_phone = r.mobile");
@@ -73,7 +73,7 @@ public class ReferrerDaoImpl extends EntityBaseDao implements ReferrerDao {
 		xsql.append(" FROM c_customer c");
 		xsql.append(" LEFT JOIN (");
 		xsql.append(" SELECT SUM(t.trade_amount) AS trade_amount,t.cust_id AS cust_id FROM t_trade t WHERE t.type = '")
-				.append(DictConst.TRADE_STATUS_1).append("' GROUP BY t.cust_id");
+				.append(DictConst.TRADE_TYPE_1).append("' GROUP BY t.cust_id");
 		xsql.append(" ) AS t");
 		xsql.append(" ON t.cust_id = c.customer_id");
 		xsql.append(" WHERE 1=1");
@@ -94,7 +94,7 @@ public class ReferrerDaoImpl extends EntityBaseDao implements ReferrerDao {
 		query.setMaxResults(pageVo.getPageSize());
 		List list = query.getResultList();
 
-		String fields = "mobile,realName,createTime,purchaseAmount";
+		String fields = "mobile,realName,registrationDate,purchaseAmount";
 		List<ReferrerDetailVo> referrerDetailVos = ConverterUtil.convert(fields, list, ReferrerDetailVo.class);
 
 		return referrerDetailVos;

@@ -1,5 +1,6 @@
 package com.sunlights.op.vo;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
 import models.P;
 import models.Role;
 import models.User;
@@ -18,6 +19,7 @@ import java.util.List;
  *
  * @author <a href="mailto:zhencai.yuan@sunlights.cc">yuanzhencai</a>
  */
+@JsonInclude(JsonInclude.Include.NON_EMPTY)
 public class UserVo {
 	private Long id;
 	private String username;

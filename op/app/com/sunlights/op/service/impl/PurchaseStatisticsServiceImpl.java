@@ -5,6 +5,7 @@ import com.sunlights.op.dal.PurchaseStatisticsDao;
 import com.sunlights.op.dal.impl.PurchaseStatisticsDaoImpl;
 import com.sunlights.op.service.PurchaseStatisticsService;
 import com.sunlights.op.vo.PurchaseStatisticsVo;
+import com.sunlights.op.vo.TradeSummaryVo;
 
 import java.util.List;
 
@@ -22,5 +23,10 @@ public class PurchaseStatisticsServiceImpl implements PurchaseStatisticsService 
 	@Override
 	public List<PurchaseStatisticsVo> findUnPurchaseVos (PageVo pageVo) {
 		return purchaseStatisticsDao.findUnPurchaseVos(pageVo);
+	}
+
+	@Override
+	public List<TradeSummaryVo> findTradeSummaryVos (PageVo pageVo) {
+		return purchaseStatisticsDao.findTradeSummaryVos(pageVo);
 	}
 }
