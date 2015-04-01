@@ -20,7 +20,7 @@ DELETE        /bank                                @com.sunlights.op.web.BankCon
 GET           /customers                           @com.sunlights.op.web.CustomerController.findCustomersBy()
 PUT           /customer                            @com.sunlights.op.web.CustomerController.saveCustomer()
 GET           /customer/bankcards                  @com.sunlights.op.web.CustomerController.findBankCardsBy()
-GET           /customer/:mobile                    @com.sunlights.op.web.CustomerController.findCustomerByMobile(mobile:String)
+GET           /customer/detail/:mobile             @com.sunlights.op.web.CustomerController.findCustomerByMobile(mobile:String)
 GET           /customer/referrers                  @com.sunlights.op.web.CustomerController.findReferrers()
 GET           /customer/fund/trades                @com.sunlights.op.web.CustomerController.findFundTrades()
 GET           /customer/balance                    @com.sunlights.op.web.CustomerController.findBalance()
