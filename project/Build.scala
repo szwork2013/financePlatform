@@ -38,6 +38,11 @@ object FinancePlatformBuild extends Build {
     .dependsOn(customer)
     .dependsOn(common).enablePlugins(PlayJava)
 
+  lazy val op = Project(id = "op", base = file("op"))
+    .settings(scalaVersion := compileVersion)
+    .dependsOn(customer)
+    .dependsOn(common).enablePlugins(PlayJava)
+
   lazy val financePlatform = Project(id = "financePlatform", base = file("."))
     .dependsOn(common)
     .dependsOn(thirdpart)
@@ -45,7 +50,8 @@ object FinancePlatformBuild extends Build {
     .dependsOn(core)
     .dependsOn(customer)
     .dependsOn(account)
-    .aggregate(common, thirdpart, trade, core, customer, account)
+    .dependsOn(op)
+    .aggregate(common, thirdpart, trade, core, customer, account,op)
     .settings(scalaVersion := compileVersion)
     .enablePlugins(PlayJava)
 }

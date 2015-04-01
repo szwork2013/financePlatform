@@ -100,3 +100,13 @@ select nextval('src'), a.customer_id, 'R' || to_char(current_timestamp, 'YYYYMMD
 (select customer_id,scene,reward_type,reward_amt, money, '0' fundType,create_time from f_reward_flow where operator_type = 1
 union
 select customer_id,scene,reward_type,reward_amt, money, '1' fundType,create_time from f_reward_flow where operator_type = 2 and status = 7) a;
+
+
+
+/*权限脚本*/
+/*
+GRANT ALL ON TABLE c_Authentication TO uat_user;
+GRANT ALL ON TABLE c_version_rule_config TO uat_user;
+GRANT ALL ON TABLE f_reward_account_balance TO uat_user;
+GRANT ALL ON TABLE f_reward_account_details TO uat_user;
+ */
