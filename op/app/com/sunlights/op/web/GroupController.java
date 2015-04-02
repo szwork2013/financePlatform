@@ -6,6 +6,7 @@ import com.sunlights.common.MsgCode;
 import com.sunlights.common.exceptions.ConverterException;
 import com.sunlights.common.utils.ConverterUtil;
 import com.sunlights.common.utils.MessageUtil;
+import com.sunlights.common.utils.RequestUtil;
 import com.sunlights.common.vo.Message;
 import com.sunlights.common.vo.PageVo;
 import com.sunlights.op.service.GroupService;
@@ -75,6 +76,8 @@ public class GroupController extends Controller{
         JsonNode jsonNode = request().body().asJson();
         if (jsonNode != null) {
             groupVo = Json.fromJson(jsonNode, GroupVo.class);
+        }else{
+            groupVo = RequestUtil.fromQueryString(request().queryString(), GroupVo.class);
         }
         try {
             Group group = ConverterUtil.toEntity(new Group(), groupVo);
@@ -88,12 +91,16 @@ public class GroupController extends Controller{
     
     public Result findCustomers(){
         PageVo pageVo = new PageVo();
+        String customerFilter = null;
         JsonNode jsonNode = request().body().asJson();
         if (jsonNode != null) {
             pageVo = Json.fromJson(jsonNode, PageVo.class);
-            List<Customer> list = groupService.findCustomers((String)pageVo.get("customerFilter"), pageVo);
-            pageVo.setList(list);
+        }else{
+            pageVo = RequestUtil.getHeaderValue("params", PageVo.class);
         }
+        customerFilter = (String)pageVo.get("customerFilter");
+        List<Customer> list = groupService.findCustomers(customerFilter, pageVo);
+        pageVo.setList(list);
 
         return ok(MessageUtil.getInstance().msgToJson(new Message(MsgCode.DELETE_SUCCESS), pageVo));
     }

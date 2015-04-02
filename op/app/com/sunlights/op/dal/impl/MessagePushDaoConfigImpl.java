@@ -23,7 +23,7 @@ public class MessagePushDaoConfigImpl extends EntityBaseDao implements MessagePu
         sb.append(" where 1 = 1 and c.status='Y' ");
         sb.append("  /~and c.id = {id}~/ ");
         sb.append("  /~and c.remarks like {remarks}~/ ");
-        sb.append(" order by c.id ");
+        sb.append(" order by c.createTime desc");
 
 
         List<MessagePushConfigVo> messagelist = pageService.findXsqlBy(sb.toString(), pageVo);

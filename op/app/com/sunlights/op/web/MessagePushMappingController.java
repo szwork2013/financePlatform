@@ -1,6 +1,7 @@
 package com.sunlights.op.web;
 
 
+import com.sunlights.common.utils.RequestUtil;
 import com.sunlights.common.vo.PageVo;
 import com.sunlights.op.service.MessagePushMappingService;
 import com.sunlights.op.service.activity.ExchangeSceneService;
@@ -87,15 +88,15 @@ public class MessagePushMappingController extends Controller {
 
 
     public Result deleteMesPushMappingById(){
-
+        MessagePushMappingVo messagePushVos = null;
         Http.RequestBody body = request().body();
         if (body.asJson() != null) {
-            MessagePushMappingVo messagePushVos = Json.fromJson(body.asJson(), MessagePushMappingVo.class);
-            messagePushMappingService.deleteById(Long.valueOf(messagePushVos.getId()));
-            return ok("删除成功");
+            messagePushVos = Json.fromJson(body.asJson(), MessagePushMappingVo.class);
+        }else{
+            messagePushVos = RequestUtil.fromQueryString(request().queryString(), MessagePushMappingVo.class);
         }
-        return ok("删除失败");
-
+        messagePushMappingService.deleteById(Long.valueOf(messagePushVos.getId()));
+        return ok("删除成功");
     }
 
 
