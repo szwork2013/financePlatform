@@ -20,6 +20,7 @@ public class UriFilterMap {
         uris.add("/activity/rule");
         uris.add("/activity/registers/count");
         uris.add("/core/product/index");
+        uris.add("/core/products");
         uris.add("/core/register");
         uris.add("/core/verificationcode");
         uris.add("/core/product/attentions");
