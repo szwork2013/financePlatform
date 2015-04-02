@@ -21,14 +21,16 @@ public class ShortUrlDaoImpl extends EntityBaseDao implements ShortUrlDao {
     }
 
     @Override
-    public ShortUrl getShortUrl(String type, String refId) {
+    public ShortUrl getShortUrl(String type, String refId, String mobile) {
         StringBuilder jpql = new StringBuilder();
         jpql.append("select h from ShortUrl h where 1 =1")
                 .append("/~  and h.shareType  = {shareType} ~/")
-                .append("/~  and h.refId  = {refId} ~/");
+                .append("/~  and h.refId  = {refId} ~/")
+                .append("/~  and h.mobile  = {mobile} ~/");
         Map<String, Object> params = new HashMap<String, Object>();
         params.put("EQS_shareType", type);
         params.put("EQS_refId", refId);
+        params.put("EQS_mobile", mobile);
 
         List<ShortUrl> list = findByMap(jpql.toString(), params);
 

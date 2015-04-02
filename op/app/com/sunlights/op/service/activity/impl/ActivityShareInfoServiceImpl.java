@@ -3,10 +3,12 @@ package com.sunlights.op.service.activity.impl;
 
 import com.google.common.collect.Lists;
 import com.sunlights.common.utils.ConverterUtil;
+import com.sunlights.op.dal.ShortUrlDao;
 import com.sunlights.op.dal.activity.ActivityDao;
 import com.sunlights.op.dal.activity.ActivityShareInfoDao;
 import com.sunlights.op.dal.activity.impl.ActivityDaoImpl;
 import com.sunlights.op.dal.activity.impl.ActivityShareInfoDaoImpl;
+import com.sunlights.op.dal.impl.ShortUrlDaoImpl;
 import com.sunlights.op.service.activity.ActivityShareInfoService;
 import com.sunlights.op.vo.activity.ShareInfoVo;
 import models.Activity;
@@ -21,6 +23,8 @@ import java.util.List;
 public class ActivityShareInfoServiceImpl implements ActivityShareInfoService {
 
     private ActivityShareInfoDao activityShareInfoDao = new ActivityShareInfoDaoImpl();
+
+    private ShortUrlDao shortUrlDao = new ShortUrlDaoImpl();
 
     private ActivityDao activityDao = new ActivityDaoImpl();
 
@@ -56,6 +60,7 @@ public class ActivityShareInfoServiceImpl implements ActivityShareInfoService {
         } catch (Exception e) {
 
         }
+        shortUrlDao.deleteAll();
         return shareInfoVo;
     }
 
@@ -72,11 +77,13 @@ public class ActivityShareInfoServiceImpl implements ActivityShareInfoService {
         } catch (Exception e) {
 
         }
+        shortUrlDao.deleteAll();
         return shareInfoVo;
     }
 
     @Override
     public void remove(Long id) {
+        shortUrlDao.deleteAll();
         activityShareInfoDao.doDelete(id);
     }
 

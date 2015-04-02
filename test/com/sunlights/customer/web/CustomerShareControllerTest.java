@@ -20,8 +20,10 @@ import static play.test.Helpers.contentAsString;
 import static play.test.Helpers.status;
 
 public class CustomerShareControllerTest extends BaseTest {
-    @Before
+    //@Before
     public void getCookie() {
+        //15821948369   111111
+        //13811599307    1
 
         super.startPlay();
         final String mobilePhoneNo = "13811599307";
@@ -33,13 +35,13 @@ public class CustomerShareControllerTest extends BaseTest {
 
 
     //@Test
-    public void testsendFriend() throws Exception {//分享好友
+    public void testShareActivity() throws Exception {//分享活动
 
         Map<String, String> formParams = new HashMap<>();
-        formParams.put("mobilePhoneNo", "13811599307");
-        formParams.put("deviceNo", getDeviceNo());
+        formParams.put("type", "3");
+        formParams.put("id", "435601");
 
-        play.mvc.Result result = getResult("/customer/activity/sharecontent", formParams, cookie);
+        play.mvc.Result result = getResult("/customer/activity/share", formParams, cookie);
 
         Logger.info(contentAsString(result));
         assertThat(status(result)).isEqualTo(OK);
@@ -65,12 +67,12 @@ public class CustomerShareControllerTest extends BaseTest {
 
     @Test
     public void JdjproductShareSucc() throws Exception {//分享好友
-
+        super.startPlay();
         Map<String, String> formParams = new HashMap<>();
         formParams.put("type", "1");
         formParams.put("id", "41921");
 
-        play.mvc.Result result = getResult("/customer/activity/share", formParams, cookie);
+        play.mvc.Result result = getResult("/customer/activity/share", formParams);
 
         Logger.info("result is :" + contentAsString(result));
         assertThat(status(result)).isEqualTo(OK);
@@ -84,7 +86,7 @@ public class CustomerShareControllerTest extends BaseTest {
 
     }
 
-    @Test
+    //@Test
     public void P2pProductShareSucc() throws Exception {//分享好友
 
         Map<String, String> formParams = new HashMap<>();

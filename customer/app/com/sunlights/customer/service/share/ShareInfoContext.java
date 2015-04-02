@@ -22,6 +22,16 @@ public class ShareInfoContext {
 
     private String appId;
 
+    private String mobile;
+
+    public String getMobile() {
+        return mobile;
+    }
+
+    public void setMobile(String mobile) {
+        this.mobile = mobile;
+    }
+
     public String getAppId() {
         return appId;
     }

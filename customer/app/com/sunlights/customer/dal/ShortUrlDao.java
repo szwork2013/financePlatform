@@ -9,5 +9,5 @@ public interface ShortUrlDao {
 
     public void doSave(ShortUrl shortUrl);
 
-    public ShortUrl getShortUrl(String type, String refId);
+    public ShortUrl getShortUrl(String type, String refId, String mobile);
 }

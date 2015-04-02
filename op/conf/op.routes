@@ -93,7 +93,7 @@ POST          /common/uploadImage                  @com.sunlights.op.web.UploadC
 GET           /groups                              @com.sunlights.op.web.GroupController.findGroups
 POST          /group                               @com.sunlights.op.web.GroupController.save
 DELETE        /group                               @com.sunlights.op.web.GroupController.delete
-POST          /group/customers                     @com.sunlights.op.web.GroupController.findCustomers
+GET           /group/customers                     @com.sunlights.op.web.GroupController.findCustomers
 POST          /group/customer                      @com.sunlights.op.web.GroupController.addCustomers
 
 
@@ -112,6 +112,11 @@ PUT           /message/config                      @com.sunlights.op.web.Message
 POST          /message/config                      @com.sunlights.op.web.MessagePushConfigController.createMessagePushConfig
 
 GET           /message/mappings                    @com.sunlights.op.web.MessagePushMappingController.findMessagePushMapping
+POST          /message/mapping                     @com.sunlights.op.web.MessagePushMappingController.saveMessagePushMapping
+DELETE        /message/mapping                     @com.sunlights.op.web.MessagePushMappingController.deleteMesPushMappingById
+GET           /message/mapping/activity            @com.sunlights.op.web.MessagePushMappingController.findActivityIdByScene
+GET           /message/mapping/scene               @com.sunlights.op.web.MessagePushMappingController.getActivityScene
+
 
 #resource
 GET           /resources                           @com.sunlights.op.web.ResourceController.findResources

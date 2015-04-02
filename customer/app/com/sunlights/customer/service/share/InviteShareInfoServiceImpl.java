@@ -12,7 +12,7 @@ import play.Logger;
  * Created by Administrator on 2014/12/17.
  */
 public class InviteShareInfoServiceImpl extends AbstractShareInfoService {
-    private CustomerDao customerDao = new CustomerDaoImpl();
+
 
     @Override
     public void prepareShareInfo(ShareInfoContext context) {
@@ -33,27 +33,13 @@ public class InviteShareInfoServiceImpl extends AbstractShareInfoService {
         Logger.info(">>InviteShareInfoServiceImpl getLongUrl call");
         ShareInfo shareInfo = context.getShareInfo();
         StringBuilder sb = new StringBuilder();
-        String mobile = getMobile(context.getCustNo());
         sb.append(shareInfo.getBaseUrl());
         if (Integer.valueOf(ActivityConstant.ACCOUNT_COMMON_ONE).equals(shareInfo.getRelateRefId())) {
             //sb.append(context.getCommonParamter());
-            sb.append("?mobile=" + mobile);
+            sb.append("?mobile=" + context.getMobile());
         }
         return sb.toString();
     }
 
-    /**
-     * 获得手机号
-     *
-     * @return
-     */
-    private String getMobile(String custNo) {
-        if (StringUtils.isEmpty(custNo)) {
-            return "";
-        }
-        Customer customer = customerDao.getCustomerByCustomerId(custNo);
-        String mobile = customer.getMobile();//获得手机号
-        Logger.debug("获得的手机号为:" + mobile);
-        return mobile;
-    }
+
 }
