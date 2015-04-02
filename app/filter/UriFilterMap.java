@@ -25,6 +25,7 @@ public class UriFilterMap {
         uris.add("/core/product/attentions");
         uris.add("/core/product/detail");
         uris.add("/core/deposit/interest/current");
+		uris.add("/op/");
     }
 
     public static boolean isContain(String uri) {
