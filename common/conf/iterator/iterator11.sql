@@ -527,3 +527,5 @@ GRANT ALL ON TABLE view_total_purchase_customer TO uat_user;
 ALTER TABLE c_share_info ADD COLUMN parent_id INT8;
 ALTER TABLE c_share_info ADD COLUMN ref_id VARCHAR (20);
 ALTER TABLE c_short_url ADD COLUMN mobile VARCHAR (20);
+
+update qrtz_job_details set job_class_name = 'com.sunlights.op.' || job_class_name;
