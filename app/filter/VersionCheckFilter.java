@@ -50,6 +50,11 @@ public class VersionCheckFilter implements EssentialFilter {
 
                 String userAgent = rh.headers().get(AppConst.HEADER_USER_AGENT).get();
 
+                if(StringUtils.isEmpty(userAgent)) {
+                    Logger.debug("userAgent is null");
+                    return next.apply(rh);
+                }
+
                 String clientVersion = CommonUtil.getCurrentVersionFromStr(userAgent);
 
                 String platform = CommonUtil.getCurrentPlatformFromStr(userAgent);
