@@ -76,20 +76,31 @@ public class TaskController extends Controller {
 	}
 
 	public Result findTasks() {
-		PageVo pageVo = new PageVo();
-		Http.Request request = request();
-		if (!StringUtils.isBlank(request.getHeader("params"))) {
-			pageVo = RequestUtil.getHeaderValue("params", PageVo.class);
-		}
-		Http.RequestBody body = request.body();
-		if (body.asJson() != null) {
-			pageVo = Json.fromJson(body.asJson(), PageVo.class);
+		PageVo pageVo = buildPageVo();
+		if(pageVo == null){
+			throw new IllegalArgumentException("page vo cannot be null.");
 		}
 
 		List<JobVo> jobs = taskService.findTasksBy(pageVo);
 		pageVo.setList(jobs);
 		messageUtil.setMessage(new Message(Severity.INFO, MsgCode.OPERATE_SUCCESS), pageVo);
 		return ok(messageUtil.toJson());
+	}
+
+	private PageVo buildPageVo() {
+		PageVo pageVo = null;
+		Http.Request request = request();
+		if (!StringUtils.isBlank(request.getHeader("params"))) {
+			pageVo = RequestUtil.getHeaderValue("params", PageVo.class);
+		}
+
+		if(pageVo == null) {
+			Http.RequestBody body = request.body();
+			if (body.asJson() != null) {
+				pageVo = Json.fromJson(body.asJson(), PageVo.class);
+			}
+		}
+		return pageVo;
 	}
 
 	public Result delete() {
