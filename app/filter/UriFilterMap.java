@@ -19,6 +19,7 @@ public class UriFilterMap {
         uris.add("/activity/isover");
         uris.add("/activity/rule");
         uris.add("/activity/registers/count");
+        uris.add("/account/activity/register");
         uris.add("/core/product/index");
         uris.add("/core/products");
         uris.add("/core/register");

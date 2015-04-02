@@ -99,6 +99,7 @@ public class ActivityController extends ActivityBaseController {
         String token = null;
         try {
             token = getToken();
+            Logger.debug("token == " + token);
         } catch (BusinessRuntimeException e) {
             token = null;
         }
