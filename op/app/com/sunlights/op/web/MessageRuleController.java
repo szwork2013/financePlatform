@@ -103,8 +103,6 @@ public class MessageRuleController extends Controller {
             MessageRuleVo messagePushVo = Json.fromJson(body.asJson(), MessageRuleVo.class);
 
             MessagePushTxn messagePushTxn = new MessagePushTxn();
-            messagePushTxn.setCreateTime(new Date());
-            messagePushTxn.setUpdateTime(new Date());
             messagePushTxn.setMessageRuleId(messagePushVo.getId());
             messagePushTxn.setGroupId(messagePushVo.getGroupid() == null ? 0 : messagePushVo.getGroupid());
             messagePushTxn.setTitle(messagePushVo.getTitle());

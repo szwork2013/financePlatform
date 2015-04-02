@@ -33,7 +33,7 @@ public class MessagePushMappingDaoImpl extends EntityBaseDao implements MessageP
             .append(" on mrp.scene = fs.scene");
         sb.append(" left join f_activity fa on mrp.activity_id = fa.id ");
         sb.append(" and  mrp.status = 'Y'");
-        sb.append(" order by mrp.rule_code ");
+        sb.append(" order by mrp.id desc ");
 
         Logger.info(sb.toString());
 
