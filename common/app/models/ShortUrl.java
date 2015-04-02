@@ -16,6 +16,9 @@ public class ShortUrl extends IdEntity {
     @Column(name = "SHORT_URL")
     private String shortUrl;
 
+    @Column(name = "MOBILE")
+    private String mobile;
+
     @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "CREATE_TIME")
     private Date createTime;
@@ -24,6 +27,14 @@ public class ShortUrl extends IdEntity {
     @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "UPDATE_TIME")
     private Date updateTime;
+
+    public String getMobile() {
+        return mobile;
+    }
+
+    public void setMobile(String mobile) {
+        this.mobile = mobile;
+    }
 
     public String getShareType() {
         return shareType;

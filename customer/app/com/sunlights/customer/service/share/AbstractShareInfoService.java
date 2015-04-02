@@ -1,12 +1,16 @@
 package com.sunlights.customer.service.share;
 
+import com.sunlights.customer.dal.CustomerDao;
 import com.sunlights.customer.dal.ShareInfoDao;
 import com.sunlights.customer.dal.ShortUrlDao;
+import com.sunlights.customer.dal.impl.CustomerDaoImpl;
 import com.sunlights.customer.dal.impl.ShortUrlDaoImpl;
 import com.sunlights.customer.factory.ShareInfoDaoFactory;
 import com.sunlights.customer.vo.ShareInfoVo;
+import models.Customer;
 import models.ShareInfo;
 import models.ShortUrl;
+import org.apache.commons.lang3.StringUtils;
 import play.Logger;
 
 import java.net.URI;
@@ -20,6 +24,7 @@ public abstract class AbstractShareInfoService implements ShareInfoService {
     private ShareInfoDao shareInfoDao = ShareInfoDaoFactory.getShareInfoDao();
     private ShortUrlDao shortUrlDao = new ShortUrlDaoImpl();
     private services.ShortUrlService shortUrlService = new services.ShortUrlService();
+    private CustomerDao customerDao = new CustomerDaoImpl();
 
     @Override
     public ShareInfoVo getShareInfoByType(ShareInfoContext context) {
@@ -48,7 +53,9 @@ public abstract class AbstractShareInfoService implements ShareInfoService {
     }
 
     public String getShortUrl(ShareInfoContext context) {
-        ShortUrl shortUrl = shortUrlDao.getShortUrl(context.getType(), context.getRefId());
+        String mobile = getMobile(context.getCustNo());
+        context.setMobile(mobile);
+        ShortUrl shortUrl = shortUrlDao.getShortUrl(context.getType(), context.getRefId(),mobile);
 
         if(shortUrl != null) {
             return shortUrl.getShortUrl();
@@ -61,13 +68,6 @@ public abstract class AbstractShareInfoService implements ShareInfoService {
         String longUrl = getLongUrl(context);
         Logger.info("longUrl :" + longUrl);
 
-        try {
-            new URI(longUrl);
-            longUrl = URLEncoder.encode(longUrl, "UTF-8");
-        } catch (Exception e) {
-            Logger.error(">>saveURL : ", e);
-        }
-
         String shortUrlStr = shortUrlService.getShortURL(longUrl);
         Logger.info("shortUrlStr :" + shortUrlStr);
 
@@ -75,7 +75,7 @@ public abstract class AbstractShareInfoService implements ShareInfoService {
         shortUrl.setShareType(context.getType());
         shortUrl.setRefId(context.getRefId());
         shortUrl.setShortUrl(shortUrlStr);
-
+        shortUrl.setMobile(context.getMobile());
         shortUrlDao.doSave(shortUrl);
 
         return shortUrlStr;
@@ -105,6 +105,21 @@ public abstract class AbstractShareInfoService implements ShareInfoService {
             }
         }
         return shareInfoParent;
+    }
+
+    /**
+     * 获得手机号
+     *
+     * @return
+     */
+    protected String getMobile(String custNo) {
+        if (StringUtils.isEmpty(custNo)) {
+            return "99999999999";
+        }
+        Customer customer = customerDao.getCustomerByCustomerId(custNo);
+        String mobile = customer.getMobile();//获得手机号
+        Logger.debug("获得的手机号为:" + mobile);
+        return mobile;
     }
 
     public abstract String getLongUrl(ShareInfoContext context);
