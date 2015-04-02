@@ -22,7 +22,7 @@ public class JdjProductShareInfoServiceImpl extends AbstractShareInfoService {
         StringBuilder sb = new StringBuilder();
         sb.append(shareInfo.getBaseUrl());
         String date = CommonUtil.dateToString(new Date(), CommonUtil.DATE_FORMAT_SHORT);
-        sb.append("?code=" + context.getRefId() + "&type=" + context.getType() + "&time=" + date);
+        sb.append("?code=" + context.getRefId() + "&shareType=" + context.getType() + "&time=" + date);
 
         return sb.toString();
     }
