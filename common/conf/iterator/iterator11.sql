@@ -166,7 +166,7 @@ INSERT INTO public.o_role (id, code, name, "DESC", create_time, update_time, del
 VALUES (1, 'system', '管理员角色', '管理员角色', '2015-01-28 13:20:27.567', '2015-01-28 13:20:28.573', FALSE);
 
 INSERT INTO public.o_resource (id, name, code, seq_no, parent_id, type, uri, create_time, update_time, deleted)
-VALUES (1, '首页', 'home', '1', 0, 'menu', NULL, '2015-01-28 13:23:49.902', '2015-01-28 13:23:51.476', FALSE);
+VALUES (1, '首页', 'home', '1', 0, 'menu', 'dashboard.home', '2015-01-28 13:23:49.902', '2015-01-28 13:23:51.476', FALSE);
 INSERT INTO public.o_resource (id, name, code, seq_no, parent_id, type, uri, create_time, update_time, deleted)
 VALUES (2, '系统管理', 'system', '1', 1, 'menu', NULL, '2015-01-28 13:23:49.902', '2015-01-28 13:23:51.476', FALSE);
 INSERT INTO public.o_resource (id, name, code, seq_no, parent_id, type, uri, create_time, update_time, deleted)
