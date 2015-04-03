@@ -3,6 +3,7 @@ package com.sunlights.op.dal.impl;
 import com.sunlights.common.DictConst;
 import com.sunlights.common.dal.EntityBaseDao;
 import com.sunlights.common.utils.ConverterUtil;
+import com.sunlights.common.utils.DBHelper;
 import com.sunlights.common.vo.PageVo;
 import com.sunlights.common.vo.PushMessageVo;
 import com.sunlights.op.dal.MessagePushDao;
@@ -12,7 +13,6 @@ import models.*;
 import play.Logger;
 
 import javax.persistence.Query;
-import java.util.Date;
 import java.util.List;
 
 /**
@@ -32,7 +32,7 @@ public class MessagePushDaoImpl extends EntityBaseDao implements MessagePushDao 
         sb.append( " /~and ru.code = {code} ~/ ");
         sb.append( " group by ru.id,ru.name,ru.code,ru.description,ru.title,ru.content,ru.content_ext,ru.sms_ind,ru.msg_center_ind,ru.push_ind,ru.message_push_config_id,ru.status,ru.stay_day_ind,");
         sb.append( " ru.create_time,ru.update_time,ru.group_id");
-        sb.append( " order by ru.create_time desc");
+        sb.append( " order by ru.create_time desc,ru.id desc");
 
         Query nativeQuery = createNativeQueryByMap(sb.toString(), pageVo.getFilter());
         int first = pageVo.getIndex();
@@ -76,12 +76,12 @@ public class MessagePushDaoImpl extends EntityBaseDao implements MessagePushDao 
     public MessagePushTxn saveMessPushTxn(MessagePushTxn messagePushTxn) {
         List<MessagePushTxn> messagePushTxnList = findBy(MessagePushTxn.class, "messageRuleId", messagePushTxn.getMessageRuleId());
         if(messagePushTxnList.size()>0) {
-            messagePushTxn.setUpdateTime(new Date());
+            messagePushTxn.setUpdateTime(DBHelper.getCurrentTime());
             messagePushTxn.setId(messagePushTxnList.get(0).getId());
             messagePushTxn.setPushStatus(messagePushTxnList.get(0).getPushStatus());
             super.update(messagePushTxn);
         }else{
-            messagePushTxn.setCreateTime(new Date());
+            messagePushTxn.setCreateTime(DBHelper.getCurrentTime());
             messagePushTxn.setPushStatus(DictConst.PUSH_STATUS_2);//待推送
             super.create(messagePushTxn);
         }
