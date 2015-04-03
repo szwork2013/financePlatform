@@ -41,6 +41,7 @@ public class UserVo {
 	private MenuVo menuVo;
 
 	private List<Long> roleIds = new ArrayList<Long>();
+	private List<String> permissions = new ArrayList<String>();
 
 	public UserVo() {
 		super();
@@ -245,5 +246,13 @@ public class UserVo {
 
 	public void setPasswordConfirm (String passwordConfirm) {
 		this.passwordConfirm = passwordConfirm;
+	}
+
+	public List<String> getPermissions () {
+		return permissions;
+	}
+
+	public void setPermissions (List<String> permissions) {
+		this.permissions = permissions;
 	}
 }

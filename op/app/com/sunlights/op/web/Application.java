@@ -16,6 +16,9 @@ import play.mvc.Controller;
 import play.mvc.Http;
 import play.mvc.Result;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLDecoder;
+import java.net.URLEncoder;
 import java.util.Date;
 
 @Transactional
@@ -46,6 +49,7 @@ public class Application extends Controller {
 		}
 
 		UserVo currentUser = loginService.login(userVo);
+		currentUser = loginService.getCurrentUser(currentUser.getUsername());
 		session().clear();
 		session("user", currentUser.getUsername());
 		messageUtil.setMessage(new Message(Severity.INFO, MsgCode.LOGIN_SUCCESS), currentUser);
@@ -57,7 +61,6 @@ public class Application extends Controller {
 		if (StringUtils.isBlank(user)) {
 			messageUtil.setMessage(new Message(Severity.ERROR, MsgCode.LOGIN_TIMEOUT));
 			return badRequest(messageUtil.toJson());
-
 		}
 		UserVo userVo = loginService.getCurrentUser(user);
 		MessageUtil.getInstance().setMessage(new Message(Severity.INFO, MsgCode.CREATE_SUCCESS), userVo);
@@ -71,7 +74,7 @@ public class Application extends Controller {
 		return ok(messageUtil.toJson());
 	}
 
-	public Result resetPassword () {
+	public Result resetPassword() {
 		UserVo userVo = null;
 		Http.RequestBody body = request().body();
 

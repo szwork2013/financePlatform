@@ -80,6 +80,11 @@ public class LoginService {
 
 		List<Resource> resources = getResources(user.getUsername());
 		Logger.info("[resources]" + resources.size());
+		List<String> permissions = new ArrayList<String>();
+		for (Resource resource : resources) {
+			permissions.add(resource.getUri());
+		}
+		userVo.setPermissions(permissions);
 
 		if (!resources.isEmpty()) {
 			MenuVo menuVo = getMenuVo(resources.get(0), resources);
