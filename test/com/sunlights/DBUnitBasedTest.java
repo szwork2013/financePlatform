@@ -236,7 +236,7 @@ public abstract class DBUnitBasedTest extends WithApplication {
     public String getResult(String routes, Map formParams) {
         formParams.put("deviceNo", deviceNo);
         FakeRequest fakeRequest = fakeRequest(POST, routes);
-        setHeader(fakeRequest).withFormUrlEncodedBody(formParams);
+        setRequestHeader(fakeRequest).withFormUrlEncodedBody(formParams);
         Result result = route(fakeRequest);
         Logger.info("result is " + contentAsString(result));
         assertThat(status(result)).isEqualTo(OK);
@@ -252,13 +252,10 @@ public abstract class DBUnitBasedTest extends WithApplication {
     public String getResultWithLogin(String routes, Map formParams) {
         formParams.put("deviceNo", deviceNo);
 
-        updateToken();
-
         FakeRequest fakeRequest = fakeRequest(POST, routes);
-        setHeader(fakeRequest).withFormUrlEncodedBody(formParams);
+        setRequestHeader(fakeRequest).withFormUrlEncodedBody(formParams);
 
-        Http.Cookie cookie = new Http.Cookie("token", token, null, null, null, false, false);
-        fakeRequest.withCookies(cookie);
+        setRequestToken(fakeRequest);
 
         Result result = route(fakeRequest);
         Logger.info("result is " + contentAsString(result));
@@ -266,8 +263,15 @@ public abstract class DBUnitBasedTest extends WithApplication {
         return contentAsString(result);
     }
 
+    public void setRequestToken(FakeRequest fakeRequest){
+        updateToken();
 
-    private FakeRequest setHeader(FakeRequest fakeRequest) {
+        Http.Cookie cookie = new Http.Cookie("token", token, null, null, null, false, false);
+        fakeRequest.withCookies(cookie);
+    }
+
+
+    public FakeRequest setRequestHeader(final FakeRequest fakeRequest) {
         fakeRequest.withHeader(CONTENT_TYPE, "application/x-www-form-urlencoded");
         fakeRequest.withHeader(AppConst.HEADER_USER_AGENT, "Mozilla/5.0 (iPhone; CPU iPhone OS 7_1 like Mac OS X) AppleWebKit/537.51.2 (KHTML, like Gecko) Mobile/11D167\\jindoujialicai\\1.4");
         fakeRequest.withHeader(AppConst.HEADER_DEVICE, deviceNo);

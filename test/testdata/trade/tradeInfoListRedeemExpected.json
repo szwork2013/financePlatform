@@ -7,15 +7,19 @@
         "fields": { }
     },
     "value": {
-        "tradeNo": "20150324201093",
-        "tradeInfoVoList": [
+        "applySerial": "20150324201093",
+        "fundCode": "000907",
+        "tradeAccount": "111111",
+        "list": [
             {
-                "timeInfo": "1~3个交易日后",
-                "desc": "预计取现到银行卡"
+                "time": "2015-03-30 13:13",
+                "desc": "取现申请提交",
+                "completeInd": "Y"
             },
             {
-                "timeInfo": "03-30 13:13",
-                "desc": "取现申请提交"
+                "time": "1~3个交易日后",
+                "desc": "预计取现到银行卡",
+                "completeInd": "N"
             }
         ]
     }

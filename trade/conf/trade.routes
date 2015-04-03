@@ -11,7 +11,7 @@ POST        /traderedeem             @com.sunlights.trade.web.TradeController.tr
 POST        /shumitradeorder         @com.sunlights.trade.web.ShuMiTradeController.tradeOrder
 POST        /shumitraderedeem        @com.sunlights.trade.web.ShuMiTradeController.tradeRedeem
 POST        /quickredeem             @com.sunlights.trade.web.ShuMiTradeController.tradeQuickRedeem
-POST        /tradeinfo               @com.sunlights.trade.web.ShuMiTradeController.tradeInfoList
+GET         /tradeforecast           @com.sunlights.trade.web.ShuMiTradeController.tradeForecast
 
 
 

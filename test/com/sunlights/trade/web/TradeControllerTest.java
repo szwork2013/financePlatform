@@ -1,10 +1,14 @@
 package com.sunlights.trade.web;
 
 import com.sunlights.DBUnitBasedTest;
+import org.apache.http.client.utils.URIBuilder;
 import org.junit.Test;
+import play.mvc.Result;
+import play.test.FakeRequest;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.net.URI;
+
+import static play.test.Helpers.*;
 
 /**
  * <p>Project: financeplatform</p>
@@ -23,29 +27,54 @@ public class TradeControllerTest extends DBUnitBasedTest{
         needRollbackData("c_customer,c_authentication,f_basic_account,c_customer_session,t_trade,t_trade_status_change_info");
     }
 
+
     @Test
-    public void testTradeInfoListRedeem(){
+    public void testTradeInfoListRedeem() throws Exception{
         initData(trade + "tradeInfoListRedeemInit.xml");
 
-        Map<String, String> formParams = new HashMap<>();
-        formParams.put("tradeNo", "20150324201093");
+        URIBuilder uriBuilder = new URIBuilder("/trade/tradeforecast");
+        uriBuilder.addParameter("FundCode", "000907");
+        uriBuilder.addParameter("ApplySerial", "20150324201093");
+        uriBuilder.addParameter("BusinessType", "024");
+        uriBuilder.addParameter("TradeAccount", "111111");
+        uriBuilder.addParameter("Amount", "100");
+        uriBuilder.addParameter("ApplyDateTime", "2015-03-03 10:10:10");
+        uriBuilder.addParameter("Status", "9");
+        URI uri = uriBuilder.build();
 
-        String result = getResultWithLogin("/trade/tradeinfo", formParams);
+        FakeRequest fakeRequest = fakeRequest(GET, uri.toString());
+        setRequestHeader(fakeRequest);
+        setRequestToken(fakeRequest);
+        Result result = route(fakeRequest);
+
+        String resultInfo = contentAsString(result);
         String expected = getJsonFile(trade + "tradeInfoListRedeemExpected.json");
 
-        assertMessage(result, expected);
+        assertMessage(resultInfo, expected);
     }
 
     @Test
-    public void testTradeInfoListPurchase(){
+    public void testTradeInfoListPurchase() throws Exception{
         initData(trade + "tradeInfoListPurchaseInit.xml");
 
-        Map<String, String> formParams = new HashMap<>();
-        formParams.put("tradeNo", "20150324201093");
+        URIBuilder uriBuilder = new URIBuilder("/trade/tradeforecast");
+        uriBuilder.addParameter("FundCode", "000907");
+        uriBuilder.addParameter("ApplySerial", "20150324201093");
+        uriBuilder.addParameter("BusinessType", "022");
+        uriBuilder.addParameter("TradeAccount", "111111");
+        uriBuilder.addParameter("Amount", "100");
+        uriBuilder.addParameter("ApplyDateTime", "2015-03-03 10:10:10");
+        uriBuilder.addParameter("Status", "9");
+        URI uri = uriBuilder.build();
 
-        String result = getResultWithLogin("/trade/tradeinfo", formParams);
+        FakeRequest fakeRequest = fakeRequest(GET, uri.toString());
+        setRequestHeader(fakeRequest);
+        setRequestToken(fakeRequest);
+        Result result = route(fakeRequest);
+
+        String resultInfo = contentAsString(result);
         String expected = getJsonFile(trade + "tradeInfoListPurchaseExpected.json");
 
-        assertMessage(result, expected);
+        assertMessage(resultInfo, expected);
     }
 }

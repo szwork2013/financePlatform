@@ -1,6 +1,7 @@
 package com.sunlights.trade.service;
 
-import com.sunlights.trade.vo.TradeStatusInfoVo;
+import com.sunlights.trade.vo.TradeForecastDetailVo;
+import com.sunlights.trade.vo.TradeForecastFormVo;
 import models.Trade;
 import models.TradeStatusChange;
 
@@ -21,5 +22,5 @@ public interface TradeStatusChangeService {
 
     public TradeStatusChange updateTradeStatusChange(TradeStatusChange tradeStatusChange);
 
-    public List<TradeStatusInfoVo> findTradeStatusChangeList(String tradeNo);
+    public List<TradeForecastDetailVo> findTradeStatusChangeList(TradeForecastFormVo tradeInfoFormVo);
 }

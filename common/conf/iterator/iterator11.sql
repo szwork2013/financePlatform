@@ -105,10 +105,13 @@ create table  t_trade_status_change_info
 (
        Id                INTEGER not null,
        trade_no          VARCHAR(20),
+       product_code      VARCHAR(20),
        trade_time        TIMESTAMP,
-       status_change_time VARCHAR(200),
+       status_change_time VARCHAR(20),
        trade_type        VARCHAR(20),
        status_desc       VARCHAR(50),
+       trade_status      VARCHAR(10),
+       finished_status   VARCHAR(10),
        create_time       TIMESTAMP,
        update_time       TIMESTAMP
 );
@@ -120,8 +123,11 @@ comment on column t_trade_status_change_info.trade_time is '交易时间';
 comment on column t_trade_status_change_info.status_change_time is '状态变更时间';
 comment on column t_trade_status_change_info.trade_type is '交易类型 FP.TRADE.TYPE.1-申购，FP.TRADE.TYPE.2-赎回，FP.TRADE.TYPE.3-分红，';
 comment on column t_trade_status_change_info.status_desc is '状态描述';
+comment on column t_trade_status_change_info.trade_status is '交易状态 1-待确认，2-确认成功，3-确认失败,4-开始收益或取现到账';
+comment on column t_trade_status_change_info.finished_status is '完成状态 Y,N （是否在时间轴上显示完成的状态）';
 comment on column t_trade_status_change_info.create_time is '创建时间';
 comment on column t_trade_status_change_info.update_time is '修改时间';
+comment on column t_trade_status_change_info.product_code is '产品编码';
 
 
 /* done at 2015-02-31*/
@@ -519,10 +525,7 @@ GRANT ALL ON TABLE total_trade_summary TO uat_user;
 GRANT ALL ON TABLE view_total_registration_info TO uat_user;
 GRANT ALL ON TABLE view_total_purchase_customer TO uat_user;
 
- */--GRANT ALL ON TABLE view_message_list TO uat_user;
---GRANT ALL ON TABLE f_show_statistics TO uat_user;
---GRANT ALL ON TABLE F_activity_report TO uat_user;
---GRANT ALL ON TABLE t_trade_status_change_info TO uat_user;
+ */
 
 ALTER TABLE c_share_info ADD COLUMN parent_id INT8;
 ALTER TABLE c_share_info ADD COLUMN ref_id VARCHAR (20);

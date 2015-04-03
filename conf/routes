@@ -23,5 +23,6 @@ GET        /api-docs/account          controllers.ApiHelpController.getResource(
 GET        /api-docs/trade            controllers.ApiHelpController.getResource(path = "/trade")
 GET        /api-docs/core             controllers.ApiHelpController.getResource(path = "/core")
 GET        /api-docs/thirdpart        controllers.ApiHelpController.getResource(path = "/thirdpart")
+GET        /api-docs/op               controllers.ApiHelpController.getResource(path = "/op")
 
 GET        /docs                      controllers.Application.swagger

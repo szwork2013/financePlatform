@@ -8,7 +8,8 @@ import com.sunlights.common.utils.DBHelper;
 import com.sunlights.trade.dal.TradeStatusChangeDao;
 import com.sunlights.trade.dal.impl.TradeStatusChangeDaoImpl;
 import com.sunlights.trade.service.TradeStatusChangeService;
-import com.sunlights.trade.vo.TradeStatusInfoVo;
+import com.sunlights.trade.vo.TradeForecastDetailVo;
+import com.sunlights.trade.vo.TradeForecastFormVo;
 import models.Trade;
 import models.TradeStatusChange;
 import org.joda.time.LocalDate;
@@ -48,8 +49,16 @@ public class TradeStatusChangeServiceImpl implements TradeStatusChangeService {
     }
 
     @Override
-    public List<TradeStatusInfoVo> findTradeStatusChangeList(String tradeNo) {
-        List<TradeStatusInfoVo> tradeStatusInfoVoList = tradeStatusChangeDao.findTradeStatusChangeList(tradeNo);
+    public List<TradeForecastDetailVo> findTradeStatusChangeList(TradeForecastFormVo tradeInfoFormVo) {
+        String tradeNo = tradeInfoFormVo.getApplySerial();
+        String productCode = tradeInfoFormVo.getFundCode();
+        String tradeType = tradeInfoFormVo.getBusinessType();
+        if ("022".equals(tradeType)) {//申购
+            tradeType = DictConst.TRADE_TYPE_1;
+        }else if ("024".equals(tradeType)) {//赎回
+            tradeType = DictConst.TRADE_TYPE_2;
+        }
+        List<TradeForecastDetailVo> tradeStatusInfoVoList = tradeStatusChangeDao.findTradeStatusChangeList(tradeNo, productCode, tradeType);
         return tradeStatusInfoVoList;
     }
 
@@ -60,17 +69,17 @@ public class TradeStatusChangeServiceImpl implements TradeStatusChangeService {
         LocalDate confirmLocalDate = dateCalcService.getEndTradeDate(CommonUtil.dateToString(tradeTime, CommonUtil.DATE_FORMAT_LONG), 1);
         LocalDate earningLocalDate = dateCalcService.getEndTradeDate(CommonUtil.dateToString(tradeTime, CommonUtil.DATE_FORMAT_LONG), 2);
 
-        createTradeStatusChange(trade, CommonUtil.dateToString(tradeTime, CommonUtil.DATE_FORMAT_MM_DD_HH_MM), parameterService.getParameterByName(ParameterConst.TRADE_PURCHASE_APPLY));
-        createTradeStatusChange(trade, confirmLocalDate.toString(CommonUtil.DATE_FORMAT_SHORT), parameterService.getParameterByName(ParameterConst.TRADE_PURCHASE_CONFIRMINCOME));
-        createTradeStatusChange(trade, earningLocalDate.toString(CommonUtil.DATE_FORMAT_SHORT), parameterService.getParameterByName(ParameterConst.TRADE_PURCHASE_SHOWINCOME));
+        createTradeStatusChange(trade, CommonUtil.dateToString(tradeTime, CommonUtil.DATE_FORMAT_YYYY_MM_DD_HH_MM), ParameterConst.TRADE_PURCHASE_APPLY, "1", "Y");
+        createTradeStatusChange(trade, confirmLocalDate.toString(CommonUtil.DATE_FORMAT_SHORT), ParameterConst.TRADE_PURCHASE_CONFIRMINCOME, "2", "N");
+        createTradeStatusChange(trade, earningLocalDate.toString(CommonUtil.DATE_FORMAT_SHORT), ParameterConst.TRADE_PURCHASE_SHOWINCOME, "4", "N");
     }
 
     private void createRedeemTradeStatusChangeInfo(Trade trade){
-        createTradeStatusChange(trade, parameterService.getParameterByName(ParameterConst.TRADE_REDEEM_CONFIRMTIME), parameterService.getParameterByName(ParameterConst.TRADE_REDEEM_CONFIRM));
-        createTradeStatusChange(trade, CommonUtil.dateToString(trade.getTradeTime(), CommonUtil.DATE_FORMAT_MM_DD_HH_MM), parameterService.getParameterByName(ParameterConst.TRADE_REDEEM_APPLY));
+        createTradeStatusChange(trade, CommonUtil.dateToString(trade.getTradeTime(), CommonUtil.DATE_FORMAT_YYYY_MM_DD_HH_MM), ParameterConst.TRADE_REDEEM_APPLY, "1", "Y");
+        createTradeStatusChange(trade, parameterService.getParameterByName(ParameterConst.TRADE_REDEEM_CONFIRMTIME), ParameterConst.TRADE_REDEEM_CONFIRM, "2", "N");
     }
 
-    private void createTradeStatusChange(Trade trade, String statusChangeTime, String statusDesc){
+    private void createTradeStatusChange(Trade trade, String statusChangeTime, String statusName, String tradeStatus, String finishedStatus){
         Date tradeTime = trade.getTradeTime();
         String tradeNo = trade.getTradeNo();
 
@@ -78,7 +87,11 @@ public class TradeStatusChangeServiceImpl implements TradeStatusChangeService {
         tradeStatusChange.setTradeNo(tradeNo);
         tradeStatusChange.setTradeTime(tradeTime);
         tradeStatusChange.setStatusChangeTime(statusChangeTime);
-        tradeStatusChange.setStatusDesc(statusDesc);
+        tradeStatusChange.setStatusDesc(parameterService.getParameterByName(statusName));
+        tradeStatusChange.setTradeStatus(tradeStatus);
+        tradeStatusChange.setTradeType(trade.getType());
+        tradeStatusChange.setProductCode(trade.getProductCode());
+        tradeStatusChange.setFinishedStatus(finishedStatus);
         tradeStatusChange.setCreateTime(DBHelper.getCurrentTime());
 
         tradeStatusChangeDao.createTradeStatusChange(tradeStatusChange);

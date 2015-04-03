@@ -13,17 +13,10 @@ import java.io.Serializable;
  */
 
 
-public class TradeStatusInfoVo implements Serializable{
-    private String timeInfo;
+public class TradeForecastDetailVo implements Serializable{
+    private String time;
     private String desc;
-
-    public String getTimeInfo() {
-        return timeInfo;
-    }
-
-    public void setTimeInfo(String timeInfo) {
-        this.timeInfo = timeInfo;
-    }
+    private String completeInd;
 
     public String getDesc() {
         return desc;
@@ -31,5 +24,21 @@ public class TradeStatusInfoVo implements Serializable{
 
     public void setDesc(String desc) {
         this.desc = desc;
+    }
+
+    public String getTime() {
+        return time;
+    }
+
+    public void setTime(String time) {
+        this.time = time;
+    }
+
+    public String getCompleteInd() {
+        return completeInd;
+    }
+
+    public void setCompleteInd(String completeInd) {
+        this.completeInd = completeInd;
     }
 }

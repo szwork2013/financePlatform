@@ -11,6 +11,7 @@ import cn.jpush.api.push.model.audience.Audience;
 import cn.jpush.api.push.model.notification.IosNotification;
 import cn.jpush.api.push.model.notification.Notification;
 import com.sunlights.common.*;
+import com.sunlights.common.service.CommonService;
 import com.sunlights.common.service.ParameterService;
 import com.sunlights.common.utils.ArithUtil;
 import com.sunlights.common.utils.ConfigUtil;
@@ -33,6 +34,7 @@ import java.util.List;
  * @author <a href="mailto:jiaming.wang@sunlights.cc">wangJiaMing</a>
  */
 public class PushMessageService {
+    private  CommonService commonService = new CommonService();
     private ParameterService parameterService = new ParameterService();
     private static int maxLength = 1000;
 
@@ -122,7 +124,7 @@ public class PushMessageService {
         String platform = pushMessageVo.getPlatform(); //推送平台
         String msgPlatform = pushMessageVo.getCustomerPlatform();
 
-        Logger.info(MessageFormat.format(">>推送配置中的推送平台：{0},当前registerId对应的推送平台：{1}", platform, msgPlatform));
+        Logger.info(MessageFormat.format(">>推送配置中的推送平台：{0},当前registerId对应的推送平台：{1}", commonService.findValueByCatPointKey(platform), msgPlatform));
 
         if (DictConst.PUSH_PLATFORM_IOS.equals(platform)) {
             pushPayload = builderIos(pushMessageVo);
@@ -130,9 +132,9 @@ public class PushMessageService {
             pushPayload = builderAndroid(pushMessageVo);
         } else {
             if (AppConst.PLATFORM_IOS.equals(msgPlatform)) {
-                pushPayload = builderAndroid(pushMessageVo);
-            } else {
                 pushPayload = builderIos(pushMessageVo);
+            } else {
+                pushPayload = builderAndroid(pushMessageVo);
             }
         }
         return pushPayload;

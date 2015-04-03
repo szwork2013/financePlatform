@@ -7,19 +7,24 @@
         "fields": { }
     },
     "value": {
-        "tradeNo": "20150324201093",
-        "tradeInfoVoList": [
+        "applySerial": "20150324201093",
+        "fundCode": "000907",
+        "tradeAccount": "111111",
+        "list": [
             {
-                "timeInfo": "2015-04-01",
-                "desc": "显示收益"
+                "time": "2015-03-30 13:09",
+                "desc": "购买申请提交",
+                "completeInd": "Y"
             },
             {
-                "timeInfo": "03-30 13:09",
-                "desc": "购买申请提交"
+                "time": "2015-03-31",
+                "desc": "确认份额并开始计算收益",
+                "completeInd": "N"
             },
             {
-                "timeInfo": "2015-03-31",
-                "desc": "确认份额并开始计算收益"
+                "time": "2015-04-01",
+                "desc": "显示收益",
+                "completeInd": "N"
             }
         ]
     }

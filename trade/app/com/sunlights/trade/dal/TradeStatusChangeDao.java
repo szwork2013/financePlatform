@@ -1,6 +1,6 @@
 package com.sunlights.trade.dal;
 
-import com.sunlights.trade.vo.TradeStatusInfoVo;
+import com.sunlights.trade.vo.TradeForecastDetailVo;
 import models.TradeStatusChange;
 
 import java.util.List;
@@ -19,6 +19,6 @@ public interface TradeStatusChangeDao {
     public TradeStatusChange createTradeStatusChange(TradeStatusChange tradeStatusChange);
     public TradeStatusChange updateTradeStatusChange(TradeStatusChange tradeStatusChange);
 
-    public List<TradeStatusInfoVo> findTradeStatusChangeList(String tradeNo);
+    public List<TradeForecastDetailVo> findTradeStatusChangeList(String tradeNo, String productCode, String tradeType);
 
 }

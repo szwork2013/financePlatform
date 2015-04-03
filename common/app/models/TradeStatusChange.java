@@ -19,17 +19,21 @@ import javax.persistence.*;
 public class TradeStatusChange extends BaseEntity {
     @Column(length = 20, name = "trade_no")
     private String tradeNo;
-
+    @Column(length = 20, name = "product_code")
+    private String productCode;
     @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "trade_time")
     private Date tradeTime;
     @Column(name = "status_change_time", length = 200)
     private String statusChangeTime;
-
     @Column(length = 20, name = "trade_type")
     private String tradeType;
-    @Column(length = 20, name = "status_desc")
+    @Column(length = 50, name = "status_desc")
     private String statusDesc;
+    @Column(length = 10, name = "trade_status")
+    private String tradeStatus;
+    @Column(length = 10, name = "finished_status")
+    private String finishedStatus;
 
     public String getTradeNo() {
         return tradeNo;
@@ -69,5 +73,29 @@ public class TradeStatusChange extends BaseEntity {
 
     public void setStatusDesc(String statusDesc) {
         this.statusDesc = statusDesc;
+    }
+
+    public String getTradeStatus() {
+        return tradeStatus;
+    }
+
+    public void setTradeStatus(String tradeStatus) {
+        this.tradeStatus = tradeStatus;
+    }
+
+    public String getFinishedStatus() {
+        return finishedStatus;
+    }
+
+    public void setFinishedStatus(String finishedStatus) {
+        this.finishedStatus = finishedStatus;
+    }
+
+    public String getProductCode() {
+        return productCode;
+    }
+
+    public void setProductCode(String productCode) {
+        this.productCode = productCode;
     }
 }

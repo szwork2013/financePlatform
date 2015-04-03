@@ -2,6 +2,7 @@ package com.sunlights.trade.web;
 
 import com.sunlights.common.AppConst;
 import com.sunlights.common.MsgCode;
+import com.sunlights.common.utils.CommonUtil;
 import com.sunlights.common.utils.MessageUtil;
 import com.sunlights.common.vo.Message;
 import com.sunlights.common.vo.MessageHeaderVo;
@@ -17,8 +18,9 @@ import com.sunlights.trade.service.TradeStatusChangeService;
 import com.sunlights.trade.service.impl.ShuMiTradeServiceImpl;
 import com.sunlights.trade.service.impl.TradeStatusChangeServiceImpl;
 import com.sunlights.trade.vo.ShuMiTradeFormVo;
-import com.sunlights.trade.vo.TradeInfoVo;
-import com.sunlights.trade.vo.TradeStatusInfoVo;
+import com.sunlights.trade.vo.TradeForecastDetailVo;
+import com.sunlights.trade.vo.TradeForecastFormVo;
+import com.sunlights.trade.vo.TradeForecastVo;
 import com.wordnik.swagger.annotations.Api;
 import com.wordnik.swagger.annotations.ApiImplicitParam;
 import com.wordnik.swagger.annotations.ApiImplicitParams;
@@ -33,7 +35,6 @@ import play.mvc.Result;
 import play.mvc.With;
 
 import java.util.List;
-import java.util.Map;
 
 import static play.data.Form.form;
 
@@ -143,24 +144,32 @@ public class ShuMiTradeController extends Controller {
     }
 
     @ApiOperation(value = "获取交易收益日期列表",
-            notes = "MessageVo 的value是TradeInfoVo对象", nickname = "tradeinfo",
-            response = MessageVo.class, httpMethod = "POST")
+            notes = "MessageVo 的value是TradeForecastVo对象", nickname = "tradeforecast",
+            response = MessageVo.class, httpMethod = "GET")
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "tradeNo", value = "交易流水号", required = true, paramType = "form"),
+            @ApiImplicitParam(name = "ApplySerial", value = "交易流水号", required = true, paramType = "form"),
+            @ApiImplicitParam(name = "FundCode", value = "产品编码", required = true, paramType = "form"),
+            @ApiImplicitParam(name = "TradeAccount", value = "交易账号", paramType = "form"),
+            @ApiImplicitParam(name = "Amount", value = "交易金额", paramType = "form"),
+            @ApiImplicitParam(name = "ApplyDateTime", value = "交易时间", paramType = "form"),
+            @ApiImplicitParam(name = "Status", value = "交易状态（9待处理）", paramType = "form"),
+            @ApiImplicitParam(name = "BusinessType", value = "交易类型（022充值，024赎回）", required = true, paramType = "form")
     })
-    public Result tradeInfoList() {
+    public Result tradeForecast() {
         Logger.info("----------tradeInfoList start ------------");
-        Map<String, String> params = Form.form().bindFromRequest().data();
+        TradeForecastFormVo tradeInfoFormVo = Form.form(TradeForecastFormVo.class).bindFromRequest().get();
+        Logger.debug(">>tradeInfoList params：" + Json.toJson(tradeInfoFormVo));
 
-        Logger.debug(">>tradeInfoList params：" + Json.toJson(params));
+        CommonUtil.getInstance().validateParams(tradeInfoFormVo.getApplySerial(), tradeInfoFormVo.getFundCode(), tradeInfoFormVo.getBusinessType());
+
         customerService.validateCustomerSession(request(), session(), response());
 
-        String tradeNo = params.get("tradeNo");
-
-        List<TradeStatusInfoVo> tradeStatusInfoVos = tradeStatusChangeService.findTradeStatusChangeList(tradeNo);
-        TradeInfoVo tradeInfo = new TradeInfoVo();
-        tradeInfo.setTradeNo(tradeNo);
-        tradeInfo.setTradeInfoVoList(tradeStatusInfoVos);
+        List<TradeForecastDetailVo> tradeStatusInfoVos = tradeStatusChangeService.findTradeStatusChangeList(tradeInfoFormVo);
+        TradeForecastVo tradeInfo = new TradeForecastVo();
+        tradeInfo.setApplySerial(tradeInfoFormVo.getApplySerial());
+        tradeInfo.setFundCode(tradeInfoFormVo.getFundCode());
+        tradeInfo.setTradeAccount(tradeInfoFormVo.getTradeAccount());
+        tradeInfo.setList(tradeStatusInfoVos);
 
         MessageUtil.getInstance().setMessage(new Message(MsgCode.OPERATE_SUCCESS), tradeInfo);
         Logger.debug(">>tradeInfoList return：" + MessageUtil.getInstance().toJson());
