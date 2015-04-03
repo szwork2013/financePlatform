@@ -166,7 +166,7 @@ INSERT INTO public.o_role (id, code, name, "DESC", create_time, update_time, del
 VALUES (1, 'system', '管理员角色', '管理员角色', '2015-01-28 13:20:27.567', '2015-01-28 13:20:28.573', FALSE);
 
 INSERT INTO public.o_resource (id, name, code, seq_no, parent_id, type, uri, create_time, update_time, deleted)
-VALUES (1, '首页', 'home', '1', 0, 'menu', '/#/dashboard/home', '2015-01-28 13:23:49.902', '2015-01-28 13:23:51.476', FALSE);
+VALUES (1, '首页', 'home', '1', 0, 'menu', 'dashboard/home', '2015-01-28 13:23:49.902', '2015-01-28 13:23:51.476', FALSE);
 INSERT INTO public.o_resource (id, name, code, seq_no, parent_id, type, uri, create_time, update_time, deleted)
 VALUES (2, '系统管理', 'system', '1', 1, 'menu', NULL, '2015-01-28 13:23:49.902', '2015-01-28 13:23:51.476', FALSE);
 INSERT INTO public.o_resource (id, name, code, seq_no, parent_id, type, uri, create_time, update_time, deleted)
@@ -184,56 +184,56 @@ VALUES (8, '银行管理', 'bank', '1', 1, 'menu', NULL, '2015-01-28 13:23:49.90
 
 --system
 INSERT INTO public.o_resource (id, name, code, seq_no, parent_id, type, uri, create_time, update_time, deleted)
-VALUES (9, '定时任务', 'system:job', '1', 2, 'menu', '/#/dashboard/tasks', '2015-01-28 13:23:49.902', '2015-01-28 13:23:51.476', FALSE);
+VALUES (9, '定时任务', 'system:job', '1', 2, 'menu', 'dashboard/tasks', '2015-01-28 13:23:49.902', '2015-01-28 13:23:51.476', FALSE);
 INSERT INTO public.o_resource (id, name, code, seq_no, parent_id, type, uri, create_time, update_time, deleted)
-VALUES (10, '基金公司', 'system:fund:company', '3', 2, 'menu', '/#/dashboard/fundcompanies', '2015-01-28 13:23:49.902', '2015-01-28 13:23:51.476', FALSE);
+VALUES (10, '基金公司', 'system:fund:company', '3', 2, 'menu', 'dashboard/fundcompanies', '2015-01-28 13:23:49.902', '2015-01-28 13:23:51.476', FALSE);
 INSERT INTO public.o_resource (id, name, code, seq_no, parent_id, type, uri, create_time, update_time, deleted)
-VALUES (11, '供应商', 'system:supplier', '4', 2, 'menu', '/#/dashboard/supplier', '2015-01-28 13:23:49.902', '2015-01-28 13:23:51.476', FALSE);
+VALUES (11, '供应商', 'system:supplier', '4', 2, 'menu', 'dashboard/supplier', '2015-01-28 13:23:49.902', '2015-01-28 13:23:51.476', FALSE);
 INSERT INTO public.o_resource (id, name, code, seq_no, parent_id, type, uri, create_time, update_time, deleted)
-VALUES (12, '验证码', 'system:verifyCode', '6', 2, 'menu', '/#/dashboard/verifyCode', '2015-01-28 13:23:49.902', '2015-01-28 13:23:51.476', FALSE);
+VALUES (12, '验证码', 'system:verifyCode', '6', 2, 'menu', 'dashboard/verifyCode', '2015-01-28 13:23:49.902', '2015-01-28 13:23:51.476', FALSE);
 INSERT INTO public.o_resource (id, name, code, seq_no, parent_id, type, uri, create_time, update_time, deleted)
-VALUES (13, '字典表', 'system:dict', '7', 2, 'menu', '/#/dashboard/dict', '2015-01-28 13:23:49.902', '2015-01-28 13:23:51.476', FALSE);
+VALUES (13, '字典表', 'system:dict', '7', 2, 'menu', 'dashboard/dict', '2015-01-28 13:23:49.902', '2015-01-28 13:23:51.476', FALSE);
 INSERT INTO public.o_resource (id, name, code, seq_no, parent_id, type, uri, create_time, update_time, deleted)
-VALUES (14, '参数管理', 'system:dict', '7', 2, 'menu', '/#/dashboard/parameter', '2015-01-28 13:23:49.902', '2015-01-28 13:23:51.476', FALSE);
+VALUES (14, '参数管理', 'system:dict', '7', 2, 'menu', 'dashboard/parameter', '2015-01-28 13:23:49.902', '2015-01-28 13:23:51.476', FALSE);
 
 --message
 INSERT INTO public.o_resource (id, name, code, seq_no, parent_id, type, uri, create_time, update_time, deleted)
-VALUES (15, '短信统计', 'message:sms', '1', 3, 'menu', '/#/dashboard/smsmessage', '2015-01-28 13:23:49.902', '2015-01-28 13:23:51.476', FALSE);
+VALUES (15, '短信统计', 'message:sms', '1', 3, 'menu', 'dashboard/smsmessage', '2015-01-28 13:23:49.902', '2015-01-28 13:23:51.476', FALSE);
 INSERT INTO public.o_resource (id, name, code, seq_no, parent_id, type, uri, create_time, update_time, deleted)
-VALUES (16, '群组管理', 'message:group', '2', 3, 'menu', '/#/dashboard/group', '2015-01-28 13:23:49.902', '2015-01-28 13:23:51.476', FALSE);
+VALUES (16, '群组管理', 'message:group', '2', 3, 'menu', 'dashboard/group', '2015-01-28 13:23:49.902', '2015-01-28 13:23:51.476', FALSE);
 INSERT INTO public.o_resource (id, name, code, seq_no, parent_id, type, uri, create_time, update_time, deleted)
-VALUES (17, '消息规则', 'message:role', '3', 3, 'menu', '/#/dashboard/messagerules', '2015-01-28 13:23:49.902', '2015-01-28 13:23:51.476', FALSE);
+VALUES (17, '消息规则', 'message:role', '3', 3, 'menu', 'dashboard/messagerules', '2015-01-28 13:23:49.902', '2015-01-28 13:23:51.476', FALSE);
 INSERT INTO public.o_resource (id, name, code, seq_no, parent_id, type, uri, create_time, update_time, deleted)
-VALUES (18, '消息推送计划配置', 'message:config', '4', 3, 'menu', '/#/dashboard/messageConfig', '2015-01-28 13:23:49.902', '2015-01-28 13:23:51.476', FALSE);
+VALUES (18, '消息推送计划配置', 'message:config', '4', 3, 'menu', 'dashboard/messageConfig', '2015-01-28 13:23:49.902', '2015-01-28 13:23:51.476', FALSE);
 INSERT INTO public.o_resource (id, name, code, seq_no, parent_id, type, uri, create_time, update_time, deleted)
-VALUES (19, '规则与活动映射管理', 'message:mapping', '5', 3, 'menu', '/#/dashboard/messageMapping', '2015-01-28 13:23:49.902', '2015-01-28 13:23:51.476', FALSE);
+VALUES (19, '规则与活动映射管理', 'message:mapping', '5', 3, 'menu', 'dashboard/messageMapping', '2015-01-28 13:23:49.902', '2015-01-28 13:23:51.476', FALSE);
 
 --product
 INSERT INTO public.o_resource (id, name, code, seq_no, parent_id, type, uri, create_time, update_time, deleted)
-VALUES (20, '产品信息', 'product:management', '1', 4, 'menu', '/#/dashboard/product', '2015-01-28 13:23:49.902', '2015-01-28 13:23:51.476', FALSE);
+VALUES (20, '产品信息', 'product:management', '1', 4, 'menu', 'dashboard/product', '2015-01-28 13:23:49.902', '2015-01-28 13:23:51.476', FALSE);
 INSERT INTO public.o_resource (id, name, code, seq_no, parent_id, type, uri, create_time, update_time, deleted)
-VALUES (21, '基金信息', 'product:fund', '2', 4, 'menu', '/#/dashboard/fund', '2015-01-28 13:23:49.902', '2015-01-28 13:23:51.476', FALSE);
+VALUES (21, '基金信息', 'product:fund', '2', 4, 'menu', 'dashboard/fund', '2015-01-28 13:23:49.902', '2015-01-28 13:23:51.476', FALSE);
 
 
 --feedback
 INSERT INTO public.o_resource (id, name, code, seq_no, parent_id, type, uri, create_time, update_time, deleted)
-VALUES (22, '反馈', 'feedback:index', '1', 7, 'menu', '/#/dashboard/feedback', '2015-01-28 13:23:49.902', '2015-01-28 13:23:51.476', FALSE);
+VALUES (22, '反馈', 'feedback:index', '1', 7, 'menu', 'dashboard/feedback', '2015-01-28 13:23:49.902', '2015-01-28 13:23:51.476', FALSE);
 INSERT INTO public.o_resource (id, name, code, seq_no, parent_id, type, uri, create_time, update_time, deleted)
-VALUES (23, '问题', 'feedback:question', '2', 7, 'menu', '/#/dashboard/question', '2015-01-28 13:23:49.902', '2015-01-28 13:23:51.476', FALSE);
+VALUES (23, '问题', 'feedback:question', '2', 7, 'menu', 'dashboard/question', '2015-01-28 13:23:49.902', '2015-01-28 13:23:51.476', FALSE);
 
 --bank
 INSERT INTO public.o_resource (id, name, code, seq_no, parent_id, type, uri, create_time, update_time, deleted)
-VALUES (24, '银行管理', 'bank:manage', '1', 8, 'menu', '/#/dashboard/bank', '2015-01-28 13:23:49.902', '2015-01-28 13:23:51.476', FALSE);
+VALUES (24, '银行管理', 'bank:manage', '1', 8, 'menu', 'dashboard/bank', '2015-01-28 13:23:49.902', '2015-01-28 13:23:51.476', FALSE);
 INSERT INTO public.o_resource (id, name, code, seq_no, parent_id, type, uri, create_time, update_time, deleted)
-VALUES (25, '银行活期', 'bank:deposit', '2', 8, 'menu', '/#/dashboard/deposit', '2015-01-28 13:23:49.902', '2015-01-28 13:23:51.476', FALSE);
+VALUES (25, '银行活期', 'bank:deposit', '2', 8, 'menu', 'dashboard/deposit', '2015-01-28 13:23:49.902', '2015-01-28 13:23:51.476', FALSE);
 
 --authority
 INSERT INTO public.o_resource (id, name, code, seq_no, parent_id, type, uri, create_time, update_time, deleted)
-VALUES (26, '用户管理', 'authority:user', '1', 6, 'menu', '/#/dashboard/user', '2015-01-28 13:23:49.902', '2015-01-28 13:23:51.476', FALSE);
+VALUES (26, '用户管理', 'authority:user', '1', 6, 'menu', 'dashboard/user', '2015-01-28 13:23:49.902', '2015-01-28 13:23:51.476', FALSE);
 INSERT INTO public.o_resource (id, name, code, seq_no, parent_id, type, uri, create_time, update_time, deleted)
-VALUES (27, '角色管理', 'authority:role', '2', 6, 'menu', '/#/dashboard/role', '2015-01-28 13:23:49.902', '2015-01-28 13:23:51.476', FALSE);
+VALUES (27, '角色管理', 'authority:role', '2', 6, 'menu', 'dashboard/role', '2015-01-28 13:23:49.902', '2015-01-28 13:23:51.476', FALSE);
 INSERT INTO public.o_resource (id, name, code, seq_no, parent_id, type, uri, create_time, update_time, deleted)
-VALUES (28, '资源管理', 'authority:resource', '2', 6, 'menu', '/#/dashboard/resource', '2015-01-28 13:23:49.902', '2015-01-28 13:23:51.476', FALSE);
+VALUES (28, '资源管理', 'authority:resource', '2', 6, 'menu', 'dashboard/resource', '2015-01-28 13:23:49.902', '2015-01-28 13:23:51.476', FALSE);
 
 
 INSERT INTO public.o_role_resource (id, role_id, resource_id, create_time, update_time, deleted)
@@ -300,65 +300,65 @@ VALUES (1, 1, 1, '2015-01-28 15:05:48.918', '2015-01-28 15:05:50.854', FALSE);
 
 --activity
 INSERT INTO public.o_resource (id, name, code, seq_no, parent_id, type, uri, create_time, update_time, deleted)
-VALUES (29, '红包取现兑换结果', 'activity:red', '7', 5, 'menu', '/#/dashboard/exchange', '2015-01-28 13:23:49.902', '2015-01-28 13:23:51.476', FALSE);
+VALUES (29, '红包取现兑换结果', 'activity:red', '7', 5, 'menu', 'dashboard/exchange', '2015-01-28 13:23:49.902', '2015-01-28 13:23:51.476', FALSE);
 INSERT INTO public.o_role_resource (id, role_id, resource_id, create_time, update_time, deleted)
 VALUES (29, 1, 29, '2015-01-28 14:54:40.570', '2015-01-28 14:54:41.312', FALSE);
 
 INSERT INTO public.o_resource (id, name, code, seq_no, parent_id, type, uri, create_time, update_time, deleted)
-VALUES (35, '活动场景', 'activity:scene', '1', 5, 'menu', '/#/dashboard/scene', '2015-01-28 13:23:49.902', '2015-01-28 13:23:51.476', FALSE);
+VALUES (35, '活动场景', 'activity:scene', '1', 5, 'menu', 'dashboard/scene', '2015-01-28 13:23:49.902', '2015-01-28 13:23:51.476', FALSE);
 INSERT INTO public.o_role_resource (id, role_id, resource_id, create_time, update_time, deleted)
 VALUES (35, 1, 35, '2015-01-28 14:54:40.570', '2015-01-28 14:54:41.312', FALSE);
 
 INSERT INTO public.o_resource (id, name, code, seq_no, parent_id, type, uri, create_time, update_time, deleted)
-VALUES (36, '奖励类型', 'activity:rewardType', '2', 5, 'menu', '/#/dashboard/rewardType', '2015-01-28 13:23:49.902', '2015-01-28 13:23:51.476', FALSE);
+VALUES (36, '奖励类型', 'activity:rewardType', '2', 5, 'menu', 'dashboard/rewardType', '2015-01-28 13:23:49.902', '2015-01-28 13:23:51.476', FALSE);
 INSERT INTO public.o_role_resource (id, role_id, resource_id, create_time, update_time, deleted)
 VALUES (36, 1, 36, '2015-01-28 14:54:40.570', '2015-01-28 14:54:41.312', FALSE);
 
 INSERT INTO public.o_resource (id, name, code, seq_no, parent_id, type, uri, create_time, update_time, deleted)
-VALUES (37, '分享信息', 'activity:share', '3', 5, 'menu', '/#/dashboard/share', '2015-01-28 13:23:49.902', '2015-01-28 13:23:51.476', FALSE);
+VALUES (37, '分享信息', 'activity:share', '3', 5, 'menu', 'dashboard/share', '2015-01-28 13:23:49.902', '2015-01-28 13:23:51.476', FALSE);
 INSERT INTO public.o_role_resource (id, role_id, resource_id, create_time, update_time, deleted)
 VALUES (37, 1, 37, '2015-01-28 14:54:40.570', '2015-01-28 14:54:41.312', FALSE);
 
 INSERT INTO public.o_resource (id, name, code, seq_no, parent_id, type, uri, create_time, update_time, deleted)
-VALUES (38, '活动列表', 'activity:list', '4', 5, 'menu', '/#/dashboard/activity/list', '2015-01-28 13:23:49.902', '2015-01-28 13:23:51.476', FALSE);
+VALUES (38, '活动列表', 'activity:list', '4', 5, 'menu', 'dashboard/activity/list', '2015-01-28 13:23:49.902', '2015-01-28 13:23:51.476', FALSE);
 INSERT INTO public.o_role_resource (id, role_id, resource_id, create_time, update_time, deleted)
 VALUES (38, 1, 38, '2015-01-28 14:54:40.570', '2015-01-28 14:54:41.312', FALSE);
 
 INSERT INTO public.o_resource (id, name, code, seq_no, parent_id, type, uri, create_time, update_time, deleted)
-VALUES (39, '兑换场景', 'activity:exchangescene', '5', 5, 'menu', '/#/dashboard/exchangeScene', '2015-01-28 13:23:49.902', '2015-01-28 13:23:51.476', FALSE);
+VALUES (39, '兑换场景', 'activity:exchangescene', '5', 5, 'menu', 'dashboard/exchangeScene', '2015-01-28 13:23:49.902', '2015-01-28 13:23:51.476', FALSE);
 INSERT INTO public.o_role_resource (id, role_id, resource_id, create_time, update_time, deleted)
 VALUES (39, 1, 39, '2015-01-28 14:54:40.570', '2015-01-28 14:54:41.312', FALSE);
 
 INSERT INTO public.o_resource (id, name, code, seq_no, parent_id, type, uri, create_time, update_time, deleted)
-VALUES (40, '金豆取现管理', 'activity:exchangebean', '6', 5, 'menu', '/#/dashboard/exchangebean', '2015-01-28 13:23:49.902', '2015-01-28 13:23:51.476', FALSE);
+VALUES (40, '金豆取现管理', 'activity:exchangebean', '6', 5, 'menu', 'dashboard/exchangebean', '2015-01-28 13:23:49.902', '2015-01-28 13:23:51.476', FALSE);
 INSERT INTO public.o_role_resource (id, role_id, resource_id, create_time, update_time, deleted)
 VALUES (40, 1, 40, '2015-01-28 14:54:40.570', '2015-01-28 14:54:41.312', FALSE);
 
 INSERT INTO public.o_resource (id, name, code, seq_no, parent_id, type, uri, create_time, update_time, deleted)
-VALUES (41, '活动错误信息', 'activity:errorMsg', '8', 5, 'menu', '/#/dashboard/activityReturnMsgMgr', '2015-01-28 13:23:49.902', '2015-01-28 13:23:51.476', FALSE);
+VALUES (41, '活动错误信息', 'activity:errorMsg', '8', 5, 'menu', 'dashboard/activityReturnMsgMgr', '2015-01-28 13:23:49.902', '2015-01-28 13:23:51.476', FALSE);
 INSERT INTO public.o_role_resource (id, role_id, resource_id, create_time, update_time, deleted)
 VALUES (41, 1, 41, '2015-01-28 14:54:40.570', '2015-01-28 14:54:41.312', FALSE);
 
 
 --statistics
-INSERT INTO public.o_resource (id, name, code, seq_no, parent_id, type, uri, create_time, update_time, deleted) VALUES (34, '汇总统计', 'statistics:summary', '1', 30, 'menu', '/#/dashboard/statistics/summary', '2015-01-28 13:23:49.902', '2015-01-28 13:23:51.476',FALSE);
+INSERT INTO public.o_resource (id, name, code, seq_no, parent_id, type, uri, create_time, update_time, deleted) VALUES (34, '汇总统计', 'statistics:summary', '1', 30, 'menu', 'dashboard/statistics/summary', '2015-01-28 13:23:49.902', '2015-01-28 13:23:51.476',FALSE);
 INSERT INTO public.o_role_resource (id, role_id, resource_id, create_time, update_time, deleted) VALUES (34, 1, 34, '2015-01-28 14:54:40.570', '2015-01-28 14:54:41.312', FALSE);
 
 INSERT INTO public.o_resource (id, name, code, seq_no, parent_id, type, uri, create_time, update_time, deleted) VALUES (30, '统计管理', 'statistics', '1', 1, 'menu', NULL, '2015-01-28 13:23:49.902', '2015-01-28 13:23:51.476', FALSE);
-INSERT INTO public.o_resource (id, name, code, seq_no, parent_id, type, uri, create_time, update_time, deleted) VALUES (31, '推荐人', 'statistics:referrer', '2', 30, 'menu', '/#/dashboard/referrer', '2015-01-28 13:23:49.902', '2015-01-28 13:23:51.476', FALSE);
+INSERT INTO public.o_resource (id, name, code, seq_no, parent_id, type, uri, create_time, update_time, deleted) VALUES (31, '推荐人', 'statistics:referrer', '2', 30, 'menu', 'dashboard/referrer', '2015-01-28 13:23:49.902', '2015-01-28 13:23:51.476', FALSE);
 
 INSERT INTO public.o_role_resource (id, role_id, resource_id, create_time, update_time, deleted) VALUES (30, 1, 30, '2015-01-28 14:54:40.570', '2015-01-28 14:54:41.312', FALSE);
 INSERT INTO public.o_role_resource (id, role_id, resource_id, create_time, update_time, deleted) VALUES (31, 1, 31, '2015-01-28 14:54:40.570', '2015-01-28 14:54:41.312', FALSE);
 
-INSERT INTO public.o_resource (id, name, code, seq_no, parent_id, type, uri, create_time, update_time, deleted) VALUES (32, '首次购买明细', 'statistics:purchase', '3', 30, 'menu', '/#/dashboard/statistics/purchase', '2015-01-28 13:23:49.902', '2015-01-28 13:23:51.476', FALSE);
+INSERT INTO public.o_resource (id, name, code, seq_no, parent_id, type, uri, create_time, update_time, deleted) VALUES (32, '首次购买明细', 'statistics:purchase', '3', 30, 'menu', 'dashboard/statistics/purchase', '2015-01-28 13:23:49.902', '2015-01-28 13:23:51.476', FALSE);
 INSERT INTO public.o_role_resource (id, role_id, resource_id, create_time, update_time, deleted) VALUES (32, 1, 32, '2015-01-28 14:54:40.570', '2015-01-28 14:54:41.312', FALSE);
 
-INSERT INTO public.o_resource (id, name, code, seq_no, parent_id, type, uri, create_time, update_time, deleted) VALUES (33, '注册未购买', 'statistics:unpurchase', '4', 30, 'menu', '/#/dashboard/statistics/unpurchase', '2015-01-28 13:23:49.902', '2015-01-28 13:23:51.476',FALSE);
+INSERT INTO public.o_resource (id, name, code, seq_no, parent_id, type, uri, create_time, update_time, deleted) VALUES (33, '注册未购买', 'statistics:unpurchase', '4', 30, 'menu', 'dashboard/statistics/unpurchase', '2015-01-28 13:23:49.902', '2015-01-28 13:23:51.476',FALSE);
 INSERT INTO public.o_role_resource (id, role_id, resource_id, create_time, update_time, deleted) VALUES (33, 1, 33, '2015-01-28 14:54:40.570', '2015-01-28 14:54:41.312', FALSE);
 
 --customer
 INSERT INTO public.o_resource (id, name, code, seq_no, parent_id, type, uri, create_time, update_time, deleted) VALUES (42, '客户管理', 'customer', '1', 1, 'menu', null, '2015-01-28 13:23:49.902', '2015-01-28 13:23:51.476',FALSE);
-INSERT INTO public.o_resource (id, name, code, seq_no, parent_id, type, uri, create_time, update_time, deleted) VALUES (43, '客户基本信息', 'customer:index', '1', 42, 'menu', '/#/dashboard/customer', '2015-01-28 13:23:49.902', '2015-01-28 13:23:51.476',FALSE);
+INSERT INTO public.o_resource (id, name, code, seq_no, parent_id, type, uri, create_time, update_time, deleted) VALUES (43, '客户基本信息', 'customer:index', '1', 42, 'menu', 'dashboard/customer', '2015-01-28 13:23:49.902', '2015-01-28 13:23:51.476',FALSE);
 INSERT INTO public.o_role_resource (id, role_id, resource_id, create_time, update_time, deleted) VALUES (42, 1, 42, '2015-01-28 14:54:40.570', '2015-01-28 14:54:41.312', FALSE);
 INSERT INTO public.o_role_resource (id, role_id, resource_id, create_time, update_time, deleted) VALUES (43, 1, 43, '2015-01-28 14:54:40.570', '2015-01-28 14:54:41.312', FALSE);
 
