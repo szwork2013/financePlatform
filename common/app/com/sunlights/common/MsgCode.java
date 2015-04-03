@@ -23,6 +23,7 @@ public enum MsgCode {
     PARAM_IS_NOT_NUMBER("2004", "参数不是数字类型", "参数编码：{0}"),
     HEADER_IS_EMPTY("2020", "header中{0}不能为空", ""),
     CONNECT_TIMEOUT("2021", "连接超时", "请重新再试"),
+    DATETIME_FORMAT("2022", "时间格式不正确", ""),
 
     NOT_SUPPORT_PLATFORM("3000", "不支持的平台", "不支持的平台"),
 

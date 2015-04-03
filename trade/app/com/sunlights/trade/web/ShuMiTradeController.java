@@ -1,6 +1,7 @@
 package com.sunlights.trade.web;
 
 import com.sunlights.common.AppConst;
+import com.sunlights.common.DictConst;
 import com.sunlights.common.MsgCode;
 import com.sunlights.common.utils.CommonUtil;
 import com.sunlights.common.utils.MessageUtil;
@@ -151,7 +152,7 @@ public class ShuMiTradeController extends Controller {
             @ApiImplicitParam(name = "FundCode", value = "产品编码", required = true, paramType = "form"),
             @ApiImplicitParam(name = "TradeAccount", value = "交易账号", paramType = "form"),
             @ApiImplicitParam(name = "Amount", value = "交易金额", paramType = "form"),
-            @ApiImplicitParam(name = "ApplyDateTime", value = "交易时间", paramType = "form"),
+            @ApiImplicitParam(name = "ApplyDateTime", value = "交易时间(yyyy-MM-dd HH:mm:ss)", required = true, paramType = "form"),
             @ApiImplicitParam(name = "Status", value = "交易状态（9待处理）", paramType = "form"),
             @ApiImplicitParam(name = "BusinessType", value = "交易类型（022充值，024赎回）", required = true, paramType = "form")
     })
@@ -160,9 +161,15 @@ public class ShuMiTradeController extends Controller {
         TradeForecastFormVo tradeInfoFormVo = Form.form(TradeForecastFormVo.class).bindFromRequest().get();
         Logger.debug(">>tradeInfoList params：" + Json.toJson(tradeInfoFormVo));
 
-        CommonUtil.getInstance().validateParams(tradeInfoFormVo.getApplySerial(), tradeInfoFormVo.getFundCode(), tradeInfoFormVo.getBusinessType());
+        CommonUtil.getInstance().validateParams(tradeInfoFormVo.getApplySerial(), tradeInfoFormVo.getFundCode(), tradeInfoFormVo.getBusinessType(), tradeInfoFormVo.getApplyDateTime());
 
         customerService.validateCustomerSession(request(), session(), response());
+
+        if ("022".equals(tradeInfoFormVo.getBusinessType())) {//申购
+            tradeInfoFormVo.setBusinessType(DictConst.TRADE_TYPE_1);
+        }else if ("024".equals(tradeInfoFormVo.getBusinessType())) {//赎回
+            tradeInfoFormVo.setBusinessType(DictConst.TRADE_TYPE_2);
+        }
 
         List<TradeForecastDetailVo> tradeStatusInfoVos = tradeStatusChangeService.findTradeStatusChangeList(tradeInfoFormVo);
         TradeForecastVo tradeInfo = new TradeForecastVo();

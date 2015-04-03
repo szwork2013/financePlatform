@@ -1,6 +1,7 @@
 package com.sunlights.trade.vo;
 
 import java.io.Serializable;
+import java.util.Date;
 
 /**
  * <p>Project: financeplatform</p>
@@ -19,6 +20,9 @@ public class TradeForecastFormVo implements Serializable {
     private String ApplyDateTime;
     private String Status;// 9 （待处理）
     private String BusinessType;//022(充值)，024（赎回）
+    
+    
+    private Date tradeTime;
 
     public String getFundCode() {
         return FundCode;
@@ -74,5 +78,13 @@ public class TradeForecastFormVo implements Serializable {
 
     public void setBusinessType(String businessType) {
         BusinessType = businessType;
+    }
+
+    public Date getTradeTime() {
+        return tradeTime;
+    }
+
+    public void setTradeTime(Date tradeTime) {
+        this.tradeTime = tradeTime;
     }
 }
