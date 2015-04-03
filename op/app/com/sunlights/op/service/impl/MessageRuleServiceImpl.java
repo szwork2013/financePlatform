@@ -138,7 +138,7 @@ public class MessageRuleServiceImpl implements MessageRuleService {
                 newPushMessageVo.setBadge(badge + 1);
                 registrationIdList.add(messagePushSettingVo.getRegistrationId());
                 newPushMessageVo.setRegistrationIdList(registrationIdList);
-
+                newPushMessageVo.setCustomerPlatform(messagePushSettingVo.getPlatform());
                 returnList.add(newPushMessageVo);
 
             } catch (Exception e) {
