@@ -19,6 +19,7 @@ public class MessagePushSettingVo implements Serializable{
     private String deviceNo;
     private String loginStatus;
     private String customerId;
+    private String platform;
 
     public String getRegistrationId() {
         return registrationId;
@@ -50,5 +51,13 @@ public class MessagePushSettingVo implements Serializable{
 
     public void setLoginStatus(String loginStatus) {
         this.loginStatus = loginStatus;
+    }
+
+    public String getPlatform() {
+        return platform;
+    }
+
+    public void setPlatform(String platform) {
+        this.platform = platform;
     }
 }
