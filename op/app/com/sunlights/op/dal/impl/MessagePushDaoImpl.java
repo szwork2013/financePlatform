@@ -76,9 +76,8 @@ public class MessagePushDaoImpl extends EntityBaseDao implements MessagePushDao 
     public MessagePushTxn saveMessPushTxn(MessagePushTxn messagePushTxn) {
         List<MessagePushTxn> messagePushTxnList = findBy(MessagePushTxn.class, "messageRuleId", messagePushTxn.getMessageRuleId());
         if(messagePushTxnList.size()>0) {
+            messagePushTxn = messagePushTxnList.get(0);
             messagePushTxn.setUpdateTime(DBHelper.getCurrentTime());
-            messagePushTxn.setId(messagePushTxnList.get(0).getId());
-            messagePushTxn.setPushStatus(messagePushTxnList.get(0).getPushStatus());
             super.update(messagePushTxn);
         }else{
             messagePushTxn.setCreateTime(DBHelper.getCurrentTime());
@@ -189,7 +188,7 @@ public class MessagePushDaoImpl extends EntityBaseDao implements MessagePushDao 
 
     @Override
     public List<MessagePushSettingVo> findCustomerMsgSettingList() {
-        String sql = " SELECT distinct c.registration_id, c.device_no,c.customer_id, " +
+        String sql = " SELECT distinct c.registration_id, c.device_no,c.customer_id,c.platform, " +
                      "        CASE WHEN ( " +
                      "              SELECT cs.status " +
                      "                FROM c_customer_session cs " +
@@ -204,13 +203,13 @@ public class MessagePushDaoImpl extends EntityBaseDao implements MessagePushDao 
                      "   and c.registration_id is not null";
 
         Query query = em.createNativeQuery(sql);
-        String keys = "registrationId,deviceNo,customerId,loginStatus";
+        String keys = "registrationId,deviceNo,customerId,platform,loginStatus";
         return ConverterUtil.convert(keys, query.getResultList(), MessagePushSettingVo.class);
     }
 
     @Override
     public List<MessagePushSettingVo> findCustomerMsgSettingListByGroupId(Long groupId) {
-        String sql = " SELECT distinct c.registration_id, c.device_no,c.customer_id, " +
+        String sql = " SELECT distinct c.registration_id, c.device_no,c.customer_id,c.platform, " +
                 "        CASE WHEN ( " +
                 "              SELECT cs.status " +
                 "                FROM c_customer_session cs " +
@@ -230,12 +229,12 @@ public class MessagePushDaoImpl extends EntityBaseDao implements MessagePushDao 
 
         Query query = em.createNativeQuery(sql);
         query.setParameter("groupId", groupId);
-        String keys = "registrationId,deviceNo,customerId,loginStatus";
+        String keys = "registrationId,deviceNo,customerId,platform,loginStatus";
         return ConverterUtil.convert(keys, query.getResultList(), MessagePushSettingVo.class);
     }
 
     public List<MessagePushSettingVo> findCustomerMsgSettingListByCustomerId(String customerId){
-        String sql = " SELECT distinct c.registration_id, c.device_no,c.customer_id, " +
+        String sql = " SELECT distinct c.registration_id, c.device_no,c.customer_id,c.platform, " +
                 "        CASE WHEN ( " +
                 "              SELECT cs.status " +
                 "                FROM c_customer_session cs " +
@@ -252,7 +251,7 @@ public class MessagePushDaoImpl extends EntityBaseDao implements MessagePushDao 
 
         Query query = em.createNativeQuery(sql);
         query.setParameter("customerId", customerId);
-        String keys = "registrationId,deviceNo,customerId,loginStatus";
+        String keys = "registrationId,deviceNo,customerId,platform,loginStatus";
         return ConverterUtil.convert(keys, query.getResultList(), MessagePushSettingVo.class);
     }
 
