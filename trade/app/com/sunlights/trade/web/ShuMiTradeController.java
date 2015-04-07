@@ -171,12 +171,14 @@ public class ShuMiTradeController extends Controller {
             tradeInfoFormVo.setBusinessType(DictConst.TRADE_TYPE_2);
         }
 
-        List<TradeForecastDetailVo> tradeStatusInfoVos = tradeStatusChangeService.findTradeStatusChangeList(tradeInfoFormVo);
         TradeForecastVo tradeInfo = new TradeForecastVo();
         tradeInfo.setApplySerial(tradeInfoFormVo.getApplySerial());
         tradeInfo.setFundCode(tradeInfoFormVo.getFundCode());
         tradeInfo.setTradeAccount(tradeInfoFormVo.getTradeAccount());
-        tradeInfo.setList(tradeStatusInfoVos);
+        if ("9".equals(tradeInfoFormVo.getStatus())) {
+            List<TradeForecastDetailVo> tradeStatusInfoVos = tradeStatusChangeService.findTradeStatusChangeList(tradeInfoFormVo);
+            tradeInfo.setList(tradeStatusInfoVos);
+        }
 
         MessageUtil.getInstance().setMessage(new Message(MsgCode.OPERATE_SUCCESS), tradeInfo);
         Logger.debug(">>tradeInfoList return：" + MessageUtil.getInstance().toJson());
