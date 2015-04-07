@@ -24,7 +24,7 @@ public class TradeControllerTest extends DBUnitBasedTest{
 
     @Override
     public void rollback() {
-//        needRollbackData("c_customer,c_authentication,f_basic_account,c_customer_session,t_trade,t_trade_status_change_info");
+        needRollbackData("c_customer,c_authentication,f_basic_account,c_customer_session,t_trade,t_trade_status_change_info");
     }
 
 
@@ -38,7 +38,7 @@ public class TradeControllerTest extends DBUnitBasedTest{
         uriBuilder.addParameter("BusinessType", "024");
         uriBuilder.addParameter("TradeAccount", "111111");
         uriBuilder.addParameter("Amount", "100");
-        uriBuilder.addParameter("ApplyDateTime", "2015-03-03 10:10:10");
+        uriBuilder.addParameter("ApplyDateTime", "2015-03-03'T'10:10:10.000");
         uriBuilder.addParameter("Status", "9");
         URI uri = uriBuilder.build();
 
@@ -63,7 +63,7 @@ public class TradeControllerTest extends DBUnitBasedTest{
         uriBuilder.addParameter("BusinessType", "022");
         uriBuilder.addParameter("TradeAccount", "111111");
         uriBuilder.addParameter("Amount", "100");
-        uriBuilder.addParameter("ApplyDateTime", "2015-03-03 10:10:10");
+        uriBuilder.addParameter("ApplyDateTime", "2015-03-03'T'10:10:10.000");
         uriBuilder.addParameter("Status", "9");
         URI uri = uriBuilder.build();
 
