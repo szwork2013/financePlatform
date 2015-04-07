@@ -102,7 +102,7 @@ public class LoginService {
 			P p = user.getP();
 			if (p == null || !p.getEmail().equals(userVo.getEmail().trim())) {
 				// 用户名和邮箱不匹配
-				throw new BusinessRuntimeException(new Message(Severity.ERROR, MsgCode.NAME_OR_ID_ERROR));
+				throw new BusinessRuntimeException(new Message(Severity.ERROR, MsgCode.USER_NAME_NOT_MATCHED_EMAIL));
 			}
 			user.setPassword(userVo.getPassword().trim());
 			user.setUpdateTime(new Date());
