@@ -142,19 +142,13 @@ public class MsgCenterActionService {
     private void sendPush(PushMessageVo pushMessageVo) {
         String customerId = pushMessageVo.getCustomerId();
 
-        List<MsgSettingVo> registrationIds = customerDao.findRegistrationIdsByCustomerId(customerId);
+        CustomerMsgPushTxn customerMsgPushTxn = createCustomerMsgPushTxn(pushMessageVo);
 
+        List<MsgSettingVo> registrationIds = customerDao.findRegistrationIdsByCustomerId(customerId);
         if (registrationIds.isEmpty()) {
             Logger.debug(MessageFormat.format("未查询到需要信息发送的接收者！当前客户号：{0}", customerId));
             return;
         }
-
-        CustomerMsgPushTxn customerMsgPushTxn = createCustomerMsgPushTxn(pushMessageVo);
-        Timestamp currentTime = DBHelper.getCurrentTime();
-        customerMsgPushTxn.setPushTime(currentTime);
-        customerMsgPushTxn.setUpdateTime(currentTime);
-        customerMsgPushTxn.setPushStatus(DictConst.PUSH_STATUS_4);
-        centerDao.createCustomerMsgPushTxn(customerMsgPushTxn);
 
         int badge = 0;
         List<String> registrationIdList = Lists.newArrayList();
@@ -229,9 +223,14 @@ public class MsgCenterActionService {
         customerMsgPushTxn.setMessageRuleId(pushMessageVo.getMessageRuleId());
         customerMsgPushTxn.setTitle(pushMessageVo.getTitle());
         customerMsgPushTxn.setContent(pushMessageVo.getContent());
-        customerMsgPushTxn.setPushStatus(DictConst.PUSH_STATUS_2);
         customerMsgPushTxn.setCustomerId(pushMessageVo.getCustomerId());
-        customerMsgPushTxn.setCreateTime(DBHelper.getCurrentTime());
+
+        Timestamp currentTime = DBHelper.getCurrentTime();
+        customerMsgPushTxn.setPushTime(currentTime);
+        customerMsgPushTxn.setCreateTime(currentTime);
+        customerMsgPushTxn.setUpdateTime(currentTime);
+        customerMsgPushTxn.setPushStatus(DictConst.PUSH_STATUS_4);
+        centerDao.createCustomerMsgPushTxn(customerMsgPushTxn);
 
         return customerMsgPushTxn;
     }
