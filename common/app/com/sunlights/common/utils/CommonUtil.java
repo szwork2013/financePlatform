@@ -79,6 +79,8 @@ public class CommonUtil {
 
 	public static final String DATE_FORMAT_ICU = "yyyy-MM-dd HH:mm:ss.SSS";
 
+    public static final String DATE_FORMAT_SHUMI = "yyyy-MM-dd'T'HH:mm:ss.sss";
+
 	public static final String YYYYMMDDHHMMSS = "yyyyMMddHHmmss";
 
 	private static final DateFormat DATE_FORMAT = new SimpleDateFormat(DATE_FORMAT_SHORT);

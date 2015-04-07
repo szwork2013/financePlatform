@@ -39,7 +39,6 @@ import services.DateCalcService;
 import java.math.BigDecimal;
 import java.sql.Timestamp;
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
@@ -162,7 +161,13 @@ public class ShuMiTradeServiceImpl implements ShuMiTradeService {
         String applySerial = shuMiTradeFormVo.getApplySerial();
 
         Timestamp currentTime = DBHelper.getCurrentTime();
-        Date dateTime = getTradeDate(shuMiTradeFormVo.getDateTime());
+        Date dateTime = null;
+        try {
+            dateTime = CommonUtil.stringToDate(shuMiTradeFormVo.getDateTime(), CommonUtil.DATE_FORMAT_SHUMI);
+        } catch (ParseException e) {
+            e.printStackTrace();
+            dateTime = currentTime;
+        }
 
         Trade trade = new Trade();
         trade.setTradeNo(applySerial);
@@ -201,17 +206,6 @@ public class ShuMiTradeServiceImpl implements ShuMiTradeService {
         return tradeDao.saveTrade(trade);
     }
 
-    private Date getTradeDate(String shuMiDateTime) {
-        Date dateTime = null;
-        try {
-            if (dateTime != null) {
-                SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.sss");
-                dateTime = sdf.parse(shuMiDateTime);
-            }
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
-        return dateTime == null ? DBHelper.getCurrentTime() : dateTime;
-    }
+
 
 }

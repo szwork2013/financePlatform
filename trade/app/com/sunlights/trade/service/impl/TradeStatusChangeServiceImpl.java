@@ -19,7 +19,6 @@ import models.TradeStatusChange;
 import org.joda.time.LocalDate;
 import services.DateCalcService;
 
-import java.text.ParseException;
 import java.util.Date;
 import java.util.List;
 
@@ -82,7 +81,7 @@ public class TradeStatusChangeServiceImpl implements TradeStatusChangeService {
     private List<TradeForecastDetailVo> buildForecastList(TradeForecastFormVo tradeInfoFormVo) {
         List<TradeForecastDetailVo> tradeStatusInfoVoList = Lists.newArrayList();
         try {
-            Date tradeTime = CommonUtil.stringToDate(tradeInfoFormVo.getApplyDateTime(), CommonUtil.DATE_FORMAT_LONG);
+            Date tradeTime = CommonUtil.stringToDate(tradeInfoFormVo.getApplyDateTime(), CommonUtil.DATE_FORMAT_SHUMI);
             tradeInfoFormVo.setTradeTime(tradeTime);
             if (DictConst.TRADE_TYPE_1.equals(tradeInfoFormVo.getBusinessType())) {
                 LocalDate confirmLocalDate = dateCalcService.getEndTradeDate(CommonUtil.dateToString(tradeInfoFormVo.getTradeTime(), CommonUtil.DATE_FORMAT_LONG), 1);
@@ -95,7 +94,7 @@ public class TradeStatusChangeServiceImpl implements TradeStatusChangeService {
 
                 createRedeemTradeStatusChangeInfo(tradeInfoFormVo);
             }
-        } catch (ParseException e) {
+        } catch (Exception e) {
             e.printStackTrace();
             throw new BusinessRuntimeException(new Message(MsgCode.DATETIME_FORMAT));
         }
