@@ -47,6 +47,8 @@ public class ActivityServiceImpl implements ActivityService {
 
     private ParameterService parameterService = new ParameterService();
 
+    private static final  Object LOCK = new Object();
+
     @Deprecated
     @Override
     public List<ActivityVo> getActivityVos(PageVo pageVo) {
@@ -177,20 +179,19 @@ public class ActivityServiceImpl implements ActivityService {
 
         String activityCondition = obtainRewardRule.getActivityCondition();
         Long activityId = obtainRewardRule.getActivityId();
+        synchronized (LOCK) {
+            int hasSendCount = 0;
+            if (DictConst.ACTIVITY_NEW_REGISTER_TRADE.equals(activityCondition)) {
+                hasSendCount = activityDao.countRegisterHasSend(activityId);
+            } else if (DictConst.ACTIVITY_NEW_TRADE.equals(activityCondition)) {
+                hasSendCount = activityDao.countTradeHasSend(activityId);
+            }
 
-        int hasSendCount = 0;
-        if (DictConst.ACTIVITY_NEW_REGISTER_TRADE.equals(activityCondition)) {
-            hasSendCount = activityDao.countRegisterHasSend(activityId);
-        } else if (DictConst.ACTIVITY_NEW_TRADE.equals(activityCondition)) {
-            hasSendCount = activityDao.countTradeHasSend(activityId);
+            BigDecimal every = ArithUtil.bigUpScale0(new BigDecimal(outTotalCount / (double) totalCount));
+            BigDecimal showRemainCount = new BigDecimal(outTotalCount).subtract(every.multiply(new BigDecimal(hasSendCount)));
+            BigDecimal remainCount = BigDecimal.ZERO.compareTo(showRemainCount) >= 0 ? BigDecimal.ZERO : showRemainCount;
+            return remainCount.intValue();
         }
-
-        BigDecimal every = ArithUtil.bigUpScale0(new BigDecimal(outTotalCount / (double) totalCount));
-        BigDecimal showRemainCount = new BigDecimal(outTotalCount).subtract(every.multiply(new BigDecimal(hasSendCount)));
-
-        BigDecimal remainCount = BigDecimal.ZERO.compareTo(showRemainCount) >= 0 ? BigDecimal.ZERO : showRemainCount;
-
-        return remainCount.intValue();
     }
 
     @Override

@@ -77,7 +77,9 @@ update c_message_rule set content='尊敬的用户，恭喜您完成了首次购
   content_push='恭喜您完成了首次购买，【金豆荚】赠送您{0}，现在分享红包活动即有机会抽奖APPLE WATCH！' where code='FIRST_PURCHASE' and status='Y';
 
 
-update c_message_rule set content_sms='尊敬的用户，恭喜您在金豆荚注册成功，获得{0}；此金豆需要您在金豆荚首次交易后才可使用。我们为您准备了丰富多样的理财产品，请在“理财”中购买。详情点击{1}。【金豆荚】祝您理财愉快！'
+update c_message_rule set content_sms='尊敬的用户，恭喜您在金豆荚注册成功，获得{0}；同时我们为您准备了丰富多样的理财产品，请在“理财”中购买。详情点击{1}。【金豆荚】祝您理财愉快！',
+content_push='注册成功，获得{0}；同时我们为您准备了丰富多样的理财产品，请在“理财”中购买理财产品。',
+content='尊敬的用户，恭喜您在【金豆荚】注册成功，获得{0}；同时我们为您准备了丰富多样的理财产品，请在“理财”中购买。【金豆荚】祝您理财愉快！'
 where code='REGISTER_BEAN' and status='Y';
 
 

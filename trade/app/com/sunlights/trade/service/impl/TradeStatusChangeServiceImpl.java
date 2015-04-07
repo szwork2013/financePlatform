@@ -4,6 +4,7 @@ import com.google.common.collect.Lists;
 import com.sunlights.common.DictConst;
 import com.sunlights.common.MsgCode;
 import com.sunlights.common.ParameterConst;
+import com.sunlights.common.Severity;
 import com.sunlights.common.exceptions.BusinessRuntimeException;
 import com.sunlights.common.service.ParameterService;
 import com.sunlights.common.utils.CommonUtil;
@@ -96,7 +97,7 @@ public class TradeStatusChangeServiceImpl implements TradeStatusChangeService {
             }
         } catch (Exception e) {
             e.printStackTrace();
-            throw new BusinessRuntimeException(new Message(MsgCode.DATETIME_FORMAT));
+            throw new BusinessRuntimeException(new Message(Severity.ERROR, MsgCode.DATETIME_FORMAT));
         }
 
         return tradeStatusInfoVoList;
