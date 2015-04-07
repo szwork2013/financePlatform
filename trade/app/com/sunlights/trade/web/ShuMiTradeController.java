@@ -152,7 +152,7 @@ public class ShuMiTradeController extends Controller {
             @ApiImplicitParam(name = "FundCode", value = "产品编码", required = true, paramType = "form"),
             @ApiImplicitParam(name = "TradeAccount", value = "交易账号", paramType = "form"),
             @ApiImplicitParam(name = "Amount", value = "交易金额", paramType = "form"),
-            @ApiImplicitParam(name = "ApplyDateTime", value = "交易时间(yyyy-MM-dd HH:mm:ss)", required = true, paramType = "form"),
+            @ApiImplicitParam(name = "ApplyDateTime", value = "交易时间(yyyy-MM-dd'T'HH:mm:ss.sss)", required = true, paramType = "form"),
             @ApiImplicitParam(name = "Status", value = "交易状态（9待处理）", paramType = "form"),
             @ApiImplicitParam(name = "BusinessType", value = "交易类型（022充值，024赎回）", required = true, paramType = "form")
     })
