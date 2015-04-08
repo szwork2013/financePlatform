@@ -12,26 +12,7 @@ values ((SELECT nextval('SRC')),
 DROP VIEW view_message_list;
 
 CREATE OR REPLACE VIEW view_message_list AS
-  SELECT t.id,
-    t.message_rule_id,
-    t.title,
-    t.summary,
-    t.create_time,
-    t.send_type,
-    t.customer_id,
-    t.stay_day_ind
-  FROM ( SELECT mst.id,
-           mst.message_rule_id,
-           mst.title,
-           "substring"(mst.content::text, 1, 50) AS summary,
-           mst.create_time,
-           'FP.SEND.TYPE.1'::text AS send_type,
-           c.customer_id,
-           mr.stay_day_ind
-         FROM c_message_rule mr, c_message_sms_txn mst, c_customer c
-         WHERE mr.id = mst.message_rule_id AND c.mobile::text = mst.mobile::text AND mr.msg_center_ind::text = 'Y'::text AND mr.sms_ind::text = 'Y'::text and mr.status = 'Y'::text
-         UNION
-         SELECT pt.id,
+    SELECT pt.id,
            pt.message_rule_id,
            pt.title,
            pt.summary,
@@ -39,26 +20,28 @@ CREATE OR REPLACE VIEW view_message_list AS
            pt.send_type,
            pt.customer_id,
            mr.stay_day_ind
-         FROM c_message_rule mr,
-           ( SELECT cpt.id,
-               cpt.message_rule_id,
-               cpt.title,
-               "substring"(cpt.content::text, 1, 50) AS summary,
-               cpt.create_time,
-               'FP.SEND.TYPE.2'::text AS send_type,
-               cg.customer_id
+      FROM c_message_rule mr,
+           (SELECT cpt.id,
+                   cpt.message_rule_id,
+                   cpt.title,
+                   "substring"(cpt.content::text, 1, 50) AS summary,
+                   cpt.create_time,
+                   'FP.SEND.TYPE.2'::text AS send_type,
+                   cg.customer_id
              FROM  c_message_push_txn cpt LEFT JOIN c_customer_group cg ON cpt.group_id = cg.group_id
              UNION
-             SELECT  cmpt.id,
-               cmpt.message_rule_id,
-               cmpt.title,
-               "substring"(cmpt.content::text, 1, 50) AS summary,
-               cmpt.create_time,
-               'FP.SEND.TYPE.3'::text AS send_type,
-               cmpt.customer_id
+            SELECT cmpt.id,
+                   cmpt.message_rule_id,
+                   cmpt.title,
+                   "substring"(cmpt.content::text, 1, 50) AS summary,
+                   cmpt.create_time,
+                   'FP.SEND.TYPE.3'::text AS send_type,
+                   cmpt.customer_id
              FROM  c_customer_msg_push_txn cmpt) pt
-         WHERE mr.id = pt.message_rule_id AND mr.msg_center_ind::text = 'Y'::text AND mr.sms_ind::text = 'N'::text and mr.status = 'Y'::text) t
-  ORDER BY t.create_time DESC;
+     WHERE mr.id = pt.message_rule_id
+       AND mr.msg_center_ind::text = 'Y'::text
+       AND mr.status = 'Y'::text
+  ORDER BY pt.create_time DESC;
 
 
 
@@ -204,7 +187,7 @@ VALUES (15, '短信统计', 'message:sms', '1', 3, 'menu', '#/dashboard/smsmessa
 INSERT INTO public.o_resource (id, name, code, seq_no, parent_id, type, uri, create_time, update_time, deleted)
 VALUES (16, '群组管理', 'message:group', '2', 3, 'menu', '#/dashboard/group', '2015-01-28 13:23:49.902', '2015-01-28 13:23:51.476', FALSE);
 INSERT INTO public.o_resource (id, name, code, seq_no, parent_id, type, uri, create_time, update_time, deleted)
-VALUES (17, '消息规则', 'message:role', '3', 3, 'menu', '#/dashboard/messagerules', '2015-01-28 13:23:49.902', '2015-01-28 13:23:51.476', FALSE);
+VALUES (17, '消息规则', 'message:role', '3', 3, 'menu', '#/dashboard/messagerule', '2015-01-28 13:23:49.902', '2015-01-28 13:23:51.476', FALSE);
 INSERT INTO public.o_resource (id, name, code, seq_no, parent_id, type, uri, create_time, update_time, deleted)
 VALUES (18, '消息推送计划配置', 'message:config', '4', 3, 'menu', '#/dashboard/messageConfig', '2015-01-28 13:23:49.902', '2015-01-28 13:23:51.476', FALSE);
 INSERT INTO public.o_resource (id, name, code, seq_no, parent_id, type, uri, create_time, update_time, deleted)
