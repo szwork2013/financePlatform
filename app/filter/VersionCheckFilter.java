@@ -67,7 +67,9 @@ public class VersionCheckFilter implements EssentialFilter {
 
                 Logger.debug("userAgent == " + userAgent + " latestVersion = " + latestVersion + " platform = " + platform);
 
-
+                if(StringUtils.isEmpty(clientVersion)) {
+                    clientVersion = "1.3";
+                }
 
                 //这个过滤器只适用于ios的
                 if(AppConst.PLATFORM_IOS.equals(platform)) {
