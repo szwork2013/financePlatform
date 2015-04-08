@@ -5,7 +5,8 @@ package com.sunlights.op.vo.activity;
  */
 public enum ShareInfoType {
     APP("0","分享APP"),
-    PRODUCT("1","分享产品"),
+    PRODUCT_JDJ("1","分享jdj产品"),
+    PRODUCT_P2P("4","分享P2P产品"),
     PROFIT("2","分享收益"),
     ACTIVITY("3","分享活动");
 

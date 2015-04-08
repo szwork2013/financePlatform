@@ -68,9 +68,7 @@ public class VersionCheckFilter implements EssentialFilter {
                 Logger.debug("userAgent == " + userAgent + " latestVersion = " + latestVersion + " platform = " + platform);
 
                 if(StringUtils.isEmpty(clientVersion)) {
-                    JsonNode json = MessageUtil.getInstance().msgToJson(new Message(Severity.WARN, MsgCode.MUST_UPDATE_VERSION, latestVersion));
-                    Logger.debug(">>信息：" + json.toString());
-                    return Done.apply(ok(json).toScala(), null);
+                    clientVersion = "1.3";
                 }
 
                 //这个过滤器只适用于ios的
