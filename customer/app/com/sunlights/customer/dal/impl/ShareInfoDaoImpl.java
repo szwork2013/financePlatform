@@ -5,6 +5,7 @@ import com.sunlights.common.dal.EntityBaseDao;
 import com.sunlights.customer.dal.ShareInfoDao;
 import models.ShareInfo;
 import org.apache.commons.lang3.StringUtils;
+import play.Logger;
 
 import java.util.List;
 
@@ -22,6 +23,7 @@ public class ShareInfoDaoImpl extends EntityBaseDao implements ShareInfoDao {
         }
 
         for(ShareInfo shareInfo : shareInfos) {
+            Logger.debug("shareInfo == " + shareInfo + " shareInfo.getParentId() = " + shareInfo.getParentId());
             if(shareInfo.getParentId() == null) {
                 return shareInfo;
             }
