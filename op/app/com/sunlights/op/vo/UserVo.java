@@ -27,6 +27,7 @@ public class UserVo {
 	private String passwordConfirm;
 	private String status;
 	private Boolean deleted;
+    private String loginInd;//为Y首次登录标志
 	private Date createTime;
 	private Date updateTime;
 
@@ -56,6 +57,7 @@ public class UserVo {
 		this.setUsername(user.getUsername());
 		this.setPassword(user.getPassword());
 		this.setStatus(user.getStatus());
+        this.setLoginInd(user.getLoginInd());
 		this.setDeleted(user.getDeleted());
 		this.setCreateTime(user.getCreateTime());
 		this.setUpdateTime(user.getUpdateTime());
@@ -255,4 +257,12 @@ public class UserVo {
 	public void setPermissions (List<String> permissions) {
 		this.permissions = permissions;
 	}
+
+    public String getLoginInd() {
+        return loginInd;
+    }
+
+    public void setLoginInd(String loginInd) {
+        this.loginInd = loginInd;
+    }
 }

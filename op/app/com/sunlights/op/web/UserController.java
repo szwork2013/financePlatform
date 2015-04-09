@@ -54,6 +54,18 @@ public class UserController extends Controller {
 		return ok(messageUtil.toJson());
 	}
 
+    public Result findCurrentUser() {
+        PageVo pageVo = new PageVo();
+
+        String user = session().get("user");
+        pageVo.put("EQS_username", user);
+
+        List<UserVo> users = userService.findUsersBy(pageVo);
+        UserVo userVo = users.isEmpty() ? null : users.get(0);
+        messageUtil.setMessage(new Message(Severity.INFO, MsgCode.OPERATE_SUCCESS), userVo);
+        return ok(messageUtil.toJson());
+    }
+
 	public Result saveUser() {
 		Http.RequestBody body = request().body();
 
