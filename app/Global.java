@@ -82,7 +82,11 @@ public class Global extends GlobalSettings {
                 json = MessageUtil.getInstance().msgToJson(new Message(Severity.FATAL, errorCode, errorMessage, errorDetail));
             }
 
-            Result result = badRequest(json);
+            Result result = ok(json);
+            if (uri.contains("/op/")) {
+                result = badRequest(json);
+            }
+
             Logger.info(">>异常信息：" + json.toString());
             return F.Promise.pure(result);
         }
