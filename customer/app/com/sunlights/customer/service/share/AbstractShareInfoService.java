@@ -86,6 +86,8 @@ public abstract class AbstractShareInfoService implements ShareInfoService {
     public ShareInfo getBasicShareInfoModel(String type, String refId) {
         ShareInfo shareInfoParent = shareInfoDao.getParentByType(type);
 
+        Logger.debug("shareInfoParent = " + shareInfoParent + " type = " + type);
+
         List<ShareInfo> specialInfos = shareInfoDao.getByParentId(shareInfoParent.getId());
 
         if(specialInfos == null || specialInfos.isEmpty()) {
@@ -96,7 +98,9 @@ public abstract class AbstractShareInfoService implements ShareInfoService {
     }
 
     private ShareInfo transform(List<ShareInfo> specialInfos, ShareInfo shareInfoParent, String refId) {
+        Logger.debug("refId = " + refId);
         for(ShareInfo temp : specialInfos) {
+            Logger.debug("temp == " + temp);
             if(temp.getRefId().equals(refId)) {
                 shareInfoParent.setBaseUrl(getNotNullStr(temp.getBaseUrl(), shareInfoParent.getBaseUrl()));
                 shareInfoParent.setContent(getNotNullStr(temp.getContent(), shareInfoParent.getContent()));
