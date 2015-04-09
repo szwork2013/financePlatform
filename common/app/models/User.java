@@ -19,6 +19,9 @@ public class User extends IdEntity {
     @Column(name = "status")
     private String status;
 
+    @Column(name = "login_ind")
+    private String loginInd;
+
     @Column(name = "deleted")
     private Boolean deleted;
 
@@ -98,5 +101,13 @@ public class User extends IdEntity {
 
     public void setP(P p) {
         this.p = p;
+    }
+
+    public String getLoginInd() {
+        return loginInd;
+    }
+
+    public void setLoginInd(String loginInd) {
+        this.loginInd = loginInd;
     }
 }

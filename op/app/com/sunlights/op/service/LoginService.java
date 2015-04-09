@@ -58,6 +58,14 @@ public class LoginService {
                 throw new BusinessRuntimeException(new Message(Severity.ERROR, MsgCode.LOGIN_PASSWORD_INCORRECT_ERROR));
             }
 
+            if (user.getLoginInd() == null) {
+                user.setLoginInd("Y");
+                userVo.setLoginInd("Y");
+            }else{
+                user.setLoginInd("N");
+                userVo.setLoginInd("N");
+            }
+            entityBaseDao.update(user);
             return userVo;
         }
 
@@ -71,6 +79,7 @@ public class LoginService {
         UserVo userVo = new UserVo();
         userVo.setUsername(user.getUsername());
         userVo.setId(user.getId());
+        userVo.setLoginInd(user.getLoginInd());
         P p = user.getP();
         if (p != null) {
             userVo.setZhName(p.getLastName() + p.getFirstName());
