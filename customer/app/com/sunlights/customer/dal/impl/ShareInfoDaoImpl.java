@@ -13,7 +13,7 @@ import java.util.List;
  */
 public class ShareInfoDaoImpl extends EntityBaseDao implements ShareInfoDao {
 
-    @Cacheable(key = "getByType", duration = 300)
+
     @Override
     public ShareInfo getParentByType(String type) {
         List<ShareInfo> shareInfos = findBy(ShareInfo.class, "shareType", type);
@@ -30,7 +30,7 @@ public class ShareInfoDaoImpl extends EntityBaseDao implements ShareInfoDao {
         return null;
     }
 
-    @Cacheable(key = "getByParentId", duration = 300)
+
     @Override
     public List<ShareInfo> getByParentId(Long parentId) {
         return findBy(ShareInfo.class, "parentId", parentId);
