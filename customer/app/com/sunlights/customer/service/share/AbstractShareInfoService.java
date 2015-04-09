@@ -99,10 +99,11 @@ public abstract class AbstractShareInfoService implements ShareInfoService {
 
     private ShareInfo transform(List<ShareInfo> specialInfos, ShareInfo shareInfoParent, String refId) {
         Logger.debug("refId = " + refId);
-        ShareInfo shareInfoTemp = new ShareInfo();
+        ShareInfo shareInfoTemp = shareInfoParent;
         for(ShareInfo temp : specialInfos) {
             Logger.debug("temp == " + temp);
             if(temp.getRefId().equals(refId)) {
+                shareInfoTemp = new ShareInfo();
                 shareInfoTemp.setBaseUrl(getNotNullStr(temp.getBaseUrl(), shareInfoParent.getBaseUrl()));
                 shareInfoTemp.setContent(getNotNullStr(temp.getContent(), shareInfoParent.getContent()));
                 shareInfoTemp.setImageUrl(getNotNullStr(temp.getImageUrl(), shareInfoParent.getImageUrl()));
