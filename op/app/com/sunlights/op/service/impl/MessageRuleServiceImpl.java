@@ -196,6 +196,8 @@ public class MessageRuleServiceImpl implements MessageRuleService {
 
             buildPushMessageVoList(returnList, pushMessageVoList, customerId);
 
+            int sendNum = 0;//bug TODO 多次发送创建了多条消息
+
             for (PushMessageVo pushMessageVo : returnList) {
                 String pushInd = pushMessageVo.getPushInd();
                 String smsInd = pushMessageVo.getSmsInd();
@@ -217,21 +219,28 @@ public class MessageRuleServiceImpl implements MessageRuleService {
 
                         SmsMessageVo resultMessageSmsTxn = smsMessageService.sendSms(smsMessageVo);
                         messageSmsTxn.setSuccessInd(resultMessageSmsTxn.getSuccessInd());
-                        customerService.createMessageSmsTxn(messageSmsTxn);
+                        if (sendNum == 0) {
+                            customerService.createMessageSmsTxn(messageSmsTxn);
+                        }
                     }catch (Exception e){
                         messageSmsTxn.setSuccessInd(AppConst.STATUS_INVALID);
-                        customerService.createMessageSmsTxn(messageSmsTxn);
+                        if (sendNum == 0) {
+                            customerService.createMessageSmsTxn(messageSmsTxn);
+                        }
                         Logger.error(">>messageSmsTxn:" + Json.toJson(messageSmsTxn), e);
                         e.printStackTrace();
                     }
                 if (AppConst.STATUS_VALID.equals(pushInd) && AppConst.STATUS_INVALID.equals(pushMessageVo.getPushTimed())) {//即时推送
                     Logger.info(">>开始推送");
                     pushMessageVo.setContentPush(MessageFormat.format(pushMessageVo.getContentPush(), messageActivityVo.getParams().toArray()));
+                    if (sendNum == 0) {
+                        createCustomerMsgPushTxn(pushMessageVo);
+                    }
 
-                    createCustomerMsgPushTxn(pushMessageVo);
                     messagePushService.sendPush(pushMessageVo);
                 }
             }
+            sendNum++;
         }
         }catch (Exception ex) {
             ex.printStackTrace();
