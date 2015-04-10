@@ -40,6 +40,7 @@ public class AgreementController extends Controller {
             return ok(messageUtil.toJson());
         }
         AgreementVo av = openAccountPactService.findAgreementVoByAgreementNo(agreementVo.getCode());
+
         if (av == null) {
             messageUtil.setMessage(new Message(Severity.ERROR, MsgCode.SEARCH_FAIL_PROTOCOL_NONE));
         } else {

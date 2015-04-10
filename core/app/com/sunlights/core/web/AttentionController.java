@@ -113,7 +113,10 @@ public class AttentionController extends Controller {
         }
         List<ProductVo> productVos = new ArrayList<ProductVo>();
         for (int i = codes.size() - 1; i >= 0; i--) {
-            productVos.add(productVoMap.get(codes.get(i)));
+            ProductVo productVo = productVoMap.get(codes.get(i));
+            if (productVo != null) {
+                productVos.add(productVo);
+            }
         }
         pageVo.setList(productVos);
         messageUtil.setMessage(new Message(Severity.INFO, MsgCode.OPERATE_SUCCESS), pageVo);

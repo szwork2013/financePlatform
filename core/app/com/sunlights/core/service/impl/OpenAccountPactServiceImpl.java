@@ -1,6 +1,7 @@
 package com.sunlights.core.service.impl;
 
 import com.sunlights.common.cache.Cacheable;
+import com.sunlights.common.utils.ConfigUtil;
 import com.sunlights.common.utils.DBHelper;
 import com.sunlights.core.dal.OpenAccountPactDao;
 import com.sunlights.core.dal.impl.OpenAccountPactDaoImpl;
@@ -38,7 +39,10 @@ public class OpenAccountPactServiceImpl implements OpenAccountPactService {
         if (openAccountPact == null) {
             return null;
         }
-        return new AgreementVo(openAccountPact);
+        AgreementVo agreementVo = new AgreementVo(openAccountPact);
+        String resourceUrl = ConfigUtil.getValueStr(ConfigUtil.RESOURCE_URL);
+        agreementVo.setLink(resourceUrl + openAccountPact.getFilePath() + openAccountPact.getFileName());
+        return agreementVo;
     }
 
 
