@@ -502,7 +502,7 @@ ALTER TABLE o_user ADD COLUMN login_ind VARCHAR (20);
 comment on table o_user is '首次登录标志,Y为首次登录';
 
 
-/*奖励兑现bug修复*/
+/*奖励兑现bug修复   先执行查询语句组装update语句   然后执行update语句*/
 select 'update f_reward_count set (hold_reward, frozen_reward,hold_money,frozen_money) = (' || k.holdReward || ',' || k.frozenReward || ',' || k.holdMoney || ',' || k.frozenMoney || ') where customer_id = ''' || k.custId ||''' and reward_type = ''' || k.reward_type || ''' and activity_type =''' || k.activity_type  || ''''
 from
         (SELECT m.reward_type, m.activity_type, custId, (hold_reward - amt * unit) holdReward, (frozen_reward - amt * unit) frozenReward,(hold_money - amt) holdMoney,(frozen_money - amt) frozenMoney from (
