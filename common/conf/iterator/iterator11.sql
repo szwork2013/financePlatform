@@ -523,3 +523,22 @@ update qrtz_job_details set job_class_name = 'com.sunlights.op.' || job_class_na
 
 ALTER TABLE o_user ADD COLUMN login_ind VARCHAR (20);
 comment on table o_user is '首次登录标志,Y为首次登录';
+
+
+/*奖励兑现bug修复*/
+select 'update f_reward_count set (hold_reward, frozen_reward,hold_money,frozen_money) = (' || k.holdReward || ',' || k.frozenReward || ',' || k.holdMoney || ',' || k.frozenMoney || ') where customer_id = ''' || k.custId ||''' and reward_type = ''' || k.reward_type || ''' and activity_type =''' || k.activity_type  || ''''
+from
+        (SELECT m.reward_type, m.activity_type, custId, (hold_reward - amt * unit) holdReward, (frozen_reward - amt * unit) frozenReward,(hold_money - amt) holdMoney,(frozen_money - amt) frozenMoney from (
+                (select customer_id, reward_type, activity_type, get_amount, hold_reward, frozen_reward,
+                get_money,hold_money,frozen_money
+                from f_reward_count) n
+                join
+                (select a.customer_id custId,a.amt,b.reward_type,b.activity_type,f.unit from
+                        (select customer_id, exchange_scene, sum(amount) amt from f_exchange_result where status = 4  group by customer_id, exchange_scene) a
+                                left join f_excahnge_scene b on a.exchange_scene = b.scene left join f_reward_type f on b.reward_type = f.code) m
+                on n.customer_id = m.custId and n.reward_type = m.reward_type and n.activity_type = m.activity_type  )) k;
+
+
+COMMENT ON COLUMN f_exchange_result.status
+IS
+    '状态  0表示未审核 1表示审核通过  2表示审核不通过 3表示等待兑换  4表示兑换成功 5表示兑换失败';
