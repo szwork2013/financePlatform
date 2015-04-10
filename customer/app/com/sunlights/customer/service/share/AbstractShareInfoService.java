@@ -109,6 +109,7 @@ public abstract class AbstractShareInfoService implements ShareInfoService {
                 shareInfoTemp.setImageUrl(getNotNullStr(temp.getImageUrl(), shareInfoParent.getImageUrl()));
                 shareInfoTemp.setTitle(getNotNullStr(temp.getTitle(), shareInfoParent.getTitle()));
                 shareInfoTemp.setRelateRefId(temp.getRelateRefId());
+
             }
         }
         return shareInfoTemp;
