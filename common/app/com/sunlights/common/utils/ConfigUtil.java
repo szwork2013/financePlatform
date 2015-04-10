@@ -19,6 +19,7 @@ public class ConfigUtil {
     public static String proxy_port = "proxy_port";
     public static String apns_production = "apns_production";
     public static String P2P_USER = "p2p.user";
+    public final static String RESOURCE_URL = "static.resource.baseUrl";
 
 
     public static String getValueStr(String name) {
