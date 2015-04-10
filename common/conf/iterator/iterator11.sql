@@ -519,8 +519,9 @@ from
 COMMENT ON COLUMN f_exchange_result.status IS '状态  0表示未审核 1表示审核通过  2表示审核不通过 3表示等待兑换  4表示兑换成功 5表示兑换失败';
 
 
-update c_open_account_pact set file_path='/agreement' where agreement_no = '0001';
-update c_open_account_pact set file_path='/agreement' where agreement_no = '0002';
+
+update c_open_account_pact set file_path='/agreement/' where agreement_no = '0001';
+update c_open_account_pact set file_path='/agreement/' where agreement_no = '0002';
 
 
 
