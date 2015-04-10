@@ -2,6 +2,7 @@ package com.sunlights.op.vo.activity;
 
 import com.sunlights.common.utils.CommonUtil;
 import models.Activity;
+import org.apache.commons.lang3.time.DateUtils;
 import play.Logger;
 
 import java.text.ParseException;
@@ -97,8 +98,8 @@ public class ActivityVo {
         activity.setImage(vo.getImage());
         activity.setAppId(vo.getAppId());
         try {
-            activity.setBeginTime(CommonUtil.stringToDate(vo.getBeginTime(), "yyyy-MM-dd"));
-            activity.setEndTime(CommonUtil.stringToDate(vo.getEndTime(), "yyyy-MM-dd"));
+            activity.setBeginTime(DateUtils.addDays(CommonUtil.stringToDate(vo.getBeginTime(), "yyyy-MM-dd"), 1));
+            activity.setEndTime(DateUtils.addDays(CommonUtil.stringToDate(vo.getEndTime(), "yyyy-MM-dd"), 1));
         } catch (ParseException e) {
             Logger.error("set time error", e);
         }
