@@ -493,7 +493,7 @@ ALTER TABLE c_share_info ADD COLUMN parent_id INT8;
 ALTER TABLE c_share_info ADD COLUMN ref_id VARCHAR (20);
 ALTER TABLE c_short_url ADD COLUMN mobile VARCHAR (20);
 
-update f_get_reward_rule set total_count = 500, out_total_count=88888 where reward_type='ART00H' and activity_id in (select id from f_activity where scene = 'ASC005')
+update f_get_reward_rule set total_count = 500, out_total_count=88888 where reward_type='ART00H' and activity_id in (select id from f_activity where scene = 'ASC005');
 
 update qrtz_job_details set job_class_name = 'com.sunlights.op.' || job_class_name;
 
@@ -532,7 +532,7 @@ GRANT ALL ON TABLE view_message_list TO uat_user;
 GRANT ALL ON TABLE f_show_statistics TO uat_user;
 GRANT ALL ON TABLE F_activity_report TO uat_user;
 GRANT ALL ON TABLE t_trade_status_change_info TO uat_user;
-GRANT ALL ON TABLE F_activity_report TO uat_user;
+
 
 GRANT ALL ON TABLE total_trade_amount TO uat_user;
 GRANT ALL ON TABLE total_registration_info TO uat_user;
