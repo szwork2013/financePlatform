@@ -2,6 +2,7 @@ package com.sunlights.core.web;
 
 import com.sunlights.common.MsgCode;
 import com.sunlights.common.Severity;
+import com.sunlights.common.utils.ConfigUtil;
 import com.sunlights.common.utils.MessageUtil;
 import com.sunlights.common.vo.Message;
 import com.sunlights.core.factory.CoreFactory;
@@ -40,9 +41,12 @@ public class AgreementController extends Controller {
             return ok(messageUtil.toJson());
         }
         AgreementVo av = openAccountPactService.findAgreementVoByAgreementNo(agreementVo.getCode());
+
         if (av == null) {
             messageUtil.setMessage(new Message(Severity.ERROR, MsgCode.SEARCH_FAIL_PROTOCOL_NONE));
         } else {
+            String resourceUrl = ConfigUtil.getValueStr(ConfigUtil.RESOURCE_URL);
+            av.setLink(resourceUrl + av.getLink());
             messageUtil.setMessage(new Message(Severity.INFO, MsgCode.OPERATE_SUCCESS), av);
         }
         return ok(messageUtil.toJson());

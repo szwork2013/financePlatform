@@ -489,29 +489,6 @@ CREATE OR REPLACE VIEW view_total_purchase_customer (vw_purchase_date, vw_total_
 
 
 
-
-
-
-
-
-
-/*权限脚本*/
-/*
-GRANT ALL ON TABLE view_message_list TO uat_user;
-GRANT ALL ON TABLE f_show_statistics TO uat_user;
-GRANT ALL ON TABLE F_activity_report TO uat_user;
-GRANT ALL ON TABLE t_trade_status_change_info TO uat_user;
-GRANT ALL ON TABLE F_activity_report TO uat_user;
-
-GRANT ALL ON TABLE total_trade_amount TO uat_user;
-GRANT ALL ON TABLE total_registration_info TO uat_user;
-GRANT ALL ON TABLE total_purchase_customer TO uat_user;
-GRANT ALL ON TABLE total_trade_summary TO uat_user;
-GRANT ALL ON TABLE view_total_registration_info TO uat_user;
-GRANT ALL ON TABLE view_total_purchase_customer TO uat_user;
-
- */
-
 ALTER TABLE c_share_info ADD COLUMN parent_id INT8;
 ALTER TABLE c_share_info ADD COLUMN ref_id VARCHAR (20);
 ALTER TABLE c_short_url ADD COLUMN mobile VARCHAR (20);
@@ -539,6 +516,28 @@ from
                 on n.customer_id = m.custId and n.reward_type = m.reward_type and n.activity_type = m.activity_type  )) k;
 
 
-COMMENT ON COLUMN f_exchange_result.status
-IS
-    '状态  0表示未审核 1表示审核通过  2表示审核不通过 3表示等待兑换  4表示兑换成功 5表示兑换失败';
+COMMENT ON COLUMN f_exchange_result.status IS '状态  0表示未审核 1表示审核通过  2表示审核不通过 3表示等待兑换  4表示兑换成功 5表示兑换失败';
+
+
+update c_open_account_pact set file_path='/agreement' where agreement_no = '0001';
+update c_open_account_pact set file_path='/agreement' where agreement_no = '0002';
+
+
+
+
+/*权限脚本*/
+/*
+GRANT ALL ON TABLE view_message_list TO uat_user;
+GRANT ALL ON TABLE f_show_statistics TO uat_user;
+GRANT ALL ON TABLE F_activity_report TO uat_user;
+GRANT ALL ON TABLE t_trade_status_change_info TO uat_user;
+GRANT ALL ON TABLE F_activity_report TO uat_user;
+
+GRANT ALL ON TABLE total_trade_amount TO uat_user;
+GRANT ALL ON TABLE total_registration_info TO uat_user;
+GRANT ALL ON TABLE total_purchase_customer TO uat_user;
+GRANT ALL ON TABLE total_trade_summary TO uat_user;
+GRANT ALL ON TABLE view_total_registration_info TO uat_user;
+GRANT ALL ON TABLE view_total_purchase_customer TO uat_user;
+
+ */
