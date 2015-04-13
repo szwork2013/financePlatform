@@ -13,6 +13,7 @@ import models.P;
 import models.Resource;
 import models.Role;
 import models.User;
+import org.apache.commons.lang3.StringUtils;
 import play.Logger;
 
 import java.util.ArrayList;
@@ -109,26 +110,31 @@ public class LoginService {
             throw new BusinessRuntimeException(new Message(Severity.ERROR, MsgCode.LOGIN_NOT_REGISTER_ERROR));
         } else {
             User user = users.get(0);
-            P p = user.getP();
-            if (p == null || !p.getEmail().equals(userVo.getEmail().trim())) {
-                // 用户名和邮箱不匹配
-                throw new BusinessRuntimeException(new Message(Severity.ERROR, MsgCode.USER_NAME_NOT_MATCHED_EMAIL));
+
+            if (StringUtils.isNotEmpty(userVo.getEmail())) {
+                P p = user.getP();
+                if (p == null || !p.getEmail().equals(userVo.getEmail().trim())) {
+                    // 用户名和邮箱不匹配
+                    throw new BusinessRuntimeException(new Message(Severity.ERROR, MsgCode.USER_NAME_NOT_MATCHED_EMAIL));
+                }
+                EmailVo emailVo = new EmailVo();
+                emailVo.setSubject("[金豆荚-管理系统]：重置密码");
+                List<String> tos = new ArrayList<String>();
+                tos.add(userVo.getEmail().trim());
+                emailVo.setTo(tos);
+                StringBuffer content = new StringBuffer();
+                content.append("尊敬的[");
+                content.append(userVo.getUsername());
+                content.append("]用户,此次重置的密码为[");
+                content.append(user.getPassword() + "]");
+                emailVo.setBodyHtml(content.toString());
+                emailService.sendEmail(emailVo);
+
             }
+
             user.setPassword(userVo.getPassword().trim());
             user.setUpdateTime(new Date());
             entityBaseDao.update(user);
-            EmailVo emailVo = new EmailVo();
-            emailVo.setSubject("[金豆荚-管理系统]：重置密码");
-            List<String> tos = new ArrayList<String>();
-            tos.add(userVo.getEmail().trim());
-            emailVo.setTo(tos);
-            StringBuffer content = new StringBuffer();
-            content.append("尊敬的[");
-            content.append(userVo.getUsername());
-            content.append("]用户,此次重置的密码为[");
-            content.append(user.getPassword() + "]");
-            emailVo.setBodyHtml(content.toString());
-            emailService.sendEmail(emailVo);
         }
 
     }
