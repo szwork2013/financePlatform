@@ -37,9 +37,9 @@ public interface MessageRuleService {
 
     /**
      * 同步数据
-     * @param messagePushTxn
+     * @param messagePushVo
      */
-    public MessagePushTxn saveMessPushTxn(MessagePushTxn messagePushTxn);
+    public MessagePushTxn saveMessPushTxn(MessageRuleVo messagePushVo);
 
     public MessagePushTxn findMessagePushTxnById(Long messageTxnId);
 

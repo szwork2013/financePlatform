@@ -29,7 +29,7 @@ import java.util.List;
  * Created by Administrator on 2014/12/14.
  */
 public class MessageRuleServiceImpl implements MessageRuleService {
-    private MessagePushDao messagePushDAO = new MessagePushDaoImpl();
+    private MessagePushDao messagePushDao = new MessagePushDaoImpl();
     private PushMessageService messagePushService = new PushMessageService();
     private SmsMessageService smsMessageService = new SmsMessageService();
     private CustomerService customerService = new CustomerServiceImpl();
@@ -37,47 +37,76 @@ public class MessageRuleServiceImpl implements MessageRuleService {
 
     @Override
     public List<MessageRuleVo> findMessagePush(PageVo pageVo) {
-        List<MessageRuleVo> messagePush=messagePushDAO.findMessagePush(pageVo);
+        List<MessageRuleVo> messagePush = messagePushDao.findMessagePush(pageVo);
         return messagePush;
     }
 
     @Override
     public void update(MessageRuleVo messagePushVo) {
-        messagePushDAO.update(messagePushVo);
+        MessageRule messageRule = messagePushVo.convertToMessageRule();
+        messageRule.setUpdateTime(DBHelper.getCurrentTime());
+        messagePushDao.update(messageRule);
     }
 
     @Override
     public void save(MessageRuleVo messagePushVo) {
-        messagePushDAO.save(messagePushVo);
+        MessageRule messageRule = messagePushVo.convertToMessageRule();
+        messageRule.setCreateTime(DBHelper.getCurrentTime());
+        messagePushDao.save(messageRule);
     }
 
     @Override
-    public MessagePushTxn saveMessPushTxn(MessagePushTxn messagePushTxn) {
-        return messagePushDAO.saveMessPushTxn(messagePushTxn);
+    public MessagePushTxn saveMessPushTxn(MessageRuleVo messagePushVo) {
+        boolean isUpdate = false;
+        MessagePushTxn messagePushTxn = null;
+        List<MessagePushTxn> messagePushTxnList = messagePushDao.findMessagePushTxnByRuleId(messagePushVo.getId());
+
+        if (!messagePushTxnList.isEmpty()) {
+            isUpdate = true;
+            messagePushTxn = messagePushTxnList.get(0);
+            messagePushTxn.setUpdateTime(DBHelper.getCurrentTime());
+        }else{
+            messagePushTxn = new MessagePushTxn();
+            messagePushTxn.setCreateTime(DBHelper.getCurrentTime());
+            messagePushTxn.setPushStatus(DictConst.PUSH_STATUS_2);//待推送
+        }
+
+        messagePushTxn.setMessageRuleId(messagePushVo.getId());
+        messagePushTxn.setGroupId(messagePushVo.getGroupId() == null ? 0 : messagePushVo.getGroupId());
+        messagePushTxn.setTitle(messagePushVo.getTitle());
+        messagePushTxn.setContent(messagePushVo.getContent());
+
+        if(isUpdate) {
+            messagePushDao.updateMessPushTxn(messagePushTxn);
+        }else{
+            messagePushDao.createMessPushTxn(messagePushTxn);
+        }
+
+        return messagePushTxn;
     }
 
     public MessagePushTxn findMessagePushTxnById(Long messageTxnId){
-        return messagePushDAO.findMessagePushTxnById(messageTxnId);
+        return messagePushDao.findMessagePushTxnById(messageTxnId);
     }
 
     @Override
     public List<MessagePushConfig> getMessPushConfig() {
-        return messagePushDAO.getMessPushConfigid();
+        return messagePushDao.getMessPushConfigid();
     }
 
     @Override
     public List<Group> getMessPushGroup() {
-        return messagePushDAO.getMessPushGroup();
+        return messagePushDao.getMessPushGroup();
     }
 
     @Override
     public boolean checkMessPushConfig(Long configId) {
-        return messagePushDAO.checkMessPushConfig(configId);
+        return messagePushDao.checkMessPushConfig(configId);
     }
 
     @Override
     public List<PushMessageVo> findPushMessage(Long messageTxnId) {
-        List<PushMessageVo> pushMessageVoList = messagePushDAO.findPushMessage(messageTxnId);
+        List<PushMessageVo> pushMessageVoList = messagePushDao.findPushMessage(messageTxnId);
         if (pushMessageVoList.isEmpty()){
             return pushMessageVoList;
         }
@@ -93,23 +122,23 @@ public class MessageRuleServiceImpl implements MessageRuleService {
     public List<PushMessageVo> findPushMessageList(PageVo pageVo) {
         List<PushMessageVo> returnList = Lists.newArrayList();
 
-        List<PushMessageVo> pushMessageVoList = messagePushDAO.findPushMessageList(pageVo);
+        List<PushMessageVo> pushMessageVoList = messagePushDao.findPushMessageList(pageVo);
         buildPushMessageVoList(returnList, pushMessageVoList, null);
 
         return returnList;
     }
 
     private void buildPushMessageVoList(List<PushMessageVo> returnList, List<PushMessageVo> pushMessageVoList, String customerId) {
-        List<MessagePushSettingVo> messagePushSettingVos = messagePushDAO.findCustomerMsgSettingList();
+        List<MessagePushSettingVo> messagePushSettingVos = messagePushDao.findCustomerMsgSettingList();
         Long groupId = null;
         for (PushMessageVo pushMessageVo : pushMessageVoList) {
             if (customerId != null) {
-                List<MessagePushSettingVo> list = messagePushDAO.findCustomerMsgSettingListByCustomerId(customerId);
+                List<MessagePushSettingVo> list = messagePushDao.findCustomerMsgSettingListByCustomerId(customerId);
                 transPushMessageVoList(returnList, pushMessageVo, list);
             }else{
                 groupId = pushMessageVo.getGroupId();
                 if (groupId != null && groupId != 0) {
-                    List<MessagePushSettingVo> list =  messagePushDAO.findCustomerMsgSettingListByGroupId(groupId);
+                    List<MessagePushSettingVo> list =  messagePushDao.findCustomerMsgSettingListByGroupId(groupId);
                     transPushMessageVoList(returnList, pushMessageVo, list);
                 }else{
                     transPushMessageVoList(returnList, pushMessageVo, messagePushSettingVos);
@@ -128,9 +157,9 @@ public class MessageRuleServiceImpl implements MessageRuleService {
                 continue;
             }
             if (messagePushSettingVo.getLoginStatus().equals("Y")) {
-                badge = messagePushDAO.countUnReadNum(messagePushSettingVo.getCustomerId(), messagePushSettingVo.getDeviceNo());
+                badge = messagePushDao.countUnReadNum(messagePushSettingVo.getCustomerId(), messagePushSettingVo.getDeviceNo());
             }else{
-                badge = messagePushDAO.countUnReadNum(messagePushSettingVo.getDeviceNo());
+                badge = messagePushDao.countUnReadNum(messagePushSettingVo.getDeviceNo());
             }
             Logger.info(MessageFormat.format(">>badge：{0}, deviceNo:{1}, registrationId:{2}", badge, messagePushSettingVo.getDeviceNo(), messagePushSettingVo.getRegistrationId()));
             try {
@@ -166,11 +195,11 @@ public class MessageRuleServiceImpl implements MessageRuleService {
         //更新状态为发送成功
         if (!customerMsgPushList.isEmpty()) {
             String customerMsgTxn = customerMsgPushList.toString().replace("[","(").replace("]",")");
-            messagePushDAO.batchUpdateCustomerMsgPushTxn(customerMsgTxn);
+            messagePushDao.batchUpdateCustomerMsgPushTxn(customerMsgTxn);
         }
         if (!groupMsgPushList.isEmpty()) {
             String groupMsgTxn = groupMsgPushList.toString().replace("[","(").replace("]",")");
-            messagePushDAO.batchUpdateMsgPushTxn(groupMsgTxn);
+            messagePushDao.batchUpdateMsgPushTxn(groupMsgTxn);
         }
 
         Logger.info("=============推送轮循完成=========");
@@ -179,7 +208,7 @@ public class MessageRuleServiceImpl implements MessageRuleService {
 
     public void pushMessagePersonal(MessageHeaderVo messageActivityVo, String ruleCode) {
         try {
-            PushMessageVo pushVo = messagePushDAO.findMessageRuleByCode(ruleCode);
+            PushMessageVo pushVo = messagePushDao.findMessageRuleByCode(ruleCode);
             if (pushVo == null) {
                 Logger.info(MessageFormat.format(">>消息规则{0} 未配置！", ruleCode));
                 return ;
@@ -260,7 +289,7 @@ public class MessageRuleServiceImpl implements MessageRuleService {
         customerMsgPushTxn.setPushTime(currentTime);
         customerMsgPushTxn.setUpdateTime(currentTime);
         customerMsgPushTxn.setPushStatus(DictConst.PUSH_STATUS_4);
-        messagePushDAO.createCustomerMsgPushTxn(customerMsgPushTxn);
+        messagePushDao.createCustomerMsgPushTxn(customerMsgPushTxn);
 
         return customerMsgPushTxn;
     }

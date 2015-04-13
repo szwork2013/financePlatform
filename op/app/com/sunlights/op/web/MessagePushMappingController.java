@@ -1,6 +1,7 @@
 package com.sunlights.op.web;
 
 
+import com.sunlights.common.MsgCode;
 import com.sunlights.common.utils.RequestUtil;
 import com.sunlights.common.vo.PageVo;
 import com.sunlights.op.service.MessagePushMappingService;
@@ -20,9 +21,6 @@ import play.mvc.Result;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
-
-import static play.data.Form.form;
 
 /**
  * Created by Administrator on 2014/12/12.
@@ -52,13 +50,13 @@ public class MessagePushMappingController extends Controller {
             MessagePushMappingVo messagePushVo = Json.fromJson(body.asJson(), MessagePushMappingVo.class);
             if (messagePushVo.getId() != null) {
                 messagePushMappingService.update(messagePushVo);
-                return ok("更新成功");
+                return ok(MsgCode.UPDATE_SUCCESS.getMessage());
             }else{
                 messagePushMappingService.save(messagePushVo);
-                return ok("创建成功");
+                return ok(MsgCode.CREATE_SUCCESS.getMessage());
             }
         }
-        return ok("保存失败");
+        return ok(MsgCode.OPERATE_FAILURE.getMessage());
     }
 
     public Result getActivityScene() {
@@ -77,8 +75,8 @@ public class MessagePushMappingController extends Controller {
     }
 
     public Result findActivityIdByScene() {
-        Map<String, String> activityIdMap  = form().bindFromRequest().data();
-        List<Activity> activityList = messagePushMappingService.findActivityIdByScene(activityIdMap.get("value"));
+        String scene = request().getHeader("params");
+        List<Activity> activityList = messagePushMappingService.findActivityIdByScene(scene);
         List<KeyValueVo> result = new ArrayList<KeyValueVo>();
         for(Activity type : activityList) {
             result.add(new KeyValueVo(type.getId(), type.getTitle()));
@@ -96,7 +94,7 @@ public class MessagePushMappingController extends Controller {
             messagePushVos = RequestUtil.fromQueryString(request().queryString(), MessagePushMappingVo.class);
         }
         messagePushMappingService.deleteById(Long.valueOf(messagePushVos.getId()));
-        return ok("删除成功");
+        return ok(MsgCode.DELETE_SUCCESS.getMessage());
     }
 
 

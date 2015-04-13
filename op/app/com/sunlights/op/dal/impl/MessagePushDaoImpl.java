@@ -3,7 +3,6 @@ package com.sunlights.op.dal.impl;
 import com.sunlights.common.DictConst;
 import com.sunlights.common.dal.EntityBaseDao;
 import com.sunlights.common.utils.ConverterUtil;
-import com.sunlights.common.utils.DBHelper;
 import com.sunlights.common.vo.PageVo;
 import com.sunlights.common.vo.PushMessageVo;
 import com.sunlights.op.dal.MessagePushDao;
@@ -23,15 +22,18 @@ public class MessagePushDaoImpl extends EntityBaseDao implements MessagePushDao 
     public List<MessageRuleVo> findMessagePush(PageVo pageVo) {
         StringBuffer sb = new StringBuffer();
 
-        sb.append( " select ru.id,ru.name,ru.code,ru.description,ru.title,ru.content,ru.content_ext,ru.content_sms,ru.content_push,ru.sms_ind,ru.msg_center_ind,ru.push_ind,ru.message_push_config_id,ru.status,ru.stay_day_ind,");
-        sb.append( " ru.create_time,ru.update_time,ru.group_id,(select cf.remarks from c_message_push_config cf where cf.id = ru.message_push_config_id),");
-        sb.append( " (select gp.name from c_group gp where gp.id = ru.group_id) as groupname from c_message_rule ru ");
-        sb.append( " where 1 = 1 and ru.status='Y' ");
+        String key = "ru.id,ru.name,ru.code,ru.description,ru.title,ru.content,ru.content_ext,ru.content_sms,ru.content_push,ru.sms_ind," +
+                "ru.msg_center_ind,ru.push_ind,ru.message_push_config_id,ru.status,ru.stay_day_ind,ru.group_id,ru.create_time,ru.update_time";
+
+        sb.append(" select " + key + ",");
+        sb.append("  (select cf.remarks from c_message_push_config cf where cf.id = ru.message_push_config_id) as configRemarks,");
+        sb.append( " (select gp.name from c_group gp where gp.id = ru.group_id) as groupName ");
+        sb.append("  from c_message_rule ru ");
+        sb.append( " where 1 = 1 ");
         sb.append( "  /~and ru.id = {id}~/ ");
         sb.append( "  /~and ru.name like {name}~/ ");
         sb.append( " /~and ru.code = {code} ~/ ");
-        sb.append( " group by ru.id,ru.name,ru.code,ru.description,ru.title,ru.content,ru.content_ext,ru.sms_ind,ru.msg_center_ind,ru.push_ind,ru.message_push_config_id,ru.status,ru.stay_day_ind,");
-        sb.append( " ru.create_time,ru.update_time,ru.group_id");
+        sb.append( " group by " + key);
         sb.append( " order by ru.create_time desc,ru.id desc");
 
         Query nativeQuery = createNativeQueryByMap(sb.toString(), pageVo.getFilter());
@@ -44,52 +46,50 @@ public class MessagePushDaoImpl extends EntityBaseDao implements MessagePushDao 
             nativeQuery.setMaxResults(pageSize);
         }
         List list = nativeQuery.getResultList();
-        String keys = "id,name,code,description,title,content,contentext,contentSms,contentPush,smsind,msgcenterind,pushind,messagePushConfigId,status,stayDayInd,createtime,updatetime,groupid,configremarks,groupname";
-        List<MessageRuleVo> messagelist = ConverterUtil.convert(keys, list, MessageRuleVo.class);
+        String keys = "id,name,code,description,title,content,contentExt,contentSms,contentPush,smsInd,msgCenterInd,pushInd,messagePushConfigId,status,stayDayInd,groupId,createTime,updateTime,configRemarks,groupName";
+        List<MessageRuleVo> messageList = ConverterUtil.convert(keys, list, MessageRuleVo.class);
 
-        StringBuffer sbcount = new StringBuffer();
-        sbcount.append(" select count(1) from c_message_rule mr") ;
-        sbcount.append( " where 1 = 1 and mr.status='Y' ");
-        sbcount.append( "  /~and mr.id = {id}~/ ");
-        sbcount.append( "  /~and mr.name like {name}~/ ");
-        sbcount.append( " /~and mr.code = {code} ~/ ");
-        Query countQuery = createNativeQueryByMap(sbcount.toString(), pageVo.getFilter());
+        StringBuffer countSql = new StringBuffer();
+        countSql.append(" select count(1) from c_message_rule mr") ;
+        countSql.append(" where 1 = 1 and mr.status='Y' ");
+        countSql.append("  /~and mr.id = {id}~/ ");
+        countSql.append("  /~and mr.name like {name}~/ ");
+        countSql.append(" /~and mr.code = {code} ~/ ");
+        Query countQuery = createNativeQueryByMap(countSql.toString(), pageVo.getFilter());
         pageVo.setCount(Integer.valueOf(countQuery.getSingleResult().toString()));
 
-        return messagelist;
+        return messageList;
     }
 
 
     @Override
-    public void update(MessageRuleVo messagePushVo) {
-        MessageRule messageRule= messagePushVo.convertToMessageRule();
+    public void update(MessageRule messageRule) {
         super.update(messageRule);
     }
 
     @Override
-    public void save(MessageRuleVo messagePushVo) {
-        MessageRule messageRule= messagePushVo.convertToMessageRule();
+    public void save(MessageRule messageRule) {
         super.create(messageRule);
     }
 
     @Override
-    public MessagePushTxn saveMessPushTxn(MessagePushTxn messagePushTxn) {
-        List<MessagePushTxn> messagePushTxnList = findBy(MessagePushTxn.class, "messageRuleId", messagePushTxn.getMessageRuleId());
-        if(messagePushTxnList.size()>0) {
-            messagePushTxn = messagePushTxnList.get(0);
-            messagePushTxn.setUpdateTime(DBHelper.getCurrentTime());
-            super.update(messagePushTxn);
-        }else{
-            messagePushTxn.setCreateTime(DBHelper.getCurrentTime());
-            messagePushTxn.setPushStatus(DictConst.PUSH_STATUS_2);//待推送
-            super.create(messagePushTxn);
-        }
-
-        return messagePushTxn;
+    public MessagePushTxn updateMessPushTxn(MessagePushTxn messagePushTxn) {
+        return super.update(messagePushTxn);
     }
 
+    @Override
+    public MessagePushTxn createMessPushTxn(MessagePushTxn messagePushTxn) {
+        return create(messagePushTxn);
+    }
+
+    @Override
     public MessagePushTxn findMessagePushTxnById(Long messageTxnId){
         return findUniqueBy(MessagePushTxn.class, "id", messageTxnId);
+    }
+
+    @Override
+    public List<MessagePushTxn> findMessagePushTxnByRuleId(Long messageRuleId){
+        return findBy(MessagePushTxn.class, "messageRuleId", messageRuleId);
     }
 
     @Override
