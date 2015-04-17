@@ -39,6 +39,7 @@ public class MsgCenterAction extends Action.Simple {
                 return result;
             }
 
+            Logger.info(">>消息");
 //            final String token = getResponseToken(context);
 //            if (token == null) {
 //                return result;
@@ -54,6 +55,7 @@ public class MsgCenterAction extends Action.Simple {
                 return result;
             }
 
+            Logger.info(">>查消息");
             final String routeActionMethod = (String) context.args.get(AppConst.ROUTE_ACTION_METHOD);
             JPA.withTransaction(new F.Callback0() {
                 @Override

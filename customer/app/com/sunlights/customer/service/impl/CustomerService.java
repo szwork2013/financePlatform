@@ -252,6 +252,7 @@ public class CustomerService {
      */
     public void createP2PUser(AuthenticationVo authenticationVo) {
         String p2pInterfaceSwitch = parameterService.getParameterByName(ParameterConst.P2P_INTERFACE_SWITCH);
+        Logger.info("调用p2p创建用户开关：" + p2pInterfaceSwitch);
         if (AppConst.STATUS_INVALID.equals(p2pInterfaceSwitch)) {
             return ;
         }
