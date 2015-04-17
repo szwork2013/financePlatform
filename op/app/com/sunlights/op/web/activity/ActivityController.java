@@ -1,6 +1,12 @@
 package com.sunlights.op.web.activity;
 
 import com.fasterxml.jackson.databind.JsonNode;
+import com.sunlights.common.MsgCode;
+import com.sunlights.common.Severity;
+import com.sunlights.common.utils.MessageUtil;
+import com.sunlights.common.utils.RequestUtil;
+import com.sunlights.common.vo.Message;
+import com.sunlights.common.vo.PageVo;
 import com.sunlights.op.service.SCPService;
 import com.sunlights.op.service.activity.ActivityService;
 import com.sunlights.op.service.activity.ActivityShareInfoService;
@@ -33,30 +39,26 @@ public class ActivityController extends Controller {
 
     private ActivityService activityService = new ActivityServiceImpl();
 
+    private MessageUtil messageUtil = MessageUtil.getInstance();
+
     private ObtainRewardRuleService obtainRewardRuleService = new ObtainRewardRuleServiceImpl();
 
     private ActivityShareInfoService activityShareInfoService = new ActivityShareInfoServiceImpl();
 
     public Result findActivities() {
 
-        Http.RequestBody body = request().body();
-        String title = null;
-        Long id = null;
-        if (body.asJson() != null) {
-            JsonNode jsonNode = body.asJson().get("title");
-            if(jsonNode != null) {
-                title =jsonNode.asText();
-            }
+        PageVo pageVo = new PageVo();
+        Http.Request request = request();
 
-            jsonNode = body.asJson().get("id");
-            if(jsonNode != null && StringUtils.isNotEmpty(jsonNode.asText())) {
-                id = jsonNode.asLong();
-            }
-
+        if (!StringUtils.isBlank(request.getHeader("params"))) {
+            pageVo = RequestUtil.getHeaderValue("params", PageVo.class);
         }
 
-        List<ActivityVo> activityVos = activityService.findActivityWithRule(id, title, null);
-        return ok(Json.toJson(activityVos));
+        List<ActivityVo> activityVos = activityService.findActivityWithRule(pageVo);
+        pageVo.setList(activityVos);
+
+        messageUtil.setMessage(new Message(Severity.INFO, MsgCode.OPERATE_SUCCESS), pageVo);
+        return ok(messageUtil.toJson());
     }
 
     public Result saveActivity() {

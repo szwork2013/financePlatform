@@ -3,8 +3,12 @@ package com.sunlights.op.web.activity;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.google.common.collect.Lists;
 import com.google.common.io.Files;
+import com.sunlights.common.MsgCode;
+import com.sunlights.common.Severity;
 import com.sunlights.common.utils.DBHelper;
 import com.sunlights.common.utils.MessageUtil;
+import com.sunlights.common.utils.RequestUtil;
+import com.sunlights.common.vo.Message;
 import com.sunlights.common.vo.MessageVo;
 import com.sunlights.common.vo.PageVo;
 import com.sunlights.op.common.util.ExcelUtil;
@@ -48,17 +52,22 @@ import static play.data.Form.form;
 public class ExchangeBeanResultController extends Controller {
     
     private ExchangeResultService exchangeResultService = new ExchangeResultServiceImpl();
+
+    private MessageUtil messageUtil = MessageUtil.getInstance();
     
     public Result findBeanResultList(){
         PageVo pageVo = new PageVo();
-        JsonNode jsonNode = request().body().asJson();
-        if (jsonNode != null) {
-            pageVo = Json.fromJson(jsonNode, PageVo.class);
+        Http.Request request = request();
+
+        if (!StringUtils.isBlank(request.getHeader("params"))) {
+            pageVo = RequestUtil.getHeaderValue("params", PageVo.class);
         }
         resetFilter(pageVo, false);
         List<ExchangeBeanResultVo> list = exchangeResultService.findExchangeBeanList(pageVo);
+        pageVo.setList(list);
 
-        return ok(Json.toJson(list));
+        messageUtil.setMessage(new Message(Severity.INFO, MsgCode.OPERATE_SUCCESS), pageVo);
+        return ok(messageUtil.toJson());
     }
 
     public Result exchangeBeanExport(){

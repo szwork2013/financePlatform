@@ -1,6 +1,11 @@
 package com.sunlights.op.web.activity;
 
 import com.google.common.collect.Lists;
+import com.sunlights.common.MsgCode;
+import com.sunlights.common.Severity;
+import com.sunlights.common.utils.MessageUtil;
+import com.sunlights.common.utils.RequestUtil;
+import com.sunlights.common.vo.Message;
 import com.sunlights.common.vo.PageVo;
 import com.sunlights.op.service.activity.ExchangeRewardRuleService;
 import com.sunlights.op.service.activity.RewardTypeService;
@@ -10,6 +15,7 @@ import com.sunlights.op.vo.KeyValueVo;
 import com.sunlights.op.vo.activity.RewardTypeVo;
 import models.ExchangeRewardRule;
 import models.RewardType;
+import org.apache.commons.lang3.StringUtils;
 import play.Logger;
 import play.db.jpa.Transactional;
 import play.libs.Json;
@@ -25,6 +31,7 @@ import java.util.List;
  */
 @Transactional
 public class RewardTypeController extends Controller {
+    private MessageUtil messageUtil = MessageUtil.getInstance();
 
     private RewardTypeService rewardTypeService = new RewardTypeServiceImpl();
 
@@ -35,16 +42,24 @@ public class RewardTypeController extends Controller {
     }
 
     public Result findRewardTypes() {
-        List<RewardTypeVo> rewardTypeVos = rewardTypeService.findAllTypeWithRule();
+        PageVo pageVo = new PageVo();
+        Http.Request request = request();
+
+        if (!StringUtils.isBlank(request.getHeader("params"))) {
+            pageVo = RequestUtil.getHeaderValue("params", PageVo.class);
+        }
+
+        List<RewardTypeVo> rewardTypeVos = rewardTypeService.findAllTypeWithRule(pageVo);
 
         if(rewardTypeVos == null) {
             rewardTypeVos = Lists.newArrayList();
         }
         Logger.debug("rewardTypeVos = " + rewardTypeVos);
 
-        PageVo pageVo = new PageVo();//为了分页
         pageVo.setList(rewardTypeVos);
-        return ok(Json.toJson(pageVo));
+
+        messageUtil.setMessage(new Message(Severity.INFO, MsgCode.OPERATE_SUCCESS), pageVo);
+        return ok(messageUtil.toJson());
     }
 
     public Result saveRewardType() {
@@ -79,6 +94,7 @@ public class RewardTypeController extends Controller {
     public Result loadTypeKv() {
         List<RewardType> rewardTypes = rewardTypeService.findAllTypes();
         List<KeyValueVo> result = new ArrayList<KeyValueVo>();
+        result.add(new KeyValueVo("", "请选择"));
         for(RewardType type : rewardTypes) {
             result.add(new KeyValueVo(type.getCode(), type.getName()));
         }

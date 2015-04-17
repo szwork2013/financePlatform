@@ -1,6 +1,7 @@
 package com.sunlights.op.service.activity.impl;
 
 
+import com.sunlights.common.vo.PageVo;
 import com.sunlights.op.dal.activity.RewardTypeDao;
 import com.sunlights.op.dal.activity.impl.RewardTypeDaoImpl;
 import com.sunlights.op.service.activity.RewardTypeService;
@@ -37,8 +38,8 @@ public class RewardTypeServiceImpl implements RewardTypeService {
     }
 
     @Override
-    public List<RewardTypeVo> findAllTypeWithRule() {
-        return rewardTypeDao.findAllTypeWithRule();
+    public List<RewardTypeVo> findAllTypeWithRule(PageVo pageVo) {
+        return rewardTypeDao.findAllTypeWithRule(pageVo);
     }
 
     @Override

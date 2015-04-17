@@ -1,5 +1,6 @@
 package com.sunlights.op.service.activity;
 
+import com.sunlights.common.vo.PageVo;
 import com.sunlights.op.vo.activity.RewardTypeVo;
 import models.RewardType;
 
@@ -20,7 +21,7 @@ public interface RewardTypeService {
 
     public boolean removeByCode(String code);
 
-    public List<RewardTypeVo> findAllTypeWithRule();
+    public List<RewardTypeVo> findAllTypeWithRule(PageVo pageVo);
 
 
     public RewardType findByCode(String code);
