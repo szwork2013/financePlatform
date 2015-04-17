@@ -4,10 +4,7 @@ import com.sunlights.common.vo.PageVo;
 import com.sunlights.common.vo.PushMessageVo;
 import com.sunlights.op.vo.MessagePushSettingVo;
 import com.sunlights.op.vo.MessageRuleVo;
-import models.CustomerMsgPushTxn;
-import models.Group;
-import models.MessagePushConfig;
-import models.MessagePushTxn;
+import models.*;
 
 import java.util.List;
 
@@ -18,12 +15,14 @@ public interface MessagePushDao {
 
     public List<MessageRuleVo> findMessagePush(PageVo pageVo);
 
-    public void update(MessageRuleVo messagePushVo);
+    public void update(MessageRule messageRule);
+    public void save(MessageRule messageRule);
 
-    public void save(MessageRuleVo messagePushVo);
-
-    public MessagePushTxn saveMessPushTxn(MessagePushTxn messagePushTxn);
+    public List<MessagePushTxn> findMessagePushTxnByRuleId(Long messageRuleId);
+    public MessagePushTxn updateMessPushTxn(MessagePushTxn messagePushTxn);
+    public MessagePushTxn createMessPushTxn(MessagePushTxn messagePushTxn);
     public MessagePushTxn findMessagePushTxnById(Long messageTxnId);
+
     public CustomerMsgPushTxn createCustomerMsgPushTxn(CustomerMsgPushTxn customerMsgPushTxn);
 
 

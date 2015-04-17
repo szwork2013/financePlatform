@@ -1,28 +1,26 @@
 package com.sunlights.op.vo;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
-import com.sunlights.common.utils.CommonUtil;
 import models.MessagePushConfig;
 
-import java.text.ParseException;
+import java.io.Serializable;
+import java.util.Date;
 
 /**
  * Created by Administrator on 2014/12/14.
  */
 @JsonInclude(JsonInclude.Include.NON_EMPTY)
-public class MessagePushConfigVo {
+public class MessagePushConfigVo implements Serializable{
     private Long id ;
     private String remarks;
     private String platform;
-    private String platformdes;
-    private String pushtype;
-    private String pushtypedes;
-    private String planbegintime;
-    private String planendtime;
-    private String pushtimed;
+    private String platformDes;
+    private String pushType;
+    private String pushTypeDes;
+    private Date planBeginTime;
+    private Date planEndTime;
+    private String pushTimedInd;
     private String status;
-    private String createtime;
-    private String updatetime;
 
     public MessagePushConfigVo() {
         super();
@@ -35,15 +33,13 @@ public class MessagePushConfigVo {
 
     public void inMessageRuleConfig(MessagePushConfig message) {
         this.id = message.getId();
-        this.remarks=message.getRemarks();
-        this.platform=message.getPlatform();
-        this.pushtype=message.getPushType();
-        this.pushtimed=message.getPushTimed();
+        this.remarks = message.getRemarks();
+        this.platform = message.getPlatform();
+        this.pushType = message.getPushType();
+        this.pushTimedInd = message.getPushTimed();
         this.status = message.getStatus();
-        this.planbegintime = CommonUtil.dateToString(message.getPlanBeginTime(), "yyyy-MM-dd");
-        this.planendtime = CommonUtil.dateToString(message.getPlanEndTime(), "yyyy-MM-dd");
-        this.createtime = CommonUtil.dateToString(message.getCreateTime(), "yyyy-MM-dd");
-        this.updatetime = CommonUtil.dateToString(message.getUpdateTime(), "yyyy-MM-dd");
+        this.planBeginTime = message.getPlanBeginTime();
+        this.planEndTime = message.getPlanEndTime();
     }
 
     public MessagePushConfig convertToMessageRuleConfig() {
@@ -51,17 +47,11 @@ public class MessagePushConfigVo {
         messRule.setId(this.id);
         messRule.setRemarks(this.remarks);
         messRule.setPlatform(this.platform);
-        messRule.setPushType(this.pushtype);
-        messRule.setPushTimed(this.pushtimed);
+        messRule.setPushType(this.pushType);
+        messRule.setPushTimed(this.pushTimedInd);
         messRule.setStatus(this.status);
-        try {
-            messRule.setPlanBeginTime(CommonUtil.stringToDate(this.planbegintime, "yyyy-MM-dd"));
-            messRule.setPlanEndTime(CommonUtil.stringToDate(this.planendtime, "yyyy-MM-dd"));
-            messRule.setCreateTime(CommonUtil.stringToDate(this.createtime, "yyyy-MM-dd"));
-            messRule.setUpdateTime(CommonUtil.stringToDate(this.updatetime, "yyyy-MM-dd"));
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
+        messRule.setPlanBeginTime(this.planBeginTime);
+        messRule.setPlanEndTime(this.planEndTime);
 
         return messRule;
     }
@@ -82,20 +72,20 @@ public class MessagePushConfigVo {
         this.platform = platform;
     }
 
-    public String getPushtype() {
-        return pushtype;
+    public String getPushType() {
+        return pushType;
     }
 
-    public void setPushtype(String pushtype) {
-        this.pushtype = pushtype;
+    public void setPushType(String pushType) {
+        this.pushType = pushType;
     }
 
-    public String getPlanbegintime() {
-        return planbegintime;
+    public Date getPlanBeginTime() {
+        return planBeginTime;
     }
 
-    public void setPlanbegintime(String planbegintime) {
-        this.planbegintime = planbegintime;
+    public void setPlanBeginTime(Date planBeginTime) {
+        this.planBeginTime = planBeginTime;
     }
 
     public Long getId() {
@@ -106,20 +96,20 @@ public class MessagePushConfigVo {
         this.id = id;
     }
 
-    public String getPlanendtime() {
-        return planendtime;
+    public Date getPlanEndTime() {
+        return planEndTime;
     }
 
-    public void setPlanendtime(String planendtime) {
-        this.planendtime = planendtime;
+    public void setPlanEndTime(Date planEndTime) {
+        this.planEndTime = planEndTime;
     }
 
-    public String getPushtimed() {
-        return pushtimed;
+    public String getPushTimedInd() {
+        return pushTimedInd;
     }
 
-    public void setPushtimed(String pushtimed) {
-        this.pushtimed = pushtimed;
+    public void setPushTimedInd(String pushTimedInd) {
+        this.pushTimedInd = pushTimedInd;
     }
 
     public String getStatus() {
@@ -130,34 +120,19 @@ public class MessagePushConfigVo {
         this.status = status;
     }
 
-    public String getCreatetime() {
-        return createtime;
+    public String getPlatformDes() {
+        return platformDes;
     }
 
-    public void setCreatetime(String createtime) {
-        this.createtime = createtime;
+    public void setPlatformDes(String platformDes) {
+        this.platformDes = platformDes;
     }
 
-    public String getUpdatetime() {
-        return updatetime;
+    public String getPushTypeDes() {
+        return pushTypeDes;
     }
 
-    public void setUpdatetime(String updatetime) {
-        this.updatetime = updatetime;
-    }
-    public String getPlatformdes() {
-        return platformdes;
-    }
-
-    public void setPlatformdes(String platformdes) {
-        this.platformdes = platformdes;
-    }
-
-    public String getPushtypedes() {
-        return pushtypedes;
-    }
-
-    public void setPushtypedes(String pushtypedes) {
-        this.pushtypedes = pushtypedes;
+    public void setPushTypeDes(String pushTypeDes) {
+        this.pushTypeDes = pushTypeDes;
     }
 }

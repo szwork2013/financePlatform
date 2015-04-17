@@ -88,6 +88,8 @@ public enum MsgCode {
     UPDATE_SUCCESS("0002", "更新成功", ""),
     DELETE_SUCCESS("0003", "删除成功", ""),
     OPERATE_WARNING("1000", "警告", ""),
+    PUSH_SUCCESS("0005", "推送成功", ""),
+
     OPERATE_FAILURE("2000", "操作失败", ""),
     CREATE_FAILURE("2001", "创建失败", ""),
     UPDATE_FAILURE("2002", "更新失败", ""),
@@ -114,6 +116,12 @@ public enum MsgCode {
     LOGIN_NOT_REGISTER_ERROR("2017", "登陆失败：", "没有该用户账号。"),
     LOGIN_ACCOUNT_UNUSUAL_ERROR("2018", "登陆失败：", "该用户账户异常。"),
     LOGIN_PASSWORD_INCORRECT_ERROR("2019", "登陆失败：", "密码错误。"),
+
+    PUSH_TIMED_IND_ERROR("2023", "推送任务失败，原因：该任务是定时的！"),
+    PUSH_STATUS_ERROR("2024", "推送任务失败，该任务不是待推送状态！"),
+
+    OPERATOR_RESET_PWD("0006", "[金豆荚-管理系统]：重置密码"),
+    OPERATOR_RESET_PWD_INFO("0007", "尊敬的[{0}]用户,此次重置的密码为[{1}]"),
 
     //活动积分模块
     OBTAIN_SUCC("0220", "签到成功"),

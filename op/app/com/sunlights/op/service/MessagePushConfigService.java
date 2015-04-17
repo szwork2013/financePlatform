@@ -30,16 +30,4 @@ public interface MessagePushConfigService {
      */
       public void save(MessagePushConfigVo messagePushVo);
 
-//    /**
-//     * 同步数据
-//     * @param messagePushTxn
-//     */
-//      public void saveMessPushTxn(MessagePushTxn messagePushTxn);
-//
-//
-//      public List<MessagePushConfig> getMessPushConfigid();
-//
-//      public List<Group> getMessPushGroup();
-
-
 }

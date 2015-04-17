@@ -1,7 +1,7 @@
 package com.sunlights.op.web;
 
 
-import com.sunlights.common.utils.CommonUtil;
+import com.sunlights.common.MsgCode;
 import com.sunlights.common.vo.PageVo;
 import com.sunlights.op.service.MessagePushConfigService;
 import com.sunlights.op.service.impl.MessagePushConfigServiceImpl;
@@ -12,7 +12,6 @@ import play.mvc.Controller;
 import play.mvc.Http;
 import play.mvc.Result;
 
-import java.util.Date;
 import java.util.List;
 
 /**
@@ -44,12 +43,12 @@ public class MessagePushConfigController extends Controller {
         Http.RequestBody body = request().body();
 
         if (body.asJson() != null) {
-            MessagePushConfigVo messagePushVos = Json.fromJson(body.asJson(), MessagePushConfigVo.class);
-            messagePushVos.setUpdatetime(CommonUtil.dateToString(new Date(), "yyyy-MM-dd"));
-            messagePushConfigService.update(messagePushVos);
-            return ok("更新成功");
+            MessagePushConfigVo messagePushVo = Json.fromJson(body.asJson(), MessagePushConfigVo.class);
+            messagePushConfigService.update(messagePushVo);
+
+            return ok(MsgCode.UPDATE_SUCCESS.getMessage());
         }
-        return ok("更新失败");
+        return ok(MsgCode.UPDATE_FAILURE.getMessage());
     }
 
     public Result createMessagePushConfig(){
@@ -57,52 +56,10 @@ public class MessagePushConfigController extends Controller {
 
         if (body.asJson() != null) {
             MessagePushConfigVo messagePushVos = Json.fromJson(body.asJson(), MessagePushConfigVo.class);
-            messagePushVos.setCreatetime(CommonUtil.dateToString(new Date(),"yyyy-MM-dd"));
-            messagePushVos.setUpdatetime(CommonUtil.dateToString(new Date(),"yyyy-MM-dd"));
-            System.out.print("==============="+messagePushVos.getPlanbegintime());
-
-            messagePushVos.setStatus("Y");
             messagePushConfigService.save(messagePushVos);
-            return ok("创建成功");
+            return ok(MsgCode.CREATE_SUCCESS.getMessage());
         }
-        return ok("创建失败");
+        return ok(MsgCode.CREATE_FAILURE.getMessage());
     }
-//
-//    public Result getMessPushConfigid() {
-//
-//        List<MessagePushConfig> messPushConfigVos = messagePushService.getMessPushConfigid();
-//        List<KeyValueVo> result = new ArrayList<KeyValueVo>();
-//        for(MessagePushConfig type : messPushConfigVos) {
-//            result.add(new KeyValueVo(type.getId(), type.getRemarks()));
-//        }
-//        return ok(Json.toJson(result));
-//    }
-//
-//    public Result getMessPushGroup() {
-//
-//        List<Group> group = messagePushService.getMessPushGroup();
-//        List<KeyValueVo> result = new ArrayList<KeyValueVo>();
-//        for(Group type : group) {
-//            result.add(new KeyValueVo(type.getId(), type.getName()));
-//        }
-//        return ok(Json.toJson(result));
-//    }
-//
-//
-//    public Result insertToMessPushTXN(){
-//        Http.RequestBody body = request().body();
-//
-//        if (body.asJson() != null) {
-//            MessagePushVo messagePushVos = Json.fromJson(body.asJson(), MessagePushVo.class);
-//            MessagePushTxn messagePushTxnVos= new MessagePushTxn();
-//            messagePushTxnVos.setCreateTime(new Date());
-//            messagePushTxnVos.setUpdateTime(new Date());
-//            messagePushTxnVos.setMessageRuleId(messagePushVos.getId());
-//            messagePushTxnVos.setGroupId(messagePushVos.getGroupid());
-//            messagePushService.saveMessPushTxn(messagePushTxnVos);
-//            return ok("创建成功");
-//        }
-//        return ok("创建失败");
-//    }
 
 }

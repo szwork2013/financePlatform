@@ -2,7 +2,6 @@ package com.sunlights.op.web;
 
 import com.sunlights.common.DictConst;
 import com.sunlights.common.MsgCode;
-import com.sunlights.common.utils.CommonUtil;
 import com.sunlights.common.utils.MessageUtil;
 import com.sunlights.common.vo.Message;
 import com.sunlights.common.vo.PageVo;
@@ -21,7 +20,6 @@ import play.mvc.Http;
 import play.mvc.Result;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 /**
@@ -54,11 +52,10 @@ public class MessageRuleController extends Controller {
 
         if (body.asJson() != null) {
             MessageRuleVo messagePushVos = Json.fromJson(body.asJson(), MessageRuleVo.class);
-            messagePushVos.setUpdatetime(CommonUtil.dateToString(new Date(), "yyyy-MM-dd"));
             messageRuleService.update(messagePushVos);
-            return ok("更新成功");
+            return ok(MsgCode.UPDATE_SUCCESS.getMessage());
         }
-        return ok("更新失败");
+        return ok(MsgCode.UPDATE_FAILURE.getMessage());
     }
 
     public Result createMessageRule(){
@@ -66,13 +63,10 @@ public class MessageRuleController extends Controller {
 
         if (body.asJson() != null) {
             MessageRuleVo messagePushVos = Json.fromJson(body.asJson(), MessageRuleVo.class);
-            messagePushVos.setCreatetime(CommonUtil.dateToString(new Date(),"yyyy-MM-dd"));
-            messagePushVos.setUpdatetime(CommonUtil.dateToString(new Date(),"yyyy-MM-dd"));
-            messagePushVos.setStatus("Y");
             messageRuleService.save(messagePushVos);
-            return ok("创建成功");
+            return ok(MsgCode.CREATE_SUCCESS.getMessage());
         }
-        return ok("创建失败");
+        return ok(MsgCode.CREATE_FAILURE.getMessage());
     }
 
     public Result getMessRuleConfig() {
@@ -102,13 +96,7 @@ public class MessageRuleController extends Controller {
         if (body.asJson() != null) {
             MessageRuleVo messagePushVo = Json.fromJson(body.asJson(), MessageRuleVo.class);
 
-            MessagePushTxn messagePushTxn = new MessagePushTxn();
-            messagePushTxn.setMessageRuleId(messagePushVo.getId());
-            messagePushTxn.setGroupId(messagePushVo.getGroupid() == null ? 0 : messagePushVo.getGroupid());
-            messagePushTxn.setTitle(messagePushVo.getTitle());
-            messagePushTxn.setContent(messagePushVo.getContent());
-
-            messagePushTxn = messageRuleService.saveMessPushTxn(messagePushTxn);
+            MessagePushTxn messagePushTxn = messageRuleService.saveMessPushTxn(messagePushVo);
 
             messagePushVo.setMessageTxnId(messagePushTxn.getId());
             MessageUtil.getInstance().setMessage(new Message(MsgCode.OPERATE_SUCCESS), messagePushVo);
@@ -125,18 +113,18 @@ public class MessageRuleController extends Controller {
 
             Long messPushConfigId = messagePushVo.getMessagePushConfigId();
             if(!messageRuleService.checkMessPushConfig(messPushConfigId)){
-                return ok("推送任务失败，原因：该任务是定时的！");
+                return ok(MsgCode.PUSH_TIMED_IND_ERROR.getMessage());
             }
 
             //消息做过推送  不能再推送
             MessagePushTxn messagePushTxn = messageRuleService.findMessagePushTxnById(messagePushVo.getMessageTxnId());
             if (!DictConst.PUSH_STATUS_2.equals(messagePushTxn.getPushStatus())) {
-                return ok("推送任务失败，该任务不是待推送状态！");
+                return ok(MsgCode.PUSH_STATUS_ERROR.getMessage());
             }
             List<PushMessageVo> list = messageRuleService.findPushMessage(messagePushVo.getMessageTxnId());
 
             messageRuleService.pushMessage(list);
         }
-        return ok("推送成功");
+        return ok(MsgCode.PUSH_SUCCESS.getMessage());
     }
 }

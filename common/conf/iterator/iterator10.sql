@@ -38,8 +38,7 @@ create table  c_version_rule_config
        create_time       timestamp,
        update_time       timestamp
 );
-alter  table c_version_rule_config
-       add constraint PK_c_version_rule_config_Id primary key (Id);
+alter  table c_version_rule_config add constraint PK_c_version_rule_config_Id primary key (Id);
 comment on table c_version_rule_config is '版本规则配置表';
 comment on column c_version_rule_config.Id is '编号';
 comment on column c_version_rule_config.min_support_Version is '最小支持版本';
@@ -53,7 +52,7 @@ comment on column c_customer.Authentication_id is '认证ID';
 
 
 ALTER TABLE c_login_history ADD COLUMN channel character varying(10);
-COMMENT ON COLUMN c_login_history.channel IS '登录渠道：'0-ios、1-web端 2android';
+COMMENT ON COLUMN c_login_history.channel IS '登录渠道：0-ios、1-web端 2android';
 
 
 insert into c_authentication(id,password,channel,create_time,update_time,mobile)

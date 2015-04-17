@@ -3,11 +3,13 @@ package com.sunlights.op.vo;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import models.MessageRuleMapping;
 
+import java.io.Serializable;
+
 /**
  * Created by Administrator on 2014/12/14.
  */
 @JsonInclude(JsonInclude.Include.NON_EMPTY)
-public class MessagePushMappingVo {
+public class MessagePushMappingVo  implements Serializable {
     private Long id ;
     private String methodName;
     private String ruleCode;
