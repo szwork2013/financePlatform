@@ -80,7 +80,7 @@ POST          /deposit/interest                     @com.sunlights.op.web.Deposi
 #common
 POST          /common/dicts                         @com.sunlights.common.web.CommonController.findDictsByCat
 GET           /smsmessages                          @com.sunlights.op.web.SmsMessageController.findSmsMessageVos
-POST          /smsmessage/excel                     @com.sunlights.op.web.SmsMessageController.exportSmsMessages
+GET           /smsmessage/excel                     @com.sunlights.op.web.SmsMessageController.exportSmsMessages
 
 
 GET           /account/settleaccounts               @com.sunlights.op.web.SettleAccountController.findSettleAccounts
