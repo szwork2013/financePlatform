@@ -173,6 +173,43 @@ public class MessageRuleServiceImpl implements MessageRuleService {
             messagePushDAO.batchUpdateMsgPushTxn(groupMsgTxn);
         }
 
+
+        try {
+            String smsInd = list.isEmpty() ? null : list.get(0).getSmsInd();
+            if (AppConst.STATUS_VALID.equals(smsInd)) {
+                PushMessageVo pushMessageVo = list.get(0);
+                Logger.info(">>开始发送短信");
+                PageVo pageVo = new PageVo();
+                List<CustomerVo> customerVos = customerService.findCustomersBy(pageVo);
+
+                for (CustomerVo customerVo : customerVos) {
+                    MessageSmsTxn messageSmsTxn = createMessageSmsTxn(pushMessageVo, customerVo.getMobilePhoneNo());
+
+                    Logger.debug(">>待发送消息内容：" + Json.toJson(messageSmsTxn));
+                    try {
+                        SmsMessageVo smsMessageVo = new SmsMessageVo();
+                        smsMessageVo.setContent(messageSmsTxn.getContent());
+                        smsMessageVo.setMobile(messageSmsTxn.getMobile());
+                        smsMessageVo.setSmsId(messageSmsTxn.getSmsId());
+
+                        SmsMessageVo resultMessageSmsTxn = smsMessageService.sendSms(smsMessageVo);
+                        messageSmsTxn.setSuccessInd(resultMessageSmsTxn.getSuccessInd());
+                        customerService.createMessageSmsTxn(messageSmsTxn);
+                    }catch (Exception e){
+                        messageSmsTxn.setSuccessInd(AppConst.STATUS_INVALID);
+                        customerService.createMessageSmsTxn(messageSmsTxn);
+                        Logger.error(">>messageSmsTxn:" + Json.toJson(messageSmsTxn), e);
+                        e.printStackTrace();
+                    }
+                }
+
+            }
+        }catch (Exception e) {
+            e.printStackTrace();
+        }
+
+
+
         Logger.info("=============推送轮循完成=========");
     }
 
@@ -230,16 +267,18 @@ public class MessageRuleServiceImpl implements MessageRuleService {
                         Logger.error(">>messageSmsTxn:" + Json.toJson(messageSmsTxn), e);
                         e.printStackTrace();
                     }
-                if (AppConst.STATUS_VALID.equals(pushInd) && AppConst.STATUS_INVALID.equals(pushMessageVo.getPushTimed())) {//即时推送
-                    Logger.info(">>开始推送");
-                    pushMessageVo.setContentPush(MessageFormat.format(pushMessageVo.getContentPush(), messageActivityVo.getParams().toArray()));
-                    if (sendNum == 0) {
-                        createCustomerMsgPushTxn(pushMessageVo);
-                    }
-
-                    messagePushService.sendPush(pushMessageVo);
-                }
             }
+
+            if (AppConst.STATUS_VALID.equals(pushInd) && AppConst.STATUS_INVALID.equals(pushMessageVo.getPushTimed())) {//即时推送
+                Logger.info(">>开始推送");
+                pushMessageVo.setContentPush(MessageFormat.format(pushMessageVo.getContentPush(), messageActivityVo.getParams().toArray()));
+                if (sendNum == 0) {
+                    createCustomerMsgPushTxn(pushMessageVo);
+                }
+
+                messagePushService.sendPush(pushMessageVo);
+            }
+
             sendNum++;
         }
         }catch (Exception ex) {
