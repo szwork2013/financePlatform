@@ -1,7 +1,10 @@
 package com.sunlights.op.web.activity;
 
 import com.sunlights.common.MsgCode;
+import com.sunlights.common.Severity;
+import com.sunlights.common.utils.MessageUtil;
 import com.sunlights.common.utils.RequestUtil;
+import com.sunlights.common.vo.Message;
 import com.sunlights.common.vo.PageVo;
 import com.sunlights.op.service.activity.ActivityReturnMsgService;
 import com.sunlights.op.service.activity.impl.ActivityReturnMsgServiceImpl;
@@ -25,6 +28,8 @@ public class ActivityReturnMsgMgrController extends Controller {
 
     private ActivityReturnMsgService activityReturnMsgService = new ActivityReturnMsgServiceImpl();
 
+    private MessageUtil messageUtil = MessageUtil.getInstance();
+
     public Result findReturnMsgs() {
 
         PageVo pageVo = new PageVo();
@@ -38,7 +43,8 @@ public class ActivityReturnMsgMgrController extends Controller {
 
         pageVo.setList(activityReturnMsgVos);
 
-        return ok(Json.toJson(pageVo));
+        messageUtil.setMessage(new Message(Severity.INFO, MsgCode.OPERATE_SUCCESS), pageVo);
+        return ok(messageUtil.toJson());
     }
 
     public Result saveReturnMsg() {

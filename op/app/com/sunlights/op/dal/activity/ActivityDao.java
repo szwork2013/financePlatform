@@ -1,5 +1,6 @@
 package com.sunlights.op.dal.activity;
 
+import com.sunlights.common.vo.PageVo;
 import com.sunlights.op.vo.activity.ActivityVo;
 import models.Activity;
 
@@ -20,6 +21,6 @@ public interface ActivityDao {
 
     public Activity findById(Long id);
 
-    public List<ActivityVo> findActivityWithRule(Long id, String title, String type);
+    public List<ActivityVo> findActivityWithRule(PageVo pageVo);
 
 }

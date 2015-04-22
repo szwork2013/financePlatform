@@ -1,5 +1,6 @@
 package com.sunlights.op.service.activity;
 
+import com.sunlights.common.vo.PageVo;
 import com.sunlights.op.vo.activity.ActivityVo;
 import models.Activity;
 
@@ -18,7 +19,7 @@ public interface ActivityService {
 
     public void deleteActivity(Long id);
 
-    public List<ActivityVo> findActivityWithRule(Long id, String title, String type);
+    public List<ActivityVo> findActivityWithRule(PageVo pageVo);
 
     public String getH5Content(Long activityId);
 

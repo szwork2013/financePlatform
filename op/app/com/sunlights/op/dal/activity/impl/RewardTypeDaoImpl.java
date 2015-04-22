@@ -1,11 +1,16 @@
 package com.sunlights.op.dal.activity.impl;
 
 import com.sunlights.common.dal.EntityBaseDao;
+import com.sunlights.common.dal.PageDao;
+import com.sunlights.common.dal.impl.PageDaoImpl;
 import com.sunlights.common.utils.ConverterUtil;
+import com.sunlights.common.vo.PageVo;
 import com.sunlights.op.dal.activity.RewardTypeDao;
 import com.sunlights.op.vo.activity.RewardTypeVo;
+import com.sunlights.op.vo.statistics.PurchaseInfoVo;
 import models.RewardType;
 
+import javax.persistence.Query;
 import java.sql.Timestamp;
 import java.util.List;
 
@@ -13,6 +18,8 @@ import java.util.List;
  * Created by tangweiqun on 2014/11/14.
  */
 public class RewardTypeDaoImpl extends EntityBaseDao implements RewardTypeDao {
+
+    private PageDao pageDao = new PageDaoImpl();
 
     @Override
     public List<RewardType> findAllTypes() {
@@ -31,15 +38,23 @@ public class RewardTypeDaoImpl extends EntityBaseDao implements RewardTypeDao {
     }
 
     @Override
-    public List<RewardTypeVo> findAllTypeWithRule() {
+    public List<RewardTypeVo> findAllTypeWithRule(PageVo pageVo) {
+        StringBuilder selectSql = new StringBuilder();
+        selectSql.append(" FROM F_REWARD_TYPE a left join f_exchange_reward_rule b on a.code = b.reward_type  ");
+
         StringBuilder sb = new StringBuilder();
         String keys = "typeId,code,name,unit,ruleUrl,ruleId,rate,limitTime";
         String columns = " a.id,a.code,a.name,a.unit,a.rule_url, b.id as ruleId, b.rate,b.limit_time ";
         sb.append("select ").append(columns)
-                .append("FROM F_REWARD_TYPE a left join f_exchange_reward_rule b on a.code = b.reward_type order by a.code");
+                .append(selectSql).append(" order by a.code");
 
-        List<Object[]> resultRows = createLocalQuery(sb.toString()).getResultList();
-        List<RewardTypeVo> rewardTypeVos = ConverterUtil.convert(keys, resultRows, RewardTypeVo.class);
+        StringBuilder countSb = new StringBuilder();
+        countSb.append("select count(*) ")
+                .append(selectSql);
+
+        List list = pageDao.findNativeComplexBy(sb.toString(), countSb.toString(), pageVo);
+
+        List<RewardTypeVo> rewardTypeVos = ConverterUtil.convert(keys, list, RewardTypeVo.class);
 
         return rewardTypeVos;
     }

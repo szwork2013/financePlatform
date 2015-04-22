@@ -1,6 +1,6 @@
 name := "financePlatform"
 
-version := "1.4"
+version := "1.4.2"
 
 resolvers ++= Seq(
   "Sunlights 3rd party" at "http://nexus.sunlights.me/nexus/content/repositories/thirdparty",
