@@ -1,7 +1,6 @@
 package com.sunlights.op.dal.activity;
 
 import com.sunlights.common.vo.PageVo;
-import com.sunlights.op.dto.ExchangeResultXlsDto;
 import com.sunlights.op.vo.activity.ExchangeBeanResultVo;
 import com.sunlights.op.vo.activity.ExchangeResultVo;
 import models.ExchangeResult;
@@ -51,12 +50,6 @@ public interface ExchangeResultDao {
 	 */
 	public int exportSuccessfully(List<ExchangeResultVo> exchangeResultVos);
 
-	/**
-	 * 比较是否兑换成功
-	 * @param exchangeResultXlsDto
-	 * @return
-	 */
-	public boolean checkExchangeResult(ExchangeResultXlsDto exchangeResultXlsDto);
 
 	// ========================================================Yuan=============================================//
 

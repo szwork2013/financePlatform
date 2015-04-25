@@ -10,15 +10,14 @@ import com.sunlights.common.vo.MessageVo;
 import play.Logger;
 import play.libs.Json;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 /**
  * Created by yuan on 9/22/14.
  */
 public class MessageUtil {
 
+    private String messageHeader;
     private MessageVo mesageVo;
 
     private MessageUtil() {
@@ -49,9 +48,13 @@ public class MessageUtil {
         ObjectNode json = Json.newObject();
         json.put("message", message.getSeverity());
         json.put("headerValue", Json.toJson(value));
-
+        messageHeader = json.toString();
         Logger.info(json.toString());
-        return json.toString();
+        return messageHeader;
+    }
+
+    public String getMessageHeader(){
+        return messageHeader;
     }
 
     public JsonNode toJson() {

@@ -218,6 +218,6 @@ DELETE        /exchangescene/:id                    @com.sunlights.op.web.activi
 
 GET           /exchangebeanresult                   @com.sunlights.op.web.activity.ExchangeBeanResultController.findBeanResultList
 GET           /exchangebean/export                  @com.sunlights.op.web.activity.ExchangeBeanResultController.exchangeBeanExport
-POST          /exchangebean/upload                  @com.sunlights.op.web.activity.ExchangeBeanResultController.upload
+POST          /exchangebean/upload                  @com.sunlights.op.web.activity.ExchangeBeanResultController.uploadExchangeBean
 
 GET           /assets/*file                         controllers.Assets.at(path="/public", file)

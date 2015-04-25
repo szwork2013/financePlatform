@@ -31,7 +31,7 @@ public class MessageRuleVo implements Serializable{
     private Long groupId;
     private String groupName;
     private String status;
-    private String stayDayInd;
+    private Long stayDays;
     
     private Date createTime;
     private Date updateTime;
@@ -61,7 +61,8 @@ public class MessageRuleVo implements Serializable{
         this.messagePushConfigId=message.getMessagePushConfigId();
         this.groupId =message.getGroupId();
         this.status = message.getStatus();
-        this.stayDayInd = message.getStayDayInd();
+        this.stayDays = message.getStayDays();
+        this.stayDays = message.getStayDays();
         this.createTime = message.getCreateTime();
         this.updateTime = message.getUpdateTime();
     }
@@ -83,7 +84,7 @@ public MessageRule convertToMessageRule() {
     messRule.setMessagePushConfigId(this.messagePushConfigId);
     messRule.setGroupId(this.groupId);
     messRule.setStatus(this.status);
-    messRule.setStayDayInd(this.stayDayInd);
+    messRule.setStayDays(this.stayDays <= 1 ? 1 : this.stayDays);
     messRule.setCreateTime(this.createTime);
     messRule.setUpdateTime(this.updateTime);
 
@@ -234,12 +235,12 @@ public MessageRule convertToMessageRule() {
         this.contentPush = contentPush;
     }
 
-    public String getStayDayInd() {
-        return stayDayInd;
+    public Long getStayDays() {
+        return stayDays;
     }
 
-    public void setStayDayInd(String stayDayInd) {
-        this.stayDayInd = stayDayInd;
+    public void setStayDays(Long stayDays) {
+        this.stayDays = stayDays;
     }
 
     public Date getCreateTime() {

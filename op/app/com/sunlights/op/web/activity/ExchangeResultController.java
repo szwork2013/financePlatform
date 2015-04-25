@@ -1,13 +1,16 @@
 package com.sunlights.op.web.activity;
 
 import com.google.common.io.Files;
+import com.sunlights.common.AppConst;
 import com.sunlights.common.MsgCode;
 import com.sunlights.common.Severity;
 import com.sunlights.common.utils.DBHelper;
 import com.sunlights.common.utils.MessageUtil;
 import com.sunlights.common.utils.RequestUtil;
 import com.sunlights.common.vo.Message;
+import com.sunlights.common.vo.MessageHeaderVo;
 import com.sunlights.common.vo.PageVo;
+import com.sunlights.customer.action.MsgCenterAction;
 import com.sunlights.op.common.util.ExcelUtil;
 import com.sunlights.op.dto.BaseXlsDto;
 import com.sunlights.op.dto.ExchangeResultExportXlsDto;
@@ -22,6 +25,7 @@ import play.libs.Json;
 import play.mvc.Controller;
 import play.mvc.Http;
 import play.mvc.Result;
+import play.mvc.With;
 
 import java.io.File;
 import java.sql.Timestamp;
@@ -52,6 +56,7 @@ public class ExchangeResultController extends Controller {
 
 	// =================================================Yuan===============================================//
 
+    @With(MsgCenterAction.class)
 	public Result uploadRedPacket() {
 		Http.RequestBody body = request().body();
 		if (body.asMultipartFormData() != null) {
@@ -71,9 +76,13 @@ public class ExchangeResultController extends Controller {
 				ExchangeResultXlsDto baseXlsDto = new ExchangeResultXlsDto();
 				try {
 					List<BaseXlsDto> dtoList = ExcelUtil.readExcel(orFile, type, baseXlsDto);
-					int i = exchangeResultService.checkExchangeResults(dtoList);
-					messageUtil.setMessage(new Message(Severity.INFO, MsgCode.EXCHANGE_CHECK_INFO, i, dtoList.size() - i));
-					return ok(messageUtil.toJson());
+					List<MessageHeaderVo> messageHeaderVoList = exchangeResultService.checkExchangeResults(dtoList);
+					messageUtil.setMessage(new Message(Severity.INFO, MsgCode.EXCHANGE_CHECK_INFO, messageHeaderVoList.size(), dtoList.size() - messageHeaderVoList.size()));
+                    messageUtil.setMessageHeader(messageHeaderVoList);
+
+                    response().setHeader(AppConst.HEADER_MSG, messageUtil.getMessageHeader());
+
+                    return ok(messageUtil.toJson());
 				} catch (Exception e) {
 					e.printStackTrace();
 					messageUtil.setMessage(new Message(Severity.ERROR, MsgCode.UPLOAD_FILE_ERROR));

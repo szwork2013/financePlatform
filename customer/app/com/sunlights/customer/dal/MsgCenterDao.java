@@ -26,7 +26,16 @@ public interface MsgCenterDao {
      */
     public PushMessageVo findMessageRuleByCode(String ruleCode);
 
-    public MessageRule findMessageRuleSmsByCode(String ruleCode);
+    /**
+     * 查询 群组成员 电话 groupId为空或0时查询所有人
+     * @param groupId
+     * @return
+     */
+    public List<String> findMobileListByGroupId(Long groupId);
+
+    public List<String> findAllMobileList();
+
+    public String findMobileByCustomerId(String customerId);
 
     public MessageSmsTxn createMessageSmsTxn(MessageSmsTxn messageSmsTxn);
 
@@ -44,6 +53,13 @@ public interface MsgCenterDao {
 
 
     /**
+     * 批量更新 c_message_push_txn
+     * @param idStr  messageRuleId字符串 （xx,xx）
+     */
+    public void batchUpdateMsgPushTxn(String idStr);
+
+
+    /**
      * 根据配置信息查询需要发送的消息编码集合
      *
      * @param methodName  方法名
@@ -54,11 +70,11 @@ public interface MsgCenterDao {
     public List<String> findMessageRuleCodeList(String methodName, String messageType, String scene);
 
     /**
-     * 查询 在有效时间范围内的 未提醒过的  活动提示
+     * 查询 在有效的 未提醒过的活动 提示 对应的消息规则编码
      *
      * @return
      */
-    public List<String> findUnRemindRuleCodeList(String customerId, String activityIdStr, String methodName);
+    public List<String> findUnRemindRuleCodeList(String customerId, String methodName);
 
 
     /**
@@ -85,8 +101,6 @@ public interface MsgCenterDao {
      * @return
      */
     public CustomerMsgReadHistory findMsgReadHistory(String deviceNo, Long msgId, String customerId);
-
-    public void updateMsgReadHistory(CustomerMsgReadHistory customerMsgReadHistory);
 
     /**
      * 未读数量记录查询---登录

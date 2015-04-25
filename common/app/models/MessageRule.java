@@ -22,6 +22,7 @@ public class MessageRule extends IdEntity {
     private String code;
     private String description;
     private String title;
+    @Column(name = "content", length = 1000)
     private String content;
     @Column(name = "content_ext")
     private String contentExt;
@@ -45,6 +46,8 @@ public class MessageRule extends IdEntity {
     private String status = AppConst.STATUS_VALID;
     @Column(name = "stay_day_ind", length = 1)
     private String stayDayInd;//信息是否保存30天
+    @Column(name = "stay_days")
+    private Long stayDays;//这条消息持续作用时间
     @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "CREATE_TIME")
     private Date createTime;
@@ -186,5 +189,13 @@ public class MessageRule extends IdEntity {
 
     public void setStayDayInd(String stayDayInd) {
         this.stayDayInd = stayDayInd;
+    }
+
+    public Long getStayDays() {
+        return stayDays;
+    }
+
+    public void setStayDays(Long stayDays) {
+        this.stayDays = stayDays;
     }
 }

@@ -24,6 +24,7 @@ public class MessagePushTxn extends IdEntity {
     @Column(name = "send_no")
     private String sendNo;
     private String title;
+    @Column(name = "content", length = 1000)
     private String content;
     @Column(name = "send_num")
     private int sendNum;
