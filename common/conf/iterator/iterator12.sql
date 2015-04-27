@@ -68,4 +68,4 @@ CREATE OR REPLACE VIEW view_message_list AS
            FROM c_customer_msg_push_txn cmpt) pt
   WHERE mr.id = pt.message_rule_id AND mr.msg_center_ind::text = 'Y'::text AND mr.status::text = 'Y'::text
   ORDER BY pt.create_time DESC;
-  /*GRANT SELECT,CREATE,UPDATE,DELETE ON TABLE view_message_list TO uat_user; */
+  /*GRANT SELECT ON TABLE view_message_list TO uat_user; */

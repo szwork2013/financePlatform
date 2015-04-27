@@ -167,7 +167,7 @@ public class ExchangeResultDaoImpl extends EntityBaseDao implements ExchangeResu
 		xsql.append("  /~and a.STATUS = {status}~/ ");
 		xsql.append("  /~and a.create_time >= {beginTime}~/ ");
 		xsql.append("  /~and a.create_time <= {endTime}~/ ");
-        xsql.append("  /~and a.phone like {mobile}~/ ");
+        xsql.append("  /~and c.mobile like {mobile}~/ ");
 
 		Query query = createNativeQueryByMap(xsql.toString(), pageVo.getFilter());
 		int count = Integer.valueOf(query.getSingleResult().toString());
