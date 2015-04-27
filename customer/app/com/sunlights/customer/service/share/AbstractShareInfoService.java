@@ -86,6 +86,8 @@ public abstract class AbstractShareInfoService implements ShareInfoService {
     public ShareInfo getBasicShareInfoModel(String type, String refId) {
         ShareInfo shareInfoParent = shareInfoDao.getParentByType(type);
 
+        Logger.debug("shareInfoParent = " + shareInfoParent + " type = " + type);
+
         List<ShareInfo> specialInfos = shareInfoDao.getByParentId(shareInfoParent.getId());
 
         if(specialInfos == null || specialInfos.isEmpty()) {
@@ -96,15 +98,23 @@ public abstract class AbstractShareInfoService implements ShareInfoService {
     }
 
     private ShareInfo transform(List<ShareInfo> specialInfos, ShareInfo shareInfoParent, String refId) {
+        Logger.debug("refId = " + refId);
+        ShareInfo shareInfoTemp = shareInfoParent;
         for(ShareInfo temp : specialInfos) {
+            Logger.debug("temp == " + temp);
             if(temp.getRefId().equals(refId)) {
-                shareInfoParent.setBaseUrl(getNotNullStr(temp.getBaseUrl(), shareInfoParent.getBaseUrl()));
-                shareInfoParent.setContent(getNotNullStr(temp.getContent(), shareInfoParent.getContent()));
-                shareInfoParent.setImageUrl(getNotNullStr(temp.getImageUrl(), shareInfoParent.getImageUrl()));
-                shareInfoParent.setTitle(getNotNullStr(temp.getTitle(), shareInfoParent.getTitle()));
+                shareInfoTemp = new ShareInfo();
+                shareInfoTemp.setBaseUrl(getNotNullStr(temp.getBaseUrl(), shareInfoParent.getBaseUrl()));
+                shareInfoTemp.setContent(getNotNullStr(temp.getContent(), shareInfoParent.getContent()));
+                shareInfoTemp.setImageUrl(getNotNullStr(temp.getImageUrl(), shareInfoParent.getImageUrl()));
+                shareInfoTemp.setTitle(getNotNullStr(temp.getTitle(), shareInfoParent.getTitle()));
+                shareInfoTemp.setRelateRefId(temp.getRelateRefId());
+                shareInfoTemp.setShareType(temp.getShareType());
+                shareInfoTemp.setParentId(temp.getParentId());
+                shareInfoTemp.setRefId(temp.getRefId());
             }
         }
-        return shareInfoParent;
+        return shareInfoTemp;
     }
 
     /**

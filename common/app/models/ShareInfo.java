@@ -114,4 +114,8 @@ public class ShareInfo extends IdEntity {
     public void setRefId(String refId) {
         this.refId = refId;
     }
+
+    public String toString() {
+        return content;
+    }
 }

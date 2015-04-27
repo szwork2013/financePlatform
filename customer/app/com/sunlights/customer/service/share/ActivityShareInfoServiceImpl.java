@@ -38,12 +38,12 @@ public class ActivityShareInfoServiceImpl extends AbstractShareInfoService {
         ShareInfo shareInfo = context.getShareInfo();
         StringBuilder sb = new StringBuilder();
         sb.append(shareInfo.getBaseUrl());
+        Activity activity = activityService.getByUnknowCondition(context.getRefId());
         if (Integer.valueOf(ActivityConstant.ACCOUNT_COMMON_ONE).equals(shareInfo.getRelateRefId())) {
-            Activity activity = activityService.getByUnknowCondition(context.getRefId());
             sb.append("/" + activity.getUrl());
-            //  sb.append(context.getCommonParamter());
-            sb.append("?info=" + context.getMobile() + "|" + activity.getId());
         }
+        sb.append("?info=" + context.getMobile() + "|" + activity.getId());
+
         return sb.toString();
     }
 
