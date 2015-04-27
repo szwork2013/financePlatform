@@ -1,8 +1,10 @@
 package com.sunlights.common.vo;
 
+import com.google.common.collect.Lists;
 import com.sunlights.common.AppConst;
 
 import java.io.Serializable;
+import java.util.List;
 
 /**
  * <p>Project: financeplatform</p>
@@ -15,7 +17,7 @@ import java.io.Serializable;
  */
 public class SmsMessageVo implements Serializable {
     private String smsId;
-    private String mobile;
+    private List<String> mobileList = Lists.newArrayList();
     private String content;
     private String successInd = AppConst.STATUS_INVALID;
 
@@ -27,12 +29,12 @@ public class SmsMessageVo implements Serializable {
         this.smsId = smsId;
     }
 
-    public String getMobile() {
-        return mobile;
+    public List<String> getMobileList() {
+        return mobileList;
     }
 
-    public void setMobile(String mobile) {
-        this.mobile = mobile;
+    public void setMobileList(List<String> mobileList) {
+        this.mobileList = mobileList;
     }
 
     public String getContent() {

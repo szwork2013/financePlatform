@@ -25,7 +25,8 @@ public class MsgCenterVo implements Serializable {
     private String sendType;
     private String readInd;
     @JsonIgnore
-    private String stayDayInd;
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm", timezone = "GMT+8")
+    private Date showTime;
     @JsonIgnore
     private String customerId;
 
@@ -86,19 +87,19 @@ public class MsgCenterVo implements Serializable {
         this.readInd = readInd;
     }
 
-    public String getStayDayInd() {
-        return stayDayInd;
-    }
-
-    public void setStayDayInd(String stayDayInd) {
-        this.stayDayInd = stayDayInd;
-    }
-
     public String getCustomerId() {
         return customerId;
     }
 
     public void setCustomerId(String customerId) {
         this.customerId = customerId;
+    }
+
+    public Date getShowTime() {
+        return showTime;
+    }
+
+    public void setShowTime(Date showTime) {
+        this.showTime = showTime;
     }
 }

@@ -1,8 +1,8 @@
 package com.sunlights.op.web.activity;
 
-import com.fasterxml.jackson.databind.JsonNode;
 import com.google.common.collect.Lists;
 import com.google.common.io.Files;
+import com.sunlights.common.AppConst;
 import com.sunlights.common.MsgCode;
 import com.sunlights.common.Severity;
 import com.sunlights.common.utils.DBHelper;
@@ -11,6 +11,7 @@ import com.sunlights.common.utils.RequestUtil;
 import com.sunlights.common.vo.Message;
 import com.sunlights.common.vo.MessageVo;
 import com.sunlights.common.vo.PageVo;
+import com.sunlights.customer.action.MsgCenterAction;
 import com.sunlights.op.common.util.ExcelUtil;
 import com.sunlights.op.dto.BaseXlsDto;
 import com.sunlights.op.dto.ExchangeBeanResultExportXlsDto;
@@ -24,10 +25,10 @@ import org.apache.commons.lang3.StringUtils;
 import org.joda.time.DateTime;
 import play.Logger;
 import play.db.jpa.Transactional;
-import play.libs.Json;
 import play.mvc.Controller;
 import play.mvc.Http;
 import play.mvc.Result;
+import play.mvc.With;
 
 import java.io.File;
 import java.text.MessageFormat;
@@ -109,7 +110,8 @@ public class ExchangeBeanResultController extends Controller {
         return ok(chunks);
     }
 
-    public Result upload(){
+    @With(MsgCenterAction.class)
+    public Result uploadExchangeBean(){
         Logger.info(">> upload begin: ");
         MessageVo result = ExcelUtil.uploadExcel(request());
         if (result.getMessage().getSeverity() != 0) {
@@ -132,6 +134,9 @@ public class ExchangeBeanResultController extends Controller {
         }
         Logger.info("上传文件成功");
         Logger.info(">> upload return: " + MessageUtil.getInstance().toJson());
+
+        response().setHeader(AppConst.HEADER_MSG, MessageUtil.getInstance().getMessageHeader());
+
         return ok(MessageUtil.getInstance().toJson());
     }
 

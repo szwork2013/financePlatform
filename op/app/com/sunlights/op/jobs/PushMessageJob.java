@@ -2,7 +2,6 @@ package com.sunlights.op.jobs;
 
 import com.sunlights.common.utils.DBHelper;
 import com.sunlights.common.vo.PageVo;
-import com.sunlights.common.vo.PushMessageVo;
 import com.sunlights.op.service.MessageRuleService;
 import com.sunlights.op.service.impl.MessageRuleServiceImpl;
 import org.quartz.Job;
@@ -12,8 +11,6 @@ import play.Logger;
 import play.Play;
 import play.db.jpa.JPA;
 import play.libs.F;
-
-import java.util.List;
 
 /**
  * <p>Project: operationplatform</p>
@@ -41,15 +38,15 @@ public class PushMessageJob implements Job{
                 int index = 0;
                 MessageRuleService pushMessageService = new MessageRuleServiceImpl();
 
-                while (true) {
-                    pageVo.setIndex(index);
-                    List<PushMessageVo> list = pushMessageService.findPushMessageList(pageVo);
-                    if (list.isEmpty()) {
-                        break;
-                    }
-                    index += pageVo.getPageSize();
-                    pushMessageService.pushMessage(list);
-                }
+//                while (true) {
+//                    pageVo.setIndex(index);
+//                    List<PushMessageVo> list = pushMessageService.findPushMessageList(pageVo);
+//                    if (list.isEmpty()) {
+//                        break;
+//                    }
+//                    index += pageVo.getPageSize();
+//                    pushMessageService.pushMessage(list);
+//                }
 
                 Logger.info("=========[PushMessageJob execute end]============= " + DBHelper.getCurrentTime());
             }

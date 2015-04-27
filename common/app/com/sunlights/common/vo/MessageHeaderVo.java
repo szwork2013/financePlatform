@@ -1,5 +1,6 @@
 package com.sunlights.common.vo;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.google.common.collect.Lists;
 
 import java.io.Serializable;
@@ -15,11 +16,18 @@ import java.util.List;
  *
  * @author <a href="mailto:jiaming.wang@sunlights.cc">wangJiaMing</a>
  */
+@JsonInclude(JsonInclude.Include.NON_EMPTY)
 public class MessageHeaderVo implements Serializable {
     private String messageType;
     private String scene;
     private String customerId;
-    private List<String> params = Lists.newArrayList();
+    private String mobile;//获取验证码时未注册 传入mobile，其它情况不传
+    private List<String> params = Lists.newArrayList();//系统自动发送时传入模版占位符参数
+    //唯有messageType= DictConst.PUSH_TYPE_5 = FP.PUSH.TYPE.5 时才有效
+    // 1、后台系统手动发送消息时传入待发消息编码集合
+    // 2、同一推送类型同一场景下对应多条消息规则且模版不一致 如 兑换话费 有兑换成功推送、兑换失败推送
+    private String ruleCode;
+
 
     public MessageHeaderVo() {
 
@@ -36,10 +44,6 @@ public class MessageHeaderVo implements Serializable {
             return;
         }
         params = Arrays.asList(strings);
-    }
-
-    public void addParamter(String paramter) {
-        this.params.add(paramter);
     }
 
     public String getMessageType() {
@@ -72,5 +76,21 @@ public class MessageHeaderVo implements Serializable {
 
     public void setParams(List<String> params) {
         this.params = params;
+    }
+
+    public String getMobile() {
+        return mobile;
+    }
+
+    public void setMobile(String mobile) {
+        this.mobile = mobile;
+    }
+
+    public String getRuleCode() {
+        return ruleCode;
+    }
+
+    public void setRuleCode(String ruleCode) {
+        this.ruleCode = ruleCode;
     }
 }

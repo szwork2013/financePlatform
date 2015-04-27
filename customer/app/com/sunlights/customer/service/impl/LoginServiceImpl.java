@@ -147,15 +147,21 @@ public class LoginServiceImpl implements LoginService {
 		String deviceNo = vo.getDeviceNo();
         String channel = vo.getChannel();
 
+        boolean fromAppFlag = fromApp(channel);
+
         Logger.info("=============recommendPhone:" + vo.getRecommendPhone());
-        CommonUtil.getInstance().validateParams(mobilePhoneNo, passWord);
-        
+        if (fromAppFlag) {
+            CommonUtil.getInstance().validateParams(mobilePhoneNo, passWord, deviceNo);
+        }else{
+            CommonUtil.getInstance().validateParams(mobilePhoneNo, passWord);
+        }
+
         Customer oldUserMstr = getCustomerByMobilePhoneNo(mobilePhoneNo);
         if (oldUserMstr != null) {
             throw CommonUtil.getInstance().errorBusinessException(MsgCode.PHONE_NUMBER_ALREADY_REGISTRY);
         }
 
-        if (fromApp(channel) && !isVerifyCodeRight(mobilePhoneNo, verifyCode, deviceNo)){
+        if (fromAppFlag && !isVerifyCodeRight(mobilePhoneNo, verifyCode, deviceNo)){
             return null;
         }
 
@@ -165,7 +171,7 @@ public class LoginServiceImpl implements LoginService {
 
         saveLoginHistory(customer, vo);
 
-        if (fromApp(channel)) {
+        if (fromAppFlag) {
             AuthenticationVo authenticationVo = new AuthenticationVo(authentication, customer);
             authenticationVo.setPassword(passWord);
             customerService.createP2PUser(authenticationVo);

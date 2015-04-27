@@ -11,6 +11,8 @@ import play.mvc.Http;
 import play.mvc.Result;
 import services.SmsMessageService;
 
+import java.util.List;
+
 
 /**
  * <p>Project: thirdpartyservice</p>
@@ -37,10 +39,10 @@ public class SmsMessageController extends Controller {
         }
         Logger.debug("sendSms params：" + Json.toJson(smsMessage));
 
-        smsMessageService.sendSms(smsMessage);
+        List<SmsMessageVo> smsMessageVoList = smsMessageService.sendSms(smsMessage);
 
-        Logger.debug("sendSms return：" + Json.toJson(smsMessage));
-        return ok(Json.toJson(smsMessage));
+        Logger.debug("sendSms return：" + Json.toJson(smsMessageVoList));
+        return ok(Json.toJson(smsMessageVoList));
     }
 
 }

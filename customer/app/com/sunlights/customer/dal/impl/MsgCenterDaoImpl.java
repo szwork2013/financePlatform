@@ -46,8 +46,23 @@ public class MsgCenterDaoImpl extends EntityBaseDao implements MsgCenterDao {
     }
 
     @Override
-    public MessageRule findMessageRuleSmsByCode(String ruleCode) {
-        return findUniqueBy(MessageRule.class, "code", ruleCode);
+    public String findMobileByCustomerId(String customerId) {
+        return findUniqueBy(Customer.class, "customerId", customerId).getMobile();
+    }
+
+    @Override
+    public List<String> findMobileListByGroupId(Long groupId) {
+        String mobileSql = "select c.mobile from c_customer c,c_customer_group g where g.customer_id = c.customer_id and g.group_id = :groupId";
+        Query query = em.createNativeQuery(mobileSql);
+        query.setParameter("groupId", groupId);
+        return query.getResultList();
+    }
+
+    @Override
+    public List<String> findAllMobileList(){
+        String mobileSql = "select mobile from c_customer";
+        Query query = em.createNativeQuery(mobileSql);
+        return query.getResultList();
     }
 
     @Override
@@ -86,6 +101,22 @@ public class MsgCenterDaoImpl extends EntityBaseDao implements MsgCenterDao {
     }
 
     @Override
+    public void batchUpdateMsgPushTxn(String idStr) {
+        String sql = " update c_message_push_txn " +
+                "    set push_status = :pushStatus," +
+                "        push_time = current_timestamp " +
+                "  where id in ( select pt.id " +
+                "                 from c_message_push_txn pt,c_message_rule mr " +
+                "                where pt.message_rule_id = mr.id " +
+                "                  and mr.id in " + idStr + ")";
+
+        Query query = em.createNativeQuery(sql);
+        query.setParameter("pushStatus", DictConst.PUSH_STATUS_4);
+        query.executeUpdate();
+        em.flush();
+    }
+
+    @Override
     public List<String> findMessageRuleCodeList(String methodName, String messageType, String scene) {
         String sql = "select mr.ruleCode " +
                 "  from MessageRuleMapping mr " +
@@ -102,28 +133,33 @@ public class MsgCenterDaoImpl extends EntityBaseDao implements MsgCenterDao {
     }
 
     @Override
-    public List<String> findUnRemindRuleCodeList(String customerId, String activityIdStr, String methodNameStr) {
-        String hasSendMsg =
-                "select ct.message_rule_id from c_customer_msg_push_txn ct where ct.customer_id = :customerId and mr.id = ct.message_rule_id" +
-                        " union " +
-                        " select st.message_rule_id from c_message_sms_txn st,c_customer c where st.mobile = c.mobile and c.customer_id = :customerId  and mr.id = st.message_rule_id";
-
-        StringBuffer sb = new StringBuffer();
-        sb.append("select distinct mr.code from c_message_rule_mapping mrm,c_message_rule mr")
-                .append(" where mrm.rule_code = mr.code")
-                .append(" and mrm.status = 'Y'")
-                .append(" and mr.status = 'Y'");
+    public List<String> findUnRemindRuleCodeList(String customerId, String methodNameStr) {
         if ("register".equals(methodNameStr)) {
-            sb.append(" and (mrm.method_name = 'login' or mrm.method_name = 'register')");
-        } else if ("login".equals(methodNameStr)) {
-            sb.append(" and mrm.method_name = 'login'");
+            methodNameStr = "'login','register'";
+        }else{
+            methodNameStr = "'" + methodNameStr + "'";
         }
-        sb.append(" and mrm.activity_id in " + activityIdStr)
-                .append(" and mr.id not in (" + hasSendMsg + ")");
 
-        Logger.debug(sb.toString());
-        Query query = em.createNativeQuery(sb.toString());
+        String sql = "select distinct mr.code " +
+                " from c_message_rule_mapping mrm,c_message_rule mr,f_activity a" +
+                " where mrm.rule_code = mr.code" +
+                " and mrm.status = 'Y'" +
+                " and mr.status = 'Y'" +
+                " and mrm.method_name in (" + methodNameStr + ")" +
+                " and mrm.activity_id = a.id" +
+                " and a.status = 'N'  " +
+                " and a.begin_time <= CURRENT_DATE " +
+                " and a.end_time >= CURRENT_DATE " +
+                " and mr.id not in (select ct.message_rule_id " +
+                "                     from c_customer_msg_push_txn ct " +
+                "                    where mr.id = ct.message_rule_id " +
+                "                      and ct.customer_id = :customerId )";
+
+
+        Logger.debug(sql);
+        Query query = em.createNativeQuery(sql);
         query.setParameter("customerId", customerId);
+
         return query.getResultList();
     }
 
@@ -141,7 +177,7 @@ public class MsgCenterDaoImpl extends EntityBaseDao implements MsgCenterDao {
         query.setFirstResult(pageVo.getIndex());
         query.setMaxResults(pageVo.getPageSize());
         List list = query.getResultList();
-        String keys = "msgId,messageRuleId,title,summary,createTime,sendType,customerId,stayDayInd,readInd";
+        String keys = "msgId,messageRuleId,title,summary,createTime,sendType,customerId,showTime,readInd";
         List<MsgCenterVo> msgCenterVoList = ConverterUtil.convert(keys, list, MsgCenterVo.class);
 
         String countSql = "SELECT count(1) FROM (" + buildMsgCenterVoListWithLoginSql() + ") AS T";
@@ -159,7 +195,7 @@ public class MsgCenterDaoImpl extends EntityBaseDao implements MsgCenterDao {
                 "          or (rh.device_no = :deviceNo and rh.customer_id is null)) THEN 'Y' ELSE 'N' END AS read_ind " +
                 "  FROM view_message_list ml " +
                 " where (ml.customer_id IS NULL or ml.customer_id = :customerId)" +
-                "   AND ml.create_time >= " + buildRegisterTime(true);
+                "   AND ml.show_time >= " + buildRegisterTime(true);
         return sql;
     }
 
@@ -173,7 +209,7 @@ public class MsgCenterDaoImpl extends EntityBaseDao implements MsgCenterDao {
         query.setMaxResults(pageVo.getPageSize());
         Logger.debug(sql);
         List<Object[]> list = query.getResultList();
-        String keys = "msgId,messageRuleId,title,summary,createTime,sendType,customerId,stayDayInd,readInd";
+        String keys = "msgId,messageRuleId,title,summary,createTime,sendType,customerId,showTime,readInd";
         List<MsgCenterVo> msgCenterVoList = ConverterUtil.convert(keys, list, MsgCenterVo.class);
 
         String countSql = "select count(1) FROM (" + buildMsgCenterVoListSql() + ") AS T";
@@ -188,15 +224,15 @@ public class MsgCenterDaoImpl extends EntityBaseDao implements MsgCenterDao {
         String sql = "select ml.*,CASE WHEN ml.id IN (SELECT rh.push_txn_id FROM c_customer_msg_read_history rh WHERE rh.device_no = :deviceNo ) THEN 'Y' ELSE 'N' END AS read_ind " +
                 "  FROM view_message_list ml  " +
                 " where ml.customer_id IS NULL " +
-                "   and ml.create_time >= " + buildRegisterTime(false);
+                "   and ml.show_time >= " + buildRegisterTime(false);
         return sql;
     }
 
     private String buildRegisterTime(boolean isLogin) {
         String registerTime = null;
-        if (isLogin) {
-            registerTime = " (SELECT date_trunc('day',c.create_time) FROM c_customer c WHERE  c.customer_id = :customerId ) ";
-        } else {
+        if (isLogin) {//若登录 直接获取customerId查询注册时间
+            registerTime = " (SELECT date_trunc('day',c.create_time)  FROM c_customer c WHERE  c.customer_id = :customerId ) ";
+        } else {//未登录 通过deviceNo查询注册时间
             registerTime = " (select date_trunc('day',c.create_time) " +
                     "   from c_customer c,c_customer_msg_setting cms" +
                     "  where cms.device_no = :deviceNo " +
@@ -204,7 +240,7 @@ public class MsgCenterDaoImpl extends EntityBaseDao implements MsgCenterDao {
                     "    and cms.push_open_status = 'Y' " +
                     "    and cms.registration_id is not null limit 1 offset 0) ";
         }
-        return registerTime + " - (CASE WHEN stay_day_ind = 'Y' THEN interval '30 day' ELSE interval '0 day' END)";
+        return registerTime;
     }
 
     @Override
@@ -276,10 +312,6 @@ public class MsgCenterDaoImpl extends EntityBaseDao implements MsgCenterDao {
         return list.isEmpty() ? null : list.get(0);
     }
 
-    @Override
-    public void updateMsgReadHistory(CustomerMsgReadHistory customerMsgReadHistory) {
-        update(customerMsgReadHistory);
-    }
 
 
 }

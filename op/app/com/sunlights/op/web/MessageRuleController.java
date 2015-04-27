@@ -1,11 +1,13 @@
 package com.sunlights.op.web;
 
+import com.sunlights.common.AppConst;
 import com.sunlights.common.DictConst;
 import com.sunlights.common.MsgCode;
 import com.sunlights.common.utils.MessageUtil;
 import com.sunlights.common.vo.Message;
+import com.sunlights.common.vo.MessageHeaderVo;
 import com.sunlights.common.vo.PageVo;
-import com.sunlights.common.vo.PushMessageVo;
+import com.sunlights.customer.action.MsgCenterAction;
 import com.sunlights.op.service.MessageRuleService;
 import com.sunlights.op.service.impl.MessageRuleServiceImpl;
 import com.sunlights.op.vo.KeyValueVo;
@@ -18,6 +20,7 @@ import play.libs.Json;
 import play.mvc.Controller;
 import play.mvc.Http;
 import play.mvc.Result;
+import play.mvc.With;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -53,9 +56,9 @@ public class MessageRuleController extends Controller {
         if (body.asJson() != null) {
             MessageRuleVo messagePushVos = Json.fromJson(body.asJson(), MessageRuleVo.class);
             messageRuleService.update(messagePushVos);
-            return ok(MsgCode.UPDATE_SUCCESS.getMessage());
+            MessageUtil.getInstance().setMessage(new Message(MsgCode.OPERATE_SUCCESS));
         }
-        return ok(MsgCode.UPDATE_FAILURE.getMessage());
+        return ok(MessageUtil.getInstance().toJson());
     }
 
     public Result createMessageRule(){
@@ -64,9 +67,9 @@ public class MessageRuleController extends Controller {
         if (body.asJson() != null) {
             MessageRuleVo messagePushVos = Json.fromJson(body.asJson(), MessageRuleVo.class);
             messageRuleService.save(messagePushVos);
-            return ok(MsgCode.CREATE_SUCCESS.getMessage());
+            MessageUtil.getInstance().setMessage(new Message(MsgCode.OPERATE_SUCCESS));
         }
-        return ok(MsgCode.CREATE_FAILURE.getMessage());
+        return ok(MessageUtil.getInstance().toJson());
     }
 
     public Result getMessRuleConfig() {
@@ -106,6 +109,7 @@ public class MessageRuleController extends Controller {
         return ok(MessageUtil.getInstance().toJson());
     }
 
+    @With(MsgCenterAction.class)
     public Result immediatelyPush(){
         Http.RequestBody body = request().body();
         if (body.asJson() != null) {
@@ -121,10 +125,12 @@ public class MessageRuleController extends Controller {
             if (!DictConst.PUSH_STATUS_2.equals(messagePushTxn.getPushStatus())) {
                 return ok(MsgCode.PUSH_STATUS_ERROR.getMessage());
             }
-            List<PushMessageVo> list = messageRuleService.findPushMessage(messagePushVo.getMessageTxnId());
 
-            messageRuleService.pushMessage(list);
+            MessageUtil.getInstance().setMessage(new Message(MsgCode.PUSH_SUCCESS));
+            List<MessageHeaderVo> messageHeaderVoList = messageRuleService.findSendRuleCode(messagePushVo.getMessageTxnId());
+            response().setHeader(AppConst.HEADER_MSG, MessageUtil.getInstance().setMessageHeader(messageHeaderVoList));
         }
+
         return ok(MsgCode.PUSH_SUCCESS.getMessage());
     }
 }

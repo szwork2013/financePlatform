@@ -12,7 +12,6 @@ import play.mvc.Action;
 import play.mvc.Http;
 import play.mvc.Result;
 
-import java.util.Iterator;
 import java.util.List;
 
 /**
@@ -39,11 +38,6 @@ public class MsgCenterAction extends Action.Simple {
                 return result;
             }
 
-            Logger.info(">>消息");
-//            final String token = getResponseToken(context);
-//            if (token == null) {
-//                return result;
-//            }
             JsonNode jsonNode = Json.parse(headerMsg).get("headerValue");
             final List<MessageHeaderVo> messageHeaderVoList = Lists.newArrayList();
             if (jsonNode != null && jsonNode.isArray()) {
@@ -55,20 +49,12 @@ public class MsgCenterAction extends Action.Simple {
                 return result;
             }
 
-            Logger.info(">>查消息");
             final String routeActionMethod = (String) context.args.get(AppConst.ROUTE_ACTION_METHOD);
             JPA.withTransaction(new F.Callback0() {
                 @Override
                 public void invoke() throws Throwable {
-//                    CustomerService customerService = new CustomerService();
-//                    CustomerSession customerSession = customerService.getCustomerSession(token);
-//                    if (customerSession == null) {
-//                        Logger.info(">>无效的token,非法入侵！");
-//                        throw new BusinessRuntimeException(">>无效的token,非法入侵！");
-//                    }
                     MsgCenterActionService msgService = new MsgCenterActionService();
-                    Logger.info(">>开始查询待发消息>>");
-                    msgService.sendMsg(routeActionMethod, messageHeaderVoList);
+                    msgService.msgCenterSendMsg(routeActionMethod, messageHeaderVoList);
                 }
             });
 
@@ -80,17 +66,5 @@ public class MsgCenterAction extends Action.Simple {
         return result;
     }
 
-    private String getResponseToken(Http.Context context) {
-        Iterable<Http.Cookie> cookies = context.response().cookies();
-        Iterator<Http.Cookie> iterable = cookies.iterator();
-        while (iterable.hasNext()) {
-            Http.Cookie cookie = iterable.next();
-            if (AppConst.TOKEN.equals(cookie.name())) {
-                String value = cookie.value();
-                return value;
-            }
-        }
 
-        return null;
-    }
 }

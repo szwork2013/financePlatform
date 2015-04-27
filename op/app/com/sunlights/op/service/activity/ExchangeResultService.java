@@ -1,5 +1,6 @@
 package com.sunlights.op.service.activity;
 
+import com.sunlights.common.vo.MessageHeaderVo;
 import com.sunlights.common.vo.PageVo;
 import com.sunlights.op.dto.BaseXlsDto;
 import com.sunlights.op.vo.activity.ExchangeBeanResultVo;
@@ -61,7 +62,7 @@ public interface ExchangeResultService {
 	 * @param baseXlsDtos
 	 * @return 返回兑换成功的记录
 	 */
-	public int checkExchangeResults(List<BaseXlsDto> baseXlsDtos);
+	public List<MessageHeaderVo> checkExchangeResults(List<BaseXlsDto> baseXlsDtos);
 
 	// ========================================================Yuan=============================================//
 

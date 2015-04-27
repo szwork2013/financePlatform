@@ -1,14 +1,11 @@
 package com.sunlights.customer.dal;
 
-import com.sunlights.common.vo.MsgSettingVo;
 import com.sunlights.customer.vo.CustomerVo;
 import models.Customer;
 import models.CustomerGesture;
-import models.CustomerMsgSetting;
 import models.CustomerSession;
 
 import java.sql.Timestamp;
-import java.util.List;
 
 /**
  * <p>Project: fsp</p>
@@ -70,29 +67,6 @@ public interface CustomerDao {
      * @return
      */
     public Customer findRecommenderInfo(String customerId);
-
-    /**
-     * 查询客户所属aiias 记录
-     *
-     * @param customerId
-     * @return
-     */
-    public List<String> findAliasByCustomerId(String customerId);
-
-    /**
-     * 通过customerId查询 当前客户在所有手机registrationId 集合
-     *
-     * @param customerId
-     * @return
-     */
-    public List<MsgSettingVo> findRegistrationIdsByCustomerId(String customerId);
-
-    public CustomerMsgSetting findCustomerMsgSetting(String registrationId, String deviceNo);
-
-    public CustomerMsgSetting updateCustomerMsgSetting(CustomerMsgSetting customerMsgSetting);
-
-    public CustomerMsgSetting createCustomerMsgSetting(CustomerMsgSetting customerMsgSetting);
-
 
     public boolean validateHasFirstPurchase(String customerId);
 }
