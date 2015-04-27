@@ -16,11 +16,9 @@ import com.sunlights.op.dal.activity.impl.ExchangeResultDaoImpl;
 import com.sunlights.op.dto.BaseXlsDto;
 import com.sunlights.op.dto.ExchangeBeanResultXlsDto;
 import com.sunlights.op.dto.ExchangeResultXlsDto;
-import com.sunlights.op.service.MessageRuleService;
 import com.sunlights.op.service.activity.ExchangeResultService;
 import com.sunlights.op.service.activity.ExchangeRewardRuleService;
 import com.sunlights.op.service.activity.ExchangeSceneService;
-import com.sunlights.op.service.impl.MessageRuleServiceImpl;
 import com.sunlights.op.vo.activity.ExchangeBeanResultVo;
 import com.sunlights.op.vo.activity.ExchangeResultStatus;
 import com.sunlights.op.vo.activity.ExchangeResultVo;
@@ -41,7 +39,6 @@ public class ExchangeResultServiceImpl implements ExchangeResultService {
 	private ExchangeResultDao exchangeResultDao = new ExchangeResultDaoImpl();
 	private ExchangeSceneService exchangeSceneService = new ExchangeSceneServiceImpl();
 	private ExchangeRewardRuleService exchangeRewardRuleService = new ExchangeRewardRuleServiceImpl();
-    private MessageRuleService messagePushService = new MessageRuleServiceImpl();
 
 	@Override
 	public void updateStatus(ExchangeResult exchangeResult) {
