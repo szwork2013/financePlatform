@@ -38,6 +38,8 @@ public class ActivityReportController extends Controller {
 
         Logger.info(">>getActivityReports return:" + MessageUtil.getInstance().toJson());
 
+        Controller.response().setHeader("Access-Control-Allow-Origin", "*");
+
         return ok(Json.toJson(MessageUtil.getInstance().toJson()));
     }
 
