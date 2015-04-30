@@ -73,6 +73,7 @@ public class FundDaoImpl extends EntityBaseDao implements FundDao {
                 + "  LEFT JOIN fundarchiveex fa ON f.fundcode = fa.fund_code";
 
         List<Object[]> rows = createNativeQuery(sql, code);
+        System.out.println("[sql]" + sql);
 
         return rows.isEmpty() ? null : new FundDetailVo(rows.get(0));
     }
