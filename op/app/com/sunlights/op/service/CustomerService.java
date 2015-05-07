@@ -2,9 +2,7 @@ package com.sunlights.op.service;
 
 import com.sunlights.common.vo.PageVo;
 import com.sunlights.customer.vo.RewardFlowVo;
-import com.sunlights.op.vo.BankCardVo;
-import com.sunlights.op.vo.CustomerVo;
-import com.sunlights.op.vo.FundTradeVo;
+import com.sunlights.op.vo.*;
 import com.sunlights.op.vo.statistics.ReferrerDetailVo;
 import models.MessageSmsTxn;
 
@@ -40,4 +38,8 @@ public interface CustomerService {
 	public List<RewardFlowVo> findExchanges(PageVo pageVo);
 
 	public CustomerVo findCustomerByMobile(String mobile);
+
+    public RewardStatisticVo findRewardByMobile(String mobile);
+
+    public List<RewardItem> findRewardItemsByMobile(PageVo pageVo);
 }

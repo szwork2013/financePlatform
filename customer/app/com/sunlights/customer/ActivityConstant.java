@@ -16,36 +16,43 @@ public interface ActivityConstant {
     /**
      * 活动中的签到场景的编码
      */
+    @Deprecated //使用枚举models.ActivityScene.ActivitySceneConstant
     String ACTIVITY_SIGNIN_SCENE_CODE = "ASC001";
 
     /**
      * 活动中的邀请朋友场景的编码
      */
+    @Deprecated //使用枚举models.ActivityScene.ActivitySceneConstant
     String ACTIVITY_INVITE_SCENE_CODE = "ASC002";
 
     /**
      * 活动中的图片活动场景的编码
      */
+    @Deprecated //使用枚举models.ActivityScene.ActivitySceneConstant
     String ACTIVITY_PICTURE_SCENE_CODE = "ASC003";
 
     /**
      * 活动中的注册场景的编码
      */
+    @Deprecated //使用枚举models.ActivityScene.ActivitySceneConstant
     String ACTIVITY_REGISTER_SCENE_CODE = "ASC004";
 
     /**
      * 活动中的首次购买的编码
      */
+    @Deprecated //使用枚举models.ActivityScene.ActivitySceneConstant
     String ACTIVITY_FIRST_PURCHASE_SCENE_CODE = "ASC005";
 
     /**
      * 购买推荐场景
      */
+    @Deprecated //使用枚举models.ActivityScene.ActivitySceneConstant
     String ACTIVITY_PURCHASE_RECOMMEND_SCENE_CODE = "ASC006";
 
     /**
      * 购买场景
      */
+    @Deprecated //使用枚举models.ActivityScene.ActivitySceneConstant
     String ACTIVITY_PURCHASE_SCENE_CODE = "ASC007";
 
     /**
@@ -104,8 +111,9 @@ public interface ActivityConstant {
     /**
      * 奖励类型
      */
+    @Deprecated //使用枚举models.RewardType.RewardTypeConstant
     String REWARD_TYPE_JINDOU = "ART00J";
-
+    @Deprecated //使用枚举models.RewardType.RewardTypeConstant
     String REWARD_TYPE_REDPACKET = "ART00H";
 
 

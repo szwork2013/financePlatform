@@ -32,6 +32,46 @@ public class ActivityScene extends IdEntity {
     @Column(name = "UPDATE_TIME")
     private Date updateTime;
 
+    public static enum ActivitySceneConstant {
+        SIGN("ASC001","签到"),
+        INVITE("ASC002","邀请好友"),
+        PICTURE("ASC003","图片活动"),//没用到
+        REGISTER("ASC004","注册"),
+        FIRST_PURCHASE("ASC005","首次购买"),
+        PURCHASE_RECOMMEND("ASC006","推荐场景"),//没用到
+        PURCHASE("ASC007","购买"),//没用到
+        EACHANGE_REDPACKET("EXC001","红包取现"),//没用到
+        EXCHANGE_HUAFEI("EXC002","金豆兑换话费");//没用到
+
+        private String scene;
+        private String desc;
+
+        private ActivitySceneConstant(String scene, String desc) {
+            this.scene = scene;
+            this.desc = desc;
+        }
+
+        public String getScene() {
+            return scene;
+        }
+
+        public String getDesc() {
+            return desc;
+        }
+
+        public static String getDescByScene(String scene) {
+            if(scene == null) {
+                return null;
+            }
+            for(ActivitySceneConstant temp : ActivitySceneConstant.values()) {
+                if(scene.equals(temp.getScene())) {
+                    return temp.getDesc();
+                }
+            }
+            return null;
+        }
+    }
+
     public String getScene() {
         return scene;
     }
