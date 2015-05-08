@@ -8,9 +8,7 @@ import com.sunlights.common.vo.Message;
 import com.sunlights.common.vo.PageVo;
 import com.sunlights.op.service.CustomerService;
 import com.sunlights.op.service.impl.CustomerServiceImpl;
-import com.sunlights.op.vo.BankCardVo;
-import com.sunlights.op.vo.CustomerVo;
-import com.sunlights.op.vo.FundTradeVo;
+import com.sunlights.op.vo.*;
 import com.sunlights.op.vo.statistics.ReferrerDetailVo;
 import org.apache.commons.lang3.StringUtils;
 import play.Logger;
@@ -70,6 +68,35 @@ public class CustomerController extends Controller {
 		messageUtil.setMessage(new Message(Severity.INFO, MsgCode.OPERATE_SUCCESS), pageVo);
 		return ok(messageUtil.toJson());
 	}
+
+    /**
+     * 查询奖励的统计信息
+     * @param mobile
+     * @return
+     */
+    public Result findReward(String mobile) {
+        RewardStatisticVo rewardStatisticVo = customerService.findRewardByMobile(mobile);
+        messageUtil.setMessage(new Message(Severity.INFO, MsgCode.OPERATE_SUCCESS), rewardStatisticVo);
+        return ok(messageUtil.toJson());
+    }
+
+    /**
+     * 查询奖励的明细信息
+     * @return
+     */
+    public Result findRewardItems() {
+        PageVo pageVo = new PageVo();
+        Http.Request request = request();
+
+        if (!StringUtils.isBlank(request.getHeader("params"))) {
+            pageVo = RequestUtil.getHeaderValue("params", PageVo.class);
+        }
+        List<RewardItem> rewardItems = customerService.findRewardItemsByMobile(pageVo);
+
+        pageVo.setList(rewardItems);
+        messageUtil.setMessage(new Message(Severity.INFO, MsgCode.OPERATE_SUCCESS), pageVo);
+        return ok(messageUtil.toJson());
+    }
 
 	public Result findBankCardsBy() {
 		PageVo pageVo = new PageVo();

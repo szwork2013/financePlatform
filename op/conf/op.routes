@@ -25,6 +25,8 @@ GET           /customer/referrers                   @com.sunlights.op.web.Custom
 GET           /customer/fund/trades                 @com.sunlights.op.web.CustomerController.findFundTrades()
 GET           /customer/balance                     @com.sunlights.op.web.CustomerController.findBalance()
 GET           /customer/exchanges                   @com.sunlights.op.web.CustomerController.findExchanges()
+GET           /customer/reward/:mobile                      @com.sunlights.op.web.CustomerController.findReward(mobile:String)
+GET           /customer/rewarditems                      @com.sunlights.op.web.CustomerController.findRewardItems()
 
 GET           /verifycodes                          @com.sunlights.op.web.CustomerVerifyController.findCustomerVerifyCodes()
 

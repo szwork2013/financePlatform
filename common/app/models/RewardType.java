@@ -31,6 +31,39 @@ public class RewardType extends IdEntity {
     @Column(name = "UPDATE_BY", length = 30)
     private String updateBy;
 
+    public static enum RewardTypeConstant {
+        JINDOU("ART00J","送金豆"),
+        REDPACKET("ART00H","送红包");
+
+        private String type;
+        private String desc;
+
+        private RewardTypeConstant(String type, String desc) {
+            this.type = type;
+            this.desc = desc;
+        }
+
+        public String getType() {
+            return type;
+        }
+
+        public String getDesc() {
+            return desc;
+        }
+
+        public static String getDescByScene(String type) {
+            if(type == null) {
+                return null;
+            }
+            for(RewardTypeConstant temp : RewardTypeConstant.values()) {
+                if(type.equals(temp.getType())) {
+                    return temp.getDesc();
+                }
+            }
+            return null;
+        }
+    }
+
     public String getRuleUrl() {
         return ruleUrl;
     }

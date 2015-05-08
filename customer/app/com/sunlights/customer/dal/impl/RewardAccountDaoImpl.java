@@ -31,6 +31,6 @@ public class RewardAccountDaoImpl extends EntityBaseDao implements RewardAccount
     @Override
     public RewardAccountBalance findRewardAccountByCustomerId(String customerId) {
         List<RewardAccountBalance> list = findBy(RewardAccountBalance.class, "customerId", customerId);
-        return list.isEmpty() ? new RewardAccountBalance() : list.get(0);
+        return list.isEmpty() ? null : list.get(0);
     }
 }
