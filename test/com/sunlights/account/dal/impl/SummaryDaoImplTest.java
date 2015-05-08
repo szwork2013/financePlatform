@@ -20,7 +20,21 @@ public class SummaryDaoImplTest extends WithApplication {
             @Override
             public void invoke() throws Throwable {
                 SummaryDao summaryDao = new SummaryDaoImpl();
-                Logger.info(summaryDao.getBatchCount("")+"");
+                Logger.info("total trade batch is"+summaryDao.getBatchCount("")+"");
+
+            }
+        });
+
+    }
+
+    @Test
+    public void testGetTradedCustomer() throws Exception {
+
+        JPA.withTransaction(new F.Callback0() {
+            @Override
+            public void invoke() throws Throwable {
+                SummaryDao summaryDao = new SummaryDaoImpl();
+                Logger.info("customers in 132980 are"+summaryDao.getTradedCust("","132980")+"");
 
             }
         });
