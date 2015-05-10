@@ -9,7 +9,7 @@ import play.libs.F;
 import play.test.WithApplication;
 
 /**
- * Created by Administrator on 2015/5/8 0008.
+ * Created by edward.tian on 2015/5/8 0008.
  */
 public class SummaryDaoImplTest extends WithApplication {
 

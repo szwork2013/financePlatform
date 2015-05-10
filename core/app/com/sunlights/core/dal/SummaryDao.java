@@ -10,9 +10,7 @@ import java.util.List;
  */
 public interface SummaryDao {
 
-    public List<String>  getBatchCount(String startDate);
-
-    public List<Integer> getAllTradedCust(int batchNo);
+    public List<String>  getBatchCount(String startDate,boolean isAll);
 
     public List<String> getTradedCust(String startDate, String batchNo);
 

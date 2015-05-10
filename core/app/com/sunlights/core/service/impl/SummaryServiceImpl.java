@@ -31,6 +31,6 @@ public class SummaryServiceImpl implements SummaryService {
 
     @Override
     public boolean saveFundIncomes(List<SyncIncomeStat> list) {
-        return false;
+        return summaryDao.saveFundIncomes(list);
     }
 }
