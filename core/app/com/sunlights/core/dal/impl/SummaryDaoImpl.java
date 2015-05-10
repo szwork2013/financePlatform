@@ -21,38 +21,27 @@ import java.util.List;
 public class SummaryDaoImpl extends EntityBaseDao implements SummaryDao {
 
     @Override
-    public List<String> getBatchCount(String startDate,boolean isAll) {
-        List<String> results = new ArrayList<String>();
-        String nextDay = addDay(startDate,1);
-        String sql = "select t.cust_id from t_trade t,c_customer c where t.cust_id = c.customer_id and t.trade_time > ?0 and  t.trade_time< ?1";
-        Query query = em.createNativeQuery(sql);
-        query.setParameter(0,startDate);
-        query.setParameter(1,nextDay);
-        List<String> list = query.getResultList();
-        int mod = 10;
-        int batchTotal = list.size() / mod;
-        int batchLeft = list.size() % mod;
-        if (batchLeft != 0) {
-            batchTotal++;
-        }
-        for (int i = 1; i <= batchTotal; i++) {
-            CustomerBatch custBatch = new CustomerBatch();
-            custBatch.setCustomerTotal(mod);
-            custBatch.setCreateTime(new Date());
-            create(custBatch);
-            results.add(custBatch.getId().toString());
-            for (int k = 0; k < mod; k++) {
-                CustBatchDetail batchDetail = new CustBatchDetail();
-                batchDetail.setCustomerBatchId(custBatch.getId());
-                batchDetail.setCustomerId(list.get(k * i));
-                create(batchDetail);
-            }
-        }
-        return results;
+    public List<String> getBatchCount(String startDate) {
+        StringBuffer sql = new StringBuffer();
+        sql.append("select t.cust_id from t_trade t,c_customer c where t.cust_id = c.customer_id");
+        sql.append("and t.trade_time >'");
+        sql.append(startDate);
+        sql.append("'  and  t.trade_time<'");
+        String nextDay = addDay(startDate, 1);
+        sql.append(nextDay);
+        sql.append("'");
+        return caculateBatch(sql.toString());
     }
 
     @Override
-    public List<String> getTradedCust(String startDate, String batchNo) {
+    public List<String> getBatchCountAll() {
+        StringBuffer sql = new StringBuffer();
+        sql.append("select t.cust_id from t_trade t,c_customer c where t.cust_id = c.customer_id");
+        return caculateBatch(sql.toString());
+    }
+
+    @Override
+    public List<String> getTradedCust(String batchNo) {
         String sql = "select t.customer_id from t_cust_batch_detail t where t.customer_batch_id= ?0 ";
         Query query = em.createNativeQuery(sql);
         query.setParameter(0, new Long(batchNo));
@@ -62,7 +51,7 @@ public class SummaryDaoImpl extends EntityBaseDao implements SummaryDao {
     @Override
     public boolean saveFundIncomes(List<SyncIncomeStat> list) {
         if (list == null || list.size() == 0) {
-            Logger.info("The SyncIncomeStat should not be empty or null");
+            Logger.info("The SyncIncomeStat list should not be empty or null");
             return false;
         }
         try {
@@ -76,7 +65,33 @@ public class SummaryDaoImpl extends EntityBaseDao implements SummaryDao {
         return true;
     }
 
-    public static String addDay(String s, int n) {
+    private List<String> caculateBatch(String sql) {
+        List<String> results = new ArrayList<String>();
+        Query query = em.createNativeQuery(sql.toString());
+        List<String> list = query.getResultList();
+        int mod = 10;
+        int batchTotal = list.size() / mod;
+        int batchLeft = list.size() % mod;
+        if (batchLeft != 0) {
+            batchTotal++;
+        }
+        for (int i = 0; i < batchTotal; i++) {
+            CustomerBatch customerBatch = new CustomerBatch();
+            customerBatch.setCustomerTotal(mod);
+            customerBatch.setCreateTime(new Date());
+            create(customerBatch);
+            results.add(customerBatch.getId().toString());
+            for (int k = 0; k < mod; k++) {
+                CustBatchDetail batchDetail = new CustBatchDetail();
+                batchDetail.setCustomerBatchId(customerBatch.getId());
+                batchDetail.setCustomerId(list.get(k * i));
+                create(batchDetail);
+            }
+        }
+        return results;
+    }
+
+    private String addDay(String s, int n) {
         try {
             SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
             Calendar cd = Calendar.getInstance();

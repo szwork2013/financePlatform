@@ -10,9 +10,11 @@ import java.util.List;
  */
 public interface SummaryDao {
 
-    public List<String>  getBatchCount(String startDate,boolean isAll);
+    public List<String>  getBatchCount(String startDate);
 
-    public List<String> getTradedCust(String startDate, String batchNo);
+    public List<String> getBatchCountAll();
+
+    public List<String> getTradedCust(String batchNo);
 
     public boolean saveFundIncomes(List<SyncIncomeStat> list);
 }

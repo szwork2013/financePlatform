@@ -166,6 +166,7 @@ public enum MsgCode {
     REMIND_UPDATE_VERSION("0302", "金豆荚理财", "有新版本V{0}, 是否升级?"),
     UPDATE_VERSION_TO_CURRENT("0303", "金豆荚理财", "您的App版本过低, 请升级到: V{0}"),
     NOT_COFIG_VERSION_RULE("1302", "金豆荚理财", "没有配置v{0}版本规则"),
+    NOT_A_VALID_DATE("1401", "非法输入日期，请检查输入日期格式是否合法", ""),
     ;
 
 

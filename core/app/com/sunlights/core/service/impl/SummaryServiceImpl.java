@@ -16,17 +16,17 @@ public class SummaryServiceImpl implements SummaryService {
 
     @Override
     public List<String> getBatchCount(String startDate) {
-        return summaryDao.getBatchCount("");
+        return summaryDao.getBatchCount(startDate);
     }
 
     @Override
-    public List<Integer> getAllTradedCust(int batchNo) {
-        return null;
+    public List<String> getBatchCountAll() {
+        return summaryDao.getBatchCountAll();
     }
 
     @Override
-    public List<String> getTradedCust(String startDate, String batchNo) {
-        return summaryDao.getTradedCust(startDate,batchNo);
+    public List<String> getTradedCust(String batchNo) {
+        return summaryDao.getTradedCust(batchNo);
     }
 
     @Override
