@@ -1,6 +1,5 @@
 package com.sunlights.core.web;
 
-import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.sunlights.common.MsgCode;
@@ -10,20 +9,14 @@ import com.sunlights.common.utils.log.logback.ext.DateUtil;
 import com.sunlights.common.vo.Message;
 import com.sunlights.core.service.SummaryService;
 import com.sunlights.core.service.impl.SummaryServiceImpl;
-import com.sunlights.core.vo.AgreementVo;
-import com.sunlights.core.vo.SyncIncomeStatVo;
+import models.SyncBatchLog;
 import models.SyncIncomeStat;
-import org.apache.commons.lang3.Validate;
-import org.json4s.jackson.Json;
-import play.Logger;
+import models.SyncTrade;
 import play.mvc.Controller;
 import play.mvc.Http;
 import play.mvc.Result;
 
-import java.text.SimpleDateFormat;
 import java.util.Arrays;
-import java.util.List;
-import java.util.Map;
 
 /**
  * Created by Edward on 2015/5/8 0008.
@@ -62,6 +55,7 @@ public class SummaryController extends Controller {
         JsonNode json = request().body().asJson();
         ObjectMapper mapper = new ObjectMapper();
         try {
+            //SyncIncomeStat need to be change into vo.
             SyncIncomeStat[] myObjects = mapper.readValue(json.get("parameters").textValue(),SyncIncomeStat[].class);
             summaryService.saveFundIncomes(Arrays.asList(myObjects));
         }catch (Exception ex){
@@ -69,4 +63,47 @@ public class SummaryController extends Controller {
         }
         return ok(messageUtil.toJson());
     }
+
+    public Result saveTradeRecords() {
+        Http.RequestBody body = request().body();
+        JsonNode json = request().body().asJson();
+        ObjectMapper mapper = new ObjectMapper();
+        try {
+            //SyncIncomeStat need to be change into vo.
+            SyncTrade[] myObjects = mapper.readValue(json.get("parameters").textValue(),SyncTrade[].class);
+            summaryService.saveSyncTrade(Arrays.asList(myObjects));
+        }catch (Exception ex){
+            ex.printStackTrace();
+        }
+        return ok(messageUtil.toJson());
+    }
+
+    public Result saveBatchLog() {
+        Http.RequestBody body = request().body();
+        JsonNode json = request().body().asJson();
+        ObjectMapper mapper = new ObjectMapper();
+        try {
+            //SyncBatchLog need to be change into vo.
+            SyncBatchLog myObjects = mapper.readValue(json.get("parameters").textValue(),SyncBatchLog.class);
+            summaryService.saveBatchLog(myObjects);
+        }catch (Exception ex){
+            ex.printStackTrace();
+        }
+        return ok(messageUtil.toJson());
+    }
+
+
+    public Result isTaskFinished() {
+        String taskName = request().getQueryString("taskName");
+        String date = request().getQueryString("endDate");
+        if (!DateUtil.isValidDate(date)) {
+            messageUtil.setMessage(new Message(Severity.FATAL, MsgCode.NOT_A_VALID_DATE));
+        }
+        if(taskName==null||taskName.equals("")){
+            messageUtil.setMessage(new Message(Severity.FATAL, MsgCode.TASK_NAME_EMPTY));
+        }
+        messageUtil.setMessage(new Message(Severity.INFO, MsgCode.OPERATE_SUCCESS), summaryService.isTaskFinished(taskName,date));
+        return ok(messageUtil.toJson());
+    }
+
 }

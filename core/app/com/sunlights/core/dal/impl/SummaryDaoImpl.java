@@ -2,9 +2,7 @@ package com.sunlights.core.dal.impl;
 
 import com.sunlights.common.dal.EntityBaseDao;
 import com.sunlights.core.dal.SummaryDao;
-import models.CustBatchDetail;
-import models.CustomerBatch;
-import models.SyncIncomeStat;
+import models.*;
 import play.Logger;
 import play.libs.Json;
 
@@ -64,6 +62,56 @@ public class SummaryDaoImpl extends EntityBaseDao implements SummaryDao {
         }
         return true;
     }
+
+    @Override
+    public boolean saveTradeRecords(List<SyncTrade> list) {
+        if (list == null || list.size() == 0) {
+            Logger.info("The SyncIncomeStat list should not be empty or null");
+            return false;
+        }
+        try {
+            for (SyncTrade trade : list) {
+                create(trade);
+            }
+        } catch (Exception ex) {
+            Logger.info("Exception when saving the SyncIncomeStat data" + ex.getStackTrace());
+            return false;
+        }
+        return true;
+    }
+
+    @Override
+    public boolean saveBatchLog(SyncBatchLog batchLog) {
+        if(batchLog==null) {
+            return false;
+        }
+        try {
+            create(batchLog);
+        }catch(Exception ex){
+            ex.printStackTrace();
+            return false;
+        }
+        return true;
+    }
+
+    @Override
+    public boolean isTaskFinished(String date,String taskName) {
+        if(taskName==null||date==null){
+            return false;
+        }
+        StringBuilder sql = new StringBuilder();
+        sql.append("select id from t_sync_batch_log t where t.task_status=0 and t.create_time='");
+        sql.append(date);
+        sql.append("' and task_name='");
+        sql.append(taskName);
+        sql.append("'");
+        Query query = em.createNativeQuery(sql.toString());
+        if(query.getMaxResults()>0){
+            return true;
+        }
+        return false;
+    }
+
 
     private List<String> caculateBatch(String sql) {
         List<String> results = new ArrayList<String>();
