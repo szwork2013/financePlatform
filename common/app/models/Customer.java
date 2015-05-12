@@ -19,13 +19,10 @@ public class Customer extends IdEntity {
     private String customerId;
     @Column(name = "AUTHENTICATION_ID")
     private Long authenticationId;
-
     @Column(length = 20, name = "LOGIN_ID")
     private String loginId;
-
     @Column(length = 50, name = "NICK_NAME")
     private String nickName;
-
     @Column(length = 40, name = "LOGIN_PASSWORD")
     private String loginPassWord;
     @Column(length = 50, name = "REG_CHANNEL")

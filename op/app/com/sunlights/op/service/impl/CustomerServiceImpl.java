@@ -1,19 +1,19 @@
 package com.sunlights.op.service.impl;
 
-import java.util.Date;
-import java.util.List;
-
-import javax.persistence.Query;
-
-import com.sunlights.common.service.CommonService;
-import models.Customer;
-import models.MessageSmsTxn;
-
+import com.google.common.collect.Lists;
 import com.sunlights.common.DictConst;
 import com.sunlights.common.dal.EntityBaseDao;
+import com.sunlights.common.service.CommonService;
 import com.sunlights.common.service.PageService;
+import com.sunlights.common.utils.CommonUtil;
 import com.sunlights.common.utils.ConverterUtil;
 import com.sunlights.common.vo.PageVo;
+import com.sunlights.customer.dal.HoldRewardDao;
+import com.sunlights.customer.dal.RewardAccountDao;
+import com.sunlights.customer.dal.RewardAccountDetailsDao;
+import com.sunlights.customer.dal.impl.HoldRewardDaoImpl;
+import com.sunlights.customer.dal.impl.RewardAccountDaoImpl;
+import com.sunlights.customer.dal.impl.RewardAccountDetailsDaoImpl;
 import com.sunlights.customer.service.HoldRewardService;
 import com.sunlights.customer.service.RewardFlowService;
 import com.sunlights.customer.service.impl.HoldRewardServiceImpl;
@@ -21,10 +21,14 @@ import com.sunlights.customer.service.impl.RewardFlowServiceImpl;
 import com.sunlights.customer.vo.HoldRewardVo;
 import com.sunlights.customer.vo.RewardFlowVo;
 import com.sunlights.op.service.CustomerService;
-import com.sunlights.op.vo.BankCardVo;
-import com.sunlights.op.vo.CustomerVo;
-import com.sunlights.op.vo.FundTradeVo;
+import com.sunlights.op.vo.*;
 import com.sunlights.op.vo.statistics.ReferrerDetailVo;
+import models.*;
+
+import javax.persistence.Query;
+import java.math.BigDecimal;
+import java.util.Date;
+import java.util.List;
 
 /**
  * Created by Yuan on 2015/3/11.
@@ -35,6 +39,14 @@ public class CustomerServiceImpl implements CustomerService {
 	private PageService pageService = new PageService();
 	private HoldRewardService holdRewardService = new HoldRewardServiceImpl();
 	private RewardFlowService rewardFlowService = new RewardFlowServiceImpl();
+
+    private RewardAccountDao rewardAccountDao = new RewardAccountDaoImpl();
+    private RewardAccountDetailsDao rewardAccountDetailsDao = new RewardAccountDetailsDaoImpl();
+    private HoldRewardDao holdRewardDao = new HoldRewardDaoImpl();
+
+    private com.sunlights.customer.service.impl.CustomerService customerService = new com.sunlights.customer.service.impl.CustomerService();
+
+
 
 	@Override
 	public List<CustomerVo> findCustomersBy(PageVo pageVo) {
@@ -182,4 +194,96 @@ public class CustomerServiceImpl implements CustomerService {
 		customerVo.setStatus(new CommonService().findValueByCatPointKey(customerVo.getStatus()));
 		return customerVo;
 	}
+
+    @Override
+    public RewardStatisticVo findRewardByMobile(String mobile) {
+        Customer customer = customerService.getCustomerByMobile(mobile);
+        RewardStatisticVo rewardStatisticVo = new RewardStatisticVo();
+        if(customer == null) {
+            return rewardStatisticVo;
+        }
+
+        String customerId = customer.getCustomerId();
+        String realName = customer.getRealName();
+
+
+        rewardStatisticVo.setCustomerName(realName);
+        rewardStatisticVo.setMobile(mobile);
+
+
+        RewardAccountBalance rewardAccountBalance = rewardAccountDao.findRewardAccountByCustomerId(customerId);
+
+        if(rewardAccountBalance == null) {
+            return rewardStatisticVo;
+        }
+
+
+        rewardStatisticVo.setRewardAcctBalance(rewardAccountBalance.getRewardAccountBalance().toString());
+
+        List<HoldReward> holdRewards = holdRewardDao.findListByCustIdAndRewardType(customerId, null, false);
+        Long goldBeanNum = 0L;
+        Long canExchangeBeans = 0L;
+        Long alreadyExchangeBeans = 0L;
+        BigDecimal redPacketNum = BigDecimal.valueOf(0);
+        BigDecimal canExchangeRedPacketNum = BigDecimal.valueOf(0);
+        BigDecimal alreadyEachangeredPacketNum = BigDecimal.valueOf(0);
+
+        for(HoldReward holdReward : holdRewards) {
+            if(RewardType.RewardTypeConstant.JINDOU.getType().equals(holdReward.getRewardType())) {
+                goldBeanNum += holdReward.getGetReward();
+                canExchangeBeans += holdReward.getHoldReward();
+                alreadyExchangeBeans = holdReward.getGetReward() - holdReward.getHoldReward();
+            }
+
+            if(RewardType.RewardTypeConstant.REDPACKET.getType().equals(holdReward.getRewardType())) {
+                redPacketNum = redPacketNum.add(holdReward.getGetMoney());
+                canExchangeRedPacketNum = canExchangeRedPacketNum.add(holdReward.getHoldMoney());
+                alreadyEachangeredPacketNum = alreadyEachangeredPacketNum.add(holdReward.getGetMoney().subtract(holdReward.getHoldMoney()));
+            }
+        }
+        rewardStatisticVo.setGoldBeanNum(goldBeanNum);
+        rewardStatisticVo.setCanExchangeBeans(canExchangeBeans);
+        rewardStatisticVo.setAlreadyExchangeBeans(alreadyExchangeBeans);
+        rewardStatisticVo.setRedPacketNum(redPacketNum.toString());
+        rewardStatisticVo.setCanExchangeRedPacket(canExchangeRedPacketNum.toString());
+        rewardStatisticVo.setAlreadyExchangeRedPacket(alreadyEachangeredPacketNum.toString());
+
+        return rewardStatisticVo;
+    }
+
+    @Override
+    public List<RewardItem> findRewardItemsByMobile(PageVo pageVo) {
+        String mobile = ((Long)pageVo.get("EQS_telephone")).toString();
+        Customer customer = customerService.getCustomerByMobile(mobile);
+        List<RewardItem> rewardItems = Lists.newArrayList();
+        if(customer == null) {
+            return rewardItems;
+        }
+
+        String customerId= customer.getCustomerId();
+        pageVo.getFilter().put("EQS_customerId", customerId);
+        List<RewardAccountDetails> rewardAccountDetailsList = rewardAccountDetailsDao.getByPage(pageVo);
+
+
+        RewardItem item = null;
+        if(rewardAccountDetailsList != null) {
+            for(RewardAccountDetails details : rewardAccountDetailsList) {
+                item = new RewardItem();
+                item.setScene(ActivityScene.ActivitySceneConstant.getDescByScene(details.getActivityType()));
+                item.setRewardType(RewardType.RewardTypeConstant.getDescByScene(details.getRewardType()));
+                item.setRewardTime(CommonUtil.dateToString(details.getCreateTime(), CommonUtil.DATE_FORMAT_SHORT));
+
+                if(RewardAccountDetails.FundFlowType.INCOME.getType().equals(details.getFundFlowType())) {
+                    item.setRewardNum(details.getIncomeExpendBalance().toString());
+                }
+
+                if(RewardAccountDetails.FundFlowType.EXPEND.getType().equals(details.getFundFlowType())) {
+                    item.setExchangeMoney(details.getIncomeExpendBalance().toString());
+                }
+
+                rewardItems.add(item);
+            }
+        }
+        return rewardItems;
+    }
 }
