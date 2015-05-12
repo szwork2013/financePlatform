@@ -9,9 +9,12 @@ import com.sunlights.common.utils.log.logback.ext.DateUtil;
 import com.sunlights.common.vo.Message;
 import com.sunlights.core.service.SummaryService;
 import com.sunlights.core.service.impl.SummaryServiceImpl;
+import com.sunlights.core.vo.ProductParameter;
 import models.SyncBatchLog;
 import models.SyncIncomeStat;
 import models.SyncTrade;
+import play.Logger;
+import play.libs.Json;
 import play.mvc.Controller;
 import play.mvc.Http;
 import play.mvc.Result;
@@ -52,43 +55,41 @@ public class SummaryController extends Controller {
 
     public Result saveIncomeStat() {
         Http.RequestBody body = request().body();
-        JsonNode json = request().body().asJson();
-        ObjectMapper mapper = new ObjectMapper();
         try {
-            //SyncIncomeStat need to be change into vo.
-            SyncIncomeStat[] myObjects = mapper.readValue(json.get("parameters").textValue(),SyncIncomeStat[].class);
+            SyncIncomeStat[] myObjects = Json.fromJson(body.asJson(), SyncIncomeStat[].class);
             summaryService.saveFundIncomes(Arrays.asList(myObjects));
         }catch (Exception ex){
             ex.printStackTrace();
+            messageUtil.setMessage(new Message(Severity.ERROR, MsgCode.OPERATE_FAILURE));
         }
+        messageUtil.setMessage(new Message(Severity.INFO, MsgCode.OPERATE_SUCCESS));
         return ok(messageUtil.toJson());
     }
 
     public Result saveTradeRecords() {
         Http.RequestBody body = request().body();
-        JsonNode json = request().body().asJson();
-        ObjectMapper mapper = new ObjectMapper();
         try {
             //SyncIncomeStat need to be change into vo.
-            SyncTrade[] myObjects = mapper.readValue(json.get("parameters").textValue(),SyncTrade[].class);
+            SyncTrade[] myObjects = Json.fromJson(body.asJson(), SyncTrade[].class);
             summaryService.saveSyncTrade(Arrays.asList(myObjects));
         }catch (Exception ex){
             ex.printStackTrace();
+            messageUtil.setMessage(new Message(Severity.ERROR, MsgCode.OPERATE_FAILURE));
         }
+        messageUtil.setMessage(new Message(Severity.INFO, MsgCode.OPERATE_SUCCESS));
         return ok(messageUtil.toJson());
     }
 
     public Result saveBatchLog() {
         Http.RequestBody body = request().body();
-        JsonNode json = request().body().asJson();
-        ObjectMapper mapper = new ObjectMapper();
         try {
-            //SyncBatchLog need to be change into vo.
-            SyncBatchLog myObjects = mapper.readValue(json.get("parameters").textValue(),SyncBatchLog.class);
-            summaryService.saveBatchLog(myObjects);
-        }catch (Exception ex){
-            ex.printStackTrace();
+            SyncBatchLog myObject = Json.fromJson(body.asJson(), SyncBatchLog.class);
+            Logger.info(summaryService.saveBatchLog(myObject)+"");
+        }catch(Exception ex){
+            messageUtil.setMessage(new Message(Severity.ERROR, MsgCode.OPERATE_FAILURE));
         }
+
+        messageUtil.setMessage(new Message(Severity.INFO, MsgCode.OPERATE_SUCCESS));
         return ok(messageUtil.toJson());
     }
 

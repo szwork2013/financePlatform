@@ -4,7 +4,6 @@ import com.sunlights.common.dal.EntityBaseDao;
 import com.sunlights.core.dal.SummaryDao;
 import models.*;
 import play.Logger;
-import play.libs.Json;
 
 import javax.persistence.Query;
 import java.text.SimpleDateFormat;
@@ -21,8 +20,8 @@ public class SummaryDaoImpl extends EntityBaseDao implements SummaryDao {
     @Override
     public List<String> getBatchCount(String startDate) {
         StringBuffer sql = new StringBuffer();
-        sql.append("select t.cust_id from t_trade t,c_customer c where t.cust_id = c.customer_id");
-        sql.append("and t.trade_time >'");
+        sql.append("select distinct t.cust_id from t_trade t,c_customer c where t.cust_id = c.customer_id");
+        sql.append(" and t.trade_time >'");
         sql.append(startDate);
         sql.append("'  and  t.trade_time<'");
         String nextDay = addDay(startDate, 1);
@@ -34,7 +33,7 @@ public class SummaryDaoImpl extends EntityBaseDao implements SummaryDao {
     @Override
     public List<String> getBatchCountAll() {
         StringBuffer sql = new StringBuffer();
-        sql.append("select t.cust_id from t_trade t,c_customer c where t.cust_id = c.customer_id");
+        sql.append("select distinct t.cust_id from t_trade t,c_customer c where t.cust_id = c.customer_id");
         return caculateBatch(sql.toString());
     }
 

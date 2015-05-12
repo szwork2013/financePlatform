@@ -1,13 +1,14 @@
 package models;
 
 import javax.persistence.Column;
+import javax.persistence.Entity;
 import javax.persistence.Table;
 import java.util.Date;
 
 /**
  * Created by Edward.tian on 2015/5/7 0007.
  */
-
+@Entity
 @Table(name="t_sync_trade")
 public class SyncTrade extends IdEntity{
 

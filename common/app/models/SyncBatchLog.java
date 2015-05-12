@@ -1,13 +1,14 @@
 package models;
 
 import javax.persistence.Column;
+import javax.persistence.Entity;
 import javax.persistence.Table;
 import java.util.Date;
 
 /**
  * Created by Edward.tian on 2015/5/7 0007.
  */
-
+@Entity
 @Table(name="t_sync_batch_log")
 public class SyncBatchLog extends IdEntity{
 
@@ -15,10 +16,10 @@ public class SyncBatchLog extends IdEntity{
     private String taskName;
 
     @Column(name="start_time")
-    private Date startTime;
+    private Date startDate;
 
     @Column(name="end_time")
-    private Date endTime;
+    private Date endDate;
 
     @Column(name="task_status")
     private String taskStatus;
@@ -26,7 +27,7 @@ public class SyncBatchLog extends IdEntity{
     @Column(name="error_msg")
     private String errorMsg;
 
-    @Column(name="error_msg")
+    @Column(name="create_time")
     private Date createTime;
 
     @Column(name="update_time")
@@ -40,20 +41,20 @@ public class SyncBatchLog extends IdEntity{
         this.taskName = taskName;
     }
 
-    public Date getStartTime() {
-        return startTime;
+    public Date getStartDate() {
+        return startDate;
     }
 
-    public void setStartTime(Date startTime) {
-        this.startTime = startTime;
+    public void setStartDate(Date startDate) {
+        this.startDate = startDate;
     }
 
-    public Date getEndTime() {
-        return endTime;
+    public Date getEndDate() {
+        return endDate;
     }
 
-    public void setEndTime(Date endTime) {
-        this.endTime = endTime;
+    public void setEndDate(Date endDate) {
+        this.endDate = endDate;
     }
 
     public String getTaskStatus() {
