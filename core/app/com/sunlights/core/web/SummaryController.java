@@ -1,7 +1,5 @@
 package com.sunlights.core.web;
 
-import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.sunlights.common.MsgCode;
 import com.sunlights.common.Severity;
 import com.sunlights.common.utils.MessageUtil;
@@ -9,11 +7,9 @@ import com.sunlights.common.utils.log.logback.ext.DateUtil;
 import com.sunlights.common.vo.Message;
 import com.sunlights.core.service.SummaryService;
 import com.sunlights.core.service.impl.SummaryServiceImpl;
-import com.sunlights.core.vo.ProductParameter;
 import models.SyncBatchLog;
 import models.SyncIncomeStat;
 import models.SyncTrade;
-import play.Logger;
 import play.libs.Json;
 import play.mvc.Controller;
 import play.mvc.Http;

@@ -11,7 +11,6 @@ import java.util.Date;
 @Entity
 @Table(name="t_sync_trade")
 public class SyncTrade extends IdEntity{
-
     @Column(name="customer_id")
     private String customerId;
 
