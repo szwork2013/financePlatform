@@ -69,8 +69,9 @@ public class SummaryController extends Controller {
             SyncTrade[] myObjects = Json.fromJson(body.asJson(), SyncTrade[].class);
             summaryService.saveSyncTrade(Arrays.asList(myObjects));
         }catch (Exception ex){
-            ex.printStackTrace();
-            messageUtil.setMessage(new Message(Severity.ERROR, MsgCode.OPERATE_FAILURE));
+            SyncTrade myObject = Json.fromJson(body.asJson(), SyncTrade.class);
+            SyncTrade[] myObjects = new SyncTrade[]{myObject};
+            summaryService.saveSyncTrade(Arrays.asList(myObjects));
         }
         messageUtil.setMessage(new Message(Severity.INFO, MsgCode.OPERATE_SUCCESS));
         return ok(messageUtil.toJson());
