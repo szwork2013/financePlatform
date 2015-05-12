@@ -84,7 +84,7 @@ public class SummaryController extends Controller {
         Http.RequestBody body = request().body();
         try {
             SyncBatchLog myObject = Json.fromJson(body.asJson(), SyncBatchLog.class);
-            Logger.info(summaryService.saveBatchLog(myObject)+"");
+            summaryService.saveBatchLog(myObject);
         }catch(Exception ex){
             messageUtil.setMessage(new Message(Severity.ERROR, MsgCode.OPERATE_FAILURE));
         }
