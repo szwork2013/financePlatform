@@ -196,7 +196,10 @@ public class LoginServiceImpl implements LoginService {
     }
 
     private boolean fromApp(String channel) {
-        return !AppConst.CHANNEL_PC.equals(channel);
+        if(AppConst.CHANNEL_PC.equals(channel) || AppConst.CHANNEL_H5.equals(channel)) {
+            return false;
+        }
+        return true ;
     }
 
     private Customer saveCustomer(CustomerFormVo vo, Long authenticationId) {
