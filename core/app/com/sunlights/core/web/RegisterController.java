@@ -130,16 +130,16 @@ public class RegisterController extends Controller {
     }
 
     private void restChannelByAppPlatform(CustomerFormVo customerFormVo) {
-        if (!AppConst.CHANNEL_PC.equals(customerFormVo.getChannel())) {
-            String platform = CommonUtil.getCurrentPlatform(request());
-            if (AppConst.PLATFORM_IOS.equals(platform)) {
-                customerFormVo.setChannel(AppConst.CHANNEL_IOS);
-            } else if((AppConst.PLATFORM_ANDROID.equals(platform))) {
-                customerFormVo.setChannel(AppConst.CHANNEL_ANDROID);
-            } else {
-                customerFormVo.setChannel(AppConst.CHANNEL_H5);
-            }
+        if(AppConst.CHANNEL_PC.equals(customerFormVo.getChannel()) || AppConst.CHANNEL_H5.equals(customerFormVo.getChannel())) {
+            return;
         }
+        String platform = CommonUtil.getCurrentPlatform(request());
+        if (AppConst.PLATFORM_IOS.equals(platform)) {
+            customerFormVo.setChannel(AppConst.CHANNEL_IOS);
+        } else if((AppConst.PLATFORM_ANDROID.equals(platform))) {
+            customerFormVo.setChannel(AppConst.CHANNEL_ANDROID);
+        }
+
     }
 
 
