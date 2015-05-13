@@ -134,8 +134,10 @@ public class RegisterController extends Controller {
             String platform = CommonUtil.getCurrentPlatform(request());
             if (AppConst.PLATFORM_IOS.equals(platform)) {
                 customerFormVo.setChannel(AppConst.CHANNEL_IOS);
-            } else {
+            } else if((AppConst.PLATFORM_ANDROID.equals(platform))) {
                 customerFormVo.setChannel(AppConst.CHANNEL_ANDROID);
+            } else {
+                customerFormVo.setChannel(AppConst.CHANNEL_H5);
             }
         }
     }
