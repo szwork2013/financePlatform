@@ -50,5 +50,9 @@ GET         /assets/*file                     controllers.Assets.at(path="/publi
 
 
 #reptile
-GET         /v1/summary/batch/all                 @com.sunlights.core.web.SummaryController.getBatchCount
+GET         /v1/summary/batch/all             @com.sunlights.core.web.SummaryController.getBatchCount
 GET         /v1/summary/customers             @com.sunlights.core.web.SummaryController.getTradeCustomer
+POST        /v1/summary/incomeRecords         @com.sunlights.core.web.SummaryController.saveIncomeStat
+POST        /v1/summary/task/log              @com.sunlights.core.web.SummaryController.saveBatchLog
+POST        /v1/summary/tradeRecords          @com.sunlights.core.web.SummaryController.saveTradeRecords
+GET         /v1/summary/task/status           @com.sunlights.core.web.SummaryController.isTaskFinished
