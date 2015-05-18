@@ -55,6 +55,9 @@ public class SummaryController extends Controller {
             SyncIncomeStat[] myObjects = Json.fromJson(body.asJson(), SyncIncomeStat[].class);
             summaryService.saveFundIncomes(Arrays.asList(myObjects));
         }catch (Exception ex){
+            SyncIncomeStat myObject = Json.fromJson(body.asJson(), SyncIncomeStat.class);
+            SyncIncomeStat[] myObjects = new SyncIncomeStat[]{myObject};
+            summaryService.saveFundIncomes(Arrays.asList(myObjects));
             ex.printStackTrace();
             messageUtil.setMessage(new Message(Severity.ERROR, MsgCode.OPERATE_FAILURE));
         }
