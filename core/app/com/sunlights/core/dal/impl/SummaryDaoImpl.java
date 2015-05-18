@@ -56,6 +56,7 @@ public class SummaryDaoImpl extends EntityBaseDao implements SummaryDao {
                 create(income);
             }
         } catch (Exception ex) {
+            ex.printStackTrace();
             Logger.info("Exception when saving the SyncIncomeStat data" + ex.getStackTrace());
             return false;
         }
