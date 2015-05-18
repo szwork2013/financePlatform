@@ -148,6 +148,7 @@ public class LoginServiceImpl implements LoginService {
         String channel = vo.getChannel();
 
         boolean fromAppFlag = fromApp(channel);
+        boolean isVerifyCode = isVerifyCode(channel);
 
         Logger.info("=============recommendPhone:" + vo.getRecommendPhone());
         if (fromAppFlag) {
@@ -161,7 +162,7 @@ public class LoginServiceImpl implements LoginService {
             throw CommonUtil.getInstance().errorBusinessException(MsgCode.PHONE_NUMBER_ALREADY_REGISTRY);
         }
 
-        if (fromAppFlag && !isVerifyCodeRight(mobilePhoneNo, verifyCode, deviceNo)){
+        if (isVerifyCode && !isVerifyCodeRight(mobilePhoneNo, verifyCode, deviceNo)){
             return null;
         }
 
@@ -186,6 +187,13 @@ public class LoginServiceImpl implements LoginService {
         return customer;
 	}
 
+    private boolean isVerifyCode(String channel) {
+        if(AppConst.CHANNEL_PC.equals(channel)) {
+            return false;
+        }
+        return true ;
+    }
+
     private boolean isVerifyCodeRight(String mobilePhoneNo, String verifyCode, String deviceNo) {
         CustomerVerifyCodeVo customerVerifyCodeVo = new CustomerVerifyCodeVo();
         customerVerifyCodeVo.setMobile(mobilePhoneNo);
@@ -196,7 +204,10 @@ public class LoginServiceImpl implements LoginService {
     }
 
     private boolean fromApp(String channel) {
-        return !AppConst.CHANNEL_PC.equals(channel);
+        if(AppConst.CHANNEL_PC.equals(channel) || AppConst.CHANNEL_H5.equals(channel)) {
+            return false;
+        }
+        return true ;
     }
 
     private Customer saveCustomer(CustomerFormVo vo, Long authenticationId) {
