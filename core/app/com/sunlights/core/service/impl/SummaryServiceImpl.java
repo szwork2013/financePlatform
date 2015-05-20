@@ -47,7 +47,7 @@ public class SummaryServiceImpl implements SummaryService {
     }
 
     @Override
-    public boolean isTaskFinished(String taskName, String date) {
+    public boolean isTaskFinished(String date, String taskName) {
         if(taskName==null||date==null){
             return false;
         }
