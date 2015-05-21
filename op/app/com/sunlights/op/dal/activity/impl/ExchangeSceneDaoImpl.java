@@ -2,7 +2,10 @@ package com.sunlights.op.dal.activity.impl;
 
 import com.google.common.collect.Maps;
 import com.sunlights.common.dal.EntityBaseDao;
+import com.sunlights.common.dal.PageDao;
+import com.sunlights.common.dal.impl.PageDaoImpl;
 import com.sunlights.common.utils.ConverterUtil;
+import com.sunlights.common.vo.PageVo;
 import com.sunlights.op.dal.activity.ExchangeSceneDao;
 import com.sunlights.op.vo.activity.ExchangeSceneVo;
 import models.ExchangeScene;
@@ -16,21 +19,27 @@ import java.util.Map;
  * Created by Administrator on 2014/12/11.
  */
 public class ExchangeSceneDaoImpl extends EntityBaseDao implements ExchangeSceneDao {
+    private PageDao pageDao = new PageDaoImpl();
 
     @Override
-    public List<ExchangeSceneVo> queryAll() {
+    public List<ExchangeSceneVo> queryAll(PageVo pageVo) {
+        StringBuilder selectSql = new StringBuilder();
+        selectSql.append(" from F_EXCAHNGE_SCENE as a join F_REWARD_TYPE  s on a.reward_type = s.code ");
+
         StringBuilder sb = new StringBuilder();
         String keys = "id,scene,title,status,rewardType,exchangeType,requireAmt,exchangedAmt,exchangeLimit,timeLimit,createTime,rewardTypeStr,activityType,logo ";
         String columns = " a.id,a.scene,a.title,a.status, a.reward_type,a.EXCHANGE_TYPE, a.AMOUNT,a.EXCHANGED_AMT,a.EXCHANGE_LIMIT,a.TIME_LIMIT,a.create_time,s.name,a.activity_type,a.logo_url ";
         sb.append("select ").append(columns)
-                .append("from F_EXCAHNGE_SCENE as a join F_REWARD_TYPE  s on a.reward_type = s.code ");
-        sb.append(" where 1 = 1 ");
+                .append(selectSql);
         sb.append(" order by scene ");
 
-        Map<String, Object> filterMap = Maps.newHashMapWithExpectedSize(5);
+        StringBuilder countSb = new StringBuilder();
+        countSb.append("select count(*) ")
+                .append(selectSql);
 
-        List<Object[]> resultRows = createNativeQueryByMap(sb.toString(), filterMap).getResultList();
-        List<ExchangeSceneVo> exchangeSceneVos = ConverterUtil.convert(keys, resultRows, ExchangeSceneVo.class);
+        List list = pageDao.findNativeComplexBy(sb.toString(), countSb.toString(), pageVo);
+
+        List<ExchangeSceneVo> exchangeSceneVos = ConverterUtil.convert(keys, list, ExchangeSceneVo.class);
 
 
         Logger.debug("exchangeSceneVos = " + exchangeSceneVos.size());

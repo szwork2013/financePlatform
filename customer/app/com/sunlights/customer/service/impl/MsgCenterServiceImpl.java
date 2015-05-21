@@ -3,15 +3,16 @@ package com.sunlights.customer.service.impl;
 import com.sunlights.common.AppConst;
 import com.sunlights.common.utils.DBHelper;
 import com.sunlights.common.vo.PageVo;
-import com.sunlights.customer.dal.CustomerDao;
 import com.sunlights.customer.dal.MsgCenterDao;
-import com.sunlights.customer.dal.impl.CustomerDaoImpl;
+import com.sunlights.customer.dal.MsgSettingDao;
 import com.sunlights.customer.dal.impl.MsgCenterDaoImpl;
+import com.sunlights.customer.dal.impl.MsgSettingDaoImpl;
 import com.sunlights.customer.service.MsgCenterService;
 import com.sunlights.customer.vo.MsgCenterDetailVo;
 import com.sunlights.customer.vo.MsgCenterVo;
 import models.CustomerMsgReadHistory;
 import models.CustomerMsgSetting;
+import play.cache.Cache;
 
 import java.sql.Timestamp;
 import java.util.List;
@@ -27,9 +28,8 @@ import java.util.List;
  */
 public class MsgCenterServiceImpl implements MsgCenterService {
 
-    private CustomerDao customerDao = new CustomerDaoImpl();
+    private MsgSettingDao msgSettingDao = new MsgSettingDaoImpl();
     private MsgCenterDao msgCenterDao = new MsgCenterDaoImpl();
-    private CustomerService customerService = new CustomerService();
 
     @Override
     public List<MsgCenterVo> findMsgCenterVoListWithLogin(PageVo pageVo) {
@@ -69,7 +69,7 @@ public class MsgCenterServiceImpl implements MsgCenterService {
 
     @Override
     public void enablePush(String registrationId, String deviceNo, String platform) {
-        CustomerMsgSetting customerMsgSetting = customerDao.findCustomerMsgSetting(registrationId, deviceNo);
+        CustomerMsgSetting customerMsgSetting = msgSettingDao.findCustomerMsgSetting(registrationId, deviceNo);
         Timestamp currentTime = DBHelper.getCurrentTime();
         if (customerMsgSetting == null) {
             customerMsgSetting = new CustomerMsgSetting();
@@ -78,20 +78,19 @@ public class MsgCenterServiceImpl implements MsgCenterService {
             customerMsgSetting.setPushOpenStatus(AppConst.STATUS_VALID);
             customerMsgSetting.setPlatform(platform);
             customerMsgSetting.setCreateTime(currentTime);
-            customerDao.createCustomerMsgSetting(customerMsgSetting);
+            msgSettingDao.createCustomerMsgSetting(customerMsgSetting);
         }
     }
 
     @Override
     public void disablePush(String registrationId, String deviceNo) {
         Timestamp currentTime = DBHelper.getCurrentTime();
-        CustomerMsgSetting customerMsgSetting = customerDao.findCustomerMsgSetting(registrationId, deviceNo);
+        CustomerMsgSetting customerMsgSetting = msgSettingDao.findCustomerMsgSetting(registrationId, deviceNo);
         if (customerMsgSetting != null) {
             customerMsgSetting.setUpdateTime(currentTime);
             customerMsgSetting.setPushOpenStatus(AppConst.STATUS_INVALID);
-            customerDao.updateCustomerMsgSetting(customerMsgSetting);
+            msgSettingDao.updateCustomerMsgSetting(customerMsgSetting);
         }
-
-        customerService.removeCache(AppConst.HEADER_REGISTRATION_ID + "_" + registrationId);
+        Cache.remove(AppConst.HEADER_REGISTRATION_ID + "_" + registrationId);
     }
 }

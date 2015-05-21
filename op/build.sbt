@@ -17,8 +17,6 @@ libraryDependencies ++= Seq(
   cache,
   javaWs,
   filters,
-  "common" % "common_2.10" % "1.4-SNAPSHOT",
-  "thirdpart" % "thirdpart_2.10" % "1.1-SNAPSHOT",
   "ch.ethz.ganymed" % "ganymed-ssh2" % "build210",
   "shumicrawler" % "shumicrawler_2.10" % "1.0-SNAPSHOT" exclude("common", "common_2.10"),
   "net.sourceforge.jexcelapi" % "jxl" % "2.6.10",

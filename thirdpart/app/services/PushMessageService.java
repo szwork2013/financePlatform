@@ -10,17 +10,20 @@ import cn.jpush.api.push.model.PushPayload;
 import cn.jpush.api.push.model.audience.Audience;
 import cn.jpush.api.push.model.notification.IosNotification;
 import cn.jpush.api.push.model.notification.Notification;
-import com.sunlights.common.*;
+import com.google.common.collect.Lists;
+import com.sunlights.common.DictConst;
+import com.sunlights.common.MsgCode;
+import com.sunlights.common.ParameterConst;
+import com.sunlights.common.Severity;
 import com.sunlights.common.service.CommonService;
 import com.sunlights.common.service.ParameterService;
-import com.sunlights.common.utils.ArithUtil;
 import com.sunlights.common.utils.ConfigUtil;
 import com.sunlights.common.vo.Message;
 import com.sunlights.common.vo.MessageVo;
 import com.sunlights.common.vo.PushMessageVo;
+import org.apache.commons.beanutils.BeanUtils;
 import play.Logger;
 
-import java.math.BigDecimal;
 import java.text.MessageFormat;
 import java.util.List;
 
@@ -36,36 +39,52 @@ import java.util.List;
 public class PushMessageService {
     private  CommonService commonService = new CommonService();
     private ParameterService parameterService = new ParameterService();
-    private static int maxLength = 1000;
+    private final static int maxLength = 1000;
 
     public MessageVo sendPush(PushMessageVo pushMessageVo) {
         String appKey = parameterService.getParameterByName(ParameterConst.APP_KEY);
         String secretKey = parameterService.getParameterByName(ParameterConst.SECRET_KEY);
         Logger.info(">>sendPush>>> start");
 
+        List<PushMessageVo> pushMessageVoList = Lists.newArrayList();
         MessageVo messageVo = new MessageVo();
 
-        int length = pushMessageVo.getRegistrationIdList().size();
+        List<String> registrationIdList = pushMessageVo.getRegistrationIdList();
+        int length = registrationIdList.size();
 
-        if (length <= maxLength) {
-            messageVo = executePush(pushMessageVo, appKey, secretKey);
-        } else {
-            int num = Integer.valueOf(ArithUtil.bigUpScale0(new BigDecimal((double) length / maxLength)).toString());
-            for (int i = 1; i <= num; i++) {
-                PushMessageVo vo = pushMessageVo;
+        int i = 1;
+        while(true){
+            try {
+                PushMessageVo vo = (PushMessageVo) BeanUtils.cloneBean(pushMessageVo);
                 if (i * maxLength > length) {
-                    vo.getRegistrationIdList().subList(i * maxLength, length);
+                    vo.setRegistrationIdList(registrationIdList.subList((i - 1) * maxLength, length));
+                    pushMessageVoList.add(vo);
+                    break;
                 } else {
-                    vo.getRegistrationIdList().subList((i - 1) * maxLength, i * maxLength);
+                    vo.setRegistrationIdList(registrationIdList.subList((i-1) * maxLength, i * maxLength));
+                    pushMessageVoList.add(vo);
                 }
-                messageVo = executePush(vo, appKey, secretKey);
+                i++;
+            } catch (Exception e) {
+                e.printStackTrace();
             }
+        }
+
+        HttpProxy httpProxy = null;
+        String proxyHost = ConfigUtil.getValueStr(ConfigUtil.proxy_host);
+        if (proxyHost != null) {
+            int proxyPort = ConfigUtil.getValueInt(ConfigUtil.proxy_port);
+            httpProxy = new HttpProxy(proxyHost, proxyPort);
+        }
+
+        for (PushMessageVo tempVo : pushMessageVoList) {
+            messageVo = executePush(tempVo, appKey, secretKey, httpProxy);
         }
 
         return messageVo;
     }
 
-    private MessageVo executePush(PushMessageVo pushMessageVo, String appKey, String secretKey) {
+    private MessageVo executePush(PushMessageVo pushMessageVo, String appKey, String secretKey, HttpProxy httpProxy) {
         String resultMsg = null;
         String errorMsg = null;
         MessageVo messageVo = new MessageVo();
@@ -73,10 +92,7 @@ public class PushMessageService {
         try {
             PushPayload pushPayload = builderPushPayLoad(pushMessageVo);
 
-            String proxyHost = ConfigUtil.getValueStr(ConfigUtil.proxy_host);
-            if (proxyHost != null) {
-                int proxyPort = ConfigUtil.getValueInt(ConfigUtil.proxy_port);
-                HttpProxy httpProxy = new HttpProxy(proxyHost, proxyPort);
+            if (httpProxy != null) {
                 jPushClient = new JPushClient(secretKey, appKey, 1, httpProxy);
             } else {
                 jPushClient = new JPushClient(secretKey, appKey);
@@ -124,14 +140,14 @@ public class PushMessageService {
         String platform = pushMessageVo.getPlatform(); //推送平台
         String msgPlatform = pushMessageVo.getCustomerPlatform();
 
-        Logger.info(MessageFormat.format(">>推送配置中的推送平台：{0},当前registerId对应的推送平台：{1}", commonService.findValueByCatPointKey(platform), msgPlatform));
+        Logger.info(MessageFormat.format(">>推送配置中的推送平台：{0},当前registerId对应的推送平台：{1}", commonService.findValueByCatPointKey(platform), commonService.findValueByCatPointKey(msgPlatform)));
 
         if (DictConst.PUSH_PLATFORM_IOS.equals(platform)) {
             pushPayload = builderIos(pushMessageVo);
         } else if (DictConst.PUSH_PLATFORM_ANDROID.equals(platform)) {
             pushPayload = builderAndroid(pushMessageVo);
         } else {
-            if (AppConst.PLATFORM_IOS.equals(msgPlatform)) {
+            if (DictConst.PUSH_PLATFORM_IOS.equals(msgPlatform)) {
                 pushPayload = builderIos(pushMessageVo);
             } else {
                 pushPayload = builderAndroid(pushMessageVo);
@@ -143,7 +159,6 @@ public class PushMessageService {
     private PushPayload builderAndroid(PushMessageVo pushMessageVo) {
         String contentPush = pushMessageVo.getContentPush();
         String title = pushMessageVo.getTitle();
-        List<String> aliasList = pushMessageVo.getAliasList();
         List<String> registrationIdList = pushMessageVo.getRegistrationIdList();
 
         PushPayload.Builder builder = PushPayload.newBuilder();
@@ -163,25 +178,8 @@ public class PushMessageService {
         return builder.build();
     }
 
-    private PushPayload builderAll(PushMessageVo pushMessageVo) {
-        String contentPush = pushMessageVo.getContentPush();
-        String title = pushMessageVo.getTitle();
-
-        PushPayload.Builder builder = PushPayload.newBuilder();
-
-        builder.setPlatform(Platform.all());
-        builder.setNotification(Notification.alert(contentPush));
-        builder.setAudience(Audience.all());
-        boolean apns_production = ConfigUtil.getValueBoolean(ConfigUtil.apns_production);
-        builder.setOptions(Options.newBuilder().setApnsProduction(apns_production).build());
-
-        return builder.build();
-    }
-
     private PushPayload builderIos(PushMessageVo pushMessageVo) {
         String contentPush = pushMessageVo.getContentPush();
-        String title = pushMessageVo.getTitle();
-        List<String> aliasList = pushMessageVo.getAliasList();
         List<String> registrationIdList = pushMessageVo.getRegistrationIdList();
 
         PushPayload.Builder builder = PushPayload.newBuilder();

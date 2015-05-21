@@ -46,7 +46,8 @@ public class ActivitySceneController extends Controller {
         }
 
         List<ActivitySceneVo> sceneVos = activitySceneService.findScenesBy(pageVo);
-        messageUtil.setMessage(new Message(Severity.INFO, MsgCode.OPERATE_SUCCESS), sceneVos);
+        pageVo.setList(sceneVos);
+        messageUtil.setMessage(new Message(Severity.INFO, MsgCode.OPERATE_SUCCESS), pageVo);
         return ok(messageUtil.toJson());
     }
 

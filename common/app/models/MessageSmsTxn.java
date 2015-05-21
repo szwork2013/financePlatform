@@ -21,7 +21,7 @@ public class MessageSmsTxn extends IdEntity {
     private Long messageRuleId;
     @Column(length = 40)
     private String smsId;
-    @Column(length = 11)
+    @Column(length = 6000)
     private String mobile;
     private String title;
     private String content;

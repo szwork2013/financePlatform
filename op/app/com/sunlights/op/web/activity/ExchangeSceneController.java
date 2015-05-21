@@ -1,11 +1,17 @@
 package com.sunlights.op.web.activity;
 
+import com.sunlights.common.MsgCode;
+import com.sunlights.common.Severity;
 import com.sunlights.common.utils.ConverterUtil;
+import com.sunlights.common.utils.MessageUtil;
+import com.sunlights.common.utils.RequestUtil;
+import com.sunlights.common.vo.Message;
 import com.sunlights.common.vo.PageVo;
 import com.sunlights.op.service.activity.ExchangeSceneService;
 import com.sunlights.op.service.activity.impl.ExchangeSceneServiceImpl;
 import com.sunlights.op.vo.activity.ExchangeSceneVo;
 import models.ExchangeScene;
+import org.apache.commons.lang3.StringUtils;
 import play.db.jpa.Transactional;
 import play.libs.Json;
 import play.mvc.Controller;
@@ -22,13 +28,21 @@ public class ExchangeSceneController extends Controller {
 
     private ExchangeSceneService exchangeSceneService = new ExchangeSceneServiceImpl();
 
+    private MessageUtil messageUtil = MessageUtil.getInstance();
+
     public Result findAllScenes() {
-        List<ExchangeSceneVo> exchangeSceneVos = exchangeSceneService.findAllScenes();
 
+        PageVo pageVo = new PageVo();
+        Http.Request request = request();
 
-        PageVo pageVo = new PageVo();//为了分页
+        if (!StringUtils.isBlank(request.getHeader("params"))) {
+            pageVo = RequestUtil.getHeaderValue("params", PageVo.class);
+        }
+        List<ExchangeSceneVo> exchangeSceneVos = exchangeSceneService.findAllScenes(pageVo);
         pageVo.setList(exchangeSceneVos);
-        return ok(Json.toJson(pageVo));
+
+        messageUtil.setMessage(new Message(Severity.INFO, MsgCode.OPERATE_SUCCESS), pageVo);
+        return ok(messageUtil.toJson());
     }
 
     public Result save() {

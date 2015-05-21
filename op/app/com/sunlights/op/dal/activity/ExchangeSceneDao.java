@@ -1,5 +1,6 @@
 package com.sunlights.op.dal.activity;
 
+import com.sunlights.common.vo.PageVo;
 import com.sunlights.op.vo.activity.ExchangeSceneVo;
 import models.ExchangeScene;
 
@@ -10,7 +11,7 @@ import java.util.List;
  */
 public interface ExchangeSceneDao {
 
-    public List<ExchangeSceneVo> queryAll();
+    public List<ExchangeSceneVo> queryAll(PageVo pageVo);
 
     public List<ExchangeScene> findExchangeScenes();
 

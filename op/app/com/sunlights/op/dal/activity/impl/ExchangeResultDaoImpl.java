@@ -2,36 +2,24 @@ package com.sunlights.op.dal.activity.impl;
 
 import com.google.common.collect.Maps;
 import com.sunlights.common.dal.EntityBaseDao;
-import com.sunlights.common.dal.PageDao;
-import com.sunlights.common.dal.impl.PageDaoImpl;
 import com.sunlights.common.utils.CommonUtil;
 import com.sunlights.common.utils.ConverterUtil;
-import com.sunlights.common.vo.MessageHeaderVo;
 import com.sunlights.common.vo.PageVo;
 import com.sunlights.op.dal.activity.ExchangeResultDao;
-import com.sunlights.op.dto.ExchangeResultXlsDto;
-import com.sunlights.op.service.MessageRuleService;
-import com.sunlights.op.service.impl.MessageRuleServiceImpl;
 import com.sunlights.op.vo.activity.ExchangeBeanResultVo;
-import com.sunlights.op.vo.activity.ExchangeResultStatus;
 import com.sunlights.op.vo.activity.ExchangeResultVo;
 import models.ExchangeResult;
 import models.HoldReward;
 import models.RewardFlow;
-import org.apache.commons.lang3.StringUtils;
 import play.Logger;
 
 import javax.persistence.Query;
-import java.math.BigDecimal;
 import java.util.*;
 
 /**
  * Created by Administrator on 2014/12/11.
  */
 public class ExchangeResultDaoImpl extends EntityBaseDao implements ExchangeResultDao {
-	private MessageRuleService messagePushService = new MessageRuleServiceImpl();
-
-	private PageDao pageDao = new PageDaoImpl();
 
 	@Override
 	public void updateStatus(Long id, Integer status) {
@@ -113,23 +101,28 @@ public class ExchangeResultDaoImpl extends EntityBaseDao implements ExchangeResu
 
 	@Override
 	public List<ExchangeBeanResultVo> findExchangeBeanList(PageVo pageVo) {
-		String commonSql = "  /~ and fer.phone like {registerMobile} ~/ " + "  /~ and fer.status = {status} ~/ "
-				+ "  /~ and fer.create_time >= {beginTime} ~/ " + "  /~ and fer.create_time <= {endTime} ~/ ";
+        String selectKeys = "fer.id,fer.create_time,fer.phone,fer.amount,round(fer.exchanged_amount,2),fer.carrier_code,fer.status ,frf.reward_amt,c.mobile";
+		String sql = " from f_exchange_result fer,c_customer c,f_reward_flow frf"
+                + "  where fer.customer_id = c.customer_id"
+				+ "    and frf.id = fer.reward_flow_id"
+                + "    and frf.operator_type = '2'"
+                + "    and frf.scene = 'EXC002'"
+				+ "    and fer.exchange_scene = 'EXC002'"
+                + "  /~ and fer.phone like {registerMobile} ~/ "
+                + "  /~ and fer.status = {status} ~/ "
+                + "  /~ and fer.create_time >= {beginTime} ~/ "
+                + "  /~ and fer.create_time <= {endTime} ~/ ";
 
-		String sql = "select fer.id,fer.create_time,fer.phone,fer.amount,fer.exchanged_amount,fer.carrier_code,fer.status ,frf.reward_amt,c.mobile"
-				+ "   from f_exchange_result fer,c_customer c,f_reward_flow frf" + "  where fer.customer_id = c.customer_id"
-				+ "    and frf.id = fer.reward_flow_id" + "    and frf.operator_type = '2'" + "    and frf.scene = 'EXC002'"
-				+ "    and fer.exchange_scene = 'EXC002'" + commonSql + "  order by fer.create_time desc ";
+        String selectSql = "select " + selectKeys + sql + " order by fer.create_time desc ";
 
-		Logger.debug(sql);
+		Logger.debug(selectSql);
 
-		Query query = createNativeQueryByMap(sql, pageVo.getFilter());
+		Query query = createNativeQueryByMap(selectSql, pageVo.getFilter());
 		query.setFirstResult(pageVo.getIndex());
 		query.setMaxResults(pageVo.getPageSize());
 		List list = query.getResultList();
 
-		String countSql = "select count(1) from f_exchange_result fer,f_reward_flow frf,c_customer c " + "  where frf.id = fer.reward_flow_id"
-				+ "    and frf.operator_type = '2'" + "    and frf.scene = 'EXC002'" + "    and fer.exchange_scene = 'EXC002'" + commonSql;
+		String countSql = " select count(1) as result " + sql;
 		query = createNativeQueryByMap(countSql, pageVo.getFilter());
 		int count = Integer.valueOf(query.getSingleResult().toString());
 
@@ -174,6 +167,7 @@ public class ExchangeResultDaoImpl extends EntityBaseDao implements ExchangeResu
 		xsql.append("  /~and a.STATUS = {status}~/ ");
 		xsql.append("  /~and a.create_time >= {beginTime}~/ ");
 		xsql.append("  /~and a.create_time <= {endTime}~/ ");
+        xsql.append("  /~and c.mobile like {mobile}~/ ");
 
 		Query query = createNativeQueryByMap(xsql.toString(), pageVo.getFilter());
 		int count = Integer.valueOf(query.getSingleResult().toString());
@@ -205,34 +199,6 @@ public class ExchangeResultDaoImpl extends EntityBaseDao implements ExchangeResu
 		return updateBatchResult(ids);
 	}
 
-	@Override
-	public boolean checkExchangeResult(ExchangeResultXlsDto exchangeResultXlsDto) {
-		ExchangeResult exchangeResult = find(ExchangeResult.class, Long.valueOf(exchangeResultXlsDto.getId()));
-		if (ExchangeResultStatus.AUDIT_PASS.getStatus() == (exchangeResult.getStatus())
-				|| ExchangeResultStatus.EXCHANGEING.getStatus() == (exchangeResult.getStatus())
-				|| ExchangeResultStatus.EXCHANGE_FAIL.getStatus() == (exchangeResult.getStatus())) {
-			BigDecimal amount = exchangeResult.getAmount();
-			String exchangedAmount = exchangeResultXlsDto.getExchangedAmount();
-			amount = amount == null ? BigDecimal.ZERO : amount;
-			BigDecimal amt = StringUtils.isBlank(exchangedAmount) ? BigDecimal.ZERO : new BigDecimal(exchangedAmount);
-			exchangeResult.setExchangedAmount(amt);
-			exchangeResult.setPaymentReceiptNo(exchangeResultXlsDto.getPaymentReceiptNo());
-			if (amount.compareTo(amt) == 0) {
-				exchangeResult.setStatus(ExchangeResultStatus.EXCHANGE_SUCC.getStatus());
-				// send message
-				MessageHeaderVo headerVo = new MessageHeaderVo();
-				headerVo.setCustomerId(exchangeResult.getCustId());
-				headerVo.buildParams(amount.toString());
-				messagePushService.pushMessagePersonal(headerVo, "EXCHANGE_RED_PACKET_SUC");
-			} else {
-				exchangeResult.setStatus(ExchangeResultStatus.EXCHANGE_FAIL.getStatus());
-				return false;
-			}
-			exchangeResult.setUpdateTime(new Date());
-			update(exchangeResult);
-		}
-		return true;
-	}
 
 	// ========================================================Yuan=============================================//
 }

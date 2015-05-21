@@ -2,7 +2,6 @@ package com.sunlights.op.service;
 
 import com.sunlights.common.vo.MessageHeaderVo;
 import com.sunlights.common.vo.PageVo;
-import com.sunlights.common.vo.PushMessageVo;
 import com.sunlights.op.vo.MessageRuleVo;
 import models.Group;
 import models.MessagePushConfig;
@@ -37,9 +36,9 @@ public interface MessageRuleService {
 
     /**
      * 同步数据
-     * @param messagePushTxn
+     * @param messagePushVo
      */
-    public MessagePushTxn saveMessPushTxn(MessagePushTxn messagePushTxn);
+    public MessagePushTxn saveMessPushTxn(MessageRuleVo messagePushVo);
 
     public MessagePushTxn findMessagePushTxnById(Long messageTxnId);
 
@@ -50,17 +49,8 @@ public interface MessageRuleService {
 
     public boolean checkMessPushConfig(Long configId);
 
-    public List<PushMessageVo> findPushMessage(Long messageTxnId);
 
+    public List<MessageHeaderVo> findSendRuleCode(Long messageTxnId);
 
-    /**
-     * 定时任务查询待推送信息列表
-     * @return
-     */
-    public List<PushMessageVo> findPushMessageList(PageVo pageVo);
-
-    public void pushMessagePersonal(MessageHeaderVo messageActivityVo, String ruleCode);
-
-    public void pushMessage(List<PushMessageVo> list);
 
 }

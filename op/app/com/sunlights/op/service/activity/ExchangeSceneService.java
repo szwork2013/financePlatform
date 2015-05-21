@@ -1,5 +1,6 @@
 package com.sunlights.op.service.activity;
 
+import com.sunlights.common.vo.PageVo;
 import com.sunlights.op.vo.activity.ExchangeSceneVo;
 import models.ExchangeScene;
 
@@ -10,7 +11,7 @@ import java.util.List;
  */
 public interface ExchangeSceneService {
 
-    public List<ExchangeSceneVo> findAllScenes();
+    public List<ExchangeSceneVo> findAllScenes(PageVo pageVo);
 
     public List<ExchangeScene> findExchangeScenes();
 

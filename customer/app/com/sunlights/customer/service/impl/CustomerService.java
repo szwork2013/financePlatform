@@ -11,7 +11,9 @@ import com.sunlights.common.utils.DBHelper;
 import com.sunlights.common.utils.MD5Helper;
 import com.sunlights.common.vo.Message;
 import com.sunlights.customer.dal.CustomerDao;
+import com.sunlights.customer.dal.MsgSettingDao;
 import com.sunlights.customer.dal.impl.CustomerDaoImpl;
+import com.sunlights.customer.dal.impl.MsgSettingDaoImpl;
 import com.sunlights.customer.vo.AuthenticationVo;
 import com.sunlights.customer.vo.CustomerVo;
 import models.Customer;
@@ -42,6 +44,7 @@ import java.text.MessageFormat;
 public class CustomerService {
 
     private CustomerDao customerDao = new CustomerDaoImpl();
+    private MsgSettingDao msgSettingDao = new MsgSettingDaoImpl();
     private ParameterService parameterService = new ParameterService();
 
     /**
@@ -178,7 +181,7 @@ public class CustomerService {
         CustomerMsgSetting customerMsgSetting = null;
         String preCustomerId = (String) Cache.get(AppConst.HEADER_REGISTRATION_ID + "_" + registrationId);
         if (!customerId.equals(preCustomerId)) {
-            customerMsgSetting = customerDao.findCustomerMsgSetting(registrationId, deviceNo);
+            customerMsgSetting = msgSettingDao.findCustomerMsgSetting(registrationId, deviceNo);
             if (preCustomerId == null && customerMsgSetting != null && customerId.equals(customerMsgSetting.getCustomerId())) {//缓存超时失效查询数据库比对
                 Cache.set(AppConst.HEADER_REGISTRATION_ID + "_" + registrationId, customerId, (int) cacheTime * 60);
                 return;
@@ -200,12 +203,12 @@ public class CustomerService {
         if (preCustomerMsgSetting != null) {
             preCustomerMsgSetting.setUpdateTime(currentTime);
             preCustomerMsgSetting.setPushOpenStatus(AppConst.STATUS_INVALID);
-            customerDao.updateCustomerMsgSetting(preCustomerMsgSetting);
+            msgSettingDao.updateCustomerMsgSetting(preCustomerMsgSetting);
         }
 
         newCustomerMsgSetting.setPushOpenStatus(AppConst.STATUS_VALID);
         newCustomerMsgSetting.setCreateTime(currentTime);
-        customerDao.createCustomerMsgSetting(newCustomerMsgSetting);
+        msgSettingDao.createCustomerMsgSetting(newCustomerMsgSetting);
     }
 
     /**
@@ -252,6 +255,7 @@ public class CustomerService {
      */
     public void createP2PUser(AuthenticationVo authenticationVo) {
         String p2pInterfaceSwitch = parameterService.getParameterByName(ParameterConst.P2P_INTERFACE_SWITCH);
+        Logger.info("调用p2p创建用户开关：" + p2pInterfaceSwitch);
         if (AppConst.STATUS_INVALID.equals(p2pInterfaceSwitch)) {
             return ;
         }

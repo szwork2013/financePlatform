@@ -1,20 +1,19 @@
 package com.sunlights.op.vo;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
-import com.sunlights.common.utils.CommonUtil;
 import models.MessageRule;
 
-import java.text.ParseException;
+import java.io.Serializable;
+import java.util.Date;
 
 /**
  * Created by Administrator on 2014/12/14.
  */
 @JsonInclude(JsonInclude.Include.NON_EMPTY)
-public class MessageRuleVo {
+public class MessageRuleVo implements Serializable{
     private Long id ;
     private String name;
     private String code;
-
 
     private Long messageTxnId;
     private String description;
@@ -23,18 +22,19 @@ public class MessageRuleVo {
     private String contentSms;
     private String contentPush;
 
-    private String contentext;
-    private String smsind;
-    private String msgcenterind;
-    private String pushind;
+    private String contentExt;
+    private String smsInd;
+    private String msgCenterInd;
+    private String pushInd;
     private Long messagePushConfigId;
-    private String configremarks;
-    private Long groupid;
-    private String groupname;
+    private String configRemarks;
+    private Long groupId;
+    private String groupName;
     private String status;
-    private String createtime;
-    private String updatetime;
-    private String stayDayInd;
+    private Long stayDays;
+    
+    private Date createTime;
+    private Date updateTime;
 
     public MessageRuleVo() {
         super();
@@ -54,16 +54,17 @@ public class MessageRuleVo {
         this.content=message.getContent();
         this.contentSms = message.getContentSms();
         this.contentPush = message.getContentPush();
-        this.contentext=message.getContentExt();
-        this.smsind=message.getSmsInd();
-        this.msgcenterind=message.getMsgCenterInd();
-        this.pushind=message.getPushInd();
+        this.contentExt =message.getContentExt();
+        this.smsInd =message.getSmsInd();
+        this.msgCenterInd =message.getMsgCenterInd();
+        this.pushInd =message.getPushInd();
         this.messagePushConfigId=message.getMessagePushConfigId();
-        this.groupid=message.getGroupId();
+        this.groupId =message.getGroupId();
         this.status = message.getStatus();
-        this.stayDayInd = message.getStayDayInd();
-        this.createtime = CommonUtil.dateToString(message.getCreateTime(), "yyyy-MM-dd");
-        this.updatetime = CommonUtil.dateToString(message.getUpdateTime(), "yyyy-MM-dd");
+        this.stayDays = message.getStayDays();
+        this.stayDays = message.getStayDays();
+        this.createTime = message.getCreateTime();
+        this.updateTime = message.getUpdateTime();
     }
 
 public MessageRule convertToMessageRule() {
@@ -76,20 +77,16 @@ public MessageRule convertToMessageRule() {
     messRule.setContent(this.content);
     messRule.setContentSms(this.contentSms);
     messRule.setContentPush(this.contentPush);
-    messRule.setContentExt(this.contentext);
-    messRule.setSmsInd(this.smsind);
-    messRule.setMsgCenterInd(this.msgcenterind);
-    messRule.setPushInd(this.pushind);
+    messRule.setContentExt(this.contentExt);
+    messRule.setSmsInd(this.smsInd);
+    messRule.setMsgCenterInd(this.msgCenterInd);
+    messRule.setPushInd(this.pushInd);
     messRule.setMessagePushConfigId(this.messagePushConfigId);
-    messRule.setGroupId(this.groupid);
+    messRule.setGroupId(this.groupId);
     messRule.setStatus(this.status);
-    messRule.setStayDayInd(this.stayDayInd);
-    try {
-        messRule.setCreateTime(CommonUtil.stringToDate(this.createtime, "yyyy-MM-dd"));
-        messRule.setUpdateTime(CommonUtil.stringToDate(this.updatetime, "yyyy-MM-dd"));
-    } catch (ParseException e) {
-        e.printStackTrace();
-    }
+    messRule.setStayDays(this.stayDays <= 1 ? 1 : this.stayDays);
+    messRule.setCreateTime(this.createTime);
+    messRule.setUpdateTime(this.updateTime);
 
     return messRule;
 }
@@ -142,36 +139,36 @@ public MessageRule convertToMessageRule() {
         this.content = content;
     }
 
-    public String getContentext() {
-        return contentext;
+    public String getContentExt() {
+        return contentExt;
     }
 
-    public void setContentext(String contentext) {
-        this.contentext = contentext;
+    public void setContentExt(String contentExt) {
+        this.contentExt = contentExt;
     }
 
-    public String getSmsind() {
-        return smsind;
+    public String getSmsInd() {
+        return smsInd;
     }
 
-    public void setSmsind(String smsind) {
-        this.smsind = smsind;
+    public void setSmsInd(String smsInd) {
+        this.smsInd = smsInd;
     }
 
-    public String getMsgcenterind() {
-        return msgcenterind;
+    public String getMsgCenterInd() {
+        return msgCenterInd;
     }
 
-    public void setMsgcenterind(String msgcenterind) {
-        this.msgcenterind = msgcenterind;
+    public void setMsgCenterInd(String msgCenterInd) {
+        this.msgCenterInd = msgCenterInd;
     }
 
-    public String getPushind() {
-        return pushind;
+    public String getPushInd() {
+        return pushInd;
     }
 
-    public void setPushind(String pushind) {
-        this.pushind = pushind;
+    public void setPushInd(String pushInd) {
+        this.pushInd = pushInd;
     }
 
     public Long getMessagePushConfigId() {
@@ -182,12 +179,12 @@ public MessageRule convertToMessageRule() {
         this.messagePushConfigId = messagePushConfigId;
     }
 
-    public Long getGroupid() {
-        return groupid;
+    public Long getGroupId() {
+        return groupId;
     }
 
-    public void setGroupid(Long groupid) {
-        this.groupid = groupid;
+    public void setGroupId(Long groupId) {
+        this.groupId = groupId;
     }
 
     public String getStatus() {
@@ -198,22 +195,6 @@ public MessageRule convertToMessageRule() {
         this.status = status;
     }
 
-    public String getCreatetime() {
-        return createtime;
-    }
-
-    public void setCreatetime(String createtime) {
-        this.createtime = createtime;
-    }
-
-    public String getUpdatetime() {
-        return updatetime;
-    }
-
-    public void setUpdatetime(String updatetime) {
-        this.updatetime = updatetime;
-    }
-
     public Long getMessageTxnId() {
         return messageTxnId;
     }
@@ -222,20 +203,20 @@ public MessageRule convertToMessageRule() {
         this.messageTxnId = messageTxnId;
     }
 
-    public String getConfigremarks() {
-        return configremarks;
+    public String getConfigRemarks() {
+        return configRemarks;
     }
 
-    public void setConfigremarks(String configremarks) {
-        this.configremarks = configremarks;
+    public void setConfigRemarks(String configRemarks) {
+        this.configRemarks = configRemarks;
     }
 
-    public String getGroupname() {
-        return groupname;
+    public String getGroupName() {
+        return groupName;
     }
 
-    public void setGroupname(String groupname) {
-        this.groupname = groupname;
+    public void setGroupName(String groupName) {
+        this.groupName = groupName;
     }
 
     public String getContentSms() {
@@ -254,11 +235,27 @@ public MessageRule convertToMessageRule() {
         this.contentPush = contentPush;
     }
 
-    public String getStayDayInd() {
-        return stayDayInd;
+    public Long getStayDays() {
+        return stayDays;
     }
 
-    public void setStayDayInd(String stayDayInd) {
-        this.stayDayInd = stayDayInd;
+    public void setStayDays(Long stayDays) {
+        this.stayDays = stayDays;
+    }
+
+    public Date getCreateTime() {
+        return createTime;
+    }
+
+    public void setCreateTime(Date createTime) {
+        this.createTime = createTime;
+    }
+
+    public Date getUpdateTime() {
+        return updateTime;
+    }
+
+    public void setUpdateTime(Date updateTime) {
+        this.updateTime = updateTime;
     }
 }

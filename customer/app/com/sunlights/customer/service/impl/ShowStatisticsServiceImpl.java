@@ -32,7 +32,7 @@ public class ShowStatisticsServiceImpl implements ShowStatisticsService {
         } else {
             ShowStatistics showStatistics = list.get(0);
             Random random = new Random();
-            int incrNum = random.nextInt(30);
+            int incrNum = 20 + random.nextInt(10);
             showStatistics.setStatCount(showStatistics.getStatCount() + incrNum);
             showStatisticsDao.doUpdate(showStatistics);
         }

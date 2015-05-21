@@ -1,6 +1,7 @@
 package com.sunlights.op.service.activity.impl;
 
 
+import com.sunlights.common.vo.PageVo;
 import com.sunlights.op.dal.activity.ActivityDao;
 import com.sunlights.op.dal.activity.ObtainRewardRuleDao;
 import com.sunlights.op.dal.activity.impl.ActivityDaoImpl;
@@ -58,9 +59,9 @@ public class ActivityServiceImpl implements ActivityService {
     }
 
     @Override
-    public List<ActivityVo> findActivityWithRule(Long id, String title, String type) {
+    public List<ActivityVo> findActivityWithRule(PageVo pageVo) {
 
-        return activityDao.findActivityWithRule(id, title, type);
+        return activityDao.findActivityWithRule(pageVo);
     }
 
     @Override

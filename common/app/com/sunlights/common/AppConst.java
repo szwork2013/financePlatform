@@ -62,6 +62,7 @@ public final class AppConst {
     public static final String CHANNEL_IOS = "0";
     public static final String CHANNEL_PC = "1";
     public static final String CHANNEL_ANDROID = "2";
+    public static final String CHANNEL_H5 = "3";
 
     public static final String CACHE_PRODUCT_MONETARY_LIST = "product_monetary_list";//货币型产品缓存
     public static final String CACHE_PRODUCT_STF_LIST = "product_stf_list";//定期理财缓存

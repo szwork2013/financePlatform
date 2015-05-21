@@ -2,6 +2,8 @@ package com.sunlights.op.dal.activity.impl;
 
 import com.google.common.collect.Maps;
 import com.sunlights.common.dal.EntityBaseDao;
+import com.sunlights.common.dal.PageDao;
+import com.sunlights.common.dal.impl.PageDaoImpl;
 import com.sunlights.common.utils.ConverterUtil;
 import com.sunlights.common.vo.PageVo;
 import com.sunlights.op.dal.activity.ActivityReturnMsgDao;
@@ -18,28 +20,35 @@ import java.util.Map;
  */
 public class ActivityReturnMsgDaoImpl extends EntityBaseDao implements ActivityReturnMsgDao {
 
+    private PageDao pageDao = new PageDaoImpl();
+
     @Override
     public List<ActivityReturnMsgVo> findByCondition(PageVo pageVo) {
+        StringBuilder selectSql = new StringBuilder();
+        selectSql.append(" from F_ACTIVITY_RETURNCODE_MSG as a join F_REWARD_TYPE  s on a.REWARD_TYPE = s.code ");
+
+        StringBuilder condition = new StringBuilder();
+        condition.append(" where 1 = 1 ");
+        condition.append("  /~and a.scene = {scene}~/ ");
+        condition.append("  /~and a.type = {type}~/ ");
+        condition.append("  /~and a.reward_type = {rewardType}~/ ");
+
         StringBuilder sb = new StringBuilder();
         String keys = "id,scene,type,rewardType,category,errorCode,template,createTime,rewardTypeStr ";
         String columns = " a.id,a.scene,a.type,a.reward_type, a.category,a.ERROR_CODE,a.template, a.CREATE_TIME,s.name ";
         sb.append("select ").append(columns)
-                .append(" from F_ACTIVITY_RETURNCODE_MSG as a join F_REWARD_TYPE  s on a.REWARD_TYPE = s.code ");
-        sb.append(" where 1 = 1 ");
-        sb.append("  /~ and a.scene = {scene} ~/ ");
-        sb.append("  /~ and a.type = {type} ~/ ");
-        sb.append("  /~ and a.reward_type = {rewardType} ~/ ");
+                .append(selectSql);
+        sb.append(condition);
         sb.append(" order by a.CREATE_TIME desc ");
 
-        Map<String, Object> filterMap = Maps.newHashMapWithExpectedSize(5);
+        StringBuilder countSb = new StringBuilder();
+        countSb.append("select count(*) ")
+                .append(selectSql);
+        countSb.append(condition);
 
+        List list = pageDao.findNativeComplexBy(sb.toString(), countSb.toString(), pageVo);
 
-        filterMap.put("EQS_scene", pageVo.get("scene"));
-        filterMap.put("EQS_type", pageVo.get("activityType"));
-        filterMap.put("EQS_rewardType", pageVo.get("rewardType"));
-
-        List<Object[]> resultRows = createNativeQueryByMap(sb.toString(), filterMap).getResultList();
-        List<ActivityReturnMsgVo> activityReturnMsgVos = ConverterUtil.convert(keys, resultRows, ActivityReturnMsgVo.class);
+        List<ActivityReturnMsgVo> activityReturnMsgVos = ConverterUtil.convert(keys, list, ActivityReturnMsgVo.class);
 
 
         Logger.debug("activityReturnMsgVos = " + activityReturnMsgVos.size());

@@ -4,8 +4,10 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.sunlights.common.AppConst;
 import com.sunlights.common.MsgCode;
 import com.sunlights.common.Severity;
+import com.sunlights.common.utils.CommonUtil;
 import com.sunlights.common.utils.DBHelper;
 import com.sunlights.common.utils.MessageUtil;
+import com.sunlights.common.utils.RequestUtil;
 import com.sunlights.common.vo.Message;
 import com.sunlights.common.vo.PageVo;
 import com.sunlights.op.service.SmsMessageService;
@@ -58,6 +60,11 @@ public class SmsMessageController extends Controller {
             resetFilter(pageVo, false);
         }
 
+        if (!StringUtils.isBlank(request().getHeader("params"))) {
+            pageVo = RequestUtil.getHeaderValue("params", PageVo.class);
+            resetSearchTime(pageVo);
+        }
+
         List<SmsMessageVo> smsMessageVos = smsMessageService.findSmsMessageVos(pageVo);
         int allCount = 0;
         for (SmsMessageVo smsMessageVo : smsMessageVos) {
@@ -70,6 +77,17 @@ public class SmsMessageController extends Controller {
 
         Logger.debug("---------findSmsMessageVos-----------\n" + json.toString());
         return ok(json);
+    }
+
+    private void resetSearchTime(PageVo pageVo) {
+        Object beginTime = pageVo.get("GED_beginTime");
+        if (beginTime != null) {
+            pageVo.put("GED_beginTime", CommonUtil.stringToDateTime(beginTime.toString()));
+        }
+        Object endTime = pageVo.get("LTD_endTime");
+        if (endTime != null) {
+            pageVo.put("LTD_endTime", CommonUtil.stringToDateTime(endTime.toString()));
+        }
     }
 
     private void resetFilter(PageVo pageVo, boolean isFormSubmit) {
@@ -102,7 +120,15 @@ public class SmsMessageController extends Controller {
         Logger.info("--------------export SmsMessage start--------------");
 
         PageVo pageVo = new PageVo();
-        resetFilter(pageVo, true);
+
+        Map<String, String[]> filterMap = request().queryString();
+        for (String key : filterMap.keySet()) {
+            String[] filter = filterMap.get(key);
+            if (filter.length > 0 && StringUtils.isNotBlank(filter[0])) {
+                pageVo.put(key, filter[0].replace("\"", ""));
+            }
+        }
+        resetSearchTime(pageVo);
 
         final List<SmsMessageVo> smsMessageVos = smsMessageService.findSmsMessageVos(pageVo);
         Timestamp currentTime = DBHelper.getCurrentTime();
@@ -114,6 +140,10 @@ public class SmsMessageController extends Controller {
 
         Chunks<byte[]> chunks = getChunks(smsMessageVos);
         Logger.info("--------------export SmsMessage end--------------");
+
+
+
+
         return ok(chunks);
     }
 

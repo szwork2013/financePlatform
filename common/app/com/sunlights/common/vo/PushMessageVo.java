@@ -29,7 +29,6 @@ public class PushMessageVo implements Serializable {
     private String personalInd;//个人Y、群发N 信息来源标志
     private int sendNum = 0;//次数
     private int badge = 1;//ios 专用  未读记录数量
-    private List<String> aliasList = Lists.newArrayList();
     private List<String> registrationIdList = Lists.newArrayList();
 
     private Long messageRuleId;
@@ -92,14 +91,6 @@ public class PushMessageVo implements Serializable {
 
     public void setGroupId(Long groupId) {
         this.groupId = groupId;
-    }
-
-    public List<String> getAliasList() {
-        return aliasList;
-    }
-
-    public void setAliasList(List<String> aliasList) {
-        this.aliasList = aliasList;
     }
 
     public String getCustomerId() {
@@ -205,4 +196,5 @@ public class PushMessageVo implements Serializable {
     public void setCustomerPlatform(String customerPlatform) {
         this.customerPlatform = customerPlatform;
     }
+
 }

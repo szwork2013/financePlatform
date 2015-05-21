@@ -1,6 +1,7 @@
 package com.sunlights.op.service.activity.impl;
 
 import com.sunlights.common.utils.ConverterUtil;
+import com.sunlights.common.vo.PageVo;
 import com.sunlights.op.dal.activity.ExchangeSceneDao;
 import com.sunlights.op.dal.activity.impl.ExchangeSceneDaoImpl;
 import com.sunlights.op.service.activity.ExchangeSceneService;
@@ -19,8 +20,8 @@ public class ExchangeSceneServiceImpl implements ExchangeSceneService {
     private RewardTypeService rewardTypeService = new RewardTypeServiceImpl();
 
     @Override
-    public List<ExchangeSceneVo> findAllScenes() {
-        return exchangeSceneDao.queryAll();
+    public List<ExchangeSceneVo> findAllScenes(PageVo pageVo) {
+        return exchangeSceneDao.queryAll(pageVo);
     }
 
     @Override

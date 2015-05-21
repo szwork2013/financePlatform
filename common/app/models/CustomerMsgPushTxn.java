@@ -18,6 +18,7 @@ public class CustomerMsgPushTxn extends IdEntity {
     @Column(name = "message_rule_id")
     private Long messageRuleId;
     private String title;
+    @Column(name = "content", length = 1000)
     private String content;
     @Column(name = "content_ext")
     private String contentExt;

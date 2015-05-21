@@ -1,5 +1,7 @@
 package com.sunlights.op.service.activity.impl;
 
+import com.google.common.collect.Lists;
+import com.sunlights.common.DictConst;
 import com.sunlights.common.MsgCode;
 import com.sunlights.common.ParameterConst;
 import com.sunlights.common.service.ParameterService;
@@ -14,11 +16,9 @@ import com.sunlights.op.dal.activity.impl.ExchangeResultDaoImpl;
 import com.sunlights.op.dto.BaseXlsDto;
 import com.sunlights.op.dto.ExchangeBeanResultXlsDto;
 import com.sunlights.op.dto.ExchangeResultXlsDto;
-import com.sunlights.op.service.MessageRuleService;
 import com.sunlights.op.service.activity.ExchangeResultService;
 import com.sunlights.op.service.activity.ExchangeRewardRuleService;
 import com.sunlights.op.service.activity.ExchangeSceneService;
-import com.sunlights.op.service.impl.MessageRuleServiceImpl;
 import com.sunlights.op.vo.activity.ExchangeBeanResultVo;
 import com.sunlights.op.vo.activity.ExchangeResultStatus;
 import com.sunlights.op.vo.activity.ExchangeResultVo;
@@ -39,7 +39,6 @@ public class ExchangeResultServiceImpl implements ExchangeResultService {
 	private ExchangeResultDao exchangeResultDao = new ExchangeResultDaoImpl();
 	private ExchangeSceneService exchangeSceneService = new ExchangeSceneServiceImpl();
 	private ExchangeRewardRuleService exchangeRewardRuleService = new ExchangeRewardRuleServiceImpl();
-    private MessageRuleService messagePushService = new MessageRuleServiceImpl();
 
 	@Override
 	public void updateStatus(ExchangeResult exchangeResult) {
@@ -81,6 +80,7 @@ public class ExchangeResultServiceImpl implements ExchangeResultService {
 
 
     public void updateExchangeBeanResult(List<BaseXlsDto> dtoList) {
+        List<MessageHeaderVo> messageHeaderVoList = Lists.newArrayList();
         Logger.info(">>updateExchangeBeanResult start>>");
         ExchangeResult exchangeResult = null;
         String exchangeBeanType = null;//1兑换成功 2兑换失败 3部分兑换成功，即 兑换金额 > 实际兑换金额
@@ -101,6 +101,7 @@ public class ExchangeResultServiceImpl implements ExchangeResultService {
                 String exchangedAmount = exchangeBeanResultVo.getHasExchangeAmount();
                 if (StringUtils.isEmpty(exchangedAmount)){
                     exchangeBeanType = ActivityConstant.EXCHANGE_BEAN_FAIL;
+                    realExchangeAmount = exchangeResult.getAmount();
                     failNum++;
                 }else{
                     try {
@@ -108,6 +109,7 @@ public class ExchangeResultServiceImpl implements ExchangeResultService {
                         if (BigDecimal.ZERO.compareTo(hasExchangeAmount) == 0) {
                             failNum++;
                             exchangeBeanType = ActivityConstant.EXCHANGE_BEAN_FAIL;
+                            realExchangeAmount = exchangeResult.getAmount();
                         }else if (exchangeResult.getAmount().compareTo(hasExchangeAmount) > 0) {
                             realExchangeAmount = hasExchangeAmount;
                             exchangeBeanType = ActivityConstant.EXCHANGE_BEAN_MID;
@@ -124,16 +126,18 @@ public class ExchangeResultServiceImpl implements ExchangeResultService {
                     }
                 }
 
-                updateResult(exchangeResult, exchangeBeanType, realExchangeAmount);
+                MessageHeaderVo messageHeaderVo = updateResult(exchangeResult, exchangeBeanType, realExchangeAmount);
+                messageHeaderVoList.add(messageHeaderVo);
             }
 		}
 
         String message = MessageFormat.format("此次有效兑换数量{0}个，成功{1}个，失败{2}个", successfulNum + failNum, successfulNum, failNum);
         MessageUtil.getInstance().setMessage(new Message(MsgCode.OPERATE_SUCCESS), message);
+        MessageUtil.getInstance().setMessageHeader(messageHeaderVoList);
 
 	}
 
-    private void updateResult(ExchangeResult exchangeResult, String exchangeBeanType, BigDecimal realExchangeAmount) {
+    private MessageHeaderVo updateResult(ExchangeResult exchangeResult, String exchangeBeanType, BigDecimal realExchangeAmount) {
         ExchangeScene exchangeScene = exchangeSceneService.findByScene(exchangeResult.getExchangeScene());
         Long rewardFlowId = exchangeResult.getRewardFlowId();
         RewardFlow rewardFlow = exchangeResultDao.findRewardFlowById(rewardFlowId);
@@ -176,10 +180,13 @@ public class ExchangeResultServiceImpl implements ExchangeResultService {
         messageHeaderVo.setCustomerId(customerId);
         messageHeaderVo.buildParams(realExchangeAmount.toString());
         if (ActivityConstant.EXCHANGE_BEAN_FAIL.equals(exchangeBeanType)) {
-            messagePushService.pushMessagePersonal(messageHeaderVo, "EXCHANGE_BEAN_FAIL");
+            messageHeaderVo.setMessageType(DictConst.PUSH_TYPE_6);
         }else{
-            messagePushService.pushMessagePersonal(messageHeaderVo, "EXCHANGE_BEAN_SUC");
+            messageHeaderVo.setMessageType(DictConst.PUSH_TYPE_2);
         }
+        messageHeaderVo.setScene("EXC002");
+
+        return messageHeaderVo;
     }
 
     private RewardFlow genRewardFlow(RewardFlow rewardFlow, Integer status, Long rewardAmt, BigDecimal money){
@@ -301,7 +308,8 @@ public class ExchangeResultServiceImpl implements ExchangeResultService {
      * @author Yuan
      */
 	@Override
-	public int checkExchangeResults(List<BaseXlsDto> baseXlsDtos) {
+	public List<MessageHeaderVo> checkExchangeResults(List<BaseXlsDto> baseXlsDtos) {
+        List<MessageHeaderVo> messageHeaderVoList = Lists.newArrayList();
 		int i = 0;
 		for (BaseXlsDto  baseXlsDto: baseXlsDtos) {
 			ExchangeResultXlsDto exchangeResultXlsDto = (ExchangeResultXlsDto) baseXlsDto;
@@ -325,7 +333,9 @@ public class ExchangeResultServiceImpl implements ExchangeResultService {
 					MessageHeaderVo headerVo = new MessageHeaderVo();
 					headerVo.setCustomerId(exchangeResult.getCustId());
 					headerVo.buildParams(amount.toString());
-					messagePushService.pushMessagePersonal(headerVo,"EXCHANGE_RED_PACKET_SUC");
+                    headerVo.setMessageType(DictConst.PUSH_TYPE_2);
+                    headerVo.setScene("EXC001");
+                    messageHeaderVoList.add(headerVo);
 					i++;
 				} else {
 					exchangeResult.setStatus(ExchangeResultStatus.EXCHANGE_FAIL.getStatus());
@@ -334,7 +344,7 @@ public class ExchangeResultServiceImpl implements ExchangeResultService {
 			}
 		}
 		Logger.info("[check success size is]" + i);
-		return i;
+		return messageHeaderVoList;
 	}
 
 }

@@ -83,4 +83,23 @@ public class PageDaoImpl extends EntityBaseDao implements PageDao {
         return list;
     }
 
+    @Override
+    public <X> List<X> findNativeComplexBy(String xsql, String countSql, PageVo pageVo) {
+
+        Query countNativeQuery = createNativeQueryByMap(countSql, pageVo.getFilter());
+        Query nativeQuery = createNativeQueryByMap(xsql, pageVo.getFilter());
+        int count = Integer.valueOf(String.valueOf(countNativeQuery.getResultList().get(0)));
+        int first = pageVo.getIndex();
+        int pageSize = pageVo.getPageSize();
+        if (first > 0) {
+            nativeQuery.setFirstResult(first);
+        }
+        if (pageSize > 0) {
+            nativeQuery.setMaxResults(pageSize);
+        }
+        List list = nativeQuery.getResultList();
+        pageVo.setCount(count);
+        return list;
+
+    }
 }
