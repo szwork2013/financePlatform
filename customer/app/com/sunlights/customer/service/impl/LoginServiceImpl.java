@@ -20,6 +20,7 @@ import com.sunlights.customer.vo.AuthenticationVo;
 import com.sunlights.customer.vo.CustomerFormVo;
 import com.sunlights.customer.vo.CustomerVo;
 import models.*;
+import org.apache.commons.lang3.StringUtils;
 import play.Logger;
 
 import java.math.BigDecimal;
@@ -148,7 +149,8 @@ public class LoginServiceImpl implements LoginService {
         String channel = vo.getChannel();
 
         boolean fromAppFlag = fromApp(channel);
-        boolean isVerifyCode = isVerifyCode(channel);
+        boolean fromH5Flag = fromH5(channel);
+        boolean fromPcFlag = fromPc(channel);
 
         Logger.info("=============recommendPhone:" + vo.getRecommendPhone());
         if (fromAppFlag) {
@@ -162,7 +164,7 @@ public class LoginServiceImpl implements LoginService {
             throw CommonUtil.getInstance().errorBusinessException(MsgCode.PHONE_NUMBER_ALREADY_REGISTRY);
         }
 
-        if (isVerifyCode && !isVerifyCodeRight(mobilePhoneNo, verifyCode, deviceNo)){
+        if ((fromAppFlag || fromH5Flag) && !isVerifyCodeRight(mobilePhoneNo, verifyCode, deviceNo)){
             return null;
         }
 
@@ -172,7 +174,7 @@ public class LoginServiceImpl implements LoginService {
 
         saveLoginHistory(customer, vo);
 
-        if (fromAppFlag) {
+        if (!fromPcFlag) {
             AuthenticationVo authenticationVo = new AuthenticationVo(authentication, customer);
             authenticationVo.setPassword(passWord);
             customerService.createP2PUser(authenticationVo);
@@ -187,11 +189,18 @@ public class LoginServiceImpl implements LoginService {
         return customer;
 	}
 
-    private boolean isVerifyCode(String channel) {
-        if(AppConst.CHANNEL_PC.equals(channel)) {
-            return false;
+    private boolean fromH5(String channel) {
+        if(AppConst.CHANNEL_H5.equals(channel)) {
+            return true;
         }
-        return true ;
+        return false ;
+    }
+
+    private boolean fromPc(String channel) {
+        if(AppConst.CHANNEL_PC.equals(channel)) {
+            return true;
+        }
+        return false ;
     }
 
     private boolean isVerifyCodeRight(String mobilePhoneNo, String verifyCode, String deviceNo) {
@@ -204,10 +213,10 @@ public class LoginServiceImpl implements LoginService {
     }
 
     private boolean fromApp(String channel) {
-        if(AppConst.CHANNEL_PC.equals(channel) || AppConst.CHANNEL_H5.equals(channel)) {
-            return false;
+        if(AppConst.CHANNEL_ANDROID.equals(channel) || AppConst.CHANNEL_IOS.equals(channel) || StringUtils.isEmpty(channel)) {
+            return true;
         }
-        return true ;
+        return false ;
     }
 
     private Customer saveCustomer(CustomerFormVo vo, Long authenticationId) {
