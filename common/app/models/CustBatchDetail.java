@@ -11,21 +11,32 @@ import javax.persistence.Table;
 @Table(name="t_cust_batch_detail")
 public class CustBatchDetail extends  IdEntity{
 
-    @Column(name="customer_id" )
-    private String customerId;
+    @Column(name="shumi_tokenkey" )
+    private String shumiTokenKey;
+
+    @Column(name="shumi_tokensecret" )
+    private String shumiTokenSecret;
 
     @Column(name="customer_batch_id")
     private long customerBatchId;
 
-    public String getCustomerId() {
-        return customerId;
+    public String getShumiTokenKey() {
+        return shumiTokenKey;
     }
 
-    public void setCustomerId(String customerId) {
-        this.customerId = customerId;
+    public void setShumiTokenKey(String shumiTokenKey) {
+        this.shumiTokenKey = shumiTokenKey;
     }
 
-    public long customerBatchId() {
+    public String getShumiTokenSecret() {
+        return shumiTokenSecret;
+    }
+
+    public void setShumiTokenSecret(String shumiTokenSecret) {
+        this.shumiTokenSecret = shumiTokenSecret;
+    }
+
+    public long getCustomerBatchId() {
         return customerBatchId;
     }
 

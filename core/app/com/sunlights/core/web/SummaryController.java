@@ -9,14 +9,18 @@ import com.sunlights.common.utils.log.logback.ext.DateUtil;
 import com.sunlights.common.vo.Message;
 import com.sunlights.core.service.SummaryService;
 import com.sunlights.core.service.impl.SummaryServiceImpl;
+import com.sunlights.core.vo.BatchVo;
 import models.SyncBatchLog;
 import models.SyncIncomeStat;
 import models.SyncTrade;
+import org.hibernate.engine.jdbc.batch.spi.Batch;
 import play.mvc.Controller;
 import play.mvc.Http;
 import play.mvc.Result;
 
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
 /**
  * Created by Edward on 2015/5/8 0008.
@@ -31,16 +35,19 @@ public class SummaryController extends Controller {
 
     public Result getBatchCount() {
         String batchDate = request().getQueryString("batchDate");
+        List<String> results = summaryService.getBatchCount(batchDate);
+
         if (!DateUtil.isValidDate(batchDate)) {
             messageUtil.setMessage(new Message(Severity.FATAL, MsgCode.NOT_A_VALID_DATE));
         } else {
-            messageUtil.setMessage(new Message(Severity.INFO, MsgCode.OPERATE_SUCCESS), summaryService.getBatchCount(batchDate));
+            messageUtil.setMessage(new Message(Severity.INFO, MsgCode.OPERATE_SUCCESS), fillVos(results));
         }
         return ok(messageUtil.toJson());
     }
 
     public Result getBatchCountAll() {
-        messageUtil.setMessage(new Message(Severity.INFO, MsgCode.OPERATE_SUCCESS), summaryService.getBatchCountAll());
+        List<String> results = summaryService.getBatchCountAll();
+        messageUtil.setMessage(new Message(Severity.INFO, MsgCode.OPERATE_SUCCESS),fillVos(results));
         return ok(messageUtil.toJson());
     }
 
@@ -104,6 +111,16 @@ public class SummaryController extends Controller {
         }
         messageUtil.setMessage(new Message(Severity.INFO, MsgCode.OPERATE_SUCCESS), summaryService.isTaskFinished(taskName,date));
         return ok(messageUtil.toJson());
+    }
+
+    private List<BatchVo> fillVos(List<String> results){
+        List<BatchVo> vos =new ArrayList<BatchVo>();
+        for(String s:results){
+            BatchVo vo = new BatchVo();
+            vo.setBatchNo(s);
+            vos.add(vo);
+        }
+        return vos;
     }
 
 }

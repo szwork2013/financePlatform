@@ -21,29 +21,38 @@ public class SummaryDaoImpl extends EntityBaseDao implements SummaryDao {
     @Override
     public List<String> getBatchCount(String startDate) {
         StringBuffer sql = new StringBuffer();
-        sql.append("select t.cust_id from t_trade t,c_customer c where t.cust_id = c.customer_id");
-        sql.append("and t.trade_time >'");
+        sql.append("select f.shumi_tokenkey,f.shumi_tokensecret from t_trade t,c_customer c,f_shumi_account f where t.cust_id = c.customer_id and f.customer_id=c.customer_id");
+        sql.append(" and t.trade_time >'");
         sql.append(startDate);
         sql.append("'  and  t.trade_time<'");
         String nextDay = addDay(startDate, 1);
         sql.append(nextDay);
         sql.append("'");
+        Logger.info(sql.toString());
         return caculateBatch(sql.toString());
     }
 
     @Override
     public List<String> getBatchCountAll() {
         StringBuffer sql = new StringBuffer();
-        sql.append("select t.cust_id from t_trade t,c_customer c where t.cust_id = c.customer_id");
+        sql.append("select f.shumi_tokenkey,f.shumi_tokensecret from t_trade t,c_customer c,f_shumi_account f where t.cust_id = c.customer_id and f.customer_id=c.customer_id");
         return caculateBatch(sql.toString());
     }
 
     @Override
-    public List<String> getTradedCust(String batchNo) {
-        String sql = "select t.customer_id from t_cust_batch_detail t where t.customer_batch_id= ?0 ";
+    public List<CustBatchDetail> getTradedCust(String batchNo) {
+        String sql = "select t.shumi_tokenkey,t.shumi_tokensecret from t_cust_batch_detail t where t.customer_batch_id= ?0 ";
         Query query = em.createNativeQuery(sql);
         query.setParameter(0, new Long(batchNo));
-        return query.getResultList();
+        List<Object[]> list = query.getResultList();
+        List<CustBatchDetail> detailList = new ArrayList<CustBatchDetail>();
+        for(Object[] obj:list){
+            CustBatchDetail detail = new CustBatchDetail();
+            detail.setShumiTokenKey(obj[0].toString());
+            detail.setShumiTokenSecret(obj[1].toString());
+            detailList.add(detail);
+        }
+        return detailList;
     }
 
     @Override
@@ -100,13 +109,14 @@ public class SummaryDaoImpl extends EntityBaseDao implements SummaryDao {
             return false;
         }
         StringBuilder sql = new StringBuilder();
-        sql.append("select id from t_sync_batch_log t where t.task_status=0 and t.create_time='");
+        sql.append("select  id from t_sync_batch_log t where t.task_status='0'  and to_char(t.start_time,'YYYY-MM-DD HH24:MI:SS')='");
         sql.append(date);
         sql.append("' and task_name='");
         sql.append(taskName);
         sql.append("'");
+        Logger.info(sql.toString());
         Query query = em.createNativeQuery(sql.toString());
-        if(query.getMaxResults()>0){
+        if(query.getResultList().size()>0){
             return true;
         }
         return false;
@@ -116,7 +126,7 @@ public class SummaryDaoImpl extends EntityBaseDao implements SummaryDao {
     private List<String> caculateBatch(String sql) {
         List<String> results = new ArrayList<String>();
         Query query = em.createNativeQuery(sql.toString());
-        List<String> list = query.getResultList();
+        List<Object[]> list = query.getResultList();
         int mod = 10;
         int batchTotal = list.size() / mod;
         int batchLeft = list.size() % mod;
@@ -132,7 +142,9 @@ public class SummaryDaoImpl extends EntityBaseDao implements SummaryDao {
             for (int k = 0; k < mod; k++) {
                 CustBatchDetail batchDetail = new CustBatchDetail();
                 batchDetail.setCustomerBatchId(customerBatch.getId());
-                batchDetail.setCustomerId(list.get(k * i));
+                batchDetail.setShumiTokenKey(list.get(k * i)[0].toString());
+                Logger.info(list.get(k * i)[1].toString());
+                batchDetail.setShumiTokenSecret(list.get(k * i)[1].toString());
                 create(batchDetail);
             }
         }
