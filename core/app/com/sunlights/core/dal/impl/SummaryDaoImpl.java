@@ -104,15 +104,14 @@ public class SummaryDaoImpl extends EntityBaseDao implements SummaryDao {
     }
 
     @Override
-    public boolean isTaskFinished(String taskName,String date) {
+    public boolean isTaskFinished(String date,String taskName) {
         if(taskName==null||date==null){
-            Logger.info("11111");
             return false;
         }
         StringBuilder sql = new StringBuilder();
-        sql.append("select id from t_sync_batch_log t where t.task_status='0' and t.create_time=to_date(");
+        sql.append("select  id from t_sync_batch_log t where t.task_status='0'  and to_char(t.start_time,'YYYY-MM-DD HH24:MI:SS')='");
         sql.append(date);
-        sql.append("' ,'YYYY-MM-DD HH24:MI:SS') and task_name='");
+        sql.append("' and task_name='");
         sql.append(taskName);
         sql.append("'");
         Logger.info(sql.toString());
