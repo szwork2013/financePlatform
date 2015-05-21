@@ -3,6 +3,7 @@ package com.sunlights.core.service.impl;
 import com.sunlights.core.dal.SummaryDao;
 import com.sunlights.core.dal.impl.SummaryDaoImpl;
 import com.sunlights.core.service.SummaryService;
+import models.CustBatchDetail;
 import models.SyncBatchLog;
 import models.SyncIncomeStat;
 import models.SyncTrade;
@@ -27,7 +28,7 @@ public class SummaryServiceImpl implements SummaryService {
     }
 
     @Override
-    public List<String> getTradedCust(String batchNo) {
+    public List<CustBatchDetail> getTradedCust(String batchNo) {
         return summaryDao.getTradedCust(batchNo);
     }
 
