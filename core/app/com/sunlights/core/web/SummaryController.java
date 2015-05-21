@@ -1,5 +1,7 @@
 package com.sunlights.core.web;
 
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.sunlights.common.MsgCode;
 import com.sunlights.common.Severity;
 import com.sunlights.common.utils.MessageUtil;
@@ -7,15 +9,18 @@ import com.sunlights.common.utils.log.logback.ext.DateUtil;
 import com.sunlights.common.vo.Message;
 import com.sunlights.core.service.SummaryService;
 import com.sunlights.core.service.impl.SummaryServiceImpl;
+import com.sunlights.core.vo.BatchVo;
 import models.SyncBatchLog;
 import models.SyncIncomeStat;
 import models.SyncTrade;
-import play.libs.Json;
+import org.hibernate.engine.jdbc.batch.spi.Batch;
 import play.mvc.Controller;
 import play.mvc.Http;
 import play.mvc.Result;
 
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
 /**
  * Created by Edward on 2015/5/8 0008.
@@ -30,16 +35,19 @@ public class SummaryController extends Controller {
 
     public Result getBatchCount() {
         String batchDate = request().getQueryString("batchDate");
+        List<String> results = summaryService.getBatchCount(batchDate);
+
         if (!DateUtil.isValidDate(batchDate)) {
             messageUtil.setMessage(new Message(Severity.FATAL, MsgCode.NOT_A_VALID_DATE));
         } else {
-            messageUtil.setMessage(new Message(Severity.INFO, MsgCode.OPERATE_SUCCESS), summaryService.getBatchCount(batchDate));
+            messageUtil.setMessage(new Message(Severity.INFO, MsgCode.OPERATE_SUCCESS), fillVos(results));
         }
         return ok(messageUtil.toJson());
     }
 
     public Result getBatchCountAll() {
-        messageUtil.setMessage(new Message(Severity.INFO, MsgCode.OPERATE_SUCCESS), summaryService.getBatchCountAll());
+        List<String> results = summaryService.getBatchCountAll();
+        messageUtil.setMessage(new Message(Severity.INFO, MsgCode.OPERATE_SUCCESS),fillVos(results));
         return ok(messageUtil.toJson());
     }
 
@@ -51,45 +59,43 @@ public class SummaryController extends Controller {
 
     public Result saveIncomeStat() {
         Http.RequestBody body = request().body();
+        JsonNode json = request().body().asJson();
+        ObjectMapper mapper = new ObjectMapper();
         try {
-            SyncIncomeStat[] myObjects = Json.fromJson(body.asJson(), SyncIncomeStat[].class);
+            //SyncIncomeStat need to be change into vo.
+            SyncIncomeStat[] myObjects = mapper.readValue(json.get("parameters").textValue(),SyncIncomeStat[].class);
             summaryService.saveFundIncomes(Arrays.asList(myObjects));
         }catch (Exception ex){
             ex.printStackTrace();
-            SyncIncomeStat myObject = Json.fromJson(body.asJson(), SyncIncomeStat.class);
-            SyncIncomeStat[] myObjects = new SyncIncomeStat[]{myObject};
-            summaryService.saveFundIncomes(Arrays.asList(myObjects));
         }
-
-        messageUtil.setMessage(new Message(Severity.INFO, MsgCode.OPERATE_SUCCESS));
         return ok(messageUtil.toJson());
     }
 
     public Result saveTradeRecords() {
         Http.RequestBody body = request().body();
+        JsonNode json = request().body().asJson();
+        ObjectMapper mapper = new ObjectMapper();
         try {
             //SyncIncomeStat need to be change into vo.
-            SyncTrade[] myObjects = Json.fromJson(body.asJson(), SyncTrade[].class);
+            SyncTrade[] myObjects = mapper.readValue(json.get("parameters").textValue(),SyncTrade[].class);
             summaryService.saveSyncTrade(Arrays.asList(myObjects));
         }catch (Exception ex){
-            SyncTrade myObject = Json.fromJson(body.asJson(), SyncTrade.class);
-            SyncTrade[] myObjects = new SyncTrade[]{myObject};
-            summaryService.saveSyncTrade(Arrays.asList(myObjects));
+            ex.printStackTrace();
         }
-        messageUtil.setMessage(new Message(Severity.INFO, MsgCode.OPERATE_SUCCESS));
         return ok(messageUtil.toJson());
     }
 
     public Result saveBatchLog() {
         Http.RequestBody body = request().body();
+        JsonNode json = request().body().asJson();
+        ObjectMapper mapper = new ObjectMapper();
         try {
-            SyncBatchLog myObject = Json.fromJson(body.asJson(), SyncBatchLog.class);
-            summaryService.saveBatchLog(myObject);
-        }catch(Exception ex){
-            messageUtil.setMessage(new Message(Severity.ERROR, MsgCode.OPERATE_FAILURE));
+            //SyncBatchLog need to be change into vo.
+            SyncBatchLog myObjects = mapper.readValue(json.get("parameters").textValue(),SyncBatchLog.class);
+            summaryService.saveBatchLog(myObjects);
+        }catch (Exception ex){
+            ex.printStackTrace();
         }
-
-        messageUtil.setMessage(new Message(Severity.INFO, MsgCode.OPERATE_SUCCESS));
         return ok(messageUtil.toJson());
     }
 
@@ -103,8 +109,18 @@ public class SummaryController extends Controller {
         if(taskName==null||taskName.equals("")){
             messageUtil.setMessage(new Message(Severity.FATAL, MsgCode.TASK_NAME_EMPTY));
         }
-        messageUtil.setMessage(new Message(Severity.INFO, MsgCode.OPERATE_SUCCESS), summaryService.isTaskFinished(taskName,date));
+        messageUtil.setMessage(new Message(Severity.INFO, MsgCode.OPERATE_SUCCESS), summaryService.isTaskFinished(date,taskName));
         return ok(messageUtil.toJson());
+    }
+
+    private List<BatchVo> fillVos(List<String> results){
+        List<BatchVo> vos =new ArrayList<BatchVo>();
+        for(String s:results){
+            BatchVo vo = new BatchVo();
+            vo.setBatchNo(s);
+            vos.add(vo);
+        }
+        return vos;
     }
 
 }

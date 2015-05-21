@@ -16,7 +16,7 @@ public interface SummaryService {
 
     public List<String> getBatchCountAll();
 
-    public List<String> getTradedCust(String batchNo);
+    public List<CustBatchDetail> getTradedCust(String batchNo);
 
     public boolean saveFundIncomes(List<SyncIncomeStat> list);
 
@@ -24,5 +24,5 @@ public interface SummaryService {
 
     public boolean saveBatchLog(SyncBatchLog batchLog);
 
-    public boolean isTaskFinished(String taskName,String date);
+    public boolean isTaskFinished(String taskName, String date);
 }
