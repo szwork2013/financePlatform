@@ -109,7 +109,7 @@ public class SummaryDaoImpl extends EntityBaseDao implements SummaryDao {
             return false;
         }
         StringBuilder sql = new StringBuilder();
-        sql.append("select  id from t_sync_batch_log t where t.task_status='0'  and to_char(t.start_time,'YYYY-MM-DD HH24:MI:SS')='");
+        sql.append("select  id from t_sync_batch_log t where t.task_status='0'  and to_char(t.end_time,'YYYY-MM-DD HH24:MI:SS')='");
         sql.append(date);
         sql.append("' and task_name='");
         sql.append(taskName);
