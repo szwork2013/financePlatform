@@ -123,7 +123,7 @@ public class CustomerDaoImpl extends EntityBaseDao implements CustomerDao {
     }
 
     public CustomerVo getCustomerVoByAuthenticationMobile(String mobile) {
-        String sql = " select c.mobile,c.real_name,c.email,c.customer_id,c.authentication_id" +
+        String sql = " select c.mobile,c.identity_number,c.real_name,c.email,c.customer_id,c.authentication_id" +
                 "  from c_customer c, c_authentication a " +
                 " where c.authentication_id = a.id " +
                 "  and  a.mobile = :mobile";
@@ -136,7 +136,7 @@ public class CustomerDaoImpl extends EntityBaseDao implements CustomerDao {
             return null;
         }
 
-        String keys = "mobilePhoneNo,userName,email,customerId,authenticationId";
+        String keys = "mobilePhoneNo,idCardNo,userName,email,customerId,authenticationId";
         List<CustomerVo> customerVos = ConverterUtil.convert(keys, list, CustomerVo.class);
 
         return customerVos.get(0);
