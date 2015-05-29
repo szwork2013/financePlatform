@@ -109,11 +109,12 @@ public class SummaryDaoImpl extends EntityBaseDao implements SummaryDao {
             return false;
         }
         StringBuilder sql = new StringBuilder();
-        sql.append("select  id from t_sync_batch_log t where t.task_status='0'  and to_char(t.end_time,'YYYY-MM-DD HH24:MI:SS')='");
+        sql.append("select  id from t_sync_batch_log t where t.task_status='0'  and to_char(t.start_time,'YYYY-MM-DD HH24:MI:SS')='");
         sql.append(date);
         sql.append("' and task_name='");
         sql.append(taskName);
         sql.append("'");
+        Logger.info(sql.toString());
         Query query = em.createNativeQuery(sql.toString());
         if(query.getResultList().size()>0){
             return true;
@@ -142,6 +143,7 @@ public class SummaryDaoImpl extends EntityBaseDao implements SummaryDao {
                 CustBatchDetail batchDetail = new CustBatchDetail();
                 batchDetail.setCustomerBatchId(customerBatch.getId());
                 batchDetail.setShumiTokenKey(list.get(k * i)[0].toString());
+                Logger.info(list.get(k * i)[1].toString());
                 batchDetail.setShumiTokenSecret(list.get(k * i)[1].toString());
                 create(batchDetail);
             }

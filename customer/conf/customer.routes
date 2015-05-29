@@ -6,6 +6,7 @@ POST        /resetpwd                   @com.sunlights.customer.web.CustomerCont
 POST        /confirmpwd                 @com.sunlights.customer.web.CustomerController.confirmPwd
 POST        /savegespwd                 @com.sunlights.customer.web.CustomerController.saveGesturePwd
 POST        /getusermstr                @com.sunlights.customer.web.CustomerController.getCustomerByMobilePhoneNo
+GET         /authentication             @com.sunlights.customer.web.CustomerController.getCustomerAuthentication
 POST        /logout                     @com.sunlights.customer.web.CustomerController.logout
 
 GET         /hastoken                   @com.sunlights.customer.web.CustomerController.getToken
@@ -13,7 +14,7 @@ GET         /hastoken                   @com.sunlights.customer.web.CustomerCont
 #share
 POST        /activity/share             @com.sunlights.customer.web.ShareController.share
 POST        /qrcode                     @com.sunlights.customer.web.QRcodeController.getQRcode
-GET        /activity/report             @com.sunlights.customer.web.ActivityReportController.getActivityReports
+GET         /activity/report            @com.sunlights.customer.web.ActivityReportController.getActivityReports
 
 #msg center
 POST        /message/list               @com.sunlights.customer.web.MsgCenterController.findMsgCenterVoList

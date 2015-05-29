@@ -6,6 +6,7 @@ import com.sunlights.common.AppConst;
 import com.sunlights.common.DictConst;
 import com.sunlights.common.MsgCode;
 import com.sunlights.common.Severity;
+import com.sunlights.common.utils.CommonUtil;
 import com.sunlights.common.utils.MessageUtil;
 import com.sunlights.common.vo.Message;
 import com.sunlights.common.vo.MessageHeaderVo;
@@ -71,6 +72,30 @@ public class CustomerController extends Controller {
         messageVo.setValue(customerVo);
         Logger.debug(">>getCustomerByMobilePhoneNo return：" + messageVo.toJson());
         return Controller.ok(messageVo.toJson());
+    }
+
+
+    @ApiOperation(value = "查询用户实名信息",
+            notes = "MessageVo 的value是CustomerVo对象", response = MessageVo.class, nickname = "getusermstr", httpMethod = "GET")
+    @ApiImplicitParams({@ApiImplicitParam(name = "mobile", required = true, paramType = "form")})
+    @ApiResponses(value = {@ApiResponse(code = 2100, message = "该手机号未注册"),
+            @ApiResponse(code = 0000, message = "操作成功", response = CustomerVo.class)
+    })
+    public Result getCustomerAuthentication(){
+        String mobilePhoneNo = request().getQueryString("mobile");
+
+        CommonUtil.getInstance().validateParams(mobilePhoneNo);
+
+        CustomerVo customerVo = customerService.getCustomerVoByAuthenticationMobile(mobilePhoneNo);
+        if (customerVo == null) {
+            throw CommonUtil.getInstance().errorBusinessException(MsgCode.PHONE_NUMBER_NOT_REGISTRY);
+        }
+
+        Message message = new Message(MsgCode.OPERATE_SUCCESS);
+
+        MessageUtil.getInstance().setMessage(message, customerVo);
+
+        return ok( MessageUtil.getInstance().toJson());
     }
 
     /**
