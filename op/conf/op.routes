@@ -224,5 +224,6 @@ POST          /exchangebean/upload                  @com.sunlights.op.web.activi
 GET           /financial/planners                   @com.sunlights.op.web.FinancialPlannerController.findFinancialPlanners()
 POST          /financial/planner                    @com.sunlights.op.web.FinancialPlannerController.saveFinancialPlanner()
 GET           /financial/planner/customers          @com.sunlights.op.web.FinancialPlannerController.findFinancialPlannerCustomers()
+GET           /financial/planner/excel              @com.sunlights.op.web.FinancialPlannerController.exportPlannerCustomer()
 
 GET           /assets/*file                         controllers.Assets.at(path="/public", file)
