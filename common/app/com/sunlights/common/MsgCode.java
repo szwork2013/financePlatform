@@ -109,17 +109,18 @@ public enum MsgCode {
     ROLE_CODE_EXIST_ERROR("2017", "操作失败：", "已存在的角色代码。"),
     USER_NAME_EXIST_ERROR("2018", "操作失败：", "已存在的用户名。"),
     BANK_CODE_EXIST_ERROR("2019", "操作失败：", "已存在的银行编码。"),
-	USER_EMAIL_EXIST_ERROR("2020", "操作失败：", "已存在的用户邮箱地址。"),
-	USER_NAME_NOT_MATCHED_EMAIL("2021", "操作失败：", "用户名邮箱不匹配。"),
+    USER_EMAIL_EXIST_ERROR("2020", "操作失败：", "已存在的用户邮箱地址。"),
+    USER_NAME_NOT_MATCHED_EMAIL("2021", "操作失败：", "用户名邮箱不匹配。"),
     NOT_NULL("2004", "操作失败：", "传入参数'{0}'不能为空。"),
 
-    LOGIN_NOT_REGISTER_ERROR("2017", "登陆失败：", "没有该用户账号。"),
-    LOGIN_ACCOUNT_UNUSUAL_ERROR("2018", "登陆失败：", "该用户账户异常。"),
-    LOGIN_PASSWORD_INCORRECT_ERROR("2019", "登陆失败：", "密码错误。"),
+    LOGIN_NOT_REGISTER_ERROR("2022", "登陆失败：", "没有该用户账号。"),
+    LOGIN_ACCOUNT_UNUSUAL_ERROR("2023", "登陆失败：", "该用户账户异常。"),
+    LOGIN_PASSWORD_INCORRECT_ERROR("2024", "登陆失败：", "密码错误。"),
 
-    PUSH_TIMED_IND_ERROR("2023", "推送任务失败，原因：该任务是定时的！"),
-    PUSH_STATUS_ERROR("2024", "推送任务失败，该任务不是待推送状态！"),
-    MESSAGE_RULE_ERROR("2025", "创建规则失败", "规则编码不能重复！"),
+    PUSH_TIMED_IND_ERROR("2025", "推送任务失败，原因：该任务是定时的！"),
+    PUSH_STATUS_ERROR("2026", "推送任务失败，该任务不是待推送状态！"),
+    MESSAGE_RULE_ERROR("2027", "创建规则失败", "规则编码不能重复！"),
+    PLANNER_PHONE_EXIST_ERROR("2028", "操作失败：", "已存在的手机号"),
 
     OPERATOR_RESET_PWD("0006", "[金豆荚-管理系统]：重置密码"),
     OPERATOR_RESET_PWD_INFO("0007", "尊敬的[{0}]用户,此次重置的密码为[{1}]"),
@@ -167,8 +168,7 @@ public enum MsgCode {
     UPDATE_VERSION_TO_CURRENT("0303", "金豆荚理财", "您的App版本过低, 请升级到: V{0}"),
     NOT_COFIG_VERSION_RULE("1302", "金豆荚理财", "没有配置v{0}版本规则"),
     NOT_A_VALID_DATE("1401", "非法输入日期，请检查输入日期格式是否合法", ""),
-    TASK_NAME_EMPTY("1501", "任务名称为空", ""),
-    ;
+    TASK_NAME_EMPTY("1501", "任务名称为空", ""),;
 
 
     private String code;
