@@ -25,8 +25,8 @@ GET           /customer/referrers                   @com.sunlights.op.web.Custom
 GET           /customer/fund/trades                 @com.sunlights.op.web.CustomerController.findFundTrades()
 GET           /customer/balance                     @com.sunlights.op.web.CustomerController.findBalance()
 GET           /customer/exchanges                   @com.sunlights.op.web.CustomerController.findExchanges()
-GET           /customer/reward/:mobile                      @com.sunlights.op.web.CustomerController.findReward(mobile:String)
-GET           /customer/rewarditems                      @com.sunlights.op.web.CustomerController.findRewardItems()
+GET           /customer/reward/:mobile              @com.sunlights.op.web.CustomerController.findReward(mobile:String)
+GET           /customer/rewarditems                 @com.sunlights.op.web.CustomerController.findRewardItems()
 
 GET           /verifycodes                          @com.sunlights.op.web.CustomerVerifyController.findCustomerVerifyCodes()
 
@@ -174,8 +174,6 @@ GET           /statistics/unpurchase/excel          @com.sunlights.op.web.Purcha
 GET           /statistics/summaries                 @com.sunlights.op.web.PurchaseStatisticsController.findSummaries()
 GET           /statistics/summary/excel             @com.sunlights.op.web.PurchaseStatisticsController.exportSummary()
 
-GET           /assets/*file                         controllers.Assets.at(path="/public", file)
-
 #activity
 GET           /activities                           @com.sunlights.op.web.activity.ActivityController.findActivities
 POST          /activity                             @com.sunlights.op.web.activity.ActivityController.saveActivity
@@ -221,5 +219,9 @@ DELETE        /exchangescene/:id                    @com.sunlights.op.web.activi
 GET           /exchangebeanresult                   @com.sunlights.op.web.activity.ExchangeBeanResultController.findBeanResultList
 GET           /exchangebean/export                  @com.sunlights.op.web.activity.ExchangeBeanResultController.exchangeBeanExport
 POST          /exchangebean/upload                  @com.sunlights.op.web.activity.ExchangeBeanResultController.uploadExchangeBean
+
+
+GET           /financial/planners                   @com.sunlights.op.web.FinancialPlannerController.findFinancialPlanners()
+POST          /financial/planner                    @com.sunlights.op.web.FinancialPlannerController.saveFinancialPlanner()
 
 GET           /assets/*file                         controllers.Assets.at(path="/public", file)

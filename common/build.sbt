@@ -24,7 +24,9 @@ libraryDependencies ++= Seq(
   "rapid" % "xsqlbuider" % "1.0.4",
   "com.sunlights" % "QRCode" % "1.0",
   "commons-httpclient" % "commons-httpclient" % "3.1",
-  "com.wordnik" %% "swagger-play2" % "1.3.12"
+  "com.wordnik" %% "swagger-play2" % "1.3.12",
+  "com.google.inject" % "guice" % "3.0",
+  "javax.inject" % "javax.inject" % "1"
 )
 
 sources in(Compile, doc) := Seq.empty
