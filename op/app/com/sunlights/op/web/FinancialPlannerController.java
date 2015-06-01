@@ -8,6 +8,7 @@ import com.sunlights.common.utils.RequestUtil;
 import com.sunlights.common.vo.Message;
 import com.sunlights.common.vo.PageVo;
 import com.sunlights.op.service.FinancialPlannerService;
+import com.sunlights.op.vo.FinancialPlannerCustomerVo;
 import com.sunlights.op.vo.FinancialPlannerVo;
 import org.apache.commons.lang3.StringUtils;
 import play.db.jpa.Transactional;
@@ -60,5 +61,25 @@ public class FinancialPlannerController extends Controller {
 		}
 		messageUtil.setMessage(new Message(Severity.ERROR, MsgCode.OPERATE_FAILURE));
 		return badRequest(messageUtil.toJson());
+	}
+
+	public Result findFinancialPlannerCustomers() {
+		PageVo pageVo = new PageVo();
+		Http.Request request = request();
+
+		if (!StringUtils.isBlank(request.getHeader("params"))) {
+			pageVo = RequestUtil.getHeaderValue("params", PageVo.class);
+		}
+
+		Http.RequestBody body = request.body();
+
+		if (body.asJson() != null) {
+			pageVo = Json.fromJson(body.asJson(), PageVo.class);
+		}
+
+		List<FinancialPlannerCustomerVo> plannerCustomers = financialPlannerService.findPlannerCustomers(pageVo);
+		pageVo.setList(plannerCustomers);
+		messageUtil.setMessage(new Message(Severity.INFO, MsgCode.OPERATE_SUCCESS), pageVo);
+		return ok(messageUtil.toJson());
 	}
 }
