@@ -7,5 +7,6 @@ CREATE TABLE
         manager_id INTEGER,
         name CHARACTER VARYING(60) NOT NULL,
         create_time TIMESTAMP,
-        update_time TIMESTAMP
+        update_time TIMESTAMP,
+        DELETED              boolean                        null
     );

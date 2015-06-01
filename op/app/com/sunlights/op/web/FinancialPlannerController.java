@@ -1,7 +1,6 @@
 package com.sunlights.op.web;
 
 import com.google.inject.Inject;
-import com.google.inject.Singleton;
 import com.sunlights.common.MsgCode;
 import com.sunlights.common.Severity;
 import com.sunlights.common.utils.MessageUtil;
@@ -20,7 +19,6 @@ import play.mvc.Result;
 import java.util.List;
 
 @Transactional
-@Singleton
 public class FinancialPlannerController extends Controller {
 
 	private MessageUtil messageUtil = MessageUtil.getInstance();

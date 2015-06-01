@@ -26,6 +26,8 @@ public class FinancialPlanner extends IdEntity {
     @Column(name = "update_time")
     private Date updateTime;
 
+    @Column(name = "deleted")
+    private Boolean deleted;
 
     public String getName() {
         return name;
@@ -66,5 +68,13 @@ public class FinancialPlanner extends IdEntity {
 
     public void setManagerId(Long managerId) {
         this.managerId = managerId;
+    }
+
+    public Boolean getDeleted() {
+        return deleted;
+    }
+
+    public void setDeleted(Boolean deleted) {
+        this.deleted = deleted;
     }
 }

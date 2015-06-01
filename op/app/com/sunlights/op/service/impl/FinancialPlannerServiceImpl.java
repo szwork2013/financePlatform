@@ -1,6 +1,5 @@
 package com.sunlights.op.service.impl;
 
-import com.google.inject.Singleton;
 import com.sunlights.common.MsgCode;
 import com.sunlights.common.Severity;
 import com.sunlights.common.dal.EntityBaseDao;
@@ -17,7 +16,6 @@ import java.util.List;
 /**
  * Created by Yuan on 2015/3/6.
  */
-@Singleton
 public class FinancialPlannerServiceImpl implements FinancialPlannerService {
 
 	private EntityBaseDao entityBaseDao = new EntityBaseDao();

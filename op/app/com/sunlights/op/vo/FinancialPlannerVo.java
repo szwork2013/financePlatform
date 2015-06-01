@@ -7,8 +7,8 @@ import java.util.Date;
 
 @JsonInclude(JsonInclude.Include.NON_EMPTY)
 public class FinancialPlannerVo {
-	private Long id;
-	
+    private Long id;
+
     private String name;
 
     private String mobilePhone;
@@ -18,6 +18,8 @@ public class FinancialPlannerVo {
     private Date createTime;
 
     private Date updateTime;
+
+    private boolean deleted;
 
     public FinancialPlannerVo() {
 
@@ -34,6 +36,7 @@ public class FinancialPlannerVo {
         this.managerId = financialPlanner.getManagerId();
         this.createTime = financialPlanner.getCreateTime();
         this.updateTime = financialPlanner.getUpdateTime();
+        this.deleted = financialPlanner.getDeleted();
     }
 
     public FinancialPlanner convertToFinancialPlanner() {
@@ -43,7 +46,13 @@ public class FinancialPlannerVo {
         financialPlanner.setName(this.name);
         financialPlanner.setMobilePhone(this.mobilePhone);
         financialPlanner.setManagerId(this.managerId);
-        financialPlanner.setCreateTime(this.id == null ? date : this.createTime);
+        if (this.id == null) {
+            financialPlanner.setCreateTime(date);
+            financialPlanner.setDeleted(false);
+        } else {
+            financialPlanner.setCreateTime(this.createTime);
+            financialPlanner.setDeleted(this.deleted);
+        }
         financialPlanner.setUpdateTime(date);
         return financialPlanner;
     }
@@ -81,14 +90,13 @@ public class FinancialPlannerVo {
         this.updateTime = updateTime;
     }
 
+    public Long getId() {
+        return id;
+    }
 
-	public Long getId() {
-		return id;
-	}
-
-	public void setId(Long id) {
-		this.id = id;
-	}
+    public void setId(Long id) {
+        this.id = id;
+    }
 
     public Long getManagerId() {
         return managerId;
@@ -96,5 +104,13 @@ public class FinancialPlannerVo {
 
     public void setManagerId(Long managerId) {
         this.managerId = managerId;
+    }
+
+    public boolean isDeleted() {
+        return deleted;
+    }
+
+    public void setDeleted(boolean deleted) {
+        this.deleted = deleted;
     }
 }
