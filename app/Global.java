@@ -1,4 +1,7 @@
 import com.fasterxml.jackson.databind.JsonNode;
+import com.google.inject.AbstractModule;
+import com.google.inject.Guice;
+import com.google.inject.Injector;
 import com.sunlights.common.Severity;
 import com.sunlights.common.exceptions.BusinessRuntimeException;
 import com.sunlights.common.utils.MessageUtil;
@@ -21,6 +24,22 @@ import static play.mvc.Results.ok;
 
 public class Global extends GlobalSettings {
     private static final String PATH_APP = "/.*";
+
+
+    private Injector injector = null;
+
+    public Global() {
+        injector = Guice.createInjector(new AbstractModule() {
+            @Override
+            protected void configure() {
+            }
+        });
+    }
+
+    @Override
+    public <A> A getControllerInstance(Class<A> aClass) throws Exception {
+        return injector.getInstance(aClass);
+    }
 
     @Override
     public void onStart(Application application) {

@@ -24,7 +24,9 @@ libraryDependencies ++= Seq(
   "org.webjars" % "angular-ui-bootstrap" % "0.11.2",
   "org.webjars" % "angular-ui-date" % "0.0.5",
   "org.javassist" % "javassist" % "3.18.2-GA",
-  "org.dbunit" % "dbunit" % "2.4.9"
+  "org.dbunit" % "dbunit" % "2.4.9",
+  "com.google.inject" % "guice" % "3.0",
+  "javax.inject" % "javax.inject" % "1"
 )
 
 sources in(Compile, doc) := Seq.empty
