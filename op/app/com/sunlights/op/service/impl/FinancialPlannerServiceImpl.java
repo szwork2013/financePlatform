@@ -41,7 +41,7 @@ public class FinancialPlannerServiceImpl implements FinancialPlannerService {
         xsql.append(" select new " + FinancialPlannerVo.class.getPackage().getName() + ".FinancialPlannerVo(u) from FinancialPlanner u");
         xsql.append(" where 1=1");
         xsql.append(" /~ and u.name like {name} ~/ ");
-        xsql.append(" /~ and u.mobilePhone like{mobilePhone} ~/ ");
+        xsql.append(" /~ and u.mobilePhone like {mobilePhone} ~/ ");
         xsql.append(" order by u.createTime desc");
 
         List<FinancialPlannerVo> financialPlannerVos = pageService.findXsqlBy(xsql.toString(), pageVo);
@@ -66,19 +66,22 @@ public class FinancialPlannerServiceImpl implements FinancialPlannerService {
         sql.append(" LEFT JOIN");
         sql.append(" (SELECT t.cust_id AS cust_id,SUM(t.trade_amount) AS total_amount FROM t_trade t GROUP BY t.cust_id) ts");
         sql.append(" ON c.customer_id = ts.cust_id");
+        sql.append(" where 1=1");
+        sql.append(" /~ and fp.mobile_phone like {telephone} ~/ ");
+        sql.append(" /~ and c.mobile like {mobile} ~/ ");
 
         String countSql = "select count(1) from (" + sql.toString() + ") as rs";
-        Query countQuery = JPA.em().createNativeQuery(countSql.toString());
+        Query countQuery = entityBaseDao.createNativeQueryByMap(countSql, pageVo.getFilter());
         int count = Integer.valueOf(countQuery.getSingleResult().toString());
         pageVo.setCount(count);
 
-        Query nativeQuery = JPA.em().createNativeQuery(sql.toString());
+        Query nativeQuery = entityBaseDao.createNativeQueryByMap(sql.toString(), pageVo.getFilter());
         nativeQuery.unwrap(SQLQuery.class).setResultTransformer(Transformers.ALIAS_TO_ENTITY_MAP);
         nativeQuery.setFirstResult(pageVo.getIndex());
         nativeQuery.setMaxResults(pageVo.getPageSize());
-        List<Map<String,Object>> resultList = nativeQuery.getResultList();
+        List<Map<String, Object>> resultList = nativeQuery.getResultList();
 
-        List <FinancialPlannerCustomerVo> financialPlannerCustomerVos = new ArrayList<FinancialPlannerCustomerVo>();
+        List<FinancialPlannerCustomerVo> financialPlannerCustomerVos = new ArrayList<FinancialPlannerCustomerVo>();
         for (Map<String, Object> row : resultList) {
             try {
                 FinancialPlannerCustomerVo financialPlannerCustomerVo = ConverterUtil.convertMap2Object(row, new FinancialPlannerCustomerVo());

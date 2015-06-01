@@ -3,6 +3,7 @@ package com.sunlights.op.vo;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import models.FinancialPlanner;
 
+import java.math.BigDecimal;
 import java.util.Date;
 
 @JsonInclude(JsonInclude.Include.NON_EMPTY)
@@ -12,7 +13,7 @@ public class FinancialPlannerCustomerVo {
     private String   name;          //理财师姓名
     private String   mobile;        //被推荐人手机号
     private String   realName;      //被推荐人姓名
-    private String   totalAmount;   //被推荐人购买总数
+    private BigDecimal totalAmount;   //被推荐人购买总数
 
     public String getMobilePhone() {
         return mobilePhone;
@@ -46,11 +47,12 @@ public class FinancialPlannerCustomerVo {
         this.realName = realName;
     }
 
-    public String getTotalAmount() {
+
+    public BigDecimal getTotalAmount() {
         return totalAmount;
     }
 
-    public void setTotalAmount(String totalAmount) {
+    public void setTotalAmount(BigDecimal totalAmount) {
         this.totalAmount = totalAmount;
     }
 }
