@@ -134,7 +134,7 @@ get_mem_opts () {
 
 
   # default is to set memory options but this can be overridden by code section below
-  memopts="-Xms 1024m -Xmx 2048m"
+  memopts="-Xms1024m -Xmx2048m"
   if [[ "${java_version}" > "1.8" ]]; then
     extmemopts="-XX:MetaspaceSize=64m -XX:MaxMetaspaceSize=${meta}m"
   else
