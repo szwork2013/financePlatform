@@ -9,6 +9,7 @@ import com.sunlights.common.service.PageService;
 import com.sunlights.common.utils.ConverterUtil;
 import com.sunlights.common.vo.Message;
 import com.sunlights.common.vo.PageVo;
+import com.sunlights.op.dto.FinancialPlannerXlsDto;
 import com.sunlights.op.service.FinancialPlannerService;
 import com.sunlights.op.vo.FinancialPlannerCustomerVo;
 import com.sunlights.op.vo.FinancialPlannerVo;
@@ -55,6 +56,12 @@ public class FinancialPlannerServiceImpl implements FinancialPlannerService {
         FinancialPlanner financialPlanner = financialPlannerVo.convertToFinancialPlanner();
         entityBaseDao.update(financialPlanner);
 
+    }
+
+    @Override
+    public void save(FinancialPlannerXlsDto financialPlannerXlsDto) {
+        FinancialPlanner financialPlanner = financialPlannerXlsDto.convertToFinancialPlanner();
+        entityBaseDao.update(financialPlanner);
     }
 
     @Override

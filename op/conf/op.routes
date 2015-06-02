@@ -3,227 +3,228 @@
 # ~~~~
 
 #task
-GET           /tasks                                @com.sunlights.op.web.TaskController.findTasks()
-PUT           /task                                 @com.sunlights.op.web.TaskController.changeTaskStatus()
-DELETE        /task                                 @com.sunlights.op.web.TaskController.delete()
-POST          /task                                 @com.sunlights.op.web.TaskController.save()
-POST          /task/fund                            @com.sunlights.op.web.TaskController.grabFund()
-POST          /task/fund/code                       @com.sunlights.op.web.TaskController.grabFundCode()
+GET           /tasks                                   @com.sunlights.op.web.TaskController.findTasks()
+PUT           /task                                    @com.sunlights.op.web.TaskController.changeTaskStatus()
+DELETE        /task                                    @com.sunlights.op.web.TaskController.delete()
+POST          /task                                    @com.sunlights.op.web.TaskController.save()
+POST          /task/fund                               @com.sunlights.op.web.TaskController.grabFund()
+POST          /task/fund/code                          @com.sunlights.op.web.TaskController.grabFundCode()
 
 
 #bank
-GET           /banks                                @com.sunlights.op.web.BankController.findBanks()
-POST          /bank                                 @com.sunlights.op.web.BankController.saveBank()
-DELETE        /bank                                 @com.sunlights.op.web.BankController.deleteBank()
+GET           /banks                                   @com.sunlights.op.web.BankController.findBanks()
+POST          /bank                                    @com.sunlights.op.web.BankController.saveBank()
+DELETE        /bank                                    @com.sunlights.op.web.BankController.deleteBank()
 
 #customer
-GET           /customers                            @com.sunlights.op.web.CustomerController.findCustomersBy()
-PUT           /customer                             @com.sunlights.op.web.CustomerController.saveCustomer()
-GET           /customer/bankcards                   @com.sunlights.op.web.CustomerController.findBankCardsBy()
-GET           /customer/detail/:mobile              @com.sunlights.op.web.CustomerController.findCustomerByMobile(mobile:String)
-GET           /customer/referrers                   @com.sunlights.op.web.CustomerController.findReferrers()
-GET           /customer/fund/trades                 @com.sunlights.op.web.CustomerController.findFundTrades()
-GET           /customer/balance                     @com.sunlights.op.web.CustomerController.findBalance()
-GET           /customer/exchanges                   @com.sunlights.op.web.CustomerController.findExchanges()
-GET           /customer/reward/:mobile              @com.sunlights.op.web.CustomerController.findReward(mobile:String)
-GET           /customer/rewarditems                 @com.sunlights.op.web.CustomerController.findRewardItems()
+GET           /customers                               @com.sunlights.op.web.CustomerController.findCustomersBy()
+PUT           /customer                                @com.sunlights.op.web.CustomerController.saveCustomer()
+GET           /customer/bankcards                      @com.sunlights.op.web.CustomerController.findBankCardsBy()
+GET           /customer/detail/:mobile                 @com.sunlights.op.web.CustomerController.findCustomerByMobile(mobile:String)
+GET           /customer/referrers                      @com.sunlights.op.web.CustomerController.findReferrers()
+GET           /customer/fund/trades                    @com.sunlights.op.web.CustomerController.findFundTrades()
+GET           /customer/balance                        @com.sunlights.op.web.CustomerController.findBalance()
+GET           /customer/exchanges                      @com.sunlights.op.web.CustomerController.findExchanges()
+GET           /customer/reward/:mobile                 @com.sunlights.op.web.CustomerController.findReward(mobile:String)
+GET           /customer/rewarditems                    @com.sunlights.op.web.CustomerController.findRewardItems()
 
-GET           /verifycodes                          @com.sunlights.op.web.CustomerVerifyController.findCustomerVerifyCodes()
+GET           /verifycodes                             @com.sunlights.op.web.CustomerVerifyController.findCustomerVerifyCodes()
 
 #feedback
-GET           /feedbacks                            @com.sunlights.op.web.FeedBackController.findFeedBacks()
-PUT           /feedback                             @com.sunlights.op.web.FeedBackController.approveFeedBack()
-DELETE        /feedback                             @com.sunlights.op.web.FeedBackController.deleteFeedBacks()
+GET           /feedbacks                               @com.sunlights.op.web.FeedBackController.findFeedBacks()
+PUT           /feedback                                @com.sunlights.op.web.FeedBackController.approveFeedBack()
+DELETE        /feedback                                @com.sunlights.op.web.FeedBackController.deleteFeedBacks()
 
 #question
-GET           /questions                            @com.sunlights.op.web.QuestionRecordController.findQuestionRecords
-POST          /question                             @com.sunlights.op.web.QuestionRecordController.saveQuestionRecord
-DELETE        /question                             @com.sunlights.op.web.QuestionRecordController.deleteQuestionRecord
+GET           /questions                               @com.sunlights.op.web.QuestionRecordController.findQuestionRecords
+POST          /question                                @com.sunlights.op.web.QuestionRecordController.saveQuestionRecord
+DELETE        /question                                @com.sunlights.op.web.QuestionRecordController.deleteQuestionRecord
 
 
 #dict
-GET           /dicts                                @com.sunlights.op.web.DictController.findDicts
-DELETE        /dict                                 @com.sunlights.op.web.DictController.deleteDict
-POST          /dict                                 @com.sunlights.op.web.DictController.saveDict
+GET           /dicts                                   @com.sunlights.op.web.DictController.findDicts
+DELETE        /dict                                    @com.sunlights.op.web.DictController.deleteDict
+POST          /dict                                    @com.sunlights.op.web.DictController.saveDict
 
 #Parameter
-GET           /parameters                           @com.sunlights.op.web.ParameterController.findParameters
-DELETE        /parameter                            @com.sunlights.op.web.ParameterController.deleteParameter
-POST          /parameter                            @com.sunlights.op.web.ParameterController.saveParameter
-DELETE        /parameter/refresh                    @com.sunlights.op.web.ParameterController.refreshParameter
+GET           /parameters                              @com.sunlights.op.web.ParameterController.findParameters
+DELETE        /parameter                               @com.sunlights.op.web.ParameterController.deleteParameter
+POST          /parameter                               @com.sunlights.op.web.ParameterController.saveParameter
+DELETE        /parameter/refresh                       @com.sunlights.op.web.ParameterController.refreshParameter
 
 
 #FundCompany
-GET           /fund/companies                       @com.sunlights.op.web.FundCompanyController.findCompanies
+GET           /fund/companies                          @com.sunlights.op.web.FundCompanyController.findCompanies
 
 #supplier
-GET           /suppliers                            @com.sunlights.op.web.SupplierController.findSuppliers
-DELETE        /supplier                             @com.sunlights.op.web.SupplierController.deleteSupplier
-POST          /supplier                             @com.sunlights.op.web.SupplierController.saveSupplier
+GET           /suppliers                               @com.sunlights.op.web.SupplierController.findSuppliers
+DELETE        /supplier                                @com.sunlights.op.web.SupplierController.deleteSupplier
+POST          /supplier                                @com.sunlights.op.web.SupplierController.saveSupplier
 
 # fund
-GET           /funds                                @com.sunlights.op.web.FundController.findFunds
+GET           /funds                                   @com.sunlights.op.web.FundController.findFunds
 
 #product manage
-GET           /managements                          @com.sunlights.op.web.ProductManageController.findProductManages
-DELETE        /management                           @com.sunlights.op.web.ProductManageController.deleteProductManage
-POST          /management                           @com.sunlights.op.web.ProductManageController.saveProductManage
-GET           /management/codes                     @com.sunlights.op.web.ProductManageController.findCodes
-POST          /management/fund/profits              @com.sunlights.op.web.ProductManageController.grabFundProfits
-POST          /management/funds/profits             @com.sunlights.op.web.ProductManageController.grabAllFundProfits
-DELETE        /management/refresh                   @com.sunlights.op.web.ProductManageController.refreshProduct
+GET           /managements                             @com.sunlights.op.web.ProductManageController.findProductManages
+DELETE        /management                              @com.sunlights.op.web.ProductManageController.deleteProductManage
+POST          /management                              @com.sunlights.op.web.ProductManageController.saveProductManage
+GET           /management/codes                        @com.sunlights.op.web.ProductManageController.findCodes
+POST          /management/fund/profits                 @com.sunlights.op.web.ProductManageController.grabFundProfits
+POST          /management/funds/profits                @com.sunlights.op.web.ProductManageController.grabAllFundProfits
+DELETE        /management/refresh                      @com.sunlights.op.web.ProductManageController.refreshProduct
 
 
 # Deposit Interest
-GET           /deposit/interests                    @com.sunlights.op.web.DepositInterestController.findDepositInterests
-DELETE        /deposit/interest                     @com.sunlights.op.web.DepositInterestController.deleteDepositInterest
-POST          /deposit/interest                     @com.sunlights.op.web.DepositInterestController.saveDepositInterest
+GET           /deposit/interests                       @com.sunlights.op.web.DepositInterestController.findDepositInterests
+DELETE        /deposit/interest                        @com.sunlights.op.web.DepositInterestController.deleteDepositInterest
+POST          /deposit/interest                        @com.sunlights.op.web.DepositInterestController.saveDepositInterest
 
 #common
-POST          /common/dicts                         @com.sunlights.common.web.CommonController.findDictsByCat
-GET           /smsmessages                          @com.sunlights.op.web.SmsMessageController.findSmsMessageVos
-GET           /smsmessage/excel                     @com.sunlights.op.web.SmsMessageController.exportSmsMessages
+POST          /common/dicts                            @com.sunlights.common.web.CommonController.findDictsByCat
+GET           /smsmessages                             @com.sunlights.op.web.SmsMessageController.findSmsMessageVos
+GET           /smsmessage/excel                        @com.sunlights.op.web.SmsMessageController.exportSmsMessages
 
 
-GET           /account/settleaccounts               @com.sunlights.op.web.SettleAccountController.findSettleAccounts
-POST          /account/exportsettleaccounts         @com.sunlights.op.web.SettleAccountController.exportSettleAccounts
+GET           /account/settleaccounts                  @com.sunlights.op.web.SettleAccountController.findSettleAccounts
+POST          /account/exportsettleaccounts            @com.sunlights.op.web.SettleAccountController.exportSettleAccounts
 
 #common
-POST          /common/uploadImage                   @com.sunlights.op.web.UploadController.uploadImage
+POST          /common/uploadImage                      @com.sunlights.op.web.UploadController.uploadImage
 
 #group
-GET           /groups                               @com.sunlights.op.web.GroupController.findGroups
-POST          /group                                @com.sunlights.op.web.GroupController.save
-DELETE        /group                                @com.sunlights.op.web.GroupController.delete
-GET           /group/customers                      @com.sunlights.op.web.GroupController.findCustomers
-POST          /group/customer                       @com.sunlights.op.web.GroupController.addCustomers
+GET           /groups                                  @com.sunlights.op.web.GroupController.findGroups
+POST          /group                                   @com.sunlights.op.web.GroupController.save
+DELETE        /group                                   @com.sunlights.op.web.GroupController.delete
+GET           /group/customers                         @com.sunlights.op.web.GroupController.findCustomers
+POST          /group/customer                          @com.sunlights.op.web.GroupController.addCustomers
 
 
-GET           /messagerules                         @com.sunlights.op.web.MessageRuleController.findMessageRule
-PUT           /messagerule                          @com.sunlights.op.web.MessageRuleController.updateMessageRule
-POST          /messagerule                          @com.sunlights.op.web.MessageRuleController.createMessageRule
-GET           /messagerule/configrations            @com.sunlights.op.web.MessageRuleController.getMessRuleConfig
-GET           /messagerule/groups                   @com.sunlights.op.web.MessageRuleController.getMessPushGroup
-POST          /messagerule/txn                      @com.sunlights.op.web.MessageRuleController.insertToMessPushTXN
-POST          /messagerule/immediately              @com.sunlights.op.web.MessageRuleController.immediatelyPush
+GET           /messagerules                            @com.sunlights.op.web.MessageRuleController.findMessageRule
+PUT           /messagerule                             @com.sunlights.op.web.MessageRuleController.updateMessageRule
+POST          /messagerule                             @com.sunlights.op.web.MessageRuleController.createMessageRule
+GET           /messagerule/configrations               @com.sunlights.op.web.MessageRuleController.getMessRuleConfig
+GET           /messagerule/groups                      @com.sunlights.op.web.MessageRuleController.getMessPushGroup
+POST          /messagerule/txn                         @com.sunlights.op.web.MessageRuleController.insertToMessPushTXN
+POST          /messagerule/immediately                 @com.sunlights.op.web.MessageRuleController.immediatelyPush
 
 
 #MessagePushConfig
-GET           /message/configs                      @com.sunlights.op.web.MessagePushConfigController.findMessagePushConfig
-PUT           /message/config                       @com.sunlights.op.web.MessagePushConfigController.updateMessagePushConfig
-POST          /message/config                       @com.sunlights.op.web.MessagePushConfigController.createMessagePushConfig
+GET           /message/configs                         @com.sunlights.op.web.MessagePushConfigController.findMessagePushConfig
+PUT           /message/config                          @com.sunlights.op.web.MessagePushConfigController.updateMessagePushConfig
+POST          /message/config                          @com.sunlights.op.web.MessagePushConfigController.createMessagePushConfig
 
-GET           /message/mappings                     @com.sunlights.op.web.MessagePushMappingController.findMessagePushMapping
-POST          /message/mapping                      @com.sunlights.op.web.MessagePushMappingController.saveMessagePushMapping
-DELETE        /message/mapping                      @com.sunlights.op.web.MessagePushMappingController.deleteMesPushMappingById
-GET           /message/mapping/activity             @com.sunlights.op.web.MessagePushMappingController.findActivityIdByScene
-GET           /message/mapping/scene                @com.sunlights.op.web.MessagePushMappingController.getActivityScene
+GET           /message/mappings                        @com.sunlights.op.web.MessagePushMappingController.findMessagePushMapping
+POST          /message/mapping                         @com.sunlights.op.web.MessagePushMappingController.saveMessagePushMapping
+DELETE        /message/mapping                         @com.sunlights.op.web.MessagePushMappingController.deleteMesPushMappingById
+GET           /message/mapping/activity                @com.sunlights.op.web.MessagePushMappingController.findActivityIdByScene
+GET           /message/mapping/scene                   @com.sunlights.op.web.MessagePushMappingController.getActivityScene
 
 
 #resource
-GET           /resources                            @com.sunlights.op.web.ResourceController.findResources
-GET           /resource/tree                        @com.sunlights.op.web.ResourceController.findTree
+GET           /resources                               @com.sunlights.op.web.ResourceController.findResources
+GET           /resource/tree                           @com.sunlights.op.web.ResourceController.findTree
 
 #role
-GET           /roles                                @com.sunlights.op.web.RoleController.findRoles
-POST          /role                                 @com.sunlights.op.web.RoleController.saveRole
+GET           /roles                                   @com.sunlights.op.web.RoleController.findRoles
+POST          /role                                    @com.sunlights.op.web.RoleController.saveRole
 
 #user
-GET           /users                                @com.sunlights.op.web.UserController.findUsers
-GET           /user/current                         @com.sunlights.op.web.UserController.findCurrentUser
-POST          /user                                 @com.sunlights.op.web.UserController.saveUser
+GET           /users                                   @com.sunlights.op.web.UserController.findUsers
+GET           /user/current                            @com.sunlights.op.web.UserController.findCurrentUser
+POST          /user                                    @com.sunlights.op.web.UserController.saveUser
 
 
-GET           /authentication/user                  @com.sunlights.op.web.Application.login()
-DELETE        /authentication/user                  @com.sunlights.op.web.Application.logout()
-GET           /authentication/currentuser           @com.sunlights.op.web.Application.getCurrentUser()
-PUT           /password                             @com.sunlights.op.web.Application.resetPassword()
+GET           /authentication/user                     @com.sunlights.op.web.Application.login()
+DELETE        /authentication/user                     @com.sunlights.op.web.Application.logout()
+GET           /authentication/currentuser              @com.sunlights.op.web.Application.getCurrentUser()
+PUT           /password                                @com.sunlights.op.web.Application.resetPassword()
 
-GET           /exchangeresult/reds                  @com.sunlights.op.web.activity.ExchangeResultController.findRedPackets
-GET           /exchangeresult/red/excel             @com.sunlights.op.web.activity.ExchangeResultController.exportRedPacket
-POST          /exchangeresult/red/excel             @com.sunlights.op.web.activity.ExchangeResultController.uploadRedPacket
+GET           /exchangeresult/reds                     @com.sunlights.op.web.activity.ExchangeResultController.findRedPackets
+GET           /exchangeresult/red/excel                @com.sunlights.op.web.activity.ExchangeResultController.exportRedPacket
+POST          /exchangeresult/red/excel                @com.sunlights.op.web.activity.ExchangeResultController.uploadRedPacket
 
-GET           /referrers                            @com.sunlights.op.web.ReferrerController.findReferrers()
-GET           /referrer/details                     @com.sunlights.op.web.ReferrerController.findReferrerDetails()
-GET           /referrer/excel                       @com.sunlights.op.web.ReferrerController.exportReferrer()
+GET           /referrers                               @com.sunlights.op.web.ReferrerController.findReferrers()
+GET           /referrer/details                        @com.sunlights.op.web.ReferrerController.findReferrerDetails()
+GET           /referrer/excel                          @com.sunlights.op.web.ReferrerController.exportReferrer()
 
-GET           /statistics/purchases                 @com.sunlights.op.web.PurchaseStatisticsController.findFirstPurchases()
-GET           /statistics/purchase/excel            @com.sunlights.op.web.PurchaseStatisticsController.exportFirstPurchase()
-GET           /statistics/unpurchases               @com.sunlights.op.web.PurchaseStatisticsController.findUnPurchases()
-GET           /statistics/unpurchase/excel          @com.sunlights.op.web.PurchaseStatisticsController.exportUnPurchase()
-GET           /users                                @com.sunlights.op.web.UserController.findUsers
-POST          /user                                 @com.sunlights.op.web.UserController.saveUser
+GET           /statistics/purchases                    @com.sunlights.op.web.PurchaseStatisticsController.findFirstPurchases()
+GET           /statistics/purchase/excel               @com.sunlights.op.web.PurchaseStatisticsController.exportFirstPurchase()
+GET           /statistics/unpurchases                  @com.sunlights.op.web.PurchaseStatisticsController.findUnPurchases()
+GET           /statistics/unpurchase/excel             @com.sunlights.op.web.PurchaseStatisticsController.exportUnPurchase()
+GET           /users                                   @com.sunlights.op.web.UserController.findUsers
+POST          /user                                    @com.sunlights.op.web.UserController.saveUser
 
-GET           /login/user                           @com.sunlights.op.web.Application.login()
-DELETE        /login/user                           @com.sunlights.op.web.Application.logout()
-GET           /login/currentuser                    @com.sunlights.op.web.Application.getCurrentUser()
-PUT           /password                             @com.sunlights.op.web.Application.resetPassword()
+GET           /login/user                              @com.sunlights.op.web.Application.login()
+DELETE        /login/user                              @com.sunlights.op.web.Application.logout()
+GET           /login/currentuser                       @com.sunlights.op.web.Application.getCurrentUser()
+PUT           /password                                @com.sunlights.op.web.Application.resetPassword()
 
-GET           /exchangeresult/reds                  @com.sunlights.op.web.activity.ExchangeResultController.findRedPackets
-GET           /exchangeresult/red/excel             @com.sunlights.op.web.activity.ExchangeResultController.exportRedPacket
-POST          /exchangeresult/red/excel             @com.sunlights.op.web.activity.ExchangeResultController.uploadRedPacket
+GET           /exchangeresult/reds                     @com.sunlights.op.web.activity.ExchangeResultController.findRedPackets
+GET           /exchangeresult/red/excel                @com.sunlights.op.web.activity.ExchangeResultController.exportRedPacket
+POST          /exchangeresult/red/excel                @com.sunlights.op.web.activity.ExchangeResultController.uploadRedPacket
 
-GET           /referrers                            @com.sunlights.op.web.ReferrerController.findReferrers()
-GET           /referrer/details                     @com.sunlights.op.web.ReferrerController.findReferrerDetails()
-GET           /raeferrer/excel                      @com.sunlights.op.web.ReferrerController.exportReferrer()
+GET           /referrers                               @com.sunlights.op.web.ReferrerController.findReferrers()
+GET           /referrer/details                        @com.sunlights.op.web.ReferrerController.findReferrerDetails()
+GET           /raeferrer/excel                         @com.sunlights.op.web.ReferrerController.exportReferrer()
 
-GET           /statistics/purchases                 @com.sunlights.op.web.PurchaseStatisticsController.findFirstPurchases()
-GET           /statistics/purchase/excel            @com.sunlights.op.web.PurchaseStatisticsController.exportFirstPurchase()
-GET           /statistics/unpurchases               @com.sunlights.op.web.PurchaseStatisticsController.findUnPurchases()
-GET           /statistics/unpurchase/excel          @com.sunlights.op.web.PurchaseStatisticsController.exportUnPurchase()
-GET           /statistics/summaries                 @com.sunlights.op.web.PurchaseStatisticsController.findSummaries()
-GET           /statistics/summary/excel             @com.sunlights.op.web.PurchaseStatisticsController.exportSummary()
+GET           /statistics/purchases                    @com.sunlights.op.web.PurchaseStatisticsController.findFirstPurchases()
+GET           /statistics/purchase/excel               @com.sunlights.op.web.PurchaseStatisticsController.exportFirstPurchase()
+GET           /statistics/unpurchases                  @com.sunlights.op.web.PurchaseStatisticsController.findUnPurchases()
+GET           /statistics/unpurchase/excel             @com.sunlights.op.web.PurchaseStatisticsController.exportUnPurchase()
+GET           /statistics/summaries                    @com.sunlights.op.web.PurchaseStatisticsController.findSummaries()
+GET           /statistics/summary/excel                @com.sunlights.op.web.PurchaseStatisticsController.exportSummary()
 
 #activity
-GET           /activities                           @com.sunlights.op.web.activity.ActivityController.findActivities
-POST          /activity                             @com.sunlights.op.web.activity.ActivityController.saveActivity
-DELETE        /activity/:id                         @com.sunlights.op.web.activity.ActivityController.deleteActivity(id: Long)
-GET           /activity/type                        @com.sunlights.op.web.activity.ActivitySceneController.findActivityTypes
-POST          /activities/uploadFile                @com.sunlights.op.web.activity.ActivityController.uploadFiles
+GET           /activities                              @com.sunlights.op.web.activity.ActivityController.findActivities
+POST          /activity                                @com.sunlights.op.web.activity.ActivityController.saveActivity
+DELETE        /activity/:id                            @com.sunlights.op.web.activity.ActivityController.deleteActivity(id: Long)
+GET           /activity/type                           @com.sunlights.op.web.activity.ActivitySceneController.findActivityTypes
+POST          /activities/uploadFile                   @com.sunlights.op.web.activity.ActivityController.uploadFiles
 
 #scene
-GET           /activity/scene                       @com.sunlights.op.web.activity.ActivitySceneController.findScenes
-POST          /activity/scene                       @com.sunlights.op.web.activity.ActivitySceneController.createScene
-PUT           /activity/scene                       @com.sunlights.op.web.activity.ActivitySceneController.updateScene
-DELETE        /activity/scene/:id                   @com.sunlights.op.web.activity.ActivitySceneController.deleteScene(id: Long)
-GET           /activity/scene/keyvalues             @com.sunlights.op.web.activity.ActivitySceneController.loadSceneKeyValue
+GET           /activity/scene                          @com.sunlights.op.web.activity.ActivitySceneController.findScenes
+POST          /activity/scene                          @com.sunlights.op.web.activity.ActivitySceneController.createScene
+PUT           /activity/scene                          @com.sunlights.op.web.activity.ActivitySceneController.updateScene
+DELETE        /activity/scene/:id                      @com.sunlights.op.web.activity.ActivitySceneController.deleteScene(id: Long)
+GET           /activity/scene/keyvalues                @com.sunlights.op.web.activity.ActivitySceneController.loadSceneKeyValue
 
 #reward
-GET           /rewardTypes                          @com.sunlights.op.web.activity.RewardTypeController.findRewardTypes
-POST          /rewardTypes                          @com.sunlights.op.web.activity.RewardTypeController.saveRewardType
-DELETE        /rewardTypes/:code                    @com.sunlights.op.web.activity.RewardTypeController.deleteRewardType(code: String)
-GET           /rewardTypes/kvType                   @com.sunlights.op.web.activity.RewardTypeController.loadTypeKv
+GET           /rewardTypes                             @com.sunlights.op.web.activity.RewardTypeController.findRewardTypes
+POST          /rewardTypes                             @com.sunlights.op.web.activity.RewardTypeController.saveRewardType
+DELETE        /rewardTypes/:code                       @com.sunlights.op.web.activity.RewardTypeController.deleteRewardType(code: String)
+GET           /rewardTypes/kvType                      @com.sunlights.op.web.activity.RewardTypeController.loadTypeKv
 
-GET           /obtainRewardRules/:activityId        @com.sunlights.op.web.activity.ObtainRewardRuleController.findRulesByActivityId(activityId: Long)
-POST          /obtainRewardRules                    @com.sunlights.op.web.activity.ObtainRewardRuleController.saveRule
-DELETE        /obtainRewardRules/:id                @com.sunlights.op.web.activity.ObtainRewardRuleController.deleteRule(id: Long)
+GET           /obtainRewardRules/:activityId           @com.sunlights.op.web.activity.ObtainRewardRuleController.findRulesByActivityId(activityId: Long)
+POST          /obtainRewardRules                       @com.sunlights.op.web.activity.ObtainRewardRuleController.saveRule
+DELETE        /obtainRewardRules/:id                   @com.sunlights.op.web.activity.ObtainRewardRuleController.deleteRule(id: Long)
 
-GET           /activityReturnMsg                    @com.sunlights.op.web.activity.ActivityReturnMsgMgrController.findReturnMsgs
-POST          /activityReturnMsg                    @com.sunlights.op.web.activity.ActivityReturnMsgMgrController.saveReturnMsg
-DELETE        /activityReturnMsg/:id                @com.sunlights.op.web.activity.ActivityReturnMsgMgrController.deleteReturnMsg(id: Long)
-GET           /errorMsg                             @com.sunlights.op.web.activity.ActivityReturnMsgMgrController.loadErrorMsg
+GET           /activityReturnMsg                       @com.sunlights.op.web.activity.ActivityReturnMsgMgrController.findReturnMsgs
+POST          /activityReturnMsg                       @com.sunlights.op.web.activity.ActivityReturnMsgMgrController.saveReturnMsg
+DELETE        /activityReturnMsg/:id                   @com.sunlights.op.web.activity.ActivityReturnMsgMgrController.deleteReturnMsg(id: Long)
+GET           /errorMsg                                @com.sunlights.op.web.activity.ActivityReturnMsgMgrController.loadErrorMsg
 
-GET           /activityshareinfo                    @com.sunlights.op.web.activity.ActivityShareInfoController.getAll
-GET           /specialshare/:parentId               @com.sunlights.op.web.activity.ActivityShareInfoController.getByParantId(parentId: String)
-POST          /activityshareinfo                    @com.sunlights.op.web.activity.ActivityShareInfoController.save
-DELETE        /activityshareinfo/:id                @com.sunlights.op.web.activity.ActivityShareInfoController.delete(id: Long)
+GET           /activityshareinfo                       @com.sunlights.op.web.activity.ActivityShareInfoController.getAll
+GET           /specialshare/:parentId                  @com.sunlights.op.web.activity.ActivityShareInfoController.getByParantId(parentId: String)
+POST          /activityshareinfo                       @com.sunlights.op.web.activity.ActivityShareInfoController.save
+DELETE        /activityshareinfo/:id                   @com.sunlights.op.web.activity.ActivityShareInfoController.delete(id: Long)
 
-GET           /exchangeRewardRules                  @com.sunlights.op.web.activity.ExchangeRewardRuleController.findRulesByRewardType
-POST          /exchangeRewardRules                  @com.sunlights.op.web.activity.ExchangeRewardRuleController.saveRule
-DELETE        /exchangeRewardRules/:id              @com.sunlights.op.web.activity.ExchangeRewardRuleController.deleteRule(id: Long)
+GET           /exchangeRewardRules                     @com.sunlights.op.web.activity.ExchangeRewardRuleController.findRulesByRewardType
+POST          /exchangeRewardRules                     @com.sunlights.op.web.activity.ExchangeRewardRuleController.saveRule
+DELETE        /exchangeRewardRules/:id                 @com.sunlights.op.web.activity.ExchangeRewardRuleController.deleteRule(id: Long)
 
-GET           /exchangescene                        @com.sunlights.op.web.activity.ExchangeSceneController.findAllScenes
-POST          /exchangescene                        @com.sunlights.op.web.activity.ExchangeSceneController.save
-DELETE        /exchangescene/:id                    @com.sunlights.op.web.activity.ExchangeSceneController.delete(id: Long)
+GET           /exchangescene                           @com.sunlights.op.web.activity.ExchangeSceneController.findAllScenes
+POST          /exchangescene                           @com.sunlights.op.web.activity.ExchangeSceneController.save
+DELETE        /exchangescene/:id                       @com.sunlights.op.web.activity.ExchangeSceneController.delete(id: Long)
 
-GET           /exchangebeanresult                   @com.sunlights.op.web.activity.ExchangeBeanResultController.findBeanResultList
-GET           /exchangebean/export                  @com.sunlights.op.web.activity.ExchangeBeanResultController.exchangeBeanExport
-POST          /exchangebean/upload                  @com.sunlights.op.web.activity.ExchangeBeanResultController.uploadExchangeBean
+GET           /exchangebeanresult                      @com.sunlights.op.web.activity.ExchangeBeanResultController.findBeanResultList
+GET           /exchangebean/export                     @com.sunlights.op.web.activity.ExchangeBeanResultController.exchangeBeanExport
+POST          /exchangebean/upload                     @com.sunlights.op.web.activity.ExchangeBeanResultController.uploadExchangeBean
 
 
-GET           /financial/planners                   @com.sunlights.op.web.FinancialPlannerController.findFinancialPlanners()
-POST          /financial/planner                    @com.sunlights.op.web.FinancialPlannerController.saveFinancialPlanner()
-GET           /financial/planner/customers          @com.sunlights.op.web.FinancialPlannerController.findFinancialPlannerCustomers()
-GET           /financial/planner/excel              @com.sunlights.op.web.FinancialPlannerController.exportPlannerCustomer()
+GET           /financial/planners                      @com.sunlights.op.web.FinancialPlannerController.findFinancialPlanners()
+POST          /financial/planner                       @com.sunlights.op.web.FinancialPlannerController.saveFinancialPlanner()
+POST          /financial/planner/excel                 @com.sunlights.op.web.FinancialPlannerController.uploadFinancialPlanner()
+GET           /financial/planner/customers             @com.sunlights.op.web.FinancialPlannerController.findFinancialPlannerCustomers()
+GET           /financial/planner/customer/excel        @com.sunlights.op.web.FinancialPlannerController.exportPlannerCustomer()
 
-GET           /assets/*file                         controllers.Assets.at(path="/public", file)
+GET           /assets/*file                            controllers.Assets.at(path="/public", file)

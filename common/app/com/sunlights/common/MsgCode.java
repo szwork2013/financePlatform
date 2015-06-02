@@ -149,7 +149,7 @@ public enum MsgCode {
     PARAMTER_NOT_CAN_NULL("2230", "参数不能为空"),
     ACTIVITY_SYS_ERROR("3201", "系统异常"),
 
-    UPLOAD_FILE_ERROR("3202", "上传失败："),
+    UPLOAD_FILE_ERROR("3202", "上传失败：", "请确认上传文件"),
     UPLOAD_FILE_TYPE_ERROR("3203", "上传失败：", "上传文件格式错误"),
 
 
@@ -160,6 +160,8 @@ public enum MsgCode {
 
 
     EXCHANGE_CHECK_INFO("0228", "上传成功：", "兑换成功{0}条记录，兑换失败{1}条记录。"),
+
+    UPLOAD_FILE_INFO("0229", "上传成功：", "成功{0}条记录，失败{1}条记录。"),
 
     //版本信息错误吗
     MUST_UPDATE_VERSION("1303", "金豆荚理财", "您的App版本过低, 请升级到: V{0}"),

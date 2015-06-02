@@ -2,6 +2,7 @@ package com.sunlights.op.service;
 
 import com.google.inject.ImplementedBy;
 import com.sunlights.common.vo.PageVo;
+import com.sunlights.op.dto.FinancialPlannerXlsDto;
 import com.sunlights.op.service.impl.FinancialPlannerServiceImpl;
 import com.sunlights.op.vo.FinancialPlannerCustomerVo;
 import com.sunlights.op.vo.FinancialPlannerVo;
@@ -17,6 +18,8 @@ public interface FinancialPlannerService {
     public List<FinancialPlannerVo> findFinancialPlannersBy(PageVo pageVo);
 
     public void save(FinancialPlannerVo financialPlannerVo);
+
+    public void save(FinancialPlannerXlsDto financialPlannerXlsDto);
 
     public List<FinancialPlannerCustomerVo> findPlannerCustomers(PageVo pageVo);
 }
