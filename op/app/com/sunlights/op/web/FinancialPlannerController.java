@@ -12,10 +12,7 @@ import com.sunlights.common.vo.Message;
 import com.sunlights.common.vo.MessageHeaderVo;
 import com.sunlights.common.vo.PageVo;
 import com.sunlights.op.common.util.ExcelUtil;
-import com.sunlights.op.dto.BaseXlsDto;
-import com.sunlights.op.dto.ExchangeResultXlsDto;
-import com.sunlights.op.dto.FinancialPlannerXlsDto;
-import com.sunlights.op.dto.PlannerCustomerExportXlsDto;
+import com.sunlights.op.dto.*;
 import com.sunlights.op.service.FinancialPlannerService;
 import com.sunlights.op.vo.FinancialPlannerCustomerVo;
 import com.sunlights.op.vo.FinancialPlannerVo;
@@ -169,5 +166,13 @@ public class FinancialPlannerController extends Controller {
         }
         messageUtil.setMessage(new Message(Severity.ERROR, MsgCode.UPLOAD_FILE_ERROR));
         return badRequest(messageUtil.toJson());
+    }
+
+    public Result downloadPlannerExcelTempalte() {
+        response().setContentType("application/vnd.ms-excel;charset=UTF-8");
+        response().setHeader("Content-Disposition", "attachment;filename=planner_template.xls");
+        FinancialPlannerExportXlsDto financialPlannerExportXlsDto = new FinancialPlannerExportXlsDto();
+        Chunks<byte[]> export = financialPlannerExportXlsDto.export();
+        return ok(export);
     }
 }

@@ -52,8 +52,8 @@ public class FinancialPlannerServiceImpl implements FinancialPlannerService {
     @Override
     public void save(FinancialPlannerVo financialPlannerVo) {
 
-        hasFinancialPlanner(financialPlannerVo);
         FinancialPlanner financialPlanner = financialPlannerVo.convertToFinancialPlanner();
+        hasFinancialPlanner(financialPlanner);
         entityBaseDao.update(financialPlanner);
 
     }
@@ -61,6 +61,7 @@ public class FinancialPlannerServiceImpl implements FinancialPlannerService {
     @Override
     public void save(FinancialPlannerXlsDto financialPlannerXlsDto) {
         FinancialPlanner financialPlanner = financialPlannerXlsDto.convertToFinancialPlanner();
+        hasFinancialPlanner(financialPlanner);
         entityBaseDao.update(financialPlanner);
     }
 
@@ -100,12 +101,12 @@ public class FinancialPlannerServiceImpl implements FinancialPlannerService {
         return financialPlannerCustomerVos;
     }
 
-    private boolean hasFinancialPlanner(FinancialPlannerVo financialPlannerVo) {
+    private boolean hasFinancialPlanner(FinancialPlanner financialPlanner) {
         StringBuffer jpql = new StringBuffer();
         jpql.append(" select u from FinancialPlanner u");
-        jpql.append(" where u.mobilePhone = '" + financialPlannerVo.getMobilePhone().trim() + "'");
-        if (financialPlannerVo.getId() != null) {
-            jpql.append(" and u.id <> ").append(financialPlannerVo.getId());
+        jpql.append(" where u.mobilePhone = '" + financialPlanner.getMobilePhone().trim() + "'");
+        if (financialPlanner.getId() != null) {
+            jpql.append(" and u.id <> ").append(financialPlanner.getId());
         }
         List<FinancialPlanner> financialPlanners = entityBaseDao.find(jpql.toString());
         if (!financialPlanners.isEmpty()) {

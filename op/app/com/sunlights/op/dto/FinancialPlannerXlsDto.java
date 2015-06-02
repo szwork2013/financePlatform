@@ -2,6 +2,7 @@ package com.sunlights.op.dto;
 
 import models.FinancialPlanner;
 
+import java.math.BigDecimal;
 import java.util.Date;
 
 /**
@@ -21,7 +22,9 @@ public class FinancialPlannerXlsDto extends BaseXlsDto {
         Date date = new Date();
         FinancialPlanner financialPlanner = new FinancialPlanner();
         financialPlanner.setName(this.name);
-        financialPlanner.setMobilePhone(this.mobile);
+        BigDecimal mobile = new BigDecimal(this.mobile);
+        mobile.setScale(0);
+        financialPlanner.setMobilePhone(mobile.intValue() + "");
         financialPlanner.setCreateTime(date);
         financialPlanner.setDeleted(false);
         financialPlanner.setUpdateTime(date);
