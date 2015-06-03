@@ -13,6 +13,7 @@ import com.sunlights.common.utils.MessageUtil;
 import com.sunlights.common.vo.Message;
 import com.sunlights.common.vo.MessageHeaderVo;
 import com.sunlights.common.vo.MessageVo;
+import com.sunlights.customer.action.MsgCenterAction;
 import com.sunlights.customer.service.LoginService;
 import com.sunlights.customer.service.impl.CustomerService;
 import com.sunlights.customer.service.impl.LoginServiceImpl;
@@ -27,6 +28,7 @@ import play.db.jpa.Transactional;
 import play.libs.Json;
 import play.mvc.Controller;
 import play.mvc.Result;
+import play.mvc.With;
 
 import java.util.List;
 
@@ -88,6 +90,7 @@ public class RegisterController extends Controller {
             @ApiResponse(code = 2104, message = "验证码失效,请重新获取"),
             @ApiResponse(code = 2105, message = "未获取验证码,请获取验证码")
     })
+    @With(MsgCenterAction.class)
     public Result register() {
         Logger.info("==========register====================");
         Logger.debug(">>register params：" + Json.toJson(form().bindFromRequest().data()));
