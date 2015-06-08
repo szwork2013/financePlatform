@@ -152,8 +152,6 @@ public class LoginServiceImpl implements LoginService {
         boolean fromH5Flag = fromH5(channel);
         boolean fromPcFlag = fromPc(channel);
 
-        Logger.info("register start>> " + DBHelper.getCurrentTime());
-
         Logger.info("=============recommendPhone:" + vo.getRecommendPhone());
         if (fromAppFlag) {
             CommonUtil.getInstance().validateParams(mobilePhoneNo, passWord, deviceNo);
@@ -164,29 +162,24 @@ public class LoginServiceImpl implements LoginService {
         if (oldUserMstr != null) {
             throw CommonUtil.getInstance().errorBusinessException(MsgCode.PHONE_NUMBER_ALREADY_REGISTRY);
         }
-        Logger.info("register getCustomerByMobilePhoneNo>> " + DBHelper.getCurrentTime());
         if ((fromAppFlag || fromH5Flag) && !isVerifyCodeRight(mobilePhoneNo, verifyCode, deviceNo)){
             return null;
         }
-        Logger.info("register isVerifyCodeRight>> " + DBHelper.getCurrentTime());
         Authentication authentication = createAuthentication(mobilePhoneNo, passWord, channel);
-        Logger.info("register createAuthentication>> " + DBHelper.getCurrentTime());
         Customer customer = saveCustomer(vo, authentication.getId());
-        Logger.info("register saveCustomer>> " + DBHelper.getCurrentTime());
         saveLoginHistory(customer, vo);
-        Logger.info("register saveLoginHistory>> " + DBHelper.getCurrentTime());
         if (!fromPcFlag) {
             AuthenticationVo authenticationVo = new AuthenticationVo(authentication, customer);
             authenticationVo.setPassword(passWord);
             customerService.createP2PUser(authenticationVo);
         }
-        Logger.info("register createP2PUser>> " + DBHelper.getCurrentTime());
         //创建奖励账户
         rewardAccountBalanceService.createRewardAccount(customer.getCustomerId());
-        Logger.info("register createRewardAccount>> " + DBHelper.getCurrentTime());
         //创建假的注册数
         showStatisticsService.addRegisterShowStatistics();
-        Logger.info("register addRegisterShowStatistics>> " + DBHelper.getCurrentTime());
+
+        Logger.debug("register end>> " + DBHelper.getCurrentTime());
+
         return customer;
 	}
 
