@@ -8,6 +8,7 @@ import com.sunlights.common.AppConst;
 import com.sunlights.common.DictConst;
 import com.sunlights.common.MsgCode;
 import com.sunlights.common.utils.CommonUtil;
+import com.sunlights.common.utils.DBHelper;
 import com.sunlights.common.utils.MessageUtil;
 import com.sunlights.common.vo.Message;
 import com.sunlights.common.vo.MessageHeaderVo;
@@ -115,6 +116,7 @@ public class RegisterController extends Controller {
                 customerVo = customerService.getCustomerVoByPhoneNo(customer.getMobile(), deviceNo);
 
             }
+
             MessageUtil.getInstance().setMessage(message, customerVo);
 
             MessageHeaderVo messageHeaderVo = new MessageHeaderVo(DictConst.PUSH_TYPE_4, null, customer.getCustomerId());
@@ -123,7 +125,7 @@ public class RegisterController extends Controller {
 
         Controller.response().setHeader("Access-Control-Allow-Origin", "*");
         Controller.response().setHeader(AppConst.HEADER_MSG, MessageUtil.getInstance().setMessageHeader(list));
-
+        Logger.info("register end end>> " + DBHelper.getCurrentTime());
         JsonNode json = MessageUtil.getInstance().toJson();
         Logger.debug(">>register return：" + json.toString());
         return Controller.ok(json);

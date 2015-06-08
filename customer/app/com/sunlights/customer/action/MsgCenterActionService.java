@@ -198,7 +198,6 @@ public class MsgCenterActionService {
 
 
     private List<PushMessageVo> buildPushMsgSettingList(PushMessageVo ...pushMessageVoList) {
-        List<MsgSettingVo> allMsgSettingVos = msgSettingDao.findCustomerMsgSettingList();
         List<PushMessageVo> returnList = Lists.newArrayList();
         List<PushMessageVo> regIdList = Lists.newArrayList();
 
@@ -207,6 +206,7 @@ public class MsgCenterActionService {
                 List<MsgSettingVo> personalMsgSettingVos = msgSettingDao.findCustomerMsgSettingListByCustomerId(pushMessageVo.getCustomerId());
                 regIdList = buildMsgRegistrationIdList(pushMessageVo, personalMsgSettingVos);
             } else if (pushMessageVo.getGroupId() == null || pushMessageVo.getGroupId() == 0) {//发送给所有人
+                List<MsgSettingVo> allMsgSettingVos = msgSettingDao.findCustomerMsgSettingList();
                 regIdList = buildMsgRegistrationIdList(pushMessageVo, allMsgSettingVos);
             } else{//发送给指定群组
                 List<MsgSettingVo> groupMsgSettingVos =  msgSettingDao.findCustomerMsgSettingListByGroupId(pushMessageVo.getGroupId());

@@ -158,33 +158,27 @@ public class LoginServiceImpl implements LoginService {
         }else{
             CommonUtil.getInstance().validateParams(mobilePhoneNo, passWord);
         }
-
         Customer oldUserMstr = getCustomerByMobilePhoneNo(mobilePhoneNo);
         if (oldUserMstr != null) {
             throw CommonUtil.getInstance().errorBusinessException(MsgCode.PHONE_NUMBER_ALREADY_REGISTRY);
         }
-
         if ((fromAppFlag || fromH5Flag) && !isVerifyCodeRight(mobilePhoneNo, verifyCode, deviceNo)){
             return null;
         }
-
         Authentication authentication = createAuthentication(mobilePhoneNo, passWord, channel);
-
         Customer customer = saveCustomer(vo, authentication.getId());
-
         saveLoginHistory(customer, vo);
-
         if (!fromPcFlag) {
             AuthenticationVo authenticationVo = new AuthenticationVo(authentication, customer);
             authenticationVo.setPassword(passWord);
             customerService.createP2PUser(authenticationVo);
         }
-
         //创建奖励账户
         rewardAccountBalanceService.createRewardAccount(customer.getCustomerId());
-
         //创建假的注册数
         showStatisticsService.addRegisterShowStatistics();
+
+        Logger.debug("register end>> " + DBHelper.getCurrentTime());
 
         return customer;
 	}
