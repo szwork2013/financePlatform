@@ -16,9 +16,9 @@ public interface LoginDao {
 
     public LoginHistory updateLoginHistory(LoginHistory loginHistory);
 
-    public LoginHistory findByPwd(String customerId, String deviceNo);
+    public LoginHistory findByPwd(String customerId);
 
-    public LoginHistory findByGesturePwd(String customerId, String deviceNo);
+    public LoginHistory findByGesturePwd(String customerId);
 
-    public LoginHistory findByLoginCustomer(String customerId, String deviceNo);
+    public LoginHistory findByLoginCustomer(String customerId);
 }

@@ -20,7 +20,6 @@ import com.sunlights.customer.vo.AuthenticationVo;
 import com.sunlights.customer.vo.CustomerFormVo;
 import com.sunlights.customer.vo.CustomerVo;
 import models.*;
-import org.apache.commons.lang3.StringUtils;
 import play.Logger;
 
 import java.math.BigDecimal;
@@ -61,22 +60,18 @@ public class LoginServiceImpl implements LoginService {
         Authentication authentication = authenticationVo.getAuthentication();
         Customer customer = authenticationVo.getCustomer();
 
-        CustomerSession customerSession = null;
         //若为已登录状态跳出，（如：手机后台激活）
-        if (fromApp(vo.getChannel())) {
-            customerSession = customerService.getCustomerSession(token);
-            if (customerSession != null) {
-                if (new MD5Helper().encrypt(passWord).equals(authentication.getPassword())) {
-                    saveLoginHistory(customer, vo);
-                    return customerSession;
-                }
+        CustomerSession customerSession = customerService.getCustomerSession(token);
+        if (customerSession != null) {
+            if (new MD5Helper().encrypt(passWord).equals(authentication.getPassword())) {
+                saveLoginHistory(customer, vo);
+                return customerSession;
             }
-            validateLoginTime(customer, deviceNo);
-            if (!new MD5Helper().encrypt(passWord).equals(authentication.getPassword())) {
-                saveLoginFail(customer, deviceNo, false);
-                return null;
-            }
-        }else if (!new MD5Helper().encrypt(passWord).equals(authentication.getPassword())) {
+        }
+
+        validateLoginTime(customer);
+        if (!new MD5Helper().encrypt(passWord).equals(authentication.getPassword())) {
+            saveLoginFail(customer, vo, false);
             throw new BusinessRuntimeException(new Message(Severity.ERROR, MsgCode.PASSWORD_CONFIRM_ERROR));
         }
 
@@ -115,11 +110,11 @@ public class LoginServiceImpl implements LoginService {
                 return customerSession;
             }
         } else {
-            validateLoginTime(customer, deviceNo);//验证暂时锁定状态是否已过
+            validateLoginTime(customer);//验证暂时锁定状态是否已过
         }
         //
         if (!new MD5Helper().encrypt(gesturePassWord).equals(customerGesture.getGesturePassword())) {
-            LoginHistory loginHistory = saveLoginFail(customer, deviceNo, true);
+            LoginHistory loginHistory = saveLoginFail(customer, vo, true);
             long PWD_MAX = parameterService.getParameterNumeric(ParameterConst.PWD_MAX);// 登录失败的最大次数
             if (loginHistory.getLogNum() % PWD_MAX == 0) {// 此次为PWD_MAX * n次    手势删除，若为登录状态则登出
                 customerGesture.setStatus(AppConst.STATUS_INVALID);
@@ -148,9 +143,7 @@ public class LoginServiceImpl implements LoginService {
 		String deviceNo = vo.getDeviceNo();
         String channel = vo.getChannel();
 
-        boolean fromAppFlag = fromApp(channel);
-        boolean fromH5Flag = fromH5(channel);
-        boolean fromPcFlag = fromPc(channel);
+        boolean fromAppFlag = CommonUtil.fromApp(channel);
 
         Logger.info("=============recommendPhone:" + vo.getRecommendPhone());
         if (fromAppFlag) {
@@ -162,13 +155,13 @@ public class LoginServiceImpl implements LoginService {
         if (oldUserMstr != null) {
             throw CommonUtil.getInstance().errorBusinessException(MsgCode.PHONE_NUMBER_ALREADY_REGISTRY);
         }
-        if ((fromAppFlag || fromH5Flag) && !isVerifyCodeRight(mobilePhoneNo, verifyCode, deviceNo)){
+        if (fromAppFlag && !isVerifyCodeRight(mobilePhoneNo, verifyCode, deviceNo)){
             return null;
         }
         Authentication authentication = createAuthentication(mobilePhoneNo, passWord, channel);
         Customer customer = saveCustomer(vo, authentication.getId());
         saveLoginHistory(customer, vo);
-        if (!fromPcFlag) {
+        if (!fromAppFlag) {
             AuthenticationVo authenticationVo = new AuthenticationVo(authentication, customer);
             authenticationVo.setPassword(passWord);
             customerService.createP2PUser(authenticationVo);
@@ -183,20 +176,6 @@ public class LoginServiceImpl implements LoginService {
         return customer;
 	}
 
-    private boolean fromH5(String channel) {
-        if(AppConst.CHANNEL_H5.equals(channel)) {
-            return true;
-        }
-        return false ;
-    }
-
-    private boolean fromPc(String channel) {
-        if(AppConst.CHANNEL_PC.equals(channel)) {
-            return true;
-        }
-        return false ;
-    }
-
     private boolean isVerifyCodeRight(String mobilePhoneNo, String verifyCode, String deviceNo) {
         CustomerVerifyCodeVo customerVerifyCodeVo = new CustomerVerifyCodeVo();
         customerVerifyCodeVo.setMobile(mobilePhoneNo);
@@ -204,13 +183,6 @@ public class LoginServiceImpl implements LoginService {
         customerVerifyCodeVo.setDeviceNo(deviceNo);
         customerVerifyCodeVo.setVerifyCode(verifyCode);
         return verifyCodeService.validateVerifyCode(customerVerifyCodeVo);
-    }
-
-    private boolean fromApp(String channel) {
-        if(AppConst.CHANNEL_ANDROID.equals(channel) || AppConst.CHANNEL_IOS.equals(channel) || StringUtils.isEmpty(channel)) {
-            return true;
-        }
-        return false ;
     }
 
     private Customer saveCustomer(CustomerFormVo vo, Long authenticationId) {
@@ -343,7 +315,7 @@ public class LoginServiceImpl implements LoginService {
             customerSession.setUpdateTime(currentTime);
             customerDao.updateCustomerSession(customerSession);
         }
-        LoginHistory loginHistory = loginDao.findByLoginCustomer(customer.getCustomerId(), deviceNo);
+        LoginHistory loginHistory = loginDao.findByLoginCustomer(customer.getCustomerId());
         if(loginHistory != null){
             loginHistory.setLogoutTime(currentTime);
             loginHistory.setUpdateTime(currentTime);
@@ -468,10 +440,9 @@ public class LoginServiceImpl implements LoginService {
     /**
      * 验证暂时锁定状态、时间是否已过
      * @param customer
-     * @param deviceNo
      */
-    private void validateLoginTime(Customer customer, String deviceNo){
-        LoginHistory oldHistory = loginDao.findByPwd(customer.getCustomerId(), deviceNo);
+    private void validateLoginTime(Customer customer){
+        LoginHistory oldHistory = loginDao.findByPwd(customer.getCustomerId());
         if (oldHistory != null) {
             Timestamp currentTime = DBHelper.getCurrentTime();
             long logNum = oldHistory.getLogNum();
@@ -486,15 +457,15 @@ public class LoginServiceImpl implements LoginService {
         }
     }
 
-    private LoginHistory saveLoginFail(Customer customer, String deviceNo, boolean isGestureLogin){
+    private LoginHistory saveLoginFail(Customer customer, CustomerFormVo vo, boolean isGestureLogin){
         Timestamp currentTime = DBHelper.getCurrentTime();
         long oldNum = 0;
         long PWD_MAX = parameterService.getParameterNumeric(ParameterConst.PWD_MAX);//登录失败的最大次数
         LoginHistory oldHistory = null;
         if (isGestureLogin) {
-            oldHistory = loginDao.findByGesturePwd(customer.getCustomerId(), deviceNo);
+            oldHistory = loginDao.findByGesturePwd(customer.getCustomerId());
         }else{
-            oldHistory = loginDao.findByPwd(customer.getCustomerId(), deviceNo);
+            oldHistory = loginDao.findByPwd(customer.getCustomerId());
         }
 
         if (oldHistory != null) {
@@ -510,7 +481,8 @@ public class LoginServiceImpl implements LoginService {
 
         LoginHistory loginHistory = new LoginHistory();
         loginHistory.setCustomerId(customer.getCustomerId());
-        loginHistory.setDeviceNo(deviceNo);
+        loginHistory.setDeviceNo(vo.getDeviceNo());
+        loginHistory.setChannel(vo.getChannel());
         if (isGestureLogin) {
             loginHistory.setGestureInd(AppConst.STATUS_VALID);
         }else{

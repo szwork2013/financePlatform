@@ -16,6 +16,8 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+import static play.mvc.Controller.request;
+
 /**
  * <p>Project: fsp</p>
  * <p>Title: CommonUtil.java</p>
@@ -201,5 +203,25 @@ public class CommonUtil {
 		}
 		throw CommonUtil.getInstance().errorBusinessException(MsgCode.NOT_SUPPORT_PLATFORM);
 	}
+
+
+    /**
+     * 判断当前请求客户端
+     * @param channel
+     * @return
+     */
+    public static boolean fromApp(String channel) {
+        if(AppConst.CHANNEL_ANDROID.equals(channel) || AppConst.CHANNEL_IOS.equals(channel) || StringUtils.isEmpty(channel)) {
+            return true;
+        }
+        return false ;
+    }
+
+    public static String getRequestToken(){
+        final Http.Request request = request();
+        Http.Cookie cookie = request.cookie(AppConst.TOKEN);
+        String token = cookie == null ? null : cookie.value();
+        return token;
+    }
 
 }

@@ -12,15 +12,15 @@ import java.util.Date;
 @Entity
 @Table(name = "C_LOGIN_HISTORY")
 @NamedQueries({
-        @NamedQuery(name = "findByPwd", query = "select c from LoginHistory c where c.customerId = ?1 and c.deviceNo = ?2 and c.pwdInd = 'Y' order by c.createTime desc"),
-        @NamedQuery(name = "findByGesturePwd", query = "select c from LoginHistory c where c.customerId = ?1 and c.deviceNo = ?2 and c.gestureInd = 'Y' order by c.createTime desc"),
-        @NamedQuery(name = "findByLoginCustomer", query = "select c from LoginHistory c where c.customerId = ?1 and c.deviceNo = ?2 and c.successInd = 'Y' and c.loginTime is not null and c.logoutTime is null order by c.createTime desc")
+        @NamedQuery(name = "findByPwd", query = "select c from LoginHistory c where c.customerId = ?1 and c.pwdInd = 'Y' order by c.createTime desc"),
+        @NamedQuery(name = "findByGesturePwd", query = "select c from LoginHistory c where c.customerId = ?1 and c.gestureInd = 'Y' order by c.createTime desc"),
+        @NamedQuery(name = "findByLoginCustomer", query = "select c from LoginHistory c where c.customerId = ?1 and c.successInd = 'Y' and c.loginTime is not null and c.logoutTime is null order by c.createTime desc")
 })
 public class LoginHistory extends IdEntity {
     @Column(length = 30, name = "CUSTOMER_ID")
     private String customerId;
     @Column(length = 10)
-    private String channel;
+    private String channel;//登录渠道：0-ios、1-web端 2android 3h5
     @Column(length = 40, name = "DEVICE_NO")
     private String deviceNo;//设备号
     @Column(length = 1, name = "SUCCESS_IND")
