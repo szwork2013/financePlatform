@@ -12,12 +12,14 @@ public class CustomerFormVo implements Serializable {
     private String idCardNo;//身份证号
     private String verifyCode;//验证码
     private String type;//验证码类型
-    private String channel;//0移动端 1pc端
+    private String channel;// 登录渠道：0-ios、1-web端 2android 3h5
 
     private String gesturePassWord;//手势密码
     private String gestureOpened;//手势开启/关闭
 
     private String recommendPhone;//推荐人手机号
+    private String socialType;//社交类型
+    private String socialNo;//社交号
 
     public CustomerFormVo() {
 
@@ -117,5 +119,21 @@ public class CustomerFormVo implements Serializable {
 
     public void setChannel(String channel) {
         this.channel = channel;
+    }
+
+    public String getSocialType() {
+        return socialType;
+    }
+
+    public void setSocialType(String socialType) {
+        this.socialType = socialType;
+    }
+
+    public String getSocialNo() {
+        return socialNo;
+    }
+
+    public void setSocialNo(String socialNo) {
+        this.socialNo = socialNo;
     }
 }

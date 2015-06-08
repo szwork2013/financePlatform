@@ -28,6 +28,10 @@ public interface LoginService {
 
     public CustomerSession loginByGesture(CustomerFormVo vo, String token, String clientAddress);
 
+    public CustomerSession loginBySocial(CustomerFormVo vo);
+
+    public void bindingSocial(CustomerFormVo vo);
+
     public void logout(String mobilePhoneNo, String deviceNo, String token);
 
     /**

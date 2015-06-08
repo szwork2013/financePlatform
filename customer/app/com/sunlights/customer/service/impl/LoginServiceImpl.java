@@ -131,8 +131,53 @@ public class LoginServiceImpl implements LoginService {
         return customerSession;
     }
 
+    /**
+     * 微信登录
+     * @param vo
+     * @return
+     */
+    public CustomerSession loginBySocial(CustomerFormVo vo){
+        String mobile = vo.getMobilePhoneNo();
+        String socialType = vo.getSocialType();
 
-	/**
+        CommonUtil.getInstance().validateParams(mobile, socialType);
+
+        Customer customer = getCustomerByMobilePhoneNo(mobile);
+        if (customer == null) {
+            throw CommonUtil.getInstance().errorBusinessException(MsgCode.PHONE_NUMBER_NOT_REGISTRY);
+        }
+
+        if (DictConst.SOCIAL_TYPE_WECHAT.equals(socialType) && customer.getWeixin() == null) {
+            throw new BusinessRuntimeException(new Message(Severity.ERROR, MsgCode.WECHAT_NOT_BINDING));
+        }
+
+        CustomerSession customerSession = customerService.createCustomerSession(customer, null, null);
+
+        return customerSession;
+    }
+
+    public void bindingSocial(CustomerFormVo vo){
+        String mobile = vo.getMobilePhoneNo();
+        String socialType = vo.getSocialType();
+        String socialNo = vo.getSocialNo();
+
+        CommonUtil.getInstance().validateParams(mobile, socialType, socialNo);
+
+        Customer customer = getCustomerByMobilePhoneNo(mobile);
+        if (customer == null) {
+            throw CommonUtil.getInstance().errorBusinessException(MsgCode.PHONE_NUMBER_NOT_REGISTRY);
+        }
+
+        if (DictConst.SOCIAL_TYPE_WECHAT.equals(socialType)) {
+            customer.setWeixin(socialNo);
+            customer.setUpdateTime(DBHelper.getCurrentTime());
+            customerService.updateCustomer(customer);
+        }
+
+    }
+
+
+    /**
 	 * 注册
 	 * @return
 	 */
@@ -161,7 +206,7 @@ public class LoginServiceImpl implements LoginService {
         Authentication authentication = createAuthentication(mobilePhoneNo, passWord, channel);
         Customer customer = saveCustomer(vo, authentication.getId());
         saveLoginHistory(customer, vo);
-        if (!fromAppFlag) {
+        if (fromAppFlag) {
             AuthenticationVo authenticationVo = new AuthenticationVo(authentication, customer);
             authenticationVo.setPassword(passWord);
             customerService.createP2PUser(authenticationVo);

@@ -136,4 +136,8 @@ public final class DictConst {
     public static String ACTIVITY_NEW_TRADE = "FP.ACTIVITY.CONDITION.2";//首次申购
     public static String ACTIVITY_TRADE = "FP.ACTIVITY.CONDITION.3";//活动时间内的首次申购
 
+    //社交类型
+    public static String SOCIAL_TYPE = "FP.SOCIAL.TYPE";
+    public static String SOCIAL_TYPE_WECHAT = SOCIAL_TYPE + DOT + "1";//微信
+
 }

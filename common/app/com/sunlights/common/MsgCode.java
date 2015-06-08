@@ -32,6 +32,7 @@ public enum MsgCode {
     PASSWORD_CHANGE_SUCCESS("0102", "修改密码成功", ""),
     GESTURE_PASSWORD_SUCCESS("0103", "手势密码设置成功", ""),
     LOGOUT_SUCCESS("0104", "登出成功", ""),
+    BINGING_SUCCESS("0105", "绑定成功", ""),
     PHONE_NUMBER_NOT_REGISTRY("2100", "该手机号未注册", ""),
     PHONE_NUMBER_ALREADY_REGISTRY("2101", "该手机号已注册", ""),
     CERTIFY_OVER_MAX_TIME("2102", "验证码超过最大次数", ""),
@@ -45,6 +46,8 @@ public enum MsgCode {
     PASSWORD_CONFIRM_ERROR("2110", "密码错误", "请重新输入"),
     GESTURE_NONE("2111", "未开启手势", "请先开启手势"),
     CERTIFY_DEVICE_NOT_MATCH("2112", "验证码与设备号不匹配", "请重新获取"),
+    WECHAT_NOT_BINDING("2113", "对不起！您未绑定微信", ""),
+
     ACCOUNT_NOT_EXIST("3100", "不存在该账户", "{0}"),
 
 

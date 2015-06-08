@@ -9,6 +9,9 @@ POST        /getusermstr                @com.sunlights.customer.web.CustomerCont
 GET         /authentication             @com.sunlights.customer.web.CustomerController.getCustomerAuthentication
 POST        /logout                     @com.sunlights.customer.web.CustomerController.logout
 
+
+POST        /bingingsocial              @com.sunlights.customer.web.CustomerController.bindingSocial
+POST        /loginbysocial              @com.sunlights.customer.web.CustomerController.loginBySocial
 GET         /hastoken                   @com.sunlights.customer.web.CustomerController.getToken
 
 #share

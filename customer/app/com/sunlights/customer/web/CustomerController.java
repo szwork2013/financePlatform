@@ -231,8 +231,7 @@ public class CustomerController extends Controller {
     public Result logout() {
         Logger.info("==========logout====================");
         Logger.debug(">>logout params：" + Json.toJson(form().bindFromRequest().data()));
-        Http.Cookie cookie = Controller.request().cookie(AppConst.TOKEN);
-        String token = cookie == null ? null : cookie.value();
+        String token = CommonUtil.getRequestToken();
 
         Logger.info(">>token：" + token);
         CustomerFormVo customerFormVo = customerForm.bindFromRequest().get();
@@ -277,6 +276,46 @@ public class CustomerController extends Controller {
         Logger.info("==========loginByges返回：" + json.toString());
 
         response().setHeader(AppConst.HEADER_MSG, MessageUtil.getInstance().setMessageHeader(list));
+
+        return Controller.ok(json);
+    }
+
+    public Result loginBySocial(){
+        Logger.info("==========loginBySocial====================");
+        Map<String, String> params = form().bindFromRequest().data();
+        Logger.debug(">>loginBySocial params：" + Json.toJson(params));
+
+        Message message = new Message(MsgCode.LOGIN_SUCCESS);
+        CustomerFormVo customerFormVo = customerForm.bindFromRequest().get();
+
+        CustomerSession customerSession = loginService.loginBySocial(customerFormVo);
+        if (customerSession != null) {
+            customerService.sessionLoginSessionId(Controller.session(), Controller.response(), customerSession);
+        }
+
+        MessageUtil.getInstance().setMessage(message);
+        JsonNode json = MessageUtil.getInstance().toJson();
+        Logger.info("==========loginBySocial：" + json.toString());
+
+        Controller.response().setHeader("Access-Control-Allow-Origin", "*");
+
+        return Controller.ok(json);
+    }
+
+    public Result bindingSocial(){
+        Logger.info("==========bindingSocial====================");
+        Map<String, String> params = form().bindFromRequest().data();
+        Logger.debug(">>bindingSocial params：" + Json.toJson(params));
+
+        CustomerFormVo customerFormVo = customerForm.bindFromRequest().get();
+
+        loginService.bindingSocial(customerFormVo);
+
+        MessageUtil.getInstance().setMessage(new Message(MsgCode.BINGING_SUCCESS));
+        JsonNode json = MessageUtil.getInstance().toJson();
+        Logger.info("==========bindingSocial：" + json.toString());
+
+        Controller.response().setHeader("Access-Control-Allow-Origin", "*");
 
         return Controller.ok(json);
     }

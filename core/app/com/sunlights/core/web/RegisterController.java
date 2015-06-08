@@ -109,12 +109,11 @@ public class RegisterController extends Controller {
             Message message = new Message(MsgCode.REGISTRY_SUCCESS);
             CustomerVo customerVo = null;
 
-            if (AppConst.CHANNEL_PC.equals(customerFormVo.getChannel())) {
-                customerVo = customerService.getCustomerVoByAuthenticationMobile(customerFormVo.getMobilePhoneNo());
-            } else {
+            if (CommonUtil.fromApp(customerFormVo.getChannel())) {
                 customerService.sessionPushRegId(request(), customerSession.getCustomerId(), deviceNo);
                 customerVo = customerService.getCustomerVoByPhoneNo(customer.getMobile(), deviceNo);
-
+            } else {
+                customerVo = customerService.getCustomerVoByAuthenticationMobile(customerFormVo.getMobilePhoneNo());
             }
 
             MessageUtil.getInstance().setMessage(message, customerVo);
