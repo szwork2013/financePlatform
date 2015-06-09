@@ -72,7 +72,7 @@ public class LoginServiceImpl implements LoginService {
         validateLoginTime(customer);
         if (!new MD5Helper().encrypt(passWord).equals(authentication.getPassword())) {
             saveLoginFail(customer, vo, false);
-            throw new BusinessRuntimeException(new Message(Severity.ERROR, MsgCode.PASSWORD_CONFIRM_ERROR));
+            return null;
         }
 
         saveLoginHistory(customer, vo);
