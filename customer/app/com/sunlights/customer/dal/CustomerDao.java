@@ -27,6 +27,8 @@ public interface CustomerDao {
 
     public Customer updateCustomer(Customer customer);
 
+    public CustomerVo getCustomerVoBySocial(String socialType, String socialNo);
+
     /**
      * app端查询组装返回数据
      *

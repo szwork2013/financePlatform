@@ -132,28 +132,19 @@ public class LoginServiceImpl implements LoginService {
     }
 
     /**
-     * 微信登录
+     * 社交绑定查询
      * @param vo
      * @return
      */
-    public CustomerSession loginBySocial(CustomerFormVo vo){
-        String mobile = vo.getMobilePhoneNo();
+    public CustomerVo findBySocial(CustomerFormVo vo){
+        String socialNo = vo.getSocialNo();
         String socialType = vo.getSocialType();
 
-        CommonUtil.getInstance().validateParams(mobile, socialType);
+        CommonUtil.getInstance().validateParams(socialNo, socialType);
 
-        Customer customer = getCustomerByMobilePhoneNo(mobile);
-        if (customer == null) {
-            throw CommonUtil.getInstance().errorBusinessException(MsgCode.PHONE_NUMBER_NOT_REGISTRY);
-        }
+        CustomerVo customerVo = customerDao.getCustomerVoBySocial(socialType, socialNo);
 
-        if (DictConst.SOCIAL_TYPE_WECHAT.equals(socialType) && customer.getWeixin() == null) {
-            throw new BusinessRuntimeException(new Message(Severity.ERROR, MsgCode.WECHAT_NOT_BINDING));
-        }
-
-        CustomerSession customerSession = customerService.createCustomerSession(customer, null, null);
-
-        return customerSession;
+        return customerVo;
     }
 
     public void bindingSocial(CustomerFormVo vo){

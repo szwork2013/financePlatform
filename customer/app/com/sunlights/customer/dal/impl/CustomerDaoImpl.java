@@ -142,6 +142,30 @@ public class CustomerDaoImpl extends EntityBaseDao implements CustomerDao {
         return customerVos.get(0);
     }
 
+    public CustomerVo getCustomerVoBySocial(String socialType, String socialNo){
+        String sql = " select c.mobile,c.identity_number,c.real_name,c.email,c.customer_id,c.authentication_id" +
+                "  from c_customer c, c_authentication a " +
+                " where c.authentication_id = a.id ";
+
+        if (DictConst.SOCIAL_TYPE_WECHAT.equals(socialType)) {
+            sql += " and weixin = :socialNo";
+        }
+        Logger.debug(sql);
+
+        Query query = em.createNativeQuery(sql);
+        query.setParameter("socialNo", socialNo);
+        List<Object[]> list = query.getResultList();
+        if (list.isEmpty()) {
+            return null;
+        }
+
+        String keys = "mobilePhoneNo,idCardNo,userName,email,customerId,authenticationId";
+        List<CustomerVo> customerVos = ConverterUtil.convert(keys, list, CustomerVo.class);
+
+        return customerVos.get(0);
+    }
+
+
     private CustomerVo transCustomerVo(List<Object[]> list) {
         if (list.isEmpty()) {
             return null;

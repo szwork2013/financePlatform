@@ -112,18 +112,18 @@ public class RegisterController extends Controller {
             if (CommonUtil.fromApp(customerFormVo.getChannel())) {
                 customerService.sessionPushRegId(request(), customerSession.getCustomerId(), deviceNo);
                 customerVo = customerService.getCustomerVoByPhoneNo(customer.getMobile(), deviceNo);
+
+                MessageHeaderVo messageHeaderVo = new MessageHeaderVo(DictConst.PUSH_TYPE_4, null, customer.getCustomerId());
+                list.add(messageHeaderVo);
+                Controller.response().setHeader(AppConst.HEADER_MSG, MessageUtil.getInstance().setMessageHeader(list));
             } else {
                 customerVo = customerService.getCustomerVoByAuthenticationMobile(customerFormVo.getMobilePhoneNo());
             }
 
             MessageUtil.getInstance().setMessage(message, customerVo);
-
-            MessageHeaderVo messageHeaderVo = new MessageHeaderVo(DictConst.PUSH_TYPE_4, null, customer.getCustomerId());
-            list.add(messageHeaderVo);
         }
 
         Controller.response().setHeader("Access-Control-Allow-Origin", "*");
-        Controller.response().setHeader(AppConst.HEADER_MSG, MessageUtil.getInstance().setMessageHeader(list));
         Logger.info("register end end>> " + DBHelper.getCurrentTime());
         JsonNode json = MessageUtil.getInstance().toJson();
         Logger.debug(">>register return：" + json.toString());

@@ -280,22 +280,19 @@ public class CustomerController extends Controller {
         return Controller.ok(json);
     }
 
-    public Result loginBySocial(){
-        Logger.info("==========loginBySocial====================");
+    public Result findBySocial(){
+        Logger.info("==========findBySocial====================");
         Map<String, String> params = form().bindFromRequest().data();
-        Logger.debug(">>loginBySocial params：" + Json.toJson(params));
+        Logger.debug(">>findBySocial params：" + Json.toJson(params));
 
-        Message message = new Message(MsgCode.LOGIN_SUCCESS);
+        Message message = new Message(Severity.INFO, MsgCode.WECHAT_NOT_BINDING);
         CustomerFormVo customerFormVo = customerForm.bindFromRequest().get();
 
-        CustomerSession customerSession = loginService.loginBySocial(customerFormVo);
-        if (customerSession != null) {
-            customerService.sessionLoginSessionId(Controller.session(), Controller.response(), customerSession);
-        }
+        CustomerVo customerVo = loginService.findBySocial(customerFormVo);
 
-        MessageUtil.getInstance().setMessage(message);
+        MessageUtil.getInstance().setMessage(message, customerVo);
         JsonNode json = MessageUtil.getInstance().toJson();
-        Logger.info("==========loginBySocial：" + json.toString());
+        Logger.info("==========findBySocial：" + json.toString());
 
         Controller.response().setHeader("Access-Control-Allow-Origin", "*");
 

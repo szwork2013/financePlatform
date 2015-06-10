@@ -46,7 +46,7 @@ public enum MsgCode {
     PASSWORD_CONFIRM_ERROR("2110", "密码错误", "请重新输入"),
     GESTURE_NONE("2111", "未开启手势", "请先开启手势"),
     CERTIFY_DEVICE_NOT_MATCH("2112", "验证码与设备号不匹配", "请重新获取"),
-    WECHAT_NOT_BINDING("2113", "对不起！您未绑定微信", ""),
+    WECHAT_NOT_BINDING("1113", "未查询到此微信", ""),
 
     ACCOUNT_NOT_EXIST("3100", "不存在该账户", "{0}"),
 

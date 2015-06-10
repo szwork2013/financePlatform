@@ -11,7 +11,7 @@ POST        /logout                     @com.sunlights.customer.web.CustomerCont
 
 
 POST        /bingingsocial              @com.sunlights.customer.web.CustomerController.bindingSocial
-POST        /loginbysocial              @com.sunlights.customer.web.CustomerController.loginBySocial
+POST        /findsocial                 @com.sunlights.customer.web.CustomerController.findBySocial
 GET         /hastoken                   @com.sunlights.customer.web.CustomerController.getToken
 
 #share
