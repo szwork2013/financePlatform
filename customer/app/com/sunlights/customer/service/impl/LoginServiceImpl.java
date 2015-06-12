@@ -20,6 +20,7 @@ import com.sunlights.customer.vo.AuthenticationVo;
 import com.sunlights.customer.vo.CustomerFormVo;
 import com.sunlights.customer.vo.CustomerVo;
 import models.*;
+import org.apache.commons.lang3.StringUtils;
 import play.Logger;
 
 import java.math.BigDecimal;
@@ -139,8 +140,19 @@ public class LoginServiceImpl implements LoginService {
     public CustomerVo findBySocial(CustomerFormVo vo){
         String socialNo = vo.getSocialNo();
         String socialType = vo.getSocialType();
+        String mobilePhoneNo = vo.getMobilePhoneNo();
 
         CommonUtil.getInstance().validateParams(socialNo, socialType);
+
+        if (StringUtils.isNotEmpty(mobilePhoneNo)) {//若传入手机号  先查询该用户是否已经绑定
+            Customer customer = customerDao.getCustomerByMobile(mobilePhoneNo);
+            if (customer == null) {
+                throw CommonUtil.getInstance().errorBusinessException(MsgCode.PHONE_NUMBER_NOT_REGISTRY);
+            }
+            if (StringUtils.isNotEmpty(customer.getWeixin())) {
+                return null;
+            }
+        }
 
         CustomerVo customerVo = customerDao.getCustomerVoBySocial(socialType, socialNo);
 
