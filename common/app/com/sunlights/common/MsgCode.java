@@ -77,7 +77,7 @@ public enum MsgCode {
     ENABLE_PUSH_SUCCESS("0218", "推送开启成功"),
     ENABLE_PUSH_FAIL("1218", "推送开启失败"),
     DISABLE_PUSH_SUCCESS("0219", "推送关闭成功"),
-
+    WECHAT_QUERY_SUCCESS("0230", "微信查询成功"),
 
     TRADE_ORDER_SUCCESS("0400", "下单成功"),
     TRADE_ORDER_NOCODE("1400", "下单成功，该产品为其它商户产品", "未查询到此产品"),

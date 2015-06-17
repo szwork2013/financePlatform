@@ -285,7 +285,7 @@ public class CustomerController extends Controller {
         Map<String, String> params = form().bindFromRequest().data();
         Logger.debug(">>findBySocial params：" + Json.toJson(params));
 
-        Message message = new Message(Severity.INFO, MsgCode.WECHAT_NOT_BINDING);
+        Message message = new Message(Severity.INFO, MsgCode.WECHAT_QUERY_SUCCESS);
         CustomerFormVo customerFormVo = customerForm.bindFromRequest().get();
 
         CustomerVo customerVo = loginService.findBySocial(customerFormVo);
